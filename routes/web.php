@@ -39,6 +39,11 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/setupdepartments/{id}','setupdepartments');
         Route::get('/userlist','userlist');
         Route::get('/createuser','createuser');
+        Route::get('/forms/kyc','kyc');
+        Route::get('/forms/qaform','qaform');
+        Route::get('/forms/renewalrecurring','renewalrecurring');
+        Route::get('/forms/revenueloss','revenueloss');
+        Route::get('/forms/paymentconfirmation','paymentconfirmation');
 
         //PROCESSES
         Route::post('/setupcompany/process','setupcompanyprocess');

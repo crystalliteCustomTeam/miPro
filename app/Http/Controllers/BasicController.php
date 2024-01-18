@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-
 use App\Models\Company;
 use App\Models\Brand;
 use App\Models\Employee;
@@ -168,4 +166,27 @@ class BasicController extends Controller
             return redirect()->back()->with("Error","Error While Creating A User Please Contact To Developer");
         }
     }
+
+    function kyc(Request $request){
+        return view('kyc');
+    }
+
+    function qaform(Request $request){
+        return view('qaform');
+    }
+
+    function renewalrecurring(Request $request){
+        return view('renewalrecurring');
+    }
+
+    function revenueloss(Request $request){
+        return view('revenueloss');
+    }
+
+    function paymentconfirmation(Request $request){
+        return view('paymentconfirmation');
+    }
 }
+
+
+
