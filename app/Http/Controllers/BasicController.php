@@ -142,6 +142,11 @@ class BasicController extends Controller
         return view('users',["Brands" => $brands]);
     }
 
+    function userlist(Request $request){
+        $employees  = Employee::all();
+        return view('userlists',["Employees" => $employees]);
+    }
+
     function createuserprocess(Request $request){
         $email = $request->input('email');
         $checkuserExists = Employee::where('email', $email)->count();
