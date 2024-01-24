@@ -6,8 +6,8 @@
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
-            <a class="breadcrumb-item" href="#">Brand</a>
-            <span class="breadcrumb-item active">Set Up Brand</span>
+            <a class="breadcrumb-item" href="#">Client</a>
+            <span class="breadcrumb-item active">Set Up Client</span>
           </nav>
         </div><!-- br-pageheader -->
 
@@ -15,52 +15,52 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Set Up Brand</h4>
-            <p class="mg-b-0">Brand</p>
+            <h4>Set Up Client</h4>
+            <p class="mg-b-0">Client</p>
           </div>
         </div><!-- d-flex -->
-  
+
         <div class="br-pagebody">
           <div class="br-section-wrapper">
+            <h4 style="font-weight:bold;">General Information:</h4>
            <form action="#" method="POST">
             @csrf
-            
+
             <div class="row">
-            
                 <div class="col-3 mt-3">
-                    <label for="">Client Name</label>
+                    <label for="" style="font-weight:bold;">Client Name:</label>
                     <input type="text" name="name" class="form-control" required>
                 </div>
                 <div class="col-3 mt-3">
-                    <label for="">Phone Number: </label>
+                    <label for=""style="font-weight:bold;">Phone Number:</label>
                     <input type="text" name="tel" required class="form-control">
                 </div>
                 <div class="col-3 mt-3">
-                    <label for="">Email </label>
+                    <label for=""style="font-weight:bold;">Email:</label>
                     <input type="email" name="email" required class="form-control">
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Paid </label>
+                  <label for="" style="font-weight:bold;">Paid:</label>
                   <input type="number" name="paid" required class="form-control">
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Remaining amount if any </label>
+                  <label for="" style="font-weight:bold;">Remaining amount if any:</label>
                   <input type="text" name="remainingamt" required class="form-control">
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Next Payment </label>
+                  <label for="" style="font-weight:bold;">Next Payment:</label>
                   <input type="number" name="nextpayment" required class="form-control">
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Sales Person </label>
+                  <label for="" style="font-weight:bold;">Sales Person:</label>
                   <input type="text" name="salesperson" required class="form-control">
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Project manager </label>
+                  <label for="" style="font-weight:bold;">Project manager:</label>
                   <input type="text" name="projectmanager" required class="form-control">
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Brand </label>
+                  <label for="" style="font-weight:bold;">Brand:</label>
                   <input type="text" name="brand" required class="form-control">
                 </div>
             </div>
@@ -80,7 +80,7 @@
                             <strong>{{ Session::get('Success') }}</strong>
                             <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
                         </div>
-                    
+
                         @endif
                         @if (Session::has('Error'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -91,69 +91,70 @@
                 </div>
             </div> --}}
            </form>
-  
-       
-            
-            
-          
-            
-   
+
+
+
+
+
+
+
 <!--SEO-->
-  
+
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
+            <h4 style="font-weight:bold;">Search Engine Optimisation Information:</h4>
            <form action="#" method="POST">
             @csrf
-            
+
             <div class="row">
                 <div class="col-3 mt-3">
-                    <label for="">Website URL</label>
+                    <label for="" style="font-weight:bold;">Website URL:</label>
                     <input type="url" name="website" class="form-control" required>
                 </div>
                 <div class="col-3 mt-3">
-                    <label for="">Package</label>
+                    <label for="" style="font-weight:bold;">Package:</label>
                     <input type="text" name="package" class="form-control" required>
                 </div>
-                
+
                 <div class="col-3 mt-3">
-                    <label for="">Keyword Count</label>
+                    <label for="" style="font-weight:bold;">Keyword Count:</label>
                     <input type="text" name="keywordcount" required class="form-control">
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Lead Platform </label>
+                  <label for="" style="font-weight:bold;">Lead Platform:</label>
                   <input type="text" name="leadplatform" required class="form-control">
                 </div>
                 <div class="col-3 mt-3">
-                    <label for="">Target Market </label><br>
-                    <input type="checkbox" id="Global" name="Target_Market" value="global" required >
+                    <label for="" style="font-weight:bold;">Target Market:</label><br>
+                    <input type="checkbox" id="Global" name="Target_Market[]" value="global" required >
                     <label for="Global">Global</label><br>
-                    <input type="checkbox" id="Nationwide" name="Target_Market" value="nationwide" required >
+                    <input type="checkbox" id="Nationwide" name="Target_Market[]" value="nationwide" required >
                     <label for="Nationwide">Nationwide</label><br>
-                    <input type="checkbox" id="Local" name="Target_Market" value="local" required >
-                    <label for="Local">Local</label><br> 
+                    <input type="checkbox" id="Local" name="Target_Market[]" value="local" required >
+                    <label for="Local">Local</label><br>
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Other Services </label><br>
-                  <input type="checkbox" id="SMM" name="Other_Services" value="SMM"  >
+                  <label for="" style="font-weight:bold;">Other Services:</label><br>
+                  <input type="checkbox" id="SMM" name="Other_Services[]" value="SMM"  >
                   <label for="SMM">SMM</label><br>
-                  <input type="checkbox" id="GMB" name="Other_Services" value="GMB"  >
+                  <input type="checkbox" id="GMB" name="Other_Services[]" value="GMB"  >
                   <label for="GMB">GMB</label><br>
-                  <input type="checkbox" id="adword" name="Other_Services" value="adword"  >
+                  <input type="checkbox" id="adword" name="Other_Services[]" value="adword"  >
                   <label for="adword">Adword Campaign</label><br>
-                  <input type="checkbox" id="Facebook" name="Other_Services" value="Facebook"  >
+                  <input type="checkbox" id="Facebook" name="Other_Services[]" value="Facebook"  >
                   <label for="Facebook">Facebook Campaign</label><br>
-                  <input type="checkbox" id="Website" name="Other_Services" value="Website"  >
+                  <input type="checkbox" id="Website" name="Other_Services[]" value="Website"  >
                   <label for="Website">Website</label><br>
-                  <input type="checkbox" id="NFT" name="Other_Services" value="NFT"  >
+                  <input type="checkbox" id="NFT" name="Other_Services[]" value="NFT"  >
                   <label for="NFT">NFT</label><br>
-                  <input type="checkbox" id="NFTMarketing" name="Other_Services" value="NFTMarketing"  >
+                  <input type="checkbox" id="NFTMarketing" name="Other_Services[]" value="NFTMarketing"  >
                   <label for="NFTMarketing">NFT Marketing</label><br>
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Charging Plan </label><br>
+                  <label for="" style="font-weight:bold;">Charging Plan:</label><br>
                   <input type="radio" id="monthly" name="chargingplan" value="monthly">
                   <label for="monthly">Monthly</label><br>
                   <input type="radio" id="3_month" name="chargingplan" value="3 months">
@@ -193,60 +194,61 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
+            <h4 style="font-weight:bold;">Book Information:</h4>
            <form action="#" method="POST">
             @csrf
-            
+
             <div class="row">
-                <div class="col-3 mt-3">
-                    <label for="">Product </label><br>
-                    <input type="checkbox" id="Editing_and_Proofreading" name="Product" value="Editing_and_Proofreading" required >
+                <div class="col-md-4">
+                    <label for="" style="font-weight:bold;">Product:</label><br>
+                    <input type="checkbox" id="Editing_and_Proofreading" name="Product[]" value="Editing_and_Proofreading" required >
                     <label for="Editing_and_Proofreading">Editing and Proofreading</label><br>
-                    <input type="checkbox" id="Marketing" name="Product" value="Marketing" required >
+                    <input type="checkbox" id="Marketing" name="Product[]" value="Marketing" required >
                     <label for="Marketing">Marketing</label><br>
-                    <input type="checkbox" id="Only_Proofreading" name="Product" value="Only_Proofreading" required >
+                    <input type="checkbox" id="Only_Proofreading" name="Product[]" value="Only_Proofreading" required >
                     <label for="Only_Proofreading">Only Proofreading</label> <br>
-                    <input type="checkbox" id="Ghost_Writing" name="Product" value="Ghost_Writing" required >
+                    <input type="checkbox" id="Ghost_Writing" name="Product[]" value="Ghost_Writing" required >
                     <label for="Ghost_Writing">Ghost Writing</label><br>
                 </div>
-                <div class="col-3 mt-3">
-                  <label for="">Menuscript Provided? </label><br>
+                <div class="col-md-4">
+                  <label for="" style="font-weight:bold;">Menuscript Provided?</label><br>
                   <input type="radio" id="yes" name="Menuscript_Provided" value="yes">
                   <label for="yes">Yes</label><br>
                   <input type="radio" id="no" name="Menuscript_Provided" value="no">
                   <label for="no">No</label><br>
                 </div>
-                <div class="col-3 mt-3">
-                  <label for="">Genre of the book? </label>
+                <div class="col-md-4">
+                  <label for="" style="font-weight:bold;">Genre of the book?</label>
                   <input type="text" name="genre" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
-                  <label for=""> Cover Design Included? </label><br>
+                <div class="col-md-4">
+                  <label for="" style="font-weight:bold;"> Cover Design Included?</label><br>
                   <input type="radio" id="yes" name="cover_design" value="yes">
                   <label for="yes">Yes</label><br>
                   <input type="radio" id="no" name="cover_design" value="no">
                   <label for="no">No</label><br>
                 </div>
-                <div class="col-3 mt-3">
-                  <label for="">Total number of pages </label>
+                <div class="col-md-4">
+                  <label for="" style="font-weight:bold;">Total number of pages:</label>
                   <input type="number" name="totalpages" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
-                  <label for="">Publishing Platforms Offered? </label>
+                <div class="col-md-4">
+                  <label for="" style="font-weight:bold;">Publishing Platforms Offered?</label>
                   <input type="text" name="publishingplatforms" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
-                  <label for="">ISBN offered or Bar code?</label><br>
+                <div class="col-md-4">
+                  <label for="" style="font-weight:bold;">ISBN offered or Bar code?</label><br>
                   <input type="radio" id="yes" name="isbn_or_barcode" value="yes">
                   <label for="yes">Yes</label><br>
                   <input type="radio" id="no" name="isbn_or_barcode" value="no">
                   <label for="no">No</label><br>
                 </div>
-                <div class="col-3 mt-3">
-                  <label for="">Anymome commitments? </label>
+                <div class="col-md-4">
+                  <label for="" style="font-weight:bold;">Anymome commitments?</label>
                   <input type="text" name="any_commitment" required class="form-control">
                 </div>
-                <div class="col-3 mt-3 mt-3">
-                  <label for="">Platform</label><br>
+                <div class="col-md-4">
+                  <label for="" style="font-weight:bold;">Platform</label><br>
                   <input type="radio" id="Google_Ads" name="platform" value="Google_Ads">
                   <label for="Google_Ads">Google Ads</label><br>
                   <input type="radio" id="Bark Lead" name="platform" value="Bark Lead">
@@ -272,94 +274,96 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
+            <h4 style="font-weight:bold;">Website Information:</h4>
            <form action="#" method="POST">
             @csrf
-            
+
             <div class="row">
                 <div class="col-3 mt-3">
-                    <label for="">Package </label><br>
-                    <input type="checkbox" id="Website_Design_Only" name="Package" value="Website_Design_Only" required >
+                    <label for="" style="font-weight:bold;">Package:</label><br>
+                    <input type="checkbox" id="Website_Design_Only" name="Package[]" value="Website_Design_Only" required >
                     <label for="Website_Design_Only">Website Design Only</label><br>
-                    <input type="checkbox" id="Website_Development_Only" name="Package" value="Website_Development_Only" required >
+                    <input type="checkbox" id="Website_Development_Only" name="Package[]" value="Website_Development_Only" required >
                     <label for="Website_Development_Only">Website Development Only</label><br>
-                    <input type="checkbox" id="Website_Design__Development" name="Package" value="Website_Design__Development" required >
+                    <input type="checkbox" id="Website_Design__Development" name="Package[]" value="Website_Design__Development" required >
                     <label for="Website_Design__Development">Website Design & Development</label><br>
-                    <input type="checkbox" id="Website_Revamp" name="Package" value="Website_Revamp" required >
-                    <label for="Website_Revamp">Website Revamp</label><br> 
+                    <input type="checkbox" id="Website_Revamp" name="Package[]" value="Website_Revamp" required >
+                    <label for="Website_Revamp">Website Revamp</label><br>
                 </div>
                 <div class="col-3 mt-3">
-                  <label for="">Other Services</label><br>
-                  <input type="checkbox" id="logo" name="Other_Services" value="logo" required >
+                  <label for="" style="font-weight:bold;">Other Services:</label><br>
+                  <input type="checkbox" id="logo" name="Other_Services[]" value="logo" required >
                   <label for="logo">logo</label><br>
-                  <input type="checkbox" id="hosting" name="Other_Services" value="hosting" required >
+                  <input type="checkbox" id="hosting" name="Other_Services[]" value="hosting" required >
                   <label for="hosting">hosting</label><br>
-                  <input type="checkbox" id="content" name="Other_Services" value="content" required >
+                  <input type="checkbox" id="content" name="Other_Services[]" value="content" required >
                   <label for="content">content</label><br>
-                  <input type="checkbox" id="SEO_Marketing" name="Other_Services" value="SEO_Marketing" required >
+                  <input type="checkbox" id="SEO_Marketing" name="Other_Services[]" value="SEO_Marketing" required >
                   <label for="SEO_Marketing">SEO Marketing</label><br>
-                  <input type="checkbox" id="SMM_Marketing" name="Other_Services" value="SMM_Marketing" required >
+                  <input type="checkbox" id="SMM_Marketing" name="Other_Services[]" value="SMM_Marketing" required >
                   <label for="SMM_Marketing">SMM Marketing</label><br>
               </div>
               <div class="col-3 mt-3">
-                <label for="">other service details</label>
+                <label for="" style="font-weight:bold;">Other Service Details:</label>
                 <input type="text" name="otherservicedetail" required class="form-control">
               </div>
               <div class="col-3 mt-3">
-                <label for="">logo</label>
+                <label for="" style="font-weight:bold;">Logo:</label>
                 <input type="text" name="logo" required class="form-control">
               </div>
 
             </div>
            </form>
 
-  
-       
 
 
 
 
 
 
-<!-- cld -->         
+
+
+<!-- cld -->
 </div><!-- br-section-wrapper -->
 </div><!-- br-pagebody -->
 
 <div class="br-pagebody">
   <div class="br-section-wrapper">
+    <h4 style="font-weight:bold;">Creative Logo Design Information:</h4>
    <form action="#" method="POST">
     @csrf
-    
+
     <div class="row">
         <div class="col-3 mt-3">
-            <label for="">Package </label><br>
-            <input type="checkbox" id="Website_Design_Only" name="Package" value="Website_Design_Only" required >
+            <label for="" style="font-weight:bold;">Package:</label><br>
+            <input type="checkbox" id="Website_Design_Only" name="Package[]" value="Website_Design_Only" required >
             <label for="Website_Design_Only">Website Design Only</label><br>
-            <input type="checkbox" id="Website_Development_Only" name="Package" value="Website_Development_Only" required >
+            <input type="checkbox" id="Website_Development_Only" name="Package[]" value="Website_Development_Only" required >
             <label for="Website_Development_Only">Website Development Only</label><br>
-            <input type="checkbox" id="Website_Design__Development" name="Package" value="Website_Design__Development" required >
-            <label for="Website_Design__Development">Website Design & Development</label><br> 
-            <input type="checkbox" id="Website_Revamp" name="Package" value="Website_Revamp" required >
-            <label for="Website_Revamp">Website Revamp</label><br> 
+            <input type="checkbox" id="Website_Design__Development" name="Package[]" value="Website_Design__Development" required >
+            <label for="Website_Design__Development">Website Design & Development</label><br>
+            <input type="checkbox" id="Website_Revamp" name="Package[]" value="Website_Revamp" required >
+            <label for="Website_Revamp">Website Revamp</label><br>
         </div>
         <div class="col-3 mt-3">
-          <label for="">Other Services </label><br>
-          <input type="checkbox" id="logo" name="Other_Services" value="logo" required >
+          <label for="" style="font-weight:bold;">Other Services:</label><br>
+          <input type="checkbox" id="logo" name="Other_Services[]" value="logo" required >
           <label for="logo">logo</label><br>
-          <input type="checkbox" id="hosting" name="Other_Services" value="hosting" required >
+          <input type="checkbox" id="hosting" name="Other_Services[]" value="hosting" required >
           <label for="hosting">hosting</label><br>
-          <input type="checkbox" id="content" name="Other_Services" value="content" required >
-          <label for="content">content</label><br> 
-          <input type="checkbox" id="SEO_Marketing" name="Other_Services" value="SEO_Marketing" required >
-          <label for="SEO_Marketing">SEO Marketing</label> <br> 
-          <input type="checkbox" id="SMM_Marketing" name="Other_Services" value="SMM_Marketing" required >
-          <label for="SMM_Marketing">SMM Marketing</label> <br> 
+          <input type="checkbox" id="content" name="Other_Services[]" value="content" required >
+          <label for="content">content</label><br>
+          <input type="checkbox" id="SEO_Marketing" name="Other_Services[]" value="SEO_Marketing" required >
+          <label for="SEO_Marketing">SEO Marketing</label> <br>
+          <input type="checkbox" id="SMM_Marketing" name="Other_Services[]" value="SMM_Marketing" required >
+          <label for="SMM_Marketing">SMM Marketing</label> <br>
       </div>
       <div class="col-3 mt-3">
-        <label for="">other service details</label>
+        <label for="" style="font-weight:bold;">other service details:</label>
         <input type="text" name="otherservice" required class="form-control">
       </div>
       <div class="col-3 mt-3">
-        <label for="">logo</label>
+        <label for="" style="font-weight:bold;">logo</label>
         <input type="text" name="logo" required class="form-control">
       </div>
 
@@ -378,7 +382,7 @@
                 <strong>{{ Session::get('Success') }}</strong>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
             </div>
-        
+
             @endif
             @if (Session::has('Error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -389,16 +393,16 @@
     </div>
 
     </div>
-   </form>        
-          
-            
+   </form>
 
 
 
-   
-   
 
-  
+
+
+
+
+
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
 
