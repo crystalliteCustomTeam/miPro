@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("website");
             $table->string("tel");
             $table->string("email");
+          
             $table->string("address");
             $table->string("status"); 
             $table->timestamps();

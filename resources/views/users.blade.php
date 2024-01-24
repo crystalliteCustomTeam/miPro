@@ -38,14 +38,7 @@
                     <label for="">Extension</label>
                     <input type="text" name="extension" class="form-control" required>
                 </div>
-                <div class="col-3">
-                    <label for="">Brand</label>
-                    <select class="form-control" name="selectBrand">
-                        @foreach($Brands as $brand)
-                            <option value="{{$brand->id}}">{{ $brand->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
+               
                 
             </div>
             <div class="row mt-3">
@@ -94,7 +87,7 @@
         </div><!-- br-pagebody -->
         <footer class="br-footer">
           <div class="footer-left">
-            <div class="mg-b-2">Copyright &copy; 2017. Bracket Plus. All Rights Reserved.</div>
+            <div class="mg-b-2">Copyright &copy; 2017. Crystal Pro. All Rights Reserved.</div>
             <div>Attentively and carefully made by ThemePixels.</div>
           </div>
           <div class="footer-right d-flex align-items-center">

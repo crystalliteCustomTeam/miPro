@@ -49,6 +49,14 @@
                     <label for="">Address </label>
                     <input type="text" name="address" required class="form-control">
                 </div>
+                <div class="col-3">
+                  <label for="">Brand Owner </label>
+                  <select class="form-control" name="brandOwner">
+                      @foreach($employees as $employee)
+                        <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                      @endforeach
+                  </select>
+              </div>
                 <div class="col-4">
                     <br>
                     <input type="submit" value="Create" name="" class="btn btn-success mt-2">
@@ -84,7 +92,7 @@
         </div><!-- br-pagebody -->
         <footer class="br-footer">
           <div class="footer-left">
-            <div class="mg-b-2">Copyright &copy; 2017. Bracket Plus. All Rights Reserved.</div>
+            <div class="mg-b-2">Copyright &copy; 2017. Crystal Pro. All Rights Reserved.</div>
             <div>Attentively and carefully made by ThemePixels.</div>
           </div>
           <div class="footer-right d-flex align-items-center">

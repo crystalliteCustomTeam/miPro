@@ -29,10 +29,10 @@
                 <tr role="row">
                   <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Name</th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Email</th>
-                  <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Tel</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Start date: activate to sort column ascending">Website</th>
+                  <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Extension</th>
+
                   <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Action</th>
-                  <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 353px; display: none;" aria-label="E-mail: activate to sort column ascending">Address</th>
+                  <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 353px; display: none;" aria-label="E-mail: activate to sort column ascending">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -42,7 +42,7 @@
                   <td tabindex="0" class="sorting_1">{{ $employees->name }}</td>
                   <td>{{ $employees->email }}</td>
                   <td>{{ $employees->extension }}</td>
-                  <td>{{ $employees->brand }}</td>
+                
                   <td>
                       <div class="button-group">
                         <button class="btn btn-sm btn-info">Edit</button>
@@ -63,7 +63,7 @@
         </div><!-- br-pagebody -->
         <footer class="br-footer">
           <div class="footer-left">
-            <div class="mg-b-2">Copyright &copy; 2017. Bracket Plus. All Rights Reserved.</div>
+            <div class="mg-b-2">Copyright &copy; 2017. Crystal Pro. All Rights Reserved.</div>
             <div>Attentively and carefully made by ThemePixels.</div>
           </div>
           <div class="footer-right d-flex align-items-center">

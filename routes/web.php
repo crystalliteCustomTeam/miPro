@@ -23,12 +23,13 @@ Route::controller(BasicController::class)->group(function (){
     Route::get('/','login');
     Route::get('/register','register');
     Route::get('/logout','logout');
-
+    Route::get('/staffLogin','stafflogin');
     
     //PROCESSING PAGES
     Route::post('/registration','registration');
     Route::post('/loginProcess','loginProcess');
-    
+    Route::post('/loginProcessStaff','loginProcessStaff');
+
 
     Route::middleware(['authCheck'])->group(function () {
         Route::get('/dashboard','dashboard');
@@ -36,7 +37,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/companies','companies');
         Route::get('/addbrand/{id}','setupbrand');
         Route::get('/brandlist','brandlist');
-        Route::get('/setupdepartments/{id}','setupdepartments');
+        Route::get('/setupdepartments','setupdepartments');
         Route::get('/userlist','userlist');
         Route::get('/createuser','createuser');
         Route::get('/forms/kyc','kyc');
@@ -44,11 +45,15 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/renewalrecurring','renewalrecurring');
         Route::get('/forms/revenueloss','revenueloss');
         Route::get('/forms/paymentconfirmation','paymentconfirmation');
+        Route::get('/departmentlist','departmentlist');
+       
+        
 
         //PROCESSES
         Route::post('/setupcompany/process','setupcompanyprocess');
         Route::post('/setupbrand/process','setupbrandprocess');
         Route::post('/createuser/process','createuserprocess');
+        Route::post('/setupdepartment/process','setupdepartmentsProcess');
     }); 
 
 });

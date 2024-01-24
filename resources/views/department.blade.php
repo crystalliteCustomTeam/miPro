@@ -22,15 +22,44 @@
   
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-           <form action="/setupDepartment/process" method="POST">
+           <form action="/setupdepartment/process" method="POST">
             @csrf
-            <input type="hidden" value="{{ $CID }}" name="companyID">
+            
             <div class="row">
             
-                <div class="col-3">
+                <div class="col-6">
                     <label for="">Name</label>
                     <input type="text" name="name" class="form-control" required>
                 </div>
+                <div class="col-6">
+                  <label for="">Department Manager</label>
+                  <select class="form-control" name="manager">
+                    @foreach($employees as $employee)
+                      <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                    @endforeach
+                  </select>
+              </div>
+              <div class="col-12 mt-4">
+                <table id="datatable1">
+                  <thead>
+                    <th>Name</th>
+                    <th>Postion</th>
+                    <th>Selection</th>
+                    <th>Email</th>
+                  </thead>
+                  <tbody>
+                    @foreach($employees as $employee)
+                    <tr>
+                      <td>{{ $employee->name }}</td>
+                      <td>{{ $employee->position }}</td>
+                      <td><input type="checkbox" name="selection[]" value="{{$employee->id  }}" class=""></td>
+                      <td>{{ $employee->email }}</td>
+                      
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+            </div>
                 
             </div>
             <div class="row mt-3">
@@ -70,7 +99,7 @@
         </div><!-- br-pagebody -->
         <footer class="br-footer">
           <div class="footer-left">
-            <div class="mg-b-2">Copyright &copy; 2017. Bracket Plus. All Rights Reserved.</div>
+            <div class="mg-b-2">Copyright &copy; 2017. Crystal Pro. All Rights Reserved.</div>
             <div>Attentively and carefully made by ThemePixels.</div>
           </div>
           <div class="footer-right d-flex align-items-center">

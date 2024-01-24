@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Company;
 use App\Models\Brand;
 use App\Models\Employee;
+use App\Models\Department;
 
 
 class BasicController extends Controller
@@ -22,6 +23,37 @@ class BasicController extends Controller
     function dashboard(){
         return view('dashboard');
     }
+
+
+
+
+    function loginProcessStaff(Request $request)
+    {
+        $email = $request->input('userName');
+        $staffPassword = $request->input('userPassword');
+        $findStaff = Employee::where('email',$email)->get();
+        if(count($findStaff) > 0){
+            $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
+            if($checkHash){
+                print_r($findStaff);
+                return ;
+            }else{
+                return redirect()->back()->with('Error',"Password Not Match !");
+            }
+        }else{
+            return redirect()->back()->with('Error','Email Not Found Please Contact Your Department Head');
+        }
+    }
+
+
+
+
+
+    function stafflogin(){
+        return view('stafflogin');
+    }
+
+
 
     function registration(Request $request){
         $email = $request->input('ClientEmail');
@@ -103,12 +135,14 @@ class BasicController extends Controller
     }
 
     function brandlist(Request $request){
-        $brands = Brand::all();
+        $brands = Brand::with('brandOwnerName')->get();
         return View('brandlist',["companies"=>$brands]);
     }
 
     function setupbrand(Request $request,$companyID){
-        return View('brands',["CID" => $companyID]);
+        $employees = Employee::whereIn('position', ['Owner','Admin','VP','Brand Owner','President'])->get();
+
+        return View('brands',["CID" => $companyID,'employees'=>$employees]);
     }
 
     function setupbrandprocess(Request $request){
@@ -126,6 +160,7 @@ class BasicController extends Controller
                 "website"   =>  $request->input("website"),
                 "tel"       =>  $request->input("tel"),
                 "email"     =>  $request->input("email"),
+                "brandOwner"=>  $request->input('brandOwner'),
                 "address"   =>  $request->input("address"),
                 "status"    =>  "Active"
             ]);
@@ -133,17 +168,51 @@ class BasicController extends Controller
         }
     }
 
-    function setupdepartments(Request $request,$brandID){
-        return view('department',["CID" => $brandID]);
+    function setupdepartments(Request $request){
+        $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner','President'])->get();
+       
+        return view('department',['employees'=>$employees]);
     }
+
+
+    function setupdepartmentsProcess(Request $request){
+        $departmentName = $request->input('name');
+        $search_Department = Department::where('name','like',"%$departmentName%")->get();
+       
+        if(count($search_Department) < 0){
+            return redirect()->back()->with("Error","Department Already Found !");
+        }else{
+
+            
+            $department = Department::create([
+                "name" => $departmentName,
+                "manager" => $request->input('manager'),
+                "users" => json_encode($request->input('selection')),
+            ]);
+            return redirect()->back()->with("Success","Department Created !");
+           
+        }
+
+        
+    }
+
+
+    function departmentlist(){
+        $departments = Department::get();
+       
+        return view('departmentlist',["departments" => $departments]);
+    }
+
 
     function createuser(Request $request){
         $brands  = Brand::all();
+        
         return view('users',["Brands" => $brands]);
     }
 
     function userlist(Request $request){
-        $employees  = Employee::all();
+        $employees  = Employee::get();
+        
         return view('userlists',["Employees" => $employees]);
     }
 
@@ -159,7 +228,7 @@ class BasicController extends Controller
             "name" => $request->input("name"),
             "email" => $request->input("email"),
             "extension" => $request->input("extension"),
-            "brand" => $request->input("selectBrand"),
+          
             "password" => Hash::make($request->input("password")),
             "position" => $request->input('position'),
             'status' => "Account Created"

@@ -1,5 +1,5 @@
 /*!
- * Bracket Plus v1.1.0 (https://themetrace.com/bracketplus)
+ * Crystal Pro v1.1.0 (https://themetrace.com/bracketplus)
  * Copyright 2017-2018 ThemePixels
  * Licensed under ThemeForest License
  */
