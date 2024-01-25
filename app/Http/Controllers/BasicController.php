@@ -30,6 +30,7 @@ class BasicController extends Controller
     function loginProcessStaff(Request $request)
     {
         $email = $request->input('userName');
+        
         $staffPassword = $request->input('userPassword');
         $findStaff = Employee::where('email',$email)->get();
         if(count($findStaff) > 0){
