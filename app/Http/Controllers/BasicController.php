@@ -15,7 +15,7 @@ class BasicController extends Controller
     function login(){
         return view('login');
     }
-    
+
     function register(){
         return view('register');
     }
@@ -102,7 +102,7 @@ class BasicController extends Controller
             }
         }
         return redirect()->back()->with('loginError','Please Check Username & Password !');
-        
+
     }
 
     function setupcompany(Request $request){
@@ -128,6 +128,45 @@ class BasicController extends Controller
             return redirect()->back()->with('Success',"Company Added !");
         }
     }
+
+    function editcompany(Request $request, $id){
+        $companydata = db::table("companies")
+         ->where('id', $id)
+        ->get();
+
+        return view("editcompany" ,["companydata"=>$companydata]);
+
+    }
+
+        function editcompanyprocess(Request $request, $id){
+            $companyname = $request['name'];
+            $companyemail = $request['email'];
+            $companyaddress = $request['address'];
+            $companywebsite = $request['website'] ;
+            $companytel = $request['tel'];
+
+            $updatecompany = db::table('companies')
+            ->where('id', $id)
+            ->update(
+                [
+                    'name' => $companyname ,
+                    'website' => $companywebsite ,
+                    'tel' => $companytel ,
+                    'email' => $companyemail ,
+                    'address' => $companyaddress
+                ]);
+                return redirect('/companies');
+        }
+
+        function deletecompany(Request $request, $id){
+
+            $branddeleted = DB::table('brands')->where('companyID', $id)->delete();
+            $companydeleted = DB::table('companies')->where('id', $id)->delete();
+
+            return redirect('/companies');
+
+        }
+
 
     function companies(Request $request){
         $companies = Company::all();
@@ -170,7 +209,7 @@ class BasicController extends Controller
 
     function setupdepartments(Request $request){
         $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner','President'])->get();
-       
+
         return view('department',['employees'=>$employees]);
     }
 
@@ -178,41 +217,41 @@ class BasicController extends Controller
     function setupdepartmentsProcess(Request $request){
         $departmentName = $request->input('name');
         $search_Department = Department::where('name','like',"%$departmentName%")->get();
-       
+
         if(count($search_Department) < 0){
             return redirect()->back()->with("Error","Department Already Found !");
         }else{
 
-            
+
             $department = Department::create([
                 "name" => $departmentName,
                 "manager" => $request->input('manager'),
                 "users" => json_encode($request->input('selection')),
             ]);
             return redirect()->back()->with("Success","Department Created !");
-           
+
         }
 
-        
+
     }
 
 
     function departmentlist(){
         $departments = Department::get();
-       
+
         return view('departmentlist',["departments" => $departments]);
     }
 
 
     function createuser(Request $request){
         $brands  = Brand::all();
-        
+
         return view('users',["Brands" => $brands]);
     }
 
     function userlist(Request $request){
         $employees  = Employee::get();
-        
+
         return view('userlists',["Employees" => $employees]);
     }
 
@@ -228,7 +267,7 @@ class BasicController extends Controller
             "name" => $request->input("name"),
             "email" => $request->input("email"),
             "extension" => $request->input("extension"),
-          
+
             "password" => Hash::make($request->input("password")),
             "position" => $request->input('position'),
             'status' => "Account Created"

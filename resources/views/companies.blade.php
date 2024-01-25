@@ -18,11 +18,11 @@
             <h4>Companies List</h4>
           </div>
         </div><!-- d-flex -->
-  
+
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-          
-            
+
+
            <table id="datatable1" class="table-dark table-hover">
               <thead>
                 <tr role="row">
@@ -35,7 +35,7 @@
                 </tr>
               </thead>
               <tbody>
-              
+
                 @foreach($companies as $company)
                 <tr role="row" class="odd">
                   <td tabindex="0" class="sorting_1">{{ $company->name }}</td>
@@ -44,20 +44,20 @@
                   <td>{{ $company->website }}</td>
                   <td>
                       <div class="button-group">
-                        <button class="btn btn-sm btn-info">Edit</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
+                        <a href="/editcompany/{{ $company->id }}" class="btn btn-sm btn-info">Edit</a>
+                        <a href="/deletecompany/{{ $company->id }}" class="btn btn-sm btn-danger">Delete</a>
                         <a href="/addbrand/{{ $company->id }}" class="btn btn-sm btn-primary">Add Brand</a>
                       </div>
                   </td>
                   <td style="display: none;">{{ $company->address }}</td>
                 </tr>
                 @endforeach
-                
+
               </tbody>
             </table>
-            
-          
-          
+
+
+
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
         <footer class="br-footer">

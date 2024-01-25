@@ -18,11 +18,11 @@
             <h4>Companies List</h4>
           </div>
         </div><!-- d-flex -->
-  
+
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-          
-            
+
+
            <table id="datatable1" class="table-dark table-hover">
               <thead>
                 <tr role="row">
@@ -36,13 +36,13 @@
                 </tr>
               </thead>
               <tbody>
-              
+
                 @foreach($companies as $company)
                 <tr role="row" class="odd">
                   <td tabindex="0" class="sorting_1">{{ $company->name }}</td>
                   <td>{{ $company->email }}</td>
                   <td>{{ $company->tel }}</td>
-                  <td>{{ $company->brandOwnerName->name }}</td>
+                  <td>{{ $company->brandOwner }}</td>
                   <td>{{ $company->website }}</td>
                   <td>
                       <div class="button-group">
@@ -54,12 +54,12 @@
                   <td style="display: none;">{{ $company->address }}</td>
                 </tr>
                 @endforeach
-                
+
               </tbody>
             </table>
-            
-          
-          
+
+
+
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
         <footer class="br-footer">

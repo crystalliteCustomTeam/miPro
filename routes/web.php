@@ -18,13 +18,13 @@ use App\Http\Controllers\BasicController;
 
 
 Route::controller(BasicController::class)->group(function (){
-    
+
     //FRONTEND WEBPAGES
     Route::get('/','login');
     Route::get('/register','register');
     Route::get('/logout','logout');
     Route::get('/staffLogin','stafflogin');
-    
+
     //PROCESSING PAGES
     Route::post('/registration','registration');
     Route::post('/loginProcess','loginProcess');
@@ -35,6 +35,8 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/dashboard','dashboard');
         Route::get('/setupcompany','setupcompany');
         Route::get('/companies','companies');
+        Route::get('/editcompany/{id}','editcompany');
+        Route::get('/deletecompany/{id}','deletecompany');
         Route::get('/addbrand/{id}','setupbrand');
         Route::get('/brandlist','brandlist');
         Route::get('/setupdepartments','setupdepartments');
@@ -46,15 +48,16 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/revenueloss','revenueloss');
         Route::get('/forms/paymentconfirmation','paymentconfirmation');
         Route::get('/departmentlist','departmentlist');
-       
-        
+
+
 
         //PROCESSES
         Route::post('/setupcompany/process','setupcompanyprocess');
+        Route::post('/editcompany/{id}/process','editcompanyprocess');
         Route::post('/setupbrand/process','setupbrandprocess');
         Route::post('/createuser/process','createuserprocess');
         Route::post('/setupdepartment/process','setupdepartmentsProcess');
-    }); 
+    });
 
 });
 
