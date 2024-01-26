@@ -15,16 +15,16 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Companies List</h4>
+            <h4>Departments List</h4>
           </div>
         </div><!-- d-flex -->
-  
+
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-          
-            
-           
-            
+
+
+
+
             <table id="datatable1" class="table-dark table-hover">
                 <thead>
                   <tr role="row">
@@ -34,7 +34,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                
+
                   @foreach($departments as $department)
                   <tr role="row" class="odd">
                     <td tabindex="0" class="sorting_1">{{ $department['name'] }}</td>
@@ -46,13 +46,13 @@
                         @endforeach
                       </ul>
                     </td>
-                    
+
                   </tr>
                   @endforeach
-                  
+
                 </tbody>
               </table>
-          
+
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
         <footer class="br-footer">

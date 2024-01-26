@@ -39,9 +39,13 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/deletecompany/{id}','deletecompany');
         Route::get('/addbrand/{id}','setupbrand');
         Route::get('/brandlist','brandlist');
+        Route::get('/editbrand/{id}','editbrand');
+        Route::get('/deletebrand/{id}','deletebrand');
         Route::get('/setupdepartments','setupdepartments');
         Route::get('/userlist','userlist');
         Route::get('/createuser','createuser');
+        Route::get('/edituser/{id}','edituser');
+        Route::get('/deleteuser/{id}','deleteuser');
         Route::get('/forms/kyc','kyc');
         Route::get('/forms/qaform','qaform');
         Route::get('/forms/renewalrecurring','renewalrecurring');
@@ -54,6 +58,8 @@ Route::controller(BasicController::class)->group(function (){
         //PROCESSES
         Route::post('/setupcompany/process','setupcompanyprocess');
         Route::post('/editcompany/{id}/process','editcompanyprocess');
+        Route::post('/editbrand/{id}/process','editbrandprocess');
+        Route::post('/edituser/{id}/process','edituserprocess');
         Route::post('/setupbrand/process','setupbrandprocess');
         Route::post('/createuser/process','createuserprocess');
         Route::post('/setupdepartment/process','setupdepartmentsProcess');

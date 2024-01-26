@@ -6,8 +6,8 @@
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
-            <a class="breadcrumb-item" href="#">User Management</a>
-            <span class="breadcrumb-item active">Create User</span>
+            <a class="breadcrumb-item" href="#">Brand</a>
+            <span class="breadcrumb-item active">Set Up Brand</span>
           </nav>
         </div><!-- br-pageheader -->
 
@@ -15,53 +15,61 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>User Management</h4>
-            <p class="mg-b-0">Create User</p>
+            <h4>Set Up Brand</h4>
+            <p class="mg-b-0">Brand</p>
           </div>
         </div><!-- d-flex -->
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-           <form action="/createuser/process" method="POST">
+            @foreach ($branddata as $brandeditdata)
+
+           <form action="/editbrand/{{$brandeditdata->id}}/process" method="POST">
             @csrf
+            {{-- <input type="hidden" value="{{ $CID }}" name="companyID"> --}}
             <div class="row">
 
                 <div class="col-3">
                     <label for="">Name</label>
-                    <input type="text" name="name" class="form-control" required>
+                    <input type="text" name="name" class="form-control" value="{{$brandeditdata->name}}" required>
                 </div>
                 <div class="col-3">
-                    <label for="">Email</label>
-                    <input type="email" name="email" class="form-control" required>
+                    <label for="">Website URL</label>
+                    <input type="url" name="website" class="form-control" value="{{$brandeditdata->website}}" required>
                 </div>
                 <div class="col-3">
-                    <label for="">Extension</label>
-                    <input type="text" name="extension" class="form-control" required>
+                    <label for="">Tel </label>
+                    <input type="text" name="tel" required value="{{$brandeditdata->tel}}" class="form-control">
                 </div>
-
-
+                <div class="col-3">
+                    <label for="">Email </label>
+                    <input type="email" name="email" required value="{{$brandeditdata->email}}" class="form-control">
+                </div>
             </div>
             <div class="row mt-3">
                 <div class="col-3">
-                    <label for="">Generate Password </label>
-                    <input type="text" class="form-control" minlength="8"  name="password" id="password" value="{{ substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,8) }}">
-
+                    <label for="">Address </label>
+                    <input type="text" name="address" required value="{{$brandeditdata->address}}" class="form-control">
                 </div>
                 <div class="col-3">
-                    <label for="">Position </label>
-                    <input type="text" class="form-control" name="position">
-                </div>
+                    <label for="">Brand Owner </label>
+                    <select class="form-control" name="brandOwner">
+                      @foreach($employees as $employee)
+                        <option value="{{ $employee->id }}" {{ $employee->id == $brandeditdata->brandOwner ? 'selected' : '' }}>{{ $employee->name }} </option>
+                      @endforeach
+                    </select>
 
-                <div class="col-3">
+              </div>
+                <div class="col-4">
                     <br>
-                    <input type="submit" value="Create" name="" class="btn btn-success mt-2">
+                    <input type="submit" value="Update" name="" class="btn btn-success mt-2">
                 </div>
                 <div class="col-4">
                         @if (Session::has('Success'))
 
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>{{ Session::get('Success') }}</strong>
-                            <button type="button" class="btn btn-success" data-bs-dismiss="alert" aria-label="Close">X</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
                         </div>
 
                         @endif
@@ -74,6 +82,7 @@
                 </div>
             </div>
            </form>
+           @endforeach
 
 
 

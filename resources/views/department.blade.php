@@ -19,14 +19,14 @@
             <p class="mg-b-0">Department</p>
           </div>
         </div><!-- d-flex -->
-  
+
         <div class="br-pagebody">
           <div class="br-section-wrapper">
            <form action="/setupdepartment/process" method="POST">
             @csrf
-            
+            <input type="hidden" id="Employeesdd" name="Employeesdata" >
             <div class="row">
-            
+
                 <div class="col-6">
                     <label for="">Name</label>
                     <input type="text" name="name" class="form-control" required>
@@ -52,18 +52,60 @@
                     <tr>
                       <td>{{ $employee->name }}</td>
                       <td>{{ $employee->position }}</td>
-                      <td><input type="checkbox" name="selection[]" value="{{$employee->id  }}" class=""></td>
+                      <td><input type="checkbox" name="selectedEmployees[]"  value="{{$employee->id  }}" class="employee-checkbox"></td>
                       <td>{{ $employee->email }}</td>
-                      
+
                     </tr>
                     @endforeach
                   </tbody>
                 </table>
+                <script>
+                    // JavaScript code to handle checkbox events and update the array
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // Array to store selected employee IDs
+                        var selectedEmployees = [];
+
+                        // Function to update the array when a checkbox is clicked
+                        function updateArray(checkbox) {
+                            var employeeId = checkbox.value;
+
+                            // Check if the checkbox is checked
+                            if (checkbox.checked) {
+                                // Add the employee ID to the array if it's not already present
+                                if (!selectedEmployees.includes(employeeId)) {
+                                    selectedEmployees.push(employeeId);
+                                    document.getElementById("Employeesdd").value = selectedEmployees
+                                }
+                            } else {
+                                // Remove the employee ID from the array if it's present
+                                var index = selectedEmployees.indexOf(employeeId);
+                                if (index !== -1) {
+                                    selectedEmployees.splice(index, 1);
+                                    document.getElementById("Employeesdd").value = selectedEmployees
+                                }
+                            }
+
+                            // Log the updated array (you can replace this with your desired logic)
+                            console.log('Selected Employees:', selectedEmployees);
+
+
+
+                        }
+
+                        // Attach event listeners to checkboxes
+                        var checkboxes = document.querySelectorAll('.employee-checkbox');
+                        checkboxes.forEach(function (checkbox) {
+                            checkbox.addEventListener('change', function () {
+                                updateArray(checkbox);
+                            });
+                        });
+                    });
+                </script>
             </div>
-                
+s
             </div>
             <div class="row mt-3">
-                
+
                 <div class="col-4">
                     <br>
                     <input type="submit" value="Create" name="" class="btn btn-success mt-2">
@@ -75,7 +117,7 @@
                             <strong>{{ Session::get('Success') }}</strong>
                             <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
                         </div>
-                    
+
                         @endif
                         @if (Session::has('Error'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -86,15 +128,16 @@
                 </div>
             </div>
            </form>
-  
-       
-            
-            
-          
-            
-   
 
-  
+
+
+
+
+
+
+
+
+
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
         <footer class="br-footer">

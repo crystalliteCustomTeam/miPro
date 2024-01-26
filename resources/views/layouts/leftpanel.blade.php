@@ -10,7 +10,7 @@
         <span class="menu-item-label">Dashboard</span>
       </a><!-- br-menu-link -->
     </li><!-- br-menu-item -->
-   
+
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
@@ -19,7 +19,7 @@
       <ul class="br-menu-sub">
         <li class="sub-item"><a href="/companies" class="sub-link">Companies</a></li>
         <li class="sub-item"><a href="/setupcompany" class="sub-link">Set Up a Company</a></li>
-       
+
       </ul>
     </li>
     <li class="br-menu-item">
@@ -31,16 +31,16 @@
         <li class="sub-item"><a href="/brandlist" class="sub-link">Brands</a></li>
       </ul>
     </li>
-    
+
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
         <span class="menu-item-label">Departments</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="/departments" class="sub-link">Departments</a></li>
+        <li class="sub-item"><a href="/departmentlist" class="sub-link">Departments</a></li>
         <li class="sub-item"><a href="/setupdepartments" class="sub-link">Set Up a Department</a></li>
-       
+
       </ul>
     </li>
     <li class="br-menu-item">

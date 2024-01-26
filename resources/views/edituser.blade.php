@@ -22,39 +22,41 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-           <form action="/createuser/process" method="POST">
+            @foreach ($employee as $employees)
+
+           <form action="/edituser/{{$employees->id}}/process" method="POST">
             @csrf
             <div class="row">
 
                 <div class="col-3">
                     <label for="">Name</label>
-                    <input type="text" name="name" class="form-control" required>
+                    <input type="text" name="name" class="form-control" required value="{{$employees->name}}">
                 </div>
                 <div class="col-3">
                     <label for="">Email</label>
-                    <input type="email" name="email" class="form-control" required>
+                    <input type="email" name="email" class="form-control" required value="{{$employees->email}}">
                 </div>
                 <div class="col-3">
                     <label for="">Extension</label>
-                    <input type="text" name="extension" class="form-control" required>
+                    <input type="text" name="extension" class="form-control" required value="{{$employees->extension}}">
                 </div>
 
 
-            </div>
+            {{-- </div>
             <div class="row mt-3">
                 <div class="col-3">
                     <label for="">Generate Password </label>
-                    <input type="text" class="form-control" minlength="8"  name="password" id="password" value="{{ substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,8) }}">
+                    <input type="text" class="form-control" minlength="8"  name="password" id="password" value="{{ substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,8) }}"> --}}
 
-                </div>
+                {{-- </div> --}}
                 <div class="col-3">
                     <label for="">Position </label>
-                    <input type="text" class="form-control" name="position">
+                    <input type="text" class="form-control" name="position" value="{{$employees->position}}">
                 </div>
 
                 <div class="col-3">
                     <br>
-                    <input type="submit" value="Create" name="" class="btn btn-success mt-2">
+                    <input type="submit" value="Update" name="" class="btn btn-success mt-2">
                 </div>
                 <div class="col-4">
                         @if (Session::has('Success'))
@@ -74,6 +76,7 @@
                 </div>
             </div>
            </form>
+           @endforeach
 
 
 

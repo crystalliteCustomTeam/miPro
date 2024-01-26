@@ -19,11 +19,11 @@
             <p class="mg-b-0">Create User</p>
           </div>
         </div><!-- d-flex -->
-  
+
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-          
-            
+
+
            <table id="datatable1" class="table-dark table-hover">
               <thead>
                 <tr role="row">
@@ -36,29 +36,29 @@
                 </tr>
               </thead>
               <tbody>
-              
+
                 @foreach($Employees as $employees)
                 <tr role="row" class="odd">
                   <td tabindex="0" class="sorting_1">{{ $employees->name }}</td>
                   <td>{{ $employees->email }}</td>
                   <td>{{ $employees->extension }}</td>
-                
+
                   <td>
                       <div class="button-group">
-                        <button class="btn btn-sm btn-info">Edit</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
+                        <a href="/edituser/{{ $employees->id }}" class="btn btn-sm btn-info">Edit</a>
+                        <a href="/deleteuser/{{ $employees->id }}" class="btn btn-sm btn-danger">Delete</a>
                         <a href="/setupdepartments/{{ $employees->id }}" class="btn btn-sm btn-primary">Add Department</a>
                       </div>
                   </td>
                   <td style="display: none;">{{ $employees->status }}</td>
                 </tr>
                 @endforeach
-                
+
               </tbody>
             </table>
-            
-          
-          
+
+
+
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
         <footer class="br-footer">

@@ -15,7 +15,7 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Companies List</h4>
+            <h4>Brands List</h4>
           </div>
         </div><!-- d-flex -->
 
@@ -42,12 +42,12 @@
                   <td tabindex="0" class="sorting_1">{{ $company->name }}</td>
                   <td>{{ $company->email }}</td>
                   <td>{{ $company->tel }}</td>
-                  <td>{{ $company->brandOwner }}</td>
+                  <td>{{ $company->brandOwnerName->name }}</td>
                   <td>{{ $company->website }}</td>
                   <td>
                       <div class="button-group">
-                        <button class="btn btn-sm btn-info">Edit</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
+                        <a href="/editbrand/{{ $company->id }}" class="btn btn-sm btn-info">Edit</a>
+                        <a href="/deletebrand/{{ $company->id }}" class="btn btn-sm btn-danger">Delete</a>
                         <a href="/setupdepartments/{{ $company->id }}" class="btn btn-sm btn-primary">Add Department</a>
                       </div>
                   </td>

@@ -30,7 +30,7 @@ class BasicController extends Controller
     function loginProcessStaff(Request $request)
     {
         $email = $request->input('userName');
-        
+
         $staffPassword = $request->input('userPassword');
         $findStaff = Employee::where('email',$email)->get();
         if(count($findStaff) > 0){
@@ -208,8 +208,47 @@ class BasicController extends Controller
         }
     }
 
+    function editbrand(Request $request, $companyID){
+        $employees = Employee::whereIn('position', ['Owner','Admin','VP','Brand Owner','President'])->get();
+        $branddata = Brand::where('id', $companyID)->get();
+
+        return view("editbrand" ,["branddata"=>$branddata,'employees'=>$employees]);
+
+    }
+
+    function editbrandprocess(Request $request, $id){
+
+        $brandname = $request['name'];
+        $brandemail = $request['email'];
+        $brandaddress = $request['address'];
+        $brandwebsite = $request['website'] ;
+        $brandtel = $request['tel'];
+        $brandOwner = $request['brandOwner'];
+
+        $editbrand = Brand::where('id', $id)
+            ->update(
+            [
+                'name' => $brandname ,
+                'website' => $brandwebsite ,
+                'tel' => $brandtel ,
+                'email' => $brandemail ,
+                'brandOwner' => $brandOwner ,
+                'address' => $brandaddress
+            ]);
+            return redirect('/brandlist');
+    }
+
+    function deletebrand(Request $request, $id){
+
+        $branddeleted = DB::table('brands')->where('id', $id)->delete();
+        //$companydeleted = DB::table('companies')->where('id', $id)->delete();
+
+        return redirect('/brandlist');
+
+    }
+
     function setupdepartments(Request $request){
-        $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner','President'])->get();
+        $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner'])->get();
 
         return view('department',['employees'=>$employees]);
     }
@@ -223,11 +262,12 @@ class BasicController extends Controller
             return redirect()->back()->with("Error","Department Already Found !");
         }else{
 
+           $results  = explode(",",$request->input('Employeesdata'));
 
             $department = Department::create([
                 "name" => $departmentName,
                 "manager" => $request->input('manager'),
-                "users" => json_encode($request->input('selection')),
+                "users" => json_encode($results),
             ]);
             return redirect()->back()->with("Success","Department Created !");
 
@@ -248,6 +288,40 @@ class BasicController extends Controller
         $brands  = Brand::all();
 
         return view('users',["Brands" => $brands]);
+    }
+
+    function edituser(Request $request, $id){
+        $employee = Employee::where('id', $id)->get();
+
+        return view("edituser" ,["employee"=>$employee]);
+
+    }
+
+    function edituserprocess(Request $request, $id){
+
+        $username = $request['name'];
+        $useremail = $request['email'];
+        $userextention = $request['extension'];
+        $userposition = $request['position'] ;
+
+        $editbrand = Employee::where('id', $id)
+            ->update(
+            [
+                'name' => $username ,
+                'email' => $useremail ,
+                'extension' => $userextention ,
+                'position' => $userposition
+            ]);
+            return redirect('/userlist');
+    }
+
+    function deleteuser(Request $request, $id){
+
+        $branddeleted = DB::table('employees')->where('id', $id)->delete();
+        //$companydeleted = DB::table('companies')->where('id', $id)->delete();
+
+        return redirect('/userlist');
+
     }
 
     function userlist(Request $request){
