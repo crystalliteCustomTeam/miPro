@@ -65,6 +65,10 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/setupdepartment/process','setupdepartmentsProcess');
     });
 
+    Route::middleware(['authCheckStaff'])->group(function () {
+         Route::get('/employee/dashboard','staffdashboard');
+    });
+
 });
 
 

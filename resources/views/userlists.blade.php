@@ -30,7 +30,7 @@
                   <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Name</th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Email</th>
                   <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Extension</th>
-
+                  <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Position</th>
                   <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Action</th>
                   <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 353px; display: none;" aria-label="E-mail: activate to sort column ascending">Status</th>
                 </tr>
@@ -42,7 +42,7 @@
                   <td tabindex="0" class="sorting_1">{{ $employees->name }}</td>
                   <td>{{ $employees->email }}</td>
                   <td>{{ $employees->extension }}</td>
-
+                  <td>{{ $employees->position }}</td>
                   <td>
                       <div class="button-group">
                         <a href="/edituser/{{ $employees->id }}" class="btn btn-sm btn-info">Edit</a>

@@ -26,8 +26,8 @@
 
   <body>
 
-    @extends('layouts.leftpanel')
-    @extends('layouts.rightpanel')
+    @extends('layouts.staff.leftpanel')
+    @extends('layouts.staff.rightpanel')
    
 
     <!-- ########## START: RIGHT PANEL ########## -->

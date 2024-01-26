@@ -30,7 +30,8 @@
                   <tr role="row">
                     <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Name</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Manager</th>
-                    <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Users</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Action</th>
+                    {{-- <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Users</th> --}}
                   </tr>
                 </thead>
                 <tbody>
@@ -40,12 +41,19 @@
                     <td tabindex="0" class="sorting_1">{{ $department['name'] }}</td>
                     <td>{{ $department->UserName->name }}</td>
                     <td>
+                      <div class="btn-group">
+                          <button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button>
+                          <button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);"> Edit </button>
+                          <button class="btn btn-primary btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/5397/5397601.png" alt="" style="filter: invert(1);"> {{ count($department->findEmp($department->users)) }} Employees </button>
+                      </div>
+                    </td>
+                    {{-- <td>
                       <ul>
                         @foreach($department->findEmp($department->users) as $emp)
                           <li>{{$emp->name}}</li>
                         @endforeach
                       </ul>
-                    </td>
+                    </td> --}}
 
                   </tr>
                   @endforeach

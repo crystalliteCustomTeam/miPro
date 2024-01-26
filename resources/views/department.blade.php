@@ -27,11 +27,11 @@
             <input type="hidden" id="Employeesdd" name="Employeesdata" >
             <div class="row">
 
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Name</label>
                     <input type="text" name="name" class="form-control" required>
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                   <label for="">Department Manager</label>
                   <select class="form-control" name="manager">
                     @foreach($employees as $employee)
@@ -39,6 +39,24 @@
                     @endforeach
                   </select>
               </div>
+              <div class="col-3">
+                <label for="">Select Brand</label>
+                <select class="form-control" name="brand">
+                  @foreach($brands as $brand)
+                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                  @endforeach
+                </select>
+            </div>
+            <div class="col-3">
+              <label for="">Select Access</label>
+              <select class="form-control" name="access">
+                  <option value="0">Admin</option>
+                  <option value="1">Project Manager Or Sales Persons</option>
+                  <option value="2">QA</option>
+                  <option value="3">Reporting Screen Only</option>
+                  
+              </select>
+          </div>
               <div class="col-12 mt-4">
                 <table id="datatable1">
                   <thead>
@@ -102,7 +120,7 @@
                     });
                 </script>
             </div>
-s
+
             </div>
             <div class="row mt-3">
 

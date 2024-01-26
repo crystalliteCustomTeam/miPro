@@ -36,8 +36,8 @@ class BasicController extends Controller
         if(count($findStaff) > 0){
             $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
             if($checkHash){
-                print_r($findStaff);
-                return ;
+                $request->session()->put('Staffuser',$findStaff);
+                return redirect('/employee/dashboard');
             }else{
                 return redirect()->back()->with('Error',"Password Not Match !");
             }
@@ -54,6 +54,13 @@ class BasicController extends Controller
         return view('stafflogin');
     }
 
+    function staffdashboard(Request $request){
+        $loginUser = $request->session()->get('Staffuser');
+        $userID = $loginUser[0]->id;
+        $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
+        
+        return view('staffdashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess]);
+    }
 
 
     function registration(Request $request){
@@ -248,9 +255,9 @@ class BasicController extends Controller
     }
 
     function setupdepartments(Request $request){
-        $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner'])->get();
-
-        return view('department',['employees'=>$employees]);
+        $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner',''])->get();
+        $brand = Brand::all();
+        return view('department',['employees'=>$employees,'brands'=>$brand]);
     }
 
 
@@ -356,6 +363,7 @@ class BasicController extends Controller
     }
 
     function kyc(Request $request){
+        $projectManager = Employee::where('position','like','%Project ')->get();
         return view('kyc');
     }
 

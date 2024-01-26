@@ -296,7 +296,7 @@
                   <label for="logo">logo</label><br>
                   <input type="checkbox" id="hosting" name="Other_Services[]" value="hosting" required >
                   <label for="hosting">hosting</label><br>
-                  <input type="checkbox" id="content" name="Other_Services[]" value="content" required >
+                  <input type="checkbox" id="content-web" name="Other_Services[]" value="content" required >
                   <label for="content">content</label><br>
                   <input type="checkbox" id="SEO_Marketing" name="Other_Services[]" value="SEO_Marketing" required >
                   <label for="SEO_Marketing">SEO Marketing</label><br>
@@ -351,7 +351,7 @@
           <label for="logo">logo</label><br>
           <input type="checkbox" id="hosting" name="Other_Services[]" value="hosting" required >
           <label for="hosting">hosting</label><br>
-          <input type="checkbox" id="content" name="Other_Services[]" value="content" required >
+          <input type="checkbox" id="content-logo" name="Other_Services[]" value="content" required >
           <label for="content">content</label><br>
           <input type="checkbox" id="SEO_Marketing" name="Other_Services[]" value="SEO_Marketing" required >
           <label for="SEO_Marketing">SEO Marketing</label> <br>
