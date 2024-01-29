@@ -33,25 +33,33 @@ Route::controller(BasicController::class)->group(function (){
 
     Route::middleware(['authCheck'])->group(function () {
         Route::get('/dashboard','dashboard');
+
         Route::get('/setupcompany','setupcompany');
         Route::get('/companies','companies');
         Route::get('/editcompany/{id}','editcompany');
         Route::get('/deletecompany/{id}','deletecompany');
+
         Route::get('/addbrand/{id}','setupbrand');
         Route::get('/brandlist','brandlist');
         Route::get('/editbrand/{id}','editbrand');
         Route::get('/deletebrand/{id}','deletebrand');
+
         Route::get('/setupdepartments','setupdepartments');
+        Route::get('/departmentlist','departmentlist');
+        Route::get('/editdepartment/{id}','editdepartment');
+        Route::get('/deletedepartment/{id}','deletedepartment');
+
         Route::get('/userlist','userlist');
         Route::get('/createuser','createuser');
         Route::get('/edituser/{id}','edituser');
         Route::get('/deleteuser/{id}','deleteuser');
+
         Route::get('/forms/kyc','kyc');
         Route::get('/forms/qaform','qaform');
         Route::get('/forms/renewalrecurring','renewalrecurring');
         Route::get('/forms/revenueloss','revenueloss');
         Route::get('/forms/paymentconfirmation','paymentconfirmation');
-        Route::get('/departmentlist','departmentlist');
+
 
 
 

@@ -58,7 +58,7 @@ class BasicController extends Controller
         $loginUser = $request->session()->get('Staffuser');
         $userID = $loginUser[0]->id;
         $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
-        
+
         return view('staffdashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess]);
     }
 
@@ -288,6 +288,24 @@ class BasicController extends Controller
         $departments = Department::get();
 
         return view('departmentlist',["departments" => $departments]);
+    }
+
+    function editdepartment(Request $request, $id){
+        $brand = Brand::all();
+        $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner',''])->get();
+        $departdata = Department::where('id', $id)->get();
+
+        return view("editdepartment" ,["departdata"=>$departdata , "employees" => $employees , "brands" => $brand]);
+
+    }
+
+    function deletedepartment(Request $request, $id){
+
+        $branddeleted = DB::table('departments')->where('id', $id)->delete();
+        //$companydeleted = DB::table('companies')->where('id', $id)->delete();
+
+        return redirect('/departmentlist');
+
     }
 
 
