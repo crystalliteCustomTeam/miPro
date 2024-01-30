@@ -17,21 +17,22 @@
           <div class="card-profile-img">
             <img src="https://via.placeholder.com/500" alt="">
           </div><!-- card-profile-img -->
-          <h4 class="tx-normal tx-roboto tx-white">{{ $LoginUser[0]->name }}</h4>
-          <p class="mg-b-25">{{ $LoginUser[0]->email }}</p>
+          @foreach ($employee as $employees)
+          <h4 class="tx-normal tx-roboto tx-white">{{$employees->name}}</h4>
+          <p class="mg-b-25">{{ $employees->email }}</p>
+          @endforeach
 
 
 
 
 
-    </div><!-- card-body -->
-  </div><!-- card -->
+        </div><!-- card-body -->
+      </div><!-- card -->
 
       <div class="ht-70 bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center bd-b bd-gray-400">
         <ul class="nav nav-outline active-primary align-items-center flex-row" role="tablist">
           <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#projects" role="tab">Projects</a></li>
-          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#department" role="tab">Department</a></li>
-          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" role="tab">Favorites</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#clients" role="tab">Clients</a></li>
           <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#" role="tab">Settings</a></li>
         </ul>
       </div>
@@ -42,23 +43,29 @@
             <div class="col-lg-8">
               <div class="media-list bg-white rounded bd bd-gray-400">
                 <div class="media pd-20 pd-xs-30">
-                  <img src="https://via.placeholder.com/500" alt="" class="wd-40 rounded-circle">
+
                   <div class="media-body mg-l-20">
                     <div class="d-flex justify-content-between mg-b-10">
-                      <div>
-                        <h6 class="mg-b-2 tx-inverse tx-14">Louise Kate</h6>
-                        <span class="tx-12 tx-gray-500">@louisekate</span>
-                      </div>
-                      <span class="tx-12">2 minutes ago</span>
+
                     </div><!-- d-flex -->
-                    <p class="mg-b-20">The new common language will be more simple and regular than the existing European languages. It will be as simple as Occidental; in fact, it will be Occidental.</p>
+                        <table id="datatable1">
+                          <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Client Email</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach($ProjectManagers as $pm)
+                            <tr>
+                              <td>{{ $pm->name }}</td>
+                              <td>{{ $pm->email }}</td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
                     <div class="media-footer">
-                      <div>
-                        <a href=""><i class="fa fa-heart"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>
-                      </div>
+
                     </div><!-- d-flex -->
                   </div><!-- media-body -->
                 </div><!-- media -->
@@ -133,38 +140,26 @@
             </div><!-- col-lg-8 -->
             <div class="col-lg-4 mg-t-30 mg-lg-t-0">
               <div class="card pd-20 pd-xs-30 bd-gray-400">
+                @foreach ($employee as $employees)
                 <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-25">Contact Information</h6>
 
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Phone Number</label>
-                <p class="tx-info mg-b-25">+1 234 567 8910</p>
+                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Name</label>
+                <p class="tx-info mg-b-25">{{$employees->name}}</p>
 
                 <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Email Address</label>
-                <p class="tx-inverse mg-b-25">katherine.pechon@themepixels.me</p>
+                <p class="tx-inverse mg-b-25">{{$employees->email}}</p>
 
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Home Address</label>
-                <p class="tx-inverse mg-b-25">1352 Science Center Drive Terreton, ID 83450 </p>
+                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Extention</label>
+                <p class="tx-inverse mg-b-25">{{$employees->extension}}</p>
 
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Office Address</label>
-                <p class="tx-inverse mg-b-50">1352 Science Center Drive Terreton, ID 83450 </p>
-
-                <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-25">Other Information</h6>
-
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Degree</label>
-                <p class="tx-inverse mg-b-25">Bachelor of Science in Computer Science</p>
-
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-5">Skills</label>
-                <ul class="list-unstyled profile-skills">
-                  <li><span>html</span></li>
-                  <li><span>css</span></li>
-                  <li><span>javascript</span></li>
-                  <li><span>php</span></li>
-                  <li><span>photoshop</span></li>
-                  <li><span>java</span></li>
-                  <li><span>angular</span></li>
-                  <li><span>wordpress</span></li>
-                </ul>
+                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Designation</label>
+                <p class="tx-inverse mg-b-50">{{$employees->position}}</p>
+                @foreach ($department as $departments)
+                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Department</label>
+                <p class="tx-inverse mg-b-25">{{$departments->name}}</p>
+                @endforeach
               </div><!-- card -->
-
+                @endforeach
               <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
                 <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-30">People You May Know</h6>
                 <div class="media-list">
@@ -223,29 +218,27 @@
             </div><!-- col-lg-4 -->
           </div><!-- row -->
         </div><!-- tab-pane -->
-        <div class="tab-pane fade" id="department">
+        <div class="tab-pane fade" id="clients">
           <div class="row">
             <div class="col-lg-8">
               <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
-                <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-14 mg-b-30">Recent Photos</h6>
-
-                <div class="row row-xs">
-                  <div class="col-6 col-sm-4 col-md-3"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3"><img src="https://via.placeholder.com/300" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10 mg-sm-t-0"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10 mg-md-t-0"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="https://via.placeholder.com/500" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="http://via.placeholder.com/300x300" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="http://via.placeholder.com/300x300" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="http://via.placeholder.com/300x300" class="img-fluid" alt=""></div>
-                  <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="http://via.placeholder.com/300x300" class="img-fluid" alt=""></div>
-                </div><!-- row -->
-
-                <p class="mg-t-20 mg-b-0">Loading more photos...</p>
-
+                    <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-14 mg-b-30">Projects</h6>
+                    <table id="datatable1">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Client Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($ProjectManagers as $pm)
+                            <tr>
+                              <td>{{ $pm->name }}</td>
+                              <td>{{ $pm->email }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
               </div><!-- card -->
             </div><!-- col-lg-8 -->
             <div class="col-lg-4 mg-t-30 mg-lg-t-0">
@@ -268,89 +261,51 @@
                   <span class="tx-12">24 Photos</span>
                 </div><!-- d-flex -->
 
-            <hr>
+                <hr>
 
-            <div class="row row-xs mg-b-15">
-              <div class="col"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-              <div class="col"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-              <div class="col">
-                <div class="overlay">
-                  <img src="https://via.placeholder.com/600x600" class="img-fluid" alt="">
-                  <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
-                    <span class="tx-white tx-12">20+ more</span>
-                  </div><!-- overlay-body -->
-                </div><!-- overlay -->
-              </div>
-            </div><!-- row -->
-            <div class="d-flex alig-items-center justify-content-between">
-              <h6 class="tx-inverse tx-14 mg-b-0">Mobile Uploads</h6>
-              <span class="tx-12">24 Photos</span>
-            </div><!-- d-flex -->
+                <div class="row row-xs mg-b-15">
+                  <div class="col"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
+                  <div class="col"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
+                  <div class="col">
+                    <div class="overlay">
+                      <img src="https://via.placeholder.com/600x600" class="img-fluid" alt="">
+                      <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
+                        <span class="tx-white tx-12">20+ more</span>
+                      </div><!-- overlay-body -->
+                    </div><!-- overlay -->
+                  </div>
+                </div><!-- row -->
+                <div class="d-flex alig-items-center justify-content-between">
+                  <h6 class="tx-inverse tx-14 mg-b-0">Mobile Uploads</h6>
+                  <span class="tx-12">24 Photos</span>
+                </div><!-- d-flex -->
 
-            <hr>
+                <hr>
 
-            <div class="row row-xs mg-b-15">
-              <div class="col"><img src="http://via.placeholder.com/300x300/0866C6/FFF" class="img-fluid" alt=""></div>
-              <div class="col"><img src="http://via.placeholder.com/300x300/DC3545/FFF" class="img-fluid" alt=""></div>
-              <div class="col">
-                <div class="overlay">
-                  <img src="http://via.placeholder.com/300x300/0866C6/FFF" class="img-fluid" alt="">
-                  <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
-                    <span class="tx-white tx-12">20+ more</span>
-                  </div><!-- overlay-body -->
-                </div><!-- overlay -->
-              </div>
-            </div><!-- row -->
-            <div class="d-flex alig-items-center justify-content-between">
-              <h6 class="tx-inverse tx-14 mg-b-0">Mobile Uploads</h6>
-              <span class="tx-12">24 Photos</span>
-            </div><!-- d-flex -->
+                <div class="row row-xs mg-b-15">
+                  <div class="col"><img src="http://via.placeholder.com/300x300/0866C6/FFF" class="img-fluid" alt=""></div>
+                  <div class="col"><img src="http://via.placeholder.com/300x300/DC3545/FFF" class="img-fluid" alt=""></div>
+                  <div class="col">
+                    <div class="overlay">
+                      <img src="http://via.placeholder.com/300x300/0866C6/FFF" class="img-fluid" alt="">
+                      <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
+                        <span class="tx-white tx-12">20+ more</span>
+                      </div><!-- overlay-body -->
+                    </div><!-- overlay -->
+                  </div>
+                </div><!-- row -->
+                <div class="d-flex alig-items-center justify-content-between">
+                  <h6 class="tx-inverse tx-14 mg-b-0">Mobile Uploads</h6>
+                  <span class="tx-12">24 Photos</span>
+                </div><!-- d-flex -->
 
-            <a href="" class="d-block mg-t-20"><i class="fa fa-angle-down mg-r-5"></i> Show 8 more albums</a>
-          </div><!-- card -->
-        </div><!-- col-lg-4 -->
-      </div><!-- row -->
-    </div><!-- tab-pane -->
-  </div><!-- br-pagebody -->
+                <a href="" class="d-block mg-t-20"><i class="fa fa-angle-down mg-r-5"></i> Show 8 more albums</a>
+              </div><!-- card -->
+            </div><!-- col-lg-4 -->
+          </div><!-- row -->
+        </div><!-- tab-pane -->
+      </div><!-- br-pagebody -->
 
     </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
-
-    <script src="../lib/jquery/jquery.min.js"></script>
-    <script src="../lib/jquery-ui/ui/widgets/datepicker.js"></script>
-    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="../lib/moment/min/moment.min.js"></script>
-    <script src="../lib/peity/jquery.peity.min.js"></script>
-
-    <script src="../js/bracket.js"></script>
-    <script>
-      $(function(){
-        'use strict'
-
-        // FOR DEMO ONLY
-        // menu collapsed by default during first page load or refresh with screen
-        // having a size between 992px and 1199px. This is intended on this page only
-        // for better viewing of widgets demo.
-        $(window).resize(function(){
-          minimizeMenu();
-        });
-
-        minimizeMenu();
-
-        function minimizeMenu() {
-          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1199px)').matches) {
-            // show only the icons and hide left menu label by default
-            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
-            $('body').addClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideUp();
-          } else if(window.matchMedia('(min-width: 1200px)').matches && !$('body').hasClass('collapsed-menu')) {
-            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
-            $('body').removeClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideDown();
-          }
-        }
-      });
-    </script>
-  </body>
-</html>
+@endsection

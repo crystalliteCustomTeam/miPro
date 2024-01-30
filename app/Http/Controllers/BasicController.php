@@ -485,9 +485,9 @@ class BasicController extends Controller
             'clientID' => $request->input('client'),
             'projectManager' => $request->input('pm'),
             'name' => $request->input('name'),
-            "domainOrwebsite" => str_val($request->input('website')),
-            "basecampUrl" => str_val($request->input('basecampurl')),
-            "projectDescription" =>  str_val($request->input('openingcomments'))
+            "domainOrwebsite" => $request->input('website'),
+            "basecampUrl" => $request->input('basecampurl'),
+            "projectDescription" =>  $request->input('openingcomments')
         ]);
 
         return redirect('/client/details/'.$request->input('client'));
