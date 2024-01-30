@@ -42,7 +42,7 @@
                 <div class="col-3 mt-3">
                   <label for="" style="font-weight:bold;">Brand:</label>
                   <select class="form-control" id="select2forme" required name="brand">
-                  
+
                   @foreach ($Brands as $brand)
                         <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                   @endforeach
@@ -53,23 +53,23 @@
                   <select class="form-control" id="frontsale"  required name="saleperson">
                   @foreach($ProjectManagers as $pm)
                       <option value="{{ $pm->id }}">
-                        {{ $pm->name }} 
-                        -- 
+                        {{ $pm->name }}
+                        --
                         @foreach($pm->deparment($pm->id)  as $dm)
                           <strong>{{ $dm->name }}</strong>
                         @endforeach
                       </option>
                   @endforeach
                 </select>
-                 
+
                 </div>
                 <div class="col-3 mt-3">
                   <label for="" style="font-weight:bold;">Project manager:</label>
                   <select class="form-control" id="projectmanager" required name="projectmanager">
                     @foreach($ProjectManagers as $pm)
                         <option value="{{ $pm->id }}">
-                          {{ $pm->name }} 
-                          -- 
+                          {{ $pm->name }}
+                          --
                           @foreach($pm->deparment($pm->id)  as $dm)
                             <strong>{{ $dm->name }}</strong>
                           @endforeach
@@ -77,7 +77,7 @@
                     @endforeach
                   </select>
                 </div>
-                
+
                 <div class="col-3 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
@@ -90,7 +90,7 @@
                   <label for="" style="font-weight:bold;">Facebook Url</label>
                   <input type="text" required name="facebookurl" required class="form-control">
                 </div>
-                
+
                 <div class="col-3 mt-3">
                   <label for="" style="font-weight:bold;">Instagram Url</label>
                   <input type="text" required name="instagramurl" required class="form-control">

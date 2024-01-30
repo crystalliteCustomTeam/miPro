@@ -39,7 +39,7 @@
 
                 @foreach($Employees as $employees)
                 <tr role="row" class="odd">
-                  <td tabindex="0" class="sorting_1">{{ $employees->name }}</td>
+                  <td tabindex="0" class="sorting_1"><a href="/userprofile/{{ $employees->id }}">{{ $employees->name }}</a></td>
                   <td>{{ $employees->email }}</td>
                   <td>{{ $employees->extension }}</td>
                   <td>{{ $employees->position }}</td>

@@ -54,7 +54,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/createuser','createuser');
         Route::get('/edituser/{id}','edituser');
         Route::get('/deleteuser/{id}','deleteuser');
-        Route::get('/userprofile','userprofile');
+        Route::get('/userprofile/{id}','userprofile');
 
         Route::get('/forms/kyc','kyc');
         Route::get('/forms/qaform','qaform');
