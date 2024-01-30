@@ -32,7 +32,9 @@ class BasicController extends Controller
         $email = $request->input('userName');
 
         $staffPassword = $request->input('userPassword');
+
         $findStaff = Employee::where('email',$email)->get();
+
         if(count($findStaff) > 0){
             $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
             if($checkHash){
@@ -61,6 +63,7 @@ class BasicController extends Controller
 
         return view('staffdashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess]);
     }
+
 
 
     function registration(Request $request){
@@ -299,12 +302,41 @@ class BasicController extends Controller
 
     }
 
+    function editdepartmentprocess(Request $request, $id){
+        $departname = $request['name'];
+        $departmanager= $request['manager'];
+        $departbrand = $request['brand'];
+        $departaccess = $request['access'] ;
+        $departselectedEmployees  = explode(",",$request->input('Employeesdata'));
+
+
+        $editdepart = Department::where('id', $id)
+            ->update(
+            [
+                'name' => $departname ,
+                'manager' => $departmanager ,
+                'users' => json_encode($departselectedEmployees) ,
+                'brand' => $departbrand ,
+                'access' => $departaccess
+            ]);
+            return redirect('/departmentlist');
+
+    }
+
     function deletedepartment(Request $request, $id){
 
         $branddeleted = DB::table('departments')->where('id', $id)->delete();
         //$companydeleted = DB::table('companies')->where('id', $id)->delete();
 
         return redirect('/departmentlist');
+
+    }
+
+    function departmentusers(Request $request, $id){
+        $brand = Brand::all();
+        $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner',''])->get();
+        $departdata = Department::where('id', $id)->get();
+        return view("departmentuser" ,["departdata"=>$departdata , "employees" => $employees , "brands" => $brand]);
 
     }
 
@@ -353,6 +385,16 @@ class BasicController extends Controller
         $employees  = Employee::get();
 
         return view('userlists',["Employees" => $employees]);
+    }
+
+    function userprofile(Request $request){
+        $loginUser = $request->session()->get('Staffuser');
+        $userID = $loginUser[0]->id;
+        $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
+
+        return view("userprofile" ,['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess]);
+
+
     }
 
     function createuserprocess(Request $request){

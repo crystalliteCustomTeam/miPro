@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-3" >
                   <label for="" style="font-weight:bold;">Last communication with client </label>
-                  <input type="date" name="lastcommunication" required class="form-control">
+                  <input type="date" name="last_communication_with_client" required class="form-control">
                 </div>
                 <div class="col-3">
                     <label for="" style="font-weight:bold;">Medium of communication </label><br>
@@ -58,7 +58,7 @@
                     <label for="Whatsapp">Whatsapp</label><br>
                 </div>
                 <div class="col-3">
-                    <label for="" style="font-weight:bold;"> Status </label><br>
+                    <label for="" style="font-weight:bold;">Status </label><br>
                     <input type="radio" id="dispute" name="status" value="dispute">
                     <label for="dispute">Dispute</label><br>
                     <input type="radio" id="refund" name="status" value="refund">

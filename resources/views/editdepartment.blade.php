@@ -37,7 +37,8 @@
                   <label for="">Department Manager</label>
                   <select class="form-control" name="manager">
                     @foreach($employees as $employee)
-                      <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                      <option value="{{ $employee->id }}" {{ $employee->id == $departeditdata->manager ? 'selected' : '' }}>{{ $employee->name }}</option>
+
                     @endforeach
                   </select>
               </div>
@@ -45,18 +46,32 @@
                 <label for="">Select Brand</label>
                 <select class="form-control" name="brand">
                   @foreach($brands as $brand)
-                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                    <option value="{{ $brand->id }}" {{ $brand->id == $departeditdata->brand ? 'selected' : '' }}>{{ $brand->name }}</option>
                   @endforeach
                 </select>
             </div>
+
             <div class="col-3">
-              <label for="">Select Access</label>
-              <select class="form-control" name="access">
+                <label for="">Select Access</label>
+                <select class="form-control" name="access">
+                  @php
+                      $access = $departeditdata->access;
+                      $accessdata = "";
+                      if ($access == 0) {
+                          $accessdata = "Admin";
+                      } elseif ($access == 1) {
+                          $accessdata = "Project Manager Or Sales Persons";
+                      } elseif ($access == 2) {
+                          $accessdata = "QA";
+                      } else {
+                          $accessdata = "Reporting Screen Only";
+                      }
+                  @endphp
+                  <option value="{{ $access }}" selected>{{ $accessdata }}</option>
                   <option value="0">Admin</option>
                   <option value="1">Project Manager Or Sales Persons</option>
                   <option value="2">QA</option>
                   <option value="3">Reporting Screen Only</option>
-
               </select>
           </div>
               <div class="col-12 mt-4">
@@ -72,7 +87,11 @@
                     <tr>
                       <td>{{ $employee->name }}</td>
                       <td>{{ $employee->position }}</td>
-                      <td><input type="checkbox" name="selectedEmployees[]"  value="{{$employee->id  }}" class="employee-checkbox"></td>
+                        @if(in_array($employee->id, json_decode($departeditdata->users)))
+                        <td><input type="checkbox" name="selectedEmployees[]" checked="true" value="{{$employee->id  }}" class="employee-checkbox"></td>
+                        @else
+                        <td><input type="checkbox" name="selectedEmployees[]" value="{{$employee->id  }}"  class="employee-checkbox"></td>
+                        @endif
                       <td>{{ $employee->email }}</td>
 
                     </tr>
@@ -83,7 +102,12 @@
                     // JavaScript code to handle checkbox events and update the array
                     document.addEventListener('DOMContentLoaded', function () {
                         // Array to store selected employee IDs
-                        var selectedEmployees = [];
+
+                        var selectedEmployees = [
+                            @foreach (json_decode($departeditdata->users) as $users)
+                                    {{$users}},
+                            @endforeach()
+                        ]
 
                         // Function to update the array when a checkbox is clicked
                         function updateArray(checkbox) {
@@ -128,7 +152,7 @@
 
                 <div class="col-4">
                     <br>
-                    <input type="submit" value="Create" name="" class="btn btn-success mt-2">
+                    <input type="submit" value="Update" name="" class="btn btn-success mt-2">
                 </div>
                 <div class="col-4">
                         @if (Session::has('Success'))
@@ -175,3 +199,6 @@
       </div><!-- br-mainpanel -->
       <!-- ########## END: MAIN PANEL ########## -->
 @endsection
+
+
+
