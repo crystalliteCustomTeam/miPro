@@ -9,6 +9,8 @@ use App\Models\Brand;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Models\Client;
+use App\Models\Project;
+
 
 
 class BasicController extends Controller
@@ -469,6 +471,44 @@ class BasicController extends Controller
 
     function paymentconfirmation(Request $request){
         return view('paymentconfirmation');
+    }
+
+
+    function clientProject(){
+        $findclient = Client::get();
+        $employee = Employee::get();
+        return view('project',['clients'=>$findclient,'employee' => $employee]);
+    }
+
+    function clientProjectProcess(Request $request){
+        Project::create([
+            'clientID' => $request->input('client'),
+            'projectManager' => $request->input('pm'),
+            'name' => $request->input('name'),
+            "domainOrwebsite" => str_val($request->input('website')),
+            "basecampUrl" => str_val($request->input('basecampurl')),
+            "projectDescription" =>  str_val($request->input('openingcomments'))
+        ]);
+
+        return redirect('/client/details/'.$request->input('client'));
+    }
+
+    function getclientDetails(Request $request , $clientID){
+        $findclient = Client::where('id',$clientID)->get();
+        $allprojects = Project::where('clientID',$clientID)->get();
+        $recentClients = Client::where('id','!=',$clientID)->limit(5)->get();
+        if(count($allprojects) > 0){
+            $findProject_Manager = Employee::where('id',$allprojects[0]->projectManager)->get();
+        }
+        else {
+            $findProject_Manager = [];
+        }
+        return view('clientDetail',['client'=>$findclient,'recentClients'=>$recentClients,'projects'=>$allprojects,'findProject_Manager'=>$findProject_Manager]);
+    }
+
+    function allclients(Request $request){
+        $findclient = Client::get();
+        return view('allclients',['clients'=>$findclient]);
     }
 }
 

@@ -60,7 +60,7 @@
         <span class="menu-item-label">Forms</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="/forms/kyc" class="sub-link">Client Registration Form</a></li>
+
         <li class="sub-item"><a href="/forms/qaform" class="sub-link">Qa Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Renewal/Resurring Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Revenue Loss</a></li>
@@ -70,36 +70,20 @@
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
-        <span class="menu-item-label">UI Elements</span>
+        <span class="menu-item-label">Client Registration</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="accordion.html" class="sub-link">Accordion</a></li>
-        <li class="sub-item"><a href="alerts.html" class="sub-link">Alerts</a></li>
-        <li class="sub-item"><a href="buttons.html" class="sub-link">Buttons</a></li>
-        <li class="sub-item"><a href="cards.html" class="sub-link">Cards</a></li>
-        <li class="sub-item"><a href="carousel.html" class="sub-link">Carousel</a></li>
-        <li class="sub-item"><a href="dropdowns.html" class="sub-link">Dropdowns</a></li>
-        <li class="sub-item"><a href="icons.html" class="sub-link">Icons</a></li>
-        <li class="sub-item"><a href="images.html" class="sub-link">Images</a></li>
-        <li class="sub-item"><a href="list.html" class="sub-link">Lists</a></li>
-        <li class="sub-item"><a href="modal.html" class="sub-link">Modal</a></li>
-        <li class="sub-item"><a href="media.html" class="sub-link">Media Object</a></li>
-        <li class="sub-item"><a href="pagination.html" class="sub-link">Pagination</a></li>
-        <li class="sub-item"><a href="popups.html" class="sub-link">Tooltip &amp; Popover</a></li>
-        <li class="sub-item"><a href="progress.html" class="sub-link">Progress</a></li>
-        <li class="sub-item"><a href="spinners.html" class="sub-link">Spinners</a></li>
-        <li class="sub-item"><a href="typography.html" class="sub-link">Typography</a></li>
+        <li class="sub-item"><a href="/forms/kyc" class="sub-link">Client Kyc</a></li>
+        <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li>
       </ul>
     </li><!-- br-menu-item -->
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
-        <span class="menu-item-label">Navigation</span>
+        <span class="menu-item-label">Projects</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="navigation.html" class="sub-link">Basic Nav</a></li>
-        <li class="sub-item"><a href="navigation-layouts.html" class="sub-link">Nav Layouts</a></li>
-        <li class="sub-item"><a href="navigation-effects.html" class="sub-link">Nav Effects</a></li>
+        <li class="sub-item"><a href="/client/project" class="sub-link">Create Project</a></li>
       </ul>
     </li><!-- br-menu-item -->
     <li class="br-menu-item">

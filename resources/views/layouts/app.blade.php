@@ -466,7 +466,7 @@
       });
 
       $(document).ready(function() {
-        $('#select2forme,#frontsale,#projectmanager').select2();
+        $('#select2forme,#frontsale,#projectmanager,.select2').select2();
         frontsale
       });
     </script>

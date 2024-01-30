@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Client extends Model
 {
@@ -24,4 +25,9 @@ class Client extends Model
         'youtube',
         'comments'
     ];
+
+    public function findbrand($employeList)
+    {
+        return DB::table('brands')->where('id',$employeList)->get();
+    }
 }
