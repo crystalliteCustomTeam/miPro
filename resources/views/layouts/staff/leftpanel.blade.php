@@ -60,12 +60,8 @@
         <span class="menu-item-label">Forms</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="/createuser" class="sub-link">Employee Registration form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">Book KYC Form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">SEO KYC Form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">Website KYC Form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">CLD KYC Form</a></li>
-        <li class="sub-item"><a href="/searchuser" class="sub-link">Qa Form</a></li>
+        <li class="sub-item"><a href="/forms/kyc" class="sub-link">KYC Form</a></li>
+        <li class="sub-item"><a href="/forms/qaform" class="sub-link">Qa Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Renewal/Resurring Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Revenue Loss</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Payment Confirmation Form</a></li>
@@ -73,7 +69,7 @@
     </li>
 
     @elseif($departmentAccess[0]->access == 1)
-    
+
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
@@ -85,7 +81,7 @@
         <li class="sub-item"><a href="/searchuser" class="sub-link">Search Users</a></li>
       </ul>
     </li>
-    
+
     @elseif($departmentAccess[0]->access == 2)
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
@@ -93,20 +89,16 @@
         <span class="menu-item-label">Forms</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="/createuser" class="sub-link">Employee Registration form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">Book KYC Form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">SEO KYC Form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">Website KYC Form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">CLD KYC Form</a></li>
-        <li class="sub-item"><a href="/searchuser" class="sub-link">Qa Form</a></li>
+        <li class="sub-item"><a href="/forms/kyc" class="sub-link">KYC Form</a></li>
+        <li class="sub-item"><a href="/forms/qaform" class="sub-link">Qa Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Renewal/Resurring Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Revenue Loss</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Payment Confirmation Form</a></li>
       </ul>
     </li>
     @endif
-    
-    
+
+
   </ul><!-- br-sideleft-menu -->
 
   <label class="sidebar-label pd-x-10 mg-t-25 mg-b-20 tx-primary">Information Summary</label>

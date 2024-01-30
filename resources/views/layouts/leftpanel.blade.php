@@ -60,12 +60,8 @@
         <span class="menu-item-label">Forms</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="/createuser" class="sub-link">Employee Registration form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">Book KYC Form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">SEO KYC Form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">Website KYC Form</a></li>
-        <li class="sub-item"><a href="/createuser" class="sub-link">CLD KYC Form</a></li>
-        <li class="sub-item"><a href="/searchuser" class="sub-link">Qa Form</a></li>
+        <li class="sub-item"><a href="/forms/kyc" class="sub-link">KYC Form</a></li>
+        <li class="sub-item"><a href="/forms/qaform" class="sub-link">Qa Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Renewal/Resurring Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Revenue Loss</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Payment Confirmation Form</a></li>

@@ -48,11 +48,13 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/departmentlist','departmentlist');
         Route::get('/editdepartment/{id}','editdepartment');
         Route::get('/deletedepartment/{id}','deletedepartment');
+        Route::get('/departmentusers/{id}','departmentusers');
 
         Route::get('/userlist','userlist');
         Route::get('/createuser','createuser');
         Route::get('/edituser/{id}','edituser');
         Route::get('/deleteuser/{id}','deleteuser');
+        Route::get('/userprofile','userprofile');
 
         Route::get('/forms/kyc','kyc');
         Route::get('/forms/qaform','qaform');
@@ -66,11 +68,16 @@ Route::controller(BasicController::class)->group(function (){
         //PROCESSES
         Route::post('/setupcompany/process','setupcompanyprocess');
         Route::post('/editcompany/{id}/process','editcompanyprocess');
-        Route::post('/editbrand/{id}/process','editbrandprocess');
-        Route::post('/edituser/{id}/process','edituserprocess');
+
         Route::post('/setupbrand/process','setupbrandprocess');
+        Route::post('/editbrand/{id}/process','editbrandprocess');
+
         Route::post('/createuser/process','createuserprocess');
+        Route::post('/edituser/{id}/process','edituserprocess');
+
+
         Route::post('/setupdepartment/process','setupdepartmentsProcess');
+        Route::post('/editdepartment/{id}/process','editdepartmentprocess');
         Route::post('/forms/kyc/process/client','kycclientprocess');
     });
 

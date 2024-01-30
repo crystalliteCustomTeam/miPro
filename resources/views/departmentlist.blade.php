@@ -44,7 +44,7 @@
                       <div class="btn-group">
                           <a href="/deletedepartment/{{ $department->id }}"><button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button></a>
                           <a href="/editdepartment/{{ $department->id }}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Edit </button></a>
-                          <a href=""><button class="btn btn-primary btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/5397/5397601.png" alt="" style="filter: invert(1);"> {{ count($department->findEmp($department->users)) }} Employees </button></a>
+                          <a href="/departmentusers/{{ $department->id }}"><button class="btn btn-primary btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/5397/5397601.png" alt="" style="filter: invert(1);"> {{ count($department->findEmp($department->users)) }} Employees </button></a>
 
                       </div>
                     </td>
