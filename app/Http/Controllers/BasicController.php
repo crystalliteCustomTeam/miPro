@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Brand;
 use App\Models\Employee;
 use App\Models\Department;
+use App\Models\Client;
 
 
 class BasicController extends Controller
@@ -381,8 +382,35 @@ class BasicController extends Controller
     }
 
     function kyc(Request $request){
-        $projectManager = Employee::where('position','like','%Project ')->get();
-        return view('kyc');
+        $brand = Brand::all();
+        $projectManager = Employee::get();
+        
+        return view('kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager]);
+    }
+
+    function kycclientprocess(Request $request){
+        $findclient = Client::where('email',$request->input('email'))->get();
+        if(count($findclient) > 0){
+            return redirect()->back()->with('Error','Client Email Found Please Used New Email');
+        }
+        $createEmployee = Client::create([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'brand' => $request->input('brand'),
+            'frontSeler' => $request->input('saleperson'),
+            'projectManager' => $request->input('projectmanager'),
+            'website' => $request->input('website'),
+            'basecamp' => $request->input('basecampurl'),
+            'facebook' => $request->input('facebookurl'),
+            'instagram' => $request->input('instagramurl'),
+            'twitter' => $request->input('twitterurl'),
+            'youtube' => $request->input('youtubeurl'),
+            'comments' => $request->input('openingcomments'),
+        ]);
+
+        return redirect()->back()->with('Success','Client Created !!');
+
     }
 
     function qaform(Request $request){

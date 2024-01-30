@@ -71,6 +71,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/setupbrand/process','setupbrandprocess');
         Route::post('/createuser/process','createuserprocess');
         Route::post('/setupdepartment/process','setupdepartmentsProcess');
+        Route::post('/forms/kyc/process/client','kycclientprocess');
     });
 
     Route::middleware(['authCheckStaff'])->group(function () {

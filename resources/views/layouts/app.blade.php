@@ -19,6 +19,8 @@
     <link href="{{ asset('lib/select2/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/datatables.net-dt/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{{ asset('css/bracket.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bracket.oreo.css') }}">
@@ -460,12 +462,14 @@
 
         $('#datatable1').DataTable({
 
-        
         });
+      });
 
-        
-
+      $(document).ready(function() {
+        $('#select2forme,#frontsale,#projectmanager').select2();
+        frontsale
       });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   </body>
 </html>
