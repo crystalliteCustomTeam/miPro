@@ -57,11 +57,13 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/userprofile','userprofile');
 
         Route::get('/forms/kyc','kyc');
+        Route::get('/client/project','clientProject');
         Route::get('/forms/qaform','qaform');
         Route::get('/forms/renewalrecurring','renewalrecurring');
         Route::get('/forms/revenueloss','revenueloss');
         Route::get('/forms/paymentconfirmation','paymentconfirmation');
-
+        Route::get('/client/details/{id}','getclientDetails');
+        Route::get('/all/clients','allclients');
 
 
 
@@ -79,6 +81,8 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/setupdepartment/process','setupdepartmentsProcess');
         Route::post('/editdepartment/{id}/process','editdepartmentprocess');
         Route::post('/forms/kyc/process/client','kycclientprocess');
+        Route::post('/client/project/process','clientProjectProcess');
+
     });
 
     Route::middleware(['authCheckStaff'])->group(function () {
