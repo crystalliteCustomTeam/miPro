@@ -392,10 +392,17 @@ class BasicController extends Controller
 
     function userprofile(Request $request, $id){
         $employee = Employee::where('id', $id)->get();
-        $ProjectManagers = Client::where('projectManager', $id)->get();
+        $client = Client::where('projectManager', $id)->get();
+        $project = Project::where('projectManager', $id)->get();
         $department = Department::whereJsonContains('users', "$id" )->get();
+        if(count($project) > 0){
+            $find_client = Client::where('id',$project[0]->clientID)->get();
+        }
+        else {
+            $find_client = [];
+        }
 
-        return view("userprofile" ,["employee"=>$employee, "ProjectManagers"=>$ProjectManagers , "department"=>$department]);
+        return view("userprofile" ,["employee"=>$employee, "client"=>$client , "department"=>$department  , "project"=>$project  , "find_client"=>$find_client]);
 
 
     }

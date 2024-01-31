@@ -17,10 +17,10 @@
           <div class="card-profile-img">
             <img src="https://via.placeholder.com/500" alt="">
           </div><!-- card-profile-img -->
-          @foreach ($employee as $employees)
-          <h4 class="tx-normal tx-roboto tx-white">{{$employees->name}}</h4>
-          <p class="mg-b-25">{{ $employees->email }}</p>
-          @endforeach
+
+          <h4 class="tx-normal tx-roboto tx-white">{{$employee[0]->name }}</h4>
+          <p class="mg-b-25">{{$employee[0]->email }}</p>
+
 
 
 
@@ -42,124 +42,59 @@
           <div class="row">
             <div class="col-lg-8">
               <div class="media-list bg-white rounded bd bd-gray-400">
-                <div class="media pd-20 pd-xs-30">
+                  @if (count($project) > 0)
+                  @foreach ($project as $project)
+                  <div class="media pd-20 pd-xs-30">
+                      <img src="https://cdn-icons-png.flaticon.com/32/7792/7792148.png" alt="" class="wd-40 rounded-circle">
+                      <div class="media-body mg-l-20">
+                        <div class="d-flex justify-content-between mg-b-10">
+                          <div>
+                            <h6 class="mg-b-2 tx-inverse tx-14">{{ $project->name }}</h6>
+                            <span class="tx-12 tx-gray-500">{{ $project->clientID }}</span>
+                          </div>
+                          <span class="tx-12">{{ $project->created_at }}</span>
+                        </div><!-- d-flex -->
+                        <p class="mg-b-20">{{ $project->projectDescription }}</p>
+                        <div class="media-footer">
+                          <div>
+                            <a href=""><i class="fa fa-heart"></i></a>
+                            <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
+                            <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
+                            <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>
+                          </div>
+                        </div><!-- d-flex -->
+                      </div><!-- media-body -->
+                    </div><!-- media -->
+                  @endforeach
+                  @else
+                    <p>No Project Created Yet ! <a href="/client/project">Create From Here</a></p>
+                  @endif
 
-                  <div class="media-body mg-l-20">
-                    <div class="d-flex justify-content-between mg-b-10">
+                </div><!-- card -->
 
-                    </div><!-- d-flex -->
-                        <table id="datatable1">
-                          <thead>
-                            <tr>
-                                <th>Client Name</th>
-                                <th>Client Email</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            @foreach($ProjectManagers as $pm)
-                            <tr>
-                              <td>{{ $pm->name }}</td>
-                              <td>{{ $pm->email }}</td>
-                            </tr>
-                            @endforeach
-                          </tbody>
-                        </table>
-                    <div class="media-footer">
 
-                    </div><!-- d-flex -->
-                  </div><!-- media-body -->
-                </div><!-- media -->
-                <div class="media pd-20 pd-xs-30">
-                  <img src="https://via.placeholder.com/500" alt="" class="wd-40 rounded-circle">
-                  <div class="media-body mg-l-20">
-                    <div class="d-flex justify-content-between mg-b-10">
-                      <div>
-                        <h6 class="mg-b-2 tx-inverse tx-14">Annie Lee</h6>
-                        <span class="tx-12 tx-gray-500">@annielee</span>
-                      </div>
-                      <span class="tx-12">1 hour ago</span>
-                    </div><!-- d-flex -->
-                    <img src="https://via.placeholder.com/1000x400" class="img-fluid mg-b-10" alt="">
-                    <div class="media-footer">
-                      <div>
-                        <a href=""><i class="fa fa-heart"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>
-                      </div>
-                    </div><!-- d-flex -->
-                  </div><!-- media-body -->
-                </div><!-- media -->
-                <div class="media pd-20 pd-xs-30">
-                  <img src="https://via.placeholder.com/500" alt="" class="wd-40 rounded-circle">
-                  <div class="media-body mg-l-20">
-                    <div class="d-flex justify-content-between mg-b-10">
-                      <div>
-                        <h6 class="mg-b-2 tx-inverse tx-14">Annie Lee</h6>
-                        <span class="tx-12 tx-gray-500">@annielee</span>
-                      </div>
-                      <span class="tx-12">2 hours ago</span>
-                    </div><!-- d-flex -->
-                    <p class="mg-b-20">To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words.</p>
-                    <div class="media-footer">
-                      <div>
-                        <a href=""><i class="fa fa-heart tx-danger"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>
-                      </div>
-                    </div><!-- d-flex -->
-                  </div><!-- media-body -->
-                </div><!-- media -->
-                <div class="media pd-20 pd-xs-30">
-                  <img src="https://via.placeholder.com/500" alt="" class="wd-40 rounded-circle">
-                  <div class="media-body mg-l-20">
-                    <div class="d-flex justify-content-between mg-b-10">
-                      <div>
-                        <h6 class="mg-b-2 tx-inverse tx-14">Mark Anthony</h6>
-                        <span class="tx-12 tx-gray-500">@markanthony</span>
-                      </div>
-                      <span class="tx-12">2 hours ago</span>
-                    </div><!-- d-flex -->
-                    <p class="lead pd-30 bg-purple tx-white">Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.</p>
-                    <div class="media-footer">
-                      <div>
-                        <a href=""><i class="fa fa-heart"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
-                        <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>
-                      </div>
-                    </div><!-- d-flex -->
-                  </div><!-- media-body -->
-                </div><!-- media -->
-              </div><!-- card -->
-
-              <div class="bg-white pd-y-12 tx-center mg-t-15 mg-xs-t-30 bd bd-gray-400 rounded">
-                <a href="" class="tx-gray-600 hover-info">Load more</a>
-              </div>
             </div><!-- col-lg-8 -->
             <div class="col-lg-4 mg-t-30 mg-lg-t-0">
               <div class="card pd-20 pd-xs-30 bd-gray-400">
-                @foreach ($employee as $employees)
                 <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-25">Contact Information</h6>
 
                 <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Name</label>
-                <p class="tx-info mg-b-25">{{$employees->name}}</p>
+                <p class="tx-info mg-b-25">{{$employee[0]->name }}</p>
 
                 <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Email Address</label>
-                <p class="tx-inverse mg-b-25">{{$employees->email}}</p>
+                <p class="tx-inverse mg-b-25">{{$employee[0]->email }}</p>
 
                 <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Extention</label>
-                <p class="tx-inverse mg-b-25">{{$employees->extension}}</p>
+                <p class="tx-inverse mg-b-25">{{$employee[0]->extension }}</p>
 
                 <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Designation</label>
-                <p class="tx-inverse mg-b-50">{{$employees->position}}</p>
-                @foreach ($department as $departments)
+                <p class="tx-inverse mg-b-50">{{$employee[0]->position }}</p>
+
                 <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Department</label>
-                <p class="tx-inverse mg-b-25">{{$departments->name}}</p>
-                @endforeach
+                <p class="tx-inverse mg-b-25">{{$department[0]->name }}</p>
+
               </div><!-- card -->
-                @endforeach
+
               <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
                 <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-30">People You May Know</h6>
                 <div class="media-list">
@@ -231,7 +166,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($ProjectManagers as $pm)
+                            @foreach($client as $pm)
                             <tr>
                               <td>{{ $pm->name }}</td>
                               <td>{{ $pm->email }}</td>
