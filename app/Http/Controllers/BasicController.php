@@ -432,12 +432,12 @@ class BasicController extends Controller
         }
     }
 
-    function kyc(Request $request){
+    function seo(Request $request){
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
 
-        return view('kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
+        return view('seo_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
     }
 
     function kycclientprocess(Request $request){
@@ -451,14 +451,7 @@ class BasicController extends Controller
             'email' => $request->input('email'),
             'brand' => $request->input('brand'),
             'frontSeler' => $request->input('saleperson'),
-            'projectManager' => $request->input('projectmanager'),
             'website' => $request->input('website'),
-            'basecamp' => $request->input('basecampurl'),
-            'facebook' => $request->input('facebookurl'),
-            'instagram' => $request->input('instagramurl'),
-            'twitter' => $request->input('twitterurl'),
-            'youtube' => $request->input('youtubeurl'),
-            'comments' => $request->input('openingcomments'),
         ]);
 
         return redirect()->back()->with('Success','Client Created !!');

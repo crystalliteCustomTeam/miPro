@@ -25,6 +25,7 @@
 
            <form action="/forms/kyc/process/client" method="POST">
             @csrf
+            <input type="hidden" name="serviceType" value="seo">
 
             <div class="row">
                 <div class="col-4 mt-3">
@@ -144,7 +145,7 @@
                     @endforeach
                     </select>
                   </div>
-                  <div class="col-8 mt-3">
+                  <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Anymore commitments?</label>
                     <input type="text" class="form-control" name="seo_anycommitment">
                   </div>

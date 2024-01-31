@@ -18,14 +18,7 @@ return new class extends Migration
             $table->string('email');
             $table->integer('brand');
             $table->integer('frontSeler');
-            $table->integer('projectManager');
             $table->string('website');
-            $table->string('basecamp');
-            $table->string('facebook');
-            $table->string('instagram');
-            $table->string('twitter');
-            $table->string('youtube');
-            $table->text('comments');
             $table->timestamps();
         });
     }

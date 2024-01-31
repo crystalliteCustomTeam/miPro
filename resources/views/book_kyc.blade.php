@@ -24,6 +24,7 @@
           <div class="br-section-wrapper">
            <form action="/forms/kyc/process/client" method="POST">
             @csrf
+            <input type="hidden" name="serviceType" value="book">
 
             <div class="row">
                 <div class="col-4 mt-3">
