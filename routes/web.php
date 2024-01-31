@@ -57,6 +57,9 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/userprofile/{id}','userprofile');
 
         Route::get('/forms/kyc','kyc');
+        Route::get('/forms/book','book');
+        Route::get('/forms/website','website');
+        Route::get('/forms/cld','cld');
         Route::get('/client/project','clientProject');
         Route::get('/forms/qaform','qaform');
         Route::get('/forms/renewalrecurring','renewalrecurring');
