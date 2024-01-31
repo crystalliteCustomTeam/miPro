@@ -27,19 +27,19 @@
             @csrf
 
             <div class="row">
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Name:</label>
                     <input type="text" required name="name" class="form-control" required>
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Phone Number:</label>
                     <input type="text" required name="phone" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Email:</label>
                     <input type="email" required name="email" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Brand:</label>
                   <select class="form-control" id="select2forme" required name="brand">
 
@@ -48,7 +48,7 @@
                   @endforeach
                   </select>
                 </div>
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Sales Person:</label>
                   <select class="form-control" id="frontsale"  required name="saleperson">
                   @foreach($ProjectManagers as $pm)
@@ -65,12 +65,12 @@
                 </div>
 
 
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
                 </div>
 
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Select Services</label>
                   <select class="form-control" name="selectCategory">
                       <option value="0">Select Category For Kyc</option>
@@ -80,15 +80,15 @@
                       <option value="4">WEB</option>
                   </select>
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package Name</label>
                     <input type="text" class="form-control" name="package">
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Keyword Count</label>
                     <input type="text" class="form-control" name="KeywordCount">
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Target Market</label>
                     <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple">
                         <option value="Global">Global</option>
@@ -155,7 +155,7 @@
                     @endforeach
                     </select>
                   </div>
-                  <div class="col-12 mt-3">
+                  <div class="col-8 mt-3">
                     <label for="" style="font-weight:bold;">Anymore commitment?</label>
                     <input type="text" class="form-control" name="seo_anycommitment">
                   </div>

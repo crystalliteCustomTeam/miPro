@@ -27,19 +27,19 @@
             @csrf
 
             <div class="row">
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Name:</label>
                     <input type="text" required name="name" class="form-control" required>
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Phone Number:</label>
                     <input type="text" required name="phone" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Email:</label>
                     <input type="email" required name="email" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Brand:</label>
                   <select class="form-control" id="select2forme" required name="brand">
 
@@ -139,7 +139,7 @@
                     <label for="" style="font-weight:bold;">Next Amount</label>
                     <input type="text" class="form-control" name="cld_nextamount">
                   </div>
-                      <div class="col-12 mt-3">
+                      <div class="col-8 mt-3">
                         <label for="" style="font-weight:bold;">Other Service Details?</label>
                         <input type="text" class="form-control" name="cld_anyotherservice">
                       </div>

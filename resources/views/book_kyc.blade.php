@@ -27,19 +27,19 @@
             @csrf
 
             <div class="row">
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Name:</label>
                     <input type="text" required name="name" class="form-control" required>
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Phone Number:</label>
                     <input type="text" required name="phone" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Email:</label>
                     <input type="email" required name="email" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Brand:</label>
                   <select class="form-control" id="select2forme" required name="brand">
 
@@ -48,7 +48,7 @@
                   @endforeach
                   </select>
                 </div>
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Sales Person:</label>
                   <select class="form-control" id="frontsale"  required name="saleperson">
                   @foreach($ProjectManagers as $pm)
@@ -65,12 +65,12 @@
                 </div>
 
 
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
                 </div>
 
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Select Services</label>
                   <select class="form-control" name="selectCategory">
                       <option value="0">Select Category For Kyc</option>
@@ -80,7 +80,7 @@
                       <option value="4">WEB</option>
                   </select>
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Product</label>
                     <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple">
                         <option value="Editing & Proofreading">Editing & Proofreading</option>
@@ -90,40 +90,40 @@
 
                     </select>
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">MenuScript Provided?</label>
                     <select class="form-control select2"  required name="menuscript">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
                   </div>
-                    <div class="col-3 mt-3">
+                    <div class="col-4 mt-3">
                       <label for="" style="font-weight:bold;">Genre of the book?</label>
                       <input type="text" class="form-control" name="bookgenre">
                     </div>
-                    <div class="col-3 mt-3">
+                    <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Cover design included?</label>
                         <select class="form-control select2"  required name="coverdesign">
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                       </div>
-                    <div class="col-3 mt-3">
+                    <div class="col-4 mt-3">
                       <label for="" style="font-weight:bold;">Total number of pages</label>
                       <input type="text" class="form-control" name="totalnumberofpages">
                     </div>
-                    <div class="col-3 mt-3">
+                    <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Publishing platforms offered?</label>
                         <input type="text" class="form-control" name="publishingplatform">
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">ISBN Offered or Bar Code?</label>
                         <select class="form-control select2"  required name="isbn_offered">
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Lead Platform</label>
                         <select class="form-control select2"  required name="book_leadplatform">
                             <option value="Google Ads">Google Ads</option>
@@ -136,7 +136,7 @@
 
                         </select>
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Charging Plan</label>
                         <select class="form-control select2"  required name="book_ChargingPlan">
                             <option value="One Time Payment">One Time Payment</option>
@@ -153,11 +153,11 @@
                             <option value="12 Months">12 Months</option>
                         </select>
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Paid Amount</label>
                         <input type="text" class="form-control" name="book_paidamount">
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Next Amount</label>
                         <input type="text" class="form-control" name="book_nextamount">
                       </div>
