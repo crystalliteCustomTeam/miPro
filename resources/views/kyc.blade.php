@@ -156,7 +156,7 @@
                     </select>
                   </div>
                   <div class="col-8 mt-3">
-                    <label for="" style="font-weight:bold;">Anymore commitment?</label>
+                    <label for="" style="font-weight:bold;">Anymore commitments?</label>
                     <input type="text" class="form-control" name="seo_anycommitment">
                   </div>
 
