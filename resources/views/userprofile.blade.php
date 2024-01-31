@@ -50,7 +50,7 @@
                         <div class="d-flex justify-content-between mg-b-10">
                           <div>
                             <h6 class="mg-b-2 tx-inverse tx-14">{{ $project->name }}</h6>
-                            <span class="tx-12 tx-gray-500">{{ $project->clientID }}</span>
+                            <span class="tx-12 tx-gray-500">{{ $project->ClientName->name }}</span>
                           </div>
                           <span class="tx-12">{{ $project->created_at }}</span>
                         </div><!-- d-flex -->

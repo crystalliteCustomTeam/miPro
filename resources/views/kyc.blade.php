@@ -118,25 +118,29 @@
                       </div>
                       <div class="col-3 mt-3">
                         <label for="" style="font-weight:bold;">Charging Plan</label>
-                        <select class="form-control select2"  required name="ChargingPlan">
+                        <select class="form-control select2"  required name="seo_ChargingPlan">
                             <option value="One Time Payment">One Time Payment</option>
                             <option value="Monthly">Monthly</option>
                             <option value="2 Months">2 Months</option>
                             <option value="3 Months">3 Months</option>
                             <option value="4 Months">4 Months</option>
                             <option value="6 Months">6 Months</option>
+                            <option value="7 Months">7 Months</option>
+                            <option value="8 Months">8 Months</option>
+                            <option value="9 Months">9 Months</option>
+                            <option value="10 Months">10 Months</option>
+                            <option value="11 Months">11 Months</option>
                             <option value="12 Months">12 Months</option>
-                            <option value="Hourly">Hourly</option>
-                            <option value="NFT Marketing only">NFT Marketing only</option>
+
                         </select>
                       </div>
                       <div class="col-3 mt-3">
                         <label for="" style="font-weight:bold;">Paid Amount</label>
-                        <input type="text" class="form-control" name="paidamount">
+                        <input type="text" class="form-control" name="seo_paidamount">
                       </div>
                       <div class="col-3 mt-3">
                         <label for="" style="font-weight:bold;">Next Amount</label>
-                        <input type="text" class="form-control" name="nextamount">
+                        <input type="text" class="form-control" name="seo_nextamount">
                       </div>
                       <div class="col-3 mt-3">
                         <label for="" style="font-weight:bold;">Lead Platform</label>
@@ -159,6 +163,10 @@
                               <option value="{{ $department->id }}">{{ $department->name }}</option>
                         @endforeach
                         </select>
+                      </div>
+                      <div class="col-9 mt-3">
+                        <label for="" style="font-weight:bold;">Anymore commitment?</label>
+                        <input type="text" class="form-control" name="seo_anycommitment">
                       </div>
                    </div>
                 </div>
@@ -226,9 +234,34 @@
                                 <option value="Other">Other</option>
                             </select>
                           </div>
-                          <div class="col-3 mt-3">
+                          <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;">Charging Plan</label>
+                            <select class="form-control select2"  required name="book_ChargingPlan">
+                                <option value="One Time Payment">One Time Payment</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="2 Months">2 Months</option>
+                                <option value="3 Months">3 Months</option>
+                                <option value="4 Months">4 Months</option>
+                                <option value="6 Months">6 Months</option>
+                                <option value="7 Months">7 Months</option>
+                                <option value="8 Months">8 Months</option>
+                                <option value="9 Months">9 Months</option>
+                                <option value="10 Months">10 Months</option>
+                                <option value="11 Months">11 Months</option>
+                                <option value="12 Months">12 Months</option>
+                            </select>
+                          </div>
+                          <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;">Paid Amount</label>
+                            <input type="text" class="form-control" name="book_paidamount">
+                          </div>
+                          <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;">Next Amount</label>
+                            <input type="text" class="form-control" name="book_nextamount">
+                          </div>
+                          <div class="col-12 mt-3">
                             <label for="" style="font-weight:bold;">Anymore commitment?</label>
-                            <input type="text" class="form-control" name="anycommitment">
+                            <input type="text" class="form-control" name="book_anycommitment">
                           </div>
                      </div>
                   </div>
@@ -241,7 +274,7 @@
                       <div class="col-12">
                         <h2>Website KYC </h2>
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Package</label>
                         <select class="form-control select2"  required name="website_package[]" multiple="multiple">
                             <option value="Website Design Only">Website Design Only</option>
@@ -251,7 +284,7 @@
                             <option value="Other">Other</option>
                         </select>
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Other Services</label>
                         <select class="form-control select2"  required name="website_other_services[]" multiple="multiple">
                             <option value="Logo">Logo</option>
@@ -262,7 +295,7 @@
                             <option value="Other">Other</option>
                         </select>
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Lead Platform</label>
                         <select class="form-control select2"  required name="website_leadplatform">
                             <option value="Google Ads">Google Ads</option>
@@ -275,8 +308,33 @@
                             <option value="Other">Other</option>
                         </select>
                       </div>
-                          <div class="col-3 mt-3">
-                            <label for="" style="font-weight:bold;">Other Serves Details?</label>
+                      <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Charging Plan</label>
+                        <select class="form-control select2"  required name="website_ChargingPlan">
+                            <option value="One Time Payment">One Time Payment</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="2 Months">2 Months</option>
+                            <option value="3 Months">3 Months</option>
+                            <option value="4 Months">4 Months</option>
+                            <option value="6 Months">6 Months</option>
+                            <option value="7 Months">7 Months</option>
+                            <option value="8 Months">8 Months</option>
+                            <option value="9 Months">9 Months</option>
+                            <option value="10 Months">10 Months</option>
+                            <option value="11 Months">11 Months</option>
+                            <option value="12 Months">12 Months</option>
+                        </select>
+                      </div>
+                      <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Paid Amount</label>
+                        <input type="text" class="form-control" name="website_paidamount">
+                      </div>
+                      <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Next Amount</label>
+                        <input type="text" class="form-control" name="website_nextamount">
+                      </div>
+                          <div class="col-12 mt-3">
+                            <label for="" style="font-weight:bold;">Other Service Details?</label>
                             <input type="text" class="form-control" name="website_anyotherservice">
                           </div>
                      </div>
@@ -289,7 +347,7 @@
                       <div class="col-12">
                         <h2>CLD KYC </h2>
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Package</label>
                         <select class="form-control select2"  required name="cld_package[]" multiple="multiple">
                             <option value="Website Design Only">Website Design Only</option>
@@ -299,7 +357,7 @@
                             <option value="Other">Other</option>
                         </select>
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Other Services</label>
                         <select class="form-control select2"  required name="cld_other_services[]" multiple="multiple">
                             <option value="Logo">Logo</option>
@@ -310,7 +368,7 @@
                             <option value="Other">Other</option>
                         </select>
                       </div>
-                      <div class="col-3 mt-3">
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Lead Platform</label>
                         <select class="form-control select2"  required name="cld_leadplatform">
                             <option value="Google Ads">Google Ads</option>
@@ -323,8 +381,33 @@
                             <option value="Other">Other</option>
                         </select>
                       </div>
-                          <div class="col-3 mt-3">
-                            <label for="" style="font-weight:bold;">Other Serves Details?</label>
+                      <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Charging Plan</label>
+                        <select class="form-control select2"  required name="cld_ChargingPlan">
+                            <option value="One Time Payment">One Time Payment</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="2 Months">2 Months</option>
+                            <option value="3 Months">3 Months</option>
+                            <option value="4 Months">4 Months</option>
+                            <option value="6 Months">6 Months</option>
+                            <option value="7 Months">7 Months</option>
+                            <option value="8 Months">8 Months</option>
+                            <option value="9 Months">9 Months</option>
+                            <option value="10 Months">10 Months</option>
+                            <option value="11 Months">11 Months</option>
+                            <option value="12 Months">12 Months</option>
+                        </select>
+                      </div>
+                      <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Paid Amount</label>
+                        <input type="text" class="form-control" name="cld_paidamount">
+                      </div>
+                      <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Next Amount</label>
+                        <input type="text" class="form-control" name="cld_nextamount">
+                      </div>
+                          <div class="col-12 mt-3">
+                            <label for="" style="font-weight:bold;">Other Service Details?</label>
                             <input type="text" class="form-control" name="cld_anyotherservice">
                           </div>
                      </div>
