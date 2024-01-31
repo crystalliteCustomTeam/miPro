@@ -48,7 +48,7 @@
                   @endforeach
                   </select>
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-5 mt-3">
                   <label for="" style="font-weight:bold;">Sales Person:</label>
                   <select class="form-control" id="frontsale"  required name="saleperson">
                   @foreach($ProjectManagers as $pm)
@@ -63,14 +63,14 @@
                 </select>
 
                 </div>
-                
-                
-                <div class="col-3 mt-3">
+
+
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
                 </div>
-               
-                <div class="col-6 mt-3">
+
+                <div class="col-3 mt-3">
                   <label for="" style="font-weight:bold;">Select Services</label>
                   <select class="form-control" name="selectCategory">
                       <option value="0">Select Category For Kyc</option>
@@ -80,10 +80,10 @@
                       <option value="4">WEB</option>
                   </select>
                 </div>
-                
+
                 <div class="col-12 mt-3">
                   <hr>
-                
+
                    <div class="row" id="seo">
                     <div class="col-12">
                       <h2>SEO SERVICES KYC </h2>
@@ -134,13 +134,203 @@
                         <label for="" style="font-weight:bold;">Paid Amount</label>
                         <input type="text" class="form-control" name="paidamount">
                       </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Next Amount</label>
+                        <input type="text" class="form-control" name="nextamount">
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Lead Platform</label>
+                        <select class="form-control select2"  required name="seo_leadplatform">
+                            <option value="Google Ads">Google Ads</option>
+                            <option value="Bark Lead">Bark Lead</option>
+                            <option value="UpWork Lead">UpWork Lead</option>
+                            <option value="Freelancer">Freelances</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Thumbtack">Thumbtack</option>
+                            <option value="Email Marketing">Email Marketing</option>
+                            <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Production:</label>
+                        <select class="form-control" id="select2forme" required name="production">
+
+                        @foreach ($departments as $department)
+                              <option value="{{ $department->id }}">{{ $department->name }}</option>
+                        @endforeach
+                        </select>
+                      </div>
                    </div>
                 </div>
 
                 <div class="col-12 mt-3">
-                  <label for="" style="font-weight:bold;">Opening Comments</label>
-                 <textarea required name="openingcomments" class="form-control" id="" cols="30" rows="10"></textarea>
-                </div>
+                    <hr>
+
+                     <div class="row" id="book">
+                      <div class="col-12">
+                        <h2>BOOK SERVICES KYC </h2>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Product</label>
+                        <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple">
+                            <option value="Editing & Proofreading">Editing & Proofreading</option>
+                            <option value="Ghost Writing">Ghost Writing</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Only Proofreading">Only Proofreading</option>
+                            <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">MenuScript Provided?</label>
+                        <select class="form-control select2"  required name="menuscript">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                      </div>
+                        <div class="col-3 mt-3">
+                          <label for="" style="font-weight:bold;">Genre of the book?</label>
+                          <input type="text" class="form-control" name="bookgenre">
+                        </div>
+                        <div class="col-3 mt-3">
+                            <label for="" style="font-weight:bold;">Cover design included?</label>
+                            <select class="form-control select2"  required name="coverdesign">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                          </div>
+                        <div class="col-3 mt-3">
+                          <label for="" style="font-weight:bold;">Total number of pages</label>
+                          <input type="text" class="form-control" name="totalnumberofpages">
+                        </div>
+                        <div class="col-3 mt-3">
+                            <label for="" style="font-weight:bold;">Publishing platforms offered?</label>
+                            <input type="text" class="form-control" name="publishingplatform">
+                          </div>
+                          <div class="col-3 mt-3">
+                            <label for="" style="font-weight:bold;">ISBN Offered or Bar Code?</label>
+                            <select class="form-control select2"  required name="isbn_offered">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                          </div>
+                          <div class="col-3 mt-3">
+                            <label for="" style="font-weight:bold;">Lead Platform</label>
+                            <select class="form-control select2"  required name="book_leadplatform">
+                                <option value="Google Ads">Google Ads</option>
+                                <option value="Bark Lead">Bark Lead</option>
+                                <option value="UpWork Lead">UpWork Lead</option>
+                                <option value="Freelancer">Freelances</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Thumbtack">Thumbtack</option>
+                                <option value="Email Marketing">Email Marketing</option>
+                                <option value="Other">Other</option>
+                            </select>
+                          </div>
+                          <div class="col-3 mt-3">
+                            <label for="" style="font-weight:bold;">Anymore commitment?</label>
+                            <input type="text" class="form-control" name="anycommitment">
+                          </div>
+                     </div>
+                  </div>
+
+
+                  <div class="col-12 mt-3">
+                    <hr>
+
+                     <div class="row" id="book">
+                      <div class="col-12">
+                        <h2>Website KYC </h2>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Package</label>
+                        <select class="form-control select2"  required name="website_package[]" multiple="multiple">
+                            <option value="Website Design Only">Website Design Only</option>
+                            <option value="Website Development Only">Website Development Only</option>
+                            <option value="Website Design & Development">Website Design & Development</option>
+                            <option value="Website Revamp">Website Revamp</option>
+                            <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Other Services</label>
+                        <select class="form-control select2"  required name="website_other_services[]" multiple="multiple">
+                            <option value="Logo">Logo</option>
+                            <option value="Hosting">Hosting</option>
+                            <option value="Content">Content</option>
+                            <option value="SEO Marketing">SEO Marketing</option>
+                            <option value="SMM Marketing">SMM Marketing</option>
+                            <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Lead Platform</label>
+                        <select class="form-control select2"  required name="website_leadplatform">
+                            <option value="Google Ads">Google Ads</option>
+                            <option value="Bark Lead">Bark Lead</option>
+                            <option value="UpWork Lead">UpWork Lead</option>
+                            <option value="Freelancer">Freelances</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Thumbtack">Thumbtack</option>
+                            <option value="Email Marketing">Email Marketing</option>
+                            <option value="Other">Other</option>
+                        </select>
+                      </div>
+                          <div class="col-3 mt-3">
+                            <label for="" style="font-weight:bold;">Other Serves Details?</label>
+                            <input type="text" class="form-control" name="website_anyotherservice">
+                          </div>
+                     </div>
+                  </div>
+
+                  <div class="col-12 mt-3">
+                    <hr>
+
+                     <div class="row" id="book">
+                      <div class="col-12">
+                        <h2>CLD KYC </h2>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Package</label>
+                        <select class="form-control select2"  required name="cld_package[]" multiple="multiple">
+                            <option value="Website Design Only">Website Design Only</option>
+                            <option value="Website Development Only">Website Development Only</option>
+                            <option value="Website Design & Development">Website Design & Development</option>
+                            <option value="Website Revamp">Website Revamp</option>
+                            <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Other Services</label>
+                        <select class="form-control select2"  required name="cld_other_services[]" multiple="multiple">
+                            <option value="Logo">Logo</option>
+                            <option value="Hosting">Hosting</option>
+                            <option value="Content">Content</option>
+                            <option value="SEO Marketing">SEO Marketing</option>
+                            <option value="SMM Marketing">SMM Marketing</option>
+                            <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Lead Platform</label>
+                        <select class="form-control select2"  required name="cld_leadplatform">
+                            <option value="Google Ads">Google Ads</option>
+                            <option value="Bark Lead">Bark Lead</option>
+                            <option value="UpWork Lead">UpWork Lead</option>
+                            <option value="Freelancer">Freelances</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Thumbtack">Thumbtack</option>
+                            <option value="Email Marketing">Email Marketing</option>
+                            <option value="Other">Other</option>
+                        </select>
+                      </div>
+                          <div class="col-3 mt-3">
+                            <label for="" style="font-weight:bold;">Other Serves Details?</label>
+                            <input type="text" class="form-control" name="cld_anyotherservice">
+                          </div>
+                     </div>
+                  </div>
+
+
             </div>
             <div class="row mt-3">
                 <div class="col-3">

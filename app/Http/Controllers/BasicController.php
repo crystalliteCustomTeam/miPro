@@ -435,8 +435,9 @@ class BasicController extends Controller
     function kyc(Request $request){
         $brand = Brand::all();
         $projectManager = Employee::get();
+        $department = Department::get();
 
-        return view('kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager]);
+        return view('kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
     }
 
     function kycclientprocess(Request $request){
