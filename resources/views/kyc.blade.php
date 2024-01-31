@@ -42,7 +42,7 @@
                 <div class="col-3 mt-3">
                   <label for="" style="font-weight:bold;">Brand:</label>
                   <select class="form-control" id="select2forme" required name="brand">
-                  
+
                   @foreach ($Brands as $brand)
                         <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                   @endforeach
@@ -53,15 +53,15 @@
                   <select class="form-control" id="frontsale"  required name="saleperson">
                   @foreach($ProjectManagers as $pm)
                       <option value="{{ $pm->id }}">
-                        {{ $pm->name }} 
-                        -- 
+                        {{ $pm->name }}
+                        --
                         @foreach($pm->deparment($pm->id)  as $dm)
                           <strong>{{ $dm->name }}</strong>
                         @endforeach
                       </option>
                   @endforeach
                 </select>
-                 
+
                 </div>
                 
                 

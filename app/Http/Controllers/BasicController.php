@@ -390,12 +390,12 @@ class BasicController extends Controller
         return view('userlists',["Employees" => $employees]);
     }
 
-    function userprofile(Request $request){
-        $loginUser = $request->session()->get('Staffuser');
-        $userID = $loginUser[0]->id;
-        $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
+    function userprofile(Request $request, $id){
+        $employee = Employee::where('id', $id)->get();
+        $ProjectManagers = Client::where('projectManager', $id)->get();
+        $department = Department::whereJsonContains('users', "$id" )->get();
 
-        return view("userprofile" ,['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess]);
+        return view("userprofile" ,["employee"=>$employee, "ProjectManagers"=>$ProjectManagers , "department"=>$department]);
 
 
     }
@@ -428,7 +428,7 @@ class BasicController extends Controller
     function kyc(Request $request){
         $brand = Brand::all();
         $projectManager = Employee::get();
-        
+
         return view('kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager]);
     }
 
@@ -485,9 +485,9 @@ class BasicController extends Controller
             'clientID' => $request->input('client'),
             'projectManager' => $request->input('pm'),
             'name' => $request->input('name'),
-            "domainOrwebsite" => str_val($request->input('website')),
-            "basecampUrl" => str_val($request->input('basecampurl')),
-            "projectDescription" =>  str_val($request->input('openingcomments'))
+            "domainOrwebsite" => $request->input('website'),
+            "basecampUrl" => $request->input('basecampurl'),
+            "projectDescription" =>  $request->input('openingcomments')
         ]);
 
         return redirect('/client/details/'.$request->input('client'));

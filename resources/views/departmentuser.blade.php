@@ -35,7 +35,7 @@
                     @foreach($employees as $employee)
                     <tr>
                         @if (in_array($employee->id, json_decode($departeditdata->users)))
-                        <td>{{ $employee->name }}</td>
+                        <td><a href="/userprofile/{{ $employee->id }}">{{ $employee->name }}</td>
                       <td>{{ $employee->position }}</td>
                       <td>{{ $employee->email }}</td>
                         @endif
