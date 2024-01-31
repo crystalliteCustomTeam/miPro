@@ -465,6 +465,30 @@ class BasicController extends Controller
 
     }
 
+    function book(Request $request){
+        $brand = Brand::all();
+        $projectManager = Employee::get();
+        $department = Department::get();
+
+        return view('book_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
+    }
+
+    function website(Request $request){
+        $brand = Brand::all();
+        $projectManager = Employee::get();
+        $department = Department::get();
+
+        return view('website_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
+    }
+
+    function cld(Request $request){
+        $brand = Brand::all();
+        $projectManager = Employee::get();
+        $department = Department::get();
+
+        return view('cld_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
+    }
+
     function qaform(Request $request){
         return view('qaform');
     }

@@ -73,7 +73,10 @@
         <span class="menu-item-label">Client Registration</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="/forms/kyc" class="sub-link">Client Kyc</a></li>
+        <li class="sub-item"><a href="/forms/kyc" class="sub-link">SEO Kyc</a></li>
+        <li class="sub-item"><a href="/forms/book" class="sub-link">Book Kyc</a></li>
+        <li class="sub-item"><a href="/forms/website" class="sub-link">Website Kyc</a></li>
+        <li class="sub-item"><a href="/forms/cld" class="sub-link">CLD Kyc</a></li>
         <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li>
       </ul>
     </li><!-- br-menu-item -->
