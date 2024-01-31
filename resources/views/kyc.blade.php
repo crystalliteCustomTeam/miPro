@@ -152,7 +152,6 @@
                             <option value="Facebook">Facebook</option>
                             <option value="Thumbtack">Thumbtack</option>
                             <option value="Email Marketing">Email Marketing</option>
-                            <option value="Other">Other</option>
                         </select>
                       </div>
                       <div class="col-3 mt-3">
@@ -185,7 +184,7 @@
                             <option value="Ghost Writing">Ghost Writing</option>
                             <option value="Marketing">Marketing</option>
                             <option value="Only Proofreading">Only Proofreading</option>
-                            <option value="Other">Other</option>
+
                         </select>
                       </div>
                       <div class="col-3 mt-3">
@@ -231,7 +230,7 @@
                                 <option value="Facebook">Facebook</option>
                                 <option value="Thumbtack">Thumbtack</option>
                                 <option value="Email Marketing">Email Marketing</option>
-                                <option value="Other">Other</option>
+
                             </select>
                           </div>
                           <div class="col-4 mt-3">
@@ -281,7 +280,7 @@
                             <option value="Website Development Only">Website Development Only</option>
                             <option value="Website Design & Development">Website Design & Development</option>
                             <option value="Website Revamp">Website Revamp</option>
-                            <option value="Other">Other</option>
+
                         </select>
                       </div>
                       <div class="col-4 mt-3">
@@ -292,7 +291,7 @@
                             <option value="Content">Content</option>
                             <option value="SEO Marketing">SEO Marketing</option>
                             <option value="SMM Marketing">SMM Marketing</option>
-                            <option value="Other">Other</option>
+
                         </select>
                       </div>
                       <div class="col-4 mt-3">
@@ -305,7 +304,7 @@
                             <option value="Facebook">Facebook</option>
                             <option value="Thumbtack">Thumbtack</option>
                             <option value="Email Marketing">Email Marketing</option>
-                            <option value="Other">Other</option>
+
                         </select>
                       </div>
                       <div class="col-4 mt-3">
@@ -354,7 +353,7 @@
                             <option value="Website Development Only">Website Development Only</option>
                             <option value="Website Design & Development">Website Design & Development</option>
                             <option value="Website Revamp">Website Revamp</option>
-                            <option value="Other">Other</option>
+
                         </select>
                       </div>
                       <div class="col-4 mt-3">
@@ -365,7 +364,7 @@
                             <option value="Content">Content</option>
                             <option value="SEO Marketing">SEO Marketing</option>
                             <option value="SMM Marketing">SMM Marketing</option>
-                            <option value="Other">Other</option>
+
                         </select>
                       </div>
                       <div class="col-4 mt-3">
@@ -378,7 +377,7 @@
                             <option value="Facebook">Facebook</option>
                             <option value="Thumbtack">Thumbtack</option>
                             <option value="Email Marketing">Email Marketing</option>
-                            <option value="Other">Other</option>
+
                         </select>
                       </div>
                       <div class="col-4 mt-3">
