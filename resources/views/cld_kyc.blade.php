@@ -22,7 +22,6 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-            <h4 style="font-weight:bold;">CLD KYC:</h4>
            <form action="/forms/kyc/process/client" method="POST">
             @csrf
 
@@ -70,16 +69,6 @@
                   <input type="text" required name="website" required class="form-control">
                 </div>
 
-                <div class="col-4 mt-3">
-                  <label for="" style="font-weight:bold;">Select Services</label>
-                  <select class="form-control" name="selectCategory">
-                      <option value="0">Select Category For Kyc</option>
-                      <option value="1">SEO</option>
-                      <option value="2">BWC</option>
-                      <option value="3">CLD</option>
-                      <option value="4">WEB</option>
-                  </select>
-                </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package</label>
                     <select class="form-control select2"  required name="cld_package[]" multiple="multiple">
