@@ -63,46 +63,80 @@
                 </select>
                  
                 </div>
-                <div class="col-3 mt-3">
-                  <label for="" style="font-weight:bold;">Project manager:</label>
-                  <select class="form-control" id="projectmanager" required name="projectmanager">
-                    @foreach($ProjectManagers as $pm)
-                        <option value="{{ $pm->id }}">
-                          {{ $pm->name }} 
-                          -- 
-                          @foreach($pm->deparment($pm->id)  as $dm)
-                            <strong>{{ $dm->name }}</strong>
-                          @endforeach
-                        </option>
-                    @endforeach
-                  </select>
-                </div>
+                
                 
                 <div class="col-3 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
-                  <label for="" style="font-weight:bold;">Basecamp Url</label>
-                  <input type="text" required name="basecampurl" required class="form-control">
-                </div>
-                <div class="col-3 mt-3">
-                  <label for="" style="font-weight:bold;">Facebook Url</label>
-                  <input type="text" required name="facebookurl" required class="form-control">
+               
+                <div class="col-6 mt-3">
+                  <label for="" style="font-weight:bold;">Select Services</label>
+                  <select class="form-control" name="selectCategory">
+                      <option value="0">Select Category For Kyc</option>
+                      <option value="1">SEO</option>
+                      <option value="2">BWC</option>
+                      <option value="3">CLD</option>
+                      <option value="4">WEB</option>
+                  </select>
                 </div>
                 
-                <div class="col-3 mt-3">
-                  <label for="" style="font-weight:bold;">Instagram Url</label>
-                  <input type="text" required name="instagramurl" required class="form-control">
+                <div class="col-12 mt-3">
+                  <hr>
+                
+                   <div class="row" id="seo">
+                    <div class="col-12">
+                      <h2>SEO SERVICES KYC </h2>
+                    </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Package Name</label>
+                        <input type="text" class="form-control" name="package">
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Keyword Count</label>
+                        <input type="text" class="form-control" name="KeywordCount">
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Target Market</label>
+                        <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple">
+                            <option value="Global">Global</option>
+                            <option value="Nationwide">Nationwide</option>
+                            <option value="Local">Local</option>
+                        </select>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Other Services</label>
+                        <select class="form-control select2"  required name="OtherServices[]" multiple="multiple">
+                            <option value="SMM">SMM</option>
+                            <option value="GMB">GMB</option>
+                            <option value="Adword Campaign">Adword Campaign</option>
+                            <option value="Facebook Campaign">Facebook Campaign</option>
+                            <option value="Website">Website</option>
+                            <option value="NFT">NFT</option>
+                            <option value="NFT Marketing only">NFT Marketing only</option>
+                        </select>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Charging Plan</label>
+                        <select class="form-control select2"  required name="ChargingPlan">
+                            <option value="One Time Payment">One Time Payment</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="2 Months">2 Months</option>
+                            <option value="3 Months">3 Months</option>
+                            <option value="4 Months">4 Months</option>
+                            <option value="6 Months">6 Months</option>
+                            <option value="12 Months">12 Months</option>
+                            <option value="Hourly">Hourly</option>
+                            <option value="NFT Marketing only">NFT Marketing only</option>
+                        </select>
+                      </div>
+                      <div class="col-3 mt-3">
+                        <label for="" style="font-weight:bold;">Paid Amount</label>
+                        <input type="text" class="form-control" name="paidamount">
+                      </div>
+                   </div>
                 </div>
-                <div class="col-3 mt-3">
-                  <label for="" style="font-weight:bold;">Twitter Url</label>
-                  <input type="text" required name="twitterurl" required class="form-control">
-                </div>
-                <div class="col-3 mt-3">
-                  <label for="" style="font-weight:bold;">Youtube Url</label>
-                  <input type="text" required name="youtubeurl" required class="form-control">
-                </div>
+
                 <div class="col-12 mt-3">
                   <label for="" style="font-weight:bold;">Opening Comments</label>
                  <textarea required name="openingcomments" class="form-control" id="" cols="30" rows="10"></textarea>
