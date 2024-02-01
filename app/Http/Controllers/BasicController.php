@@ -484,13 +484,13 @@ class BasicController extends Controller
 
         $book_data =[$request->input('TargetMarket'),$request->input('menuscript'),$request->input('bookgenre'),$request->input('coverdesign'),$request->input('totalnumberofpages'),$request->input('publishingplatform'),$request->input('isbn_offered'),$request->input('leadplatform'),$request->input('anycommitment')];
         $clientmeta = DB::table('clientmetas')->insert([
-            'clientID' => 'a',
+            'clientID' => '2',
             'service' => $request->input('ChargingPlan'),
             'packageName' => $request->input('package'),
             'amountPaid' =>  $request->input('paidamount'),
             'remainingAmount' => 0,
-            'nextPayment' =>  $request->input('nextamount'),
-            'paymentRecuring' => '',
+            'nextPayment' =>  $request->input('nextdate'),
+            'paymentRecuring' => 'b',
             'orderDetails' => json_encode($book_data)
         ]);
 
@@ -498,13 +498,13 @@ class BasicController extends Controller
 
         $website_data =[$request->input('package'),$request->input('otherservices'),$request->input('leadplatform'),$request->input('anycommitment')];
         $clientmeta = DB::table('clientmetas')->insert([
-            'clientID' => 'a',
+            'clientID' => '2',
             'service' => $request->input('ChargingPlan'),
             'packageName' => $request->input('package'),
             'amountPaid' =>  $request->input('paidamount'),
             'remainingAmount' => 0,
-            'nextPayment' =>  $request->input('nextamount'),
-            'paymentRecuring' => '',
+            'nextPayment' =>  $request->input('nextdate'),
+            'paymentRecuring' => 'c',
             'orderDetails' => json_encode($website_data)
         ]);
 
@@ -512,13 +512,13 @@ class BasicController extends Controller
 
         $cld_data =[$request->input('package'),$request->input('otherservices'),$request->input('leadplatform'),$request->input('anycommitment')];
         $clientmeta = DB::table('clientmetas')->insert([
-            'clientID' => 'a',
+            'clientID' => '4',
             'service' => $request->input('ChargingPlan'),
             'packageName' => $request->input('package'),
             'amountPaid' =>  $request->input('paidamount'),
             'remainingAmount' => 0,
-            'nextPayment' =>  $request->input('nextamount'),
-            'paymentRecuring' => '',
+            'nextPayment' =>  $request->input('nextdate'),
+            'paymentRecuring' => 'd',
             'orderDetails' => json_encode($cld_data)
         ]);
 
