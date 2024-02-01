@@ -441,7 +441,7 @@ class BasicController extends Controller
     }
 
     function kycclientprocess(Request $request){
-      
+
         $findclient = Client::where('email',$request->input('email'))->get();
         if(count($findclient) > 0){
             return redirect()->back()->with('Error','Client Email Found Please Used New Email');
@@ -457,10 +457,10 @@ class BasicController extends Controller
             'updated_at' => date('y-m-d H:m:s')
         ]);
 
-       
+
         if ($request->input('serviceType') == 'seo' ){
 
-        
+
         $SEO_ARRAY = [
             "KEYWORD_COUNT" => $request->input('KeywordCount'),
             "TARGET_MARKET" => $request->input('TargetMarket'),
@@ -482,44 +482,71 @@ class BasicController extends Controller
         ]);
     }elseif ($request->input('serviceType') == 'book'){
 
-        $book_data =[$request->input('TargetMarket'),$request->input('menuscript'),$request->input('bookgenre'),$request->input('coverdesign'),$request->input('totalnumberofpages'),$request->input('publishingplatform'),$request->input('isbn_offered'),$request->input('leadplatform'),$request->input('anycommitment')];
+
+        $BOOK_ARRAY =[
+            "PRODUCT" => $request->input('product'),
+            "MENU_SCRIPT"=> $request->input('menuscript'),
+            "BOOK_GENRE"=> $request->input('bookgenre'),
+            "COVER_DESIGN"=> $request->input('coverdesign'),
+            "TOTAL_NUMBER_OF_PAGES"=> $request->input('totalnumberofpages'),
+            "PUBLISHING_PLATFORM"=> $request->input('publishingplatform'),
+            "ISBN_OFFERED"=> $request->input('isbn_offered'),
+            "LEAD_PLATFORM"=> $request->input('leadplatform'),
+            "ANY_COMMITMENT"=> $request->input('anycommitment')
+        ];
         $clientmeta = DB::table('clientmetas')->insert([
-            'clientID' => '2',
-            'service' => $request->input('ChargingPlan'),
+            'clientID' => $createClient,
+            'service' => $request->input('serviceType'),
             'packageName' => $request->input('package'),
-            'amountPaid' =>  $request->input('paidamount'),
-            'remainingAmount' => 0,
-            'nextPayment' =>  $request->input('nextdate'),
-            'paymentRecuring' => 'b',
-            'orderDetails' => json_encode($book_data)
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($BOOK_ARRAY),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
         ]);
 
     }elseif ($request->input('serviceType') == 'website'){
 
-        $website_data =[$request->input('package'),$request->input('otherservices'),$request->input('leadplatform'),$request->input('anycommitment')];
+        $WEBSITE_ARRAY = [
+            "OTHER_SERVICES"=> $request->input('otherservices'),
+            "LEAD_PLATFORM"=> $request->input('leadplatform'),
+            "ANY_COMMITMENT"=> $request->input('anycommitment')
+
+        ];
         $clientmeta = DB::table('clientmetas')->insert([
-            'clientID' => '2',
-            'service' => $request->input('ChargingPlan'),
+            'clientID' => $createClient,
+            'service' => $request->input('serviceType'),
             'packageName' => $request->input('package'),
-            'amountPaid' =>  $request->input('paidamount'),
-            'remainingAmount' => 0,
-            'nextPayment' =>  $request->input('nextdate'),
-            'paymentRecuring' => 'c',
-            'orderDetails' => json_encode($website_data)
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($WEBSITE_ARRAY),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
         ]);
 
     }else {
 
-        $cld_data =[$request->input('package'),$request->input('otherservices'),$request->input('leadplatform'),$request->input('anycommitment')];
+        $CLD_ARRAY = [
+            "OTHER_SERVICES"=> $request->input('otherservices'),
+            "LEAD_PLATFORM"=> $request->input('leadplatform'),
+            "ANY_COMMITMENT"=> $request->input('anycommitment')
+        ];
+
         $clientmeta = DB::table('clientmetas')->insert([
-            'clientID' => '4',
-            'service' => $request->input('ChargingPlan'),
+            'clientID' => $createClient,
+            'service' => $request->input('serviceType'),
             'packageName' => $request->input('package'),
-            'amountPaid' =>  $request->input('paidamount'),
-            'remainingAmount' => 0,
-            'nextPayment' =>  $request->input('nextdate'),
-            'paymentRecuring' => 'd',
-            'orderDetails' => json_encode($cld_data)
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($CLD_ARRAY),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
         ]);
 
     }

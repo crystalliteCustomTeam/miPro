@@ -69,10 +69,13 @@
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
                 </div>
-
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Package Name</label>
+                    <input type="text" class="form-control" name="package">
+                  </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Product</label>
-                    <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple">
+                    <select class="form-control select2"  required name="product[]" multiple="multiple">
                         <option value="Editing & Proofreading">Editing & Proofreading</option>
                         <option value="Ghost Writing">Ghost Writing</option>
                         <option value="Marketing">Marketing</option>
@@ -144,14 +147,18 @@
                         </select>
                       </div>
                       <div class="col-4 mt-3">
-                        <label for="" style="font-weight:bold;">Paid Amount</label>
-                        <input type="text" class="form-control" name="paidamount">
+                        <label for="" style="font-weight:bold;">Total Project Amount</label>
+                        <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount">
                       </div>
                       <div class="col-4 mt-3">
-                        <label for="" style="font-weight:bold;">Next Date</label>
-                        <input type="date" class="form-control" name="nextdate">
+                        <label for="" style="font-weight:bold;">Client Paid</label>
+                        <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
                       </div>
-                      <div class="col-12 mt-3">
+                      <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Future Next Payment Date </label>
+                        <input type="date" class="form-control" name="nextamount">
+                      </div>
+                      <div class="col-8 mt-3">
                         <label for="" style="font-weight:bold;">Anymore commitment?</label>
                         <input type="text" class="form-control" name="anycommitment">
                       </div>

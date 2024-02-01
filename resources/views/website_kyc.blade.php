@@ -118,12 +118,16 @@
                     </select>
                   </div>
                   <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Paid Amount</label>
-                    <input type="text" class="form-control" name="paidamount">
+                    <label for="" style="font-weight:bold;">Total Project Amount</label>
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount">
                   </div>
                   <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Next Date</label>
-                    <input type="date" class="form-control" name="nextdate">
+                    <label for="" style="font-weight:bold;">Client Paid</label>
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+                  </div>
+                  <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Future Next Payment Date </label>
+                    <input type="date" class="form-control" name="nextamount">
                   </div>
                       <div class="col-8 mt-3">
                         <label for="" style="font-weight:bold;">Anymore commitment?</label>

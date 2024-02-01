@@ -140,8 +140,8 @@
                         <option value="Email Marketing">Email Marketing</option>
                     </select>
                   </div>
-                  
-                  <div class="col-8 mt-3">
+
+                  <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Anymore commitments?</label>
                     <input type="text" class="form-control" name="anycommitment">
                   </div>
