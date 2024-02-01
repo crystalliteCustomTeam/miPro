@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Client extends Model
 {
@@ -15,19 +16,18 @@ class Client extends Model
         'phone',
         'email',
         'brand',
-        'frontSeler',
-        'projectManager',
+        'saleperson',
         'website',
-        'basecamp',
-        'facebook',
-        'instagram',
-        'twitter',
-        'youtube',
-        'comments'
+    
     ];
 
     public function findbrand($employeList)
     {
         return DB::table('brands')->where('id',$employeList)->get();
+    }
+
+    public function clientMetas():HasOne
+    {
+        return $this->hasOne(ClientMeta::class,'clientID','id');
     }
 }

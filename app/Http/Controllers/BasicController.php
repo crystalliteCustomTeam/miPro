@@ -441,32 +441,44 @@ class BasicController extends Controller
     }
 
     function kycclientprocess(Request $request){
-        dd($request);
-        exit();
+      
         $findclient = Client::where('email',$request->input('email'))->get();
         if(count($findclient) > 0){
             return redirect()->back()->with('Error','Client Email Found Please Used New Email');
         }
-        $createEmployee = Client::create([
+        $createClient = Client::insertGetId([
             'name' => $request->input('name'),
             'phone' => $request->input('phone'),
             'email' => $request->input('email'),
             'brand' => $request->input('brand'),
             'frontSeler' => $request->input('saleperson'),
             'website' => $request->input('website'),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
         ]);
+
+       
         if ($request->input('serviceType') == 'seo' ){
 
-        $seo_data =[$request->input('KeywordCount'),$request->input('TargetMarket'),$request->input('OtherServices'),$request->input('leadplatform'),$request->input('production'),$request->input('anycommitment')];
+        
+        $SEO_ARRAY = [
+            "KEYWORD_COUNT" => $request->input('KeywordCount'),
+            "TARGET_MARKET" => $request->input('TargetMarket'),
+            "OTHER_SERVICE" => $request->input('OtherServices'),
+            "LEAD_PLATFORM" => $request->input('leadplatform'),
+            "ANY_COMMITMENT" => $request->input('anycommitment')
+        ];
         $clientmeta = DB::table('clientmetas')->insert([
-            'clientID' => 'a',
-            'service' => $request->input('ChargingPlan'),
+            'clientID' => $createClient,
+            'service' => $request->input('serviceType'),
             'packageName' => $request->input('package'),
-            'amountPaid' =>  $request->input('paidamount'),
-            'remainingAmount' => 0,
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
             'nextPayment' =>  $request->input('nextamount'),
-            'paymentRecuring' => '',
-            'orderDetails' => json_encode($seo_data)
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($SEO_ARRAY),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
         ]);
     }elseif ($request->input('serviceType') == 'book'){
 
@@ -512,7 +524,7 @@ class BasicController extends Controller
 
     }
 
-        // return redirect()->back()->with('Success','Client Created !!');
+        return redirect('all/clients');
 
     }
 

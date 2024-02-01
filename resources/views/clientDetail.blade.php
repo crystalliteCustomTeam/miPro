@@ -82,11 +82,42 @@
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Email Address</label>
               <p class="tx-inverse mg-b-25">{{ $client[0]->email }}</p>
 
-              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Basecamp Url</label>
-              <p class="tx-inverse mg-b-25">{{ $client[0]->basecamp }}</p>
+              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Initail Payment</label>
+              <p class="tx-inverse mg-b-25">$ {{ $client[0]->clientMetas->amountPaid  + $client[0]->clientMetas->remainingAmount }}</p>
 
+
+              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Onboard</label>
+              <p class="tx-inverse mg-b-25">{{ $client[0]->clientMetas->created_at     }}</p>
               
-              
+
+              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Website Or Domain</label>
+              <p class="tx-inverse mg-b-25">{{ $client[0]->website  }}</p>
+
+              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">ORDER DETAILS</label>
+              <p class="tx-inverse mg-b-25">
+                @php
+                  $data = json_decode($client[0]->clientMetas->orderDetails)->TARGET_MARKET;
+                  $data2 = json_decode($client[0]->clientMetas->orderDetails)->OTHER_SERVICE;
+                @endphp
+                
+                KEYWORD COUNT : {{ json_decode($client[0]->clientMetas->orderDetails)->KEYWORD_COUNT }}
+                <br>
+                TARGET MARKET : 
+                @for($i=0;$i < count($data);$i++ )
+                      {{ $data[$i] }}
+                @endfor
+                <br>
+                OTHER SERVICE : 
+                @for($i=0;$i < count($data2);$i++ )
+                    <strong>  {{ $data2[$i] }} - </strong> 
+                @endfor
+                <br>
+                LEAD PLATFORM : 
+                {{ json_decode($client[0]->clientMetas->orderDetails)->LEAD_PLATFORM }}
+                <br><br>
+                ANY COMMITMENT : 
+                {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+              </p>
             </div><!-- card -->
 
             <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">

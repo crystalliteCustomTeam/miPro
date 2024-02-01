@@ -117,12 +117,16 @@
                     </select>
                   </div>
                   <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Paid Amount</label>
-                    <input type="text" class="form-control" name="paidamount">
+                    <label for="" style="font-weight:bold;">Total Project Amount</label>
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount">
                   </div>
                   <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Next Amount</label>
-                    <input type="text" class="form-control" name="nextamount">
+                    <label for="" style="font-weight:bold;">Client Paid</label>
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+                  </div>
+                  <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Future Next Payment Date </label>
+                    <input type="date" class="form-control" name="nextamount">
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Lead Platform</label>
@@ -136,16 +140,8 @@
                         <option value="Email Marketing">Email Marketing</option>
                     </select>
                   </div>
-                  <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Production:</label>
-                    <select class="form-control" id="select2forme" required name="production">
-
-                    @foreach ($departments as $department)
-                          <option value="{{ $department->id }}">{{ $department->name }}</option>
-                    @endforeach
-                    </select>
-                  </div>
-                  <div class="col-12 mt-3">
+                  
+                  <div class="col-8 mt-3">
                     <label for="" style="font-weight:bold;">Anymore commitments?</label>
                     <input type="text" class="form-control" name="anycommitment">
                   </div>
