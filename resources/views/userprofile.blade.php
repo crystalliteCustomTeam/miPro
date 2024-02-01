@@ -166,12 +166,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($client as $pm)
+
                             <tr>
-                              <td>{{ $pm->name }}</td>
-                              <td>{{ $pm->email }}</td>
+                              <td>a</td>
+                              <td>b</td>
                             </tr>
-                            @endforeach
+
                         </tbody>
                     </table>
               </div><!-- card -->

@@ -392,7 +392,7 @@ class BasicController extends Controller
 
     function userprofile(Request $request, $id){
         $employee = Employee::where('id', $id)->get();
-        $client = Client::where('projectManager', $id)->get();
+       // $client = Client::where('projectManager', $id)->get();
         $project = Project::where('projectManager', $id)->get();
         $department = Department::whereJsonContains('users', "$id" )->get();
         if(count($project) > 0){
@@ -402,7 +402,7 @@ class BasicController extends Controller
             $find_client = [];
         }
 
-        return view("userprofile" ,["employee"=>$employee, "client"=>$client , "department"=>$department  , "project"=>$project  , "find_client"=>$find_client]);
+        return view("userprofile" ,["employee"=>$employee, "department"=>$department  , "project"=>$project  , "find_client"=>$find_client]);
 
 
     }
@@ -590,6 +590,19 @@ class BasicController extends Controller
     function allclients(Request $request){
         $findclient = Client::get();
         return view('allclients',['clients'=>$findclient]);
+    }
+
+
+    function userreport(Request $request){
+        $companies = Company::all();
+        $brands = Brand::all();
+        $departments = Department::all();
+        $employees = Employee::all();
+        $clients = Client::all();
+        $projects = Project::all();
+
+
+        return view('userreport', ['company'=> $companies,'brand'=>$brands,'department'=>$departments,'employee'=>$employees,'client'=>$clients,'project'=>$projects]);
     }
 }
 

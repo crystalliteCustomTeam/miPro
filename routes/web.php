@@ -86,6 +86,9 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/forms/kyc/process/client','kycclientprocess');
         Route::post('/client/project/process','clientProjectProcess');
 
+        //REPORTS:
+        Route::get('/userreport','userreport');
+
     });
 
     Route::middleware(['authCheckStaff'])->group(function () {
