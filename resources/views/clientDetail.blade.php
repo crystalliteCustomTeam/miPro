@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('maincontent')
-   
+
 <!-- ########## START: MAIN PANEL ########## -->
 <div class="br-mainpanel br-profile-page">
 
@@ -64,13 +64,13 @@
                 @else
                   <p>No Project Created Yet ! <a href="/client/project">Create From Here</a></p>
                 @endif
-             
-              
-              
-              
+
+
+
+
             </div><!-- card -->
 
-            
+
           </div><!-- col-lg-8 -->
           <div class="col-lg-4 mg-t-30 mg-lg-t-0">
             <div class="card pd-20 pd-xs-30 bd-gray-400">
@@ -88,37 +88,145 @@
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Onboard</label>
               <p class="tx-inverse mg-b-25">{{ $client[0]->clientMetas->created_at     }}</p>
-              
+
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Website Or Domain</label>
               <p class="tx-inverse mg-b-25">{{ $client[0]->website  }}</p>
-
+                @if ($client[0]->clientMetas->service == "seo")
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">ORDER DETAILS</label>
               <p class="tx-inverse mg-b-25">
                 @php
                   $data = json_decode($client[0]->clientMetas->orderDetails)->TARGET_MARKET;
                   $data2 = json_decode($client[0]->clientMetas->orderDetails)->OTHER_SERVICE;
                 @endphp
-                
+
                 KEYWORD COUNT : {{ json_decode($client[0]->clientMetas->orderDetails)->KEYWORD_COUNT }}
                 <br>
-                TARGET MARKET : 
+                TARGET MARKET :
                 @for($i=0;$i < count($data);$i++ )
                       {{ $data[$i] }}
                 @endfor
                 <br>
-                OTHER SERVICE : 
+                OTHER SERVICE :
                 @for($i=0;$i < count($data2);$i++ )
-                    <strong>  {{ $data2[$i] }} - </strong> 
+                    <strong>  {{ $data2[$i] }} - </strong>
                 @endfor
                 <br>
-                LEAD PLATFORM : 
+                LEAD PLATFORM :
                 {{ json_decode($client[0]->clientMetas->orderDetails)->LEAD_PLATFORM }}
                 <br><br>
-                ANY COMMITMENT : 
+                ANY COMMITMENT :
                 {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
               </p>
             </div><!-- card -->
+
+
+
+            @elseif ($client[0]->clientMetas->service == "book")
+            <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">ORDER DETAILS</label>
+            <p class="tx-inverse mg-b-25">
+              @php
+                $data1 = json_decode($client[0]->clientMetas->orderDetails)->PRODUCT;
+              @endphp
+              BOOK GENRE : {{ json_decode($client[0]->clientMetas->orderDetails)->BOOK_GENRE }}
+              <br>
+              MENU SCRIPT : {{ json_decode($client[0]->clientMetas->orderDetails)->MENU_SCRIPT }}
+              <br>
+              COVER DESIGN : {{ json_decode($client[0]->clientMetas->orderDetails)->COVER_DESIGN }}
+              <br>
+              ISBN OFFERED : {{ json_decode($client[0]->clientMetas->orderDetails)->ISBN_OFFERED }}
+              <br>
+              TOTAL NUMBER OF PAGES : {{ json_decode($client[0]->clientMetas->orderDetails)->TOTAL_NUMBER_OF_PAGES }}
+              <br>
+              PUBLISHING PLATFORM : {{ json_decode($client[0]->clientMetas->orderDetails)->PUBLISHING_PLATFORM }}
+              <br>
+              ISBN OFFERED : {{ json_decode($client[0]->clientMetas->orderDetails)->ISBN_OFFERED }}
+              <br>
+              Product :
+              @for($i=0;$i < count($data1);$i++ )
+                    <strong>  {{ $data1[$i] }} - </strong>
+              @endfor
+              <br>
+              LEAD PLATFORM :
+              {{ json_decode($client[0]->clientMetas->orderDetails)->LEAD_PLATFORM }}
+              <br><br>
+              ANY COMMITMENT :
+              {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+            </p>
+          </div><!-- card -->
+
+
+
+
+
+          @elseif ($client[0]->clientMetas->service == "website")
+            <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">ORDER DETAILS</label>
+            <p class="tx-inverse mg-b-25">
+              @php
+                $data = json_decode($client[0]->clientMetas->orderDetails)->OTHER_SERVICES;
+              @endphp
+              OTHER SERVICE :
+              @for($i=0;$i < count($data);$i++ )
+                  <strong>  {{ $data[$i] }} - </strong>
+              @endfor
+              <br>
+              LEAD PLATFORM :
+              {{ json_decode($client[0]->clientMetas->orderDetails)->LEAD_PLATFORM }}
+              <br><br>
+              ANY COMMITMENT :
+              {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+            </p>
+          </div><!-- card -->
+
+
+
+          @else
+            <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">ORDER DETAILS</label>
+            <p class="tx-inverse mg-b-25">
+              @php
+                $data = json_decode($client[0]->clientMetas->orderDetails)->OTHER_SERVICES;
+              @endphp
+              OTHER SERVICE :
+              @for($i=0;$i < count($data);$i++ )
+                  <strong>  {{ $data[$i] }} - </strong>
+              @endfor
+              <br>
+              LEAD PLATFORM :
+              {{ json_decode($client[0]->clientMetas->orderDetails)->LEAD_PLATFORM }}
+              <br><br>
+              ANY COMMITMENT :
+              {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+            </p>
+          </div><!-- card -->
+          @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
               <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-30">Recent Clients</h6>
@@ -135,7 +243,7 @@
                         </a>
                   </div><!-- media -->
                 @endforeach
-              
+
               </div><!-- media-list -->
             </div><!-- card -->
           </div><!-- col-lg-4 -->

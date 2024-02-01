@@ -515,10 +515,11 @@ class BasicController extends Controller
             "ANY_COMMITMENT"=> $request->input('anycommitment')
 
         ];
+
         $clientmeta = DB::table('clientmetas')->insert([
             'clientID' => $createClient,
             'service' => $request->input('serviceType'),
-            'packageName' => $request->input('package'),
+            'packageName' => json_encode($request->input('package')),
             'amountPaid' =>  $request->input('projectamount'),
             'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
             'nextPayment' =>  $request->input('nextamount'),
@@ -539,7 +540,7 @@ class BasicController extends Controller
         $clientmeta = DB::table('clientmetas')->insert([
             'clientID' => $createClient,
             'service' => $request->input('serviceType'),
-            'packageName' => $request->input('package'),
+            'packageName' =>json_encode( $request->input('package')),
             'amountPaid' =>  $request->input('projectamount'),
             'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
             'nextPayment' =>  $request->input('nextamount'),
