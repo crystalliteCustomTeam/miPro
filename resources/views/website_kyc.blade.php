@@ -122,8 +122,8 @@
                     <input type="text" class="form-control" name="paidamount">
                   </div>
                   <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Next Amount</label>
-                    <input type="text" class="form-control" name="nextamount">
+                    <label for="" style="font-weight:bold;">Next Date</label>
+                    <input type="date" class="form-control" name="nextdate">
                   </div>
                       <div class="col-8 mt-3">
                         <label for="" style="font-weight:bold;">Anymore commitment?</label>
