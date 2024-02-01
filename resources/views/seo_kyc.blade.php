@@ -22,9 +22,10 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-            <h4 style="font-weight:bold;">SEO KYC:</h4>
+
            <form action="/forms/kyc/process/client" method="POST">
             @csrf
+            <input type="hidden" name="serviceType" id="seo" value="seo">
 
             <div class="row">
                 <div class="col-4 mt-3">
@@ -69,17 +70,6 @@
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
                 </div>
-
-                <div class="col-4 mt-3">
-                  <label for="" style="font-weight:bold;">Select Services</label>
-                  <select class="form-control" name="selectCategory">
-                      <option value="0">Select Category For Kyc</option>
-                      <option value="1">SEO</option>
-                      <option value="2">BWC</option>
-                      <option value="3">CLD</option>
-                      <option value="4">WEB</option>
-                  </select>
-                </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package Name</label>
                     <input type="text" class="form-control" name="package">
@@ -110,7 +100,7 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Charging Plan</label>
-                    <select class="form-control select2"  required name="seo_ChargingPlan">
+                    <select class="form-control select2"  required name="ChargingPlan">
                         <option value="One Time Payment">One Time Payment</option>
                         <option value="Monthly">Monthly</option>
                         <option value="2 Months">2 Months</option>
@@ -128,15 +118,15 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Paid Amount</label>
-                    <input type="text" class="form-control" name="seo_paidamount">
+                    <input type="text" class="form-control" name="paidamount">
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Next Amount</label>
-                    <input type="text" class="form-control" name="seo_nextamount">
+                    <input type="text" class="form-control" name="nextamount">
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Lead Platform</label>
-                    <select class="form-control select2"  required name="seo_leadplatform">
+                    <select class="form-control select2"  required name="leadplatform">
                         <option value="Google Ads">Google Ads</option>
                         <option value="Bark Lead">Bark Lead</option>
                         <option value="UpWork Lead">UpWork Lead</option>
@@ -155,9 +145,9 @@
                     @endforeach
                     </select>
                   </div>
-                  <div class="col-8 mt-3">
+                  <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Anymore commitments?</label>
-                    <input type="text" class="form-control" name="seo_anycommitment">
+                    <input type="text" class="form-control" name="anycommitment">
                   </div>
 
 

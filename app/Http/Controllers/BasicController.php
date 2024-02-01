@@ -432,12 +432,12 @@ class BasicController extends Controller
         }
     }
 
-    function kyc(Request $request){
+    function seo(Request $request){
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
 
-        return view('kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
+        return view('seo_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
     }
 
     function kycclientprocess(Request $request){
@@ -447,23 +447,72 @@ class BasicController extends Controller
         if(count($findclient) > 0){
             return redirect()->back()->with('Error','Client Email Found Please Used New Email');
         }
-        // $createEmployee = Client::create([
-        //     'name' => $request->input('name'),
-        //     'phone' => $request->input('phone'),
-        //     'email' => $request->input('email'),
-        //     'brand' => $request->input('brand'),
-        //     'frontSeler' => $request->input('saleperson'),
-        //     'projectManager' => $request->input('projectmanager'),
-        //     'website' => $request->input('website'),
-        //     'basecamp' => $request->input('basecampurl'),
-        //     'facebook' => $request->input('facebookurl'),
-        //     'instagram' => $request->input('instagramurl'),
-        //     'twitter' => $request->input('twitterurl'),
-        //     'youtube' => $request->input('youtubeurl'),
-        //     'comments' => $request->input('openingcomments'),
-        // ]);
+        $createEmployee = Client::create([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'brand' => $request->input('brand'),
+            'frontSeler' => $request->input('saleperson'),
+            'website' => $request->input('website'),
+        ]);
+        if ($request->input('serviceType') == 'seo' ){
 
-        return redirect()->back()->with('Success','Client Created !!');
+        $seo_data =[$request->input('KeywordCount'),$request->input('TargetMarket'),$request->input('OtherServices'),$request->input('leadplatform'),$request->input('production'),$request->input('anycommitment')];
+        $clientmeta = DB::table('clientmetas')->insert([
+            'clientID' => 'a',
+            'service' => $request->input('ChargingPlan'),
+            'packageName' => $request->input('package'),
+            'amountPaid' =>  $request->input('paidamount'),
+            'remainingAmount' => 0,
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => '',
+            'orderDetails' => json_encode($seo_data)
+        ]);
+    }elseif ($request->input('serviceType') == 'book'){
+
+        $book_data =[$request->input('TargetMarket'),$request->input('menuscript'),$request->input('bookgenre'),$request->input('coverdesign'),$request->input('totalnumberofpages'),$request->input('publishingplatform'),$request->input('isbn_offered'),$request->input('leadplatform'),$request->input('anycommitment')];
+        $clientmeta = DB::table('clientmetas')->insert([
+            'clientID' => 'a',
+            'service' => $request->input('ChargingPlan'),
+            'packageName' => $request->input('package'),
+            'amountPaid' =>  $request->input('paidamount'),
+            'remainingAmount' => 0,
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => '',
+            'orderDetails' => json_encode($book_data)
+        ]);
+
+    }elseif ($request->input('serviceType') == 'website'){
+
+        $website_data =[$request->input('package'),$request->input('otherservices'),$request->input('leadplatform'),$request->input('anycommitment')];
+        $clientmeta = DB::table('clientmetas')->insert([
+            'clientID' => 'a',
+            'service' => $request->input('ChargingPlan'),
+            'packageName' => $request->input('package'),
+            'amountPaid' =>  $request->input('paidamount'),
+            'remainingAmount' => 0,
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => '',
+            'orderDetails' => json_encode($website_data)
+        ]);
+
+    }else {
+
+        $cld_data =[$request->input('package'),$request->input('otherservices'),$request->input('leadplatform'),$request->input('anycommitment')];
+        $clientmeta = DB::table('clientmetas')->insert([
+            'clientID' => 'a',
+            'service' => $request->input('ChargingPlan'),
+            'packageName' => $request->input('package'),
+            'amountPaid' =>  $request->input('paidamount'),
+            'remainingAmount' => 0,
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => '',
+            'orderDetails' => json_encode($cld_data)
+        ]);
+
+    }
+
+        // return redirect()->back()->with('Success','Client Created !!');
 
     }
 

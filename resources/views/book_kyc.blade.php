@@ -22,9 +22,9 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-            <h4 style="font-weight:bold;">Book KYC:</h4>
            <form action="/forms/kyc/process/client" method="POST">
             @csrf
+            <input type="hidden" name="serviceType" id="book" value="book">
 
             <div class="row">
                 <div class="col-4 mt-3">
@@ -71,16 +71,6 @@
                 </div>
 
                 <div class="col-4 mt-3">
-                  <label for="" style="font-weight:bold;">Select Services</label>
-                  <select class="form-control" name="selectCategory">
-                      <option value="0">Select Category For Kyc</option>
-                      <option value="1">SEO</option>
-                      <option value="2">BWC</option>
-                      <option value="3">CLD</option>
-                      <option value="4">WEB</option>
-                  </select>
-                </div>
-                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Product</label>
                     <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple">
                         <option value="Editing & Proofreading">Editing & Proofreading</option>
@@ -125,7 +115,7 @@
                       </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Lead Platform</label>
-                        <select class="form-control select2"  required name="book_leadplatform">
+                        <select class="form-control select2"  required name="leadplatform">
                             <option value="Google Ads">Google Ads</option>
                             <option value="Bark Lead">Bark Lead</option>
                             <option value="UpWork Lead">UpWork Lead</option>
@@ -138,7 +128,7 @@
                       </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Charging Plan</label>
-                        <select class="form-control select2"  required name="book_ChargingPlan">
+                        <select class="form-control select2"  required name="ChargingPlan">
                             <option value="One Time Payment">One Time Payment</option>
                             <option value="Monthly">Monthly</option>
                             <option value="2 Months">2 Months</option>
@@ -155,15 +145,15 @@
                       </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Paid Amount</label>
-                        <input type="text" class="form-control" name="book_paidamount">
+                        <input type="text" class="form-control" name="paidamount">
                       </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Next Amount</label>
-                        <input type="text" class="form-control" name="book_nextamount">
+                        <input type="text" class="form-control" name="nextamount">
                       </div>
                       <div class="col-12 mt-3">
                         <label for="" style="font-weight:bold;">Anymore commitment?</label>
-                        <input type="text" class="form-control" name="book_anycommitment">
+                        <input type="text" class="form-control" name="anycommitment">
                       </div>
 
 

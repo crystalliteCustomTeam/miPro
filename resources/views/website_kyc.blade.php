@@ -22,9 +22,9 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-            <h4 style="font-weight:bold;">Website KYC:</h4>
            <form action="/forms/kyc/process/client" method="POST">
             @csrf
+            <input type="hidden" name="serviceType" id="website" value="website">
 
             <div class="row">
                 <div class="col-4 mt-3">
@@ -67,18 +67,8 @@
                   <input type="text" required name="website" required class="form-control">
                 </div>
                 <div class="col-4 mt-3">
-                  <label for="" style="font-weight:bold;">Select Services</label>
-                  <select class="form-control" name="selectCategory">
-                      <option value="0">Select Category For Kyc</option>
-                      <option value="1">SEO</option>
-                      <option value="2">BWC</option>
-                      <option value="3">CLD</option>
-                      <option value="4">WEB</option>
-                  </select>
-                </div>
-                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package</label>
-                    <select class="form-control select2"  required name="website_package[]" multiple="multiple">
+                    <select class="form-control select2"  required name="package[]" multiple="multiple">
                         <option value="Website Design Only">Website Design Only</option>
                         <option value="Website Development Only">Website Development Only</option>
                         <option value="Website Design & Development">Website Design & Development</option>
@@ -88,7 +78,7 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Other Services</label>
-                    <select class="form-control select2"  required name="website_other_services[]" multiple="multiple">
+                    <select class="form-control select2"  required name="otherservices[]" multiple="multiple">
                         <option value="Logo">Logo</option>
                         <option value="Hosting">Hosting</option>
                         <option value="Content">Content</option>
@@ -99,7 +89,7 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Lead Platform</label>
-                    <select class="form-control select2"  required name="website_leadplatform">
+                    <select class="form-control select2"  required name="leadplatform">
                         <option value="Google Ads">Google Ads</option>
                         <option value="Bark Lead">Bark Lead</option>
                         <option value="UpWork Lead">UpWork Lead</option>
@@ -112,7 +102,7 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Charging Plan</label>
-                    <select class="form-control select2"  required name="website_ChargingPlan">
+                    <select class="form-control select2"  required name="ChargingPlan">
                         <option value="One Time Payment">One Time Payment</option>
                         <option value="Monthly">Monthly</option>
                         <option value="2 Months">2 Months</option>
@@ -129,15 +119,15 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Paid Amount</label>
-                    <input type="text" class="form-control" name="website_paidamount">
+                    <input type="text" class="form-control" name="paidamount">
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Next Amount</label>
-                    <input type="text" class="form-control" name="website_nextamount">
+                    <input type="text" class="form-control" name="nextamount">
                   </div>
                       <div class="col-8 mt-3">
-                        <label for="" style="font-weight:bold;">Other Service Details?</label>
-                        <input type="text" class="form-control" name="website_anyotherservice">
+                        <label for="" style="font-weight:bold;">Anymore commitment?</label>
+                        <input type="text" class="form-control" name="anycommitment">
                       </div>
 
             </div>
