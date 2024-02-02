@@ -634,6 +634,16 @@ class BasicController extends Controller
         return view('allclients',['clients'=>$findclient]);
     }
 
+    function payment(Request $request, $id){
+        // echo "<pre>";
+        $findproject = Project::where('id',$id)->get();
+        $findclient = Client::get();
+        $findemployee = Employee::get();
+        // print_r($findproject);
+        // die();
+        return view('payment',['id'=>$id ,'projectmanager'=>$findproject ,'clients'=>$findclient,'employee'=>$findemployee]);
+    }
+
 
     function userreport(Request $request){
         $companies = Company::all();

@@ -52,10 +52,14 @@
                       <p class="mg-b-20">{{ $project->projectDescription }}</p>
                       <div class="media-footer">
                         <div>
-                          <a href=""><i class="fa fa-heart"></i></a>
+                            <a href="/forms/payment/{{ $project->id }}" class="btn btn-sm btn-info">Take Payment</a>
+                            <a href="" class="btn btn-sm btn-primary">Change PM</a>
+                            <a href="" class="btn btn-sm btn-info">Edit Project</a>
+                            <a href="" class="btn btn-sm btn-danger">Create Report</a>
+                          {{-- <a href=""><i class="fa fa-heart"></i></a>
                           <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
                           <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
-                          <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>
+                          <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>form= pro,client, --}}
                         </div>
                       </div><!-- d-flex -->
                     </div><!-- media-body -->
