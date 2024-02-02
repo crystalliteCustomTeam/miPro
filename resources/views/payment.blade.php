@@ -23,22 +23,24 @@
         <div class="br-pagebody">
           <div class="br-section-wrapper">
 
-           <form action="" method="POST">
+           <form action="#" method="POST">
             @csrf
             <input type="hidden" name="project" value=" {{$projectmanager[0]->id }} ">
 
             <div class="row">
 
 
-                <div class="col-12 mt-3">
-                    <label for="" style="font-weight:bold;">Client Name:</label>
-                    <label for="" style="font-weight:bold;">{{$projectmanager[0]->ClientName->name }}</label>
-                    <br>
-                    <label for="" style="font-weight:bold;">Project Name:</label>
-                    <label for="" style="font-weight:bold;">{{$projectmanager[0]->name }}</label>
-                    <br>
-                    <label for="" style="font-weight:bold;">Project Manager:</label>
-                    <label for="" style="font-weight:bold;">{{$projectmanager[0]->EmployeeName->name }}</label>
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;font-size:150%;">Client Name:</label>
+                    <label for="" style="font-size:150%;">{{$projectmanager[0]->ClientName->name }}</label>
+                </div>
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;font-size:150%;">Project Name:</label>
+                    <label for="" style="font-size:150%;">{{$projectmanager[0]->name }}</label>
+                  </div>
+                 <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;font-size:150%;">Project Manager:</label>
+                    <label for="" style="font-size:150%;">{{$projectmanager[0]->EmployeeName->name }}</label>
                 </div>
                 <div class="col-6 mt-3">
                   <label for="" style="font-weight:bold;">Payment Nature:</label>
@@ -52,26 +54,51 @@
                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
                   </div>
                 <div class="col-6 mt-3">
-                    <label for="" style="font-weight:bold;">Payment Type</label>
-                    <select  class="form-control select2"  name="paymentType">
-                        <option value="Full Payment">Full Payment</option>
-                        <option value="Split Payment">Split Payment</option>
+                    <label for="" style="font-weight:bold;">Remaining Payment</label>
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+                </div>
+                <div class="col-6 mt-3">
+                    <label for="" style="font-weight:bold;">Payment Gateway</label>
+                    <select  class="form-control select2"  name="paymentgateway">
+                        <option value="Stripe">Stripe</option>
+                        <option value="Bank Wire">Bank Wire</option>
                     </select>
                 </div>
                 <div class="col-6 mt-3">
-                    <label for="" style="font-weight:bold;">Select Project Manager:</label>
-                    <select class="form-control select2" required name="pm">
+                    <label for="" style="font-weight:bold;">Payment Type</label>
+                    <select  class="form-control select2"  name="paymentType" id="paymentType" onchange="displayfields()">
+                        <option value="Split Payment">Split Payment</option>
+                        <option value="Full Payment">Full Payment</option>
+                    </select>
+                </div>
+
+                <div class="col-6 mt-3" id="projectmanager">
+                    <label for="" style="font-weight:bold;" >Project Manager (If Split):</label>
+                    <select class="form-control select2"  name="pm" id="projectmanager">
                       @foreach ($employee as $client)
                           <option value="{{ $client->id }}">{{ $client->name }} </option>
                       @endforeach
                     </select>
                   </div>
-
-
-                <div class="col-6 mt-3">
-                    <label for="" style="font-weight:bold;">Remaining Payment</label>
-                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+                  <div class="col-6 mt-3" id="shareamount">
+                    <label for="" style="font-weight:bold;" >Share Amount:</label>
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount">
                   </div>
+                  <script>
+                    function displayfields(){
+                    var paymenttype = document.getElementById("paymentType").value;
+                    var projectmanager = document.getElementById("projectmanager");
+                    var shareamount = document.getElementById("shareamount");
+
+                    if (paymenttype === "Full Payment"){
+                        projectmanager.style.display = 'none';
+                        shareamount.style.display = 'none';
+                    }else if (paymenttype === "Split Payment") {
+                        projectmanager.style.display = 'block';
+                        shareamount.style.display = 'block';
+                    }
+                    }
+                  </script>
 
             </div>
             <div class="row mt-3">
