@@ -30,17 +30,15 @@
             <div class="row">
 
 
-                <div class="col-4 mt-3">
-                    <h5>Client Name:</h5>
-                     {{$projectmanager[0]->ClientName->name }}
-                </div>
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Project:</label>
-                     {{$projectmanager[0]->name }}
-                </div>
-                <div class="col-4 mt-3">
+                <div class="col-12 mt-3">
+                    <label for="" style="font-weight:bold;">Client Name:</label>
+                    <label for="" style="font-weight:bold;">{{$projectmanager[0]->ClientName->name }}</label>
+                    <br>
+                    <label for="" style="font-weight:bold;">Project Name:</label>
+                    <label for="" style="font-weight:bold;">{{$projectmanager[0]->name }}</label>
+                    <br>
                     <label for="" style="font-weight:bold;">Project Manager:</label>
-                    {{$projectmanager[0]->EmployeeName->name }}
+                    <label for="" style="font-weight:bold;">{{$projectmanager[0]->EmployeeName->name }}</label>
                 </div>
                 <div class="col-6 mt-3">
                   <label for="" style="font-weight:bold;">Payment Nature:</label>
