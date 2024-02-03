@@ -616,6 +616,34 @@ class BasicController extends Controller
         return redirect('/client/details/'.$request->input('client'));
     }
 
+    function clientProject_prefilled(Request $request, $id){
+        $findclient = Client::Where('id',$id)->get();
+        $employee = Employee::get();
+        return view('project',['clients'=>$findclient,'employee' => $employee]);
+    }
+
+    function editproject(Request $request, $id){
+        $findproject = Project::Where('id',$id)->get();
+        $findclient = Client::Where('id',$id)->get();
+        $employee = Employee::get();
+        return view('project',['clients'=>$findclient,'employee' => $employee ,'projects' => $findproject]);
+    }
+
+    function editProjectProcess(Request $request, $id){
+        $editproject = Project::where('id', $id)
+        ->update([
+            'clientID' => $request->input('client'),
+            'projectManager' => $request->input('pm'),
+            'name' => $request->input('name'),
+            "domainOrwebsite" => $request->input('website'),
+            "basecampUrl" => $request->input('basecampurl'),
+            "projectDescription" =>  $request->input('openingcomments')
+        ]);
+
+        return redirect('/client/details/{id}');
+
+    }
+
     function getclientDetails(Request $request , $clientID){
         $findclient = Client::where('id',$clientID)->get();
         $allprojects = Project::where('clientID',$clientID)->get();
@@ -640,14 +668,14 @@ class BasicController extends Controller
         $findclient = Client::get();
         $findemployee = Employee::get();
         $get_projectCount = Project::where('clientID',$findproject[0]->ClientName->id)->count();
-        
+
         if($get_projectCount <= 1){
             $amount = true;
         }
         else{
             $amount = false;
         }
-       
+
         return view('payment',['id'=>$id ,'projectmanager'=>$findproject ,'clients'=>$findclient,'employee'=>$findemployee,'AmountCheck'=>$amount]);
     }
 

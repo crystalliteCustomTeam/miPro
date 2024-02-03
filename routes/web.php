@@ -56,11 +56,18 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/deleteuser/{id}','deleteuser');
         Route::get('/userprofile/{id}','userprofile');
 
+        //kyc forms:
         Route::get('/forms/kyc','seo');
         Route::get('/forms/book','book');
         Route::get('/forms/website','website');
         Route::get('/forms/cld','cld');
+
+        //projects form:
         Route::get('/client/project','clientProject');
+        Route::get('/client/project/{id}','clientProject_prefilled');
+        Route::get('/client/editproject/{id}','editproject');
+
+
         Route::get('/forms/qaform','qaform');
         Route::get('/forms/renewalrecurring','renewalrecurring');
         Route::get('/forms/revenueloss','revenueloss');
@@ -88,6 +95,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/editdepartment/{id}/process','editdepartmentprocess');
         Route::post('/forms/kyc/process/client','kycclientprocess');
         Route::post('/client/project/process','clientProjectProcess');
+        Route::post('/client/editproject/{id}/process','editProjectProcess');
 
         //REPORTS:
         Route::get('/userreport','userreport');
