@@ -639,9 +639,16 @@ class BasicController extends Controller
         $findproject = Project::where('id',$id)->get();
         $findclient = Client::get();
         $findemployee = Employee::get();
-        // print_r($findproject);
-        // die();
-        return view('payment',['id'=>$id ,'projectmanager'=>$findproject ,'clients'=>$findclient,'employee'=>$findemployee]);
+        $get_projectCount = Project::where('clientID',$findproject[0]->ClientName->id)->count();
+        
+        if($get_projectCount <= 1){
+            $amount = true;
+        }
+        else{
+            $amount = false;
+        }
+       
+        return view('payment',['id'=>$id ,'projectmanager'=>$findproject ,'clients'=>$findclient,'employee'=>$findemployee,'AmountCheck'=>$amount]);
     }
 
 

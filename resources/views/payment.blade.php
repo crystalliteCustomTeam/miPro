@@ -51,11 +51,11 @@
                 </div>
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
-                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+                    <input type="text" class="form-control" value="@if($AmountCheck) {{ $projectmanager[0]->ClientName->clientMetas->amountPaid }} @endif" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
                   </div>
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Remaining Payment</label>
-                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+                    <input type="text" class="form-control" value="@if($AmountCheck) {{ $projectmanager[0]->ClientName->clientMetas->remainingAmount }} @endif" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
                 </div>
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Payment Gateway</label>
