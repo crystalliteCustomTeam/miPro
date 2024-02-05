@@ -15,7 +15,7 @@
         </div><!-- card-header -->
         <div class="card-body">
           <div class="card-profile-img">
-            <img src="https://via.placeholder.com/500" alt="">
+            <img src="https://cdn-icons-png.flaticon.com/512/1177/1177568.png" alt="">
           </div><!-- card-profile-img -->
 
           <h4 class="tx-normal tx-roboto tx-white">{{$employee[0]->name }}</h4>
@@ -50,7 +50,8 @@
                         <div class="d-flex justify-content-between mg-b-10">
                           <div>
                             <h6 class="mg-b-2 tx-inverse tx-14">{{ $project->name }}</h6>
-                            <span class="tx-12 tx-gray-500">{{ $project->ClientName->name }}</span>
+                            <span class="tx-12 tx-gray-500">{{ $project->ClientName->name }}</span><br>
+                            <span class="tx-12 tx-gray-500">Production:{{ $project->ProductionName->name }}</span>
                           </div>
                           <span class="tx-12">{{ $project->created_at }}</span>
                         </div><!-- d-flex -->
