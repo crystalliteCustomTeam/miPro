@@ -25,7 +25,6 @@
             <h4 style="font-weight:bold;">Client Project Information:</h4>
             @foreach ($projects as $project)
 
-            @endforeach
            <form action="/client/editproject/{{$project->id}}/process" method="POST">
             @csrf
 
@@ -40,7 +39,7 @@
                   <label for="" style="font-weight:bold;">Client:</label>
                   <select class="form-control" id="select2forme" required name="client">
                     @foreach ($clients as $client)
-                        <option value="{{ $client->id }}">{{ $client->name }} -- {{ $client->email }} -- {{ $client->phone }}</option>
+                        <option value="{{ $client->id }}"{{ $client->id == $project->clientID ? 'selected' : '' }}>{{ $client->name }} -- {{ $client->email }} -- {{ $client->phone }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -48,30 +47,37 @@
                   <label for="" style="font-weight:bold;">Select Project Manager:</label>
                   <select class="form-control select2" required name="pm">
                     @foreach ($employee as $client)
-                        <option value="{{ $client->id }}">{{ $client->name }} </option>
+                        <option value="{{ $client->id }}" {{ $client->id == $project->projectManager ? 'selected' : '' }}>{{ $client->name }} </option>
                     @endforeach
                   </select>
                 </div>
-
-
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Select Production:</label>
+                    <select class="form-control select2" required name="production">
+                      @foreach ($employee as $client)
+                          <option value="{{ $client->id }}" {{ $client->id == $project->production ? 'selected' : '' }}>{{ $client->name }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
-                  <input type="text" required name="website" required class="form-control">
+                  <input type="text" required name="website" required class="form-control" value="{{$project->domainOrwebsite}}">
                 </div>
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Basecamp Url</label>
-                  <input type="text" required name="basecampurl" required class="form-control">
+                  <input type="text" required name="basecampurl" required class="form-control"  value="{{$project->basecampUrl}}">
                 </div>
 
                 <div class="col-12 mt-3">
                   <label for="" style="font-weight:bold;">Project Description</label>
-                 <textarea required name="openingcomments" class="form-control" id="" cols="30" rows="10"></textarea>
+                 <textarea required name="openingcomments" class="form-control" id="" cols="30" rows="10" >{{$project->projectDescription}}</textarea>
+                </textarea>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-3">
                     <br>
-                    <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
+                    <input type="submit" value="Update"  name="" class="btn btn-success mt-2">
                 </div>
                 <div class="col-9">
                         @if (Session::has('Success'))

@@ -62,13 +62,21 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/website','website');
         Route::get('/forms/cld','cld');
 
+        //qaform:
+        Route::get('/forms/qaform','qaform');
+
+        Route::get('/forms/seo_qaform','seo_qaform');
+        Route::get('/forms/book_qaform','book_qaform');
+        Route::get('/forms/website_qaform','website_qaform');
+        Route::get('/forms/cld_qaform','cld_qaform');
+
         //projects form:
         Route::get('/client/project','clientProject');
         Route::get('/client/project/{id}','clientProject_prefilled');
         Route::get('/client/editproject/{id}','editproject');
 
 
-        Route::get('/forms/qaform','qaform');
+
         Route::get('/forms/renewalrecurring','renewalrecurring');
         Route::get('/forms/revenueloss','revenueloss');
         Route::get('/forms/paymentconfirmation','paymentconfirmation');
