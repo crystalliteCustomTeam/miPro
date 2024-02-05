@@ -16,7 +16,7 @@
           <i class="icon ion-ios-gear-outline"></i>
           <div>
             <h4>Set Up QA From</h4>
-            <p class="mg-b-0">Book QA Form</p>
+            <p class="mg-b-0">Website QA Form</p>
           </div>
         </div><!-- d-flex -->
 
@@ -107,459 +107,6 @@
                 </div>
             </div> --}}
            </form>
-
-
-
-
-
-
-
-
-
-<!--Editing-->
-
-          </div><!-- br-section-wrapper -->
-        </div><!-- br-pagebody -->
-
-        <div class="br-pagebody">
-          <div class="br-section-wrapper">
-            <h4 style="font-weight:bold;">Editing Information:</h4>
-           <form action="#" method="POST">
-            @csrf
-
-            <div class="row">
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Status of Editting</label><br>
-                    <input type="radio" id="in_process" name="Editting_Status_of_Editting" value="in process">
-                    <label for="in_process">In Process</label><br>
-                    <input type="radio" id="Completed" name="Editting_Status_of_Editting" value="Completed">
-                    <label for="Completed">Completed</label><br>
-                    <input type="radio" id="Not_Applicable" name="Editting_Status_of_Editting" value="Not Applicable">
-                    <label for="Not_Applicable">Not Applicable</label><br>
-                    <input type="radio" id="Not_Started_Yet" name="Editting_Status_of_Editting" value="Not Started Yet">
-                    <label for="Not_Started_Yet">Not Started Yet</label><br>
-                    <input type="radio" id="Waiting_for_Client_Response" name="Editting_Status_of_Editting" value="Waiting for Client Response">
-                    <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
-                  </div>
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;"> Editing Issue </label><br>
-                    <input type="checkbox" id="Question_Type" name="Editing_Issue[]" value="Question Type" required >
-                    <label for="Question_Type">Question Type</label><br>
-                    <input type="checkbox" id="Editing_Issue" name="Editing_Issue[]" value="Editing Issue" required >
-                    <label for="Editing_Issue">Editing Issue</label><br>
-                    <input type="checkbox" id="Typos" name="Editing_Issue[]" value="Typos" required >
-                    <label for="Typos">Typos</label><br>
-                    <input type="checkbox" id="Writing_Weaknesses" name="Editing_Issue[]" value="Writing Weaknesses" required >
-                    <label for="Writing_Weaknesses">Writing Weaknesses</label><br>
-                    <input type="checkbox" id="Word_Omissions" name="Editing_Issue[]" value="Word Omissions" required >
-                    <label for="Word_Omissions">Word Omissions</label><br>
-                    <input type="checkbox" id="Grammatical" name="Editing_Issue[]" value="Grammatical" required >
-                    <label for="Grammatical">Grammatical</label><br>
-                    <input type="checkbox" id="Going_Good" name="Editing_Issue[]" value="Going_Good" required >
-                    <label for="Going_Good">Going Good</label><br>
-                    <input type="checkbox" id="Understanding_issue" name="Editing_Issue[]" value="Understanding issue" required >
-                    <label for="Understanding_issue">Understanding issue</label><br>
-                </div>
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Work Assinged</label><br>
-                    <input type="radio" id="yes" name="Editing_Work_Assinged" value="yes">
-                    <label for="yes">Yes</label><br>
-                    <input type="radio" id="no" name="Editing_Work_Assinged" value="no">
-                    <label for="no">No</label><br>
-                </div>
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Content Creator</label>
-                    <input type="text" name="Editing_Content_Creator" required class="form-control">
-                  </div>
-
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Timely Delivered</label><br>
-                    <input type="radio" id="yes" name="Editing_Timely_Delivered" value="yes">
-                    <label for="yes">Yes</label><br>
-                    <input type="radio" id="no" name="Editing_Timely_Delivered" value="no">
-                    <label for="no">No</label><br>
-                </div>
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Editing Evidence(if any issue) </label>
-                    <input type="file" name="Editing_Evidence" required class="form-control">
-                </div>
-                <div class="col-12 mt-3">
-                    <label for="" style="font-weight:bold;">Description of issue</label>
-                    <textarea required name="Editing_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
-                </div>
-            </div>
-           </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Ghost Writing -->
-
-</div><!-- br-section-wrapper -->
-</div><!-- br-pagebody -->
-
-<div class="br-pagebody">
-  <div class="br-section-wrapper">
-    <h4 style="font-weight:bold;">Ghost Writing Information:</h4>
-   <form action="#" method="POST">
-    @csrf
-
-    <div class="row">
-            <div class="col-3 mt-3">
-                <label for="" style="font-weight:bold;">Status of Ghost Writing</label><br>
-                <input type="radio" id="in_process" name="Ghost_Writing_Status" value="in process">
-                <label for="in_process">In Process</label><br>
-                <input type="radio" id="Completed" name="Ghost_Writing_Status" value="Completed">
-                <label for="Completed">Completed</label><br>
-                <input type="radio" id="Not_Applicable" name="Ghost_Writing_Status" value="Not Applicable">
-                <label for="Not_Applicable">Not Applicable</label><br>
-                <input type="radio" id="Not_Started_Yet" name="Ghost_Writing_Status" value="Not Started Yet">
-                <label for="Not_Started_Yet">Not Started Yet</label><br>
-                <input type="radio" id="Waiting_for_Client_Response" name="Ghost_Writing_Status" value="Waiting for Client Response">
-                <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
-              </div>
-        <div class="col-3 mt-3">
-            <label for="" style="font-weight:bold;"> Ghost Writing Issue </label><br>
-            <input type="checkbox" id="Writing_issue" name="Ghost_Writing_Issue[]" value="Writing issue" required >
-            <label for="Writing_issue">Writing issue</label><br>
-            <input type="checkbox" id="Grammatical_Issue" name="Ghost_Writing_Issue[]" value="Grammatical Issue" required >
-            <label for="Grammatical_Issue">Grammatical Issue</label><br>
-            <input type="checkbox" id="Typos" name="Ghost_Writing_Issue[]" value="Typos" required >
-            <label for="Typos">Typos</label><br>
-            <input type="checkbox" id="Understanding_Issue" name="Ghost_Writing_Issue[]" value="Understanding Issue" required >
-            <label for="Understanding_Issue">Understanding Issue</label><br>
-            <input type="checkbox" id="Going_Good" name="Ghost_Writing_Issue[]" value="Going Good" required >
-            <label for="Going_Good">Going Good </label><br>
-        </div>
-        <div class="col-3 mt-3" style="font-weight:bold;">
-            <label for="">Work Assinged</label><br>
-            <input type="radio" id="yes" name="Ghost_Writing_Work_Assinged" value="yes">
-            <label for="yes">Yes</label><br>
-            <input type="radio" id="no" name="Ghost_Writing_Work_Assinged" value="no">
-            <label for="no">No</label><br>
-        </div>
-        <div class="col-3 mt-3">
-            <label for="" style="font-weight:bold;">Writer</label>
-            <input type="text" name="Ghost_Writing_Writer" required class="form-control">
-        </div>
-        <div class="col-3 mt-3">
-            <label for="" style="font-weight:bold;">Timely Delivered</label><br>
-            <input type="radio" id="yes" name="Ghost_Writing_Timely_Delivered" value="yes">
-            <label for="yes">Yes</label><br>
-            <input type="radio" id="no" name="Ghost_Writing_Timely_Delivered" value="no">
-            <label for="no">No</label><br>
-        </div>
-        <div class="col-3 mt-3">
-            <label for="" style="font-weight:bold;">Number of Chapters </label>
-            <input type="number" name="Number_of_Chapters" required class="form-control">
-        </div>
-        <div class="col-3 mt-3">
-              <label for="" style="font-weight:bold;">Editing Evidence(if any issue) </label>
-              <input type="file" name="Ghost_Writing_Evidence" required class="form-control">
-         </div>
-         <div class="col-12 mt-3">
-            <label for="" style="font-weight:bold;">Description of issue </label>
-            <textarea required name="ghost_writing_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
-        </div>
-    </div>
-   </form>
-
-
-
-
-
-
-
-<!-- Illustration -->
-
-</div><!-- br-section-wrapper -->
-</div><!-- br-pagebody -->
-
-<div class="br-pagebody">
-  <div class="br-section-wrapper">
-    <h4 style="font-weight:bold;">Illustration Information:</h4>
-   <form action="#" method="POST">
-    @csrf
-
-    <div class="row">
-        <div class="col-3 mt-3">
-            <label for="" style="font-weight:bold;">Status of Illustration</label><br>
-            <input type="radio" id="in_process" name="Illustration_Status" value="in process">
-            <label for="in_process">In Process</label><br>
-            <input type="radio" id="Completed" name="Illustration_Status" value="Completed">
-            <label for="Completed">Completed</label><br>
-            <input type="radio" id="Not_Applicable" name="Illustration_Status" value="Not Applicable">
-            <label for="Not_Applicable">Not Applicable</label><br>
-            <input type="radio" id="Not_Started_Yet" name="Illustration_Status" value="Not Started Yet">
-            <label for="Not_Started_Yet">Not Started Yet</label><br>
-            <input type="radio" id="Waiting_for_Client_Response" name="Illustration_Status" value="Waiting for Client Response">
-            <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
-          </div>
-        <div class="col-3 mt-3">
-            <label for="" style="font-weight:bold;"> Illustration Issue </label><br>
-            <input type="checkbox" id="Illustration issue" name="Illustration_Issue[]" value="Illustration issue" required >
-            <label for="Global">Illustration issue</label><br>
-            <input type="checkbox" id="Character_Issue" name="Illustration_Issue[]" value="Character Issue" required >
-            <label for="Character_Issue">Character Issue</label><br>
-            <input type="checkbox" id="Simple_issue" name="Illustration_Issue[]" value="Simple issue" required >
-            <label for="Simple_issue">Simple issue</label><br>
-            <input type="checkbox" id="Timely_Update" name="Illustration_Issue[]" value="Timely Update" required >
-            <label for="Timely_Update">Timely Update</label><br>
-            <input type="checkbox" id="Understanding_Issue" name="Illustration_Issue[]" value="Understanding Issue" required >
-            <label for="Understanding_Issue">Understanding Issue</label><br>
-            <input type="checkbox" id="Going_Good" name="Illustration_Issue[]" value="Going Good" required >
-            <label for="Going_Good">Going Good </label><br>
-        </div>
-        <div class="col-3 mt-3">
-            <label for="" style="font-weight:bold;">Timely Delivered</label><br>
-            <input type="radio" id="yes" name="Illustration_Timely_Delivered" value="yes">
-            <label for="yes">Yes</label><br>
-            <input type="radio" id="no" name="Illustration_Timely_Delivered" value="no">
-            <label for="no">No</label><br>
-        </div>
-        <div class="col-3 mt-3">
-            <label for="" style="font-weight:bold;">Work Assinged</label><br>
-            <input type="radio" id="yes" name="Illustration_Work_Assinged" value="yes">
-            <label for="yes">Yes</label><br>
-            <input type="radio" id="no" name="Illustration_Work_Assinged" value="no">
-            <label for="no">No</label><br>
-        </div>
-        <div class="col-3 mt-3">
-          <label for="" style="font-weight:bold;">Illustration Team</label>
-          <input type="text" name="Illustration_Team" required class="form-control">
-        </div>
-        <div class="col-3 mt-3">
-            <label for="" style="font-weight:bold;">Illustration Evidence(if any issue) </label>
-            <input type="file" name="Illustration_Evidence" required class="form-control">
-          </div>
-          <div class="col-12 mt-3">
-            <label for="" style="font-weight:bold;">Description of issue </label>
-            <textarea required name="Illustration_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
-        </div>
-    </div>
-   </form>
-
-
-
-
-
-
-
-
-
-<!-- Publishing -->
-
-
-</div><!-- br-section-wrapper -->
-</div><!-- br-pagebody -->
-
-<div class="br-pagebody">
-  <div class="br-section-wrapper">
-    <h4 style="font-weight:bold;">Publishing Information:</h4>
-   <form action="#" method="POST">
-    @csrf
-
-    <div class="row">
-        <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Status of Publishing</label><br>
-            <input type="radio" id="in_process" name="Publishing_Status" value="in process">
-            <label for="in_process">In Process</label><br>
-            <input type="radio" id="Completed" name="Publishing_Status" value="Completed">
-            <label for="Completed">Completed</label><br>
-            <input type="radio" id="Not_Applicable" name="Publishing_Status" value="Not Applicable">
-            <label for="Not_Applicable">Not Applicable</label><br>
-            <input type="radio" id="Not_Started_Yet" name="Publishing_Status" value="Not Started Yet">
-            <label for="Not_Started_Yet">Not Started Yet</label><br>
-            <input type="radio" id="Waiting_for_Client_Response" name="Publishing_Status" value="Waiting for Client Response">
-            <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
-          </div>
-          <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Book Cover Status</label><br>
-            <input type="radio" id="in_process" name="Book_Cover_Status " value="in process">
-            <label for="in_process">In Process</label><br>
-            <input type="radio" id="Completed" name="Book_Cover_Status" value="Completed">
-            <label for="Completed">Completed</label><br>
-            <input type="radio" id="Not_Applicable" name="Book_Cover_Status" value="Not Applicable">
-            <label for="Not_Applicable">Not Applicable</label><br>
-            <input type="radio" id="Not_Started_Yet" name="Book_Cover_Status" value="Not Started Yet">
-            <label for="Not_Started_Yet">Not Started Yet</label><br>
-          </div>
-        <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;"> Platform</label><br>
-            <input type="checkbox" id="Amazon" name="Platform[]" value="Amazon" required >
-            <label for="Amazon">Amazon</label><br>
-            <input type="checkbox" id="Barnes_Nobles" name="Platform[]" value="Barnes & Nobles" required >
-            <label for="Barnes_Nobles">Barnes & Nobles</label><br>
-            <input type="checkbox" id="Ingram_Spark" name="Platform[]" value="Ingram Spark" required >
-            <label for="Ingram_Spark">Ingram Spark</label><br>
-            <input type="checkbox" id="Lulu" name="Platform[]" value="Lulu" required >
-            <label for="Lulu">Lulu</label><br>
-            <input type="checkbox" id="Kobo" name="Platform[]" value="Kobo" required >
-            <label for="Kobo">Kobo</label><br>
-            <input type="checkbox" id="Walmart" name="Platform[]" value="Walmart" required >
-            <label for="Walmart">Walmart </label><br>
-            <input type="checkbox" id="E_bay" name="Platform[]" value="E-bay" required >
-            <label for="E_bay">E-bay</label><br>
-            <input type="checkbox" id="Google_Book" name="Platform[]" value="Google Book" required >
-            <label for="Google_Book">Google Book</label><br>
-            <input type="checkbox" id="Apple_Book" name="Platform[]" value="Apple Book" required >
-            <label for="Apple_Book">Apple Book </label><br>
-        </div>
-        <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Timely Delivered</label><br>
-            <input type="radio" id="yes" name="Publishing_Timely_Delivered" value="yes">
-            <label for="yes">Yes</label><br>
-            <input type="radio" id="no" name="Publishing_Timely_Delivered" value="no">
-            <label for="no">No</label><br>
-        </div>
-        <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Work Assinged</label><br>
-            <input type="radio" id="yes" name="Publishing_Work_Assinged" value="yes">
-            <label for="yes">Yes</label><br>
-            <input type="radio" id="no" name="Publishing_Work_Assinged" value="no">
-            <label for="no">No</label><br>
-        </div>
-        <div class="col-4 mt-3">
-          <label for="" style="font-weight:bold;">Designer</label>
-          <input type="text" name="Designer_publishing" required class="form-control">
-        </div>
-        <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Publisher</label>
-            <input type="text" name="Publisher" required class="form-control">
-          </div>
-        <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Publishing Evidence(if any issue) </label>
-            <input type="file" name="Publishing_Evidence" required class="form-control">
-        </div>
-        <div class="col-12 mt-3">
-            <label for="" style="font-weight:bold;">Description of issue </label>
-            <textarea required name="Publishing_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
-        </div>
-    </div>
-   </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   <!-- Standard Marketing for 3 month -->
-
-
-
-
-</div><!-- br-section-wrapper -->
-</div><!-- br-pagebody -->
-
-<div class="br-pagebody">
-  <div class="br-section-wrapper">
-    <h4 style="font-weight:bold;">Standard Marketing for 3 month:</h4>
-   <form action="#" method="POST">
-    @csrf
-
-    <div class="row">
-        <div class="col-6 mt-3">
-            <label for="" style="font-weight:bold;">Status of 3 Month Marketing</label><br>
-            <input type="radio" id="in_process" name="3_Month_Marketing_Status" value="in process">
-            <label for="in_process">In Process</label><br>
-            <input type="radio" id="Completed" name="3_Month_Marketing_Status" value="Completed">
-            <label for="Completed">Completed</label><br>
-            <input type="radio" id="Not_Applicable" name="3_Month_Marketing_Status" value="Not Applicable">
-            <label for="Not_Applicable">Not Applicable</label><br>
-            <input type="radio" id="Not_Started_Yet" name="3_Month_Marketing_Status" value="Not Started Yet">
-            <label for="Not_Started_Yet">Not Started Yet</label><br>
-            <input type="radio" id="Waiting_for_Client_Response" name="3_Month_Marketing_Status" value="Waiting for Client Response">
-            <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
-          </div>
-          <div class="col-6 mt-3">
-            <label for="" style="font-weight:bold;">Services </label><br>
-            <input type="checkbox" id="Design" name="Services_3_month[]" value="Design"  >
-            <label for="Design">Design</label><br>
-            <input type="checkbox" id="Development" name="Services_3_month[]" value="Development"  >
-            <label for="Development">Development</label><br>
-            <input type="checkbox" id="SMM" name="Services_3_month[]" value="SMM"  >
-            <label for="SMM">SMM</label><br>
-            <input type="checkbox" id="SEO" name="Services_3_month[]" value="SEO"  >
-            <label for="SEO">SEO</label><br>
-          </div>
-    </div>
-   </form>
-
-
-
-
-
-
-
-
-
-
-
-
-   <!-- Standard Marketing for 6 month -->
-</div><!-- br-section-wrapper -->
-</div><!-- br-pagebody -->
-
-<div class="br-pagebody">
-  <div class="br-section-wrapper">
-    <h4 style="font-weight:bold;">Standard Marketing for 6 month:</h4>
-   <form action="#" method="POST">
-    @csrf
-
-    <div class="row">
-        <div class="col-6 mt-3">
-            <label for="" style="font-weight:bold;">Status of 6 Month Marketing</label><br>
-            <input type="radio" id="in_process" name="6_Month_Marketing_Status" value="in process">
-            <label for="in_process">In Process</label><br>
-            <input type="radio" id="Completed" name="6_Month_Marketing_Status" value="Completed">
-            <label for="Completed">Completed</label><br>
-            <input type="radio" id="Not_Applicable" name="6_Month_Marketing_Status" value="Not Applicable">
-            <label for="Not_Applicable">Not Applicable</label><br>
-            <input type="radio" id="Not_Started_Yet" name="6_Month_Marketing_Status" value="Not Started Yet">
-            <label for="Not_Started_Yet">Not Started Yet</label><br>
-            <input type="radio" id="Waiting_for_Client_Response" name="6_Month_Marketing_Status" value="Waiting for Client Response">
-            <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
-          </div>
-          <div class="col-6 mt-3">
-            <label for="" style="font-weight:bold;">Services </label><br>
-            <input type="checkbox" id="Design" name="Services_6_month[]" value="Design"  >
-            <label for="Design">Design</label><br>
-            <input type="checkbox" id="Development" name="Services_6_month[]" value="Development"  >
-            <label for="Development">Development</label><br>
-            <input type="checkbox" id="SMM" name="Services_6_month[]" value="SMM"  >
-            <label for="SMM">SMM</label><br>
-            <input type="checkbox" id="SEO" name="Services_6_month[]" value="SEO"  >
-            <label for="SEO">SEO</label><br>
-          </div>
-    </div>
-   </form>
-
-
-
-
-
-
-
 
 
 
@@ -910,6 +457,81 @@
 
 
 
+
+
+
+
+
+
+
+
+   <!-- SEO Content Writer -->
+
+
+</div><!-- br-section-wrapper -->
+</div><!-- br-pagebody -->
+
+<div class="br-pagebody">
+  <div class="br-section-wrapper">
+    <h4 style="font-weight:bold;">SEO Web Content Information:</h4>
+   <form action="#" method="POST">
+    @csrf
+
+    <div class="row">
+        <div class="col-4 mt-3">
+            <label for="" style="font-weight:bold;">Status of SEO Writing</label><br>
+            <input type="radio" id="in_process" name="SEO_Writing_Status" value="in process">
+            <label for="in_process">In Process</label><br>
+            <input type="radio" id="Completed" name="SEO_Writing_Status" value="Completed">
+            <label for="Completed">Completed</label><br>
+            <input type="radio" id="Not_Applicable" name="SEO_Writing_Status" value="Not Applicable">
+            <label for="Not_Applicable">Not Applicable</label><br>
+            <input type="radio" id="Not_Started_Yet" name="SEO_Writing_Status" value="Not Started Yet">
+            <label for="Not_Started_Yet">Not Started Yet</label><br>
+            <input type="radio" id="Waiting_for_Client_Response" name="SEO_Writing_Status" value="Waiting for Client Response">
+            <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
+          </div>
+        <div class="col-4 mt-3">
+            <label for="" style="font-weight:bold;">Issue in SEO Content </label><br>
+            <input type="checkbox" id="Writing_issue" name="Issue_in_SEO_Content[]" value="Writing issue" required >
+            <label for="Writing_issue">Writing issue</label><br>
+            <input type="checkbox" id="Grammatical_Issue" name="Issue_in_SEO_Content[]" value="Grammatical Issue" required >
+            <label for="Grammatical_Issue">Grammatical Issue</label><br>
+            <input type="checkbox" id="Typos" name="Issue_in_SEO_Content[]" value="Typos" required >
+            <label for="Typos">Typos</label><br>
+            <input type="checkbox" id="Understanding_Issue" name="Issue_in_SEO_Content" value="Understanding Issue" required >
+            <label for="Understanding_Issue">Understanding Issue</label><br>
+            <input type="checkbox" id="Going_Good" name="Issue_in_SEO_Content[]" value="Going Good" required >
+            <label for="Going_Good">Going Good </label><br>
+        </div>
+        <div class="col-4 mt-3">
+            <label for="" style="font-weight:bold;">Timely Delivered</label><br>
+            <input type="radio" id="yes" name="SEO_Content_Timely_Delivered" value="yes">
+            <label for="yes">Yes</label><br>
+            <input type="radio" id="no" name="SEO_Content_Timely_Delivered" value="no">
+            <label for="no">No</label><br>
+        </div>
+        <div class="col-4 mt-3">
+            <label for="" style="font-weight:bold;">Work Assinged</label><br>
+            <input type="radio" id="yes" name="SEO_Content_Work_Assinged" value="yes">
+            <label for="yes">Yes</label><br>
+            <input type="radio" id="no" name="SEO_Content_Work_Assinged" value="no">
+            <label for="no">No</label><br>
+        </div>
+        <div class="col-4 mt-3">
+          <label for="" style="font-weight:bold;">SEO Content Writer</label>
+          <input type="text" name="SEO" required class="form-control">
+        </div>
+        <div class="col-4 mt-3">
+            <label for="" style="font-weight:bold;">SEO Content  Evidence(if any issue) </label>
+            <input type="file" name="SEO_Content_Evidence" required class="form-control">
+        </div>
+        <div class="col-12 mt-3">
+            <label for="" style="font-weight:bold;">Description of issue </label>
+            <textarea required name="SEO_Content_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
+        </div>
+    </div>
+   </form>
 
 
 

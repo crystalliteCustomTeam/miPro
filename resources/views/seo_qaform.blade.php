@@ -16,7 +16,7 @@
           <i class="icon ion-ios-gear-outline"></i>
           <div>
             <h4>Set Up QA From</h4>
-            <p class="mg-b-0">QA Form</p>
+            <p class="mg-b-0">SEO QA Form</p>
           </div>
         </div><!-- d-flex -->
 
@@ -28,23 +28,23 @@
 
             <div class="row">
 
-                <div class="col-3">
+                <div class="col-3 mt-3">
                     <label for="" style="font-weight:bold;">Basecamp Link</label>
                     <input type="url" name="Basecamp" class="form-control" required>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-3">
                     <label for="" style="font-weight:bold;"> Brand: </label>
                     <input type="text" name="brand" required class="form-control">
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-3">
                     <label for="" style="font-weight:bold;">Email/Domain </label>
                     <input type="email" name="emailordomain" required class="form-control">
                 </div>
-                <div class="col-3" >
+                <div class="col-3 mt-3" >
                   <label for="" style="font-weight:bold;">Last communication with client </label>
                   <input type="date" name="last_communication_with_client" required class="form-control">
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-3">
                     <label for="" style="font-weight:bold;">Medium of communication </label><br>
                     <input type="checkbox" id="calls" name="Medium_of_communication[]" value="calls" required >
                     <label for="calls">calls</label><br>
@@ -57,7 +57,7 @@
                     <input type="checkbox" id="Whatsapp" name="Medium_of_communication[]" value="Whatsapp" required >
                     <label for="Whatsapp">Whatsapp</label><br>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-3">
                     <label for="" style="font-weight:bold;">Status </label><br>
                     <input type="radio" id="dispute" name="status" value="dispute">
                     <label for="dispute">Dispute</label><br>
@@ -66,14 +66,14 @@
                     <input type="radio" id="on_going" name="status" value="On Going">
                     <label for="on_going">On Going</label>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-3">
                     <label for="" style="font-weight:bold;">Refund Requested</label><br>
                     <input type="radio" id="yes" name="Refund_Requested" value="yes">
                     <label for="yes">Yes</label><br>
                     <input type="radio" id="no" name="Refund_Requested" value="no">
                     <label for="no">No</label><br>
                   </div>
-                <div class="col-3">
+                <div class="col-3 mt-3">
                   <label for="" style="font-weight:bold;">Refund Request Attachment </label>
                   <input type="file" name="Refund_Request_Attachment" required class="form-control">
                 </div>
@@ -131,7 +131,7 @@
     @csrf
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Status of Design</label><br>
             <input type="radio" id="in_process" name="Design_Status" value="in process">
             <label for="in_process">In Process</label><br>
@@ -143,8 +143,8 @@
             <label for="Not_Started_Yet">Not Started Yet</label><br>
             <input type="radio" id="Waiting_for_Client_Response" name="Design_Status" value="Waiting for Client Response">
             <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
-          </div>
-        <div class="col-3">
+        </div>
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;"> Desing Issue </label><br>
             <input type="checkbox" id="SMM_Post_Desing" name="Desing_Issue[]" value="SMM Post Desing" required >
             <label for="SMM_Post_Desing">SMM Post Desing</label><br>
@@ -159,32 +159,32 @@
             <input type="checkbox" id="NFT_Desing_Issue" name="Desing_Issue[]" value="NFT Desing Issue" required >
             <label for="NFT_Desing_Issue">NFT Desing Issue</label><br>
         </div>
-        <div class="col-3">
-            <label for="" style="font-weight:bold;">Description of issue </label>
-            <input type="text" name="Design_Description_of_issue" required class="form-control">
-        </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Timely Delivered</label><br>
             <input type="radio" id="yes" name="Design_Timely_Delivered" value="yes">
             <label for="yes">Yes</label><br>
             <input type="radio" id="no" name="Design_Timely_Delivered" value="no">
             <label for="no">No</label><br>
         </div>
-        <div class="col-3">
-            <label for="" style="font-weight:bold;">Work Assinged</label><br>
-            <input type="radio" id="yes" name="Design_Work_Assinged" value="yes">
-            <label for="yes">Yes</label><br>
-            <input type="radio" id="no" name="Design_Work_Assinged" value="no">
-            <label for="no">No</label><br>
+        <div class="col-4 mt-3">
+                <label for="" style="font-weight:bold;">Work Assinged</label><br>
+                <input type="radio" id="yes" name="Design_Work_Assinged" value="yes">
+                <label for="yes">Yes</label><br>
+                <input type="radio" id="no" name="Design_Work_Assinged" value="no">
+                <label for="no">No</label><br>
         </div>
-        <div class="col-3">
-          <label for="" style="font-weight:bold;">Designer</label>
-          <input type="text" name="Designer" required class="form-control">
-        </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
+            <label for="" style="font-weight:bold;">Designer</label>
+            <input type="text" name="Designer" required class="form-control">
+         </div>
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Design Evidence(if any issue) </label>
             <input type="file" name="Design_Evidence" required class="form-control">
-          </div>
+        </div>
+        <div class="col-12 mt-3">
+            <label for="" style="font-weight:bold;">Description of issue</label>
+           <textarea required name="Design_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
+        </div>
     </div>
    </form>
 
@@ -210,7 +210,7 @@
     @csrf
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 mt-3">
             <label for="" style="font-weight:bold;">Status of Development</label><br>
             <input type="radio" id="in_process" name="Development_Status" value="in process">
             <label for="in_process">In Process</label><br>
@@ -223,20 +223,20 @@
             <input type="radio" id="Waiting_for_Client_Response" name="Development_Status" value="Waiting for Client Response">
             <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
           </div>
-          <div class="col-3">
+          <div class="col-3 mt-3">
             <label for="" style="font-weight:bold;"> Web Development </label><br>
             <input type="checkbox" id="Word_Press" name="Web_Development[]" value="Word Press"  >
             <label for="Word_Press">Word Press</label><br>
             <input type="checkbox" id="Shopify" name="Web_Development[]" value="Shopify"  >
             <label for="Shopify">Shopify</label><br>
             <input type="checkbox" id="Custom" name="Web_Development[]" value="Custom"  >
-            <label for="Custom">Custom</label>
+            <label for="Custom">Custom</label><br>
             <input type="checkbox" id="Magento" name="Web_Development[]" value="Magento"  >
-            <label for="Magento">Magento</label>
+            <label for="Magento">Magento</label><br>
             <input type="checkbox" id="Go_daddy" name="Web_Development[]" value="Go daddy"  >
             <label for="Go_daddy">Go daddy</label>
           </div>
-        <div class="col-3">
+        <div class="col-3 mt-3">
             <label for="" style="font-weight:bold;"> Development Issue </label><br>
             <input type="checkbox" id="Content_Alignment" name="Development_Issue[]" value="Content Alignment" required >
             <label for="Content_Alignment">Content Alignment</label><br>
@@ -251,32 +251,32 @@
             <input type="checkbox" id="Going_Good" name="Development_Issue[]" value="Going Good" required >
             <label for="Going_Good">Going Good</label><br>
         </div>
-        <div class="col-3">
-            <label for="" style="font-weight:bold;">Description of issue </label>
-            <input type="text" name="Development_Description_of_issue" required class="form-control">
-        </div>
-        <div class="col-3">
+        <div class="col-3 mt-3">
             <label for="" style="font-weight:bold;">Timely Delivered</label><br>
             <input type="radio" id="yes" name="Development_Timely_Delivered" value="yes">
             <label for="yes">Yes</label><br>
             <input type="radio" id="no" name="Development_Timely_Delivered" value="no">
             <label for="no">No</label><br>
         </div>
-        <div class="col-3">
+        <div class="col-3 mt-3">
             <label for="" style="font-weight:bold;">Work Assinged</label><br>
             <input type="radio" id="yes" name="Development_Work_Assinged" value="yes">
             <label for="yes">Yes</label><br>
             <input type="radio" id="no" name="Development_Work_Assinged" value="no">
             <label for="no">No</label><br>
         </div>
-        <div class="col-3">
+        <div class="col-3 mt-3">
           <label for="" style="font-weight:bold;">Developmenter</label>
           <input type="text" name="Development" required class="form-control">
         </div>
-        <div class="col-3">
+        <div class="col-3 mt-3">
             <label for="" style="font-weight:bold;">Development Evidence(if any issue) </label>
             <input type="file" name="Development_Evidence" required class="form-control">
-          </div>
+        </div>
+        <div class="col-12 mt-3">
+            <label for="" style="font-weight:bold;">Description of issue</label>
+           <textarea required name="Development_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
+        </div>
     </div>
    </form>
 
@@ -303,7 +303,7 @@
     @csrf
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Status of SEO</label><br>
             <input type="radio" id="in_process" name="SEO_Status" value="in process">
             <label for="in_process">In Process</label><br>
@@ -316,7 +316,7 @@
             <input type="radio" id="Waiting_for_Client_Response" name="SEO_Status" value="Waiting for Client Response">
             <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
           </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;"> SEO Issue </label><br>
             <input type="checkbox" id="Article" name="SEO_Issue[]" value="Article" required >
             <label for="Article">Article</label><br>
@@ -339,32 +339,32 @@
             <input type="checkbox" id="Amazon_Ads_Campaign" name="SEO_Issue[]" value="Amazon Ads Campaign" required >
             <label for="Amazon_Ads_Campaign">Amazon Ads Campaign</label><br>
         </div>
-        <div class="col-3">
-            <label for="" style="font-weight:bold;">Description of issue </label>
-            <input type="text" name="SEO_Description_of_issue" required class="form-control">
-        </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Timely Delivered</label><br>
             <input type="radio" id="yes" name="SEO_Timely_Delivered" value="yes">
             <label for="yes">Yes</label><br>
             <input type="radio" id="no" name="SEO_Timely_Delivered" value="no">
             <label for="no">No</label><br>
         </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Work Assinged</label><br>
             <input type="radio" id="yes" name="SEO_Work_Assinged" value="yes">
             <label for="yes">Yes</label><br>
             <input type="radio" id="no" name="SEO_Work_Assinged" value="no">
             <label for="no">No</label><br>
         </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
           <label for="" style="font-weight:bold;">SEO Person</label>
           <input type="text" name="SEO" required class="form-control">
         </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">SEO Evidence(if any issue) </label>
             <input type="file" name="SEO_Evidence" required class="form-control">
-          </div>
+        </div>
+        <div class="col-12 mt-3">
+            <label for="" style="font-weight:bold;">Description of issue</label>
+           <textarea required name="SEO_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
+        </div>
     </div>
    </form>
 
@@ -397,7 +397,7 @@
     @csrf
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Status of SMM</label><br>
             <input type="radio" id="in_process" name="SMM_Status" value="in process">
             <label for="in_process">In Process</label><br>
@@ -410,7 +410,7 @@
             <input type="radio" id="Waiting_for_Client_Response" name="SMM_Status" value="Waiting for Client Response">
             <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
           </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;"> SMM Issue </label><br>
             <input type="checkbox" id="Posting" name="SMM_Issue[]" value="Posting" required >
             <label for="Posting">Posting</label><br>
@@ -425,32 +425,32 @@
             <input type="checkbox" id="QA_sessions" name="SMM_Issue[]" value="Q&A sessions" required >
             <label for="QA_sessions">Q&A sessions</label><br>
         </div>
-        <div class="col-3">
-            <label for="" style="font-weight:bold;">Description of issue </label>
-            <input type="text" name="SMM_Description_of_issue" required class="form-control">
-        </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Timely Delivered</label><br>
             <input type="radio" id="yes" name="SMM_Timely_Delivered" value="yes">
             <label for="yes">Yes</label><br>
             <input type="radio" id="no" name="SMM_Timely_Delivered" value="no">
             <label for="no">No</label><br>
         </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Work Assinged</label><br>
             <input type="radio" id="yes" name="SMM_Work_Assinged" value="yes">
             <label for="yes">Yes</label><br>
             <input type="radio" id="no" name="SMM_Work_Assinged" value="no">
             <label for="no">No</label><br>
         </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
           <label for="" style="font-weight:bold;">SMM Person</label>
           <input type="text" name="SMM" required class="form-control">
         </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">SMM Evidence(if any issue) </label>
             <input type="file" name="SMM_Evidence" required class="form-control">
-          </div>
+        </div>
+        <div class="col-12 mt-3">
+            <label for="" style="font-weight:bold;">Description of issue </label>
+            <textarea required name="SMM_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
+        </div>
     </div>
    </form>
 
@@ -478,7 +478,7 @@
     @csrf
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Status of SEO Writing</label><br>
             <input type="radio" id="in_process" name="SEO_Writing_Status" value="in process">
             <label for="in_process">In Process</label><br>
@@ -491,7 +491,7 @@
             <input type="radio" id="Waiting_for_Client_Response" name="SEO_Writing_Status" value="Waiting for Client Response">
             <label for="Waiting_for_Client_Response">Waiting for Client Response</label><br>
           </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Issue in SEO Content </label><br>
             <input type="checkbox" id="Writing_issue" name="Issue_in_SEO_Content[]" value="Writing issue" required >
             <label for="Writing_issue">Writing issue</label><br>
@@ -504,38 +504,32 @@
             <input type="checkbox" id="Going_Good" name="Issue_in_SEO_Content[]" value="Going Good" required >
             <label for="Going_Good">Going Good </label><br>
         </div>
-        <div class="col-3">
-            <label for="" style="font-weight:bold;">Description of issue </label>
-            <input type="text" name="SEO_Content_Description_of_issue" required class="form-control">
-        </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Timely Delivered</label><br>
             <input type="radio" id="yes" name="SEO_Content_Timely_Delivered" value="yes">
             <label for="yes">Yes</label><br>
             <input type="radio" id="no" name="SEO_Content_Timely_Delivered" value="no">
             <label for="no">No</label><br>
         </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Work Assinged</label><br>
             <input type="radio" id="yes" name="SEO_Content_Work_Assinged" value="yes">
             <label for="yes">Yes</label><br>
             <input type="radio" id="no" name="SEO_Content_Work_Assinged" value="no">
             <label for="no">No</label><br>
         </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
           <label for="" style="font-weight:bold;">SEO Content Writer</label>
           <input type="text" name="SEO" required class="form-control">
         </div>
-        <div class="col-3">
+        <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">SEO Content  Evidence(if any issue) </label>
             <input type="file" name="SEO_Content_Evidence" required class="form-control">
-          </div>
-
-
-
-
-
-
+        </div>
+        <div class="col-12 mt-3">
+            <label for="" style="font-weight:bold;">Description of issue </label>
+            <textarea required name="SEO_Content_Description_of_issue" class="form-control" id="" cols="30" rows="5"></textarea>
+        </div>
     </div>
    </form>
 
@@ -554,7 +548,7 @@
     @csrf
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-6 mt-3">
             <label for="" style="font-weight:bold;"> Client Satisfaction Level </label><br>
             <input type="radio" id="dispute" name="status" value="dispute">
             <label for="dispute">Extremely Satisfied</label><br>
@@ -567,11 +561,7 @@
             <input type="radio" id="on_going" name="status" value="On Going">
             <label for="on_going">Extremely Dissatisfied</label><br>
         </div>
-        <div class="col-3">
-            <label for="" style="font-weight:bold;">Summery </label>
-            <input type="text" name="Refund_Request_Attachment" required class="form-control">
-          </div>
-          <div class="col-3">
+        <div class="col-6 mt-3">
             <label for="" style="font-weight:bold;"> Refund & Dispute Expected </label><br>
             <input type="radio" id="dispute" name="status" value="dispute">
             <label for="dispute">Going Good</label><br>
@@ -582,6 +572,10 @@
             <input type="radio" id="refund" name="status" value="refund">
             <label for="refund">High</label><br>
         </div>
+        <div class="col-12 mt-3">
+            <label for="" style="font-weight:bold;">Summery </label>
+            <textarea required name="Refund_Request_Attachment" class="form-control" id="" cols="30" rows="5"></textarea>
+          </div>
 
 
 

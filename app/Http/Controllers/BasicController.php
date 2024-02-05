@@ -700,6 +700,14 @@ class BasicController extends Controller
     function book_qaform(){
         return view('book_qaform');
     }
+
+    function website_qaform(){
+        return view('website_qaform');
+    }
+
+    function cld_qaform(){
+        return view('cld_qaform');
+    }
 }
 
 
