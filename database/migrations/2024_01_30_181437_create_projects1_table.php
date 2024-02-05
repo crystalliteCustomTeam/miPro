@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('clientID');
             $table->integer('projectManager');
+            $table->integer('production');
             $table->string('name');
             $table->string('domainOrwebsite');
             $table->string('basecampUrl');

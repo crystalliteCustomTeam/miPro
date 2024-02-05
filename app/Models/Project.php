@@ -14,6 +14,7 @@ class Project extends Model
     protected $fillable = [
         "clientID",
         "projectManager",
+        "production",
         "name",
         "domainOrwebsite",
         "basecampUrl",
@@ -24,6 +25,10 @@ class Project extends Model
     public function EmployeeName(): HasOne
     {
         return $this->hasOne(Employee::class,'id','projectManager');
+    }
+    public function ProductionName(): HasOne
+    {
+        return $this->hasOne(Employee::class,'id','production');
     }
 
     public function ClientName(): HasOne

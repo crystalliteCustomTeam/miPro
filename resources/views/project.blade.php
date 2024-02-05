@@ -31,8 +31,8 @@
                     <label for="" style="font-weight:bold;">Project Name:</label>
                     <input type="text" required name="name" class="form-control" required>
                 </div>
-               
-               
+
+
                 <div class="col-5 mt-3">
                   <label for="" style="font-weight:bold;">Client:</label>
                   <select class="form-control" id="select2forme" required name="client">
@@ -49,17 +49,23 @@
                     @endforeach
                   </select>
                 </div>
-                
-                
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Select Production:</label>
+                    <select class="form-control select2" required name="production">
+                      @foreach ($employee as $client)
+                          <option value="{{ $client->id }}">{{ $client->name }} </option>
+                      @endforeach
+                    </select>
+                  </div>
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
                 </div>
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Basecamp Url</label>
                   <input type="text" required name="basecampurl" required class="form-control">
                 </div>
-               
+
                 <div class="col-12 mt-3">
                   <label for="" style="font-weight:bold;">Project Description</label>
                  <textarea required name="openingcomments" class="form-control" id="" cols="30" rows="10"></textarea>

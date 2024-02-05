@@ -607,6 +607,7 @@ class BasicController extends Controller
         Project::create([
             'clientID' => $request->input('client'),
             'projectManager' => $request->input('pm'),
+            'production' => $request->input('production'),
             'name' => $request->input('name'),
             "domainOrwebsite" => $request->input('website'),
             "basecampUrl" => $request->input('basecampurl'),
