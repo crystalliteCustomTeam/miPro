@@ -45,13 +45,13 @@
                   @if (count($project) > 0)
                   @foreach ($project as $project)
                   <div class="media pd-20 pd-xs-30">
-                      <img src="https://cdn-icons-png.flaticon.com/32/7792/7792148.png" alt="" class="wd-40 rounded-circle">
+                      <img src="https://cdn-icons-png.flaticon.com/64/1087/1087815.png" alt="" class="wd-40 rounded-circle">
                       <div class="media-body mg-l-20">
                         <div class="d-flex justify-content-between mg-b-10">
                           <div>
                             <h6 class="mg-b-2 tx-inverse tx-14">{{ $project->name }}</h6>
                             <span class="tx-12 tx-gray-500">{{ $project->ClientName->name }}</span><br>
-                            <span class="tx-12 tx-gray-500">Production:{{ $project->ProductionName->name }}</span>
+                            <span class="tx-12 tx-gray-500">Production:  {{ $project->ProductionName->name }}</span>
                           </div>
                           <span class="tx-12">{{ $project->created_at }}</span>
                         </div><!-- d-flex -->
