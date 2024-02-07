@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('maincontent')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -55,6 +56,17 @@
                 <div class="col-3">
                     <br>
                     <input type="submit" value="Create" name="" class="btn btn-success mt-2">
+                    <script>
+                        function submitForm(){
+                        Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "User has been created successfully!",
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+                            }
+                    </script>
                 </div>
                 <div class="col-4">
                         @if (Session::has('Success'))

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('maincontent')
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -18,7 +20,7 @@
             <h4>User Management</h4>
             <p class="mg-b-0">Create User</p>
           </div>
-        </div><!-- d-flex -->
+        </div><!-- d-flex  -->
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
@@ -46,7 +48,7 @@
                   <td>
                       <div class="button-group">
                         <a href="/edituser/{{ $employees->id }}" class="btn btn-sm btn-info">Edit</a>
-                        <a href="/deleteuser/{{ $employees->id }}" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="#"  onclick="myConfirm()" class="btn btn-sm btn-danger">Delete</a>
                         <a href="/setupdepartments/{{ $employees->id }}" class="btn btn-sm btn-primary">Add Department</a>
                       </div>
                   </td>
@@ -56,6 +58,29 @@
 
               </tbody>
             </table>
+            <script>
+                function myConfirm(){
+                    Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this {{ $employees->name }} !",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/deleteuser/{{ $employees->id }}";
+                        Swal.fire({
+                        title: "Deleted!",
+                        text: "Your {{ $employees->name }} has been deleted.",
+                        icon: "success"
+                        });
+                    }});
+
+                }
+
+            </script>
 
 
 

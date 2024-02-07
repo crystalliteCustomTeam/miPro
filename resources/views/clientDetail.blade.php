@@ -33,17 +33,17 @@
       </ul>
     </div>
 
-    <div class="tab-content br-profile-body">
+    <div class="tab-content br-profile-body" >
       <div class="tab-pane fade active show" id="projects">
-        <div class="row">
-          <div class="col-lg-8">
+        <div class="row" >
+          <div class="col-lg-8"  >
             <div class="media-list bg-white rounded bd bd-gray-400">
                 @if (count($projects) > 0)
                 @foreach ($projects as $project)
-                <div class="media pd-20 pd-xs-30">
+                <div class="media pd-20 pd-xs-30" >
                     <img src="https://cdn-icons-png.flaticon.com/64/7792/7792148.png" alt="" class="wd-40 rounded-circle">
                     <div class="media-body mg-l-20">
-                      <div class="d-flex justify-content-between mg-b-10">
+                      <div class="d-flex justify-content-between mg-b-10" >
                         <div>
                           <h6 class="mg-b-2 tx-inverse tx-14">{{ $project->name }}</h6>
                           <span class="tx-12 tx-gray-500">{{ $project->EmployeeName->name }}</span><br>
@@ -59,7 +59,7 @@
                             <a href="/client/editproject/{{ $project->id }}" class="btn btn-sm  btn-info" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/1159/1159633.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Edit </a>
                             <a href="" class="btn btn-sm  btn-warning" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/4381/4381727.png" style="filter: invert(1); margin-right:10px"" alt="" title="" class="img-small">  QA</a>
                             <a href="" class="btn btn-sm  btn-danger" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/3094/3094851.png" style="filter: invert(1); margin-right:10px"" alt="" title="" class="img-small">  Report</a>
-                          {{-- <a href=""><i class="fa fa-heart"></i></a>https://cdn-icons-png.flaticon.com/512/4381/4381727.png
+                          {{-- <a href=""><i class="fa fa-heart"></i></a>
                           <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
                           <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
                           <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>form= pro,client, --}}
