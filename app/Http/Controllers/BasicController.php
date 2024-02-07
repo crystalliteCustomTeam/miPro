@@ -581,23 +581,6 @@ class BasicController extends Controller
         return view('cld_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
     }
 
-    function qaform(Request $request){
-        return view('qaform');
-    }
-
-    function renewalrecurring(Request $request){
-        return view('renewalrecurring');
-    }
-
-    function revenueloss(Request $request){
-        return view('revenueloss');
-    }
-
-    function paymentconfirmation(Request $request){
-        return view('paymentconfirmation');
-    }
-
-
     function clientProject(){
         $findclient = Client::get();
         $employee = Employee::get();
@@ -626,9 +609,9 @@ class BasicController extends Controller
 
     function editproject(Request $request, $id){
         $findproject = Project::Where('id',$id)->get();
-        $findclient = Client::Where('id',$id)->get();
+        $findclient = Client::get();
         $employee = Employee::get();
-        return view('project',['clients'=>$findclient,'employee' => $employee ,'projects' => $findproject]);
+        return view('editproject',['clients'=>$findclient,'employee' => $employee ,'projects' => $findproject]);
     }
 
     function editProjectProcess(Request $request, $id){
@@ -636,13 +619,14 @@ class BasicController extends Controller
         ->update([
             'clientID' => $request->input('client'),
             'projectManager' => $request->input('pm'),
+            'production' => $request->input('production'),
             'name' => $request->input('name'),
             "domainOrwebsite" => $request->input('website'),
             "basecampUrl" => $request->input('basecampurl'),
             "projectDescription" =>  $request->input('openingcomments')
         ]);
 
-        return redirect('/client/details/{id}');
+        return redirect('/client/details/'.$request->input('client'));
 
     }
 
@@ -777,6 +761,38 @@ class BasicController extends Controller
 
 
         
+    }
+
+    function qaform(Request $request){
+        return view('qaform');
+    }
+
+    function renewalrecurring(Request $request){
+        return view('renewalrecurring');
+    }
+
+    function revenueloss(Request $request){
+        return view('revenueloss');
+    }
+
+    function paymentconfirmation(Request $request){
+        return view('paymentconfirmation');
+    }
+
+    function seo_qaform(){
+        return view('seo_qaform');
+    }
+
+    function book_qaform(){
+        return view('book_qaform');
+    }
+
+    function website_qaform(){
+        return view('website_qaform');
+    }
+
+    function cld_qaform(){
+        return view('cld_qaform');
     }
 }
 

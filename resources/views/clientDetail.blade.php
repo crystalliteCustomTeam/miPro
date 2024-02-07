@@ -41,13 +41,13 @@
                 @if (count($projects) > 0)
                 @foreach ($projects as $project)
                 <div class="media pd-20 pd-xs-30">
-                    <img src="https://cdn-icons-png.flaticon.com/32/7792/7792148.png" alt="" class="wd-40 rounded-circle">
+                    <img src="https://cdn-icons-png.flaticon.com/64/7792/7792148.png" alt="" class="wd-40 rounded-circle">
                     <div class="media-body mg-l-20">
                       <div class="d-flex justify-content-between mg-b-10">
                         <div>
                           <h6 class="mg-b-2 tx-inverse tx-14">{{ $project->name }}</h6>
                           <span class="tx-12 tx-gray-500">{{ $project->EmployeeName->name }}</span><br>
-                          <span class="tx-12 tx-gray-500">Production:<a href="/userprofile/{{$project->ProductionName->id }}">{{ $project->ProductionName->name }}</a></span>
+                          <span class="tx-12 tx-gray-500">Production:  <a href="/userprofile/{{$project->ProductionName->id }}">{{ $project->ProductionName->name }}</a></span>
                         </div>
                         <span class="tx-12">{{ $project->created_at }}</span>
                       </div><!-- d-flex -->
@@ -57,8 +57,9 @@
                             <a href="/forms/payment/{{ $project->id }}" style="color:white;border-radius: 15px;" class="btn btn-sm   btn-success"><img src="https://cdn-icons-png.flaticon.com/24/1611/1611179.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Payment</a>
                             <a href="" class="btn btn-sm btn-primary" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/11524/11524412.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Change PM </a>
                             <a href="/client/editproject/{{ $project->id }}" class="btn btn-sm  btn-info" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/1159/1159633.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Edit </a>
+                            <a href="" class="btn btn-sm  btn-warning" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/4381/4381727.png" style="filter: invert(1); margin-right:10px"" alt="" title="" class="img-small">  QA</a>
                             <a href="" class="btn btn-sm  btn-danger" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/3094/3094851.png" style="filter: invert(1); margin-right:10px"" alt="" title="" class="img-small">  Report</a>
-                          {{-- <a href=""><i class="fa fa-heart"></i></a>
+                          {{-- <a href=""><i class="fa fa-heart"></i></a>https://cdn-icons-png.flaticon.com/512/4381/4381727.png
                           <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
                           <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
                           <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>form= pro,client, --}}

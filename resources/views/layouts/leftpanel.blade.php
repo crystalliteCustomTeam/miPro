@@ -90,6 +90,18 @@
       </ul>
     </li><!-- br-menu-item -->
     <li class="br-menu-item">
+        <a href="#" class="br-menu-link with-sub">
+          <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+          <span class="menu-item-label">QA Forms</span>
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub">
+          <li class="sub-item"><a href="/forms/seo_qaform" class="sub-link">SEO FORM</a></li>
+          <li class="sub-item"><a href="/forms/book_qaform" class="sub-link">Book Form</a></li>
+          <li class="sub-item"><a href="/forms/website_qaform" class="sub-link">Website Form</a></li>
+          <li class="sub-item"><a href="/forms/cld_qaform" class="sub-link">CLD Form</a></li>
+        </ul>
+      </li><!-- br-menu-item -->
+    <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
         <span class="menu-item-label">Charts</span>
