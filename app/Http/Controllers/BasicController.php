@@ -10,7 +10,8 @@ use App\Models\Employee;
 use App\Models\Department;
 use App\Models\Client;
 use App\Models\Project;
-
+use App\Models\ClientPayment;
+use App\Models\EmployeePayment;
 
 
 class BasicController extends Controller
@@ -607,7 +608,7 @@ class BasicController extends Controller
         Project::create([
             'clientID' => $request->input('client'),
             'projectManager' => $request->input('pm'),
-            'production' => $request->input('production'),
+            'productionID' => $request->input('production'),
             'name' => $request->input('name'),
             "domainOrwebsite" => $request->input('website'),
             "basecampUrl" => $request->input('basecampurl'),
@@ -691,6 +692,91 @@ class BasicController extends Controller
 
 
         return view('userreport', ['company'=> $companies,'brand'=>$brands,'department'=>$departments,'employee'=>$employees,'client'=>$clients,'project'=>$projects]);
+    }
+
+
+
+    function clientPayment(Request $request){
+
+        $paymentType = $request->input('paymentType');
+        if($paymentType == "Split Payment"){
+            $projectManager = $request->input('pmID');
+            $amountShare = $request->input('splitamount');
+            $SecondProjectManager = $request->input('shareProjectManager');
+            $projectManagerArray = [$projectManager,$SecondProjectManager];
+
+            $total =  $request->input('paidamount')    - $amountShare;
+            $createpayment = ClientPayment::insertGetId([
+                "clientID"  => $request->input('clientID'),
+                "projectID" => $request->input('project'),
+                "paymentNature" => $request->input('paymentNature'),
+                "clientPaid" => $request->input('paidamount'),
+                "remainingPayment" => $request->input('remainingamount'),
+                "paymentGateway" => $request->input('paymentgateway'),
+                "paymentType" => $request->input('paymentType'),
+                "ProjectManager" =>  $projectManager,
+                "amountShare" => $amountShare,
+            ]);
+            $findusername = DB::table('employees')->where('id',$request->input('pmID'))->get();
+            $findclient = DB::table('clients')->where('id',$request->input('clientID'))->get();
+            $paymentDescription = $findusername[0]->name ." Charge Payment For Client ".$findclient[0]->name ;
+
+           
+
+            $createEmployeePayment  = EmployeePayment::create(
+            [
+                "paymentID" => $createpayment,
+                "employeeID" => $request->input('pmID'),
+                "paymentDescription" => $findusername[0]->name ." Charge Payment For Client ".$findclient[0]->name,
+                "amount" =>     $total 
+            ],
+           
+        );
+
+        $createEmployeePayment  = EmployeePayment::create(
+            [
+                "paymentID" => $createpayment,
+                "employeeID" => $SecondProjectManager,
+                "paymentDescription" => "Amount Share By Project Manager ",
+                "amount" =>  $amountShare
+            ],
+        );
+
+            
+
+        }else{
+            $projectManager = $request->input('pmID');
+
+            $total =  $request->input('paidamount') ;
+            $createpayment = ClientPayment::insertGetId([
+                "clientID"  => $request->input('clientID'),
+                "projectID" => $request->input('project'),
+                "paymentNature" => $request->input('paymentNature'),
+                "clientPaid" => $request->input('paidamount'),
+                "remainingPayment" => $request->input('remainingamount'),
+                "paymentGateway" => $request->input('paymentgateway'),
+                "paymentType" => $request->input('paymentType'),
+                "ProjectManager" =>  $projectManager,
+                "amountShare" => 0,
+            ]);
+
+            $createEmployeePayment  = EmployeePayment::create(
+                [
+                    "paymentID" => $createpayment,
+                    "employeeID" => $request->input('pmID'),
+                    "paymentDescription" => $findusername[0]->name ." Charge Payment For Client ".$findclient[0]->name,
+                    "amount" =>  $total
+                ]
+            );
+        }
+
+        return "CHECK";
+
+       
+
+
+
+        
     }
 }
 
