@@ -23,9 +23,11 @@
         <div class="br-pagebody">
           <div class="br-section-wrapper">
 
-           <form action="#" method="POST">
+           <form action="/client/payment" method="POST">
             @csrf
             <input type="hidden" name="project" value=" {{$projectmanager[0]->id }} ">
+            <input type="hidden" name="clientID" value=" {{$projectmanager[0]->ClientName->id}} ">
+            <input type="hidden" name="pmID" value=" {{$projectmanager[0]->EmployeeName->id}} ">
 
             <div class="row">
 
@@ -55,7 +57,7 @@
                   </div>
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Remaining Payment</label>
-                    <input type="text" class="form-control" value="@if($AmountCheck) {{ $projectmanager[0]->ClientName->clientMetas->remainingAmount }} @endif" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+                    <input type="text" class="form-control" value="@if($AmountCheck) {{ $projectmanager[0]->ClientName->clientMetas->remainingAmount }} @endif" onkeypress="return /[0-9]/i.test(event.key)" name="remainingamount">
                 </div>
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Payment Gateway</label>
@@ -74,7 +76,7 @@
 
                 <div class="col-6 mt-3" id="projectmanager">
                     <label for="" style="font-weight:bold;" >Project Manager (If Split):</label>
-                    <select class="form-control select2"  name="pm" id="projectmanager">
+                    <select class="form-control select2"  name="shareProjectManager" id="projectmanager">
                       @foreach ($employee as $client)
                           <option value="{{ $client->id }}">{{ $client->name }} </option>
                       @endforeach
