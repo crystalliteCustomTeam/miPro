@@ -27,13 +27,25 @@
             @csrf
 
             <div class="row">
-                <div class="col-3 mt-3">
-                    <label for="" style="font-weight:bold;">Project: </label>
-                    <select class="form-control select2" name="project">
-                        @foreach($projects as $project)
-                        <option value="{{ $project->id }}">{{ $project->name }}</option>
-                        @endforeach
-                    </select>
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;font-size:150%;">Client Name:</label>
+                    <label for="" style="font-size:150%;">{{$projects[0]->ClientName->name }}</label>
+                </div>
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;font-size:150%;">Project Name:</label>
+                    <label for="" style="font-size:150%;">{{$projects[0]->name }}</label>
+                </div>
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;font-size:150%;">Project Manager:</label>
+                    <label for="" style="font-size:150%;">{{$projects[0]->EmployeeName->name }}</label>
+                </div>
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;font-size:150%;">Brand:</label>
+                    <label for="" style="font-size:150%;">{{$projects[0]->ClientName->brand }}</label>
+                </div>
+                <div class="col-8 mt-3">
+                    <label for="" style="font-weight:bold;font-size:150%;">Basecamplink:</label>
+                    <label for="" style="font-size:150%;">{{$projects[0]->basecampUrl }}</label>
                 </div>
                 <div class="col-3 mt-3">
                     <label for="" style="font-weight:bold;">Brand: </label>

@@ -758,7 +758,20 @@ class BasicController extends Controller
     }
 
     function qaform(Request $request){
-        return view('qaform');
+        $brand = Brand::get();
+        $department = Department::get();
+        $employee = Employee::get();
+        $project = Project::get();
+        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee]);
+    }
+
+    function qaform_prefilled(Request $request , $id ){
+        $project = Project::where('id',$id)->get();
+        $brand = Brand::get();
+        $department = Department::get();
+        $employee = Employee::get();
+
+        return view('qaformprefilled' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee]);
     }
 
     function renewalrecurring(Request $request){
