@@ -619,7 +619,7 @@ class BasicController extends Controller
         ->update([
             'clientID' => $request->input('client'),
             'projectManager' => $request->input('pm'),
-            'production' => $request->input('production'),
+            'productionID' => $request->input('production'),
             'name' => $request->input('name'),
             "domainOrwebsite" => $request->input('website'),
             "basecampUrl" => $request->input('basecampurl'),
@@ -649,7 +649,7 @@ class BasicController extends Controller
     }
 
     function payment(Request $request, $id){
-        // echo "<pre>";
+
         $findproject = Project::where('id',$id)->get();
         $findclient = Client::get();
         $findemployee = Employee::get();
@@ -683,13 +683,16 @@ class BasicController extends Controller
     function clientPayment(Request $request){
 
         $paymentType = $request->input('paymentType');
+        $findusername = DB::table('employees')->where('id',$request->input('pmID'))->get();
+        $findclient = DB::table('clients')->where('id',$request->input('clientID'))->get();
+
+
         if($paymentType == "Split Payment"){
             $projectManager = $request->input('pmID');
             $amountShare = $request->input('splitamount');
             $SecondProjectManager = $request->input('shareProjectManager');
-            $projectManagerArray = [$projectManager,$SecondProjectManager];
+            $total =  $request->input('paidamount') - $amountShare;
 
-            $total =  $request->input('paidamount')    - $amountShare;
             $createpayment = ClientPayment::insertGetId([
                 "clientID"  => $request->input('clientID'),
                 "projectID" => $request->input('project'),
@@ -701,32 +704,28 @@ class BasicController extends Controller
                 "ProjectManager" =>  $projectManager,
                 "amountShare" => $amountShare,
             ]);
+
             $findusername = DB::table('employees')->where('id',$request->input('pmID'))->get();
             $findclient = DB::table('clients')->where('id',$request->input('clientID'))->get();
             $paymentDescription = $findusername[0]->name ." Charge Payment For Client ".$findclient[0]->name ;
-
-           
-
-            $createEmployeePayment  = EmployeePayment::create(
+            $createMainEmployeePayment  = EmployeePayment::create(
             [
                 "paymentID" => $createpayment,
                 "employeeID" => $request->input('pmID'),
                 "paymentDescription" => $findusername[0]->name ." Charge Payment For Client ".$findclient[0]->name,
-                "amount" =>     $total 
+                "amount" =>     $total
             ],
-           
+
         );
 
-        $createEmployeePayment  = EmployeePayment::create(
-            [
-                "paymentID" => $createpayment,
-                "employeeID" => $SecondProjectManager,
-                "paymentDescription" => "Amount Share By Project Manager ",
-                "amount" =>  $amountShare
-            ],
-        );
-
-            
+            $createSharedPersonEmployeePayment  = EmployeePayment::create(
+                [
+                    "paymentID" => $createpayment,
+                    "employeeID" => $SecondProjectManager,
+                    "paymentDescription" => "Amount Share By ".$findusername[0]->name ,
+                    "amount" =>  $amountShare
+                ],
+            );
 
         }else{
             $projectManager = $request->input('pmID');
@@ -756,11 +755,6 @@ class BasicController extends Controller
 
         return "CHECK";
 
-       
-
-
-
-        
     }
 
     function qaform(Request $request){

@@ -55,7 +55,7 @@
                     <label for="" style="font-weight:bold;">Select Production:</label>
                     <select class="form-control select2" required name="production">
                       @foreach ($employee as $client)
-                          <option value="{{ $client->id }}" {{ $client->id == $project->production ? 'selected' : '' }}>{{ $client->name }}</option>
+                          <option value="{{ $client->id }}" {{ $client->id == $project->productionID ? 'selected' : '' }}>{{ $client->name }}</option>
                       @endforeach
                     </select>
                   </div>
