@@ -30,7 +30,6 @@ class Project extends Model
     {
         return $this->hasOne(Employee::class,'id','productionID');
     }
-
     public function ClientName(): HasOne
     {
         return $this->hasOne(Client::class,'id','clientID');

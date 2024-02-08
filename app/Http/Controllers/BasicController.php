@@ -778,6 +778,7 @@ class BasicController extends Controller
 
     function qaformclient(Request $request , $clientid){
         $findBrand = Client::where('id',$clientid)->get();
+
         $bID  = $findBrand[0]->brand;
         $findBrandName = Brand::where('id',$bID)->get();
         echo $findBrandName[0]->name;

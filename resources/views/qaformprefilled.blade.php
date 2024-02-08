@@ -47,18 +47,6 @@
                     <label for="" style="font-weight:bold;font-size:150%;">Basecamplink:</label>
                     <label for="" style="font-size:150%;">{{$projects[0]->basecampUrl }}</label>
                 </div>
-                <div class="col-3 mt-3">
-                    <label for="" style="font-weight:bold;">Brand: </label>
-                    <select class="form-control select2" name="brand">
-                        @foreach($brands as $brand)
-                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-3 mt-3">
-                    <label for="" style="font-weight:bold;">Basecamp Link</label>
-                    <input type="url" name="Basecamp" class="form-control" required>
-                </div>
                 <div class="col-3 mt-3" >
                   <label for="" style="font-weight:bold;">Last communication with client </label>
                   <input type="date" name="last_communication_with_client" required class="form-control">

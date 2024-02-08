@@ -18,7 +18,7 @@ class Client extends Model
         'brand',
         'saleperson',
         'website',
-    
+
     ];
 
     public function findbrand($employeList)
@@ -29,5 +29,10 @@ class Client extends Model
     public function clientMetas():HasOne
     {
         return $this->hasOne(ClientMeta::class,'clientID','id');
+    }
+
+    public function projectbrand():HasOne
+    {
+        return $this->hasOne(Brand::class,'id','brand');
     }
 }
