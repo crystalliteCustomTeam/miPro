@@ -107,6 +107,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/client/project/process','clientProjectProcess');
         Route::post('/client/editproject/{id}/process','editProjectProcess');
         Route::post('/client/payment','clientPayment');
+        
 
         //REPORTS:
         Route::get('/userreport','userreport');

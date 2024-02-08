@@ -22,35 +22,28 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-            <h4 style="font-weight:bold;">General Information:</h4>
+            <h3 style="color:black" class="mb-5">General Information:</h3>
            <form action="#" method="POST">
             @csrf
 
             <div class="row">
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;font-size:150%;">Client Name:</label>
-                    <label for="" style="font-size:150%;">{{$projects[0]->ClientName->name }}</label>
-                </div>
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;font-size:150%;">Project Name:</label>
-                    <label for="" style="font-size:150%;">{{$projects[0]->name }}</label>
-                </div>
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;font-size:150%;">Project Manager:</label>
-                    <label for="" style="font-size:150%;">{{$projects[0]->EmployeeName->name }}</label>
-                </div>
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;font-size:150%;">Brand:</label>
-                    <label for="" style="font-size:150%;">{{$projects[0]->ClientName->brand }}</label>
-                </div>
-                <div class="col-8 mt-3">
-                    <label for="" style="font-weight:bold;font-size:150%;">Basecamplink:</label>
-                    <label for="" style="font-size:150%;">{{$projects[0]->basecampUrl }}</label>
-                </div>
+              <div class="col-12">
+                <div class="btn-group">
+                  <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
+                  <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
+                  <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
+                  <button class="btn btn-outline-primary">Brand: {{$projects[0]->ClientName->projectbrand->name }}</button>
+               </div>
+              </div>
+             
+                
+                
+                <input type="hidden" name="basecamp" value="{{$projects[0]->basecampUrl }}">
                 <div class="col-3 mt-3" >
                   <label for="" style="font-weight:bold;">Last communication with client </label>
                   <input type="date" name="last_communication_with_client" required class="form-control">
                 </div>
+
                 <div class="col-3 mt-3">
                     <label for="" style="font-weight:bold;">Medium of communication:</label>
                     <select class="form-control select2" name="Medium_of_communication[]" multiple="multiple">
@@ -81,35 +74,14 @@
                   <label for="" style="font-weight:bold;">Refund Request Attachment </label>
                   <input type="file" name="Refund_Request_Attachment" required class="form-control">
                 </div>
+                <div class="col-12">
+                    <input type="submit" value="Create Information" class=" mt-3 btn btn-success">
+                </div>
+                
 
-
+                
             </div>
-            {{-- <div class="row mt-3">
-                <div class="col-3">
-                    <label for="">Address </label>
-                    <input type="text" name="address" required class="form-control">
-                </div>
-                <div class="col-4">
-                    <br>
-                    <input type="submit" value="Create" name="" class="btn btn-success mt-2">
-                </div>
-                <div class="col-4">
-                        @if (Session::has('Success'))
-
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>{{ Session::get('Success') }}</strong>
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
-                        </div>
-
-                        @endif
-                        @if (Session::has('Error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>{{ Session::get('Error') }}</strong>
-                            <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
-                        </div>
-                        @endif
-                </div>
-            </div> --}}
+            
            </form>
 
 
@@ -135,23 +107,24 @@
     @csrf
 
         <div class="row">
-            <div class="col-6 mt-3">
-                <label for="" style="font-weight:bold;">Department: </label>
-                <select class="form-control select2" name="department">
-                    @foreach($departments as $department)
-                    <option value="{{ $department->id }}">{{ $department->name }}</option>
-                    @endforeach
-                </select>
-        </div>
-        <div class="col-6 mt-3">
-            <label for="" style="font-weight:bold;">Department Person:</label>
+            
+          <div class="col-2 mt-3">
+            <label for="" style="font-weight:bold;">Department: </label>
+            <select class="form-control select2" name="department">
+                @foreach($departments as $department)
+                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                @endforeach
+            </select>
+          </div>
+          <div class="col-4 mt-3">
+            <label for="" style="font-weight:bold;">Responsible Person (Working On Project):</label>
             <select class="form-control select2" name="person">
                 @foreach($employees as $employee)
                 <option value="{{ $employee->id }}">{{ $employee->name }}</option>
                 @endforeach
             </select>
           </div>
-          <div class="col-6 mt-3">
+          <div class="col-3 mt-3">
             <label for="" style="font-weight:bold;">Status:</label>
             <select class="form-control select2" name="status_depart" >
                 <option value="In Process">In Process</option>
@@ -161,6 +134,7 @@
                 <option value="Waiting for Client Response">Waiting for Client Response</option>
             </select>
           </div>
+
           <div class="col-6 mt-3">
             <label for="" style="font-weight:bold;">Evidence(if any issue) </label>
             <input type="file" name="Evidence" required class="form-control">

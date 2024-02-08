@@ -784,6 +784,10 @@ class BasicController extends Controller
         echo $findBrandName[0]->name;
     }
 
+    function qaformdata(Request $request){
+        return ;
+    }
+
     function renewalrecurring(Request $request){
         return view('renewalrecurring');
     }
