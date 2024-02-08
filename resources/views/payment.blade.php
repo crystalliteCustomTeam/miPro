@@ -128,8 +128,35 @@
            </form>
 
 
+          </div>
+        </div>
 
+        <div class="br-pagebody">
+          <div class="br-section-wrapper">
+             <h2>All Payments By {{$projectmanager[0]->ClientName->name }}</h2>
 
+             <table class="table" id="datatable1">
+                <tr>
+                  <td>Notice ID</td>
+                  <td>Payment By</td>
+                  <td>Charged Amount</td>
+                  <td>Remaning Amount</td>
+                  <td>Total Payment</td>
+                </tr>
+                <tbody>
+                  @foreach ($allPayments as $payments)
+                    <tr>
+                      <td>{{ $payments->id }}</td>
+                      <td>{{ $payments->EmployeeName->name }}</td>
+                      <td>${{ $payments->clientPaid }}</td>
+                      <td>${{ $payments->remainingPayment }}</td>
+                      <td>${{ $payments->remainingPayment +   $payments->clientPaid}}</td>
+                    </tr>
+                  @endforeach
+                </tbody>
+             </table>
+          </div>
+        </div>
 
 
 
