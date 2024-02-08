@@ -654,6 +654,7 @@ class BasicController extends Controller
         $findclient = Client::get();
         $findemployee = Employee::get();
         $get_projectCount = Project::where('clientID',$findproject[0]->ClientName->id)->count();
+        $allPayments = ClientPayment::where('clientID',$findproject[0]->ClientName->id)->get();
 
         if($get_projectCount <= 1){
             $amount = true;
@@ -662,7 +663,7 @@ class BasicController extends Controller
             $amount = false;
         }
 
-        return view('payment',['id'=>$id ,'projectmanager'=>$findproject ,'clients'=>$findclient,'employee'=>$findemployee,'AmountCheck'=>$amount]);
+        return view('payment',['allPayments'=>$allPayments, 'id'=>$id ,'projectmanager'=>$findproject ,'clients'=>$findclient,'employee'=>$findemployee,'AmountCheck'=>$amount]);
     }
 
 
@@ -772,6 +773,14 @@ class BasicController extends Controller
         $employee = Employee::get();
 
         return view('qaformprefilled' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee]);
+    }
+
+
+    function qaformclient(Request $request , $clientid){
+        $findBrand = Client::where('id',$clientid)->get();
+        $bID  = $findBrand[0]->brand;
+        $findBrandName = Brand::where('id',$bID)->get();
+        echo $findBrandName[0]->name;
     }
 
     function renewalrecurring(Request $request){

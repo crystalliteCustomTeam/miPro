@@ -63,8 +63,8 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/cld','cld');
 
         //qaform:
-        Route::get('/forms/qaform/{id}','qaform_prefilled');
-        Route::get('/forms/qaform/','qaform');
+        Route::get('/forms/qaform','qaform');
+        Route::get('/forms/qaform/client/{id}','qaformclient');
 
         Route::get('/forms/seo_qaform','seo_qaform');
         Route::get('/forms/book_qaform','book_qaform');
