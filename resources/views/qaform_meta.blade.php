@@ -6,8 +6,8 @@
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
-            <a class="breadcrumb-item" href="#">Client</a>
-            <span class="breadcrumb-item active">Set Up Client project</span>
+            <a class="breadcrumb-item" href="#">QA Form</a>
+            <span class="breadcrumb-item active">Set Up QA Form</span>
           </nav>
         </div><!-- br-pageheader -->
 
@@ -15,8 +15,8 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Set Up Client Project </h4>
-            <p class="mg-b-0">Client Project </p>
+            <h4>Set Up QA Form </h4>
+            <p class="mg-b-0">QA Form Department Issue</p>
           </div>
         </div><!-- d-flex -->
 
@@ -131,11 +131,11 @@
 
            <table class="table" id="datatable1">
               <tr>
-                <td >Department</td>
-                <td>Responsible Person</td>
-                <td>Status</td>
-                <td>Issue</td>
-                <td>Description</td>
+                <td style="font-weight:bold;">Department</td>
+                <td style="font-weight:bold;">Responsible Person</td>
+                <td style="font-weight:bold;">Status</td>
+                <td style="font-weight:bold;">Issue</td>
+                <td style="font-weight:bold;">Description</td>
               </tr>
               <tbody>
                 @foreach ($qaformmetas as $qaformmeta)
@@ -149,7 +149,6 @@
                 @endforeach
               </tbody>
            </table>
-           <button  class=" mt-3 btn btn-success" id="remarkbutton" ONCLICK="ShowAndHide()" >Add Remarks</button>
         </div>
       </div>
 

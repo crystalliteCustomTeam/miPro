@@ -137,11 +137,11 @@
 
              <table class="table" id="datatable1">
                 <tr>
-                  <td>Notice ID</td>
-                  <td>Payment By</td>
-                  <td>Charged Amount</td>
-                  <td>Remaning Amount</td>
-                  <td>Total Payment</td>
+                  <td style="font-weight:bold;">Notice ID</td>
+                  <td style="font-weight:bold;">Payment By</td>
+                  <td style="font-weight:bold;">Charged Amount</td>
+                  <td style="font-weight:bold;">Remaning Amount</td>
+                  <td style="font-weight:bold;">Total Payment</td>
                 </tr>
                 <tbody>
                   @foreach ($allPayments as $payments)
