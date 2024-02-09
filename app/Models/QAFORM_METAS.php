@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class QAFORM_METAS extends Model
 {
@@ -18,4 +19,13 @@ class QAFORM_METAS extends Model
         "Description_of_issue",
         "evidence"
     ];
+
+    public function EmployeeNameINQA(): HasOne
+    {
+        return $this->hasOne(Employee::class,'id','responsible_person');
+    }
+    public function DepartNameINQA(): HasOne
+    {
+        return $this->hasOne(Department::class,'id','departmant');
+    }
 }

@@ -17,6 +17,14 @@ class QAFORM extends Model
         "qaformID",
         "status",
         "last_communication",
-        "medium_of_communication"
+        "medium_of_communication",
+        "client_satisfaction",
+        "status_of_refund",
+        "Refund_Requested",
+        "Refund_Request_Attachment",
+        "Refund_Request_summery"
+
+
+
     ];
 }

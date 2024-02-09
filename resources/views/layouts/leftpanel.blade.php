@@ -61,7 +61,6 @@
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
 
-        <li class="sub-item"><a href="/forms/qaform" class="sub-link">Qa Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Renewal/Resurring Form</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Revenue Loss</a></li>
         <li class="sub-item"><a href="/searchuser" class="sub-link">Payment Confirmation Form</a></li>
@@ -95,10 +94,7 @@
           <span class="menu-item-label">QA Forms</span>
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
-          <li class="sub-item"><a href="/forms/seo_qaform" class="sub-link">SEO FORM</a></li>
-          <li class="sub-item"><a href="/forms/book_qaform" class="sub-link">Book Form</a></li>
-          <li class="sub-item"><a href="/forms/website_qaform" class="sub-link">Website Form</a></li>
-          <li class="sub-item"><a href="/forms/cld_qaform" class="sub-link">CLD Form</a></li>
+          <li class="sub-item"><a href="/forms/qaform_d" class="sub-link">QA FORM</a></li>
         </ul>
       </li><!-- br-menu-item -->
     <li class="br-menu-item">

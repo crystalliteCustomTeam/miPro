@@ -768,6 +768,25 @@ class BasicController extends Controller
         return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee]);
     }
 
+    function qaform_direct_process(Request $request ){
+        $projectClient = Client::where('id',$request->input('projectname'))->get();
+        $project = Project::where('id',$request->input('projectname'))->get();
+
+        QAFORM::create([
+            'clientID' => $project[0]->ClientName->id,
+            'projectID' => $request->input('projectname'),
+            'projectmanagerID' => $project[0]->EmployeeName->id,
+            'brandID' => $project[0]->ClientName->projectbrand->id,
+            "qaformID" => $request->input('qaformID'),
+            "status" => $request->input('status'),
+            "last_communication" =>   $request->input('last_communication_with_client'),
+            "medium_of_communication" => json_encode($request->input('Medium_of_communication'))
+        ]);
+
+        return redirect('/forms/qaform/qa_meta/'.$request->input('qaformID'));
+
+    }
+
     function qaform_prefilled(Request $request , $id ){
         $project = Project::where('id',$id)->get();
         $brand = Brand::get();
@@ -794,10 +813,21 @@ class BasicController extends Controller
 
     }
 
+    function qaform_meta(Request $request ,string $id  ){
+        $form_id = QAFORM::where('qaformID',$id)->get();
+        $form_metas = QAFORM_METAS::where('formid',$id)->get();
+        $project = Project::where('id',$form_id[0]->projectID)->get();
+        $department = Department::get();
+        $employee = Employee::get();
+
+        return view('qaform_meta',['qaform'=>$form_id , 'departments'=>$department ,  'employees'=>$employee ,  'qaformmetas'=>$form_metas , 'projects'=>$project ]);
+
+    }
+
     function qaformmeta_process(Request $request ,string $id){
 
         QAFORM_METAS::create([
-            'formid' => $request->input('formid'),
+            'formid' =>  $request->input('formid'),
             'departmant' => $request->input('department'),
             'responsible_person' => $request->input('person'),
             'status' => $request->input('status_depart'),
@@ -810,15 +840,22 @@ class BasicController extends Controller
 
     }
 
-    function qaform_meta(Request $request ,string $id  ){
-        $form_id = QAFORM::where('id',$id)->get();
-        $department = Department::get();
-        $employee = Employee::get();
+    function qaform_remarks_process(Request $request ,string $id){
 
-        return view('qaform_meta',['qaform'=>$form_id , 'departments'=>$department ,  'employees'=>$employee]);
+        QAFORM::where('qaformID',$id)
+        ->Update([
+            'client_satisfaction' => $request->input('client_satisfation'),
+            'status_of_refund' => $request->input('status_of_refund'),
+            'Refund_Requested' => $request->input('Refund_Requested'),
+            "Refund_Request_Attachment" => json_encode($request->input('Refund_Request_Attachment')),
+            "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+        ]);
+
+        $formProject_id = QAFORM::where('qaformID',$id)->get();
+
+        return redirect('/client/details/'.$formProject_id[0]->clientID);
 
     }
-
 
     function qaformclient(Request $request , $clientid){
         $findBrand = Client::where('id',$clientid)->get();

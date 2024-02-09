@@ -25,7 +25,7 @@
             <h4 style="font-weight:bold;">Client Project Information:</h4>
            <form action="/forms/qaform/qa_meta/{id}/process" method="POST">
             @csrf
-            <input type="hidden" name="formid" value="{{ qaform[0]->qaformID }}">
+            <input type="hidden" name="formid" value="{{ $qaform[0]->qaformID }}">
 
             <div class="row">
                 <div class="col-4 mt-3">
@@ -57,7 +57,7 @@
 
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Evidence(if any issue) </label>
-                    <input type="file" name="Evidence" required class="form-control">
+                    <input type="file" name="Evidence" class="form-control">
                 </div>
                 <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Issues:</label>
@@ -94,6 +94,11 @@
                         <option value="SMM Post Conten">SMM Post Conten</option>
                         <option value="Good Read Account">Good Read Account</option>
                         <option value="Creating Social Media Account">Creating Social Media Account</option>
+                        <option value="Keywords">Keywords</option>
+                        <option value="GMB">GMB</option>
+                        <option value="Ranking">Ranking</option>
+                        <option value="On page Optimisation">On page Optimisation</option>
+                        <option value="Off page Optimisation">Off page Optimisation</option>
                         <option value="Simple issue">General issue</option>
                         <option value="Timely Update">Timely Update</option>
                         <option value="Understanding issue">Understanding issue</option>
@@ -103,7 +108,7 @@
 
                 <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Description of issue</label>
-                    <textarea required name="Description_of_issue" class="form-control" id="" cols="30" rows="10"></textarea>
+                    <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10"></textarea>
                 </div>
                 <div class="col-12">
                     <input type="submit" value="Create Information" class=" mt-3 btn btn-success">
@@ -115,7 +120,96 @@
         </div><!-- br-section-wrapper -->
     </div><!-- br-pagebody -->
 
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+           <h2>Department Issues:</h2>
+              <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
+              <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
+              <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
+              <button class="btn btn-outline-primary">Brand: {{$projects[0]->ClientName->projectbrand->name }}</button>
+              <br><br>
 
+           <table class="table" id="datatable1">
+              <tr>
+                <td >Department</td>
+                <td>Responsible Person</td>
+                <td>Status</td>
+                <td>Issue</td>
+                <td>Description</td>
+              </tr>
+              <tbody>
+                @foreach ($qaformmetas as $qaformmeta)
+                  <tr>
+                    <td>{{ $qaformmeta->DepartNameINQA->name }}</td>
+                    <td>{{ $qaformmeta->EmployeeNameINQA->name }}</td>
+                    <td>{{ $qaformmeta->status }}</td>
+                    <td>{{ $qaformmeta->issues }}</td>
+                    <td>{{ $qaformmeta->Description_of_issue}}</td>
+                  </tr>
+                @endforeach
+              </tbody>
+           </table>
+           <button  class=" mt-3 btn btn-success" id="remarkbutton" ONCLICK="ShowAndHide()" >Add Remarks</button>
+        </div>
+      </div>
+
+
+
+
+
+
+      <div class="br-pagebody"  >
+        <div class="br-section-wrapper">
+           <h2>Project Remarks:</h2>
+           <form action="/forms/qaform/qa_remarks/{{ $qaform[0]->qaformID }}/process" method="POST">
+            @csrf
+            <input type="hidden" name="formid" value="{{ $qaform[0]->qaformID }}">
+
+            <div class="row">
+                <div class="col-6 mt-3">
+                    <label for="" style="font-weight:bold;">Client Satisfaction Level:</label>
+                    <select class="form-control select2" name="client_satisfation">
+                        <option value="Extremely Satisfied">Extremely Satisfied</option>
+                        <option value="Somewhat Satisfied">Somewhat Satisfied</option>
+                        <option value="Neither Satisfied nor Dissatisfied">Neither Satisfied nor Dissatisfied</option>
+                        <option value="Not Started Yet">Not Started Yet</option>
+                        <option value="Somewhat Dissatisfied">Somewhat Dissatisfied</option>
+                        <option value="Extremely Dissatisfied">Extremely Dissatisfied</option>
+                    </select>
+                  </div>
+                <div class="col-6 mt-3">
+                    <label for="" style="font-weight:bold;">Refund & Dispute Expected :</label>
+                    <select class="form-control select2" name="status_of_refund" >
+                        <option value="Going Good">Going Good</option>
+                        <option value="Low">Low</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="Not Started Yet">Not Started Yet</option>
+                        <option value="High">High</option>
+                    </select>
+                  </div>
+                  <div class="col-6 mt-3">
+                    <label for="" style="font-weight:bold;">Refund Requested: </label>
+                    <select class="form-control select2"  name="Refund_Requested" >
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                  </div>
+                <div class="col-6 mt-3">
+                  <label for="" style="font-weight:bold;">Refund Request Attachment </label>
+                  <input type="file" name="Refund_Request_Attachment"  class="form-control">
+                </div>
+                <div class="col-12 mt-3">
+                    <label for="" style="font-weight:bold;">Summery </label>
+                    <textarea  name="Refund_Request_summery" class="form-control" id="" cols="30" rows="10"></textarea>
+                </div>
+                <div class="col-12">
+                    <input type="submit" value="Submit Form" class=" mt-3 btn btn-success">
+                </div>
+            </div>
+           </form>
+
+        </div><!-- br-section-wrapper -->
+    </div><!-- br-pagebody -->
 
 
     <footer class="br-footer">
