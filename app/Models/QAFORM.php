@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class QAFORM extends Model
+{
+    use HasFactory;
+    protected $table = 'qaform';
+    protected $fillable = [
+        "clientID",
+        "projectID",
+        "projectmanagerID",
+        "brandID",
+        "qaformID",
+        "status",
+        "last_communication",
+        "medium_of_communication"
+    ];
+}

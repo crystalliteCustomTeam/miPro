@@ -12,6 +12,8 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Models\ClientPayment;
 use App\Models\EmployeePayment;
+use App\Models\QAFORM;
+use App\Models\QAFORM_METAS;
 
 
 class BasicController extends Controller
@@ -773,6 +775,48 @@ class BasicController extends Controller
         $employee = Employee::get();
 
         return view('qaformprefilled' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee]);
+    }
+
+    function qaform_prefilled_process(Request $request , $id ){
+
+        QAFORM::create([
+            'clientID' => $request->input('clientID'),
+            'projectID' => $request->input('projectID'),
+            'projectmanagerID' => $request->input('projectmanagerID'),
+            'brandID' => $request->input('brandID'),
+            "qaformID" => $request->input('qaformID'),
+            "status" => $request->input('status'),
+            "last_communication" =>   $request->input('last_communication_with_client'),
+            "medium_of_communication" => json_encode($request->input('Medium_of_communication'))
+        ]);
+
+        return redirect('/forms/qaform/qa_meta/'.$request->input('qaformID'));
+
+    }
+
+    function qaformmeta_process(Request $request ,string $id){
+
+        QAFORM_METAS::create([
+            'formid' => $request->input('formid'),
+            'departmant' => $request->input('department'),
+            'responsible_person' => $request->input('person'),
+            'status' => $request->input('status_depart'),
+            "issues" => json_encode($request->input('issues')),
+            "Description_of_issue" => $request->input('Description_of_issue'),
+            "evidence" =>   $request->input('Evidence')
+        ]);
+
+        return redirect('/forms/qaform/qa_meta/'.$request->input('formid'));
+
+    }
+
+    function qaform_meta(Request $request ,string $id  ){
+        $form_id = QAFORM::where('id',$id)->get();
+        $department = Department::get();
+        $employee = Employee::get();
+
+        return view('qaform_meta',['qaform'=>$form_id , 'departments'=>$department ,  'employees'=>$employee]);
+
     }
 
 

@@ -65,7 +65,19 @@ Route::controller(BasicController::class)->group(function (){
         //qaform:
         Route::get('/forms/qaform','qaform');
         Route::get('/forms/qaform/{id}','qaform_prefilled');
+        Route::get('/forms/qaform/qa_meta/{id}','qaform_meta');
         Route::get('/forms/qaform/client/{id}','qaformclient');
+
+       //qaformprocess :
+        Route::post('/forms/qaform/{id}/process','qaform_prefilled_process');
+        Route::post('/forms/qaform/qa_meta/{id}/process','qaformmeta_process');
+
+
+
+
+
+
+
 
         Route::get('/forms/seo_qaform','seo_qaform');
         Route::get('/forms/book_qaform','book_qaform');
@@ -107,7 +119,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/client/project/process','clientProjectProcess');
         Route::post('/client/editproject/{id}/process','editProjectProcess');
         Route::post('/client/payment','clientPayment');
-        
+
 
         //REPORTS:
         Route::get('/userreport','userreport');
