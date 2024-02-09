@@ -22,7 +22,8 @@ class QAFORM extends Model
         "status_of_refund",
         "Refund_Requested",
         "Refund_Request_Attachment",
-        "Refund_Request_summery"
+        "Refund_Request_summery",
+        "qaPerson"
 
 
 

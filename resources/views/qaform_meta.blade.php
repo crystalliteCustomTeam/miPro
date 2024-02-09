@@ -23,7 +23,7 @@
         <div class="br-pagebody">
           <div class="br-section-wrapper">
             <h4 style="font-weight:bold;">Client Project Information:</h4>
-           <form action="/forms/qaform/qa_meta/{id}/process" method="POST">
+           <form action="/forms/qaform/qa_meta/{id}/process" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="formid" value="{{ $qaform[0]->qaformID }}">
 
@@ -161,7 +161,7 @@
       <div class="br-pagebody"  >
         <div class="br-section-wrapper">
            <h2>Project Remarks:</h2>
-           <form action="/forms/qaform/qa_remarks/{{ $qaform[0]->qaformID }}/process" method="POST">
+           <form action="/forms/qaform/qa_remarks/{{ $qaform[0]->qaformID }}/process" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="formid" value="{{ $qaform[0]->qaformID }}">
 
