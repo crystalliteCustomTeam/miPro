@@ -51,7 +51,7 @@
 
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Medium of communication:</label>
-                    <select class="form-control select2" name="Medium_of_communication[]" multiple="multiple">
+                    <select class="form-control select2" required name="Medium_of_communication[]" multiple="multiple">
                         <option value="Calls">Calls</option>
                         <option value="Messages">Messages</option>
                         <option value="Basecamp">Basecamp</option>
@@ -61,7 +61,7 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Status:</label>
-                    <select class="form-control select2" name="status" >
+                    <select class="form-control select2" required name="status" >
                         <option value="Dispute">Dispute</option>
                         <option value="Refund">Refund</option>
                         <option value="On Going">On Going</option>

@@ -30,7 +30,7 @@
             <div class="row">
               <div class="col-6 mt-3">
                 <label for="" style="font-weight:bold;">Project: </label>
-                <select class="form-control select2" name="projectname">
+                <select class="form-control select2" required name="projectname">
                     @foreach($projects as $project)
                     <option value="{{ $project->id }}">{{ $project->name }}</option>
                     @endforeach
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Medium of communication:</label>
-                    <select class="form-control select2" name="Medium_of_communication[]" multiple="multiple">
+                    <select class="form-control select2" name="Medium_of_communication[]" required multiple="multiple">
                         <option value="Calls">Calls</option>
                         <option value="Messages">Messages</option>
                         <option value="Basecamp">Basecamp</option>
@@ -52,7 +52,7 @@
                   </div>
                   <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Status:</label>
-                    <select class="form-control select2" name="status" >
+                    <select class="form-control select2" required name="status" >
                         <option value="Dispute">Dispute</option>
                         <option value="Refund">Refund</option>
                         <option value="On Going">On Going</option>

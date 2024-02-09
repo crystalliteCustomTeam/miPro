@@ -167,7 +167,7 @@
             <div class="row">
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Client Satisfaction Level:</label>
-                    <select class="form-control select2" name="client_satisfation">
+                    <select class="form-control select2" required name="client_satisfation">
                         <option value="Extremely Satisfied">Extremely Satisfied</option>
                         <option value="Somewhat Satisfied">Somewhat Satisfied</option>
                         <option value="Neither Satisfied nor Dissatisfied">Neither Satisfied nor Dissatisfied</option>
@@ -178,7 +178,7 @@
                   </div>
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Refund & Dispute Expected :</label>
-                    <select class="form-control select2" name="status_of_refund" >
+                    <select class="form-control select2"  required name="status_of_refund" >
                         <option value="Going Good">Going Good</option>
                         <option value="Low">Low</option>
                         <option value="Moderate">Moderate</option>
@@ -188,7 +188,7 @@
                   </div>
                   <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Refund Requested: </label>
-                    <select class="form-control select2"  name="Refund_Requested" >
+                    <select class="form-control select2" required  name="Refund_Requested" >
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
@@ -199,7 +199,7 @@
                 </div>
                 <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Summery </label>
-                    <textarea  name="Refund_Request_summery" class="form-control" id="" cols="30" rows="10"></textarea>
+                    <textarea  name="Refund_Request_summery" required class="form-control" id="" cols="30" rows="10"></textarea>
                 </div>
                 <div class="col-12">
                     <input type="submit" value="Submit Form" class=" mt-3 btn btn-success">
