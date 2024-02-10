@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('maincontent')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -140,10 +141,32 @@
                         <option value="Email Marketing">Email Marketing</option>
                     </select>
                   </div>
+                  <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Payment Nature</label>
+                    <select class="form-control select2"  required name="leadplatform">
+                        <option value="Renewal">Renewal</option>
+                        <option value="Recurring">Recurring</option>
+                        <option value="One Time">One Time</option>
+                    </select>
+                  </div>
+                  <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Production:</label>
+                    <select class="form-control" id="frontsale"  required name="production">
+                    @foreach($ProjectManagers as $pm)
+                        <option value="{{ $pm->id }}">
+                          {{ $pm->name }}
+                          --
+                          @foreach($pm->deparment($pm->id)  as $dm)
+                            <strong>{{ $dm->name }}</strong>
+                          @endforeach
+                        </option>
+                    @endforeach
+                  </select>
+                  </div>
 
                   <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Anymore commitments?</label>
-                    <input type="text" class="form-control" name="anycommitment">
+                    <textarea required name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
                   </div>
 
 
