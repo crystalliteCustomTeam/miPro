@@ -15,6 +15,7 @@ class QAFORM extends Model
         "projectmanagerID",
         "brandID",
         "qaformID",
+        "ProjectProductionID",
         "status",
         "last_communication",
         "medium_of_communication",

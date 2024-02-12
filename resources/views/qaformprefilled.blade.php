@@ -61,9 +61,9 @@
                   </div>
                   <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Select Production: </label>
-                    <select class="form-control select2" required name="productionname">
+                    <select class="form-control select2" required name="production_name" required>
                         @foreach($productions as $production)
-                        <option value="{{ $production->responsible_person }}">{{ $production->DepartNameinProjectProduction->name }}</option>
+                        <option value="{{ $production->departmant }}">{{ $production->DepartNameinProjectProduction->name }}</option>
                         @endforeach
                     </select>
                 </div>

@@ -22,43 +22,22 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
+            <h2>Department Issues:</h2>
+              <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
+              <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
+              <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
+              <button class="btn btn-outline-primary">Department {{$productions[0]->DepartNameinProjectProduction->name }}</button>
+              <button class="btn btn-outline-primary">Person: {{$productions[0]->EmployeeNameinProjectProduction->name }}</button>
+              <br><br>
             <h4 style="font-weight:bold;">Client Project Information:</h4>
            <form action="/forms/qaform/qa_meta/{id}/process" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="formid" value="{{ $qaform[0]->qaformID }}">
+            <input type="hidden" name="department" value="{{  $productions[0]->DepartNameinProjectProduction->id  }}">
+            <input type="hidden" name="person" value="{{ $productions[0]->EmployeeNameinProjectProduction->id }}">
+            <input type="hidden" name="status_depart" value="{{ $qaform[0]->status }}">
 
             <div class="row">
-                <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Department: </label>
-                    <select class="form-control select2" name="department">
-                        @foreach($departments as $department)
-                        <option value="{{ $department->id }}">{{ $department->name }}</option>
-                        @endforeach
-                    </select>
-                  </div>
-                  <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Responsible Person (Working On Project):</label>
-                    <select class="form-control select2" name="person">
-                        @foreach($employees as $employee)
-                        <option value="{{ $employee->id }}">{{ $employee->name }}</option>
-                        @endforeach
-                    </select>
-                  </div>
-                  <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Status:</label>
-                    <select class="form-control select2" name="status_depart" >
-                        <option value="In Process">In Process</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Not Applicable">Not Applicable</option>
-                        <option value="Not Started Yet">Not Started Yet</option>
-                        <option value="Waiting for Client Response">Waiting for Client Response</option>
-                    </select>
-                  </div>
-
-                  <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Evidence(if any issue) </label>
-                    <input type="file" name="Evidence" class="form-control">
-                </div>
                 <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Issues:</label>
                     <select class="form-control select2" name="issues[]" multiple="multiple">
@@ -105,10 +84,13 @@
                         <option value="Going Good">Going Good</option>
                     </select>
                   </div>
-
                 <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Description of issue</label>
                     <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10"></textarea>
+                </div>
+                  <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Evidence(if any issue) </label>
+                    <input type="file" name="Evidence" class="form-control">
                 </div>
                 <div class="col-12">
                     <input type="submit" value="Create Information" class=" mt-3 btn btn-success">

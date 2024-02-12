@@ -833,18 +833,39 @@ class BasicController extends Controller
 
     function qaform_prefilled_process(Request $request , $id ){
 
-        QAFORM::create([
-            'clientID' => $request->input('clientID'),
-            'projectID' => $request->input('projectID'),
-            'projectmanagerID' => $request->input('projectmanagerID'),
-            'brandID' => $request->input('brandID'),
-            "qaformID" => $request->input('qaformID'),
-            "status" => $request->input('status'),
-            "last_communication" =>   $request->input('last_communication_with_client'),
-            "medium_of_communication" => json_encode($request->input('Medium_of_communication'))
-        ]);
+        if($request->input('status') == 'Not Started Yet'){
 
-        return redirect('/forms/qaform/qa_meta/'.$request->input('qaformID'));
+            QAFORM::create([
+                'clientID' => $request->input('clientID'),
+                'projectID' => $request->input('projectID'),
+                'projectmanagerID' => $request->input('projectmanagerID'),
+                'brandID' => $request->input('brandID'),
+                "qaformID" => $request->input('qaformID'),
+                "ProjectProductionID" => $request->input('production_name'),
+                "status" => $request->input('status'),
+                "last_communication" =>   $request->input('last_communication_with_client'),
+                "medium_of_communication" => json_encode($request->input('Medium_of_communication'))
+            ]);
+
+            return redirect('/forms/qaform/'.$request->input('projectID'));
+
+        }else{
+
+            QAFORM::create([
+                'clientID' => $request->input('clientID'),
+                'projectID' => $request->input('projectID'),
+                'projectmanagerID' => $request->input('projectmanagerID'),
+                'brandID' => $request->input('brandID'),
+                "qaformID" => $request->input('qaformID'),
+                "ProjectProductionID" => $request->input('production_name'),
+                "status" => $request->input('status'),
+                "last_communication" =>   $request->input('last_communication_with_client'),
+                "medium_of_communication" => json_encode($request->input('Medium_of_communication'))
+            ]);
+
+            return redirect('/forms/qaform/qa_meta/'.$request->input('qaformID'));
+
+        }
 
     }
 
@@ -853,10 +874,11 @@ class BasicController extends Controller
         $form_id = QAFORM::where('qaformID',$id)->get();
         $form_metas = QAFORM_METAS::where('formid',$id)->get();
         $project = Project::where('id',$form_id[0]->projectID)->get();
+        $production = ProjectProduction::where('projectID', $project[0]->productionID)->get();
         $department = Department::get();
         $employee = Employee::get();
 
-        return view('qaform_meta',['qaform'=>$form_id , 'departments'=>$department ,  'employees'=>$employee ,  'qaformmetas'=>$form_metas , 'projects'=>$project ]);
+        return view('qaform_meta',['qaform'=>$form_id , 'departments'=>$department ,  'employees'=>$employee ,  'qaformmetas'=>$form_metas , 'projects'=>$project , 'productions'=>$production ]);
 
     }
 
