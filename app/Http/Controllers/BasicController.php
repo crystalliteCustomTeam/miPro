@@ -612,13 +612,12 @@ class BasicController extends Controller
 
     function Project_production(Request $request, string $id){
         $production = ProjectProduction::where('projectID',$id)->get();
-        $services = json_decode($production[0]->services);
 
         $project = Project::where('productionID',$id)->get();
         $department = Department::get();
         $employee = Employee::get();
 
-        return view('projectProduction' , ['departments'=>$department,'employees'=>$employee, 'project_id'=>$project, 'productions'=>$production, 'projects'=>$project, 'services'=>$services]);
+        return view('projectProduction' , ['departments'=>$department,'employees'=>$employee, 'project_id'=>$project, 'productions'=>$production, 'projects'=>$project]);
     }
 
     function Project_ProductionProcess(Request $request, $id){
