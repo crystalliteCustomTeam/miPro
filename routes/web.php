@@ -89,6 +89,7 @@ Route::controller(BasicController::class)->group(function (){
         //projects form:
         Route::get('/client/project','clientProject');
         Route::get('/client/project/{id}','clientProject_prefilled');
+        Route::get('/client/project/productions/{id}','Project_production');
         Route::get('/client/editproject/{id}','editproject');
 
 
@@ -119,6 +120,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/editdepartment/{id}/process','editdepartmentprocess');
         Route::post('/forms/kyc/process/client','kycclientprocess');
         Route::post('/client/project/process','clientProjectProcess');
+        ROute::post('/client/project/production/{id}/process','Project_ProductionProcess');
         Route::post('/client/editproject/{id}/process','editProjectProcess');
         Route::post('/client/payment','clientPayment');
 

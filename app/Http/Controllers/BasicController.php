@@ -14,6 +14,7 @@ use App\Models\ClientPayment;
 use App\Models\EmployeePayment;
 use App\Models\QAFORM;
 use App\Models\QAFORM_METAS;
+use App\Models\ProjectProduction;
 
 
 class BasicController extends Controller
@@ -155,7 +156,7 @@ class BasicController extends Controller
 
     }
 
-        function editcompanyprocess(Request $request, $id){
+    function editcompanyprocess(Request $request, $id){
             $companyname = $request['name'];
             $companyemail = $request['email'];
             $companyaddress = $request['address'];
@@ -173,16 +174,16 @@ class BasicController extends Controller
                     'address' => $companyaddress
                 ]);
                 return redirect('/companies');
-        }
+    }
 
-        function deletecompany(Request $request, $id){
+    function deletecompany(Request $request, $id){
 
             $branddeleted = DB::table('brands')->where('companyID', $id)->delete();
             $companydeleted = DB::table('companies')->where('id', $id)->delete();
 
             return redirect('/companies');
 
-        }
+    }
 
 
     function companies(Request $request){
@@ -593,20 +594,48 @@ class BasicController extends Controller
         Project::create([
             'clientID' => $request->input('client'),
             'projectManager' => $request->input('pm'),
-            'productionID' => $request->input('production'),
+            'productionID' => $request->input('productionID'),
             'name' => $request->input('name'),
             "domainOrwebsite" => $request->input('website'),
             "basecampUrl" => $request->input('basecampurl'),
             "projectDescription" =>  $request->input('openingcomments')
         ]);
 
-        return redirect('/client/details/'.$request->input('client'));
+        return redirect('/client/project/productions/'.$request->input('productionID'));
     }
 
     function clientProject_prefilled(Request $request, $id){
         $findclient = Client::Where('id',$id)->get();
         $employee = Employee::get();
         return view('project',['clients'=>$findclient,'employee' => $employee]);
+    }
+
+    function Project_production(Request $request, string $id){
+        $production = ProjectProduction::where('projectID',$id)->get();
+        $services = json_decode($production[0]->services);
+
+        $project = Project::where('productionID',$id)->get();
+        $department = Department::get();
+        $employee = Employee::get();
+
+        return view('projectProduction' , ['departments'=>$department,'employees'=>$employee, 'project_id'=>$project, 'productions'=>$production, 'projects'=>$project, 'services'=>$services]);
+    }
+
+    function Project_ProductionProcess(Request $request, $id){
+
+        ProjectProduction::create([
+            'clientID' =>  $request->input('clientname'),
+            'projectID' =>  $request->input('projectid'),
+            'departmant' => $request->input('department'),
+            'responsible_person' => $request->input('production'),
+            "services" => json_encode($request->input('services')),
+            "anycomment" => $request->input('Description'),
+        ]);
+
+        return redirect('/client/project/productions/'.$request->input('projectid'));
+
+
+
     }
 
     function editproject(Request $request, $id){
