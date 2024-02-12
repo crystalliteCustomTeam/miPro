@@ -633,7 +633,13 @@ class BasicController extends Controller
 
         return redirect('/client/project/productions/'.$request->input('projectid'));
 
+    }
 
+    function ProjectProduction_users(Request $request, string $id){
+        $project = Project::where('productionID',$id)->get();
+        $projectProduction = ProjectProduction::where('projectID',$id)->get();
+
+        return view('projectproductionUsers' ,['projects'=>$project, 'productions'=>$projectProduction]);
 
     }
 
@@ -817,11 +823,12 @@ class BasicController extends Controller
 
     function qaform_prefilled(Request $request , $id ){
         $project = Project::where('id',$id)->get();
+        $production = ProjectProduction::where('projectID', $project[0]->productionID)->get();
         $brand = Brand::get();
         $department = Department::get();
         $employee = Employee::get();
 
-        return view('qaformprefilled' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee]);
+        return view('qaformprefilled' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee , 'productions'=>$production]);
     }
 
     function qaform_prefilled_process(Request $request , $id ){
@@ -855,7 +862,22 @@ class BasicController extends Controller
 
     function qaformmeta_process(Request $request ,string $id){
 
-        $evidence = $request->file('Evidence')->store('uploads');
+        if($request->file('Evidence') != null){
+
+            $evidence = $request->file('Evidence')->store('uploads');
+
+            QAFORM_METAS::create([
+                'formid' =>  $request->input('formid'),
+                'departmant' => $request->input('department'),
+                'responsible_person' => $request->input('person'),
+                'status' => $request->input('status_depart'),
+                "issues" => json_encode($request->input('issues')),
+                "Description_of_issue" => $request->input('Description_of_issue'),
+                "evidence" =>   $evidence
+            ]);
+
+        }else{
+
 
         QAFORM_METAS::create([
             'formid' =>  $request->input('formid'),
@@ -864,8 +886,10 @@ class BasicController extends Controller
             'status' => $request->input('status_depart'),
             "issues" => json_encode($request->input('issues')),
             "Description_of_issue" => $request->input('Description_of_issue'),
-            "evidence" =>   $evidence
+            "evidence" => '--'
         ]);
+
+        }
 
         return redirect('/forms/qaform/qa_meta/'.$request->input('formid'));
 
@@ -873,7 +897,9 @@ class BasicController extends Controller
 
     function qaform_remarks_process(Request $request ,string $id){
 
-        $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
+        if($request->file('Refund_Request_Attachment') != null){
+
+            $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
 
         QAFORM::where('qaformID',$id)
         ->Update([
@@ -887,6 +913,23 @@ class BasicController extends Controller
         $formProject_id = QAFORM::where('qaformID',$id)->get();
 
         return redirect('/client/details/'.$formProject_id[0]->clientID);
+
+        }else{
+
+            QAFORM::where('qaformID',$id)
+            ->Update([
+                'client_satisfaction' => $request->input('client_satisfation'),
+                'status_of_refund' => $request->input('status_of_refund'),
+                'Refund_Requested' => $request->input('Refund_Requested'),
+                "Refund_Request_Attachment" => '--',
+                "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+            ]);
+
+            $formProject_id = QAFORM::where('qaformID',$id)->get();
+
+            return redirect('/client/details/'.$formProject_id[0]->clientID);
+
+        }
 
     }
 

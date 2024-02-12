@@ -90,6 +90,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/client/project','clientProject');
         Route::get('/client/project/{id}','clientProject_prefilled');
         Route::get('/client/project/productions/{id}','Project_production');
+        Route::get('/client/project/productions/users/{id}','ProjectProduction_users');
         Route::get('/client/editproject/{id}','editproject');
 
 

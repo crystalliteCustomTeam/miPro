@@ -44,12 +44,12 @@
 
 
                 <input type="hidden" name="basecamp" value="{{$projects[0]->basecampUrl }}">
-                <div class="col-4 mt-3" >
+                <div class="col-6 mt-3" >
                   <label for="" style="font-weight:bold;">Last communication with client </label>
                   <input type="date" name="last_communication_with_client" required class="form-control">
                 </div>
 
-                <div class="col-4 mt-3">
+                <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Medium of communication:</label>
                     <select class="form-control select2" required name="Medium_of_communication[]" multiple="multiple">
                         <option value="Calls">Calls</option>
@@ -59,7 +59,15 @@
                         <option value="Whatsapp">Whatsapp</option>
                     </select>
                   </div>
-                  <div class="col-4 mt-3">
+                  <div class="col-6 mt-3">
+                    <label for="" style="font-weight:bold;">Select Production: </label>
+                    <select class="form-control select2" required name="productionname">
+                        @foreach($productions as $production)
+                        <option value="{{ $production->responsible_person }}">{{ $production->DepartNameinProjectProduction->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                  <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Status:</label>
                     <select class="form-control select2" required name="status" >
                         <option value="Dispute">Dispute</option>
