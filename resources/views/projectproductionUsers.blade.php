@@ -27,15 +27,17 @@
               <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
               <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
               <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
+              <a href="/client/project/productions/{{$prjectid}}"><button class="btn btn-outline-success">Add Production</button></a>
               <br><br>
             <div class="row">
               <div class="col-12 mt-4">
-                <table id="datatable1">
+                <table id="datatable1"  class="table-dark table-hover">
                   <thead>
                     <th>Department</th>
                     <th>Assignee</th>
                     <th>Services</th>
                     <th>Description</th>
+                    <th>Actions</th>
                   </thead>
                   <tbody>
                     @foreach($productions as $production)
@@ -44,6 +46,12 @@
                         <td><a href="/userprofile/{{ $production->responsible_person }}">{{ $production->EmployeeNameinProjectProduction->name }}</a></td>
                       <td>{{ $production->services }}</td>
                       <td>{{ $production->anycomment}}</td>
+                      <td>
+                        <div class="btn-group">
+                            <a href="/client/project/editproductions/{{$production->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Edit </button></a>
+                            <a href="/client/project/deleteproductions/{{$production->id}}"><button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button></a>
+                        </div>
+                      </td>
                     </tr>
                     @endforeach
                   </tbody>

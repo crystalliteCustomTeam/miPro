@@ -639,7 +639,7 @@ class BasicController extends Controller
         $project = Project::where('productionID',$id)->get();
         $projectProduction = ProjectProduction::where('projectID',$id)->get();
 
-        return view('projectproductionUsers' ,['projects'=>$project, 'productions'=>$projectProduction]);
+        return view('projectproductionUsers' ,['projects'=>$project, 'productions'=>$projectProduction, 'prjectid'=>$id]);
 
     }
 
@@ -663,6 +663,40 @@ class BasicController extends Controller
         ]);
 
         return redirect('/client/details/'.$request->input('client'));
+
+    }
+
+    function Edit_Project_production(Request $request, $id){
+        $projectProduction = ProjectProduction::where('id', $id)->get();
+        $department = Department::get();
+        $employee = Employee::get();
+
+        return view('edit_project_production',['projectProductions'=>$projectProduction, 'departments'=>$department,'employees'=>$employee]);
+
+    }
+
+    function Edit_Project_production_Process(Request $request, $id){
+        $projectid = ProjectProduction::where('id', $id)->get();
+        $projectproduction = ProjectProduction::where('id', $id)
+        ->update([
+            'departmant' => $request->input('department'),
+            'responsible_person' => $request->input('production'),
+            'services' => json_encode($request->input('services')),
+            'anycomment' => $request->input('Description'),
+        ]);
+
+
+        return redirect('/client/project/productions/users/'. $projectid[0]->projectID);
+
+    }
+
+    function deleteproduction($id){
+        $production_id =ProjectProduction::where('id', $id)->get();
+        $deletedproduction = DB::table('project_productions')->where('id', $id)->delete();
+
+        //$companydeleted = DB::table('companies')->where('id', $id)->delete();
+
+        return redirect('/client/project/productions/users/'. $production_id[0]->projectID);
 
     }
 
@@ -799,7 +833,7 @@ class BasicController extends Controller
         $department = Department::get();
         $employee = Employee::get();
         $project = Project::get();
-        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee]);
+        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee ]);
     }
 
     function qaform_direct_process(Request $request ){
@@ -828,11 +862,11 @@ class BasicController extends Controller
         $department = Department::get();
         $employee = Employee::get();
 
-        return view('qaformprefilled' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee , 'productions'=>$production]);
+        return view('combined_qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee , 'productions'=>$production]);
     }
 
     function qaform_prefilled_process(Request $request , $id ){
-
+        $qaPerson = $request->session()->get('Staffuser');
         if($request->input('status') == 'Not Started Yet'){
 
             QAFORM::create([
@@ -850,77 +884,144 @@ class BasicController extends Controller
                 'Refund_Requested' => "--",
                 "Refund_Request_Attachment" => "--",
                 "Refund_Request_summery" => "--",
+                "qaPerson" => $qaPerson[0]->id,
             ]);
 
             return redirect('/forms/qaform/'.$request->input('projectID'));
 
         }else{
 
-            QAFORM::create([
-                'clientID' => $request->input('clientID'),
-                'projectID' => $request->input('projectID'),
-                'projectmanagerID' => $request->input('projectmanagerID'),
-                'brandID' => $request->input('brandID'),
-                "qaformID" => $request->input('qaformID'),
-                "ProjectProductionID" => $request->input('production_name'),
-                "status" => $request->input('status'),
-                "last_communication" =>   $request->input('last_communication_with_client'),
-                "medium_of_communication" => json_encode($request->input('Medium_of_communication'))
-            ]);
+            if($request->file('Refund_Request_Attachment') != null){
 
-            return redirect('/forms/qaform/qa_meta/'.$request->input('qaformID'));
+                $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
 
-        }
+                QAFORM::create([
+                    'clientID' => $request->input('clientID'),
+                    'projectID' => $request->input('projectID'),
+                    'projectmanagerID' => $request->input('projectmanagerID'),
+                    'brandID' => $request->input('brandID'),
+                    "qaformID" => $request->input('qaformID'),
+                    "ProjectProductionID" => $request->input('production_name'),
+                    "status" => $request->input('status'),
+                    "last_communication" =>   $request->input('last_communication_with_client'),
+                    "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
+                    'client_satisfaction' => $request->input('client_satisfation'),
+                    'status_of_refund' => $request->input('status_of_refund'),
+                    'Refund_Requested' => $request->input('Refund_Requested'),
+                    "Refund_Request_Attachment" => $attachment,
+                    "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+                    "qaPerson" => $qaPerson[0]->id,
+                ]);
 
-    }
+            }else {
 
-    function qaform_meta(Request $request ,string $id  ){
-        $request->session()->get('Staffuser');
-        $form_id = QAFORM::where('qaformID',$id)->get();
-        $form_metas = QAFORM_METAS::where('formid',$id)->get();
-        $project = Project::where('id',$form_id[0]->projectID)->get();
-        $production = ProjectProduction::where('id', $form_id[0]->ProjectProductionID)->get();
-        $department = Department::get();
-        $employee = Employee::get();
+                QAFORM::create([
+                    'clientID' => $request->input('clientID'),
+                    'projectID' => $request->input('projectID'),
+                    'projectmanagerID' => $request->input('projectmanagerID'),
+                    'brandID' => $request->input('brandID'),
+                    "qaformID" => $request->input('qaformID'),
+                    "ProjectProductionID" => $request->input('production_name'),
+                    "status" => $request->input('status'),
+                    "last_communication" =>   $request->input('last_communication_with_client'),
+                    "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
+                    'client_satisfaction' => $request->input('client_satisfation'),
+                    'status_of_refund' => $request->input('status_of_refund'),
+                    'Refund_Requested' => $request->input('Refund_Requested'),
+                    "Refund_Request_Attachment" => "--",
+                    "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+                    "qaPerson" => $qaPerson[0]->id,
+                ]);
 
-        return view('qaform_meta',['qaform'=>$form_id , 'departments'=>$department ,  'employees'=>$employee ,  'qaformmetas'=>$form_metas , 'projects'=>$project , 'productions'=>$production  ]);
+            }
 
-    }
+            $production_id = $request->input('production_name');
+            $production_data = ProjectProduction::where('id', $production_id)->get();
 
-    function qaformmeta_process(Request $request ,string $id){
+            if($request->file('Evidence') != null){
 
-        if($request->file('Evidence') != null){
+                $evidence = $request->file('Evidence')->store('uploads');
 
-            $evidence = $request->file('Evidence')->store('uploads');
+
+                QAFORM_METAS::create([
+                    'formid' =>  $request->input('qaformID'),
+                    'departmant' => $production_data[0]->departmant,
+                    'responsible_person' =>  $production_data[0]->responsible_person,
+                    'status' => $request->input('status'),
+                    "issues" => json_encode($request->input('issues')),
+                    "Description_of_issue" => $request->input('Description_of_issue'),
+                    "evidence" =>   $evidence
+                ]);
+
+            }else{
+
 
             QAFORM_METAS::create([
-                'formid' =>  $request->input('formid'),
-                'departmant' => $request->input('department'),
-                'responsible_person' => $request->input('person'),
-                'status' => $request->input('status_depart'),
+                'formid' =>  $request->input('qaformID'),
+                'departmant' => $production_data[0]->departmant,
+                'responsible_person' => $production_data[0]->responsible_person,
+                'status' => $request->input('status'),
                 "issues" => json_encode($request->input('issues')),
                 "Description_of_issue" => $request->input('Description_of_issue'),
-                "evidence" =>   $evidence
+                "evidence" => '--'
             ]);
 
-        }else{
+            }
 
-
-        QAFORM_METAS::create([
-            'formid' =>  $request->input('formid'),
-            'departmant' => $request->input('department'),
-            'responsible_person' => $request->input('person'),
-            'status' => $request->input('status_depart'),
-            "issues" => json_encode($request->input('issues')),
-            "Description_of_issue" => $request->input('Description_of_issue'),
-            "evidence" => '--'
-        ]);
+            return redirect('/forms/qaform/'.$request->input('projectID'));
+           // return redirect('/forms/qaform/qa_meta/'.$request->input('qaformID'));
 
         }
 
-        return redirect('/forms/qaform/'.$request->input('proj_id'));
-
     }
+
+    // function qaform_meta(Request $request ,string $id  ){
+    //     $request->session()->get('Staffuser');
+    //     $form_id = QAFORM::where('qaformID',$id)->get();
+    //     $form_metas = QAFORM_METAS::where('formid',$id)->get();
+    //     $project = Project::where('id',$form_id[0]->projectID)->get();
+    //     $production = ProjectProduction::where('id', $form_id[0]->ProjectProductionID)->get();
+    //     $department = Department::get();
+    //     $employee = Employee::get();
+
+    //     return view('qaform_meta',['qaform'=>$form_id , 'departments'=>$department ,  'employees'=>$employee ,  'qaformmetas'=>$form_metas , 'projects'=>$project , 'productions'=>$production  ]);
+
+    // }
+
+    // function qaformmeta_process(Request $request ,string $id){
+
+    //     if($request->file('Evidence') != null){
+
+    //         $evidence = $request->file('Evidence')->store('uploads');
+
+    //         QAFORM_METAS::create([
+    //             'formid' =>  $request->input('formid'),
+    //             'departmant' => $request->input('department'),
+    //             'responsible_person' => $request->input('person'),
+    //             'status' => $request->input('status_depart'),
+    //             "issues" => json_encode($request->input('issues')),
+    //             "Description_of_issue" => $request->input('Description_of_issue'),
+    //             "evidence" =>   $evidence
+    //         ]);
+
+    //     }else{
+
+
+    //     QAFORM_METAS::create([
+    //         'formid' =>  $request->input('formid'),
+    //         'departmant' => $request->input('department'),
+    //         'responsible_person' => $request->input('person'),
+    //         'status' => $request->input('status_depart'),
+    //         "issues" => json_encode($request->input('issues')),
+    //         "Description_of_issue" => $request->input('Description_of_issue'),
+    //         "evidence" => '--'
+    //     ]);
+
+    //     }
+
+    //     return redirect('/forms/qaform/'.$request->input('proj_id'));
+
+    // }
 
     function qaform_remarks_process(Request $request ,string $id){
 

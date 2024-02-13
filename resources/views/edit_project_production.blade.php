@@ -25,17 +25,16 @@
         <div class="br-pagebody">
           <div class="br-section-wrapper">
             <h4 style="font-weight:bold;">Client Project Information:</h4>
-           <form action="/client/project/production/{id}/process" method="POST" enctype="multipart/form-data">
+            @foreach ($projectProductions as $projectProduction)
+           <form action="/client/project/editproduction/{{ $projectProduction->id }}/process" method="POST" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="projectid" value="{{ $project_id[0]->productionID }}">
-            <input type="hidden" name="clientname" value="{{$projects[0]->ClientName->id }}">
 
             <div class="row">
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Department: </label>
                     <select class="form-control select2" name="department">
                         @foreach($departments as $department)
-                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                        <option value="{{ $department->id }}"{{ $department->id == $projectProduction->departmant ? 'selected' : '' }}>{{ $department->name }}</option>
                         @endforeach
                     </select>
                   </div>
@@ -43,7 +42,7 @@
                     <label for="" style="font-weight:bold;">Production:</label>
                     <select class="form-control" id="frontsale"  required name="production">
                     @foreach($employees as $pm)
-                        <option value="{{ $pm->id }}">
+                        <option value="{{ $pm->id }}"{{ $pm->id == $projectProduction->responsible_person ? 'selected' : '' }}>
                           {{ $pm->name }}
                           --
                           @foreach($pm->deparment($pm->id)  as $dm)
@@ -56,6 +55,7 @@
                 <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Services:</label>
                     <select class="form-control select2" name="services[]" multiple="multiple">
+                        <option value="selected">{{$projectProduction->services}}</option>
                         <option value="Question Type">Question Type</option>
                         <option value="Editing Issue">Editing Issue</option>
                         <option value="Typos">Typos</option>
@@ -102,50 +102,19 @@
 
                 <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Any Comment:</label>
-                    <textarea  name="Description" class="form-control" id="" cols="30" rows="10"></textarea>
+                    <textarea  name="Description" class="form-control" id="" cols="30" rows="10">{{$projectProduction->anycomment}}</textarea>
                 </div>
                 <div class="col-12">
                     <input type="submit" value="Add Production" class=" mt-3 btn btn-success">
                 </div>
             </div>
            </form>
+           @endforeach
 
 
         </div><!-- br-section-wrapper -->
     </div><!-- br-pagebody -->
 
-    <div class="br-pagebody">
-        <div class="br-section-wrapper">
-           <h2>Project Production:</h2>
-              <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
-              <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
-              <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
-              {{-- <button class="btn btn-outline-primary">Brand: {{$projects[0]->ClientName->projectbrand->name }}</button> --}}
-              <br><br>
-
-           <table class="table" id="datatable1"  >
-              <tr>
-                <td style="font-weight:bold;">Department</td>
-                <td style="font-weight:bold;">Assignee</td>
-                <td style="font-weight:bold;">Servies</td>
-                <td style="font-weight:bold;">Description</td>
-              </tr>
-              <tbody>
-                @foreach ($productions as $production)
-                  <tr>
-                    <td>{{ $production->DepartNameinProjectProduction->name }}</td>
-                    <td>{{ $production->EmployeeNameinProjectProduction->name }}</td>
-                    <td>{{ $production->services }}</td>
-                    <td>{{ $production->anycomment}}</td>
-                  </tr>
-                @endforeach
-              </tbody>
-           </table>
-           <div class="col-12">
-            <a href="/client/details/{{$projects[0]->clientID }}"><button class=" mt-3 btn btn-success" >Submit</button></a>
-        </div>
-        </div>
-      </div>
 
 
 

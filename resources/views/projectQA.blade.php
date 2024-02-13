@@ -30,36 +30,25 @@
               <br><br>
             <div class="row">
               <div class="col-12 mt-4">
-                <table id="datatable1">
-                  <thead>
-                    <th>Department</th>
-                    <th>Responsible Person</th>
-                    <th>Project Manager</th>
-                    <th>status</th>
-                    <th>Issues</th>
-                    <th>Last Communication Date</th>
-                    <th>Medium Of Communication</th>
-                    <th>client_satisfaction</th>
-                    <th>Description of Issue</th>
-
-                    <th>formID</th>
-                  </thead>
-                  <tbody>
-                    @foreach($qafroms as $qafrom)
-                    <tr>
-                      <td>{{ $qafrom->GETDEPARTMENT->DepartNameinProjectProduction->name }}</td>
-                      <td>{{ $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name }}</td>
-                      <td>{{ $qafrom->Project_ProjectManager->name}}</td>
-                      <td>{{ $qafrom->status}}</td>
-                      <td>{{ $qafrom->issues}}</td>
-                      <td>{{ $qafrom->last_communication }}</td>
-                      <td>{{ $qafrom->medium_of_communication}}</td>
-                      <td>{{ $qafrom->client_satisfaction}}</td>
-                      <td>{{ $qafrom->Description_of_issue}}</td>
-                    </tr>
-
-                    @endforeach
-                </table>
+                <table id="datatable1"  class="table-dark table-hover">
+                    <thead>
+                        <th>Department</th>
+                        <th>Responsible Person</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                      @foreach($qafroms as $qafrom)
+                      <tr>
+                        <td>{{ $qafrom->GETDEPARTMENT->DepartNameinProjectProduction->name }}</td>
+                        <td>{{ $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name }}</td>
+                        <td>
+                        <div class="btn-group">
+                            <a href="#"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Edit </button></a>
+                        </div>
+                     </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
             </div>
             </div>
 

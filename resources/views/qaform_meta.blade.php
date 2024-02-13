@@ -103,7 +103,7 @@
         </div><!-- br-section-wrapper -->
     </div><!-- br-pagebody -->
 
-    <div class="br-pagebody">
+    {{-- <div class="br-pagebody">
         <div class="br-section-wrapper">
            <h2>Department Issues:</h2>
               <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
@@ -191,7 +191,7 @@
            </form>
 
         </div><!-- br-section-wrapper -->
-    </div><!-- br-pagebody -->
+    </div><!-- br-pagebody --> --}}
 
 
     <footer class="br-footer">

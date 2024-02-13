@@ -65,13 +65,13 @@ Route::controller(BasicController::class)->group(function (){
         //qaform:
         Route::get('/forms/qaform_d','qaform');
         Route::get('/forms/qaform/{id}','qaform_prefilled');
-        Route::get('/forms/qaform/qa_meta/{id}','qaform_meta');
-        Route::get('/forms/qaform/client/{id}','qaformclient');
+        // Route::get('/forms/qaform/qa_meta/{id}','qaform_meta');
+        Route::get('/forms/qaform/remarks/{id}','qaformclient');
 
        //qaformprocess :
         Route::post('/forms/qaform_d/process','qaform_direct_process');
         Route::post('/forms/qaform/{id}/process','qaform_prefilled_process');
-        Route::post('/forms/qaform/qa_meta/{id}/process','qaformmeta_process');
+        // Route::post('/forms/qaform/qa_meta/{id}/process','qaformmeta_process');
         Route::post('/forms/qaform/qa_remarks/{id}/process','qaform_remarks_process');
 
 
@@ -92,6 +92,8 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/client/project/productions/{id}','Project_production');
         Route::get('/client/project/productions/users/{id}','ProjectProduction_users');
         Route::get('/client/editproject/{id}','editproject');
+        Route::get('/client/project/editproductions/{id}','Edit_Project_production');
+        Route::get('/client/project/deleteproductions/{id}','deleteproduction');
 
 
 
@@ -123,6 +125,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/client/project/process','clientProjectProcess');
         ROute::post('/client/project/production/{id}/process','Project_ProductionProcess');
         Route::post('/client/editproject/{id}/process','editProjectProcess');
+        Route::post('/client/project/editproduction/{id}/process','Edit_Project_production_Process');
         Route::post('/client/payment','clientPayment');
 
 
