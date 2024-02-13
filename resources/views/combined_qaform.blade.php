@@ -23,7 +23,7 @@
         <div class="br-pagebody">
           <div class="br-section-wrapper">
             <h3 style="color:black" class="mb-5">QA Form:</h3>
-           <form action="/forms/qaform/{{$projects[0]->id }}/process" method="POST">
+           <form action="/forms/qaform/{{$projects[0]->id }}/process" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="clientID" value="{{$projects[0]->ClientName->id }}">
             <input type="hidden" name="projectID" value="{{$projects[0]->id }}">
