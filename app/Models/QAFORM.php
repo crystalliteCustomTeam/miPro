@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class QAFORM extends Model
 {
@@ -29,4 +30,13 @@ class QAFORM extends Model
 
 
     ];
+
+
+    function GETDEPARTMENT():HasOne{
+        return $this->hasOne(ProjectProduction::class,"id","ProjectProductionID");
+    }
+
+    function Project_ProjectManager():HasOne{
+        return $this->hasOne(Employee::class,"id","projectmanagerID");
+    }
 }

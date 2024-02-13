@@ -34,6 +34,7 @@
                   <thead>
                     <th>Department</th>
                     <th>Responsible Person</th>
+                    <th>Project Manager</th>
                     <th>status</th>
                     <th>Issues</th>
                     <th>Last Communication Date</th>
@@ -46,8 +47,9 @@
                   <tbody>
                     @foreach($qafroms as $qafrom)
                     <tr>
-                      <td>{{ $qafrom->ProjectProductionID }}</td>
-                      <td>{{ $qafrom->ProjectProductionID }}</td>
+                      <td>{{ $qafrom->GETDEPARTMENT->DepartNameinProjectProduction->name }}</td>
+                      <td>{{ $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name }}</td>
+                      <td>{{ $qafrom->Project_ProjectManager->name}}</td>
                       <td>{{ $qafrom->status}}</td>
                       <td>{{ $qafrom->issues}}</td>
                       <td>{{ $qafrom->last_communication }}</td>

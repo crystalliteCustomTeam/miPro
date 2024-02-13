@@ -1003,11 +1003,15 @@ class BasicController extends Controller
     function projectQaReport(Request $request ,$id  ){
         $project = Project::where('id',$id)->get();
         $projectProduction = ProjectProduction::where('projectID',$project[0]->productionID)->get();
-        $qaform = DB::table('qaform')
-            ->join('qaform_metas', 'qaform.qaformID', '=', 'qaform_metas.formid')
-            ->join('project_productions', 'qaform.ProjectProductionID', '=', 'project_productions.id')
-            ->get();
-        return view('projectQA',['projects'=>$project, 'productions'=>$projectProduction , 'qafroms'=>$qaform ]);
+        $QA = QAFORM::where('projectID',$id )->get();
+        // foreach($QA as $qa){
+        //     echo $qa->GETDEPARTMENT->DepartNameinProjectProduction->name;
+        // }
+        // $qaform = DB::table('qaform')
+        //     ->join('qaform_metas', 'qaform.qaformID', '=', 'qaform_metas.formid')
+        //     ->join('project_productions', 'qaform.ProjectProductionID', '=', 'project_productions.id')
+        //     ->get();
+         return view('projectQA',['projects'=>$project, 'productions'=>$projectProduction , 'qafroms'=>$QA ]);
     }
 }
 
