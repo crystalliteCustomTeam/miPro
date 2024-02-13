@@ -15,6 +15,8 @@ use App\Models\EmployeePayment;
 use App\Models\QAFORM;
 use App\Models\QAFORM_METAS;
 use App\Models\ProjectProduction;
+use App\Models\QaIssues;
+use App\Models\ProductionServices;
 
 
 class BasicController extends Controller
@@ -612,12 +614,13 @@ class BasicController extends Controller
 
     function Project_production(Request $request, string $id){
         $production = ProjectProduction::where('projectID',$id)->get();
+        $productionservices = ProductionServices::get();
 
         $project = Project::where('productionID',$id)->get();
         $department = Department::get();
         $employee = Employee::get();
 
-        return view('projectProduction' , ['departments'=>$department,'employees'=>$employee, 'project_id'=>$project, 'productions'=>$production, 'projects'=>$project]);
+        return view('projectProduction' , ['departments'=>$department,'employees'=>$employee, 'project_id'=>$project, 'productions'=>$production, 'projects'=>$project, 'productionservices'=>$productionservices]);
     }
 
     function Project_ProductionProcess(Request $request, $id){
@@ -670,8 +673,9 @@ class BasicController extends Controller
         $projectProduction = ProjectProduction::where('id', $id)->get();
         $department = Department::get();
         $employee = Employee::get();
+        $productionservices = ProductionServices::get();
 
-        return view('edit_project_production',['projectProductions'=>$projectProduction, 'departments'=>$department,'employees'=>$employee]);
+        return view('edit_project_production',['projectProductions'=>$projectProduction, 'departments'=>$department,'employees'=>$employee, 'productionservices'=>$productionservices]);
 
     }
 
@@ -833,7 +837,8 @@ class BasicController extends Controller
         $department = Department::get();
         $employee = Employee::get();
         $project = Project::get();
-        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee ]);
+        $qa_issues = QaIssues::get();
+        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee, 'qaissues'=>$qa_issues ]);
     }
 
     function qaform_direct_process(Request $request ){
@@ -861,8 +866,9 @@ class BasicController extends Controller
         $brand = Brand::get();
         $department = Department::get();
         $employee = Employee::get();
+        $qa_issues = QaIssues::get();
 
-        return view('combined_qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee , 'productions'=>$production]);
+        return view('combined_qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee , 'productions'=>$production, 'qaissues'=>$qa_issues]);
     }
 
     function qaform_prefilled_process(Request $request , $id ){
@@ -1023,43 +1029,43 @@ class BasicController extends Controller
 
     // }
 
-    function qaform_remarks_process(Request $request ,string $id){
+    // function qaform_remarks_process(Request $request ,string $id){
 
-        if($request->file('Refund_Request_Attachment') != null){
+    //     if($request->file('Refund_Request_Attachment') != null){
 
-            $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
+    //         $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
 
-        QAFORM::where('qaformID',$id)
-        ->Update([
-            'client_satisfaction' => $request->input('client_satisfation'),
-            'status_of_refund' => $request->input('status_of_refund'),
-            'Refund_Requested' => $request->input('Refund_Requested'),
-            "Refund_Request_Attachment" => $attachment,
-            "Refund_Request_summery" => $request->input('Refund_Request_summery'),
-        ]);
+    //     QAFORM::where('qaformID',$id)
+    //     ->Update([
+    //         'client_satisfaction' => $request->input('client_satisfation'),
+    //         'status_of_refund' => $request->input('status_of_refund'),
+    //         'Refund_Requested' => $request->input('Refund_Requested'),
+    //         "Refund_Request_Attachment" => $attachment,
+    //         "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+    //     ]);
 
-        $formProject_id = QAFORM::where('qaformID',$id)->get();
+    //     $formProject_id = QAFORM::where('qaformID',$id)->get();
 
-        return redirect('/client/details/'.$formProject_id[0]->clientID);
+    //     return redirect('/client/details/'.$formProject_id[0]->clientID);
 
-        }else{
+    //     }else{
 
-            QAFORM::where('qaformID',$id)
-            ->Update([
-                'client_satisfaction' => $request->input('client_satisfation'),
-                'status_of_refund' => $request->input('status_of_refund'),
-                'Refund_Requested' => $request->input('Refund_Requested'),
-                "Refund_Request_Attachment" => '--',
-                "Refund_Request_summery" => $request->input('Refund_Request_summery'),
-            ]);
+    //         QAFORM::where('qaformID',$id)
+    //         ->Update([
+    //             'client_satisfaction' => $request->input('client_satisfation'),
+    //             'status_of_refund' => $request->input('status_of_refund'),
+    //             'Refund_Requested' => $request->input('Refund_Requested'),
+    //             "Refund_Request_Attachment" => '--',
+    //             "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+    //         ]);
 
-            $formProject_id = QAFORM::where('qaformID',$id)->get();
+    //         $formProject_id = QAFORM::where('qaformID',$id)->get();
 
-            return redirect('/client/details/'.$formProject_id[0]->clientID);
+    //         return redirect('/client/details/'.$formProject_id[0]->clientID);
 
-        }
+    //     }
 
-    }
+    // }
 
     function qaformclient(Request $request , $clientid){
         $findBrand = Client::where('id',$clientid)->get();
@@ -1113,6 +1119,56 @@ class BasicController extends Controller
         //     ->join('project_productions', 'qaform.ProjectProductionID', '=', 'project_productions.id')
         //     ->get();
          return view('projectQA',['projects'=>$project, 'productions'=>$projectProduction , 'qafroms'=>$QA ]);
+    }
+
+    function qa_issues(){
+        $department = Department::get();
+        $qa_issues=QaIssues::get();
+        return view('qa_issues',['departments'=>$department, "qa_issues"=>$qa_issues ]);
+    }
+
+    function qa_issues_process(Request $request){
+        $qa_issues =QaIssues::create([
+            "departmant" => $request->input("department"),
+            "issues" => $request->input("issues"),
+
+        ]);
+
+        return redirect('/settings/qa_issues');
+
+    }
+
+    function delete_qa_issues($id){
+
+        $deletedproduction = DB::table('qa_issues')->where('id', $id)->delete();
+
+        return redirect('/settings/qa_issues');
+
+    }
+
+    function Production_services(){
+        $department = Department::get();
+        $ProductionServices=ProductionServices::get();
+        return view('production_services',['departments'=>$department, "ProductionServices"=>$ProductionServices ]);
+    }
+
+    function Production_services_process(Request $request){
+        $ProductionServices =ProductionServices::create([
+            "department" => $request->input("department"),
+            "services" => $request->input("services"),
+
+        ]);
+
+        return redirect('/settings/Production/services');
+
+    }
+
+    function delete_Production_services($id){
+
+        $deletedproduction = DB::table('production_services')->where('id', $id)->delete();
+
+        return redirect('/settings/Production/services');
+
     }
 }
 

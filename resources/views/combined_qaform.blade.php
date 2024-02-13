@@ -82,47 +82,9 @@
                 <div class="col-12 mt-3" id="issues">
                     <label for="" style="font-weight:bold;">Issues:</label>
                     <select class="form-control select2"  name="issues[]" multiple="multiple">
-                        <option value="Question Type">Question Type</option>
-                        <option value="Editing Issue">Editing Issue</option>
-                        <option value="Typos">Typos</option>
-                        <option value="Writing issue">Writing issue</option>
-                        <option value="Word Omissions">Word Omissions</option>
-                        <option value="Grammatical">Grammatical</option>
-                        <option value="Illustration issue">Illustration issue</option>
-                        <option value="Character Issue">Character Issue</option>
-                        <option value="SMM Post Desing">SMM Post Desing</option>
-                        <option value="Video Trailer">Video Trailer</option>
-                        <option value="Website Mockup">Website Mockup</option>
-                        <option value="News Letter Desing">News Letter Desing</option>
-                        <option value="Mockup Design">Mockup Design</option>
-                        <option value="NFT Desing Issue">NFT Desing Issue</option>
-                        <option value="Content Alignment">Content Alignment</option>
-                        <option value="Logo Alignment">Logo Alignment</option>
-                        <option value="Theme issue'optimisation issue">Theme issue'optimisation issue</option>
-                        <option value="Mobile responseviness">Mobile responseviness</option>
-                        <option value="Article">Article</option>
-                        <option value="Blogs">Blogs</option>
-                        <option value="PR Release">PR Release</option>
-                        <option value="Author Center">Author Center</option>
-                        <option value="Creating Media Account">Creating Media Account</option>
-                        <option value="Q&A Session">Q&A Session</option>
-                        <option value="Reach BookClub">Reach BookClub</option>
-                        <option value="News Letter">News Letter</option>
-                        <option value="Influencer Outreach">Influencer Outreach</option>
-                        <option value="Amazon Ads Campaign">Amazon Ads Campaign</option>
-                        <option value="Posting">Posting</option>
-                        <option value="SMM Post Conten">SMM Post Conten</option>
-                        <option value="Good Read Account">Good Read Account</option>
-                        <option value="Creating Social Media Account">Creating Social Media Account</option>
-                        <option value="Keywords">Keywords</option>
-                        <option value="GMB">GMB</option>
-                        <option value="Ranking">Ranking</option>
-                        <option value="On page Optimisation">On page Optimisation</option>
-                        <option value="Off page Optimisation">Off page Optimisation</option>
-                        <option value="Simple issue">General issue</option>
-                        <option value="Timely Update">Timely Update</option>
-                        <option value="Understanding issue">Understanding issue</option>
-                        <option value="Going Good">Going Good</option>
+                        @foreach($qaissues as $qaissue)
+                        <option value="{{ $qaissue->issues }}">{{ $qaissue->issues }}</option>
+                        @endforeach
                     </select>
                 </div>
 

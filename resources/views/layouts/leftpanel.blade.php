@@ -114,6 +114,16 @@
       </ul>
     </li><!-- br-menu-item -->
     <li class="br-menu-item">
+        <a href="#" class="br-menu-link with-sub">
+          <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+          <span class="menu-item-label">Settings</span>
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub">
+            <li class="sub-item"><a href="/settings/Production/services" class="sub-link">Production Services</a></li>
+          <li class="sub-item"><a href="/settings/qa_issues" class="sub-link">QA Form Issues</a></li>
+        </ul>
+      </li><!-- br-menu-item -->
+    <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
         <span class="menu-item-label">Forms</span>

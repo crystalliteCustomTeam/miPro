@@ -133,6 +133,15 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/userreport','userreport');
         Route::get('/client/project/qareport/{id}','projectQaReport');
 
+        //settings:
+        Route::get('/settings/qa_issues','qa_issues');
+        Route::post('/settings/qa_issues/Process','qa_issues_process');
+        Route::get('/settings/delete_qa_issues/{id}','delete_qa_issues');
+
+        Route::get('/settings/Production/services','Production_services');
+        Route::post('/settings/Production/services/Process','Production_services_process');
+        Route::get('/settings/delete_kycservices/{id}','delete_Production_services');
+
     });
 
     Route::middleware(['authCheckStaff'])->group(function () {
