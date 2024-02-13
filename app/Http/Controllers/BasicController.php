@@ -844,7 +844,12 @@ class BasicController extends Controller
                 "ProjectProductionID" => $request->input('production_name'),
                 "status" => $request->input('status'),
                 "last_communication" =>   $request->input('last_communication_with_client'),
-                "medium_of_communication" => json_encode($request->input('Medium_of_communication'))
+                "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
+                'client_satisfaction' => "--",
+                'status_of_refund' => "--",
+                'Refund_Requested' => "--",
+                "Refund_Request_Attachment" => "--",
+                "Refund_Request_summery" => "--",
             ]);
 
             return redirect('/forms/qaform/'.$request->input('projectID'));
@@ -874,11 +879,11 @@ class BasicController extends Controller
         $form_id = QAFORM::where('qaformID',$id)->get();
         $form_metas = QAFORM_METAS::where('formid',$id)->get();
         $project = Project::where('id',$form_id[0]->projectID)->get();
-        $production = ProjectProduction::where('projectID', $project[0]->productionID)->get();
+        $production = ProjectProduction::where('id', $form_id[0]->ProjectProductionID)->get();
         $department = Department::get();
         $employee = Employee::get();
 
-        return view('qaform_meta',['qaform'=>$form_id , 'departments'=>$department ,  'employees'=>$employee ,  'qaformmetas'=>$form_metas , 'projects'=>$project , 'productions'=>$production ]);
+        return view('qaform_meta',['qaform'=>$form_id , 'departments'=>$department ,  'employees'=>$employee ,  'qaformmetas'=>$form_metas , 'projects'=>$project , 'productions'=>$production  ]);
 
     }
 
@@ -913,7 +918,7 @@ class BasicController extends Controller
 
         }
 
-        return redirect('/forms/qaform/qa_meta/'.$request->input('formid'));
+        return redirect('/forms/qaform/'.$request->input('proj_id'));
 
     }
 
@@ -993,6 +998,16 @@ class BasicController extends Controller
 
     function cld_qaform(){
         return view('cld_qaform');
+    }
+
+    function projectQaReport(Request $request ,$id  ){
+        $project = Project::where('id',$id)->get();
+        $projectProduction = ProjectProduction::where('projectID',$project[0]->productionID)->get();
+        $qaform = DB::table('qaform')
+            ->join('qaform_metas', 'qaform.qaformID', '=', 'qaform_metas.formid')
+            ->join('project_productions', 'qaform.ProjectProductionID', '=', 'project_productions.id')
+            ->get();
+        return view('projectQA',['projects'=>$project, 'productions'=>$projectProduction , 'qafroms'=>$qaform ]);
     }
 }
 

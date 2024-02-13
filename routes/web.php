@@ -128,6 +128,7 @@ Route::controller(BasicController::class)->group(function (){
 
         //REPORTS:
         Route::get('/userreport','userreport');
+        Route::get('/client/project/qareport/{id}','projectQaReport');
 
     });
 

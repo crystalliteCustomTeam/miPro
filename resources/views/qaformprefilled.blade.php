@@ -30,6 +30,7 @@
             <input type="hidden" name="projectmanagerID" value="{{$projects[0]->EmployeeName->id }}">
             <input type="hidden" name="brandID" value="{{$projects[0]->ClientName->projectbrand->id }}">
             <input type="hidden" name="qaformID" value="{{ substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,6)}}">
+            <input type="hidden" name="ProjectproductionID" value="{{$projects[0]->projectID }}">
 
             <div class="row">
               <div class="col-12">
@@ -63,7 +64,7 @@
                     <label for="" style="font-weight:bold;">Select Production: </label>
                     <select class="form-control select2" required name="production_name" required>
                         @foreach($productions as $production)
-                        <option value="{{ $production->departmant }}">{{ $production->DepartNameinProjectProduction->name }}</option>
+                        <option value="{{ $production->id }}">{{ $production->DepartNameinProjectProduction->name }}</option>
                         @endforeach
                     </select>
                 </div>

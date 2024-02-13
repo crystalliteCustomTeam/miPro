@@ -26,16 +26,17 @@
               <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
               <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
               <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
-              <button class="btn btn-outline-primary">Department {{$productions[0]->DepartNameinProjectProduction->name }}</button>
+              <button class="btn btn-outline-primary">Department: {{$productions[0]->DepartNameinProjectProduction->name }}</button>
               <button class="btn btn-outline-primary">Person: {{$productions[0]->EmployeeNameinProjectProduction->name }}</button>
               <br><br>
             <h4 style="font-weight:bold;">Client Project Information:</h4>
            <form action="/forms/qaform/qa_meta/{id}/process" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="formid" value="{{ $qaform[0]->qaformID }}">
-            <input type="hidden" name="department" value="{{  $productions[0]->DepartNameinProjectProduction->id  }}">
-            <input type="hidden" name="person" value="{{ $productions[0]->EmployeeNameinProjectProduction->id }}">
+            <input type="hidden" name="department" value="{{$productions[0]->DepartNameinProjectProduction->id }}">
+            <input type="hidden" name="person" value="{{$productions[0]->EmployeeNameinProjectProduction->id }}">
             <input type="hidden" name="status_depart" value="{{ $qaform[0]->status }}">
+            <input type="hidden" name="proj_id" value="{{ $projects[0]->id }}">
 
             <div class="row">
                 <div class="col-12 mt-3">
