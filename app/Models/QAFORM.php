@@ -39,4 +39,20 @@ class QAFORM extends Model
     function Project_ProjectManager():HasOne{
         return $this->hasOne(Employee::class,"id","projectmanagerID");
     }
+
+    function QA_Person():HasOne{
+        return $this->hasOne(Employee::class,"id","qaPerson");
+    }
+
+    function Brand_Name():HasOne{
+        return $this->hasOne(Brand::class,"id","brandID");
+    }
+
+    function Client_Name():HasOne{
+        return $this->hasOne(Client::class,"id","clientID");
+    }
+
+    function Project_Name():HasOne{
+        return $this->hasOne(Project::class,"id","projectID");
+    }
 }

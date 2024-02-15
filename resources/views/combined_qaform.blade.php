@@ -39,7 +39,6 @@
                   <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
                   <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
                   <button class="btn btn-outline-primary">Brand: {{$projects[0]->ClientName->projectbrand->name }}</button>
-                  <a href="#"><button class="btn btn-outline-success">Add Final Remarks</button></a>
                </div>
               </div>
 

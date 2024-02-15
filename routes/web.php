@@ -65,14 +65,14 @@ Route::controller(BasicController::class)->group(function (){
         //qaform:
         Route::get('/forms/qaform_d','qaform');
         Route::get('/forms/qaform/{id}','qaform_prefilled');
-        // Route::get('/forms/qaform/qa_meta/{id}','qaform_meta');
-        Route::get('/forms/qaform/remarks/{id}','qaformclient');
+        Route::get('/forms/newqaform/{id}','new_qaform');
+        Route::get('/forms/editnewqaform/{id}','edit_new_qaform');
 
        //qaformprocess :
+        Route::post('/forms/qaform_getproduction/process','qaform_getproduction');
         Route::post('/forms/qaform_d/process','qaform_direct_process');
         Route::post('/forms/qaform/{id}/process','qaform_prefilled_process');
-        // Route::post('/forms/qaform/qa_meta/{id}/process','qaformmeta_process');
-        Route::post('/forms/qaform/qa_remarks/{id}/process','qaform_remarks_process');
+        Route::post('/forms/editnewqaform/{id}/process','edit_new_qaform_process');
 
 
 
@@ -132,15 +132,24 @@ Route::controller(BasicController::class)->group(function (){
         //REPORTS:
         Route::get('/userreport','userreport');
         Route::get('/client/project/qareport/{id}','projectQaReport');
+        Route::get('/client/project/qareport/view/{id}','projectQaReport_view');
 
         //settings:
+        //QA ISSUES:
         Route::get('/settings/qa_issues','qa_issues');
         Route::post('/settings/qa_issues/Process','qa_issues_process');
         Route::get('/settings/delete_qa_issues/{id}','delete_qa_issues');
 
+        //PRODUCTION SERVICES:
         Route::get('/settings/Production/services','Production_services');
         Route::post('/settings/Production/services/Process','Production_services_process');
         Route::get('/settings/delete_kycservices/{id}','delete_Production_services');
+
+        //ASSIGN PROJECT:
+        Route::get('/settings/user/client','Assign_Client_to_qaperson');
+        Route::post('/settings/user/client/Process','Assign_Client_to_qaperson_process');
+        Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
+
 
     });
 

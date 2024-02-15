@@ -6,8 +6,8 @@
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
-            <a class="breadcrumb-item" href="#">Department</a>
-            <span class="breadcrumb-item active">Set Up Department</span>
+            <a class="breadcrumb-item" href="#">Project</a>
+            <span class="breadcrumb-item active">Production</span>
           </nav>
         </div><!-- br-pageheader -->
 
@@ -15,8 +15,8 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Set Up Department</h4>
-            <p class="mg-b-0">Department</p>
+            <h4>Client Project</h4>
+            <p class="mg-b-0">Production</p>
           </div>
         </div><!-- d-flex -->
 
