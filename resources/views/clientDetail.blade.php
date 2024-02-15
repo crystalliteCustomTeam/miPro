@@ -90,7 +90,13 @@
               <p class="tx-inverse mg-b-25">{{ $client[0]->email }}</p>
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Initail Payment</label>
-              <p class="tx-inverse mg-b-25">$ {{ $client[0]->clientMetas->amountPaid  + $client[0]->clientMetas->remainingAmount }}</p>
+              <p class="tx-inverse mg-b-25">$ {{ $client[0]->clientMetas->amountPaid  }}</p>
+
+              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Remaining Amount</label>
+              <p class="tx-inverse mg-b-25"  style="color: red">$ {{ $client[0]->clientMetas->remainingAmount }}</p>
+
+              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Next Payment Date:</label>
+              <p class="tx-inverse mg-b-25"  > {{ $client[0]->clientMetas->nextPayment }}</p>
 
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Onboard</label>

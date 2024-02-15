@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Sales Person:</label>
-                  <select class="form-control" id="frontsale"  required name="saleperson">
+                  <select class="form-control select2"   required name="saleperson">
                   @foreach($ProjectManagers as $pm)
                       <option value="{{ $pm->id }}">
                         {{ $pm->name }}

@@ -77,18 +77,17 @@
                               <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Select Production: </label>
                                 <select class="form-control select2" required name="production_name" required>
-                                    <option value="selected">{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</option>
-                                    <option value="">-----</option>
+                                    {{-- <option value="selected">{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</option>
+                                    <option value="">-----</option> --}}
                                     @foreach($productions as $production)
-                                    <option value="{{ $production->id }}">{{ $production->DepartNameinProjectProduction->name }}</option>
+                                    <option value="{{ $production->id }}"{{ $production->id == $Proj_Prod[0]->departmant ? 'selected' : '' }}>{{ $production->DepartNameinProjectProduction->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Status:</label>
                                 <select class="form-control select2" required name="status"   id="paymentType" >
-                                    <option value="selected">{{$qa_data[0]->status}}</option>
-                                    <option value="">-----</option>
+                                    <option value="{{$qa_data[0]->status}}">{{$qa_data[0]->status}}</option>
                                     <option value="Dispute">Dispute</option>
                                     <option value="Refund">Refund</option>
                                     <option value="On Going">On Going</option>
@@ -122,8 +121,7 @@
                             <div class="col-6 mt-3" id="remark">
                                 <label for="" style="font-weight:bold;">Client Satisfaction Level:</label>
                                 <select class="form-control select2" name="client_satisfation" >
-                                    <option value="Selected">{{$qa_data[0]->client_satisfaction}}</option>
-                                    <option value="">-----</option>
+                                    <option value="{{$qa_data[0]->client_satisfaction}}">{{$qa_data[0]->client_satisfaction}}</option>
                                     <option value="Extremely Satisfied">Extremely Satisfied</option>
                                     <option value="Somewhat Satisfied">Somewhat Satisfied</option>
                                     <option value="Neither Satisfied nor Dissatisfied">Neither Satisfied nor Dissatisfied</option>
@@ -135,8 +133,7 @@
                             <div class="col-6 mt-3" id="expected_refund">
                                 <label for="" style="font-weight:bold;">Refund & Dispute Expected :</label>
                                 <select class="form-control select2"  name="status_of_refund"  >
-                                    <option value="Selected">{{$qa_data[0]->status_of_refund}}</option>
-                                    <option value="">-----</option>
+                                    <option value="{{$qa_data[0]->status_of_refund}}">{{$qa_data[0]->status_of_refund}}</option>
                                     <option value="Going Good">Going Good</option>
                                     <option value="Low">Low</option>
                                     <option value="Moderate">Moderate</option>
@@ -147,8 +144,7 @@
                               <div class="col-6 mt-3" id="refund_request">
                                 <label for="" style="font-weight:bold;">Refund Requested: </label>
                                 <select class="form-control select2"  name="Refund_Requested" >
-                                    <option value="Selected">{{$qa_data[0]->Refund_Requested}}</option>
-                                    <option value="">-----</option>
+                                    <option value="{{$qa_data[0]->Refund_Requested}}">{{$qa_data[0]->Refund_Requested}}</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select>
@@ -189,7 +185,13 @@
               <p class="tx-inverse mg-b-25">{{ $clients[0]->email }}</p>
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Initail Payment</label>
-              <p class="tx-inverse mg-b-25">$ {{ $clients[0]->clientMetas->amountPaid  + $clients[0]->clientMetas->remainingAmount }}</p>
+              <p class="tx-inverse mg-b-25">$ {{ $clients[0]->clientMetas->amountPaid   }}</p>
+
+              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Remaining Amount</label>
+              <p class="tx-inverse mg-b-25" style="color: red">$ {{  $clients[0]->clientMetas->remainingAmount }}</p>
+
+              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Next Payment Date:</label>
+              <p class="tx-inverse mg-b-25"> {{ $clients[0]->clientMetas->nextPayment }}</p>
 
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Onboard</label>

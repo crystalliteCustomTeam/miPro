@@ -55,7 +55,11 @@
                 <div class="col-12 mt-3">
                         <label for="" style="font-weight:bold;">Services:</label>
                         <select class="form-control select2" name="services[]" multiple="multiple">
-                            <option value="selected">{{$projectProduction->services}}</option>
+                            @php $mediums = json_decode($projectProduction->services) @endphp
+                            @foreach($mediums as $medium)
+                            <option value="{{ $medium }}" >{{ $medium }}</option>
+                            @endforeach
+                            <option value="">-----</option>
                             @foreach($productionservices as $productionservice)
                             <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
                             @endforeach
