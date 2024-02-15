@@ -64,7 +64,7 @@
                                 <select class="form-control select2"  name="Medium_of_communication[]" multiple="multiple" value="selected">
                                     @php $mediums = json_decode($qa_data[0]->medium_of_communication) @endphp
                                     @foreach($mediums as $medium)
-                                    <option value="{{ $medium }}" >{{ $medium }}</option>
+                                    <option value="{{ $medium }}" selected>{{ $medium }}</option>
                                     @endforeach
                                     <option value="">-----</option>
                                     <option value="Calls">Calls</option>
@@ -87,7 +87,7 @@
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Status:</label>
                                 <select class="form-control select2" required name="status"   id="paymentType" >
-                                    <option value="{{$qa_data[0]->status}}">{{$qa_data[0]->status}}</option>
+                                    <option value="{{$qa_data[0]->status}}" selected>{{$qa_data[0]->status}}</option>
                                     <option value="Dispute">Dispute</option>
                                     <option value="Refund">Refund</option>
                                     <option value="On Going">On Going</option>
@@ -100,7 +100,7 @@
                                 <select class="form-control select2"  name="issues[]" multiple="multiple">
                                     @php $issues = json_decode($qa_meta[0]->issues) @endphp
                                     @foreach($issues as $issue)
-                                    <option value="{{ $issue }}" >{{ $issue }}</option>
+                                    <option value="{{ $issue }}" selected>{{ $issue }}</option>
                                     @endforeach
                                     <option value="">-----</option>
                                     @foreach($allissues as $qaissue)
@@ -115,13 +115,13 @@
                             </div>
                             <div class="col-12 mt-3" id="shareamount" >
                                 <label for="" style="font-weight:bold;">Evidence(if any issue) </label>
-                                <input type="file" name="Evidence" class="form-control">
+                                <input type="file" name="Evidence" value="$qa_meta[0]->evidence" class="form-control">
                             </div>
                             {{-- ----------------Remarks------------------- --}}
                             <div class="col-6 mt-3" id="remark">
                                 <label for="" style="font-weight:bold;">Client Satisfaction Level:</label>
                                 <select class="form-control select2" name="client_satisfation" >
-                                    <option value="{{$qa_data[0]->client_satisfaction}}">{{$qa_data[0]->client_satisfaction}}</option>
+                                    <option value="{{$qa_data[0]->client_satisfaction}}" selected>{{$qa_data[0]->client_satisfaction}}</option>
                                     <option value="Extremely Satisfied">Extremely Satisfied</option>
                                     <option value="Somewhat Satisfied">Somewhat Satisfied</option>
                                     <option value="Neither Satisfied nor Dissatisfied">Neither Satisfied nor Dissatisfied</option>
@@ -133,7 +133,7 @@
                             <div class="col-6 mt-3" id="expected_refund">
                                 <label for="" style="font-weight:bold;">Refund & Dispute Expected :</label>
                                 <select class="form-control select2"  name="status_of_refund"  >
-                                    <option value="{{$qa_data[0]->status_of_refund}}">{{$qa_data[0]->status_of_refund}}</option>
+                                    <option value="{{$qa_data[0]->status_of_refund}}" selected>{{$qa_data[0]->status_of_refund}}</option>
                                     <option value="Going Good">Going Good</option>
                                     <option value="Low">Low</option>
                                     <option value="Moderate">Moderate</option>
@@ -144,7 +144,7 @@
                               <div class="col-6 mt-3" id="refund_request">
                                 <label for="" style="font-weight:bold;">Refund Requested: </label>
                                 <select class="form-control select2"  name="Refund_Requested" >
-                                    <option value="{{$qa_data[0]->Refund_Requested}}">{{$qa_data[0]->Refund_Requested}}</option>
+                                    <option value="{{$qa_data[0]->Refund_Requested}}" selected>{{$qa_data[0]->Refund_Requested}}</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select>

@@ -57,7 +57,7 @@
                         <select class="form-control select2" name="services[]" multiple="multiple">
                             @php $mediums = json_decode($projectProduction->services) @endphp
                             @foreach($mediums as $medium)
-                            <option value="{{ $medium }}" >{{ $medium }}</option>
+                            <option value="{{ $medium }}" selected>{{ $medium }}</option>
                             @endforeach
                             <option value="">-----</option>
                             @foreach($productionservices as $productionservice)

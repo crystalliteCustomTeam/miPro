@@ -153,7 +153,7 @@
             <div class="tx-center">
               <a href=""><img src="https://via.placeholder.com/500" class="wd-80 rounded-circle" alt=""></a>
               <h6 class="logged-fullname">{{ $LoginUser[0]->name }}</h6>
-              <p>{{ $LoginUser[0]->id }}</p>
+              <p>{{ $LoginUser[0]->email }}</p>
             </div>
             <hr>
             <div class="tx-center">
