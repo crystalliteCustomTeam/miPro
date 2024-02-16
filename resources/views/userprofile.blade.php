@@ -51,7 +51,9 @@
                           <div>
                             <h6 class="mg-b-2 tx-inverse tx-14">{{ $project->name }}</h6>
                             <span class="tx-12 tx-gray-500">{{ $project->ClientName->name }}</span><br>
-                            {{-- <span class="tx-12 tx-gray-500">Production:  {{ $project->ProductionName->name }}</span> --}}
+                            {{-- @foreach ($projectProductions as $projectProduction)
+                            <span class="tx-12 tx-gray-500">Department: {{$projectProduction->DepartNameinProjectProduction->name}} ,Assignee: {{$projectProduction->EmployeeNameinProjectProduction->name}}</span>
+                            @endforeach --}}
                           </div>
                           <span class="tx-12">{{ $project->created_at }}</span>
                         </div><!-- d-flex -->

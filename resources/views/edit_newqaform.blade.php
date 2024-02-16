@@ -55,7 +55,7 @@
                           </div>
 
                             <div class="col-6 mt-3" >
-                              <label for="" style="font-weight:bold;">Last communication with client </label>
+                              <label for="" style="font-weight:bold;">Last communication of client </label>
                               <input type="date" name="last_communication_with_client" value="{{$qa_data[0]->last_communication}}" class="form-control">
                             </div>
 

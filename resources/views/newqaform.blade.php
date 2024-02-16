@@ -64,7 +64,7 @@
 
                             {{-- <input type="hidden" name="basecamp" value="{{$projects[0]->basecampUrl }}"> --}}
                             <div class="col-6 mt-3" >
-                              <label for="" style="font-weight:bold;">Last communication with client </label>
+                              <label for="" style="font-weight:bold;">Last communication of client </label>
                               <input type="date" name="last_communication_with_client" required class="form-control">
                             </div>
 
