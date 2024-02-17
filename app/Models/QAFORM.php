@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 
 class QAFORM extends Model
 {
@@ -54,5 +55,9 @@ class QAFORM extends Model
 
     function Project_Name():HasOne{
         return $this->hasOne(Project::class,"id","projectID");
+    }
+
+    function QA_META_DATA($id){
+        return DB::table('qaform_metas')->where('formid',$id)->get();
     }
 }

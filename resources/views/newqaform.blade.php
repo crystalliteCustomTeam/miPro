@@ -120,7 +120,6 @@
                                     <option value="Extremely Satisfied">Extremely Satisfied</option>
                                     <option value="Somewhat Satisfied">Somewhat Satisfied</option>
                                     <option value="Neither Satisfied nor Dissatisfied">Neither Satisfied nor Dissatisfied</option>
-                                    <option value="Not Started Yet">Not Started Yet</option>
                                     <option value="Somewhat Dissatisfied">Somewhat Dissatisfied</option>
                                     <option value="Extremely Dissatisfied">Extremely Dissatisfied</option>
                                 </select>

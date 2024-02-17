@@ -1277,15 +1277,38 @@ class BasicController extends Controller
 
     }
 
-    function projectreport($id){
+    function projectreport(Request $request, $id){
+
+        $get_startdate = $request->input('startdate');
+        $get_enddate = $request->input('enddate');
+        $get_Production = $request->input('Production');
+        $get_brand = $request->input('brand');
+        $get_department = $request->input('department');
+        $get_employee = $request->input('employee');
+        $get_issues = $request->input('issues');
+
+
+
         $project = Project::where('id', $id)->get();
         $ProjectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
         $client = Client::where('id', $project[0]->clientID)->get();
         $clientmeta = ClientMeta::where('id', $client[0]->clientID);
-        $qaform = QAFORM::where('projectID', $project[0]->id)->get();
-        $qameta = QAFORM_METAS::where('formid', $qaform[0]->qaformID)->get();
-        return view('report_home', ['projects'=>$project, 'projectproductions'=>$ProjectProduction, 'clients'=>$client, 'clientmetas'=>$clientmeta, 'qaforms'=>$qaform,'qa_metas'=>$qameta]);
-    }
+        $qaformlast = QAFORM::where('projectID',$project[0]->id)
+                    ->latest('id')->limit(1)->get();
+
+        $department = Department::get();
+        $employee = Employee::get();
+        $issue = QaIssues::get();
+        $brand = Brand::get();
+
+        $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
+                    ->whereBetween('created_at', [$get_startdate, $get_enddate])
+                    ->get();
+
+
+        return view('report_home', ['projects'=>$project, 'projectproductions'=>$ProjectProduction, 'clients'=>$client, 'clientmetas'=>$clientmeta,  'qaformlast'=>$qaformlast ,'qaform_filtereds'=>$qaform_filtered , 'departments'=>$department , 'employees'=>$employee, 'issues'=>$issue,'brands'=>$brand]);
+
+        }
 }
 
 

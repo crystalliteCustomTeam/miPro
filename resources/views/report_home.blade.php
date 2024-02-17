@@ -51,7 +51,8 @@
 
             <div class="col-3">
                 <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Client Name:  {{$clients[0]->name}}</h6>
+                  <h6 style="color: black">Client Name:</h6>
+                  <h6 style="color: black">{{$clients[0]->name}}</h6>
 
                 </div><!-- card -->
               </div><!-- col-4 -->
@@ -59,7 +60,8 @@
               {{-- ======================================================== --}}
               <div class="col-3">
                 <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Project Name:  {{$projects[0]->name}}</h6>
+                  <h6 style="color: black">Project Name:</h6>
+                  <h6 style="color: black">{{$projects[0]->name}}</h6>
 
 
                 </div><!-- card -->
@@ -68,7 +70,8 @@
               {{-- ======================================================== --}}
               <div class="col-3">
                   <div class="card bd-gray-400 bg-lightblue  pd-20">
-                      <h6 style="color: black">Project Manager:  {{$projects[0]->EmployeeName->name}}</h6>
+                      <h6 style="color: black">Project Manager:</h6>
+                      <h6 style="color: black">{{$projects[0]->EmployeeName->name}}</h6>
 
 
                   </div><!-- card -->
@@ -76,42 +79,147 @@
 
               <div class="col-3">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Brand Name:  {{$clients[0]->projectbrand->name}}</h6>
+                    <h6 style="color: black">Brand Name:</h6>
+                    <h6 style="color: black">{{$clients[0]->projectbrand->name}}</h6>
 
 
                 </div><!-- card -->
             </div><!-- col-4 -->
 
+            @if ($qaformlast[0]->status_of_refund == 'Going Good')
 
-              <div class="col-3">
-                <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Status of Refund:</h6>
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-success pd-20">
+                        <h6 style="color: black">Status of Refund:</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->status_of_refund}}</h6>
 
 
-                </div><!-- card -->
-              </div><!-- col-4 -->
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+
+            @elseif ($qaformlast[0]->status_of_refund == 'Low')
+
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-warning pd-20">
+                        <h6 style="color: black">Status of Refund:</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->status_of_refund}}</h6>
+
+
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+            @elseif ($qaformlast[0]->status_of_refund == 'Moderate')
+
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-primary pd-20">
+                        <h6 style="color: black">Status of Refund:</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->status_of_refund}}</h6>
+
+
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+            @elseif ($qaformlast[0]->status_of_refund == 'High')
+
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-danger pd-20">
+                        <h6 style="color: black">Status of Refund:</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->status_of_refund}}</h6>
+
+
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+            @else
+
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-secondary pd-20">
+                        <h6 style="color: black">Status of Refund:</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->status_of_refund}}</h6>
+
+
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+            @endif
+
 
 
 
               <div class="col-3">
                 <div class="card bd-gray-400 pd-20">
                     <h6 style="color: black">Last Communication:</h6>
+                    <h6 style="color: black">{{$qaformlast[0]->last_communication}}</h6>
 
 
                 </div><!-- card -->
               </div><!-- col-4 -->
 
-              <div class="col-3">
-                <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Client Satisfaction:</h6>
 
 
-                </div><!-- card -->
-              </div><!-- col-4 -->
+              @if ($qaformlast[0]->client_satisfaction == 'Extremely Satisfied')
+
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-success pd-20">
+                        <h6 style="color: black">Client Satisfaction::</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->client_satisfaction}}</h6>
+
+
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+
+            @elseif ($qaformlast[0]->client_satisfaction == 'Somewhat Satisfied')
+
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-info pd-20">
+                        <h6 style="color: black">Client Satisfaction::</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->client_satisfaction}}</h6>
+
+
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+            @elseif ($qaformlast[0]->client_satisfaction == 'Neither Satisfied nor Dissatisfied')
+
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-secondary pd-20">
+                        <h6 style="color: black">Client Satisfaction::</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->client_satisfaction}}</h6>
+
+
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+            @elseif ($qaformlast[0]->client_satisfaction == 'Somewhat Dissatisfied')
+
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-warning pd-20">
+                        <h6 style="color: black">Client Satisfaction::</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->client_satisfaction}}</h6>
+
+
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+            @else
+
+                <div class="col-3">
+                    <div class="card bd-gray-400  bg-danger pd-20">
+                        <h6 style="color: black">Client Satisfaction::</h6>
+                        <h6 style="color: black">{{$qaformlast[0]->client_satisfaction}}</h6>
+
+
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+            @endif
 
               <div class="col-3">
                 <div class="card bd-gray-400 pd-20">
                     <h6 style="color: black">QA Person:</h6>
+                    <h6 style="color: black">{{$qaformlast[0]->QA_Person->name}}</h6>
 
 
                 </div><!-- card -->
@@ -143,6 +251,7 @@
             <div class="col-12">
                 <div class="card bd-gray-400  bg-light   pd-20">
                     <h6  style="color: black">summery:</h6>
+                    {{$qaformlast[0]->Refund_Request_summery}}
 
 
                 </div><!-- card -->
@@ -163,23 +272,35 @@
                 </tr>
               </thead>
               <tbody>
+                @foreach ($qaform_filtereds as $qaform)
 
-                {{-- @foreach($companies as $company)
+                @if ($qaform->status == 'Not Started Yet')
+
+                    <tr role="row" class="odd">
+                        <td tabindex="0" class="sorting_1">{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
+                        <td>{{$qaform->GETDEPARTMENT->EmployeeNameinProjectProduction->name}}</td>
+                        <td>{{ $qaform->status }}</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                    </tr>
+
+                @else
+
                 <tr role="row" class="odd">
-                  <td tabindex="0" class="sorting_1">{{ $company->name }}</td>
-                  <td>{{ $company->email }}</td>
-                  <td>{{ $company->tel }}</td>
-                  <td>{{ $company->website }}</td>
-                  <td>
-                      <div class="button-group">
-                        <a href="/editcompany/{{ $company->id }}" class="btn btn-sm btn-info">Edit</a>
-                        <a href="/deletecompany/{{ $company->id }}" class="btn btn-sm btn-danger">Delete</a>
-                        <a href="/addbrand/{{ $company->id }}" class="btn btn-sm btn-primary">Add Brand</a>
-                      </div>
-                  </td>
-                  <td style="display: none;">{{ $company->address }}</td>
+                    <td tabindex="0" class="sorting_1">{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
+                    <td>{{$qaform->GETDEPARTMENT->EmployeeNameinProjectProduction->name}}</td>
+                    <td>{{ $qaform->status }}</td>
+                    @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
+                            <td>{{ $meta->issues }}</td>
+                            <td>{{ $meta->Description_of_issue }}</td>
+                            <td><a target="_blank" href="{{  Storage::url( $meta->evidence ) }}">DOWNLOAD</a></td>
+                    @endforeach
                 </tr>
-                @endforeach --}}
+
+                @endif
+
+                @endforeach
 
               </tbody>
             </table>
