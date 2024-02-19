@@ -5,7 +5,7 @@
   <label class="sidebar-label">Navigation</label>
   <ul class="br-sideleft-menu">
     <li class="br-menu-item">
-      <a href="index.html" class="br-menu-link active">
+      <a href="/dashboard" class="br-menu-link active">
         <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
         <span class="menu-item-label">Dashboard</span>
       </a><!-- br-menu-link -->
