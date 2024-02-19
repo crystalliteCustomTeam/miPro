@@ -1282,7 +1282,7 @@ class BasicController extends Controller
         $get_startdate = $request->input('startdate');
         $get_enddate = $request->input('enddate');
         $get_Production = $request->input('Production');
-        $get_issues = $request->input('brand');
+        $get_brand = $request->input('brand');
         $get_department = $request->input('department');
         $get_employee = $request->input('employee');
         $get_issues = $request->input('issues');
@@ -1345,23 +1345,29 @@ class BasicController extends Controller
         }elseif( $get_startdate != null && $get_enddate != null && $get_Production == '0'  && $get_department != '0' && $get_employee == '0' && $get_issues == '0'){
 
 
-            // $qaform_metas = QAFORM_METAS::where('departmant',$get_department)
-            // ->get();
-
-
-            // foreach ($qaform_metas as $item){
-
-            // $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-            //               ->whereBetween('created_at', [$get_startdate, $get_enddate])
-            //               ->where('qaformID',$item->formid)
-            //               ->get();
-
-            // }
-
-            $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
+            $qaform_all = QAFORM::where('projectID', $project[0]->id)
                           ->whereBetween('created_at', [$get_startdate, $get_enddate])
-                          ->where('ProjectProductionID',$get_department->DepartNameinProjectProduction->id)
                           ->get();
+
+            foreach ($ $qaform_all->qaformID as $items){
+
+                $qaform_metas = QAFORM_METAS::where('formid',$items)
+                ->where('departmant',$get_department)
+                ->get();
+
+            }
+
+
+
+            foreach ($qaform_metas->formid as $item){
+
+
+                $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
+                ->whereBetween('created_at', [$get_startdate, $get_enddate])
+                ->where('qaformID',$item)
+                ->get();
+
+            }
 
 
 
