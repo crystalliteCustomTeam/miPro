@@ -664,7 +664,6 @@ class BasicController extends Controller
         ->update([
             'clientID' => $request->input('client'),
             'projectManager' => $request->input('pm'),
-            'productionID' => $request->input('production'),
             'name' => $request->input('name'),
             "domainOrwebsite" => $request->input('website'),
             "basecampUrl" => $request->input('basecampurl'),
@@ -983,7 +982,7 @@ class BasicController extends Controller
                 "qaPerson" => $qaPerson[0]->id,
             ]);
 
-            return redirect('/forms/newqaform/'.$request->input('projectID'));
+            return redirect('/client/project/qareport/'.$request->input('projectID'));
 
         }else{
 
@@ -1053,7 +1052,7 @@ class BasicController extends Controller
 
             }
 
-            return redirect('/forms/newqaform/'.$request->input('projectID'));
+            return redirect('/client/project/qareport/'.$request->input('projectID'));
 
         }
 

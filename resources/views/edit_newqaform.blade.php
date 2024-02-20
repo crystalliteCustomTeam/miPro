@@ -78,10 +78,10 @@
                               <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Select Production: </label>
                                 <select class="form-control select2" required name="production_name" required>
-                                    {{-- <option value="selected">{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</option>
-                                    <option value="">-----</option> --}}
+                                    <option value="selected">{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</option>
+                                    <option value="">-----</option>
                                     @foreach($productions as $production)
-                                    <option value="{{ $production->id }}"{{ $production->id == $Proj_Prod[0]->departmant ? 'selected' : '' }}>{{ $production->DepartNameinProjectProduction->name }}</option>
+                                    <option value="{{ $production->id }}">{{ $production->DepartNameinProjectProduction->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

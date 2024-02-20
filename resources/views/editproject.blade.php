@@ -52,18 +52,10 @@
                   </select>
                 </div>
                 <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Select Production:</label>
-                    <select class="form-control select2" required name="production">
-                      @foreach ($employee as $client)
-                          <option value="{{ $client->id }}" {{ $client->id == $project->productionID ? 'selected' : '' }}>{{ $client->name }}</option>
-                      @endforeach
-                    </select>
-                  </div>
-                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control" value="{{$project->domainOrwebsite}}">
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-8 mt-3">
                   <label for="" style="font-weight:bold;">Basecamp Url</label>
                   <input type="text" required name="basecampurl" required class="form-control"  value="{{$project->basecampUrl}}">
                 </div>
