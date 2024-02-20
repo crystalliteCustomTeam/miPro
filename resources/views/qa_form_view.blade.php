@@ -41,26 +41,44 @@
                 </tr>
                 <tr>
                     <th>Issue:</th>
-                    <td>{{$qa_meta[0]->issues}}</td>
+                    @php
+                    $qa_issues = json_decode($qa_meta[0]->issues)
+                    @endphp
+                    <td>
+                        @foreach ($qa_issues as $issue)
+                            <ul>
+                                <li>{{$issue}}</li>
+                            </ul>
+                        @endforeach
+                    </td>
                   </tr>
                   <tr>
                     <th>Description:</th>
                     <td>{{$qa_meta[0]->Description_of_issue}}</td>
                   </tr>
                 <tr>
-                  <th>status:</th>
+                  <th>Status:</th>
                   <td>{{$qa_data[0]->status}}</td>
                 </tr>
                 <tr>
-                    <th>last_communication:</th>
+                    <th>Last Communication:</th>
                     <td>{{$qa_data[0]->last_communication}}</td>
                 </tr>
                 <tr>
-                    <th>medium_of_communication:</th>
-                    <td>{{$qa_data[0]->medium_of_communication}}</td>
+                    <th>Medium of Communication:</th>
+                    @php
+                    $medium = json_decode($qa_data[0]->medium_of_communication)
+                    @endphp
+                    <td>
+                    @foreach ($medium as $item)
+                            <ul>
+                                <li>{{$item}}</li>
+                            </ul>
+                    @endforeach
+                    </td>
                 </tr>
                 <tr>
-                    <th>client_satisfaction:</th>
+                    <th>Client Satisfaction:</th>
                     <td>{{$qa_data[0]->client_satisfaction}}</td>
                 </tr>
                 <tr>
@@ -76,7 +94,7 @@
             @else
             <table  id="datatable1"  style="width:100%">
                 <tr>
-                  <th >Department:</th>
+                  <th>Department:</th>
                   <td>--</td>
                 </tr>
                 <tr>
@@ -92,19 +110,28 @@
                     <td>--</td>
                   </tr>
                 <tr>
-                  <th>status:</th>
+                  <th>Status:</th>
                   <td>{{$qa_data[0]->status}}</td>
                 </tr>
                 <tr>
-                    <th>last_communication:</th>
+                    <th>Last Communication:</th>
                     <td>{{$qa_data[0]->last_communication}}</td>
                 </tr>
                 <tr>
-                    <th>medium_of_communication:</th>
-                    <td>{{$qa_data[0]->medium_of_communication}}</td>
+                    <th>Medium of Communication:</th>
+                    @php
+                    $medium = json_decode($qa_data[0]->medium_of_communication)
+                    @endphp
+                    <td>
+                    @foreach ($medium as $item)
+                            <ul>
+                                <li>{{$item}}</li>
+                            </ul>
+                    @endforeach
+                    </td>
                 </tr>
                 <tr>
-                    <th>client_satisfaction:</th>
+                    <th>Client Satisfaction:</th>
                     <td>--</td>
                 </tr>
                 <tr>
