@@ -1279,6 +1279,8 @@ class BasicController extends Controller
 
     function projectreport(Request $request, $id){
         //left panel:
+        $employee = Employee::get();
+        $issue = QaIssues::get();
 
 
         //BASE QUERY
@@ -1288,8 +1290,11 @@ class BasicController extends Controller
         //OPTIONAL
         $get_Production = $_GET['Production']  ;
         $get_employee = $_GET['employee'];
+        $get_issues = $_GET['issues'];
 
         $qaformlast = "QAFORM::where('projectID',$id)->whereBetween('created_at',[$get_startdate,$get_enddate])";
+
+        $qaformlast .= "->latest('id')->limit(10)->get()";
 
         if($get_Production != 0){
             $qaformlast .=  "->where('ProjectProductionID',$get_Production)";
@@ -1298,20 +1303,11 @@ class BasicController extends Controller
 
 
 
-
-        $get_issues = $_GET['issues'];
-
-
-
-
-        $qaformlast .= "->latest('id')->limit(10)->get()";
-
-
         // $qaformlast = str_replace('"', '', $qaformlast);
         // eval($qaformlast);
 
-        print_r($qaformlast);
-        die();
+        // print_r($qaformlast);
+        // die();
 
         $project = Project::where('id', $id)->get();
         $ProjectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
@@ -1320,10 +1316,6 @@ class BasicController extends Controller
         $qaformlast = QAFORM::where('projectID',$project[0]->id)
                     ->latest('id')->limit(1)->get();
 
-        $department = Department::get();
-        $employee = Employee::get();
-        $issue = QaIssues::get();
-        $brand = Brand::get();
 
 
 
@@ -1331,95 +1323,9 @@ class BasicController extends Controller
 
 
 
-        if( $get_startdate != null && $get_enddate != null && $get_Production == '0'  && $get_employee == '0' && $get_issues == '0'){
 
 
-            $qaform_all = QAFORM::where('projectID', $project[0]->id)
-                          ->whereBetween('created_at', [$get_startdate, $get_enddate])
-                          ->get();
-
-            foreach ($ $qaform_all->qaformID as $items){
-
-                $qaform_metas = QAFORM_METAS::where('formid',$items)
-                ->where('departmant',$get_department)
-                ->get();
-
-            }
-
-
-
-            foreach ($qaform_metas->formid as $item){
-
-
-                $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-                ->whereBetween('created_at', [$get_startdate, $get_enddate])
-                ->where('qaformID',$item)
-                ->get();
-
-            }
-
-
-
-        }elseif($get_startdate != null && $get_enddate != null && $get_Production == '0'  &&  $get_employee != '0' && $get_issues == '0') {
-
-            $qaform_all = QAFORM::where('projectID', $project[0]->id)
-                          ->whereBetween('created_at', [$get_startdate, $get_enddate])
-                          ->get();
-
-            foreach ($ $qaform_all->qaformID as $items){
-
-                $qaform_metas = QAFORM_METAS::where('formid',$items)
-                ->where('responsible_person',$get_employee)
-                ->get();
-
-            }
-
-
-
-            foreach ($qaform_metas->formid as $item){
-
-
-                $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-                ->whereBetween('created_at', [$get_startdate, $get_enddate])
-                ->where('qaformID',$item)
-                ->get();
-
-            }
-
-        }elseif($get_startdate != null && $get_enddate != null && $get_Production == '0'  && $get_employee == '0' && $get_issues != '0') {
-
-            $qaform_all = QAFORM::where('projectID', $project[0]->id)
-                          ->whereBetween('created_at', [$get_startdate, $get_enddate])
-                          ->get();
-
-            foreach ($ $qaform_all->qaformID as $items){
-
-                $qaform_metas = QAFORM_METAS::where('formid',$items)
-                ->where('issues',$get_issues)
-                ->get();
-
-            }
-
-
-
-            foreach ($qaform_metas->formid as $item){
-
-
-                $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-                ->whereBetween('created_at', [$get_startdate, $get_enddate])
-                ->where('qaformID',$item)
-                ->get();
-
-            }
-
-        }else{
-
-            $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-            ->get();
-
-        }
-
-        return view('report_home', ['projects'=>$project, 'projectproductions'=>$ProjectProduction, 'clients'=>$client, 'clientmetas'=>$clientmeta,  'qaformlast'=>$qaformlast ,'qaform_filtereds'=>$qaform_filtered , 'departments'=>$department , 'employees'=>$employee, 'issues'=>$issue,'brands'=>$brand]);
+        return view('report_home', ['projects'=>$project, 'projectproductions'=>$ProjectProduction, 'clients'=>$client, 'clientmetas'=>$clientmeta,  'qaformlast'=>$qaformlast , 'employees'=>$employee, 'issues'=>$issue]);
 
         }
 }
