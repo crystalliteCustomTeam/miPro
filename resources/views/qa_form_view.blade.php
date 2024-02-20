@@ -27,6 +27,9 @@
               <button class="btn btn-outline-primary">Project Manager: {{$qa_data[0]->Project_ProjectManager->name}}</button>
               <button class="btn btn-outline-primary">Brand: {{$qa_data[0]->Brand_Name->name}}</button>
               <br><br>
+
+            @if ( $qa_data[0]->status != "Not Started Yet")
+
             <table  id="datatable1"  style="width:100%">
                 <tr>
                   <th >Department:</th>
@@ -69,6 +72,52 @@
                     <td>{{$qa_data[0]->QA_Person->name}}</td>
                 </tr>
               </table>
+
+            @else
+            <table  id="datatable1"  style="width:100%">
+                <tr>
+                  <th >Department:</th>
+                  <td>--</td>
+                </tr>
+                <tr>
+                  <th>Assignee:</th>
+                  <td>--</td>
+                </tr>
+                <tr>
+                    <th>Issue:</th>
+                    <td>--</td>
+                  </tr>
+                  <tr>
+                    <th>Description:</th>
+                    <td>--</td>
+                  </tr>
+                <tr>
+                  <th>status:</th>
+                  <td>{{$qa_data[0]->status}}</td>
+                </tr>
+                <tr>
+                    <th>last_communication:</th>
+                    <td>{{$qa_data[0]->last_communication}}</td>
+                </tr>
+                <tr>
+                    <th>medium_of_communication:</th>
+                    <td>{{$qa_data[0]->medium_of_communication}}</td>
+                </tr>
+                <tr>
+                    <th>client_satisfaction:</th>
+                    <td>--</td>
+                </tr>
+                <tr>
+                    <th>Summery:</th>
+                    <td>--</td>
+                </tr>
+                <tr>
+                    <th>QA Person:</th>
+                    <td>{{$qa_data[0]->QA_Person->name}}</td>
+                </tr>
+              </table>
+
+              @endif
               <a href="/client/project/qareport/{{$qa_data[0]->Project_Name->id}}"><button class="btn btn-outline-primary">BACK</button></a>
 
 
