@@ -69,6 +69,7 @@
                     <td>{{$qa_data[0]->QA_Person->name}}</td>
                 </tr>
               </table>
+              <a href="/client/project/qareport/{{$qa_data[0]->Project_Name->id}}"><button class="btn btn-outline-primary">BACK</button></a>
 
 
 
