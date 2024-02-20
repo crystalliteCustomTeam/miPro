@@ -1279,15 +1279,39 @@ class BasicController extends Controller
 
     function projectreport(Request $request, $id){
         //left panel:
-        $get_startdate = $request->input('startdate');
-        $get_enddate = $request->input('enddate');
-        $get_Production = $request->input('Production');
-        $get_brand = $request->input('brand');
-        $get_department = $request->input('department');
-        $get_employee = $request->input('employee');
-        $get_issues = $request->input('issues');
 
 
+        //BASE QUERY
+        $get_startdate = ( $_GET['startdate'] != 0 ) ? $_GET['startdate'] : "";
+        $get_enddate = ( $_GET['enddate'] != 0 ) ? $_GET['enddate'] : "";
+
+        //OPTIONAL
+        $get_Production = $_GET['Production']  ;
+        $get_employee = $_GET['employee'];
+
+        $qaformlast = "QAFORM::where('projectID',$id)->whereBetween('created_at',[$get_startdate,$get_enddate])";
+
+        if($get_Production != 0){
+            $qaformlast .=  "->where('ProjectProductionID',$get_Production)";
+        }
+
+
+
+
+
+        $get_issues = $_GET['issues'];
+
+
+
+
+        $qaformlast .= "->latest('id')->limit(10)->get()";
+
+
+        // $qaformlast = str_replace('"', '', $qaformlast);
+        // eval($qaformlast);
+
+        print_r($qaformlast);
+        die();
 
         $project = Project::where('id', $id)->get();
         $ProjectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
@@ -1300,49 +1324,14 @@ class BasicController extends Controller
         $employee = Employee::get();
         $issue = QaIssues::get();
         $brand = Brand::get();
-        if( $get_startdate != null && $get_enddate != null && $get_Production == '0'  && $get_department == '0' && $get_employee == '0' && $get_issues == '0'){
 
-            $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-            ->whereBetween('created_at', [$get_startdate, $get_enddate])
-            ->get();
 
-        }
-        // elseif( $get_startdate != null && $get_enddate == null && $get_Production == '0'  && $get_department == '0' && $get_employee == '0' && $get_issues == '0'){
 
-        //     $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-        //     ->where('created_at',$get_startdate)
-        //     ->where('ProjectProductionID',$get_Production)
-        //     ->get();
 
-        // }elseif( $get_startdate == "" && $get_enddate != null && $get_Production == '0'  && $get_department == '0' && $get_employee == '0' && $get_issues == '0'){
 
-        //     $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-        //     ->where('created_at', $get_enddate)
-        //     ->where('ProjectProductionID',$get_Production)
-        //     ->get();
 
-        // }elseif( $get_startdate != null && $get_enddate == "" && $get_Production != '0'  && $get_department == '0' && $get_employee == '0' && $get_issues == '0'){
 
-        //     $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-        //     ->where('created_at', $get_startdate)
-        //     ->where('ProjectProductionID',$get_Production)
-        //     ->get();
-
-        // }elseif( $get_startdate == "" && $get_enddate != null && $get_Production != '0'  && $get_department == '0' && $get_employee == '0' && $get_issues == '0'){
-
-        //     $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-        //     ->where('created_at', $get_enddate)
-        //     ->where('ProjectProductionID',$get_Production)
-        //     ->get();
-        //}
-        elseif( $get_startdate != null && $get_enddate != null && $get_Production != '0'  && $get_department == '0' && $get_employee == '0' && $get_issues == '0'){
-
-            $qaform_filtered = QAFORM::where('projectID', $project[0]->id)
-            ->whereBetween('created_at', [$get_startdate, $get_enddate])
-            ->where('ProjectProductionID',$get_Production)
-            ->get();
-
-        }elseif( $get_startdate != null && $get_enddate != null && $get_Production == '0'  && $get_department != '0' && $get_employee == '0' && $get_issues == '0'){
+        if( $get_startdate != null && $get_enddate != null && $get_Production == '0'  && $get_employee == '0' && $get_issues == '0'){
 
 
             $qaform_all = QAFORM::where('projectID', $project[0]->id)
@@ -1371,7 +1360,7 @@ class BasicController extends Controller
 
 
 
-        }elseif($get_startdate != null && $get_enddate != null && $get_Production == '0'  && $get_department == '0' && $get_employee != '0' && $get_issues == '0') {
+        }elseif($get_startdate != null && $get_enddate != null && $get_Production == '0'  &&  $get_employee != '0' && $get_issues == '0') {
 
             $qaform_all = QAFORM::where('projectID', $project[0]->id)
                           ->whereBetween('created_at', [$get_startdate, $get_enddate])
@@ -1397,7 +1386,7 @@ class BasicController extends Controller
 
             }
 
-        }elseif($get_startdate != null && $get_enddate != null && $get_Production == '0'  && $get_department == '0' && $get_employee == '0' && $get_issues != '0') {
+        }elseif($get_startdate != null && $get_enddate != null && $get_Production == '0'  && $get_employee == '0' && $get_issues != '0') {
 
             $qaform_all = QAFORM::where('projectID', $project[0]->id)
                           ->whereBetween('created_at', [$get_startdate, $get_enddate])
