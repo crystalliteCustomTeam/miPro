@@ -115,7 +115,7 @@
                             </div>
                             <div class="col-12 mt-3" id="shareamount" >
                                 <label for="" style="font-weight:bold;">Evidence(if any issue) </label>
-                                <input type="file" name="Evidence" value="$qa_meta[0]->evidence" class="form-control">
+                                <input type="file" name="Evidence"  class="form-control">
                             </div>
                             {{-- ----------------Remarks------------------- --}}
                             <div class="col-6 mt-3" id="remark">
