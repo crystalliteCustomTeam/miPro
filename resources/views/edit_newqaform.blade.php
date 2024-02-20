@@ -42,6 +42,7 @@
 
                     <form action="/forms/editnewqaform/{{$qa_data[0]->id }}/process/" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="projectID" value="{{$projects[0]->id }}">
 
                         <div class="row">
                           <div class="col-12">
