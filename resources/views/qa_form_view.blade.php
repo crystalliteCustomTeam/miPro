@@ -30,9 +30,9 @@
 
             @if ( $qa_data[0]->status != "Not Started Yet")
 
-            <table  id="datatable1"  style="width:100%">
+            <table  id="datatable1"  style="width:70%"  class="table-dark table-hover">
                 <tr>
-                  <th >Department:</th>
+                  <th>Department:</th>
                   <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td>
                 </tr>
                 <tr>
@@ -92,7 +92,7 @@
               </table>
 
             @else
-            <table  id="datatable1"  style="width:100%">
+            <table  id="datatable1"  style="width:70%" class="table-dark table-hover" >
                 <tr>
                   <th>Department:</th>
                   <td>--</td>
