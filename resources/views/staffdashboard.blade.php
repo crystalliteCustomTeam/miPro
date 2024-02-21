@@ -10,9 +10,9 @@
                 <p class="mg-b-0">Do bigger things with Crystal Pro, the responsive bootstrap 4 admin template.</p>
               </div>
             </div><!-- d-flex -->
-      
+
             <div class="br-pagebody">
-      
+
               <!-- hidden on purpose using d-none class to have a different look with the original -->
               <!-- feel free to unhide by removing the d-none class below -->
               <div class="row row-sm mg-b-20 d-none">
@@ -69,7 +69,7 @@
                   </div>
                 </div><!-- col-3 -->
               </div><!-- row -->
-      
+
               <div class="row row-sm">
                 <div class="col-4">
                   <div class="card bd-gray-400 pd-20">
@@ -141,7 +141,7 @@
                   </div><!-- card -->
                 </div><!-- col-4 -->
               </div><!-- row -->
-      
+
               <div class="row row-sm mg-t-20">
                 <div class="col-lg-8">
                   <div class="card bd-gray-400">
@@ -168,12 +168,12 @@
                         </div>
                       </div><!-- d-flex -->
                     </div><!-- d-flex -->
-      
+
                     <div class="pd-l-25 pd-r-15 pd-b-25">
                       <div id="ch5" class="ht-250 ht-sm-300"></div>
                     </div>
                   </div><!-- card -->
-      
+
                   <div class="card bd-gray-400 pd-25 mg-t-20">
                     <div class="d-md-flex justify-content-between">
                       <div>
@@ -214,7 +214,7 @@
                       </div><!-- col-3 -->
                     </div><!-- row -->
                   </div><!-- card -->
-      
+
                   <div class="card bd-gray-400 pd-25 mg-t-20">
                     <div class="d-md-flex justify-content-between align-items-center">
                       <div>
@@ -232,9 +232,9 @@
                         </select>
                       </div><!-- wd-200 -->
                     </div><!-- d-flex -->
-      
+
                     <div id="mapShiftWorker" class="ht-300 ht-sm-400 mg-t-25"></div>
-      
+
                     <div class="row row-xs mg-t-25">
                       <div class="col-sm-4">
                         <div class="tx-center pd-y-15 bd">
@@ -258,13 +258,13 @@
                         </div>
                       </div><!-- col-4 -->
                     </div><!-- row -->
-      
+
                   </div><!-- card -->
-      
-      
+
+
                 </div><!-- col-8 -->
                 <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-      
+
                   <div class="card bd-gray-400 overflow-hidden">
                     <div class="pd-x-25 pd-t-25">
                       <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Storage Overview</h6>
@@ -288,7 +288,7 @@
                       </div>
                     </div>
                   </div><!-- card -->
-      
+
                   <div class="card bd-gray-400 mg-t-20">
                     <div id="carousel3" class="carousel slide" data-ride="carousel">
                       <ol class="carousel-indicators">
@@ -329,7 +329,7 @@
                       </div><!-- carousel-inner -->
                     </div><!-- carousel -->
                   </div><!-- card -->
-      
+
                   <div class="card card-body bd-0 pd-25 bg-primary mg-t-20">
                     <div class="d-xs-flex justify-content-between align-items-center tx-white mg-b-20">
                       <h6 class="tx-13 tx-uppercase tx-semibold tx-spacing-1 mg-b-0">Server Status</h6>
@@ -342,7 +342,7 @@
                     </div><!-- progress -->
                     <p class="tx-11 mg-b-0 mg-t-15 tx-white-7">Notice: Lorem ipsum dolor sit amet.</p>
                   </div><!-- card -->
-      
+
                   <div class="card bd-0 mg-t-20">
                     <div id="carousel12" class="carousel slide" data-ride="carousel">
                       <ol class="carousel-indicators">
@@ -411,7 +411,7 @@
                       </div><!-- carousel-inner -->
                     </div><!-- carousel -->
                   </div><!-- card -->
-      
+
                   <div class="card bg-danger bd-0 mg-t-20">
                     <div class="pd-x-25 pd-t-25">
                       <h6 class="tx-13 tx-uppercase tx-white tx-medium tx-spacing-1 mg-b-10">Monthly Statistics</h6>
@@ -431,10 +431,10 @@
                       <div id="ch13" class="ht-160"></div>
                     </div><!-- pd-x-25 -->
                   </div><!-- card -->
-      
+
                 </div><!-- col-4 -->
               </div><!-- row -->
-      
+
             </div><!-- br-pagebody -->
             <footer class="br-footer">
               <div class="footer-left">

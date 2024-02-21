@@ -157,6 +157,10 @@ Route::controller(BasicController::class)->group(function (){
 
     Route::middleware(['authCheckStaff'])->group(function () {
          Route::get('/employee/dashboard','staffdashboard');
+
+         //SEO KYC:
+         Route::get('/employee/forms/kyc','seo');
+         Route::post('/employee/forms/kyc/process/client','kycclientprocess');
     });
 
 });
