@@ -78,7 +78,7 @@
                               <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Select Production: </label>
                                 <select class="form-control select2" required name="production_name" required>
-                                    <option value="selected">{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</option>
+                                    <option value="{{$Proj_Prod[0]->id}}" selected>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</option>
                                     <option value="">-----</option>
                                     @foreach($productions as $production)
                                     <option value="{{ $production->id }}">{{ $production->DepartNameinProjectProduction->name }}</option>

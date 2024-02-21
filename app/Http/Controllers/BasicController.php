@@ -969,6 +969,8 @@ class BasicController extends Controller
 
         if($request->input('status') == 'Not Started Yet'){
 
+            $delete_meta = DB::table('qaform_metas')->where('formid', $qaform[0]->qaformID)->delete();
+
             QAFORM::where('id',$id)
             ->update([
                 "ProjectProductionID" => $request->input('production_name'),
