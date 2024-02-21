@@ -41,6 +41,11 @@ class BasicController extends Controller
 
 
 
+
+    function stafflogin(){
+        return view('stafflogin');
+    }
+
     function loginProcessStaff(Request $request)
     {
         $email = $request->input('userName');
@@ -60,14 +65,6 @@ class BasicController extends Controller
         }else{
             return redirect()->back()->with('Error','Email Not Found Please Contact Your Department Head');
         }
-    }
-
-
-
-
-
-    function stafflogin(){
-        return view('stafflogin');
     }
 
     function staffdashboard(Request $request){
