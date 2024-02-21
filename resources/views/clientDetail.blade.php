@@ -55,15 +55,11 @@
                       <div class="media-footer">
                         <div class=" ">
                             {{-- <a href="/forms/payment/{{ $project->id }}" style="color:white;border-radius: 15px;" class="btn btn-sm   btn-success"><img src="https://cdn-icons-png.flaticon.com/24/1611/1611179.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Payment</a> --}}
-                            <a href="" class="btn btn-sm btn-primary" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/11524/11524412.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Change PM </a>
+                            {{-- <a href="" class="btn btn-sm btn-primary" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/11524/11524412.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Change PM </a> --}}
                             <a href="/client/editproject/{{ $project->id }}" class="btn btn-sm  btn-info" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/1159/1159633.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Edit </a>
                             <a href="/forms/newqaform/{{  $project->id }}" class="btn btn-sm  btn-warning" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/4381/4381727.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> QA</a>
                             <a href="/client/project/qareport/{{  $project->id }}" class="btn btn-sm  btn-danger" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/3094/3094851.png" style="filter: invert(1); margin-right:10px"" alt="" title="" class="img-small">QA Report</a>
                             <a href="/project/report/{{  $project->id }}" class="btn btn-sm  btn-success" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/3094/3094851.png" style="filter: invert(1); margin-right:10px"" alt="" title="" class="img-small">Project Report</a>
-                          {{-- <a href=""><i class="fa fa-heart"></i></a>
-                          <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
-                          <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
-                          <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a>form= pro,client, --}}
                         </div>
                       </div><!-- d-flex -->
                     </div><!-- media-body -->

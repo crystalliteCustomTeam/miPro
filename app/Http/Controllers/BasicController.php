@@ -1360,4 +1360,13 @@ class BasicController extends Controller
 
 
         }
+
+        function picturedisplay(Request $request){
+            $qaform = QAFORM::where('id',92)->get();
+            //echo($qaform);
+            echo "<a href='" . Storage::url($qaform[0]->Refund_Request_Attachment) . "'>DOWNLOAD</a>";
+            //$url = Storage::url('$qaform[0]->Refund_Request_Attachment');
+
+
+        }
 }

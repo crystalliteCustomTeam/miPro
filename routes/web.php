@@ -153,6 +153,10 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
 
 
+
+        Route::get('/picture','picturedisplay');
+
+
     });
 
     Route::middleware(['authCheckStaff'])->group(function () {
