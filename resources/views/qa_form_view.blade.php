@@ -94,7 +94,6 @@
 
                 <tr>
                     <th>Refund Attachment:</th>
-                    {{-- <td>{{$qa_data[0]->Refund_Request_Attachment}}</td> --}}
                     <td><a target="_blank" href="{{  Storage::url( $qa_data[0]->Refund_Request_Attachment ) }}">DOWNLOAD</a></td>
                 </tr>
 
@@ -104,7 +103,6 @@
 
                 <tr>
                     <th>Issue Evidence:</th>
-                    {{-- <td>{{$qa_meta[0]->evidence}}</td> --}}
                     <td><a target="_blank" href="{{  Storage::url( $qa_meta[0]->evidence ) }}">DOWNLOAD</a></td>
 
                 </tr>
