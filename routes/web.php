@@ -151,18 +151,12 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/settings/user/client','Assign_Client_to_qaperson');
         Route::post('/settings/user/client/Process','Assign_Client_to_qaperson_process');
         Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
-
-
-
-        Route::get('/picture','picturedisplay');
-
-
     });
 
     Route::middleware(['authCheckStaff'])->group(function () {
          Route::get('/employee/dashboard','staffdashboard');
 
-         //SEO KYC:
+        // SEO KYC:
          Route::get('/employee/forms/kyc','seo');
          Route::post('/employee/forms/kyc/process/client','kycclientprocess');
     });
