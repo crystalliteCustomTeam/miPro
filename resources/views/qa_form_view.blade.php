@@ -90,7 +90,7 @@
                     <td>{{$qa_data[0]->QA_Person->name}}</td>
                 </tr>
 
-                @if ($qa_data[0]->Refund_Request_Attachment != null)
+                @if ($qa_data[0]->Refund_Request_Attachment != "--")
 
                 <tr>
                     <th>Refund Attachment:</th>
@@ -100,7 +100,7 @@
 
                 @endif
 
-                @if ( $qa_meta[0]->evidence != null)
+                @if ( $qa_meta[0]->evidence != "--")
 
                 <tr>
                     <th>Issue Evidence:</th>
@@ -116,11 +116,11 @@
             <table  id="datatable1"  style="width:70%" class="table-dark table-hover" >
                 <tr>
                   <th>Department:</th>
-                  <td>--</td>
+                  <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td>
                 </tr>
                 <tr>
                   <th>Assignee:</th>
-                  <td>--</td>
+                  <td>{{$Proj_Prod[0]->EmployeeNameinProjectProduction->name}}</td>
                 </tr>
                 <tr>
                     <th>Issue:</th>

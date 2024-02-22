@@ -158,7 +158,7 @@ Route::controller(BasicController::class)->group(function (){
 
         // SEO KYC:
          Route::get('/employee/forms/kyc','seo');
-         Route::post('/employee/forms/kyc/process/client','kycclientprocess');
+         Route::post('/forms/kyc/process/client','kycclientprocess');
     });
 
 });

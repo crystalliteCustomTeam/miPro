@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('css/bracket.oreo.css') }}">
   </head>
 
-  
+
   <body>
 
     <div class="row no-gutters flex-row-reverse ht-100v">
@@ -34,7 +34,7 @@
           <div class="form-group">
             <input type="email" class="form-control" placeholder="Enter your Email" name="userName" required>
           </div><!-- form-group -->
-          
+
           <div class="form-group">
             <input type="password" class="form-control" placeholder="Enter your password" name="userPassword" required>
             <a href="" class="tx-12 d-block mg-t-10">Forgot password?</a>
@@ -47,7 +47,6 @@
           @endif
           <button type="submit" class="btn btn-success btn-block">Sign In</button>
 
-          <div class="mg-t-60 tx-center">Not yet a member? <a href="/register">Sign Up</a></div>
         </form>
         </div><!-- login-wrapper -->
       </div><!-- col -->
@@ -59,7 +58,7 @@
           <h5 class="tx-white">Why Crystal Pro?</h5>
           <p class="tx-white-6">When it comes to websites or apps, one of the first impression you consider is the design. It needs to be high quality enough otherwise you will lose potential users due to bad design.</p>
           <p class="tx-white-6 mg-b-60">When your website or app is attractive to use, your users will not simply be using it, they’ll look forward to using it. This means that you should fashion the look and feel of your interface for your users.</p>
-        
+
         </div><!-- wd-500 -->
       </div>
     </div><!-- row -->

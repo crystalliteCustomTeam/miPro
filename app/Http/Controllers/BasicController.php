@@ -917,76 +917,31 @@ class BasicController extends Controller
         $qaform_meta = QAFORM_METAS::where('formid',$qaform[0]->qaformID)->get();
         $qaPerson = $request->session()->get('Staffuser');
 
+        $production_id = $request->input('production_name');
+        $production_data = ProjectProduction::where('id', $production_id)->get();
 
 
+        if($qaform[0]->status == "Not Started Yet" && $request->input('status') != "Not Started Yet" ){
 
-        if($request->hasFile('Refund_Request_Attachment'))
-        {
-            $path = storage_path('app/'.$qaform[0]->Refund_Request_Attachment);
-            if(File::exists($path)){
+            if( $request->input('Refund_Request_Attachment') == null){
 
-                File::delete($path);
-                $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
                 QAFORM::where('id',$id)
-                        ->Update([
-                            "Refund_Request_Attachment" => $attachment
-                        ]);
-            }else{
-            $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
-                QAFORM::where('id',$id)
-                        ->Update([
-                            "Refund_Request_Attachment" => $attachment
-                        ]);
-            }
-        };
-
-        if($request->hasFile('Evidence'))
-        {
-            $path_evid = storage_path('app/'.$qaform_meta[0]->evidence);
-            if(File::exists($path_evid))
-            {
-                File::delete($path_evid);
-                $attachment_evid = $request->file('Evidence')->store('uploads');
-                QAFORM_METAS::where('id',$qaform_meta[0]->id)
-                        ->Update([
-                            "evidence" => $attachment_evid
-                        ]);
-            }else{
-                $attachment_evid = $request->file('Evidence')->store('uploads');
-                    QAFORM_METAS::where('id',$qaform_meta[0]->id)
-                            ->Update([
-                                "evidence" => $attachment_evid
-                            ]);
-
-            }
-        };
-
-
-
-
-        if($request->input('status') == 'Not Started Yet'){
-
-            $delete_meta = DB::table('qaform_metas')->where('formid', $qaform[0]->qaformID)->delete();
-
-            QAFORM::where('id',$id)
-            ->update([
-                "ProjectProductionID" => $request->input('production_name'),
-                "status" => $request->input('status'),
-                "last_communication" =>   $request->input('last_communication_with_client'),
-                "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
-                'client_satisfaction' => "--",
-                'status_of_refund' => "--",
-                'Refund_Requested' => "--",
-                "Refund_Request_summery" => "--",
-                "qaPerson" => $qaPerson[0]->id,
+                ->update([
+                    "ProjectProductionID" => $request->input('production_name'),
+                    "status" => $request->input('status'),
+                    "last_communication" =>   $request->input('last_communication_with_client'),
+                    "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
+                    'client_satisfaction' => $request->input('client_satisfation'),
+                    'status_of_refund' => $request->input('status_of_refund'),
+                    'Refund_Requested' => $request->input('Refund_Requested'),
+                    "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+                    "Refund_Request_Attachment" => "--",
+                    "qaPerson" => $qaPerson[0]->id,
             ]);
 
-            return redirect('/client/project/qareport/'.$request->input('projectID'));
+            }else{
 
-        }else{
-
-            if($request->file('Refund_Request_Attachment') != null){
-
+                $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
 
                 QAFORM::where('id',$id)
                 ->update([
@@ -998,64 +953,184 @@ class BasicController extends Controller
                     'status_of_refund' => $request->input('status_of_refund'),
                     'Refund_Requested' => $request->input('Refund_Requested'),
                     "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+                    "Refund_Request_Attachment" => $attachment,
                     "qaPerson" => $qaPerson[0]->id,
-                ]);
+            ]);
 
-            }else {
+            };
 
-                QAFORM::where('id',$id)
-                ->update([
-                    "ProjectProductionID" => $request->input('production_name'),
-                    "status" => $request->input('status'),
-                    "last_communication" =>   $request->input('last_communication_with_client'),
-                    "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
-                    'client_satisfaction' => $request->input('client_satisfation'),
-                    'status_of_refund' => $request->input('status_of_refund'),
-                    'Refund_Requested' => $request->input('Refund_Requested'),
-                    "Refund_Request_summery" => $request->input('Refund_Request_summery'),
-                    "qaPerson" => $qaPerson[0]->id,
-                ]);
+            if( $request->input('Evidence') == null ){
 
-            }
-
-            $production_id = $request->input('production_name');
-            $production_data = ProjectProduction::where('id', $production_id)->get();
-
-            if($request->file('Evidence') != null){
-
-
-
-
-                QAFORM_METAS::where('formid',$qaform[0]->qaformID)
-                ->update([
+                QAFORM_METAS::create([
+                    'formid' =>  $qaform[0]->qaformID,
                     'departmant' => $production_data[0]->departmant,
                     'responsible_person' =>  $production_data[0]->responsible_person,
                     'status' => $request->input('status'),
                     "issues" => json_encode($request->input('issues')),
                     "Description_of_issue" => $request->input('Description_of_issue'),
-
+                    "evidence" => "--",
                 ]);
+
+                return redirect('/client/project/qareport/'.$request->input('projectID'));
 
             }else{
 
+                $evidence = $request->file('Evidence')->store('uploads');
 
-                QAFORM_METAS::where('formid',$qaform[0]->qaformID)
+                QAFORM_METAS::create([
+                    'formid' =>  $qaform[0]->qaformID,
+                    'departmant' => $production_data[0]->departmant,
+                    'responsible_person' =>  $production_data[0]->responsible_person,
+                    'status' => $request->input('status'),
+                    "issues" => json_encode($request->input('issues')),
+                    "Description_of_issue" => $request->input('Description_of_issue'),
+                    "evidence" =>  $evidence
+                ]);
+
+                return redirect('/client/project/qareport/'.$request->input('projectID'));
+
+            };
+
+
+        }else{
+
+            if($request->hasFile('Refund_Request_Attachment'))
+            {
+                $path = storage_path('app/'.$qaform[0]->Refund_Request_Attachment);
+                if(File::exists($path)){
+
+                    File::delete($path);
+                    $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
+                    QAFORM::where('id',$id)
+                            ->Update([
+                                "Refund_Request_Attachment" => $attachment
+                            ]);
+                }else{
+                $attachment = $request->file('Refund_Request_Attachment')->store('refundUpload');
+                    QAFORM::where('id',$id)
+                            ->Update([
+                                "Refund_Request_Attachment" => $attachment
+                            ]);
+                }
+            };
+
+            if($request->hasFile('Evidence'))
+            {
+                $path_evid = storage_path('app/'.$qaform_meta[0]->evidence);
+                if(File::exists($path_evid))
+                {
+                    File::delete($path_evid);
+                    $attachment_evid = $request->file('Evidence')->store('uploads');
+                    QAFORM_METAS::where('id',$qaform_meta[0]->id)
+                            ->Update([
+                                "evidence" => $attachment_evid
+                            ]);
+                }else{
+                    $attachment_evid = $request->file('Evidence')->store('uploads');
+                        QAFORM_METAS::where('id',$qaform_meta[0]->id)
+                                ->Update([
+                                    "evidence" => $attachment_evid
+                                ]);
+
+                }
+            };
+
+
+
+
+            if($request->input('status') == 'Not Started Yet'){
+
+                $delete_meta = DB::table('qaform_metas')->where('formid', $qaform[0]->qaformID)->delete();
+
+                QAFORM::where('id',$id)
                 ->update([
-                'departmant' => $production_data[0]->departmant,
-                'responsible_person' => $production_data[0]->responsible_person,
-                'status' => $request->input('status'),
-                "issues" => json_encode($request->input('issues')),
-                "Description_of_issue" => $request->input('Description_of_issue'),
-                "evidence" => '--'
-            ]);
+                    "ProjectProductionID" => $request->input('production_name'),
+                    "status" => $request->input('status'),
+                    "last_communication" =>   $request->input('last_communication_with_client'),
+                    "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
+                    'client_satisfaction' => "--",
+                    'status_of_refund' => "--",
+                    'Refund_Requested' => "--",
+                    "Refund_Request_summery" => "--",
+                    "Refund_Request_Attachment" => "--",
+                    "qaPerson" => $qaPerson[0]->id,
+                ]);
 
-            }
+                return redirect('/client/project/qareport/'.$request->input('projectID'));
 
-            return redirect('/client/project/qareport/'.$request->input('projectID'));
+            }else{
+
+                if($request->file('Refund_Request_Attachment') != null){
+
+
+                    QAFORM::where('id',$id)
+                    ->update([
+                        "ProjectProductionID" => $request->input('production_name'),
+                        "status" => $request->input('status'),
+                        "last_communication" =>   $request->input('last_communication_with_client'),
+                        "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
+                        'client_satisfaction' => $request->input('client_satisfation'),
+                        'status_of_refund' => $request->input('status_of_refund'),
+                        'Refund_Requested' => $request->input('Refund_Requested'),
+                        "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+                        "qaPerson" => $qaPerson[0]->id,
+                    ]);
+
+                }else {
+
+                    QAFORM::where('id',$id)
+                    ->update([
+                        "ProjectProductionID" => $request->input('production_name'),
+                        "status" => $request->input('status'),
+                        "last_communication" =>   $request->input('last_communication_with_client'),
+                        "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
+                        'client_satisfaction' => $request->input('client_satisfation'),
+                        'status_of_refund' => $request->input('status_of_refund'),
+                        'Refund_Requested' => $request->input('Refund_Requested'),
+                        "Refund_Request_summery" => $request->input('Refund_Request_summery'),
+                        "qaPerson" => $qaPerson[0]->id,
+                    ]);
+
+                }
+
+                $production_id = $request->input('production_name');
+                $production_data = ProjectProduction::where('id', $production_id)->get();
+
+                if($request->file('Evidence') != null){
+
+
+
+
+                    QAFORM_METAS::where('formid',$qaform[0]->qaformID)
+                    ->update([
+                        'departmant' => $production_data[0]->departmant,
+                        'responsible_person' =>  $production_data[0]->responsible_person,
+                        'status' => $request->input('status'),
+                        "issues" => json_encode($request->input('issues')),
+                        "Description_of_issue" => $request->input('Description_of_issue'),
+
+                    ]);
+
+                }else{
+
+
+                    QAFORM_METAS::where('formid',$qaform[0]->qaformID)
+                    ->update([
+                    'departmant' => $production_data[0]->departmant,
+                    'responsible_person' => $production_data[0]->responsible_person,
+                    'status' => $request->input('status'),
+                    "issues" => json_encode($request->input('issues')),
+                    "Description_of_issue" => $request->input('Description_of_issue'),
+                    "evidence" => '--'
+                ]);
+
+                }
+
+                return redirect('/client/project/qareport/'.$request->input('projectID'));
 
         }
 
-
+        }
 
 
 

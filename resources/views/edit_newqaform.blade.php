@@ -40,6 +40,132 @@
             <div class="media-list bg-white rounded bd bd-gray-400">
                 <div class="media pd-20 pd-xs-30" >
 
+                    @if($qa_data[0]->status != "Not Started Yet")
+
+                        <form action="/forms/editnewqaform/{{$qa_data[0]->id }}/process/" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="projectID" value="{{$projects[0]->id }}">
+
+                            <div class="row">
+                            <div class="col-12">
+                                <h3 style="color:black" class="mb-5">Quality Assaurance Form:</h3>
+                                <div class="btn-group">
+                                <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
+                                <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
+                                <button class="btn btn-outline-primary">Brand: {{$projects[0]->ClientName->projectbrand->name }}</button>
+                            </div>
+
+                            </div>
+
+                                <div class="col-6 mt-3" >
+                                <label for="" style="font-weight:bold;">Last communication of client </label>
+                                <input type="date" name="last_communication_with_client" value="{{$qa_data[0]->last_communication}}" class="form-control">
+                                </div>
+
+                                <div class="col-6 mt-3">
+                                    <label for="" style="font-weight:bold;">Medium of communication:</label>
+                                    <select class="form-control select2"  name="Medium_of_communication[]" multiple="multiple" value="selected">
+                                        @php $mediums = json_decode($qa_data[0]->medium_of_communication) @endphp
+                                        @foreach($mediums as $medium)
+                                        <option value="{{ $medium }}" selected>{{ $medium }}</option>
+                                        @endforeach
+                                        <option value="">-----</option>
+                                        <option value="Calls">Calls</option>
+                                        <option value="Messages">Messages</option>
+                                        <option value="Basecamp">Basecamp</option>
+                                        <option value="Email">Email</option>
+                                        <option value="Whatsapp">Whatsapp</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="" style="font-weight:bold;">Select Production: </label>
+                                    <select class="form-control select2" required name="production_name" required>
+                                        <option value="{{$Proj_Prod[0]->id}}" selected>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</option>
+                                        <option value="">-----</option>
+                                        @foreach($productions as $production)
+                                        <option value="{{ $production->id }}">{{ $production->DepartNameinProjectProduction->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="" style="font-weight:bold;">Status:</label>
+                                    <select class="form-control select2" required name="status"   id="paymentType" >
+                                        <option value="{{$qa_data[0]->status}}" selected>{{$qa_data[0]->status}}</option>
+                                        <option value="Dispute">Dispute</option>
+                                        <option value="Refund">Refund</option>
+                                        <option value="On Going">On Going</option>
+                                        <option value="Not Started Yet">Not Started Yet</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 mt-3" id="issues">
+                                    <label for="" style="font-weight:bold;">Issues:</label>
+                                    <select class="form-control select2"  name="issues[]" multiple="multiple">
+                                        @php $issues = json_decode($qa_meta[0]->issues) @endphp
+                                        @foreach($issues as $issue)
+                                        <option value="{{ $issue }}" selected>{{ $issue }}</option>
+                                        @endforeach
+                                        <option value="">-----</option>
+                                        @foreach($allissues as $qaissue)
+                                        <option value="{{ $qaissue->issues }}">{{ $qaissue->issues }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-12 mt-3" id="Description" >
+                                    <label for="" style="font-weight:bold;">Description of issue</label>
+                                    <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10">{{$qa_meta[0]->Description_of_issue}}</textarea>
+                                </div>
+                                <div class="col-12 mt-3" id="shareamount" >
+                                    <label for="" style="font-weight:bold;">Evidence(if any issue) </label>
+                                    <input type="file" name="Evidence"  class="form-control">
+                                </div>
+                                {{-- ----------------Remarks------------------- --}}
+                                <div class="col-6 mt-3" id="remark">
+                                    <label for="" style="font-weight:bold;">Client Satisfaction Level:</label>
+                                    <select class="form-control select2" name="client_satisfation" >
+                                        <option value="{{$qa_data[0]->client_satisfaction}}" selected>{{$qa_data[0]->client_satisfaction}}</option>
+                                        <option value="Extremely Satisfied">Extremely Satisfied</option>
+                                        <option value="Somewhat Satisfied">Somewhat Satisfied</option>
+                                        <option value="Neither Satisfied nor Dissatisfied">Neither Satisfied nor Dissatisfied</option>
+                                        <option value="Somewhat Dissatisfied">Somewhat Dissatisfied</option>
+                                        <option value="Extremely Dissatisfied">Extremely Dissatisfied</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 mt-3" id="expected_refund">
+                                    <label for="" style="font-weight:bold;">Refund & Dispute Expected :</label>
+                                    <select class="form-control select2"  name="status_of_refund"  >
+                                        <option value="{{$qa_data[0]->status_of_refund}}" selected>{{$qa_data[0]->status_of_refund}}</option>
+                                        <option value="Going Good">Going Good</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Moderate">Moderate</option>
+                                        <option value="Not Started Yet">Not Started Yet</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 mt-3" id="refund_request">
+                                    <label for="" style="font-weight:bold;">Refund Requested: </label>
+                                    <select class="form-control select2"  name="Refund_Requested" >
+                                        <option value="{{$qa_data[0]->Refund_Requested}}" selected>{{$qa_data[0]->Refund_Requested}}</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 mt-3" id="ref_req_attachment">
+                                <label for="" style="font-weight:bold;">Refund Request Attachment </label>
+                                <input type="file" name="Refund_Request_Attachment"  class="form-control">
+                                </div>
+                                <div class="col-12 mt-3" id="summery">
+                                    <label for="" style="font-weight:bold;">Summery </label>
+                                    <textarea  name="Refund_Request_summery"  class="form-control" id="" cols="30" rows="10">{{$qa_data[0]->Refund_Request_summery}}</textarea>
+                                </div>
+                                <div class="col-12">
+                                    <input type="submit" value="Update" class=" mt-3 btn btn-success">
+                                </div>
+                            </div>
+                        </form>
+                    @else
+
                     <form action="/forms/editnewqaform/{{$qa_data[0]->id }}/process/" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="projectID" value="{{$projects[0]->id }}">
@@ -99,10 +225,6 @@
                             <div class="col-12 mt-3" id="issues">
                                 <label for="" style="font-weight:bold;">Issues:</label>
                                 <select class="form-control select2"  name="issues[]" multiple="multiple">
-                                    @php $issues = json_decode($qa_meta[0]->issues) @endphp
-                                    @foreach($issues as $issue)
-                                    <option value="{{ $issue }}" selected>{{ $issue }}</option>
-                                    @endforeach
                                     <option value="">-----</option>
                                     @foreach($allissues as $qaissue)
                                     <option value="{{ $qaissue->issues }}">{{ $qaissue->issues }}</option>
@@ -112,7 +234,7 @@
 
                             <div class="col-12 mt-3" id="Description" >
                                 <label for="" style="font-weight:bold;">Description of issue</label>
-                                <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10">{{$qa_meta[0]->Description_of_issue}}</textarea>
+                                <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10"></textarea>
                             </div>
                             <div class="col-12 mt-3" id="shareamount" >
                                 <label for="" style="font-weight:bold;">Evidence(if any issue) </label>
@@ -122,7 +244,7 @@
                             <div class="col-6 mt-3" id="remark">
                                 <label for="" style="font-weight:bold;">Client Satisfaction Level:</label>
                                 <select class="form-control select2" name="client_satisfation" >
-                                    <option value="{{$qa_data[0]->client_satisfaction}}" selected>{{$qa_data[0]->client_satisfaction}}</option>
+                                    <option value="">------</option>
                                     <option value="Extremely Satisfied">Extremely Satisfied</option>
                                     <option value="Somewhat Satisfied">Somewhat Satisfied</option>
                                     <option value="Neither Satisfied nor Dissatisfied">Neither Satisfied nor Dissatisfied</option>
@@ -133,7 +255,7 @@
                             <div class="col-6 mt-3" id="expected_refund">
                                 <label for="" style="font-weight:bold;">Refund & Dispute Expected :</label>
                                 <select class="form-control select2"  name="status_of_refund"  >
-                                    <option value="{{$qa_data[0]->status_of_refund}}" selected>{{$qa_data[0]->status_of_refund}}</option>
+                                    <option value="">------</option>
                                     <option value="Going Good">Going Good</option>
                                     <option value="Low">Low</option>
                                     <option value="Moderate">Moderate</option>
@@ -144,7 +266,7 @@
                               <div class="col-6 mt-3" id="refund_request">
                                 <label for="" style="font-weight:bold;">Refund Requested: </label>
                                 <select class="form-control select2"  name="Refund_Requested" >
-                                    <option value="{{$qa_data[0]->Refund_Requested}}" selected>{{$qa_data[0]->Refund_Requested}}</option>
+                                    <option value=""></option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select>
@@ -155,13 +277,15 @@
                             </div>
                             <div class="col-12 mt-3" id="summery">
                                 <label for="" style="font-weight:bold;">Summery </label>
-                                <textarea  name="Refund_Request_summery"  class="form-control" id="" cols="30" rows="10">{{$qa_data[0]->Refund_Request_summery}}</textarea>
+                                <textarea  name="Refund_Request_summery"  class="form-control" id="" cols="30" rows="10"></textarea>
                             </div>
                             <div class="col-12">
                                 <input type="submit" value="Update" class=" mt-3 btn btn-success">
                             </div>
                         </div>
                        </form>
+
+                    @endif
 
 
 
