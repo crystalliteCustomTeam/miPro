@@ -404,6 +404,7 @@ class BasicController extends Controller
         $project = Project::where('projectManager', $id)->get();
         //$projectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
         $department = Department::whereJsonContains('users', $id )->get();
+        if($department[0]->name != "Quality Assaurance"){
         if(count($project) > 0){
             $find_client = Client::where('id',$project[0]->clientID)->get();
         }
@@ -412,7 +413,10 @@ class BasicController extends Controller
         }
 
         return view("userprofile" ,["employee"=>$employee, "department"=>$department  , "project"=>$project  , "find_client"=>$find_client ]);
-
+    }else{
+        $qa_client = QaPersonClientAssign::where("user",$id)->get();
+        return view("userprofile1", ["qa_client"=> $qa_client]);
+    }
 
     }
 
@@ -1363,7 +1367,9 @@ class BasicController extends Controller
     }
 
     function Assign_Client_to_qaperson(){
-        $user = Employee::get();
+        $department = Department::where('name', 'Quality Assaurance')->get();
+        $depart = json_decode($department[0]->users);
+        $user = Employee::whereIn('id', $depart)->get();
         $clients = Client::get();
         $QaPersonClientAssigns =QaPersonClientAssign::get();
         return view('client_qaperson', ['users'=>$user,'clients'=>$clients, 'QaPersonClientAssigns'=>$QaPersonClientAssigns ]);
