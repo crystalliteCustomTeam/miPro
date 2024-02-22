@@ -130,7 +130,6 @@
                                     <option value="Going Good">Going Good</option>
                                     <option value="Low">Low</option>
                                     <option value="Moderate">Moderate</option>
-                                    <option value="Not Started Yet">Not Started Yet</option>
                                     <option value="High">High</option>
                                 </select>
                               </div>

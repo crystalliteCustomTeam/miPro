@@ -58,7 +58,15 @@
                   </tr>
                 <tr>
                   <th>Status:</th>
-                  <td>{{$qa_data[0]->status}}</td>
+                  <td>
+                        @if ($qa_data[0]->status == "Dispute")
+                        <p style="color: red">{{$qa_data[0]->status}}</p>
+                        @elseif ($qa_data[0]->status == "Refund")
+                        <p style="color: red">{{$qa_data[0]->status}}</p>
+                        @else
+                        <p>{{$qa_data[0]->status}}</p>
+                        @endif
+                  </td>
                 </tr>
                 <tr>
                     <th>Last Communication:</th>
@@ -79,11 +87,39 @@
                 </tr>
                 <tr>
                     <th>Client Satisfaction:</th>
-                    <td>{{$qa_data[0]->client_satisfaction}}</td>
+                    <td>
+
+                        @if ($qa_data[0]->client_satisfaction == "Extremely Satisfied")
+                        <p style="color: rgb(30, 129, 0)">{{$qa_data[0]->client_satisfaction}}</p>
+                        @elseif ($qa_data[0]->client_satisfaction == "Somewhat Satisfied")
+                        <p style="color: rgb(152, 222, 40)">{{$qa_data[0]->client_satisfaction}}</p>
+                        @elseif ($qa_data[0]->client_satisfaction == "Neither Satisfied nor Dissatisfied")
+                        <p style="color: yellow">{{$qa_data[0]->client_satisfaction}}</p>
+                        @elseif ($qa_data[0]->client_satisfaction == "Somewhat Dissatisfied")
+                        <p style="color: rgb(237, 165, 31)">{{$qa_data[0]->client_satisfaction}}</p>
+                        @else
+                        <p style="color: red">{{$qa_data[0]->client_satisfaction}}</p>
+                        @endif
+
+                    </td>
                 </tr>
                 <tr>
                     <th>Summery:</th>
                     <td>{{$qa_data[0]->Refund_Request_summery}}</td>
+                </tr>
+                <tr>
+                    <th>Expected Refund:</th>
+                    <td>
+                        @if ($qa_data[0]->status_of_refund == "Going Good")
+                        <p style="color: rgb(30, 129, 0)">{{$qa_data[0]->status_of_refund}}</p>
+                        @elseif ($qa_data[0]->status_of_refund == "Low")
+                        <p style="color: yellow">{{$qa_data[0]->status_of_refund}}</p>
+                        @elseif ($qa_data[0]->status_of_refund == "Moderate")
+                        <p style="color: rgb(237, 165, 31)">{{$qa_data[0]->status_of_refund}}</p>
+                        @else
+                        <p style="color: red">{{$qa_data[0]->status_of_refund}}</p>
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <th>QA Person:</th>
@@ -155,6 +191,10 @@
                 </tr>
                 <tr>
                     <th>Summery:</th>
+                    <td>--</td>
+                </tr>
+                <tr>
+                    <th>Expected Refund:</th>
                     <td>--</td>
                 </tr>
                 <tr>
