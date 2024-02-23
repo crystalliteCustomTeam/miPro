@@ -74,18 +74,6 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/forms/qaform/{id}/process','qaform_prefilled_process');
         Route::post('/forms/editnewqaform/{id}/process','edit_new_qaform_process');
 
-
-
-
-
-
-
-
-        Route::get('/forms/seo_qaform','seo_qaform');
-        Route::get('/forms/book_qaform','book_qaform');
-        Route::get('/forms/website_qaform','website_qaform');
-        Route::get('/forms/cld_qaform','cld_qaform');
-
         //projects form:
         Route::get('/client/project','clientProject');
         Route::get('/client/project/{id}','clientProject_prefilled');
@@ -97,9 +85,9 @@ Route::controller(BasicController::class)->group(function (){
 
 
 
-        Route::get('/forms/renewalrecurring','renewalrecurring');
-        Route::get('/forms/revenueloss','revenueloss');
-        Route::get('/forms/paymentconfirmation','paymentconfirmation');
+        // Route::get('/forms/renewalrecurring','renewalrecurring');
+        // Route::get('/forms/revenueloss','revenueloss');
+        // Route::get('/forms/paymentconfirmation','paymentconfirmation');
         Route::get('/client/details/{id}','getclientDetails');
         Route::get('/all/clients','allclients');
 

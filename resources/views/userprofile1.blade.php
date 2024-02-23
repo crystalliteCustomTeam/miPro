@@ -46,15 +46,15 @@
                   @foreach ($qa_client as $project)
                   <div class="media pd-20 pd-xs-30">
                       <img src="https://cdn-icons-png.flaticon.com/64/1087/1087815.png" alt="" class="wd-40 rounded-circle">
-                      <div class="media-body mg-l-20">
-                        <div class="d-flex justify-content-between mg-b-10">
-                          <div>
-                            <a href="/client/details/{{ $project->clientname->id }}"><h6 class="mg-b-2 tx-inverse tx-14">{{ $project->clientname->name }}</h6></a>
-                            <span class="tx-12 tx-gray-500">{{ $project->name }}</span><br>
-                          </div>
-                          <span class="tx-12">{{ $project->created_at }}</span>
-                        </div><!-- d-flex -->
-                      </div><!-- media-body -->
+                        <div class="media-body mg-l-20">
+                            <div class="d-flex justify-content-between mg-b-10">
+                                <div>
+                                    <a href="/client/details/{{ $project->clientname->id }}"><h6 class="mg-b-2 tx-inverse tx-14">{{ $project->clientname->name }}</h6></a>
+                                    <span class="tx-12 tx-gray-500">{{ $project->name }}</span><br>
+                                </div>
+                            <span class="tx-12">{{ $project->created_at }}</span>
+                            </div><!-- d-flex -->
+                        </div><!-- media-body -->
                     </div><!-- media -->
                   @endforeach
 

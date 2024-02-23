@@ -1274,33 +1274,17 @@ class BasicController extends Controller
         return ;
     }
 
-    function renewalrecurring(Request $request){
-        return view('renewalrecurring');
-    }
+    // function renewalrecurring(Request $request){
+    //     return view('renewalrecurring');
+    // }
 
-    function revenueloss(Request $request){
-        return view('revenueloss');
-    }
+    // function revenueloss(Request $request){
+    //     return view('revenueloss');
+    // }
 
-    function paymentconfirmation(Request $request){
-        return view('paymentconfirmation');
-    }
-
-    function seo_qaform(){
-        return view('seo_qaform');
-    }
-
-    function book_qaform(){
-        return view('book_qaform');
-    }
-
-    function website_qaform(){
-        return view('website_qaform');
-    }
-
-    function cld_qaform(){
-        return view('cld_qaform');
-    }
+    // function paymentconfirmation(Request $request){
+    //     return view('paymentconfirmation');
+    // }
 
     function projectQaReport(Request $request ,$id  ){
         $project = Project::where('id',$id)->get();
