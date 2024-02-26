@@ -81,6 +81,10 @@
                         <option value="Marketing">Marketing</option>
                         <option value="Only Proofreading">Only Proofreading</option>
 
+                        @foreach($productionservices as $productionservice)
+                        <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                        @endforeach
+
                     </select>
                   </div>
                   <div class="col-4 mt-3">

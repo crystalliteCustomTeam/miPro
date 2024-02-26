@@ -98,6 +98,11 @@
                         <option value="NFT">NFT</option>
                         <option value="NFT Marketing only">NFT Marketing only</option>
                         <option value="--">Not Applicable</option>
+
+                        @foreach($productionservices as $productionservice)
+                        <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                        @endforeach
+
                     </select>
                   </div>
                   <div class="col-4 mt-3">

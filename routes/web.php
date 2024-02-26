@@ -45,6 +45,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/deletebrand/{id}','deletebrand');
 
         Route::get('/setupdepartments','setupdepartments');
+        Route::get('/setupdepartments/{id}','setupdepartments_withBrand');
         Route::get('/departmentlist','departmentlist');
         Route::get('/editdepartment/{id}','editdepartment');
         Route::get('/deletedepartment/{id}','deletedepartment');

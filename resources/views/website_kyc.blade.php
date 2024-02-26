@@ -86,6 +86,10 @@
                         <option value="SMM Marketing">SMM Marketing</option>
                         <option value="--">Not Applicable</option>
 
+                        @foreach($productionservices as $productionservice)
+                        <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                        @endforeach
+
                     </select>
                   </div>
                   <div class="col-4 mt-3">

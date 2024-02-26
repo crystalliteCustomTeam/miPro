@@ -274,6 +274,12 @@ class BasicController extends Controller
         return view('department',['employees'=>$employees,'brands'=>$brand]);
     }
 
+    function setupdepartments_withBrand(Request $request, $id){
+        $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner',''])->get();
+        $brand = Brand::where('id',$id)->get();
+        return view('department',['employees'=>$employees,'brands'=>$brand]);
+    }
+
 
     function setupdepartmentsProcess(Request $request){
         $departmentName = $request->input('name');
@@ -449,8 +455,9 @@ class BasicController extends Controller
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
+        $productionservices = ProductionServices::get();
 
-        return view('seo_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
+        return view('seo_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices]);
     }
 
     function kycclientprocess(Request $request){
@@ -573,24 +580,27 @@ class BasicController extends Controller
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
+        $productionservices = ProductionServices::get();
 
-        return view('book_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
+        return view('book_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices]);
     }
 
     function website(Request $request){
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
+        $productionservices = ProductionServices::get();
 
-        return view('website_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
+        return view('website_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices]);
     }
 
     function cld(Request $request){
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
+        $productionservices = ProductionServices::get();
 
-        return view('cld_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department]);
+        return view('cld_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices]);
     }
 
     function clientProject(){

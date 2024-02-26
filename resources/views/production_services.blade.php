@@ -35,7 +35,7 @@
                     </select>
                 </div>
                 <div class="col-6 mt-3">
-                    <label for="">Add Issues</label>
+                    <label for="">Add Services</label>
                     <input type="text" name="services" class="form-control" required>
                 </div>
                 <div class="col-12">
