@@ -42,6 +42,7 @@
               <div class="col-3">
                 <label for="">Select Brand</label>
                 <select class="form-control" name="brand">
+                    <option value="production">Production</option>
                   @foreach($brands as $brand)
                     <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                   @endforeach
