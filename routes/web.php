@@ -146,8 +146,6 @@ Route::controller(BasicController::class)->group(function (){
          Route::get('/employee/dashboard','staffdashboard');
 
         // SEO KYC:
-         Route::get('/employee/forms/kyc','seo');
-         Route::post('/forms/kyc/process/client','kycclientprocess');
     });
 
 });

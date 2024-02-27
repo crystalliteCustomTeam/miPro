@@ -155,21 +155,6 @@
                         <option value="One Time">One Time</option>
                     </select>
                   </div>
-                  <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Production:</label>
-                    <select class="form-control" id="frontsale"  required name="production">
-                    @foreach($ProjectManagers as $pm)
-                        <option value="{{ $pm->id }}">
-                          {{ $pm->name }}
-                          --
-                          @foreach($pm->deparment($pm->id)  as $dm)
-                            <strong>{{ $dm->name }}</strong>
-                          @endforeach
-                        </option>
-                    @endforeach
-                  </select>
-                  </div>
-
                   <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Anymore commitments?</label>
                     <textarea required name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
