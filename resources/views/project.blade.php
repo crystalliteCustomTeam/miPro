@@ -46,9 +46,17 @@
                   <label for="" style="font-weight:bold;">Select Project Manager:</label>
                   <select class="form-control select2" required name="pm">
                     @foreach ($employee as $client)
-                        <option value="{{ $client->id }}">{{ $client->name }} </option>
+                        <option value="{{ $client->id }}">{{ $client->name }}
+                            --
+                            @foreach($client->deparment($client->id)  as $dm)
+                              <strong>{{ $dm->name }}</strong>
+                            @endforeach
+                        </option>
                     @endforeach
                   </select>
+                  </div>
+
+
                 </div>
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
