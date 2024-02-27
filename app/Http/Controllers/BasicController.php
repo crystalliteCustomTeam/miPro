@@ -285,7 +285,7 @@ class BasicController extends Controller
         $departmentName = $request->input('name');
         $search_Department = Department::where('name','like',"%$departmentName%")->get();
 
-        if(count($search_Department) < 0){
+        if(count($search_Department) > 0){
             return redirect()->back()->with("Error","Department Already Found !");
         }else{
 
@@ -295,6 +295,8 @@ class BasicController extends Controller
                 "name" => $departmentName,
                 "manager" => $request->input('manager'),
                 "users" => json_encode($results),
+                "brand" => $request->input('brand'),
+                "access" => $request->input('access'),
             ]);
             return redirect()->back()->with("Success","Department Created !");
 

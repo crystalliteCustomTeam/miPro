@@ -15,7 +15,9 @@ class Department extends Model
     protected $fillable = [
         "name",
         "manager",
-        "users"
+        "users",
+        "brand",
+        "access"
     ];
 
     public function UserName(): HasOne
@@ -27,5 +29,5 @@ class Department extends Model
     {
         return DB::table('employees')->whereIn('id',json_decode($employeList))->get();
     }
-   
+
 }
