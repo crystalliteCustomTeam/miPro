@@ -41,7 +41,7 @@
           </div><!-- form-group -->
           <button type="submit" class="btn btn-success btn-block">Sign In</button>
 
-          <div class="mg-t-60 tx-center">Not yet a member? <a href="/register">Sign Up</a></div>
+          {{-- <div class="mg-t-60 tx-center">Not yet a member? <a href="/register">Sign Up</a></div> --}}
         </form>
         </div><!-- login-wrapper -->
       </div><!-- col -->

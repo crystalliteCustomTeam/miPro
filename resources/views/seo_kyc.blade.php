@@ -149,7 +149,7 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Payment Nature</label>
-                    <select class="form-control select2"  required name="leadplatform">
+                    <select class="form-control select2"  required name="paymentnature">
                         <option value="Renewal">Renewal</option>
                         <option value="Recurring">Recurring</option>
                         <option value="One Time">One Time</option>

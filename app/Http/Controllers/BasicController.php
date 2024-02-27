@@ -486,6 +486,7 @@ class BasicController extends Controller
             "TARGET_MARKET" => $request->input('TargetMarket'),
             "OTHER_SERVICE" => $request->input('OtherServices'),
             "LEAD_PLATFORM" => $request->input('leadplatform'),
+            "Payment Nature" => $request->input('paymentnature'),
             "ANY_COMMITMENT" => $request->input('anycommitment')
         ];
         $clientmeta = DB::table('clientmetas')->insert([
