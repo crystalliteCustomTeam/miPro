@@ -54,15 +54,13 @@
                         </option>
                     @endforeach
                   </select>
-                  </div>
-
-
                 </div>
-                <div class="col-4 mt-3">
+
+                <div class="col-6 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
                 </div>
-                <div class="col-8 mt-3">
+                <div class="col-6 mt-3">
                   <label for="" style="font-weight:bold;">Basecamp Url</label>
                   <input type="text" required name="basecampurl" required class="form-control">
                 </div>
