@@ -67,8 +67,6 @@
         <li class="sub-item"><a href="/searchuser" class="sub-link">Payment Confirmation Form</a></li>
       </ul>
     </li>
-
-
     <li class="br-menu-item">
         <a href="#" class="br-menu-link with-sub">
           <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
@@ -125,9 +123,6 @@
         <li class="sub-item"><a href="/searchuser" class="sub-link">Search Users</a></li>
       </ul>
     </li>
-
-
-
     <li class="br-menu-item">
         <a href="#" class="br-menu-link with-sub">
           <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
@@ -170,7 +165,7 @@
                 <li class="sub-item"><a href="/settings/user/client" class="sub-link">Assign Clients</a></li>
             </ul>
           </li><!-- br-menu-item -->
-
+    </li>
     @elseif($departmentAccess[0]->access == 2)
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
@@ -185,8 +180,6 @@
         <li class="sub-item"><a href="/searchuser" class="sub-link">Payment Confirmation Form</a></li>
       </ul>
     </li>
-
-
     <li class="br-menu-item">
         <a href="#" class="br-menu-link with-sub">
           <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
