@@ -166,9 +166,9 @@ if($superUser == 0){
               <p>{{ $Email }}</p>
             </div>
             <hr>
-          
+
             <ul class="list-unstyled user-profile-nav">
-           
+
               <li><a href="/logout"><i class="icon ion-power"></i> Sign Out</a></li>
             </ul>
           </div><!-- dropdown-menu -->

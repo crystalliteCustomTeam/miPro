@@ -36,30 +36,22 @@ class BasicController extends Controller
 
     function dashboard(Request $request){
         $loginUser = $request->session()->get('AdminUser');
-        $superUser = $loginUser->userRole;
-        $userID = $loginUser->id;
-        $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
-        return view('dashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess,'superUser' => $superUser]);
+            $superUser = $loginUser->userRole;
+            $userID = $loginUser->id;
+            $departmentAccess = 100;
+            return view('dashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess,'superUser' => $superUser]);
+
     }
 
-
-
-
-
-    function stafflogin(){
-        return view('stafflogin');
-    }
-
-   
-        
-
-    function staffdashboard(Request $request){
+    function dashboard1(Request $request){
         $loginUser = $request->session()->get('AdminUser');
-        $userID = $loginUser[0]->id;
-        $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
+            $superUser = 1;
+            $userID = $loginUser->id;
+            $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
+         return view('dashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess,'superUser' => $superUser]);
 
-        return view('staffdashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess]);
     }
+
 
 
 
@@ -100,36 +92,40 @@ class BasicController extends Controller
     function loginProcess(Request $request){
         $userName = $request->input('userName');
         $userPassword = $request->input('userPassword');
-        if($userName =! "harrythedev"){
-            $email = $request->input('userName');
 
-                $staffPassword = $request->input('userPassword');
-        
-                $findStaff = Employee::where('email',$email)->get();
-        
-                if(count($findStaff) > 0){
-                    $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
-                    if($checkHash){
-                        $request->session()->put('AdminUser',$finduser);
-                        return redirect('/dashboard');
-                    }else{
-                        return redirect()->back()->with('Error',"Password Not Match !");
-                    }
+        if($userName == "harrythedev"){
+            $finduser = DB::table('adminuser')->where('userName',$userName)->first();
+
+            if($finduser){
+                $checkHash = Hash::check($userPassword, $finduser->userPassword);
+                if($checkHash){
+                    $request->session()->put('AdminUser',$finduser);
+                    return redirect('/dashboard');
                 }else{
-                    return redirect()->back()->with('Error','Email Not Found Please Contact Your Department Head');
+                    return redirect()->back()->with('Error',"Admin Password Not Match !");
                 }
-        }
-      
-    
-        $finduser = DB::table('adminuser')->where('userName',$userName)->first();
-        if($finduser){
-            $checkHash = Hash::check($userPassword, $finduser->userPassword);
-            if($checkHash){
-                $request->session()->put('AdminUser',$finduser);
-                return redirect('/dashboard');
+            }else{
+                return redirect()->back()->with('loginError','Please Check Username & Password !');
             }
+
+        }else{
+            $email = $request->input('userName');
+            $staffPassword = $request->input('userPassword');
+            $findStaff = Employee::where('email',$email)->get();
+
+            if(count($findStaff) > 0){
+                $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
+                if($checkHash){
+                    $request->session()->put('AdminUser',$findStaff);
+                    return redirect('/dashboards');
+                }else{
+                    return redirect()->back()->with('Error',"Password Not Match !");
+                }
+            }else{
+                return redirect()->back()->with('Error','Email Not Found Please Contact Your Department Head');
+            }
+
         }
-        return redirect()->back()->with('loginError','Please Check Username & Password !');
 
     }
 

@@ -31,6 +31,7 @@ Route::controller(BasicController::class)->group(function (){
 
     Route::middleware(['authCheck'])->group(function () {
         Route::get('/dashboard','dashboard');
+        Route::get('/dashboards','dashboard1');
 
         Route::get('/setupcompany','setupcompany');
         Route::get('/companies','companies');
@@ -81,12 +82,6 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/client/editproject/{id}','editproject');
         Route::get('/client/project/editproductions/{id}','Edit_Project_production');
         Route::get('/client/project/deleteproductions/{id}','deleteproduction');
-
-
-
-        // Route::get('/forms/renewalrecurring','renewalrecurring');
-        // Route::get('/forms/revenueloss','revenueloss');
-        // Route::get('/forms/paymentconfirmation','paymentconfirmation');
         Route::get('/client/details/{id}','getclientDetails');
         Route::get('/all/clients','allclients');
 
@@ -140,7 +135,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
     });
 
-    
+
 
 });
 
