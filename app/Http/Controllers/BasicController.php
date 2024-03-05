@@ -117,7 +117,7 @@ class BasicController extends Controller
                 $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
                 if($checkHash){
                     $request->session()->put('AdminUser',$findStaff);
-                    return redirect('/dashboards');
+                    return redirect('/home');
                 }else{
                     return redirect()->back()->with('Error',"Password Not Match !");
                 }

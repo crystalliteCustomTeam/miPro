@@ -31,7 +31,7 @@ Route::controller(BasicController::class)->group(function (){
 
     Route::middleware(['authCheck'])->group(function () {
         Route::get('/dashboard','dashboard');
-        Route::get('/dashboards','dashboard1');
+        Route::get('/home','dashboard1');
 
         Route::get('/setupcompany','setupcompany');
         Route::get('/companies','companies');
