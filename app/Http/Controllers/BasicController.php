@@ -34,8 +34,12 @@ class BasicController extends Controller
         return view('register');
     }
 
-    function dashboard(){
-        return view('dashboard');
+    function dashboard(Request $request){
+        $loginUser = $request->session()->get('AdminUser');
+        $superUser = $loginUser->userRole;
+        $userID = $loginUser->id;
+        $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
+        return view('dashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess,'superUser' => $superUser]);
     }
 
 
@@ -50,7 +54,7 @@ class BasicController extends Controller
         
 
     function staffdashboard(Request $request){
-        $loginUser = $request->session()->get('Staffuser');
+        $loginUser = $request->session()->get('AdminUser');
         $userID = $loginUser[0]->id;
         $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
 
