@@ -23,12 +23,10 @@ Route::controller(BasicController::class)->group(function (){
     Route::get('/','login');
     Route::get('/register','register');
     Route::get('/logout','logout');
-    Route::get('/staffLogin','stafflogin');
 
     //PROCESSING PAGES
     Route::post('/registration','registration');
     Route::post('/loginProcess','loginProcess');
-    Route::post('/loginProcessStaff','loginProcessStaff');
 
 
     Route::middleware(['authCheck'])->group(function () {
@@ -142,9 +140,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
     });
 
-    Route::middleware(['authCheckStaff'])->group(function () {
-         Route::get('/employee/dashboard','staffdashboard');
-    });
+    
 
 });
 

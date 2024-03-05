@@ -34,8 +34,12 @@ class BasicController extends Controller
         return view('register');
     }
 
-    function dashboard(){
-        return view('dashboard');
+    function dashboard(Request $request){
+        $loginUser = $request->session()->get('AdminUser');
+        $superUser = $loginUser->userRole;
+        $userID = $loginUser->id;
+        $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
+        return view('dashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess,'superUser' => $superUser]);
     }
 
 
@@ -46,29 +50,11 @@ class BasicController extends Controller
         return view('stafflogin');
     }
 
-    function loginProcessStaff(Request $request)
-    {
-        $email = $request->input('userName');
-
-        $staffPassword = $request->input('userPassword');
-
-        $findStaff = Employee::where('email',$email)->get();
-
-        if(count($findStaff) > 0){
-            $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
-            if($checkHash){
-                $request->session()->put('Staffuser',$findStaff);
-                return redirect('/employee/dashboard');
-            }else{
-                return redirect()->back()->with('Error',"Password Not Match !");
-            }
-        }else{
-            return redirect()->back()->with('Error','Email Not Found Please Contact Your Department Head');
-        }
-    }
+   
+        
 
     function staffdashboard(Request $request){
-        $loginUser = $request->session()->get('Staffuser');
+        $loginUser = $request->session()->get('AdminUser');
         $userID = $loginUser[0]->id;
         $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
 
@@ -114,7 +100,27 @@ class BasicController extends Controller
     function loginProcess(Request $request){
         $userName = $request->input('userName');
         $userPassword = $request->input('userPassword');
+        if($userName =! "harrythedev"){
+            $email = $request->input('userName');
 
+                $staffPassword = $request->input('userPassword');
+        
+                $findStaff = Employee::where('email',$email)->get();
+        
+                if(count($findStaff) > 0){
+                    $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
+                    if($checkHash){
+                        $request->session()->put('AdminUser',$finduser);
+                        return redirect('/dashboard');
+                    }else{
+                        return redirect()->back()->with('Error',"Password Not Match !");
+                    }
+                }else{
+                    return redirect()->back()->with('Error','Email Not Found Please Contact Your Department Head');
+                }
+        }
+      
+    
         $finduser = DB::table('adminuser')->where('userName',$userName)->first();
         if($finduser){
             $checkHash = Hash::check($userPassword, $finduser->userPassword);
@@ -852,6 +858,16 @@ class BasicController extends Controller
     }
 
     function qaform(Request $request){
+        $brand = Brand::get();
+        $department = Department::get();
+        $employee = Employee::get();
+        $project = Project::get();
+        $client = Client::get();
+        $qa_issues = QaIssues::get();
+        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project ,'clients'=>$client, 'employees'=>$employee, 'qaissues'=>$qa_issues ]);
+    }
+
+    function qaformEmp(Request $request){
         $brand = Brand::get();
         $department = Department::get();
         $employee = Employee::get();
