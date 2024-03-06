@@ -38,22 +38,22 @@ class BasicController extends Controller
         $loginUser = $request->session()->get('AdminUser');
         $array = json_decode(json_encode($loginUser), true);
         if(array_key_exists("userRole",$array)){
-            $superUser = $loginUser->userRole;  
+            $superUser = $loginUser->userRole;
             $userID = $loginUser->id;
         }else{
             $superUser = 1;
             $userID = $loginUser[0]->id;
-            
+
         }
-        
+
 
         $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
         return [$departmentAccess,$loginUser,$superUser];
-        
+
     }
 
     function dashboard(Request $request){
-       
+
             $loginUser = $this->roleExits($request);
             return view('dashboard',['LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
@@ -121,15 +121,15 @@ class BasicController extends Controller
             $email = $request->input('userName');
             $staffPassword = $request->input('userPassword');
             $findStaff = Employee::where('email',$email)->get();
-           
+
             if(count($findStaff) > 0){
-               
+
                 $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
                 if($checkHash){
-                   
+
                    $request->session()->put('AdminUser',$findStaff);
                    $loginUser = $request->session()->get('AdminUser');
-                  
+
                     return redirect('/dashboard');
                 }else{
                     return redirect()->back()->with('Error',"Password Not Match !");
@@ -168,11 +168,12 @@ class BasicController extends Controller
     }
 
     function editcompany(Request $request, $id){
+        $loginUser = $this->roleExits($request);
         $companydata = db::table("companies")
          ->where('id', $id)
         ->get();
 
-        return view("editcompany" ,["companydata"=>$companydata]);
+        return view("editcompany" ,["companydata"=>$companydata , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
     }
 
@@ -213,14 +214,16 @@ class BasicController extends Controller
     }
 
     function brandlist(Request $request){
+        $loginUser = $this->roleExits($request);
         $brands = Brand::with('brandOwnerName')->get();
-        return View('brandlist',["companies"=>$brands]);
+        return View('brandlist',["companies"=>$brands , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function setupbrand(Request $request,$companyID){
+        $loginUser = $this->roleExits($request);
         $employees = Employee::whereIn('position', ['Owner','Admin','VP','Brand Owner','President'])->get();
 
-        return View('brands',["CID" => $companyID,'employees'=>$employees]);
+        return View('brands',["CID" => $companyID,'employees'=>$employees , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function setupbrandprocess(Request $request){
@@ -247,10 +250,11 @@ class BasicController extends Controller
     }
 
     function editbrand(Request $request, $companyID){
+        $loginUser = $this->roleExits($request);
         $employees = Employee::whereIn('position', ['Owner','Admin','VP','Brand Owner','President'])->get();
         $branddata = Brand::where('id', $companyID)->get();
 
-        return view("editbrand" ,["branddata"=>$branddata,'employees'=>$employees]);
+        return view("editbrand" ,["branddata"=>$branddata,'employees'=>$employees , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
     }
 
@@ -286,15 +290,17 @@ class BasicController extends Controller
     }
 
     function setupdepartments(Request $request){
+        $loginUser = $this->roleExits($request);
         $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner',''])->get();
         $brand = Brand::all();
-        return view('department',['employees'=>$employees,'brands'=>$brand]);
+        return view('department',['employees'=>$employees,'brands'=>$brand , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function setupdepartments_withBrand(Request $request, $id){
+        $loginUser = $this->roleExits($request);
         $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner',''])->get();
         $brand = Brand::where('id',$id)->get();
-        return view('department',['employees'=>$employees,'brands'=>$brand]);
+        return view('department',['employees'=>$employees,'brands'=>$brand , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
 
@@ -323,18 +329,20 @@ class BasicController extends Controller
     }
 
 
-    function departmentlist(){
+    function departmentlist(Request $request){
+        $loginUser = $this->roleExits($request);
         $departments = Department::get();
 
-        return view('departmentlist',["departments" => $departments]);
+        return view('departmentlist',["departments" => $departments , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function editdepartment(Request $request, $id){
+        $loginUser = $this->roleExits($request);
         $brand = Brand::all();
         $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner',''])->get();
         $departdata = Department::where('id', $id)->get();
 
-        return view("editdepartment" ,["departdata"=>$departdata , "employees" => $employees , "brands" => $brand]);
+        return view("editdepartment" ,["departdata"=>$departdata , "employees" => $employees , "brands" => $brand , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
     }
 
@@ -369,24 +377,27 @@ class BasicController extends Controller
     }
 
     function departmentusers(Request $request, $id){
+        $loginUser = $this->roleExits($request);
         $brand = Brand::all();
         $employees = Employee::whereNotIn('position', ['Owner','Admin','VP','Brand Owner',''])->get();
         $departdata = Department::where('id', $id)->get();
-        return view("departmentuser" ,["departdata"=>$departdata , "employees" => $employees , "brands" => $brand]);
+        return view("departmentuser" ,["departdata"=>$departdata , "employees" => $employees , "brands" => $brand , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
     }
 
 
     function createuser(Request $request){
+        $loginUser = $this->roleExits($request);
         $brands  = Brand::all();
 
-        return view('users',["Brands" => $brands]);
+        return view('users',["Brands" => $brands , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function edituser(Request $request, $id){
+        $loginUser = $this->roleExits($request);
         $employee = Employee::where('id', $id)->get();
 
-        return view("edituser" ,["employee"=>$employee]);
+        return view("edituser" ,["employee"=>$employee , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
     }
 
@@ -418,12 +429,14 @@ class BasicController extends Controller
     }
 
     function userlist(Request $request){
+        $loginUser = $this->roleExits($request);
         $employees  = Employee::get();
 
-        return view('userlists',["Employees" => $employees]);
+        return view('userlists',["Employees" => $employees , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function userprofile(Request $request, $id){
+        $loginUser = $this->roleExits($request);
         $employee = Employee::where('id', $id)->get();
        // $client = Client::where('projectManager', $id)->get();
         $project = Project::where('projectManager', $id)->get();
@@ -437,10 +450,10 @@ class BasicController extends Controller
             $find_client = [];
         }
 
-        return view("userprofile" ,["employee"=>$employee, "department"=>$department  , "project"=>$project  , "find_client"=>$find_client ]);
+        return view("userprofile" ,["employee"=>$employee, "department"=>$department  , "project"=>$project  , "find_client"=>$find_client , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2] ]);
     }else{
         $qa_client = QaPersonClientAssign::where("user",$id)->get();
-        return view("userprofile1", ["qa_client"=> $qa_client]);
+        return view("userprofile1", ["qa_client"=> $qa_client , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     }
@@ -471,12 +484,13 @@ class BasicController extends Controller
     }
 
     function seo(Request $request){
+        $loginUser = $this->roleExits($request);
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
         $productionservices = ProductionServices::get();
 
-        return view('seo_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices]);
+        return view('seo_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function kycclientprocess(Request $request){
@@ -597,36 +611,40 @@ class BasicController extends Controller
     }
 
     function book(Request $request){
+        $loginUser = $this->roleExits($request);
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
         $productionservices = ProductionServices::get();
 
-        return view('book_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices]);
+        return view('book_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function website(Request $request){
+        $loginUser = $this->roleExits($request);
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
         $productionservices = ProductionServices::get();
 
-        return view('website_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices]);
+        return view('website_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function cld(Request $request){
+        $loginUser = $this->roleExits($request);
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
         $productionservices = ProductionServices::get();
 
-        return view('cld_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices]);
+        return view('cld_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
-    function clientProject(){
+    function clientProject(Request $request){
+        $loginUser = $this->roleExits($request);
         $findclient = Client::get();
         $employee = Employee::get();
-        return view('project',['clients'=>$findclient,'employee' => $employee]);
+        return view('project',['clients'=>$findclient,'employee' => $employee , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function clientProjectProcess(Request $request){
@@ -644,12 +662,14 @@ class BasicController extends Controller
     }
 
     function clientProject_prefilled(Request $request, $id){
+        $loginUser = $this->roleExits($request);
         $findclient = Client::Where('id',$id)->get();
         $employee = Employee::get();
-        return view('project',['clients'=>$findclient,'employee' => $employee]);
+        return view('project',['clients'=>$findclient,'employee' => $employee , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function Project_production(Request $request, string $id){
+        $loginUser = $this->roleExits($request);
         $production = ProjectProduction::where('projectID',$id)->get();
         $productionservices = ProductionServices::get();
 
@@ -657,7 +677,7 @@ class BasicController extends Controller
         $department = Department::get();
         $employee = Employee::get();
 
-        return view('projectProduction' , ['departments'=>$department,'employees'=>$employee, 'project_id'=>$project, 'productions'=>$production, 'projects'=>$project, 'productionservices'=>$productionservices]);
+        return view('projectProduction' , ['departments'=>$department,'employees'=>$employee, 'project_id'=>$project, 'productions'=>$production, 'projects'=>$project, 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function Project_ProductionProcess(Request $request, $id){
@@ -676,18 +696,20 @@ class BasicController extends Controller
     }
 
     function ProjectProduction_users(Request $request, string $id){
+        $loginUser = $this->roleExits($request);
         $project = Project::where('productionID',$id)->get();
         $projectProduction = ProjectProduction::where('projectID',$id)->get();
 
-        return view('projectproductionUsers' ,['projects'=>$project, 'productions'=>$projectProduction, 'prjectid'=>$id]);
+        return view('projectproductionUsers' ,['projects'=>$project, 'productions'=>$projectProduction, 'prjectid'=>$id , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
     }
 
     function editproject(Request $request, $id){
+        $loginUser = $this->roleExits($request);
         $findproject = Project::Where('id',$id)->get();
         $findclient = Client::get();
         $employee = Employee::get();
-        return view('editproject',['clients'=>$findclient,'employee' => $employee ,'projects' => $findproject]);
+        return view('editproject',['clients'=>$findclient,'employee' => $employee ,'projects' => $findproject , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function editProjectProcess(Request $request, $id){
@@ -706,12 +728,13 @@ class BasicController extends Controller
     }
 
     function Edit_Project_production(Request $request, $id){
+        $loginUser = $this->roleExits($request);
         $projectProduction = ProjectProduction::where('id', $id)->get();
         $department = Department::get();
         $employee = Employee::get();
         $productionservices = ProductionServices::get();
 
-        return view('edit_project_production',['projectProductions'=>$projectProduction, 'departments'=>$department,'employees'=>$employee, 'productionservices'=>$productionservices]);
+        return view('edit_project_production',['projectProductions'=>$projectProduction, 'departments'=>$department,'employees'=>$employee, 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
     }
 
@@ -741,6 +764,7 @@ class BasicController extends Controller
     }
 
     function getclientDetails(Request $request , $clientID){
+        $loginUser = $this->roleExits($request);
         $findclient = Client::where('id',$clientID)->get();
         $allprojects = Project::where('clientID',$clientID)->get();
         $recentClients = Client::where('id','!=',$clientID)->limit(5)->get();
@@ -750,15 +774,17 @@ class BasicController extends Controller
         else {
             $findProject_Manager = [];
         }
-        return view('clientDetail',['client'=>$findclient,'recentClients'=>$recentClients,'projects'=>$allprojects,'findProject_Manager'=>$findProject_Manager]);
+        return view('clientDetail',['client'=>$findclient,'recentClients'=>$recentClients,'projects'=>$allprojects,'findProject_Manager'=>$findProject_Manager , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function allclients(Request $request){
+        $loginUser = $this->roleExits($request);
         $findclient = Client::get();
-        return view('allclients',['clients'=>$findclient]);
+        return view('allclients',['clients'=>$findclient , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function payment(Request $request, $id){
+        $loginUser = $this->roleExits($request);
 
         $findproject = Project::where('id',$id)->get();
         $findclient = Client::get();
@@ -773,11 +799,12 @@ class BasicController extends Controller
             $amount = false;
         }
 
-        return view('payment',['allPayments'=>$allPayments, 'id'=>$id ,'projectmanager'=>$findproject ,'clients'=>$findclient,'employee'=>$findemployee,'AmountCheck'=>$amount]);
+        return view('payment',['allPayments'=>$allPayments, 'id'=>$id ,'projectmanager'=>$findproject ,'clients'=>$findclient,'employee'=>$findemployee,'AmountCheck'=>$amount , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
 
     function userreport(Request $request){
+        $loginUser = $this->roleExits($request);
         $companies = Company::all();
         $brands = Brand::all();
         $departments = Department::all();
@@ -786,7 +813,7 @@ class BasicController extends Controller
         $projects = Project::all();
 
 
-        return view('userreport', ['company'=> $companies,'brand'=>$brands,'department'=>$departments,'employee'=>$employees,'client'=>$clients,'project'=>$projects]);
+        return view('userreport', ['company'=> $companies,'brand'=>$brands,'department'=>$departments,'employee'=>$employees,'client'=>$clients,'project'=>$projects , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
 
@@ -869,26 +896,29 @@ class BasicController extends Controller
     }
 
     function qaform(Request $request){
+        $loginUser = $this->roleExits($request);
         $brand = Brand::get();
         $department = Department::get();
         $employee = Employee::get();
         $project = Project::get();
         $client = Client::get();
         $qa_issues = QaIssues::get();
-        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project ,'clients'=>$client, 'employees'=>$employee, 'qaissues'=>$qa_issues ]);
+        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project ,'clients'=>$client, 'employees'=>$employee, 'qaissues'=>$qa_issues , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function qaformEmp(Request $request){
+        $loginUser = $this->roleExits($request);
         $brand = Brand::get();
         $department = Department::get();
         $employee = Employee::get();
         $project = Project::get();
         $client = Client::get();
         $qa_issues = QaIssues::get();
-        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project ,'clients'=>$client, 'employees'=>$employee, 'qaissues'=>$qa_issues ]);
+        return view('qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project ,'clients'=>$client, 'employees'=>$employee, 'qaissues'=>$qa_issues ,'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2] ]);
     }
 
     function qaform_getproduction(Request $request){
+        $loginUser = $this->roleExits($request);
         $ProjectID = $request->input('projectname');
 
         $allprojects = Project::where('id',$ProjectID)
@@ -903,7 +933,7 @@ class BasicController extends Controller
         else {
             $findProject_Manager = [];
         }
-        return view('newqaform',['client'=>$findclient,'recentClients'=>$recentClients,'projects'=>$allprojects,'findProject_Manager'=>$findProject_Manager , 'productions'=>$production , 'qaissues'=>$qa_issues]);
+        return view('newqaform',['client'=>$findclient,'recentClients'=>$recentClients,'projects'=>$allprojects,'findProject_Manager'=>$findProject_Manager , 'productions'=>$production , 'qaissues'=>$qa_issues , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function qaform_direct_process(Request $request ){
@@ -926,6 +956,7 @@ class BasicController extends Controller
     }
 
     function new_qaform(Request $request , $ProjectID){
+        $loginUser = $this->roleExits($request);
 
         $allprojects = Project::where('id',$ProjectID)->get();
         $findclient = Client::where('id',$allprojects[0]->clientID)->get();
@@ -938,10 +969,11 @@ class BasicController extends Controller
         else {
             $findProject_Manager = [];
         }
-        return view('newqaform',['client'=>$findclient,'recentClients'=>$recentClients,'projects'=>$allprojects,'findProject_Manager'=>$findProject_Manager , 'productions'=>$production , 'qaissues'=>$qa_issues]);
+        return view('newqaform',['client'=>$findclient,'recentClients'=>$recentClients,'projects'=>$allprojects,'findProject_Manager'=>$findProject_Manager , 'productions'=>$production , 'qaissues'=>$qa_issues , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function edit_new_qaform(Request $request , $id){
+        $loginUser = $this->roleExits($request);
 
         $QA_FORM = QAFORM::where('id',$id)->get();
         $QA_META = QAFORM_METAS::where('formid',$QA_FORM[0]->qaformID)->get();
@@ -951,7 +983,7 @@ class BasicController extends Controller
         $allproductions = projectProduction::where('projectID',$project[0]->productionID)->get();
         $recentClients = Client::where('id','!=',$client[0]->id)->limit(5)->get();
         $allissues = QaIssues::get();
-        return view('edit_newqaform',['qa_data'=>$QA_FORM,'qa_meta'=>$QA_META, 'Proj_Prod'=>$Proj_Prod, 'projects'=>$project, 'clients'=>$client ,'recentClients'=>$recentClients, 'productions'=>$allproductions, 'allissues'=>$allissues ]);
+        return view('edit_newqaform',['qa_data'=>$QA_FORM,'qa_meta'=>$QA_META, 'Proj_Prod'=>$Proj_Prod, 'projects'=>$project, 'clients'=>$client ,'recentClients'=>$recentClients, 'productions'=>$allproductions, 'allissues'=>$allissues , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
     }
 
@@ -1183,6 +1215,7 @@ class BasicController extends Controller
     }
 
     function qaform_prefilled(Request $request , $id ){
+        $loginUser = $this->roleExits($request);
         $project = Project::where('id',$id)->get();
         $production = ProjectProduction::where('projectID', $project[0]->productionID)->get();
         $brand = Brand::get();
@@ -1190,7 +1223,7 @@ class BasicController extends Controller
         $employee = Employee::get();
         $qa_issues = QaIssues::get();
 
-        return view('combined_qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee , 'productions'=>$production, 'qaissues'=>$qa_issues]);
+        return view('combined_qaform' , ['brands'=>$brand , 'departments'=>$department , 'projects'=>$project , 'employees'=>$employee , 'productions'=>$production, 'qaissues'=>$qa_issues , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function qaform_prefilled_process(Request $request , $id ){
@@ -1327,23 +1360,26 @@ class BasicController extends Controller
     // }
 
     function projectQaReport(Request $request ,$id  ){
+        $loginUser = $this->roleExits($request);
         $project = Project::where('id',$id)->get();
         $projectProduction = ProjectProduction::where('projectID',$project[0]->productionID)->get();
         $QA = QAFORM::where('projectID',$id )->get();
-         return view('projectQA',['projects'=>$project, 'productions'=>$projectProduction , 'qafroms'=>$QA ]);
+         return view('projectQA',['projects'=>$project, 'productions'=>$projectProduction , 'qafroms'=>$QA , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
-    function projectQaReport_view($id ){
+    function projectQaReport_view($id ,Request $request){
+        $loginUser = $this->roleExits($request);
         $QA_FORM = QAFORM::where('id',$id)->get();
         $QA_META = QAFORM_METAS::where('formid',$QA_FORM[0]->qaformID)->get();
         $Proj_Prod = ProjectProduction::where('id',$QA_FORM[0]->ProjectProductionID)->get();
-        return view('qa_form_view',['qa_data'=>$QA_FORM,'qa_meta'=>$QA_META, 'Proj_Prod'=>$Proj_Prod ]);
+        return view('qa_form_view',['qa_data'=>$QA_FORM,'qa_meta'=>$QA_META, 'Proj_Prod'=>$Proj_Prod ,'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
-    function qa_issues(){
+    function qa_issues(Request $request){
+        $loginUser = $this->roleExits($request);
         $department = Department::get();
         $qa_issues=QaIssues::get();
-        return view('qa_issues',['departments'=>$department, "qa_issues"=>$qa_issues ]);
+        return view('qa_issues',['departments'=>$department, "qa_issues"=>$qa_issues , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function qa_issues_process(Request $request){
@@ -1365,10 +1401,11 @@ class BasicController extends Controller
 
     }
 
-    function Production_services(){
+    function Production_services(Request $request){
+        $loginUser = $this->roleExits($request);
         $department = Department::get();
         $ProductionServices=ProductionServices::get();
-        return view('production_services',['departments'=>$department, "ProductionServices"=>$ProductionServices ]);
+        return view('production_services',['departments'=>$department, "ProductionServices"=>$ProductionServices ,'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function Production_services_process(Request $request){
@@ -1390,13 +1427,14 @@ class BasicController extends Controller
 
     }
 
-    function Assign_Client_to_qaperson(){
+    function Assign_Client_to_qaperson(Request $request){
+        $loginUser = $this->roleExits($request);
         $department = Department::where('name', 'Quality Assaurance')->get();
         $depart = json_decode($department[0]->users);
         $user = Employee::whereIn('id', $depart)->get();
         $clients = Client::get();
         $QaPersonClientAssigns =QaPersonClientAssign::get();
-        return view('client_qaperson', ['users'=>$user,'clients'=>$clients, 'QaPersonClientAssigns'=>$QaPersonClientAssigns ]);
+        return view('client_qaperson', ['users'=>$user,'clients'=>$clients, 'QaPersonClientAssigns'=>$QaPersonClientAssigns , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function Assign_Client_to_qaperson_process(Request $request){
