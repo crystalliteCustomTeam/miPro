@@ -4,10 +4,12 @@ if($superUser == 0){
    $ID = $LoginUser->id;
    $Name = $LoginUser->goodName;
    $Email = $LoginUser->userEmail;
+   
+  
 }else{
-  $ID = $LoginUser->id;
-  $Name = $LoginUser->name;
-  $Email = $LoginUser->email;
+  $ID = $LoginUser[0]->id;
+  $Name = $LoginUser[0]->name;
+  $Email = $LoginUser[0]->email;
 }
 
 @endphp

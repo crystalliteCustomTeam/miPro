@@ -34,23 +34,32 @@ class BasicController extends Controller
         return view('register');
     }
 
-    function dashboard(Request $request){
+    function roleExits($request){
         $loginUser = $request->session()->get('AdminUser');
-            $superUser = $loginUser->userRole;
+        $array = json_decode(json_encode($loginUser), true);
+        if(array_key_exists("userRole",$array)){
+            $superUser = $loginUser->userRole;  
             $userID = $loginUser->id;
-            $departmentAccess = 100;
-            return view('dashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess,'superUser' => $superUser]);
-
-    }
-
-    function dashboard1(Request $request){
-        $loginUser = $request->session()->get('AdminUser');
+        }else{
             $superUser = 1;
-            $userID = $loginUser->id;
-            $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
-         return view('dashboard',['LoginUser' => $loginUser,'departmentAccess' => $departmentAccess,'superUser' => $superUser]);
+            $userID = $loginUser[0]->id;
+            
+        }
+        
+
+        $departmentAccess = Department::whereJsonContains('users', "$userID" )->get();
+        return [$departmentAccess,$loginUser,$superUser];
+        
+    }
+
+    function dashboard(Request $request){
+       
+            $loginUser = $this->roleExits($request);
+            return view('dashboard',['LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
 
     }
+
+
 
 
 
@@ -112,12 +121,16 @@ class BasicController extends Controller
             $email = $request->input('userName');
             $staffPassword = $request->input('userPassword');
             $findStaff = Employee::where('email',$email)->get();
-
+           
             if(count($findStaff) > 0){
+               
                 $checkHash = Hash::check($staffPassword, $findStaff[0]->password);
                 if($checkHash){
-                    $request->session()->put('AdminUser',$findStaff);
-                    return redirect('/home');
+                   
+                   $request->session()->put('AdminUser',$findStaff);
+                   $loginUser = $request->session()->get('AdminUser');
+                  
+                    return redirect('/dashboard');
                 }else{
                     return redirect()->back()->with('Error',"Password Not Match !");
                 }
@@ -130,7 +143,8 @@ class BasicController extends Controller
     }
 
     function setupcompany(Request $request){
-        return view('setupcompany');
+        $loginUser = $this->roleExits($request);
+        return view('setupcompany',['LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function setupcompanyprocess(Request $request){
@@ -194,7 +208,8 @@ class BasicController extends Controller
 
     function companies(Request $request){
         $companies = Company::all();
-        return View('companies',["companies"=>$companies]);
+        $loginUser = $this->roleExits($request);
+        return View('companies',["companies"=>$companies,'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function brandlist(Request $request){

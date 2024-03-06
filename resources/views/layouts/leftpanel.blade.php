@@ -6,7 +6,7 @@
   <ul class="br-sideleft-menu">
 
 
-    @if( $superUser == 0 || $departmentAccess->access == 0 )
+    @if( $superUser == 0 || $departmentAccess[0]->access == 0 )
     <li class="br-menu-item">
       <a href="/dashboard" class="br-menu-link active">
         <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
@@ -103,9 +103,9 @@
 
 
     {{-- @elseif( isset($departmentAccess) ) --}}
-    @elseif($departmentAccess->access == 1)
+    @elseif($departmentAccess[0]->access == 1)
     <h1>1</h1>
-    @elseif($departmentAccess->access == 2)
+    @elseif($departmentAccess[0]->access == 2)
     <li class="br-menu-item">
         <a href="/home" class="br-menu-link active">
           <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
@@ -154,7 +154,7 @@
               <li class="sub-item"><a href="/settings/qa_issues" class="sub-link">QA Form Issues</a></li>
           </ul>
       </li><!-- br-menu-item -->
-    @elseif($departmentAccess->access == 3)
+    @elseif($departmentAccess[0]->access == 3)
     <h1>3</h1>
     @endif
 
