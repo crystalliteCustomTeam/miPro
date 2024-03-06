@@ -15,7 +15,7 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>CLient List</h4>
+            <h4>Client List</h4>
           </div>
         </div><!-- d-flex -->
 
