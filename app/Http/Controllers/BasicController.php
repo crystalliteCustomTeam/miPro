@@ -1429,12 +1429,31 @@ class BasicController extends Controller
 
     function Assign_Client_to_qaperson(Request $request){
         $loginUser = $this->roleExits($request);
-        $department = Department::where('name', 'Quality Assaurance')->get();
-        $depart = json_decode($department[0]->users);
-        $user = Employee::whereIn('id', $depart)->get();
-        $clients = Client::get();
-        $QaPersonClientAssigns =QaPersonClientAssign::get();
-        return view('client_qaperson', ['users'=>$user,'clients'=>$clients, 'QaPersonClientAssigns'=>$QaPersonClientAssigns , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        $department = Department::get();
+        $statusDepartment = count($department);
+        if($statusDepartment > 0){
+            $depart = json_decode($department[0]->users);
+       
+            $user = Employee::whereIn('id', $depart)->get();
+            $clients = Client::get();
+            $QaPersonClientAssigns =QaPersonClientAssign::get();
+            return view('client_qaperson', [
+                'statusDepartment' => $statusDepartment,
+                'users'=>$user,'clients'=>$clients, 'QaPersonClientAssigns'=>$QaPersonClientAssigns , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        }
+        else {
+            $user = Employee::get();
+            $clients = Client::get();
+            $QaPersonClientAssigns =QaPersonClientAssign::get();
+            return view('client_qaperson', [
+                'statusDepartment' => $statusDepartment,
+                'users'=>$user,
+                'clients'=>$clients,
+                'QaPersonClientAssigns'=>$QaPersonClientAssigns,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        }
+        
     }
 
     function Assign_Client_to_qaperson_process(Request $request){

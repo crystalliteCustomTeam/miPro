@@ -32,9 +32,14 @@
                         @foreach($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}
                             --
-                            @foreach($user->deparment($user->id)  as $dm)
+                            @if($statusDepartment == 0)
+                             Please Create Department
+                            @else
+                              @foreach($user->deparment($user->id)  as $dm)
                               <strong>{{ $dm->name }}</strong>
-                            @endforeach
+                              @endforeach
+                            @endif
+                           
                         @endforeach
                     </select>
                 </div>
