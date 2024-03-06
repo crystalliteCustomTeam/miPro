@@ -938,7 +938,7 @@ class BasicController extends Controller
 
     function qaform_direct_process(Request $request ){
         $project = Project::where('id',$request->input('projectname'))->get();
-        $qaPerson = $request->session()->get('Staffuser');
+        $qaPerson = $request->session()->get('AdminUser');
         QAFORM::create([
             'clientID' => $project[0]->ClientName->id,
             'projectID' => $request->input('projectname'),
@@ -991,7 +991,7 @@ class BasicController extends Controller
 
         $qaform = QAFORM::where('id',$id)->get();
         $qaform_meta = QAFORM_METAS::where('formid',$qaform[0]->qaformID)->get();
-        $qaPerson = $request->session()->get('Staffuser');
+        $qaPerson = $request->session()->get('AdminUser');
 
         $production_id = $request->input('production_name');
         $production_data = ProjectProduction::where('id', $production_id)->get();
@@ -1227,7 +1227,7 @@ class BasicController extends Controller
     }
 
     function qaform_prefilled_process(Request $request , $id ){
-        $qaPerson = $request->session()->get('Staffuser');
+        $qaPerson = $request->session()->get('AdminUser');
         if($request->input('status') == 'Not Started Yet'){
 
             QAFORM::create([
