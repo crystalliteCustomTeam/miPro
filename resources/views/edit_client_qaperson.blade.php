@@ -7,7 +7,7 @@
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
             <a class="breadcrumb-item" href="#">Settings</a>
-            <span class="breadcrumb-item active">Production Services</span>
+            <span class="breadcrumb-item active">Client Setting</span>
           </nav>
         </div><!-- br-pageheader -->
 
@@ -15,32 +15,35 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Production Services</h4>
-            <p class="mg-b-0">Settings</p>
+            <h4>Settings</h4>
+            <p class="mg-b-0">Client Setting</p>
           </div>
         </div><!-- d-flex -->
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-           <form action="/settings/Production/services/Process" method="POST">
+            @foreach ($QaPersonClientAssigns1 as $assignedperson)
+           <form action="/settings/changeuser/client/{{$assignedperson->id}}/Process" method="POST">
             @csrf
             <div class="row">
 
                 <div class="col-6 mt-3">
-                    <label for="" style="font-weight:bold;">Department: </label>
-                    <select class="form-control select2" name="department">
-                        @if ($statusDepartment > 0)
-                        @foreach($departments as $department)
-                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                    <label for="" style="font-weight:bold;">User: </label>
+                    <select class="form-control select2" name="user">
+                        @foreach($users as $user)
+                        <option value="{{ $user->id }}"{{ $user->id == $assignedperson->user ? 'selected' : '' }}>{{ $user->name }}
+                            --
+                              @foreach($user->deparment($user->id)  as $dm)
+                              <strong>{{ $dm->name }}</strong>
+                              @endforeach
+
                         @endforeach
-                        @else
-                        <option value="">Create Department First</option>
-                        @endif
                     </select>
                 </div>
                 <div class="col-6 mt-3">
-                    <label for="">Add Services</label>
-                    <input type="text" name="services" class="form-control" required>
+                    <label for="">Client Name</label><br>
+                    {{ $assignedperson->clientname->name }}
+
                 </div>
                 <div class="col-12">
                     <br>
@@ -64,29 +67,31 @@
                 </div>
             </div>
            </form>
+           @endforeach
         </div><!-- br-section-wrapper -->
     </div><!-- br-pagebody -->
 
     <div class="br-pagebody">
         <div class="br-section-wrapper">
-           <h2>QA Issues:</h2>
+           <h2>Assigned Clients:</h2>
 
            <table class="table" id="datatable1">
               <tr>
                 <td style="font-weight:bold;">ID</td>
-                <td style="font-weight:bold;">Department</td>
-                <td style="font-weight:bold;">Servicess</td>
+                <td style="font-weight:bold;">User Name</td>
+                <td style="font-weight:bold;">Client</td>
                 <td style="font-weight:bold;">Action</td>
               </tr>
               <tbody>
-                @foreach ($ProductionServices as $ProductionService)
+                @foreach ($QaPersonClientAssigns as $QaPersonClientAssign)
                   <tr>
-                    <td>{{ $ProductionService->id }}</td>
-                    <td>{{ $ProductionService->Prod_Depart->name  }}</td>
-                    <td>{{ $ProductionService->services  }}</td>
+                    <td>{{ $QaPersonClientAssign->id }}</td>
+                    <td>{{ $QaPersonClientAssign->Username->name  }}</td>
+                    <td>{{ $QaPersonClientAssign->clientname->name  }}</td>
                     <td>
                         <div class="btn-group">
-                            <a href="/settings/delete_kycservices/{{$ProductionService->id}}"><button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button></a>
+                            <a href="/settings/changeuser/client/{{ $QaPersonClientAssign->id }}"><button class="btn btn-success btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Change Assignee</button></a>
+                            <a href="/settings/user/client/delete/{{ $QaPersonClientAssign->id }}"><button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button></a>
                         </div>
                       </td>
                   </tr>

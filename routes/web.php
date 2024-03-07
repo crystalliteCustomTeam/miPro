@@ -75,6 +75,8 @@ Route::controller(BasicController::class)->group(function (){
 
         //projects form:
         Route::get('/client/project','clientProject');
+        Route::get('/assignedclient/project','assgnedclientProject');
+
         Route::get('/client/project/{id}','clientProject_prefilled');
         Route::get('/client/project/productions/{id}','Project_production');
         Route::get('/client/project/productions/users/{id}','ProjectProduction_users');
@@ -131,6 +133,8 @@ Route::controller(BasicController::class)->group(function (){
         //ASSIGN PROJECT:
         Route::get('/settings/user/client','Assign_Client_to_qaperson');
         Route::post('/settings/user/client/Process','Assign_Client_to_qaperson_process');
+        Route::get('/settings/changeuser/client/{id}','Edit_Assign_Client_to_qaperson');
+        Route::post('/settings/changeuser/client/{id}/Process','Edit_Assign_Client_to_qaperson_process');
         Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
     });
 

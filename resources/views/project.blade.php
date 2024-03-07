@@ -37,9 +37,17 @@
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Client:</label>
                   <select class="form-control" id="select2forme" required name="client">
+                    @if ($user_id == 1)
                     @foreach ($clients as $client)
-                        <option value="{{ $client->id }}">{{ $client->name }} -- {{ $client->email }} -- {{ $client->phone }}</option>
+                    <option value="{{ $client->client }}">{{ $client->clientname->name }} -- {{ $client->clientname->email }} -- {{ $client->clientname->phone }}</option>
                     @endforeach
+                    @else
+                    @foreach ($clients as $client)
+                    <option value="{{ $client->id }}">{{ $client->name }} -- {{ $client->email }} -- {{ $client->phone }}</option>
+                    @endforeach
+                    @endif
+
+
                   </select>
                 </div>
                 <div class="col-4 mt-3">

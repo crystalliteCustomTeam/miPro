@@ -34,9 +34,14 @@
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Department: </label>
                     <select class="form-control select2" name="department">
+                        @if ($departstatus > 0)
                         @foreach($departments as $department)
                         <option value="{{ $department->id }}">{{ $department->name }}</option>
                         @endforeach
+                        @else
+                        <option value="">Create Department First</option>
+
+                        @endif
                     </select>
                   </div>
                   <div class="col-6 mt-3">

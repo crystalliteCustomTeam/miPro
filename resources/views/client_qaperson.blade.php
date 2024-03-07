@@ -39,7 +39,7 @@
                               <strong>{{ $dm->name }}</strong>
                               @endforeach
                             @endif
-                           
+
                         @endforeach
                     </select>
                 </div>
@@ -79,7 +79,7 @@
 
     <div class="br-pagebody">
         <div class="br-section-wrapper">
-           <h2>QA Issues:</h2>
+           <h2>Assigned Clients:</h2>
 
            <table class="table" id="datatable1">
               <tr>
@@ -96,6 +96,7 @@
                     <td>{{ $QaPersonClientAssign->clientname->name  }}</td>
                     <td>
                         <div class="btn-group">
+                            <a href="/settings/changeuser/client/{{ $QaPersonClientAssign->id }}"><button class="btn btn-success btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Change Assignee</button></a>
                             <a href="/settings/user/client/delete/{{ $QaPersonClientAssign->id }}"><button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button></a>
                         </div>
                       </td>

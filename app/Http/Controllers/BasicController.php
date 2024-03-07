@@ -438,11 +438,12 @@ class BasicController extends Controller
     function userprofile(Request $request, $id){
         $loginUser = $this->roleExits($request);
         $employee = Employee::where('id', $id)->get();
-       // $client = Client::where('projectManager', $id)->get();
+
         $project = Project::where('projectManager', $id)->get();
-        //$projectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
+
         $department = Department::whereJsonContains('users', $id )->get();
-        if($department[0]->name != "Quality Assaurance"){
+        $qdepartment = Department::whereJsonContains('users', $id )->where('name', 'like', 'Q%')->get();
+    if( $qdepartment[0]->id = null ){
         if(count($project) > 0){
             $find_client = Client::where('id',$project[0]->clientID)->get();
         }
@@ -644,8 +645,19 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
         $findclient = Client::get();
         $employee = Employee::get();
-        return view('project',['clients'=>$findclient,'employee' => $employee , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        $user_id = 2;
+        return view('project',['user_id'=>$user_id,'clients'=>$findclient,'employee' => $employee , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
+
+    function assgnedclientProject(Request $request){
+        $loginUser = $this->roleExits($request);
+        $findclient = QaPersonClientAssign::where('user', $loginUser[1][0]->id)->get();
+        $employee = Employee::get();
+        $user_id = 1;
+        return view('project',['user_id'=>$user_id,'clients'=>$findclient,'employee' => $employee , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+    }
+
+
 
     function clientProjectProcess(Request $request){
         Project::create([
@@ -665,7 +677,8 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
         $findclient = Client::Where('id',$id)->get();
         $employee = Employee::get();
-        return view('project',['clients'=>$findclient,'employee' => $employee , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        $user_id = 2;
+        return view('project',['user_id'=>$user_id,'clients'=>$findclient,'employee' => $employee , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function Project_production(Request $request, string $id){
@@ -675,9 +688,10 @@ class BasicController extends Controller
 
         $project = Project::where('productionID',$id)->get();
         $department = Department::get();
+        $departstatus = Count( $department);
         $employee = Employee::get();
 
-        return view('projectProduction' , ['departments'=>$department,'employees'=>$employee, 'project_id'=>$project, 'productions'=>$production, 'projects'=>$project, 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        return view('projectProduction' , ['departstatus'=>$departstatus,'departments'=>$department,'employees'=>$employee, 'project_id'=>$project, 'productions'=>$production, 'projects'=>$project, 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function Project_ProductionProcess(Request $request, $id){
@@ -1404,8 +1418,9 @@ class BasicController extends Controller
     function Production_services(Request $request){
         $loginUser = $this->roleExits($request);
         $department = Department::get();
+        $statusDepartment = count($department);
         $ProductionServices=ProductionServices::get();
-        return view('production_services',['departments'=>$department, "ProductionServices"=>$ProductionServices ,'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        return view('production_services',['statusDepartment'=>$statusDepartment,'departments'=>$department, "ProductionServices"=>$ProductionServices ,'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
     }
 
     function Production_services_process(Request $request){
@@ -1431,29 +1446,20 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
         $department = Department::get();
         $statusDepartment = count($department);
-        if($statusDepartment > 0){
-            $depart = json_decode($department[0]->users);
-       
-            $user = Employee::whereIn('id', $depart)->get();
-            $clients = Client::get();
-            $QaPersonClientAssigns =QaPersonClientAssign::get();
-            return view('client_qaperson', [
-                'statusDepartment' => $statusDepartment,
-                'users'=>$user,'clients'=>$clients, 'QaPersonClientAssigns'=>$QaPersonClientAssigns , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
-        }
-        else {
-            $user = Employee::get();
-            $clients = Client::get();
-            $QaPersonClientAssigns =QaPersonClientAssign::get();
+        $QaPersonClientAssigns =QaPersonClientAssign::get();
+        $assignedclients =QaPersonClientAssign::select('client')->get();
+        $user = Employee::get();
+        $clients = Client::whereNotIn('id', $assignedclients)->get();
+
             return view('client_qaperson', [
                 'statusDepartment' => $statusDepartment,
                 'users'=>$user,
                 'clients'=>$clients,
                 'QaPersonClientAssigns'=>$QaPersonClientAssigns,
                 'LoginUser' => $loginUser[1],
-                'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
-        }
-        
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2]]);
+
     }
 
     function Assign_Client_to_qaperson_process(Request $request){
@@ -1461,6 +1467,36 @@ class BasicController extends Controller
         $qaperon_client = QaPersonClientAssign::create([
             "user" => $request->input('user'),
             "client" => $request->input('client'),
+
+        ]);
+
+        return redirect('/settings/user/client');
+    }
+
+    function Edit_Assign_Client_to_qaperson(Request $request , $id){
+        $loginUser = $this->roleExits($request);
+        $department = Department::get();
+        $QaPersonClientAssigns1 =QaPersonClientAssign::where('id',$id)->get();
+        $QaPersonClientAssigns =QaPersonClientAssign::get();
+        $user = Employee::get();
+        $clients = Client::get();
+
+            return view('edit_client_qaperson', [
+                'users'=>$user,
+                'clients'=>$clients,
+                'QaPersonClientAssigns'=>$QaPersonClientAssigns,
+                'QaPersonClientAssigns1'=>$QaPersonClientAssigns1,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2]]);
+
+    }
+
+    function Edit_Assign_Client_to_qaperson_process(Request $request, $id){
+
+        $qaperon_client = QaPersonClientAssign::where('id',$id)
+        ->update([
+            "user" => $request->input('user'),
 
         ]);
 
