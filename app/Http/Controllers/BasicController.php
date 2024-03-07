@@ -443,7 +443,7 @@ class BasicController extends Controller
 
         $department = Department::whereJsonContains('users', $id )->get();
         $qdepartment = Department::whereJsonContains('users', $id )->where('name', 'like', 'Q%')->get();
-    if( $qdepartment[0]->id = null ){
+     if( $qdepartment[0]->id = null ){
         if(count($project) > 0){
             $find_client = Client::where('id',$project[0]->clientID)->get();
         }
