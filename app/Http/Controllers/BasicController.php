@@ -816,7 +816,25 @@ class BasicController extends Controller
     function allclients(Request $request){
         $loginUser = $this->roleExits($request);
         $findclient = Client::get();
-        return view('allclients',['clients'=>$findclient , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        $user_id = 0;
+        return view('allclients',[
+            'user_id'=>$user_id,
+            'clients'=>$findclient,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
+    }
+
+    function assignedclients(Request $request){
+        $loginUser = $this->roleExits($request);
+        $findclient = QaPersonClientAssign::where('user', $loginUser[1][0]->id)->get();
+        $user_id = 1;
+        return view('allclients',[
+            'user_id'=>$user_id,
+            'clients'=>$findclient ,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function payment(Request $request, $id){

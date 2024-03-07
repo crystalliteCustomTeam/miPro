@@ -85,6 +85,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/client/project/deleteproductions/{id}','deleteproduction');
         Route::get('/client/details/{id}','getclientDetails');
         Route::get('/all/clients','allclients');
+        Route::get('/assigned/clients','assignedclients');
 
         //payment
         Route::get('/forms/payment/{id}','payment');

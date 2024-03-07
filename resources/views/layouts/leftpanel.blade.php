@@ -131,7 +131,7 @@
           <li class="sub-item"><a href="/forms/book" class="sub-link">Book Kyc</a></li>
           <li class="sub-item"><a href="/forms/website" class="sub-link">Website Kyc</a></li>
           <li class="sub-item"><a href="/forms/cld" class="sub-link">CLD Kyc</a></li>
-          <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li>
+          <li class="sub-item"><a href="/assigned/clients" class="sub-link">Clients</a></li>
         </ul>
       </li><!-- br-menu-item -->
       <li class="br-menu-item">

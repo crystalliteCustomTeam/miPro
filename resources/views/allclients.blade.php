@@ -36,23 +36,47 @@
                   </tr>
                 </thead>
                 <tbody>
+                    @if ($user_id == 0)
 
-                  @foreach($clients as $department)
-                  <tr role="row" class="odd">
-                    <td tabindex="0" class="sorting_1">{{ $department['name'] }}</td>
-                    <td>{{ $department->email }}</td>
-                    <td>
-                        {{ $department->phone }}
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a href="/client/details/{{$department->id }}" class="btn btn-success">View</a>
-                            {{-- <a href="/generate/report/{{$department->id}}" class="btn btn-danger">Generate Report</a> --}}
-                        </div>
-                    </td>
+                        @foreach($clients as $department)
+                        <tr role="row" class="odd">
+                        <td tabindex="0" class="sorting_1">{{ $department['name'] }}</td>
+                        <td>{{ $department->email }}</td>
+                        <td>
+                            {{ $department->phone }}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="/client/details/{{$department->id }}" class="btn btn-success">View</a>
+                                {{-- <a href="/generate/report/{{$department->id}}" class="btn btn-danger">Generate Report</a> --}}
+                            </div>
+                        </td>
 
-                  </tr>
-                  @endforeach
+                        </tr>
+                        @endforeach
+
+                    @else
+                        @foreach($clients as $department)
+                        <tr role="row" class="odd">
+                        <td tabindex="0" class="sorting_1">{{ $department->clientname->name }}</td>
+                        <td>{{ $department->clientname->email }}</td>
+                        <td>
+                            {{ $department->clientname->phone }}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="/client/details/{{$department->client }}" class="btn btn-success">View</a>
+                                {{-- <a href="/generate/report/{{$department->id}}" class="btn btn-danger">Generate Report</a> --}}
+                            </div>
+                        </td>
+
+                        </tr>
+                        @endforeach
+
+
+                    @endif
+
+
 
                 </tbody>
               </table>
