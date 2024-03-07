@@ -442,20 +442,35 @@ class BasicController extends Controller
         $project = Project::where('projectManager', $id)->get();
 
         $department = Department::whereJsonContains('users', $id )->get();
-        $qdepartment = Department::whereJsonContains('users', $id )->where('name', 'like', 'Q%')->get();
-     if( $qdepartment[0]->id = null ){
-        if(count($project) > 0){
-            $find_client = Client::where('id',$project[0]->clientID)->get();
-        }
-        else {
-            $find_client = [];
-        }
-
-        return view("userprofile" ,["employee"=>$employee, "department"=>$department  , "project"=>$project  , "find_client"=>$find_client , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2] ]);
-    }else{
+     if( str_starts_with( $department[0]->name , 'Q') || str_starts_with( $department[0]->name , 'q')){
         $qa_client = QaPersonClientAssign::where("user",$id)->get();
-        return view("userprofile1", ["qa_client"=> $qa_client , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
-    }
+        $qa_client_status = Count($qa_client);
+        return view("userprofile1", [
+            "qa_client_status"=> $qa_client_status,
+            "qa_client"=> $qa_client,
+            "employee"=>$employee,
+            "department"=>$department,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
+
+    }else{
+            if(count($project) > 0){
+                $find_client = Client::where('id',$project[0]->clientID)->get();
+            }
+            else {
+                $find_client = [];
+            }
+
+            return view("userprofile" ,[
+                "employee"=>$employee,
+                "department"=>$department,
+                "project"=>$project,
+                "find_client"=>$find_client,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2] ]);
+           }
 
     }
 
@@ -638,7 +653,14 @@ class BasicController extends Controller
         $department = Department::get();
         $productionservices = ProductionServices::get();
 
-        return view('cld_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        return view('cld_kyc',
+        ['Brands'=>$brand,
+        'ProjectManagers'=>$projectManager,
+        'departments'=>$department,
+        'productionservices'=>$productionservices,
+        'LoginUser' => $loginUser[1],
+        'departmentAccess' => $loginUser[0],
+        'superUser' => $loginUser[2]]);
     }
 
     function clientProject(Request $request){

@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-3">
                   <label for="">Department Manager</label>
-                  <select class="form-control" name="manager">
+                  <select class="form-control select2" name="manager">
                     @foreach($employees as $employee)
                       <option value="{{ $employee->id }}">{{ $employee->name }}</option>
                     @endforeach
@@ -41,7 +41,7 @@
               </div>
               <div class="col-3">
                 <label for="">Select Brand</label>
-                <select class="form-control" name="brand">
+                <select class="form-control select2" name="brand">
                     <option value="0">Production</option>
                   @foreach($brands as $brand)
                     <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-3">
               <label for="">Select Access</label>
-              <select class="form-control" name="access">
+              <select class="form-control select2" name="access">
                   <option value="0">Admin</option>
                   <option value="1">Project Manager Or Sales Persons</option>
                   <option value="2">QA</option>

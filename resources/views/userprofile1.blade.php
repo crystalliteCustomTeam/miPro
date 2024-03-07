@@ -17,9 +17,13 @@
           <div class="card-profile-img">
             <img src="https://cdn-icons-png.flaticon.com/512/1177/1177568.png" alt="">
           </div><!-- card-profile-img -->
-
-          <h4 class="tx-normal tx-roboto tx-white">{{$qa_client[0]->Username->name }}</h4>
-          <p class="mg-b-25">{{$qa_client[0]->Username->email }}</p>
+          @if ($qa_client_status > 0)
+            <h4 class="tx-normal tx-roboto tx-white">{{$qa_client[0]->Username->name }}</h4>
+            <p class="mg-b-25">{{$qa_client[0]->Username->email }}</p>
+          @else
+            <h4 class="tx-normal tx-roboto tx-white">{{$employee[0]->name }}</h4>
+            <p class="mg-b-25">{{$employee[0]->email }}</p>
+          @endif
 
 
 
@@ -43,9 +47,10 @@
           <div class="row">
             <div class="col-lg-8">
               <div class="media-list bg-white rounded bd bd-gray-400">
-                  @foreach ($qa_client as $project)
-                  <div class="media pd-20 pd-xs-30">
-                      <img src="https://cdn-icons-png.flaticon.com/64/1087/1087815.png" alt="" class="wd-40 rounded-circle">
+                @if ($qa_client_status > 0)
+                    @foreach ($qa_client as $project)
+                    <div class="media pd-20 pd-xs-30">
+                        <img src="https://cdn-icons-png.flaticon.com/64/1087/1087815.png" alt="" class="wd-40 rounded-circle">
                         <div class="media-body mg-l-20">
                             <div class="d-flex justify-content-between mg-b-10">
                                 <div>
@@ -56,7 +61,11 @@
                             </div><!-- d-flex -->
                         </div><!-- media-body -->
                     </div><!-- media -->
-                  @endforeach
+                    @endforeach
+                @else
+                    <p>Hello!</p>
+                @endif
+
 
                 </div><!-- card -->
 
@@ -66,20 +75,38 @@
               <div class="card pd-20 pd-xs-30 bd-gray-400">
                 <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-25">Contact Information</h6>
 
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Name</label>
-                <p class="tx-info mg-b-25">{{$qa_client[0]->Username->name }}</p>
+                @if ($qa_client_status > 0)
 
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Email Address</label>
-                <p class="tx-inverse mg-b-25">{{$qa_client[0]->Username->email }}</p>
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Name</label>
+                    <p class="tx-info mg-b-25">{{$qa_client[0]->Username->name }}</p>
 
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Extention</label>
-                <p class="tx-inverse mg-b-25">{{$qa_client[0]->Username->extension }}</p>
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Email Address</label>
+                    <p class="tx-inverse mg-b-25">{{$qa_client[0]->Username->email }}</p>
 
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Designation</label>
-                <p class="tx-inverse mg-b-50">{{$qa_client[0]->Username->position }}</p>
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Extention</label>
+                    <p class="tx-inverse mg-b-25">{{$qa_client[0]->Username->extension }}</p>
 
-                <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Department</label>
-                <p class="tx-inverse mg-b-25">Quality Assaurance</p>
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Designation</label>
+                    <p class="tx-inverse mg-b-50">{{$qa_client[0]->Username->position }}</p>
+
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Department</label>
+                    <p class="tx-inverse mg-b-25">Quality Assaurance</p>
+                @else
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Name</label>
+                    <p class="tx-info mg-b-25">{{$employee[0]->name }}</p>
+
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Email Address</label>
+                    <p class="tx-inverse mg-b-25">{{$employee[0]->email }}</p>
+
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Extention</label>
+                    <p class="tx-inverse mg-b-25">{{$employee[0]->extension }}</p>
+
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Designation</label>
+                    <p class="tx-inverse mg-b-50">{{$employee[0]->position }}</p>
+
+                    <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Department</label>
+                    <p class="tx-inverse mg-b-25">{{$department[0]->name }}</p>
+                @endif
 
               </div><!-- card -->
 

@@ -70,7 +70,7 @@
                     </div><!-- media -->
                   @endforeach
                   @else
-                    <p>No Project Created Yet ! <a href="/client/project">Create From Here</a></p>
+                    <p>Hello!</p>
                   @endif
 
                 </div><!-- card -->
