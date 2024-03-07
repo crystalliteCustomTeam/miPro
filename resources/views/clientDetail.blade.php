@@ -26,9 +26,6 @@
     <div class="ht-70 bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center bd-b bd-gray-400">
       <ul class="nav nav-outline active-primary align-items-center flex-row" role="tablist">
         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#projects" role="tab">Projects</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#department" role="tab">Department</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" role="tab">Favorites</a></li>
-        <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#" role="tab">Settings</a></li>
         <li><a href="/client/project/{{ $client[0]->id }}" style="color:grey;">Create Project</a></li>
       </ul>
     </div>
@@ -255,94 +252,6 @@
                 @endforeach
 
               </div><!-- media-list -->
-            </div><!-- card -->
-          </div><!-- col-lg-4 -->
-        </div><!-- row -->
-      </div><!-- tab-pane -->
-      <div class="tab-pane fade" id="department">
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
-              <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-14 mg-b-30">Recent Photos</h6>
-
-              <div class="row row-xs">
-                <div class="col-6 col-sm-4 col-md-3"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3"><img src="https://via.placeholder.com/300" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10 mg-sm-t-0"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10 mg-md-t-0"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="https://via.placeholder.com/500" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="http://via.placeholder.com/300x300" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="http://via.placeholder.com/300x300" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="http://via.placeholder.com/300x300" class="img-fluid" alt=""></div>
-                <div class="col-6 col-sm-4 col-md-3 mg-t-10"><img src="http://via.placeholder.com/300x300" class="img-fluid" alt=""></div>
-              </div><!-- row -->
-
-              <p class="mg-t-20 mg-b-0">Loading more photos...</p>
-
-            </div><!-- card -->
-          </div><!-- col-lg-8 -->
-          <div class="col-lg-4 mg-t-30 mg-lg-t-0">
-            <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
-              <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-14 mg-b-30">Photo Albums</h6>
-              <div class="row row-xs mg-b-15">
-                <div class="col"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                <div class="col"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                <div class="col">
-                  <div class="overlay">
-                    <img src="https://via.placeholder.com/800" class="img-fluid" alt="">
-                    <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
-                      <span class="tx-white tx-12">20+ more</span>
-                    </div><!-- overlay-body -->
-                  </div><!-- overlay -->
-                </div>
-              </div><!-- row -->
-              <div class="d-flex alig-items-center justify-content-between">
-                <h6 class="tx-inverse tx-14 mg-b-0">Profile Photos</h6>
-                <span class="tx-12">24 Photos</span>
-              </div><!-- d-flex -->
-
-              <hr>
-
-              <div class="row row-xs mg-b-15">
-                <div class="col"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-                <div class="col"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-                <div class="col">
-                  <div class="overlay">
-                    <img src="https://via.placeholder.com/600x600" class="img-fluid" alt="">
-                    <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
-                      <span class="tx-white tx-12">20+ more</span>
-                    </div><!-- overlay-body -->
-                  </div><!-- overlay -->
-                </div>
-              </div><!-- row -->
-              <div class="d-flex alig-items-center justify-content-between">
-                <h6 class="tx-inverse tx-14 mg-b-0">Mobile Uploads</h6>
-                <span class="tx-12">24 Photos</span>
-              </div><!-- d-flex -->
-
-              <hr>
-
-              <div class="row row-xs mg-b-15">
-                <div class="col"><img src="http://via.placeholder.com/300x300/0866C6/FFF" class="img-fluid" alt=""></div>
-                <div class="col"><img src="http://via.placeholder.com/300x300/DC3545/FFF" class="img-fluid" alt=""></div>
-                <div class="col">
-                  <div class="overlay">
-                    <img src="http://via.placeholder.com/300x300/0866C6/FFF" class="img-fluid" alt="">
-                    <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
-                      <span class="tx-white tx-12">20+ more</span>
-                    </div><!-- overlay-body -->
-                  </div><!-- overlay -->
-                </div>
-              </div><!-- row -->
-              <div class="d-flex alig-items-center justify-content-between">
-                <h6 class="tx-inverse tx-14 mg-b-0">Mobile Uploads</h6>
-                <span class="tx-12">24 Photos</span>
-              </div><!-- d-flex -->
-
-              <a href="" class="d-block mg-t-20"><i class="fa fa-angle-down mg-r-5"></i> Show 8 more albums</a>
             </div><!-- card -->
           </div><!-- col-lg-4 -->
         </div><!-- row -->
