@@ -126,20 +126,10 @@
                           <div class="d-flex justify-content-between mg-b-10">
                             <div>
                               <a href="/client/details/{{ $project->clientname->id }}"><h6 class="mg-b-2 tx-inverse tx-14">{{ $project->clientname->name }}</h6></a>
-                              {{-- <span class="tx-12 tx-gray-500">{{ $project->ClientName->name }}</span><br> --}}
-                              {{-- @foreach ($projectProductions as $projectProduction)
-                              <span class="tx-12 tx-gray-500">Department: {{$projectProduction->DepartNameinProjectProduction->name}} ,Assignee: {{$projectProduction->EmployeeNameinProjectProduction->name}}</span>
-                              @endforeach --}}
                             </div>
-                            {{-- <span class="tx-12">{{ $project->created_at }}</span> --}}
                           </div><!-- d-flex -->
-                          {{-- <p class="mg-b-20">{{ $project->projectDescription }}</p> --}}
                           <div class="media-footer">
                             <div>
-                              {{-- <a href=""><i class="fa fa-heart"></i></a>
-                              <a href="" class="mg-l-10"><i class="fa fa-comment"></i></a>
-                              <a href="" class="mg-l-10"><i class="fa fa-retweet"></i></a>
-                              <a href="" class="mg-l-10"><i class="fa fa-ellipsis-h"></i></a> --}}
                             </div>
                           </div><!-- d-flex -->
                         </div><!-- media-body -->
@@ -150,68 +140,6 @@
 
               </div><!-- card -->
             </div><!-- col-lg-8 -->
-            <div class="col-lg-4 mg-t-30 mg-lg-t-0">
-              <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
-                <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-14 mg-b-30">Photo Albums</h6>
-                <div class="row row-xs mg-b-15">
-                  <div class="col"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                  <div class="col"><img src="https://via.placeholder.com/800" class="img-fluid" alt=""></div>
-                  <div class="col">
-                    <div class="overlay">
-                      <img src="https://via.placeholder.com/800" class="img-fluid" alt="">
-                      <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
-                        <span class="tx-white tx-12">20+ more</span>
-                      </div><!-- overlay-body -->
-                    </div><!-- overlay -->
-                  </div>
-                </div><!-- row -->
-                <div class="d-flex alig-items-center justify-content-between">
-                  <h6 class="tx-inverse tx-14 mg-b-0">Profile Photos</h6>
-                  <span class="tx-12">24 Photos</span>
-                </div><!-- d-flex -->
-
-                <hr>
-
-                <div class="row row-xs mg-b-15">
-                  <div class="col"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-                  <div class="col"><img src="https://via.placeholder.com/600x600" class="img-fluid" alt=""></div>
-                  <div class="col">
-                    <div class="overlay">
-                      <img src="https://via.placeholder.com/600x600" class="img-fluid" alt="">
-                      <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
-                        <span class="tx-white tx-12">20+ more</span>
-                      </div><!-- overlay-body -->
-                    </div><!-- overlay -->
-                  </div>
-                </div><!-- row -->
-                <div class="d-flex alig-items-center justify-content-between">
-                  <h6 class="tx-inverse tx-14 mg-b-0">Mobile Uploads</h6>
-                  <span class="tx-12">24 Photos</span>
-                </div><!-- d-flex -->
-
-                <hr>
-
-                <div class="row row-xs mg-b-15">
-                  <div class="col"><img src="http://via.placeholder.com/300x300/0866C6/FFF" class="img-fluid" alt=""></div>
-                  <div class="col"><img src="http://via.placeholder.com/300x300/DC3545/FFF" class="img-fluid" alt=""></div>
-                  <div class="col">
-                    <div class="overlay">
-                      <img src="http://via.placeholder.com/300x300/0866C6/FFF" class="img-fluid" alt="">
-                      <div class="overlay-body bg-black-5 d-flex align-items-center justify-content-center">
-                        <span class="tx-white tx-12">20+ more</span>
-                      </div><!-- overlay-body -->
-                    </div><!-- overlay -->
-                  </div>
-                </div><!-- row -->
-                <div class="d-flex alig-items-center justify-content-between">
-                  <h6 class="tx-inverse tx-14 mg-b-0">Mobile Uploads</h6>
-                  <span class="tx-12">24 Photos</span>
-                </div><!-- d-flex -->
-
-                <a href="" class="d-block mg-t-20"><i class="fa fa-angle-down mg-r-5"></i> Show 8 more albums</a>
-              </div><!-- card -->
-            </div><!-- col-lg-4 -->
-          </div><!-- row -->
         </div><!-- tab-pane -->
       </div><!-- br-pagebody -->
 
