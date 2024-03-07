@@ -114,33 +114,7 @@
             </div><!-- col-lg-4 -->
           </div><!-- row -->
         </div><!-- tab-pane -->
-        <div class="tab-pane fade" id="clients">
-          <div class="row">
-            <div class="col-lg-8">
-              <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
 
-                @foreach ($qa_client as $project)
-                    <div class="media pd-20 pd-xs-30">
-                        <img src="https://cdn-icons-png.flaticon.com/64/1087/1087815.png" alt="" class="wd-40 rounded-circle">
-                        <div class="media-body mg-l-20">
-                          <div class="d-flex justify-content-between mg-b-10">
-                            <div>
-                              <a href="/client/details/{{ $project->clientname->id }}"><h6 class="mg-b-2 tx-inverse tx-14">{{ $project->clientname->name }}</h6></a>
-                            </div>
-                          </div><!-- d-flex -->
-                          <div class="media-footer">
-                            <div>
-                            </div>
-                          </div><!-- d-flex -->
-                        </div><!-- media-body -->
-                      </div><!-- media -->
-                @endforeach
-
-
-
-              </div><!-- card -->
-            </div><!-- col-lg-8 -->
-        </div><!-- tab-pane -->
       </div><!-- br-pagebody -->
 
     </div><!-- br-mainpanel -->
