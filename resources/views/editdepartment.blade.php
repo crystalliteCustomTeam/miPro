@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-3">
                   <label for="">Department Manager</label>
-                  <select class="form-control" name="manager">
+                  <select class="form-control select2" name="manager">
                     @foreach($employees as $employee)
                       <option value="{{ $employee->id }}" {{ $employee->id == $departeditdata->manager ? 'selected' : '' }}>{{ $employee->name }}</option>
 
@@ -44,7 +44,7 @@
               </div>
               <div class="col-3">
                 <label for="">Select Brand</label>
-                <select class="form-control" name="brand">
+                <select class="form-control select2" name="brand">
                   @foreach($brands as $brand)
                     <option value="{{ $brand->id }}" {{ $brand->id == $departeditdata->brand ? 'selected' : '' }}>{{ $brand->name }}</option>
                   @endforeach
@@ -53,7 +53,7 @@
 
             <div class="col-3">
                 <label for="">Select Access</label>
-                <select class="form-control" name="access">
+                <select class="form-control select2" name="access">
                   @php
                       $access = $departeditdata->access;
                       $accessdata = "";
