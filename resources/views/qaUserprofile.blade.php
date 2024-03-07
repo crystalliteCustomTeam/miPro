@@ -63,7 +63,7 @@
                     </div><!-- media -->
                     @endforeach
                 @else
-                    <p>Hello!</p>
+                    <p>No Client Assigned </p>
                 @endif
 
 

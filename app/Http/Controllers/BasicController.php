@@ -445,7 +445,7 @@ class BasicController extends Controller
      if( str_starts_with( $department[0]->name , 'Q') || str_starts_with( $department[0]->name , 'q')){
         $qa_client = QaPersonClientAssign::where("user",$id)->get();
         $qa_client_status = Count($qa_client);
-        return view("userprofile1", [
+        return view("qaUserprofile", [
             "qa_client_status"=> $qa_client_status,
             "qa_client"=> $qa_client,
             "employee"=>$employee,
