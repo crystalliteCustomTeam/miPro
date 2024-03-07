@@ -55,7 +55,7 @@
                         </tr>
                         @endforeach
 
-                    @else
+                    @elseif ($user_id == 1)
                         @foreach($clients as $department)
                         <tr role="row" class="odd">
                         <td tabindex="0" class="sorting_1">{{ $department->clientname->name }}</td>
@@ -74,6 +74,8 @@
                         @endforeach
 
 
+                    @else
+                    <p>No Client Assigned</p>
                     @endif
 
 
