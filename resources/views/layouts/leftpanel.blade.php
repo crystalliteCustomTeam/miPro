@@ -107,7 +107,7 @@
     <h1>1</h1>
     @elseif($departmentAccess[0]->access == 2)
     <li class="br-menu-item">
-        <a href="/home" class="br-menu-link active">
+        <a href="/dashboard" class="br-menu-link active">
           <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
           <span class="menu-item-label">Dashboard</span>
         </a><!-- br-menu-link -->

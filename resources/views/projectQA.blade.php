@@ -35,6 +35,8 @@
                         <th>Responsible Person</th>
                         <th>client satisfaction</th>
                         <th>Status</th>
+                        <th>Date</th>
+                        <th>Summery</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -44,6 +46,8 @@
                         <td>{{ $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name }}</td>
                         <td>{{ $qafrom->client_satisfaction }}</td>
                         <td>{{ $qafrom->status }}</td>
+                        <td>{{ $qafrom->created_at }}</td>
+                        <td>{{ $qafrom->Refund_Request_summery }}</td>
                         <td>
                         <div class="btn-group">
                             <a href="/forms/editnewqaform/{{$qafrom->id}}"><button class="btn btn-info btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Edit </button></a>

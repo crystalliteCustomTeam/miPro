@@ -1443,7 +1443,9 @@ class BasicController extends Controller
 
         ]);
 
-        return redirect('/settings/qa_issues');
+        return redirect()->back()->with('Success',"Issue Added !");
+
+        // return redirect('/settings/qa_issues');
 
     }
 
@@ -1515,8 +1517,8 @@ class BasicController extends Controller
             "client" => $request->input('client'),
 
         ]);
-
-        return redirect('/settings/user/client');
+        return redirect()->back()->with('Success',"Client Assigned Successfully !");
+        // return redirect('/settings/user/client');
     }
 
     function Edit_Assign_Client_to_qaperson(Request $request , $id){

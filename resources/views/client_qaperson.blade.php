@@ -61,7 +61,7 @@
 
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>{{ Session::get('Success') }}</strong>
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close"><img src="https://cdn-icons-png.flaticon.com/24/5291/5291043.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">X</button>
                         </div>
 
                         @endif
