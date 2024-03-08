@@ -42,7 +42,7 @@
 
                     @if($qa_data[0]->status != "Not Started Yet")
 
-                        <form action="/forms/editnewqaform/{{$qa_data[0]->id }}/process/" method="POST" enctype="multipart/form-data">
+                        <form action="/forms/editnewqaform/{{$qa_data[0]->id }}/process" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="projectID" value="{{$projects[0]->id }}">
 
@@ -165,7 +165,7 @@
                         </form>
                     @else
 
-                    <form action="/forms/editnewqaform/{{$qa_data[0]->id }}/process/" method="POST" enctype="multipart/form-data">
+                    <form action="/forms/editnewqaform/{{$qa_data[0]->id }}/process" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="projectID" value="{{$projects[0]->id }}">
 

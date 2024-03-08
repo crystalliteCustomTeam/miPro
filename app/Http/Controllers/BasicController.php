@@ -1460,7 +1460,13 @@ class BasicController extends Controller
         $department = Department::get();
         $statusDepartment = count($department);
         $ProductionServices=ProductionServices::get();
-        return view('production_services',['statusDepartment'=>$statusDepartment,'departments'=>$department, "ProductionServices"=>$ProductionServices ,'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        return view('production_services',[
+            'statusDepartment'=>$statusDepartment,
+            'departments'=>$department,
+            "ProductionServices"=>$ProductionServices ,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function Production_services_process(Request $request){
