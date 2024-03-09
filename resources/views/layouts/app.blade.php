@@ -25,6 +25,8 @@
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{{ asset('css/bracket.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bracket.oreo.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>

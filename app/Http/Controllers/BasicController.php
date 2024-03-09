@@ -445,7 +445,33 @@ class BasicController extends Controller
      if( str_starts_with( $department[0]->name , 'Q') || str_starts_with( $department[0]->name , 'q')){
         $qa_client = QaPersonClientAssign::where("user",$id)->get();
         $qa_client_status = Count($qa_client);
+
+
+        $es_count = QAFORM::where('qaPerson',$id)->where('client_satisfaction','Extremely Satisfied')->count();
+        $ss_count = QAFORM::where('qaPerson',$id)->where('client_satisfaction','Somewhat Satisfied')->count();
+        $nsnd_count = QAFORM::where('qaPerson',$id)->where('client_satisfaction','Neither Satisfied nor Dissatisfied')->count();
+        $sd_count = QAFORM::where('qaPerson',$id)->where('client_satisfaction','Somewhat Dissatisfied')->count();
+        $ed_count = QAFORM::where('qaPerson',$id)->where('client_satisfaction','Extremely Dissatisfied')->count();
+        $dispute_count = QAFORM::where('qaPerson',$id)->where('status','Dispute')->count();
+        $refund_count = QAFORM::where('qaPerson',$id)->where('status','Refund')->count();
+        $ongoing_count = QAFORM::where('qaPerson',$id)->where('status','On Going')->count();
+        $nsy_count = QAFORM::where('qaPerson',$id)->where('status','Not Started Yet')->count();
+        $today_count = QAFORM::whereDate('created_at', '=', now()->toDateString())->count();
+        $exp_refund = QAFORM::where('qaPerson',$id)->where('status_of_refund','High')->count();
+
+
         return view("qaUserprofile", [
+            'es'=>$es_count ,
+            'ss'=>$ss_count ,
+            'nsnd'=>$nsnd_count ,
+            'sd'=>$sd_count ,
+            'ed'=>$ed_count ,
+            'disp'=>$dispute_count,
+            'refd'=>$refund_count ,
+            'ongo'=>$ongoing_count ,
+            'nsy'=>$nsy_count ,
+            'tc'=>$today_count  ,
+            'expref'=>$exp_refund,
             "qa_client_status"=> $qa_client_status,
             "qa_client"=> $qa_client,
             "employee"=>$employee,
