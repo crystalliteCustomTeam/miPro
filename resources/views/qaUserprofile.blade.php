@@ -150,7 +150,7 @@
                 </div><!-- col-4 -->
 
                 <div class="col-6" >
-                    <div class="card bd-gray-400 bg-lightblue  pd-20">
+                    <div class="card bd-gray-400 pd-25 mg-t-20">
                         <h3>Client Satisfaction:</h3>
                         <canvas id="myChart"></canvas>
                         <script>
@@ -185,7 +185,7 @@
                 </div><!-- col-4 -->
 
                 <div class="col-6">
-                    <div class="card bd-gray-400 pd-20">
+                    <div class="card bd-gray-400 pd-25 mg-t-20">
                         <h3>Client Refund Status:</h3>
                         <canvas id="myChart1"></canvas>
                         <script>
