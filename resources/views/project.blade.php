@@ -80,7 +80,7 @@
             <div class="row mt-3">
                 <div class="col-3">
                     <br>
-                    <input type="submit" value="Salact Production"  name="" class="btn btn-success mt-2">
+                    <input type="submit" value="Select Production"  name="" class="btn btn-success mt-2">
                 </div>
                 <div class="col-9">
                         @if (Session::has('Success'))

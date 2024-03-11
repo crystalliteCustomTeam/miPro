@@ -4,8 +4,8 @@ if($superUser == 0){
    $ID = $LoginUser->id;
    $Name = $LoginUser->goodName;
    $Email = $LoginUser->userEmail;
-   
-  
+
+
 }else{
   $ID = $LoginUser[0]->id;
   $Name = $LoginUser[0]->name;
