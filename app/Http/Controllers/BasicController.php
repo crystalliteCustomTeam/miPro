@@ -1604,9 +1604,24 @@ class BasicController extends Controller
 
         $qaformlast .= "->latest('id')->limit(10)->get()";
 
-        if($get_Production != 0){
+        if($get_Production != 0 && $get_employee == 0  && $get_issues == 0){
             $qaformlast .=  "->where('ProjectProductionID',$get_Production)";
+        }elseif($get_Production == 0 && $get_employee != 0  && $get_issues == 0){
+
+        }elseif($get_Production == 0 && $get_employee == 0  && $get_issues != 0){
+
+        }elseif($get_Production != 0 && $get_employee != 0  && $get_issues == 0){
+
+        }elseif($get_Production == 0 && $get_employee != 0  && $get_issues != 0){
+
+        }elseif($get_Production != 0 && $get_employee == 0  && $get_issues != 0){
+
+        }elseif($get_Production != 0 && $get_employee != 0  && $get_issues != 0){
+
+        }else{
+
         }
+
 
 
 
@@ -1614,8 +1629,8 @@ class BasicController extends Controller
         // $qaformlast = str_replace('"', '', $qaformlast);
         // eval($qaformlast);
 
-        // print_r($qaformlast);
-        // die();
+        print_r($qaformlast);
+         die();
 
         $project = Project::where('id', $id)->get();
         $ProjectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
