@@ -67,6 +67,7 @@
                         <td>
                             <div class="btn-group">
                                 <a href="/client/details/{{$department->client }}" class="btn btn-success">View</a>
+                                {{-- <a href="/forms/kyc/edit/{{$department->client }}" class="btn btn-info">Edit</a> --}}
                                 {{-- <a href="/generate/report/{{$department->id}}" class="btn btn-danger">Generate Report</a> --}}
                             </div>
                         </td>
