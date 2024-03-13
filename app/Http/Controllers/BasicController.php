@@ -532,7 +532,14 @@ class BasicController extends Controller
         $department = Department::get();
         $productionservices = ProductionServices::get();
 
-        return view('seo_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        return view('seo_kyc',[
+            'Brands'=>$brand,
+            'ProjectManagers'=>$projectManager ,
+            'departments'=>$department ,
+            'productionservices'=>$productionservices ,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function kycclientprocess(Request $request){
@@ -561,7 +568,7 @@ class BasicController extends Controller
             "TARGET_MARKET" => $request->input('TargetMarket'),
             "OTHER_SERVICE" => $request->input('OtherServices'),
             "LEAD_PLATFORM" => $request->input('leadplatform'),
-            "Payment Nature" => $request->input('paymentnature'),
+            "Payment_Nature" => $request->input('paymentnature'),
             "ANY_COMMITMENT" => $request->input('anycommitment')
         ];
         $clientmeta = DB::table('clientmetas')->insert([
@@ -652,6 +659,128 @@ class BasicController extends Controller
 
     }
 
+    function editClient(Request $request, $id){
+        $loginUser = $this->roleExits($request);
+        $brand = Brand::all();
+        $projectManager = Employee::get();
+        $department = Department::get();
+        $productionservices = ProductionServices::get();
+        $Client = Client::where('id',$id)->get();
+        $ClientMeta = ClientMeta::where('clientID',$id)->get();
+
+        return view('editClient',[
+            'clients'=>$Client,
+            'clientmetas'=>$ClientMeta,
+            'Brands'=>$brand,
+            'ProjectManagers'=>$projectManager ,
+            'departments'=>$department ,
+            'productionservices'=>$productionservices ,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+
+    }
+
+    function editClientProcess(Request $request, $id){
+
+        $createClient = Client::where('id',$id)
+        ->Update([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'brand' => $request->input('brand'),
+            'frontSeler' => $request->input('saleperson'),
+            'website' => $request->input('website'),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+        $ClientMeta = ClientMeta::where('clientID',$id)->get();
+        if ($ClientMeta[0]->service == 'seo' ){
+
+
+        $SEO_ARRAY = [
+            "KEYWORD_COUNT" => $request->input('KeywordCount'),
+            "TARGET_MARKET" => $request->input('TargetMarket'),
+            "OTHER_SERVICE" => $request->input('OtherServices'),
+            "LEAD_PLATFORM" => $request->input('leadplatform'),
+            "Payment_Nature" => $request->input('paymentnature'),
+            "ANY_COMMITMENT" => $request->input('anycommitment')
+        ];
+        $clientmeta = DB::table('clientmetas')->where('clientID',$id)->update([
+            'packageName' => $request->input('package'),
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($SEO_ARRAY),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+    }elseif ($ClientMeta[0]->service == 'book'){
+
+
+        $BOOK_ARRAY =[
+            "PRODUCT" => $request->input('product'),
+            "MENU_SCRIPT"=> $request->input('menuscript'),
+            "BOOK_GENRE"=> $request->input('bookgenre'),
+            "COVER_DESIGN"=> $request->input('coverdesign'),
+            "TOTAL_NUMBER_OF_PAGES"=> $request->input('totalnumberofpages'),
+            "PUBLISHING_PLATFORM"=> $request->input('publishingplatform'),
+            "ISBN_OFFERED"=> $request->input('isbn_offered'),
+            "LEAD_PLATFORM"=> $request->input('leadplatform'),
+            "ANY_COMMITMENT"=> $request->input('anycommitment')
+        ];
+        $clientmeta = DB::table('clientmetas')->where('clientID',$id)->update([
+            'packageName' => $request->input('package'),
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($BOOK_ARRAY),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+    }elseif ($ClientMeta[0]->service == 'website'){
+
+        $WEBSITE_ARRAY = [
+            "OTHER_SERVICES"=> $request->input('otherservices'),
+            "LEAD_PLATFORM"=> $request->input('leadplatform'),
+            "ANY_COMMITMENT"=> $request->input('anycommitment')
+
+        ];
+
+        $clientmeta = DB::table('clientmetas')->where('clientID',$id)->update([
+            'packageName' => json_encode($request->input('package')),
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($WEBSITE_ARRAY),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+    }else {
+
+        $CLD_ARRAY = [
+            "OTHER_SERVICES"=> $request->input('otherservices'),
+            "LEAD_PLATFORM"=> $request->input('leadplatform'),
+            "ANY_COMMITMENT"=> $request->input('anycommitment')
+        ];
+
+        $clientmeta = DB::table('clientmetas')->where('clientID',$id)->update([
+            'packageName' =>json_encode( $request->input('package')),
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($CLD_ARRAY),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+    }
+
+        return redirect('all/clients');
+
+    }
+
     function book(Request $request){
         $loginUser = $this->roleExits($request);
         $brand = Brand::all();
@@ -659,7 +788,14 @@ class BasicController extends Controller
         $department = Department::get();
         $productionservices = ProductionServices::get();
 
-        return view('book_kyc',['Brands'=>$brand,'ProjectManagers'=>$projectManager ,'departments'=>$department , 'productionservices'=>$productionservices , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        return view('book_kyc',[
+            'Brands'=>$brand,
+            'ProjectManagers'=>$projectManager ,
+            'departments'=>$department ,
+            'productionservices'=>$productionservices ,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function website(Request $request){

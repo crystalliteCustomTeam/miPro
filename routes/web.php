@@ -61,6 +61,8 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/website','website');
         Route::get('/forms/cld','cld');
 
+        Route::get('/forms/kyc/edit/{id}','editClient');
+
         //qaform:
         Route::get('/forms/qaform_d','qaform');
         Route::get('/forms/qaform/{id}','qaform_prefilled');
@@ -106,6 +108,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/setupdepartment/process','setupdepartmentsProcess');
         Route::post('/editdepartment/{id}/process','editdepartmentprocess');
         Route::post('/forms/kyc/process/client','kycclientprocess');
+        Route::post('/forms/kyc/process/editclient/{id}','editClientProcess');
         Route::post('/client/project/process','clientProjectProcess');
         ROute::post('/client/project/production/{id}/process','Project_ProductionProcess');
         Route::post('/client/editproject/{id}/process','editProjectProcess');
