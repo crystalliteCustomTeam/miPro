@@ -246,32 +246,16 @@
                                 @else
                                 <div class="card bd-0 mg-t-20">
                                     <div id="carousel12" class="carousel slide" data-ride="carousel">
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carousel12" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carousel12" data-slide-to="1"></li>
-                                        <li data-target="#carousel12" data-slide-to="2"></li>
-                                    </ol>
+
                                     <div class="carousel-inner" role="listbox">
 
-
-
                                         <div class="carousel-item active">
-                                            <div class="bg-br-primary pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                                <div class="tx-white">
-                                                <p class="tx-uppercase tx-11 tx-semibold tx-mont tx-spacing-2 tx-white-5">Client: --</a></p>
+                                            <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
+                                                <div class="tx-black">
                                                 <p class="lh-5 mg-b-20">No Client on Refund</p>
-                                                <nav class="nav flex-row tx-13">
-                                                    <a href="" class="tx-white-8 hover-white pd-l-0 pd-r-5">Brand: --</a>
-                                                    <a href="" class="tx-white-8 hover-white pd-l-0 pd-r-5">Project: --</a>
-                                                    <a href="" class="tx-white-8 hover-white pd-x-5">PM: --</a>
-                                                    <a href="" class="tx-white-8 hover-white pd-x-5">QA: --</a>
-                                                    <a href="" class="tx-white-8 hover-white pd-x-5">View</a>
-                                                </nav>
                                                 </div>
                                             </div><!-- d-flex -->
                                         </div>
-
-
 
 
                                     </div><!-- carousel-inner -->
@@ -639,27 +623,14 @@
                             @else
                             <div class="card bd-0 mg-t-20">
                                 <div id="carousel12" class="carousel slide" data-ride="carousel">
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carousel12" data-slide-to="0" class="active"></li>
-                                    <li data-target="#carousel12" data-slide-to="1"></li>
-                                    <li data-target="#carousel12" data-slide-to="2"></li>
-                                </ol>
                                 <div class="carousel-inner" role="listbox">
 
 
 
                                     <div class="carousel-item active">
                                         <div class="bg-br-primary pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                            <div class="tx-white">
-                                            <p class="tx-uppercase tx-11 tx-semibold tx-mont tx-spacing-2 tx-white-5">Client: --</a></p>
+                                            <div class="tx-black">
                                             <p class="lh-5 mg-b-20">No Client on Refund</p>
-                                            <nav class="nav flex-row tx-13">
-                                                <a href="" class="tx-white-8 hover-white pd-l-0 pd-r-5">Brand: --</a>
-                                                <a href="" class="tx-white-8 hover-white pd-l-0 pd-r-5">Project: --</a>
-                                                <a href="" class="tx-white-8 hover-white pd-x-5">PM: --</a>
-                                                <a href="" class="tx-white-8 hover-white pd-x-5">QA: --</a>
-                                                <a href="" class="tx-white-8 hover-white pd-x-5">View</a>
-                                            </nav>
                                             </div>
                                         </div><!-- d-flex -->
                                     </div>
