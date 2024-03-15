@@ -22,7 +22,9 @@ use App\Models\QaPersonClientAssign;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
+use function GuzzleHttp\json_decode;
 
 class BasicController extends Controller
 {
@@ -53,16 +55,73 @@ class BasicController extends Controller
     }
 
     function dashboard(Request $request){
-
             $loginUser = $this->roleExits($request);
-            return view('dashboard',['LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+            if($loginUser[2] == 0){
+                $idInQadepart = Department::where('name', 'LIKE', 'Q%') ->get();
+                $qapersons = json_decode($idInQadepart[0]->users);
+                $eachPersonqaform = [];
+                foreach($qapersons as $users){
+                    $personName = Employee::where("id",$users)->get();
+                    $qapersonsclients = QaPersonClientAssign::where("user",$users)->count();
+                    $today_count = QAFORM::where('qaPerson',$users)->whereDate('created_at', '=', now()->toDateString())->count();
+                    $currentMonth_disputedClients = QAFORM::where('qaPerson',$users)->whereMonth('created_at', now())->where('status' ,'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                    $currentMonth_refundClients = QAFORM::where('qaPerson',$users)->whereMonth('created_at', now())->where('status' ,'Refund')->Distinct('projectID')->latest('created_at')->count();
+                    $eachPersonqaform[] = [$personName, $qapersonsclients,$today_count, $currentMonth_disputedClients, $currentMonth_refundClients];
+                }
+                $last5qaform = QAFORM::where('client_satisfaction','Extremely Dissatisfied')->orwhere('status_of_refund','High')->latest('id')->limit(5)->get();
+                $last5qaformstatus = Count($last5qaform);
+
+                return view('dashboard',[
+                    'eachPersonqaform' => $eachPersonqaform,
+                    'last5qaform' => $last5qaform,
+                    'last5qaformstatus' => $last5qaformstatus,
+                    'LoginUser' => $loginUser[1],
+                    'departmentAccess' => $loginUser[0],
+                    'superUser' => $loginUser[2]]);
+
+
+
+            }else{
+                $total_client = QaPersonClientAssign::where("user",$loginUser[1][0]->id)->get();
+                $client_status = Count($total_client);
+                $today_count = QAFORM::where('qaPerson',$loginUser[1][0]->id)->whereDate('created_at', '=', now()->toDateString())->count();
+                $week_count = QAFORM::where('qaPerson',$loginUser[1][0]->id)->whereBetween('created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+                $month_count = QAFORM::where('qaPerson',$loginUser[1][0]->id)->whereMonth('created_at', now())->count();
+                $currentMonth_lowRiskClients = QAFORM::where('qaPerson',$loginUser[1][0]->id)->whereMonth('created_at', now())->where('status_of_refund' , 'Low')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_mediumRiskClients = QAFORM::where('qaPerson',$loginUser[1][0]->id)->whereMonth('created_at', now())->where('status_of_refund' , 'Moderate')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_highRiskClients = QAFORM::where('qaPerson',$loginUser[1][0]->id)->whereMonth('created_at', now())->where('status_of_refund' , 'High')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_ongoingClients = QAFORM::where('qaPerson',$loginUser[1][0]->id)->whereMonth('created_at', now())->where('status' , 'On Going')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_disputedClients = QAFORM::where('qaPerson',$loginUser[1][0]->id)->whereMonth('created_at', now())->where('status' ,'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_refundClients = QAFORM::where('qaPerson',$loginUser[1][0]->id)->whereMonth('created_at', now())->where('status' ,'Refund')->Distinct('projectID')->latest('created_at')->count();
+                $Total_disputedClients = QAFORM::where('qaPerson',$loginUser[1][0]->id)->where('status' ,'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                $Total_refundClients = QAFORM::where('qaPerson',$loginUser[1][0]->id)->where('status' ,'Refund')->Distinct('projectID')->latest('created_at')->count();
+                $last5qaform = QAFORM::where('qaPerson',$loginUser[1][0]->id)->where('client_satisfaction','Extremely Dissatisfied')->orwhere('status_of_refund','High')->latest('id')->limit(5)->get();
+                $last5qaformstatus = Count($last5qaform);
+                return view('dashboard',[
+                    'currentMonth_lowRiskClients' => $currentMonth_lowRiskClients,
+                    'currentMonth_mediumRiskClients' => $currentMonth_mediumRiskClients,
+                    'currentMonth_highRiskClients' => $currentMonth_highRiskClients,
+                    'currentMonth_ongoingClients' => $currentMonth_ongoingClients,
+                    'currentMonth_disputedClients' => $currentMonth_disputedClients,
+                    'currentMonth_refundClients' => $currentMonth_refundClients,
+                    'Total_disputedClients' => $Total_disputedClients,
+                    'Total_refundClients' => $Total_refundClients,
+                    'total_client' => $total_client,
+                    'client_status' => $client_status,
+                    'todayform' => $today_count,
+                    'weekform' => $week_count,
+                    'monthform' => $month_count,
+                    'last5qaform' => $last5qaform,
+                    'last5qaformstatus' => $last5qaformstatus,
+                    'LoginUser' => $loginUser[1],
+                    'departmentAccess' => $loginUser[0],
+                    'superUser' => $loginUser[2]]);
+
+             }
+
+
 
     }
-
-
-
-
-
 
     function registration(Request $request){
         $email = $request->input('ClientEmail');
@@ -432,7 +491,11 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
         $employees  = Employee::get();
 
-        return view('userlists',["Employees" => $employees , 'LoginUser' => $loginUser[1],'departmentAccess' => $loginUser[0],'superUser' => $loginUser[2]]);
+        return view('userlists',[
+            "Employees" => $employees ,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function userprofile(Request $request, $id){
@@ -456,7 +519,7 @@ class BasicController extends Controller
         $refund_count = QAFORM::where('qaPerson',$id)->where('status','Refund')->count();
         $ongoing_count = QAFORM::where('qaPerson',$id)->where('status','On Going')->count();
         $nsy_count = QAFORM::where('qaPerson',$id)->where('status','Not Started Yet')->count();
-        $today_count = QAFORM::whereDate('created_at', '=', now()->toDateString())->count();
+        $today_count = QAFORM::where('qaPerson',$id)->whereDate('created_at', '=', now()->toDateString())->count();
         $exp_refund = QAFORM::where('qaPerson',$id)->where('status_of_refund','High')->count();
 
 
