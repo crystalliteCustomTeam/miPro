@@ -628,7 +628,7 @@
 
 
                                     <div class="carousel-item active">
-                                        <div class="bg-br-primary pd-30 ht-300 pos-relative d-flex align-items-center rounded">
+                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
                                             <div class="tx-black">
                                             <p class="lh-5 mg-b-20">No Client on Refund</p>
                                             </div>
