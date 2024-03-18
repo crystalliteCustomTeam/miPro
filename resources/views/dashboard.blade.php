@@ -514,15 +514,15 @@
                         <p class="tx-lato tx-inverse tx-bold">{{$client_status}}</p>
                       </div>
                       <div class="bd-r pd-x-10">
-                        <label class="tx-12">On Going</label>
+                        <label class="tx-12">M. On Going</label>
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_ongoingClients}}</p>
                       </div>
                       <div class="bd-r pd-x-10">
-                        <label class="tx-12">Dispute</label>
+                        <label class="tx-12">M. Dispute</label>
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_disputedClients}}</p>
                       </div>
                       <div class="pd-l-10">
-                        <label class="tx-12">Refund</label>
+                        <label class="tx-12">M. Refund</label>
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_refundClients}}</p>
                       </div>
                     </div><!-- d-flex -->
@@ -536,15 +536,15 @@
                     <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Expected Refund</h6>
                     <div class="d-flex mg-b-10">
                       <div class="bd-r pd-r-10">
-                        <label class="tx-12">Low</label>
+                        <label class="tx-12">M. Low</label>
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_lowRiskClients}}</p>
                       </div>
                       <div class="bd-r pd-x-10">
-                        <label class="tx-12">Moderate</label>
+                        <label class="tx-12">M. Moderate</label>
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_mediumRiskClients}}</p>
                       </div>
                       <div class="pd-l-10">
-                        <label class="tx-12">High</label>
+                        <label class="tx-12">M. High</label>
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_highRiskClients}}</p>
                       </div>
                     </div><!-- d-flex -->
@@ -739,6 +739,12 @@
                     <div class="row row-xs mg-t-25">
                       <div class="col-sm-4">
                         <div class="tx-center pd-y-15 bd">
+                          <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Clients</p>
+                          <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$client_status}}</h4>
+                        </div>
+                      </div><!-- col-4 -->
+                      <div class="col-sm-4 mg-t-20 mg-sm-t-0">
+                        <div class="tx-center pd-y-15 bd">
                           <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Refund</p>
                           <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$Total_refundClients}}</h4>
                         </div>
@@ -747,12 +753,6 @@
                         <div class="tx-center pd-y-15 bd">
                           <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Dispute</p>
                           <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$Total_disputedClients}}</h4>
-                        </div>
-                      </div><!-- col-4 -->
-                      <div class="col-sm-4 mg-t-20 mg-sm-t-0">
-                        <div class="tx-center pd-y-15 bd">
-                          <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Completed</p>
-                          <h4 class="tx-lato tx-inverse tx-bold mg-b-0">0</h4>
                         </div>
                       </div><!-- col-4 -->
                     </div><!-- row -->
