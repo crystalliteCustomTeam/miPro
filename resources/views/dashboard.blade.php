@@ -75,7 +75,7 @@
 
                     <div class="col-3 mg-b-15">
                         <div class="card bd-gray-400 pd-20">
-                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">{{$item[0][0]->name}}</h6>
+                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15"><a href="/userprofile/{{$item[0][0]->id}}">{{$item[0][0]->name}}</a></h6>
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Total Client</label>
@@ -86,11 +86,11 @@
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[2]}}</p>
                             </div>
                             <div class="bd-r pd-x-10">
-                                <label class="tx-12">Refund</label>
+                                <label class="tx-12">Month Refund</label>
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[3]}}</p>
                             </div>
                             <div class="pd-l-10">
-                                <label class="tx-12">Dispute</label>
+                                <label class="tx-12">Month Dispute</label>
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[4]}}</p>
                             </div>
                         </div><!-- d-flex -->
@@ -353,19 +353,19 @@
                                 <div class="col-sm-4">
                                     <div class="tx-center pd-y-15 bd">
                                         <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Clients</p>
-                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0">0</h4>
+                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$totalClient}}</h4>
                                     </div>
                                 </div><!-- col-4 -->
                                 <div class="col-sm-4 mg-t-20 mg-sm-t-0">
                                     <div class="tx-center pd-y-15 bd">
                                         <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Refund</p>
-                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0">0</h4>
+                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$totalrefund}}</h4>
                                     </div>
                                 </div><!-- col-4 -->
                                 <div class="col-sm-4 mg-t-20 mg-sm-t-0">
                                     <div class="tx-center pd-y-15 bd">
                                         <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Dispute</p>
-                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0">0</h4>
+                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$totaldispute}}</h4>
                                     </div>
                                 </div><!-- col-4 -->
                             </div><!-- row -->

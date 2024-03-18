@@ -70,11 +70,17 @@ class BasicController extends Controller
                 }
                 $last5qaform = QAFORM::where('client_satisfaction','Extremely Dissatisfied')->orwhere('status_of_refund','High')->latest('id')->limit(5)->get();
                 $last5qaformstatus = Count($last5qaform);
+                $totalClient = Client::count();
+                $totalrefund =  QAFORM::where('Refund_Requested' ,'Yes')->Distinct('projectID')->latest('created_at')->count();
+                $totaldispute =  QAFORM::where('status' ,'Dispute')->Distinct('projectID')->latest('created_at')->count();
 
                 return view('dashboard',[
                     'eachPersonqaform' => $eachPersonqaform,
                     'last5qaform' => $last5qaform,
                     'last5qaformstatus' => $last5qaformstatus,
+                    'totalClient' => $totalClient,
+                    'totalrefund' => $totalrefund,
+                    'totaldispute' => $totaldispute,
                     'LoginUser' => $loginUser[1],
                     'departmentAccess' => $loginUser[0],
                     'superUser' => $loginUser[2]]);
