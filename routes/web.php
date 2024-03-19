@@ -59,6 +59,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/kyc','seo');
         Route::get('/forms/book','book');
         Route::get('/forms/website','website');
+        Route::get('/forms/csv_uploads','csv_client');
         Route::get('/forms/cld','cld');
 
         Route::get('/forms/kyc/edit/{id}','editClient');
@@ -108,6 +109,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/setupdepartment/process','setupdepartmentsProcess');
         Route::post('/editdepartment/{id}/process','editdepartmentprocess');
         Route::post('/forms/kyc/process/client','kycclientprocess');
+        Route::post('/forms/csv_uploads/process','importExcel');
         Route::post('/forms/kyc/process/editclient/{id}','editClientProcess');
         Route::post('/client/project/process','clientProjectProcess');
         ROute::post('/client/project/production/{id}/process','Project_ProductionProcess');

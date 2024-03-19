@@ -23,6 +23,8 @@ use App\Models\QaPersonClientAssign;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ClientImport;
 
 use function GuzzleHttp\json_decode;
 
@@ -725,6 +727,64 @@ class BasicController extends Controller
     }
 
         return redirect('all/clients');
+
+    }
+
+    function csv_client(Request $request){
+        $loginUser = $this->roleExits($request);
+        $brand = Brand::get();
+        $employee = Employee::get();
+        return view('client_CSV',[
+        'brands' => $brand,
+        'employees' => $employee,
+        'LoginUser' => $loginUser[1],
+        'departmentAccess' => $loginUser[0],
+        'superUser' => $loginUser[2]
+    ]);
+    }
+
+    public function importExcel(Request $request)
+    {
+        $data = Excel::toArray([], $request->file('file'));
+
+        echo "<pre>";
+        $client = [];
+        $clientMeta = [];
+        $clientMetaTire = [];
+        $newArray = array();
+        foreach($data as $extractData){
+            foreach($extractData as $sepratedtoarray ){
+                //  print_r($sepratedtoarray);
+                for($i = 0 ; $i < 6 ; $i++){
+                    $newarray = $sepratedtoarray[$i];
+                    array_push($newArray, $newarray);
+                    if (($i + 1) % 6 == 0) {
+                        array_push($client, $newArray);
+                        $newArray = array(); // reset $newArray
+                    }
+                }
+                for($i = 6 ; $i < 12 ; $i++){
+                    $newarray = $sepratedtoarray[$i];
+                    array_push($newArray, $newarray);
+                    if (($i + 1) % 12 == 0) {
+                        array_push($clientMeta, $newArray);
+                        $newArray = array(); // reset $newArray
+                    }
+                }
+                for($i = 12 ; $i < 18 ; $i++){
+                    $newarray = $sepratedtoarray[$i];
+                    array_push($newArray, $newarray);
+                    if (($i + 1) % 18 == 0) {
+                        array_push($clientMetaTire, $newArray);
+                        $newArray = array(); // reset $newArray
+                    }
+                }
+            }
+        };
+
+        // print_r(count($clientMetaTire));
+        // print_r(count($clientMeta));
+        print_r(count($client));
 
     }
 
@@ -1834,8 +1894,8 @@ class BasicController extends Controller
         // $qaformlast = str_replace('"', '', $qaformlast);
         // eval($qaformlast);
 
-        print_r($qaformlast);
-         die();
+        // print_r($qaformlast);
+        //  die();
 
         $project = Project::where('id', $id)->get();
         $ProjectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();

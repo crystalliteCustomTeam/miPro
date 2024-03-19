@@ -7,7 +7,7 @@
               <i class="icon ion-ios-home-outline tx-70 lh-0"></i>
               <div>
                 <h4>Dashboard</h4>
-                <p class="mg-b-0">Do bigger things with Crystal Pro, the responsive bootstrap 4 admin template.</p>
+                <p class="mg-b-0">Do bigger things with Crystal Pro.</p>
               </div>
             </div><!-- d-flex -->
 
