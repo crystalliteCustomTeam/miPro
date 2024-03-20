@@ -43,7 +43,7 @@
         <div class="br-pagebody">
           <div class="br-section-wrapper">
 
-           <form action="#" method="POST">
+           <form action="/seo_kyc_form/process" method="POST">
             @csrf
             <input type="hidden" name="serviceType" id="seo" value="seo">
 
