@@ -24,6 +24,8 @@ Route::controller(BasicController::class)->group(function (){
     Route::get('/register','register');
     Route::get('/logout','logout');
 
+    Route::get('/seo_kyc_form','seo_kyc_form');
+
     //PROCESSING PAGES
     Route::post('/registration','registration');
     Route::post('/loginProcess','loginProcess');
