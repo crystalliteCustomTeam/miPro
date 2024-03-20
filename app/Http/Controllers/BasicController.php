@@ -36,6 +36,19 @@ class BasicController extends Controller
         return view('register');
     }
 
+        function seo_kyc_form(Request $request){
+        $brand = Brand::all();
+        $projectManager = Employee::get();
+        $department = Department::get();
+        $productionservices = ProductionServices::get();
+
+        return view('seo_kyc_form',[
+            'Brands'=>$brand,
+            'ProjectManagers'=>$projectManager ,
+            'departments'=>$department ,
+            'productionservices'=>$productionservices ]);
+    }
+
     function roleExits($request){
         $loginUser = $request->session()->get('AdminUser');
         $array = json_decode(json_encode($loginUser), true);
