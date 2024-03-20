@@ -36,7 +36,7 @@ class BasicController extends Controller
         return view('register');
     }
 
-        function seo_kyc_form(Request $request){
+        function seo_kyc_form(){
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
