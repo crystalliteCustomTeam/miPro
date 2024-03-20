@@ -38,6 +38,82 @@ class BasicController extends Controller
         return view('register');
     }
 
+    function get_email(){
+        return view("get_email");
+    }
+
+    function get_email_process(Request $request){
+        $email = $request->input('email');
+        $match_email = Employee::where('email',$email)->count();
+        if($match_email > 0){
+                $request->session()->put('GuestUser',$match_email);
+                return redirect('/seo_kyc_form');
+        }else{
+                return redirect()->back()->with('Error',"Email Not Found!");
+        }
+
+
+    }
+
+    function seo_kyc_form(){
+        $brand = Brand::all();
+        $projectManager = Employee::get();
+        $department = Department::get();
+        $productionservices = ProductionServices::get();
+
+        return view('seo_kyc_form',[
+            'Brands'=>$brand,
+            'ProjectManagers'=>$projectManager ,
+            'departments'=>$department ,
+            'productionservices'=>$productionservices ]);
+    }
+
+    function seo_kyc_form_process(Request $request){
+
+        $findclient = Client::where('email',$request->input('email'))->get();
+        if(count($findclient) > 0){
+            return redirect()->back()->with('Error','Client Email Found Please Used New Email');
+        }
+
+        $createClient = Client::insertGetId([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'brand' => $request->input('brand'),
+            'frontSeler' => $request->input('saleperson'),
+            'website' => $request->input('website'),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+
+
+        $SEO_ARRAY = [
+            "KEYWORD_COUNT" => $request->input('KeywordCount'),
+            "TARGET_MARKET" => $request->input('TargetMarket'),
+            "OTHER_SERVICE" => $request->input('OtherServices'),
+            "LEAD_PLATFORM" => $request->input('leadplatform'),
+            "Payment_Nature" => $request->input('paymentnature'),
+            "ANY_COMMITMENT" => $request->input('anycommitment')
+        ];
+        $clientmeta = DB::table('clientmetas')->insert([
+            'clientID' => $createClient,
+            'service' => $request->input('serviceType'),
+            'packageName' => $request->input('package'),
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($SEO_ARRAY),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+
+        return redirect('/kyclogout');
+
+    }
+
     function roleExits($request){
         $loginUser = $request->session()->get('AdminUser');
         $array = json_decode(json_encode($loginUser), true);
@@ -163,6 +239,12 @@ class BasicController extends Controller
         $request->session()->forget(['AdminUser']);
         $request->session()->flush();
         return redirect('/');
+    }
+
+    function kyclogout(Request $request){
+        $request->session()->forget(['GuestUser']);
+        $request->session()->flush();
+        return redirect('/auth');
     }
 
     function loginProcess(Request $request){

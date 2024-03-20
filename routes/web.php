@@ -24,6 +24,18 @@ Route::controller(BasicController::class)->group(function (){
     Route::get('/register','register');
     Route::get('/logout','logout');
 
+    Route::get('/kyclogout','kyclogout');
+
+    Route::get('/auth','get_email');
+    Route::post('/auth/process','get_email_process');
+
+    Route::middleware(['GuestUser'])->group(function () {
+        Route::get('/seo_kyc_form','seo_kyc_form');
+        Route::post('/seo_kyc_form/process','seo_kyc_form_process');
+    });
+
+
+
     //PROCESSING PAGES
     Route::post('/registration','registration');
     Route::post('/loginProcess','loginProcess');
