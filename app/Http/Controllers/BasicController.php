@@ -743,8 +743,7 @@ class BasicController extends Controller
     ]);
     }
 
-    public function importExcel(Request $request)
-    {
+    public function importExcel(Request $request){
         $data = Excel::toArray([], $request->file('file'));
 
         echo "<pre>";
@@ -771,20 +770,146 @@ class BasicController extends Controller
                         $newArray = array(); // reset $newArray
                     }
                 }
-                for($i = 12 ; $i < 18 ; $i++){
-                    $newarray = $sepratedtoarray[$i];
-                    array_push($newArray, $newarray);
-                    if (($i + 1) % 18 == 0) {
-                        array_push($clientMetaTire, $newArray);
-                        $newArray = array(); // reset $newArray
+
+                if($sepratedtoarray[6] == "seo"){
+
+                    for($i = 12 ; $i < 18 ; $i++){
+                        $newarray = $sepratedtoarray[$i];
+                        array_push($newArray, $newarray);
+                        if (($i + 1) % 18 == 0) {
+                            array_push($clientMetaTire, $newArray);
+                            $newArray = array(); // reset $newArray
+                        }
                     }
+
+                }elseif($sepratedtoarray[6] == "book"){
+
+                    for($i = 12 ; $i < 21 ; $i++){
+                        $newarray = $sepratedtoarray[$i];
+                        array_push($newArray, $newarray);
+                        if (($i + 1) % 21 == 0) {
+                            array_push($clientMetaTire, $newArray);
+                            $newArray = array(); // reset $newArray
+                        }
+                    }
+
+                }else{
+
+                    for($i = 12 ; $i < 15 ; $i++){
+                        $newarray = $sepratedtoarray[$i];
+                        array_push($newArray, $newarray);
+                        if (($i + 1) % 15 == 0) {
+                            array_push($clientMetaTire, $newArray);
+                            $newArray = array(); // reset $newArray
+                        }
+                    }
+
                 }
+
             }
         };
 
-        // print_r(count($clientMetaTire));
-        // print_r(count($clientMeta));
-        print_r(count($client));
+        $clientMetaTiresWithArray =[];
+
+        $LOOPCOUNTONE = 0;
+            foreach($clientMeta as $clientMetas){
+
+                array_unshift($clientMetaTire[$LOOPCOUNTONE],$clientMetas[0]);
+
+            $LOOPCOUNTONE++;
+
+            }
+
+
+
+        $LOOPCOUNTONE = 0;
+
+
+            foreach($clientMetaTire as $clientMetaTires){
+
+                if( $clientMetaTires[0] == "seo" ){
+
+                    $clientMetaTiresWithArray[] = [
+                        "KEYWORD_COUNT" => $clientMetaTires[1],
+                        "TARGET_MARKET" => explode(",",$clientMetaTires[2]),
+                        "OTHER_SERVICE" => explode(",",$clientMetaTires[3]),
+                        "LEAD_PLATFORM" => $clientMetaTires[4],
+                        "Payment_Nature" => $clientMetaTires[5],
+                        "ANY_COMMITMENT" => $clientMetaTires[6]
+
+                    ];
+
+                }elseif( $clientMetaTires[0] == "book" ){
+
+                    $clientMetaTiresWithArray[] = [
+                        "PRODUCT" => explode(",",$clientMetaTires[1]),
+                        "MENU_SCRIPT"=> $clientMetaTires[2],
+                        "BOOK_GENRE"=> $clientMetaTires[3],
+                        "COVER_DESIGN"=> $clientMetaTires[4],
+                        "TOTAL_NUMBER_OF_PAGES"=> $clientMetaTires[5],
+                        "PUBLISHING_PLATFORM"=> $clientMetaTires[6],
+                        "ISBN_OFFERED"=> $clientMetaTires[7],
+                        "LEAD_PLATFORM"=> $clientMetaTires[8],
+                        "ANY_COMMITMENT"=> $clientMetaTires[9]
+
+                    ];
+
+                }else{
+
+                    $clientMetaTiresWithArray[] = [
+                        "OTHER_SERVICES"=>explode(",",$clientMetaTires[1]),
+                        "LEAD_PLATFORM"=> $clientMetaTires[2],
+                        "ANY_COMMITMENT"=> $clientMetaTires[3]
+
+                    ];
+
+                }
+
+            };
+
+            foreach($client as $clients){
+
+
+            $insertclient = Client::insertGetId([
+                "name" => $clients[0],
+                "phone" => $clients[1],
+                "email" => $clients[2],
+                "brand" => $clients[3],
+                "frontSeler" => $clients[4],
+                "website" => $clients[5],
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s')
+            ]);
+
+
+
+            //  echo $LOOPCOUNTONE."<br>";
+            array_unshift($clientMeta[$LOOPCOUNTONE],$insertclient);
+            array_push($clientMeta[$LOOPCOUNTONE],json_encode($clientMetaTiresWithArray[$LOOPCOUNTONE]));
+            // print_r($clientMeta[$LOOPCOUNTONE]);
+        $LOOPCOUNTONE++;
+
+        }
+
+        foreach($clientMeta as $clientMetas){
+
+            $ClientMetaData = ClientMeta::Create([
+                'clientID' => $clientMetas[0],
+                'service' => $clientMetas[1],
+                'packageName' => $clientMetas[2],
+                'amountPaid' =>  $clientMetas[3],
+                'remainingAmount' => $clientMetas[4],
+                'nextPayment' =>  $clientMetas[5],
+                'paymentRecuring' => $clientMetas[6],
+                'orderDetails' => $clientMetas[7],
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s')
+
+            ]);
+
+        }
+
+        return redirect('all/clients');
 
     }
 
