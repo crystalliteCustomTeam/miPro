@@ -49,16 +49,6 @@
                     </select>
                 </div>
                 <div class="col-6  mt-3">
-                    <label for="">Domain</label>
-                    <select class="form-control select2"  name="domain" >
-                        <option value="seo">SEO</option>
-                        <option value="book">BOOK</option>
-                        <option value="website">Website</option>
-                        <option value="CLD">CLD</option>
-
-                    </select>
-                </div>
-                <div class="col-6  mt-3">
                     <label for="">Upload</label>
                     <input type="file" name="file" class="form-control" required>
                 </div>
