@@ -48,19 +48,19 @@
             <input type="hidden" name="serviceType" id="seo" value="seo">
 
             <div class="row">
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Name:</label>
                     <input type="text" required name="name" class="form-control" required>
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Phone Number:</label>
                     <input type="text" required name="phone" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Email:</label>
                     <input type="email" required name="email" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Brand:</label>
                   <select class="form-control" id="select2forme" required name="brand">
 
@@ -69,7 +69,7 @@
                   @endforeach
                   </select>
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Sales Person:</label>
                   <select class="form-control select2"   required name="saleperson">
                   @foreach($ProjectManagers as $pm)
@@ -86,19 +86,19 @@
                 </div>
 
 
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   <input type="text" required name="website" required class="form-control">
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package Name</label>
                     <input type="text" class="form-control" name="package">
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Keyword Count</label>
                     <input type="text" class="form-control" name="KeywordCount">
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Target Market</label>
                     <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple">
                         <option value="Global">Global</option>
@@ -106,7 +106,7 @@
                         <option value="Local">Local</option>
                     </select>
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Other Services</label>
                     <select class="form-control select2"  required name="OtherServices[]" multiple="multiple">
                         <option value="SMM">SMM</option>
@@ -124,7 +124,7 @@
 
                     </select>
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Charging Plan</label>
                     <select class="form-control select2"  required name="ChargingPlan">
                         <option value="One Time Payment">One Time Payment</option>
@@ -142,19 +142,19 @@
 
                     </select>
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Project Amount</label>
                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount">
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Future Next Payment Date </label>
                     <input type="date" class="form-control" name="nextamount">
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Lead Platform</label>
                     <select class="form-control select2"  required name="leadplatform">
                         <option value="Google Ads">Google Ads</option>
@@ -166,7 +166,7 @@
                         <option value="Email Marketing">Email Marketing</option>
                     </select>
                   </div>
-                  <div class="col-3 mt-3">
+                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Payment Nature</label>
                     <select class="form-control select2"  required name="paymentnature">
                         <option value="Renewal">Renewal</option>
