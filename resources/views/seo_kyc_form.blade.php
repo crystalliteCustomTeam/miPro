@@ -72,7 +72,8 @@
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Sales Person:</label>
                   <select class="form-control select2"   required name="saleperson">
-                  @foreach($ProjectManagers as $pm)
+                    <option value="{{$frontSeller[0]->id}}" selected>{{$frontSeller[0]->email}}</option>
+                  {{-- @foreach($ProjectManagers as $pm)
                       <option value="{{ $pm->id }}">
                         {{ $pm->name }}
                         --
@@ -80,7 +81,7 @@
                           <strong>{{ $dm->name }}</strong>
                         @endforeach
                       </option>
-                  @endforeach
+                  @endforeach --}}
                 </select>
 
                 </div>
@@ -100,12 +101,29 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Target Market</label>
-                    <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple">
+                    <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple" id="options" onchange="toggleTextField()">
                         <option value="Global">Global</option>
                         <option value="Nationwide">Nationwide</option>
                         <option value="Local">Local</option>
+                        <option value="others">Others</option>
                     </select>
                   </div>
+                  <div class="col-4 mt-3" id="other-text" style="display: none">
+                    <label for="" style="font-weight:bold;">Please specify:</label>
+                    <input type="text" id="other" name="TargetMarket[]" class="form-control" required>
+                  </div>
+                  <script>
+                    function toggleTextField() {
+                      var selectBox = document.getElementById("options");
+                      var otherTextField = document.getElementById("other-text");
+
+                      if (selectBox.value === "others") {
+                        otherTextField.style.display = "block";
+                      } else {
+                        otherTextField.style.display = "none";
+                      }
+                    }
+                  </script>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Other Services</label>
                     <select class="form-control select2"  required name="OtherServices[]" multiple="multiple">
@@ -139,6 +157,8 @@
                         <option value="10 Months">10 Months</option>
                         <option value="11 Months">11 Months</option>
                         <option value="12 Months">12 Months</option>
+                        <option value="12 Months">2 Years</option>
+                        <option value="12 Months">3 Years</option>
 
                     </select>
                   </div>

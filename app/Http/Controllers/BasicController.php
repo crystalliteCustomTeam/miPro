@@ -44,8 +44,9 @@ class BasicController extends Controller
 
     function get_email_process(Request $request){
         $email = $request->input('email');
-        $match_email = Employee::where('email',$email)->count();
-        if($match_email > 0){
+        $match_email = Employee::where('email',$email)->get();
+        $match_count = count($match_email);
+        if($match_count > 0){
                 $request->session()->put('GuestUser',$match_email);
                 return redirect('/seo_kyc_form');
         }else{
@@ -55,15 +56,17 @@ class BasicController extends Controller
 
     }
 
-    function seo_kyc_form(){
+    function seo_kyc_form(Request $request){
         $brand = Brand::all();
         $projectManager = Employee::get();
+        $frontSeller = $request->session()->get('GuestUser');
         $department = Department::get();
         $productionservices = ProductionServices::get();
 
         return view('seo_kyc_form',[
             'Brands'=>$brand,
             'ProjectManagers'=>$projectManager ,
+            'frontSeller'=>$frontSeller,
             'departments'=>$department ,
             'productionservices'=>$productionservices ]);
     }
