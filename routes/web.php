@@ -24,7 +24,21 @@ Route::controller(BasicController::class)->group(function (){
     Route::get('/register','register');
     Route::get('/logout','logout');
 
+<<<<<<< HEAD
     Route::get('/seo_kyc_form','seo_kyc_form');
+=======
+    Route::get('/kyclogout','kyclogout');
+
+    Route::get('/auth','get_email');
+    Route::post('/auth/process','get_email_process');
+
+    Route::middleware(['GuestUser'])->group(function () {
+        Route::get('/seo_kyc_form','seo_kyc_form');
+        Route::post('/seo_kyc_form/process','seo_kyc_form_process');
+    });
+
+
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
 
     //PROCESSING PAGES
     Route::post('/registration','registration');
@@ -61,6 +75,10 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/kyc','seo');
         Route::get('/forms/book','book');
         Route::get('/forms/website','website');
+<<<<<<< HEAD
+=======
+        Route::get('/forms/csv_uploads','csv_client');
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
         Route::get('/forms/cld','cld');
 
         Route::get('/forms/kyc/edit/{id}','editClient');
@@ -110,6 +128,10 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/setupdepartment/process','setupdepartmentsProcess');
         Route::post('/editdepartment/{id}/process','editdepartmentprocess');
         Route::post('/forms/kyc/process/client','kycclientprocess');
+<<<<<<< HEAD
+=======
+        Route::post('/forms/csv_uploads/process','importExcel');
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
         Route::post('/forms/kyc/process/editclient/{id}','editClientProcess');
         Route::post('/client/project/process','clientProjectProcess');
         ROute::post('/client/project/production/{id}/process','Project_ProductionProcess');

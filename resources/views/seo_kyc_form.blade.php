@@ -43,7 +43,11 @@
         <div class="br-pagebody">
           <div class="br-section-wrapper">
 
+<<<<<<< HEAD
            <form action="#" method="POST">
+=======
+           <form action="/seo_kyc_form/process" method="POST">
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
             @csrf
             <input type="hidden" name="serviceType" id="seo" value="seo">
 
