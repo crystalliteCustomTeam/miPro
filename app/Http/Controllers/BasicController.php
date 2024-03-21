@@ -49,21 +49,13 @@ class BasicController extends Controller
                 $request->session()->put('GuestUser',$match_email);
                 return redirect('/seo_kyc_form');
         }else{
-<<<<<<< HEAD
-                return redirect()->back()->with('Error',"Email Not Found!");
-=======
                 return redirect()->back()->with('Error',"Email Not Found!!");
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
         }
 
 
     }
 
-<<<<<<< HEAD
-        function seo_kyc_form(){
-=======
     function seo_kyc_form(){
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
