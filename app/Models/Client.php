@@ -16,11 +16,7 @@ class Client extends Model
         'phone',
         'email',
         'brand',
-<<<<<<< HEAD
-        'saleperson',
-=======
         'frontSeler',
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
         'website',
 
     ];
