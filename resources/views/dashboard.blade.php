@@ -7,7 +7,11 @@
               <i class="icon ion-ios-home-outline tx-70 lh-0"></i>
               <div>
                 <h4>Dashboard</h4>
+<<<<<<< HEAD
                 <p class="mg-b-0">Do bigger things with Crystal Pro, the responsive bootstrap 4 admin template.</p>
+=======
+                <p class="mg-b-0">Do bigger things with Crystal Pro.</p>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
               </div>
             </div><!-- d-flex -->
 
@@ -75,7 +79,11 @@
 
                     <div class="col-3 mg-b-15">
                         <div class="card bd-gray-400 pd-20">
+<<<<<<< HEAD
                             <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">{{$item[0][0]->name}}</h6>
+=======
+                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15"><a href="/userprofile/{{$item[0][0]->id}}">{{$item[0][0]->name}}</a></h6>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Total Client</label>
@@ -86,11 +94,19 @@
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[2]}}</p>
                             </div>
                             <div class="bd-r pd-x-10">
+<<<<<<< HEAD
                                 <label class="tx-12">Refund</label>
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[3]}}</p>
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">Dispute</label>
+=======
+                                <label class="tx-12">Month Refund</label>
+                                <p class="tx-lato tx-inverse tx-bold">{{$item[3]}}</p>
+                            </div>
+                            <div class="pd-l-10">
+                                <label class="tx-12">Month Dispute</label>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[4]}}</p>
                             </div>
                         </div><!-- d-flex -->
@@ -246,6 +262,7 @@
                                 @else
                                 <div class="card bd-0 mg-t-20">
                                     <div id="carousel12" class="carousel slide" data-ride="carousel">
+<<<<<<< HEAD
                                     <ol class="carousel-indicators">
                                         <li data-target="#carousel12" data-slide-to="0" class="active"></li>
                                         <li data-target="#carousel12" data-slide-to="1"></li>
@@ -267,13 +284,25 @@
                                                     <a href="" class="tx-white-8 hover-white pd-x-5">QA: --</a>
                                                     <a href="" class="tx-white-8 hover-white pd-x-5">View</a>
                                                 </nav>
+=======
+
+                                    <div class="carousel-inner" role="listbox">
+
+                                        <div class="carousel-item active">
+                                            <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
+                                                <div class="tx-black">
+                                                <p class="lh-5 mg-b-20">No Client on Refund</p>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                                                 </div>
                                             </div><!-- d-flex -->
                                         </div>
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                                     </div><!-- carousel-inner -->
                                     </div><!-- carousel -->
                                 </div><!-- card -->
@@ -369,19 +398,31 @@
                                 <div class="col-sm-4">
                                     <div class="tx-center pd-y-15 bd">
                                         <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Clients</p>
+<<<<<<< HEAD
                                         <h4 class="tx-lato tx-inverse tx-bold mg-b-0">0</h4>
+=======
+                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$totalClient}}</h4>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                                     </div>
                                 </div><!-- col-4 -->
                                 <div class="col-sm-4 mg-t-20 mg-sm-t-0">
                                     <div class="tx-center pd-y-15 bd">
                                         <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Refund</p>
+<<<<<<< HEAD
                                         <h4 class="tx-lato tx-inverse tx-bold mg-b-0">0</h4>
+=======
+                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$totalrefund}}</h4>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                                     </div>
                                 </div><!-- col-4 -->
                                 <div class="col-sm-4 mg-t-20 mg-sm-t-0">
                                     <div class="tx-center pd-y-15 bd">
                                         <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Dispute</p>
+<<<<<<< HEAD
                                         <h4 class="tx-lato tx-inverse tx-bold mg-b-0">0</h4>
+=======
+                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$totaldispute}}</h4>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                                     </div>
                                 </div><!-- col-4 -->
                             </div><!-- row -->
@@ -530,6 +571,7 @@
                         <p class="tx-lato tx-inverse tx-bold">{{$client_status}}</p>
                       </div>
                       <div class="bd-r pd-x-10">
+<<<<<<< HEAD
                         <label class="tx-12">On Going</label>
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_ongoingClients}}</p>
                       </div>
@@ -539,6 +581,17 @@
                       </div>
                       <div class="pd-l-10">
                         <label class="tx-12">Refund</label>
+=======
+                        <label class="tx-12">M. On Going</label>
+                        <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_ongoingClients}}</p>
+                      </div>
+                      <div class="bd-r pd-x-10">
+                        <label class="tx-12">M. Dispute</label>
+                        <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_disputedClients}}</p>
+                      </div>
+                      <div class="pd-l-10">
+                        <label class="tx-12">M. Refund</label>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_refundClients}}</p>
                       </div>
                     </div><!-- d-flex -->
@@ -552,6 +605,7 @@
                     <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Expected Refund</h6>
                     <div class="d-flex mg-b-10">
                       <div class="bd-r pd-r-10">
+<<<<<<< HEAD
                         <label class="tx-12">Low</label>
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_lowRiskClients}}</p>
                       </div>
@@ -561,6 +615,17 @@
                       </div>
                       <div class="pd-l-10">
                         <label class="tx-12">High</label>
+=======
+                        <label class="tx-12">M. Low</label>
+                        <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_lowRiskClients}}</p>
+                      </div>
+                      <div class="bd-r pd-x-10">
+                        <label class="tx-12">M. Moderate</label>
+                        <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_mediumRiskClients}}</p>
+                      </div>
+                      <div class="pd-l-10">
+                        <label class="tx-12">M. High</label>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_highRiskClients}}</p>
                       </div>
                     </div><!-- d-flex -->
@@ -639,16 +704,20 @@
                             @else
                             <div class="card bd-0 mg-t-20">
                                 <div id="carousel12" class="carousel slide" data-ride="carousel">
+<<<<<<< HEAD
                                 <ol class="carousel-indicators">
                                     <li data-target="#carousel12" data-slide-to="0" class="active"></li>
                                     <li data-target="#carousel12" data-slide-to="1"></li>
                                     <li data-target="#carousel12" data-slide-to="2"></li>
                                 </ol>
+=======
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                                 <div class="carousel-inner" role="listbox">
 
 
 
                                     <div class="carousel-item active">
+<<<<<<< HEAD
                                         <div class="bg-br-primary pd-30 ht-300 pos-relative d-flex align-items-center rounded">
                                             <div class="tx-white">
                                             <p class="tx-uppercase tx-11 tx-semibold tx-mont tx-spacing-2 tx-white-5">Client: --</a></p>
@@ -660,6 +729,11 @@
                                                 <a href="" class="tx-white-8 hover-white pd-x-5">QA: --</a>
                                                 <a href="" class="tx-white-8 hover-white pd-x-5">View</a>
                                             </nav>
+=======
+                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
+                                            <div class="tx-black">
+                                            <p class="lh-5 mg-b-20">No Client on Refund</p>
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                                             </div>
                                         </div><!-- d-flex -->
                                     </div>
@@ -768,6 +842,15 @@
                     <div class="row row-xs mg-t-25">
                       <div class="col-sm-4">
                         <div class="tx-center pd-y-15 bd">
+<<<<<<< HEAD
+=======
+                          <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Clients</p>
+                          <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$client_status}}</h4>
+                        </div>
+                      </div><!-- col-4 -->
+                      <div class="col-sm-4 mg-t-20 mg-sm-t-0">
+                        <div class="tx-center pd-y-15 bd">
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                           <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Refund</p>
                           <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$Total_refundClients}}</h4>
                         </div>
@@ -778,12 +861,15 @@
                           <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$Total_disputedClients}}</h4>
                         </div>
                       </div><!-- col-4 -->
+<<<<<<< HEAD
                       <div class="col-sm-4 mg-t-20 mg-sm-t-0">
                         <div class="tx-center pd-y-15 bd">
                           <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Completed</p>
                           <h4 class="tx-lato tx-inverse tx-bold mg-b-0">0</h4>
                         </div>
                       </div><!-- col-4 -->
+=======
+>>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                     </div><!-- row -->
 
                   </div><!-- card -->

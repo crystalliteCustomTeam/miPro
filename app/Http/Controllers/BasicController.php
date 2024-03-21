@@ -23,6 +23,8 @@ use App\Models\QaPersonClientAssign;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ClientImport;
 
 use function GuzzleHttp\json_decode;
 
@@ -34,6 +36,82 @@ class BasicController extends Controller
 
     function register(){
         return view('register');
+    }
+
+    function get_email(){
+        return view("get_email");
+    }
+
+    function get_email_process(Request $request){
+        $email = $request->input('email');
+        $match_email = Employee::where('email',$email)->count();
+        if($match_email > 0){
+                $request->session()->put('GuestUser',$match_email);
+                return redirect('/seo_kyc_form');
+        }else{
+                return redirect()->back()->with('Error',"Email Not Found!!");
+        }
+
+
+    }
+
+    function seo_kyc_form(){
+        $brand = Brand::all();
+        $projectManager = Employee::get();
+        $department = Department::get();
+        $productionservices = ProductionServices::get();
+
+        return view('seo_kyc_form',[
+            'Brands'=>$brand,
+            'ProjectManagers'=>$projectManager ,
+            'departments'=>$department ,
+            'productionservices'=>$productionservices ]);
+    }
+
+    function seo_kyc_form_process(Request $request){
+
+        $findclient = Client::where('email',$request->input('email'))->get();
+        if(count($findclient) > 0){
+            return redirect()->back()->with('Error','Client Email Found Please Used New Email');
+        }
+
+        $createClient = Client::insertGetId([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'brand' => $request->input('brand'),
+            'frontSeler' => $request->input('saleperson'),
+            'website' => $request->input('website'),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+
+
+        $SEO_ARRAY = [
+            "KEYWORD_COUNT" => $request->input('KeywordCount'),
+            "TARGET_MARKET" => $request->input('TargetMarket'),
+            "OTHER_SERVICE" => $request->input('OtherServices'),
+            "LEAD_PLATFORM" => $request->input('leadplatform'),
+            "Payment_Nature" => $request->input('paymentnature'),
+            "ANY_COMMITMENT" => $request->input('anycommitment')
+        ];
+        $clientmeta = DB::table('clientmetas')->insert([
+            'clientID' => $createClient,
+            'service' => $request->input('serviceType'),
+            'packageName' => $request->input('package'),
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($SEO_ARRAY),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+
+        return redirect('/kyclogout');
+
     }
 
     function roleExits($request){
@@ -70,11 +148,17 @@ class BasicController extends Controller
                 }
                 $last5qaform = QAFORM::where('client_satisfaction','Extremely Dissatisfied')->orwhere('status_of_refund','High')->latest('id')->limit(5)->get();
                 $last5qaformstatus = Count($last5qaform);
+                $totalClient = Client::count();
+                $totalrefund =  QAFORM::where('Refund_Requested' ,'Yes')->Distinct('projectID')->latest('created_at')->count();
+                $totaldispute =  QAFORM::where('status' ,'Dispute')->Distinct('projectID')->latest('created_at')->count();
 
                 return view('dashboard',[
                     'eachPersonqaform' => $eachPersonqaform,
                     'last5qaform' => $last5qaform,
                     'last5qaformstatus' => $last5qaformstatus,
+                    'totalClient' => $totalClient,
+                    'totalrefund' => $totalrefund,
+                    'totaldispute' => $totaldispute,
                     'LoginUser' => $loginUser[1],
                     'departmentAccess' => $loginUser[0],
                     'superUser' => $loginUser[2]]);
@@ -155,6 +239,12 @@ class BasicController extends Controller
         $request->session()->forget(['AdminUser']);
         $request->session()->flush();
         return redirect('/');
+    }
+
+    function kyclogout(Request $request){
+        $request->session()->forget(['GuestUser']);
+        $request->session()->flush();
+        return redirect('/auth');
     }
 
     function loginProcess(Request $request){
@@ -717,6 +807,189 @@ class BasicController extends Controller
         ]);
 
     }
+
+        return redirect('all/clients');
+
+    }
+
+    function csv_client(Request $request){
+        $loginUser = $this->roleExits($request);
+        $brand = Brand::get();
+        $employee = Employee::get();
+        return view('client_CSV',[
+        'brands' => $brand,
+        'employees' => $employee,
+        'LoginUser' => $loginUser[1],
+        'departmentAccess' => $loginUser[0],
+        'superUser' => $loginUser[2]
+    ]);
+    }
+
+    public function importExcel(Request $request){
+        $data = Excel::toArray([], $request->file('file'));
+
+        echo "<pre>";
+        $client = [];
+        $clientMeta = [];
+        $clientMetaTire = [];
+        $newArray = array();
+        foreach($data as $extractData){
+            foreach($extractData as $sepratedtoarray ){
+                //  print_r($sepratedtoarray);
+                for($i = 0 ; $i < 6 ; $i++){
+                    $newarray = $sepratedtoarray[$i];
+                    array_push($newArray, $newarray);
+                    if (($i + 1) % 6 == 0) {
+                        array_push($client, $newArray);
+                        $newArray = array(); // reset $newArray
+                    }
+                }
+                for($i = 6 ; $i < 12 ; $i++){
+                    $newarray = $sepratedtoarray[$i];
+                    array_push($newArray, $newarray);
+                    if (($i + 1) % 12 == 0) {
+                        array_push($clientMeta, $newArray);
+                        $newArray = array(); // reset $newArray
+                    }
+                }
+
+                if($sepratedtoarray[6] == "seo"){
+
+                    for($i = 12 ; $i < 18 ; $i++){
+                        $newarray = $sepratedtoarray[$i];
+                        array_push($newArray, $newarray);
+                        if (($i + 1) % 18 == 0) {
+                            array_push($clientMetaTire, $newArray);
+                            $newArray = array(); // reset $newArray
+                        }
+                    }
+
+                }elseif($sepratedtoarray[6] == "book"){
+
+                    for($i = 12 ; $i < 21 ; $i++){
+                        $newarray = $sepratedtoarray[$i];
+                        array_push($newArray, $newarray);
+                        if (($i + 1) % 21 == 0) {
+                            array_push($clientMetaTire, $newArray);
+                            $newArray = array(); // reset $newArray
+                        }
+                    }
+
+                }else{
+
+                    for($i = 12 ; $i < 15 ; $i++){
+                        $newarray = $sepratedtoarray[$i];
+                        array_push($newArray, $newarray);
+                        if (($i + 1) % 15 == 0) {
+                            array_push($clientMetaTire, $newArray);
+                            $newArray = array(); // reset $newArray
+                        }
+                    }
+
+                }
+
+            }
+        };
+
+        $clientMetaTiresWithArray =[];
+
+        $LOOPCOUNTONE = 0;
+            foreach($clientMeta as $clientMetas){
+
+                array_unshift($clientMetaTire[$LOOPCOUNTONE],$clientMetas[0]);
+
+            $LOOPCOUNTONE++;
+
+            }
+
+
+
+        $LOOPCOUNTONE = 0;
+
+
+            foreach($clientMetaTire as $clientMetaTires){
+
+                if( $clientMetaTires[0] == "seo" ){
+
+                    $clientMetaTiresWithArray[] = [
+                        "KEYWORD_COUNT" => $clientMetaTires[1],
+                        "TARGET_MARKET" => explode(",",$clientMetaTires[2]),
+                        "OTHER_SERVICE" => explode(",",$clientMetaTires[3]),
+                        "LEAD_PLATFORM" => $clientMetaTires[4],
+                        "Payment_Nature" => $clientMetaTires[5],
+                        "ANY_COMMITMENT" => $clientMetaTires[6]
+
+                    ];
+
+                }elseif( $clientMetaTires[0] == "book" ){
+
+                    $clientMetaTiresWithArray[] = [
+                        "PRODUCT" => explode(",",$clientMetaTires[1]),
+                        "MENU_SCRIPT"=> $clientMetaTires[2],
+                        "BOOK_GENRE"=> $clientMetaTires[3],
+                        "COVER_DESIGN"=> $clientMetaTires[4],
+                        "TOTAL_NUMBER_OF_PAGES"=> $clientMetaTires[5],
+                        "PUBLISHING_PLATFORM"=> $clientMetaTires[6],
+                        "ISBN_OFFERED"=> $clientMetaTires[7],
+                        "LEAD_PLATFORM"=> $clientMetaTires[8],
+                        "ANY_COMMITMENT"=> $clientMetaTires[9]
+
+                    ];
+
+                }else{
+
+                    $clientMetaTiresWithArray[] = [
+                        "OTHER_SERVICES"=>explode(",",$clientMetaTires[1]),
+                        "LEAD_PLATFORM"=> $clientMetaTires[2],
+                        "ANY_COMMITMENT"=> $clientMetaTires[3]
+
+                    ];
+
+                }
+
+            };
+
+            foreach($client as $clients){
+
+
+            $insertclient = Client::insertGetId([
+                "name" => $clients[0],
+                "phone" => $clients[1],
+                "email" => $clients[2],
+                "brand" => $clients[3],
+                "frontSeler" => $clients[4],
+                "website" => $clients[5],
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s')
+            ]);
+
+
+
+            //  echo $LOOPCOUNTONE."<br>";
+            array_unshift($clientMeta[$LOOPCOUNTONE],$insertclient);
+            array_push($clientMeta[$LOOPCOUNTONE],json_encode($clientMetaTiresWithArray[$LOOPCOUNTONE]));
+            // print_r($clientMeta[$LOOPCOUNTONE]);
+        $LOOPCOUNTONE++;
+
+        }
+
+        foreach($clientMeta as $clientMetas){
+
+            $ClientMetaData = ClientMeta::Create([
+                'clientID' => $clientMetas[0],
+                'service' => $clientMetas[1],
+                'packageName' => $clientMetas[2],
+                'amountPaid' =>  $clientMetas[3],
+                'remainingAmount' => $clientMetas[4],
+                'nextPayment' =>  $clientMetas[5],
+                'paymentRecuring' => $clientMetas[6],
+                'orderDetails' => $clientMetas[7],
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s')
+
+            ]);
+
+        }
 
         return redirect('all/clients');
 
@@ -1828,8 +2101,8 @@ class BasicController extends Controller
         // $qaformlast = str_replace('"', '', $qaformlast);
         // eval($qaformlast);
 
-        print_r($qaformlast);
-         die();
+        // print_r($qaformlast);
+        //  die();
 
         $project = Project::where('id', $id)->get();
         $ProjectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
