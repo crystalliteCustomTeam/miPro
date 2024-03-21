@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "42d4be76a17b99c00c80e30b3ae66339",
-=======
     "content-hash": "2fcb88b944ab65f1c022b71f4843d946",
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
     "packages": [
         {
             "name": "brick/math",
@@ -135,8 +131,6 @@
             "time": "2023-12-11T17:09:12+00:00"
         },
         {
-<<<<<<< HEAD
-=======
             "name": "composer/semver",
             "version": "3.4.0",
             "source": {
@@ -218,7 +212,6 @@
             "time": "2023-08-31T09:50:34+00:00"
         },
         {
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
             "name": "dflydev/dot-access-data",
             "version": "v3.0.2",
             "source": {
@@ -934,8 +927,6 @@
             "time": "2023-10-06T06:47:41+00:00"
         },
         {
-<<<<<<< HEAD
-=======
             "name": "ezyang/htmlpurifier",
             "version": "v4.17.0",
             "source": {
@@ -997,7 +988,6 @@
             "time": "2023-11-17T15:01:25+00:00"
         },
         {
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
             "name": "fruitcake/php-cors",
             "version": "v1.3.0",
             "source": {
@@ -2539,8 +2529,6 @@
             "time": "2022-04-15T14:02:14+00:00"
         },
         {
-<<<<<<< HEAD
-=======
             "name": "maatwebsite/excel",
             "version": "3.1.55",
             "source": {
@@ -2810,7 +2798,6 @@
             "time": "2022-12-02T22:17:43+00:00"
         },
         {
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
             "name": "monolog/monolog",
             "version": "3.5.0",
             "source": {
@@ -3309,8 +3296,6 @@
             "time": "2023-02-08T01:06:31+00:00"
         },
         {
-<<<<<<< HEAD
-=======
             "name": "phpoffice/phpspreadsheet",
             "version": "1.29.0",
             "source": {
@@ -3416,7 +3401,6 @@
             "time": "2023-06-14T22:48:31+00:00"
         },
         {
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
             "name": "phpoption/phpoption",
             "version": "1.9.2",
             "source": {

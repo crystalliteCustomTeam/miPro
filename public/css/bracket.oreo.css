@@ -340,8 +340,6 @@ body {
 @media (min-width: 992px) {
   .rtl .br-logo {
     border-left-color: rgba(255, 255, 255, 0.3); } }
-<<<<<<< HEAD
-=======
 
 
     .blade{
@@ -355,4 +353,3 @@ body {
     .blade-wrapper{
         width: 50%;
     }
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e

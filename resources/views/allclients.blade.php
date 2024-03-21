@@ -31,11 +31,8 @@
                     <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Name</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Email</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Phone</th>
-<<<<<<< HEAD
-=======
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Brand</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Date</th>
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Projects</th>
                     {{-- <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Users</th> --}}
                   </tr>
@@ -47,15 +44,9 @@
                         <tr role="row" class="odd">
                         <td tabindex="0" class="sorting_1">{{ $department['name'] }}</td>
                         <td>{{ $department->email }}</td>
-<<<<<<< HEAD
-                        <td>
-                            {{ $department->phone }}
-                        </td>
-=======
                         <td>{{ $department->phone }}</td>
                         <td>{{ $department->projectbrand->name }}</td>
                         <td>{{ $department->created_at }}</td>
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                         <td>
                             <div class="btn-group">
                                 <a href="/client/details/{{$department->id }}" class="btn btn-success">View</a>
@@ -72,15 +63,9 @@
                         <tr role="row" class="odd">
                         <td tabindex="0" class="sorting_1">{{ $department->clientname->name }}</td>
                         <td>{{ $department->clientname->email }}</td>
-<<<<<<< HEAD
-                        <td>
-                            {{ $department->clientname->phone }}
-                        </td>
-=======
                         <td>{{ $department->clientname->phone }}</td>
                         <td>{{ $department->clientname->projectbrand->name }}</td>
                         <td>{{ $department->clientname->created_at }}</td>
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
                         <td>
                             <div class="btn-group">
                                 <a href="/client/details/{{$department->client }}" class="btn btn-success">View</a>

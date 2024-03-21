@@ -67,10 +67,7 @@
         <li class="sub-item"><a href="/forms/book" class="sub-link">Book Kyc</a></li>
         <li class="sub-item"><a href="/forms/website" class="sub-link">Website Kyc</a></li>
         <li class="sub-item"><a href="/forms/cld" class="sub-link">CLD Kyc</a></li>
-<<<<<<< HEAD
-=======
         <li class="sub-item"><a href="/forms/csv_uploads" class="sub-link">Client Registration(CSV)</a></li>
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
         <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li>
       </ul>
     </li><!-- br-menu-item -->
@@ -135,10 +132,7 @@
           <li class="sub-item"><a href="/forms/book" class="sub-link">Book Kyc</a></li>
           <li class="sub-item"><a href="/forms/website" class="sub-link">Website Kyc</a></li>
           <li class="sub-item"><a href="/forms/cld" class="sub-link">CLD Kyc</a></li>
-<<<<<<< HEAD
-=======
           <li class="sub-item"><a href="/forms/csv_uploads" class="sub-link">Client Registration(CSV)</a></li>
->>>>>>> a27088e3c2dcf37ff1c6cc6fae1e27273bb9784e
           <li class="sub-item"><a href="/assigned/clients" class="sub-link">Clients</a></li>
         </ul>
       </li><!-- br-menu-item -->
