@@ -72,6 +72,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/book','book');
         Route::get('/forms/website','website');
         Route::get('/forms/cld','cld');
+        Route::get('/forms/csv_uploads','csv_client');
 
         Route::get('/forms/kyc/edit/{id}','editClient');
 
