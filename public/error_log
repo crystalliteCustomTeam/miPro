@@ -1,0 +1,2 @@
+[21-Mar-2024 01:23:02 UTC] PHP Parse error:  syntax error, unexpected token "<<", expecting "]" in /home/qa/public_html/app/Http/Kernel.php on line 69
+[21-Mar-2024 01:24:38 UTC] PHP Parse error:  syntax error, unexpected token "<<", expecting "]" in /home/qa/public_html/app/Http/Kernel.php on line 69
