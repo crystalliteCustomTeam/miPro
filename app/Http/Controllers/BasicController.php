@@ -49,7 +49,7 @@ class BasicController extends Controller
                 $request->session()->put('GuestUser',$match_email);
                 return redirect('/seo_kyc_form');
         }else{
-                return redirect()->back()->with('Error',"Email Not Found!");
+                return redirect()->back()->with('Error',"Email Not Found!!");
         }
 
 
