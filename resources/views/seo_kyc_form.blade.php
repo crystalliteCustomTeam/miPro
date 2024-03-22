@@ -110,7 +110,7 @@
                   </div>
                   <div class="col-4 mt-3" id="other-text" style="display: none">
                     <label for="" style="font-weight:bold;">Please specify:</label>
-                    <input type="text" id="other" name="TargetMarket[]" class="form-control" required>
+                    <input type="text" id="other" name="TargetMarket[]" class="form-control">
                   </div>
                   <script>
                     function toggleTextField() {
