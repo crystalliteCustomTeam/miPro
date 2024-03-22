@@ -2060,6 +2060,69 @@ class BasicController extends Controller
 
     }
 
+    function projectreport1(Request $request, $id = null){
+        $loginUser = $this->roleExits($request);
+
+        //left panel:
+        $client = Client::get();
+        $employee = Employee::get();
+        $department = Department::get();
+        $issue = QaIssues::get();
+        $brand = Brand::get();
+
+        //get:
+
+        //BASE;
+        $get_startdate = $request->input('startdate');
+        $get_enddate = $request->input('enddate');
+        // $get_startdate = ( $_GET['startdate'] != 0 ) ? $_GET['startdate'] : "";
+        // $get_enddate = ( $_GET['enddate'] != 0 ) ? $_GET['enddate'] : "";
+
+        //OPTIONAL;
+        $get_brand = $request->input('brand');
+        $get_client = $request->input('client');
+        $get_Production = $request->input('Production');
+        $get_employee = $request->input('employee');
+        $get_status = $request->input('status');
+        $get_remarks= $request->input('remarks');
+        $get_expectedRefund = $request->input('expectedRefund');
+        $get_issues = $request->input('issues');
+
+        //BASE QUERY:
+        // $qaformlast = "QAFORM::whereBetween('created_at',[$get_startdate,$get_enddate])";
+        // $qaformlast .= "->latest('id')->get()";
+
+
+        $qaformlast = QAFORM::whereBetween('created_at',[$get_startdate,$get_enddate])
+                    ->orWhere('brandID', $get_brand)
+                    ->orWhere('clientID', $get_client)
+                    ->orWhere('status', $get_status)
+                    ->orWhere('client_satisfaction', $get_remarks)
+                    ->orWhere('status_of_refund', $get_expectedRefund)
+                    ->get();
+
+        // echo("<pre>");
+        // print_r($qaformlast);
+        // die();
+
+
+
+
+
+
+        return view('report_home', [
+            'clients'=>$client,
+            'employees'=>$employee,
+            'departments'=>$department,
+            'issues'=>$issue,
+            'brands'=>$brand ,
+
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
+
+        }
+
     function projectreport(Request $request, $id){
         $employee = Employee::get();
         $issue = QaIssues::get();
@@ -2096,6 +2159,28 @@ class BasicController extends Controller
         }else{
 
         }
+
+
+        // if($get_brand != 0 && $get_client == 0  && $get_Production == 0 && $get_employee != 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
+
+        // }elseif($get_brand == 0 && $get_client != 0  && $get_Production == 0 && $get_employee != 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
+
+        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production != 0 && $get_employee == 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
+
+        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee != 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
+
+        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee == 0 && $get_status != 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
+
+        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee == 0 && $get_status == 0  && $get_remarks != 0  && $get_expectedRefund == 0  && $get_issues == 0){
+
+        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee == 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund != 0  && $get_issues == 0){
+
+        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee == 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues != 0){
+
+        // }else{
+
+
+        // }
 
 
 

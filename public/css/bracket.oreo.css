@@ -342,14 +342,15 @@ body {
     border-left-color: rgba(255, 255, 255, 0.3); } }
 
 
-    .blade{
+.blade{
         height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: 0;
-    }
+        margin-top: 0; }
 
-    .blade-wrapper{
-        width: 50%;
-    }
+.blade-wrapper{
+        width: 50%; }
+
+.report-scroller{
+    overflow-y:scroll; }
