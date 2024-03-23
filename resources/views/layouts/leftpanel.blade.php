@@ -89,6 +89,15 @@
           <li class="sub-item"><a href="/forms/qaform_d" class="sub-link">QA FORM</a></li>
         </ul>
       </li><!-- br-menu-item -->
+      <li class="br-menu-item">
+        <a href="#" class="br-menu-link with-sub">
+          <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+          <span class="menu-item-label">Report</span>
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub">
+          <li class="sub-item"><a href="/allproject/report" class="sub-link">Report</a></li>
+        </ul>
+      </li><!-- br-menu-item -->
 
       <li class="br-menu-item">
         <a href="#" class="br-menu-link with-sub">

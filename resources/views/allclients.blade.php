@@ -60,7 +60,7 @@
 
                     @elseif ($user_id == 1)
                         @foreach($clients as $department)
-                        <tr role="row" class="odd"> 
+                        <tr role="row" class="odd">
                         <td tabindex="0" class="sorting_1">{{ $department->clientname->name }}</td>
                         <td>{{ $department->clientname->email }}</td>
                         <td>{{ $department->clientname->phone }}</td>

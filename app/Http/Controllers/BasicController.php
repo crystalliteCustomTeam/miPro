@@ -2075,8 +2075,6 @@ class BasicController extends Controller
         //BASE;
         $get_startdate = $request->input('startdate');
         $get_enddate = $request->input('enddate');
-        // $get_startdate = ( $_GET['startdate'] != 0 ) ? $_GET['startdate'] : "";
-        // $get_enddate = ( $_GET['enddate'] != 0 ) ? $_GET['enddate'] : "";
 
         //OPTIONAL;
         $get_brand = $request->input('brand');
@@ -2088,22 +2086,23 @@ class BasicController extends Controller
         $get_expectedRefund = $request->input('expectedRefund');
         $get_issues = $request->input('issues');
 
-        //BASE QUERY:
-        // $qaformlast = "QAFORM::whereBetween('created_at',[$get_startdate,$get_enddate])";
-        // $qaformlast .= "->latest('id')->get()";
 
 
-        $qaformlast = QAFORM::whereBetween('created_at',[$get_startdate,$get_enddate])
-                    ->orWhere('brandID', $get_brand)
-                    ->orWhere('clientID', $get_client)
-                    ->orWhere('status', $get_status)
-                    ->orWhere('client_satisfaction', $get_remarks)
-                    ->orWhere('status_of_refund', $get_expectedRefund)
+        if($get_startdate ==null){
+            $qaform = QAFORM::latest('created_at')->Distinct('projectID')->get();
+
+        }else{
+            $qaform = QAFORM::whereBetween('created_at',[$get_startdate,$get_enddate])
+                    ->latest('created_at')
+                    ->Distinct('projectID')
+                    ->orwhere()
                     ->get();
 
-        // echo("<pre>");
-        // print_r($qaformlast);
-        // die();
+        }
+
+
+
+
 
 
 
@@ -2116,6 +2115,7 @@ class BasicController extends Controller
             'departments'=>$department,
             'issues'=>$issue,
             'brands'=>$brand ,
+            'qaforms'=>$qaform ,
 
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
