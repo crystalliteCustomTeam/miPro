@@ -2115,14 +2115,6 @@ class BasicController extends Controller
         if ($get_startdate == null) {
             $role = 0;
             $result = 0;
-            $get_brands = $request->input('brand');
-            $get_clients = $request->input('client');
-            $get_Productions = $request->input('Production');
-            $get_employee = $request->input('employee');
-            $get_status = $request->input('status');
-            $get_remarks = $request->input('remarks');
-            $get_expectedRefund = $request->input('expectedRefund');
-            $get_issues = $request->input('issues');
         } else {
 
             $role = 1;
@@ -2157,6 +2149,7 @@ class BasicController extends Controller
                 : null;
 
             $result = $qaform->get();
+
         }
 
 
@@ -2170,7 +2163,6 @@ class BasicController extends Controller
             'brands' => $brand,
             'roles' => $role,
             'qaforms' => $result,
-
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
