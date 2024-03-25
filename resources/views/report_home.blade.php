@@ -41,82 +41,63 @@
 
 
       <div class="br-pagebody">
-
-      <div class="row">
-
-          <div class="col-3">
-              <div class="card bd-gray-400 pd-20">
-                <h6 style="color: black">Brand Name: --</h6>
-
-
-              </div><!-- card -->
-            </div><!-- col-4 -->
-
-            {{-- ======================================================== --}}
-            <div class="col-3">
-              <div class="card bd-gray-400 pd-20">
-                <h6 style="color: black">Client Name:  --</h6>
-
-
-              </div><!-- card -->
-            </div><!-- col-4 -->
-
-            {{-- ======================================================== --}}
-            <div class="col-3">
-                <div class="card bd-gray-400 bg-lightblue  pd-20">
-                    <h6 style="color: black">Department:  --</h6>
-
-
-                </div><!-- card -->
-            </div><!-- col-4 -->
-
-            <div class="col-3">
-              <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Employee Name:  --</h6>
-
-
-              </div><!-- card -->
-          </div><!-- col-4 -->
-
-
-            <div class="col-3">
-              <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Status:</h6>
-
-
-              </div><!-- card -->
-            </div><!-- col-4 -->
-
-
-
-            <div class="col-3">
-              <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Expected Refund:</h6>
-
-
-              </div><!-- card -->
-            </div><!-- col-4 -->
-
-            <div class="col-3">
-              <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Client Satisfaction:</h6>
-
-
-              </div><!-- card -->
-            </div><!-- col-4 -->
-
+        <div class="row">
 
             <div class="col-3">
                 <div class="card bd-gray-400 pd-20">
-                    <h6  style="color: black">Signature:</h6>
+                  <h6 style="color: black">Brand Name: --</h6>
+                </div><!-- card -->
+              </div><!-- col-4 -->
 
+              {{-- ======================================================== --}}
+              <div class="col-3">
+                <div class="card bd-gray-400 pd-20">
+                  <h6 style="color: black">Client Name: --</h6>
+                </div><!-- card -->
+              </div><!-- col-4 -->
 
+              {{-- ======================================================== --}}
+              <div class="col-3">
+                  <div class="card bd-gray-400 bg-lightblue  pd-20">
+                      <h6 style="color: black">Department:  --</h6>
+                  </div><!-- card -->
+              </div><!-- col-4 -->
+
+              <div class="col-3">
+                <div class="card bd-gray-400 pd-20">
+                    <h6 style="color: black">Employee Name: --</h6>
                 </div><!-- card -->
             </div><!-- col-4 -->
 
 
+              <div class="col-3">
+                <div class="card bd-gray-400 pd-20">
+                    <h6 style="color: black">Status: --</h6>
+                </div><!-- card -->
+              </div><!-- col-4 -->
 
-      </div>
+
+
+              <div class="col-3">
+                <div class="card bd-gray-400 pd-20">
+                    <h6 style="color: black">Expected Refund:  --</h6>
+                </div><!-- card -->
+              </div><!-- col-4 -->
+
+              <div class="col-3">
+                <div class="card bd-gray-400 pd-20">
+                    <h6 style="color: black">Client Satisfaction: --</h6>
+                </div><!-- card -->
+              </div><!-- col-4 -->
+
+
+              <div class="col-3">
+                  <div class="card bd-gray-400 pd-20">
+                      <h6  style="color: black">Signature:</h6>
+                  </div><!-- card -->
+              </div><!-- col-4 -->
+
+        </div>
 
 
 </div><!-- br-pagebody -->
