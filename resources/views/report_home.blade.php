@@ -46,7 +46,8 @@
 
           <div class="col-3">
               <div class="card bd-gray-400 pd-20">
-                <h6 style="color: black">Client Name: --</h6>
+                <h6 style="color: black">Brand Name: --</h6>
+
 
               </div><!-- card -->
             </div><!-- col-4 -->
@@ -54,7 +55,7 @@
             {{-- ======================================================== --}}
             <div class="col-3">
               <div class="card bd-gray-400 pd-20">
-                <h6 style="color: black">Project Name:  --</h6>
+                <h6 style="color: black">Client Name:  --</h6>
 
 
               </div><!-- card -->
@@ -63,7 +64,7 @@
             {{-- ======================================================== --}}
             <div class="col-3">
                 <div class="card bd-gray-400 bg-lightblue  pd-20">
-                    <h6 style="color: black">Project Manager:  --</h6>
+                    <h6 style="color: black">Department:  --</h6>
 
 
                 </div><!-- card -->
@@ -71,7 +72,7 @@
 
             <div class="col-3">
               <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Brand Name:  --</h6>
+                  <h6 style="color: black">Employee Name:  --</h6>
 
 
               </div><!-- card -->
@@ -80,7 +81,7 @@
 
             <div class="col-3">
               <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Status of Refund:</h6>
+                  <h6 style="color: black">Status:</h6>
 
 
               </div><!-- card -->
@@ -90,7 +91,7 @@
 
             <div class="col-3">
               <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Last Communication:</h6>
+                  <h6 style="color: black">Expected Refund:</h6>
 
 
               </div><!-- card -->
@@ -99,14 +100,6 @@
             <div class="col-3">
               <div class="card bd-gray-400 pd-20">
                   <h6 style="color: black">Client Satisfaction:</h6>
-
-
-              </div><!-- card -->
-            </div><!-- col-4 -->
-
-            <div class="col-3">
-              <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">QA Person:</h6>
 
 
               </div><!-- card -->
@@ -154,33 +147,44 @@
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach ($qaforms as $qaform)
+                    @if ($roles == 1)
+                        @foreach ($qaforms as $qaform)
+                            <tr role="row" class="odd">
+                                <td tabindex="0" class="sorting_1">{{$qaform->Client_Name->name}}</td>
+                                <td>{{$qaform->Project_Name->name}}</td>
+                                <td>{{$qaform->status}}</td>
+                                <td>{{$qaform->Project_ProjectManager->name}}</td>
+                                <td>{{$qaform->Refund_Request_summery}}</td>
+                                <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
+                                @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
+                                @php
+                                $qa_issues = json_decode($meta->issues)
+                                @endphp
+                                <td>
+                                    @foreach ($qa_issues as $issue)
+                                        <ul>
+                                            <li>{{$issue}}</li>
+                                        </ul>
+                                    @endforeach
+                                </td>
 
-                    <tr role="row" class="odd">
-                        {{-- <td tabindex="0" class="sorting_1">{{$qaform->Client_Name->name}}</td>
-                        <td>{{$qaform->Project_Name->name}}</td>
-                        <td>{{$qaform->status}}</td>
-                        <td>{{$qaform->Project_ProjectManager->name}}</td>
-                        <td>{{$qaform->Refund_Request_summery}}</td>
-                        <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
-                        @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
-                        @php
-                        $qa_issues = json_decode($meta->issues)
-                        @endphp
-                        <td>
-                            @foreach ($qa_issues as $issue)
-                                <ul>
-                                    <li>{{$issue}}</li>
-                                </ul>
-                            @endforeach
-                        </td>
+                                <td>{{ $meta->Description_of_issue }}</td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr role="row" class="odd">
+                            <td tabindex="0" class="sorting_1">--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                        </tr>
 
-                        <td>{{ $meta->Description_of_issue }}</td>
-                        @endforeach --}}
-                    </tr>
-
-                    @endforeach
-
+                    @endif
 
                 </tbody>
             </table>

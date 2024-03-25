@@ -42,6 +42,8 @@
                             --
                             {{$employee->name}}
                             --
+                            {{$employee->email}}
+                            --
                             @foreach($employee->deparment($employee->id)  as $dm)
                               <strong>{{ $dm->name }}</strong>
                             @endforeach</option>
