@@ -2078,6 +2078,7 @@ class BasicController extends Controller
         // $get_startdate = ( $_GET['startdate'] != 0 ) ? $_GET['startdate'] : "";
         // $get_enddate = ( $_GET['enddate'] != 0 ) ? $_GET['enddate'] : "";
 
+       
         //OPTIONAL;
         $get_brand = $request->input('brand');
         $get_client = $request->input('client');
@@ -2092,20 +2093,18 @@ class BasicController extends Controller
         // $qaformlast = "QAFORM::whereBetween('created_at',[$get_startdate,$get_enddate])";
         // $qaformlast .= "->latest('id')->get()";
 
+        if(isset($get_startdate)){
+            $qaformlast = QAFORM::whereBetween('created_at',[$get_startdate,$get_enddate])
+            
+            ->get();
+            echo("<pre>");
+            print_r($qaformlast);
+            die();
 
-        $qaformlast = QAFORM::whereBetween('created_at',[$get_startdate,$get_enddate])
-                    ->orWhere('brandID', $get_brand)
-                    ->orWhere('clientID', $get_client)
-                    ->orWhere('status', $get_status)
-                    ->orWhere('client_satisfaction', $get_remarks)
-                    ->orWhere('status_of_refund', $get_expectedRefund)
-                    ->get();
-
-        // echo("<pre>");
-        // print_r($qaformlast);
-        // die();
-
-
+        }
+      
+       
+                   
 
 
 
@@ -2142,55 +2141,7 @@ class BasicController extends Controller
 
         $qaformlast .= "->latest('id')->limit(10)->get()";
 
-        if($get_Production != 0 && $get_employee == 0  && $get_issues == 0){
-            $qaformlast .=  "->where('ProjectProductionID',$get_Production)";
-        }elseif($get_Production == 0 && $get_employee != 0  && $get_issues == 0){
-
-        }elseif($get_Production == 0 && $get_employee == 0  && $get_issues != 0){
-
-        }elseif($get_Production != 0 && $get_employee != 0  && $get_issues == 0){
-
-        }elseif($get_Production == 0 && $get_employee != 0  && $get_issues != 0){
-
-        }elseif($get_Production != 0 && $get_employee == 0  && $get_issues != 0){
-
-        }elseif($get_Production != 0 && $get_employee != 0  && $get_issues != 0){
-
-        }else{
-
-        }
-
-
-        // if($get_brand != 0 && $get_client == 0  && $get_Production == 0 && $get_employee != 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
-
-        // }elseif($get_brand == 0 && $get_client != 0  && $get_Production == 0 && $get_employee != 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
-
-        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production != 0 && $get_employee == 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
-
-        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee != 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
-
-        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee == 0 && $get_status != 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues == 0){
-
-        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee == 0 && $get_status == 0  && $get_remarks != 0  && $get_expectedRefund == 0  && $get_issues == 0){
-
-        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee == 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund != 0  && $get_issues == 0){
-
-        // }elseif($get_brand == 0 && $get_client == 0  && $get_Production == 0 && $get_employee == 0 && $get_status == 0  && $get_remarks == 0  && $get_expectedRefund == 0  && $get_issues != 0){
-
-        // }else{
-
-
-        // }
-
-
-
-
-
-        // $qaformlast = str_replace('"', '', $qaformlast);
-        // eval($qaformlast);
-
-        // print_r($qaformlast);
-        //  die();
+       
 
         $project = Project::where('id', $id)->get();
         $ProjectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
