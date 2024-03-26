@@ -2095,17 +2095,10 @@ class BasicController extends Controller
         $get_startdate = ( $_GET['startdate'] != 0 ) ? $_GET['startdate'] : "";
         $get_enddate = ( $_GET['enddate'] != 0 ) ? $_GET['enddate'] : "";
 
-<<<<<<< HEAD
-        //OPTIONAL
-        $get_Production = $_GET['Production']  ;
-        $get_employee = $_GET['employee'];
-        $get_issues = $_GET['issues'];
-=======
         if ($get_startdate == null) {
             $role = 0;
             $result = 0;
         } else {
->>>>>>> 1ff6bd626dd8f84e22766ca85ce805db70ae685f
 
 
         $qaformlast = "QAFORM::where('projectID',$id)->whereBetween('created_at',[$get_startdate,$get_enddate])";
@@ -2128,9 +2121,6 @@ class BasicController extends Controller
         //             ->latest('id')->limit(1)->get();
 
 
-<<<<<<< HEAD
-        }
-=======
             $result = $qaform->get();
 
         }
@@ -2151,5 +2141,4 @@ class BasicController extends Controller
             'superUser' => $loginUser[2]
         ]);
     }
->>>>>>> 1ff6bd626dd8f84e22766ca85ce805db70ae685f
 }
