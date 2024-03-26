@@ -2084,42 +2084,69 @@ class BasicController extends Controller
         return redirect('/settings/user/client');
     }
 
-    
+    function projectreport(Request $request, $id = null)
+    {
+        $loginUser = $this->roleExits($request);
 
-    function projectreport(Request $request, $id = null){
+        //left panel:
+        $client = Client::get();
         $employee = Employee::get();
+        $department = Department::get();
         $issue = QaIssues::get();
+        $brand = Brand::get();
+
+        //get:
+
+        //BASE;
+        $get_startdate = $request->input('startdate');
+        $get_enddate = $request->input('enddate');
+        //OPTIONAL;
+        $get_brand = $request->input('brand');
+        $get_client = $request->input('client');
+        $get_Production = $request->input('Production');
+        $get_employee = $request->input('employee');
+        $get_status = $request->input('status');
+        $get_remarks = $request->input('remarks');
+        $get_expectedRefund = $request->input('expectedRefund');
+        $get_issues = $request->input('issues');
 
 
-        //BASE QUERY
-        $get_startdate = ( $_GET['startdate'] != 0 ) ? $_GET['startdate'] : "";
-        $get_enddate = ( $_GET['enddate'] != 0 ) ? $_GET['enddate'] : "";
 
         if ($get_startdate == null) {
             $role = 0;
             $result = 0;
         } else {
 
+            $role = 1;
+            $qaform = QAFORM::whereBetween('QAFORM.created_at', [$get_startdate, $get_enddate])->latest('QAFORM.created_at')->distinct('projectID');
 
-        $qaformlast = "QAFORM::where('projectID',$id)->whereBetween('created_at',[$get_startdate,$get_enddate])";
-
-        $qaformlast .= "->latest('id')->limit(10)->get()";
-
-       
-
-        $project = Project::where('id', $id)->get();
-        $ProjectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
-        $client = Client::where('id', $project[0]->clientID)->get();
-        $clientmeta = ClientMeta::where('id', $client[0]->clientID);
-        $qaformlast = QAFORM::where('projectID',$project[0]->id)
-                    ->latest('id')->limit(1)->get();
-
-        return view('report_home', ['projects'=>$project, 'projectproductions'=>$ProjectProduction, 'clients'=>$client, 'clientmetas'=>$clientmeta,  'qaformlast'=>$qaformlast , 'employees'=>$employee, 'issues'=>$issue]);
-
-
-        // $qaformlast = QAFORM::where('projectID',$project[0]->id)
-        //             ->latest('id')->limit(1)->get();
-
+            ($get_brand != 0)
+                ? $qaform->where('brandID', $get_brand)
+                : null;
+            ($get_client != 0)
+                ? $qaform->where('clientID', $get_client)
+                : null;
+            ($get_status != 0)
+                ? $qaform->where('status', $get_status)
+                : null;
+            ($get_remarks != 0)
+                ? $qaform->where('client_satisfaction', $get_remarks)
+                : null;
+            ($get_expectedRefund != 0)
+                ? $qaform->where('status_of_refund', $get_expectedRefund)
+                : null;
+            ($get_Production != 0 || $get_employee != 0 || $get_issues != 0)
+                ? $qaform->join('QAFORM_METAS', 'QAFORM.qaformID', '=', 'QAFORM_METAS.formid')
+                : null;
+            ($get_Production != 0)
+                ? $qaform->where('QAFORM_METAS.departmant', $get_Production)
+                : null;
+            ($get_employee != 0)
+                ? $qaform->where('QAFORM_METAS.responsible_person', $get_employee)
+                : null;
+            ($get_issues != 0)
+                ? $qaform->whereJsonContains('QAFORM_METAS.issues', $get_issues)
+                : null;
 
             $result = $qaform->get();
 
