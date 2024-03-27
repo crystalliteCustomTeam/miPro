@@ -179,6 +179,7 @@
 
                 </tbody>
             </table>
+            <a href="/dashboard"><button class="btn btn-outline-primary">BACK</button></a>
 
 
 
