@@ -2351,4 +2351,28 @@ class BasicController extends Controller
             'superUser' => $loginUser[2]
         ]);
     }
+
+    function clientReport(Request $request, $id)
+    {
+        $loginUser = $this->roleExits($request);
+        $client = Client::where('id',$id)->get();
+        $project = Project::where('clientID',$id)->get();
+        $projectcount = count($project);
+        $qaform = QAFORM::where('clientID',$id)->get();
+        $qaformcount = count($qaform);
+        $qaformlast = QAFORM::where('clientID',$id)->whereMonth('created_at', now())->latest('created_at')->get();
+
+        return view('clientReport',[
+            'clients'=> $client,
+            'projects'=> $project,
+            'qaforms'=> $qaform,
+            'qaformlasts' => $qaformlast,
+            'qaformcount' => $qaformcount,
+            'projectcount' => $projectcount,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
 }

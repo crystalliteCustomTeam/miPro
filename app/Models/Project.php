@@ -34,4 +34,8 @@ class Project extends Model
     {
         return $this->hasOne(Client::class,'id','clientID');
     }
+    public function ProjectProduction(): HasOne
+    {
+        return $this->hasOne(ProjectProduction::class,'projectID','productionID');
+    }
 }

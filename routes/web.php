@@ -139,6 +139,7 @@ Route::controller(BasicController::class)->group(function (){
 
         //REPORTS:
         Route::get('/userreport','userreport');
+        Route::get('/generate/report/{id}','clientReport');
         Route::get('/client/project/qareport/{id}','projectQaReport');
         Route::get('/client/project/qareport/view/{id}','projectQaReport_view');
         Route::get('/allproject/report/{id?}','projectreport');
