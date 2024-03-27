@@ -81,12 +81,29 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Target Market</label>
-                    <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple">
+                    <select class="form-control select2"  required name="TargetMarket[]" multiple="multiple" id="options" onchange="toggleTextField()">
                         <option value="Global">Global</option>
                         <option value="Nationwide">Nationwide</option>
                         <option value="Local">Local</option>
+                        <option value="others">Others</option>
                     </select>
                   </div>
+                  <div class="col-4 mt-3" id="other-text" style="display: none">
+                    <label for="" style="font-weight:bold;">Please specify:</label>
+                    <input type="text" id="other" name="TargetMarket[]" class="form-control">
+                  </div>
+                  <script>
+                    function toggleTextField() {
+                      var selectBox = document.getElementById("options");
+                      var otherTextField = document.getElementById("other-text");
+
+                      if (selectBox.value === "others") {
+                        otherTextField.style.display = "block";
+                      } else {
+                        otherTextField.style.display = "none";
+                      }
+                    }
+                  </script>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Other Services</label>
                     <select class="form-control select2"  required name="OtherServices[]" multiple="multiple">

@@ -102,81 +102,36 @@
 
                     @endforeach
 
-
-
                 </div><!-- row -->
 
                 <div class="row row-sm mg-t-20">
-                    <div class="col-4">
-                    <div class="card bd-gray-400 pd-20">
-                        <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Brand 1</h6>
-                        <div class="d-flex mg-b-10">
-                        <div class="bd-r pd-r-10">
-                            <label class="tx-12">Clients</label>
-                            <p class="tx-lato tx-inverse tx-bold">0</p>
-                        </div>
-                        <div class="bd-r pd-x-10">
-                            <label class="tx-12">Refund</label>
-                            <p class="tx-lato tx-inverse tx-bold">0</p>
-                        </div>
-                        <div class="pd-l-10">
-                            <label class="tx-12">Dispute</label>
-                            <p class="tx-lato tx-inverse tx-bold">0</p>
-                        </div>
-                        </div><!-- d-flex -->
-                        <div class="progress mg-b-10">
-                            <div class="progress-bar bg-purple wd-70p" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
-                        </div>
-                        <p class="tx-12 mg-b-0">Maecenas tempus, tellus eget condimentum rhoncus</p>
-                    </div><!-- card -->
+
+                    @foreach ($eachbranddatas as $eachbranddata)
+                        <div class="col-3 mg-b-15">
+                        <div class="card bd-gray-400 pd-20">
+                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">{{$eachbranddata[0][0]->name}}</h6>
+                            <div class="d-flex mg-b-10">
+                            <div class="bd-r pd-r-10">
+                                <label class="tx-12">Clients</label>
+                                <p class="tx-lato tx-inverse tx-bold">{{$eachbranddata[1]}}</p>
+                            </div>
+                            <div class="bd-r pd-x-10">
+                                <label class="tx-12">M.Refund</label>
+                                <p class="tx-lato tx-inverse tx-bold">{{$eachbranddata[2]}}</p>
+                            </div>
+                            <div class="pd-l-10">
+                                <label class="tx-12">M.Dispute</label>
+                                <p class="tx-lato tx-inverse tx-bold">{{$eachbranddata[3]}}</p>
+                            </div>
+                            </div><!-- d-flex -->
+                            <div class="progress mg-b-10">
+                                <div class="progress-bar bg-purple wd-100p" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div><!-- card -->
                     </div><!-- col-4 -->
-                    <div class="col-4">
-                    <div class="card bd-gray-400 pd-20">
-                        <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Brand 2</h6>
-                        <div class="d-flex mg-b-10">
-                        <div class="bd-r pd-r-10">
-                            <label class="tx-12">Clients</label>
-                            <p class="tx-lato tx-inverse tx-bold">0</p>
-                        </div>
-                        <div class="bd-r pd-x-10">
-                            <label class="tx-12">Refund</label>
-                            <p class="tx-lato tx-inverse tx-bold">0</p>
-                        </div>
-                        <div class="pd-l-10">
-                            <label class="tx-12">Dispute</label>
-                            <p class="tx-lato tx-inverse tx-bold">0</p>
-                        </div>
-                        </div><!-- d-flex -->
-                        <div class="progress mg-b-10">
-                        <div class="progress-bar bg-purple wd-70p" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
-                        </div>
-                        <p class="tx-12 mg-b-0">Maecenas tempus, tellus eget condimentum rhoncus</p>
-                    </div><!-- card -->
-                    </div><!-- col-4 -->
-                    <div class="col-4">
-                    <div class="card bd-gray-400 pd-20">
-                        <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Brand 2</h6>
-                        <div class="d-flex mg-b-10">
-                        <div class="bd-r pd-r-10">
-                            <label class="tx-12">Clients</label>
-                            <p class="tx-lato tx-inverse tx-bold">0</p>
-                        </div>
-                        <div class="bd-r pd-x-10">
-                            <label class="tx-12">Refund</label>
-                            <p class="tx-lato tx-inverse tx-bold">0</p>
-                        </div>
-                        <div class="pd-l-10">
-                            <label class="tx-12">Dispute</label>
-                            <p class="tx-lato tx-inverse tx-bold">0</p>
-                        </div>
-                        </div><!-- d-flex -->
-                        <div class="progress mg-b-10">
-                        <div class="progress-bar bg-success wd-35p" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">35%</div>
-                        </div>
-                        <p class="tx-12 mg-b-0">Maecenas tempus, tellus eget condimentum rhoncus</p>
-                    </div><!-- card -->
-                    </div><!-- col-4 -->
+                    @endforeach
                 </div><!-- row -->
+
 
                 <div class="row row-sm mg-t-20">
                     <div class="col-lg-8">
@@ -263,10 +218,9 @@
                                 </div><!-- card -->
 
                                 @endif
-
-
-
                             </div>
+
+
 
                             <div class="col-6">
                                 <div class="card bd-gray-400 mg-t-20">
@@ -342,9 +296,7 @@
                                     </div><!-- carousel-inner -->
                                     </div><!-- carousel -->
                                 </div><!-- card -->
-
-                            </div>
-
+                                </div>
                         </div>
 
                         <div class="card bd-gray-400 pd-25 mg-t-20">
@@ -372,50 +324,48 @@
 
                         </div><!-- card -->
 
-
-
-
-
                     </div><!-- col-8 -->
+
+
                     <div class="col-lg-4 mg-t-20 mg-lg-t-0">
 
-                    <div class="card bd-gray-400 overflow-hidden">
-                        <div class="pd-x-25 pd-t-25">
-                        <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Upcoming Recurring Payments</h6>
-                        <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0">As of Today</p>
-                        <h1 class="tx-56 tx-light tx-inverse mg-b-0">755<span class="tx-teal tx-24">gb</span></h1>
-                        <p><span class="tx-primary">80%</span> of free space remaining</p>
-                        </div><!-- pd-x-25 -->
-                        <div id="ch6" class="ht-115 mg-r--1"></div>
-                        <div class="bg-teal pd-x-25 pd-b-25 d-flex justify-content-between">
-                        <div class="tx-center">
-                            <h3 class="tx-lato tx-white mg-b-5">989<span class="tx-light op-8 tx-20">gb</span></h3>
-                            <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Space</p>
-                        </div>
-                        <div class="tx-center">
-                            <h3 class="tx-lato tx-white mg-b-5">234<span class="tx-light op-8 tx-20">gb</span></h3>
-                            <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Used Space</p>
-                        </div>
-                        <div class="tx-center">
-                            <h3 class="tx-lato tx-white mg-b-5">80<span class="tx-light op-8 tx-20">%</span></h3>
-                            <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Free Space</p>
-                        </div>
-                        </div>
-                    </div><!-- card -->
+                        <div class="card bd-gray-400 overflow-hidden">
+                            <div class="pd-x-25 pd-t-25">
+                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Upcoming Recurring Payments</h6>
+                            <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0">As of Today</p>
+                            <h1 class="tx-56 tx-light tx-inverse mg-b-0">755<span class="tx-teal tx-24">gb</span></h1>
+                            <p><span class="tx-primary">80%</span> of free space remaining</p>
+                            </div><!-- pd-x-25 -->
+                            <div id="ch6" class="ht-115 mg-r--1"></div>
+                            <div class="bg-teal pd-x-25 pd-b-25 d-flex justify-content-between">
+                            <div class="tx-center">
+                                <h3 class="tx-lato tx-white mg-b-5">989<span class="tx-light op-8 tx-20">gb</span></h3>
+                                <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Space</p>
+                            </div>
+                            <div class="tx-center">
+                                <h3 class="tx-lato tx-white mg-b-5">234<span class="tx-light op-8 tx-20">gb</span></h3>
+                                <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Used Space</p>
+                            </div>
+                            <div class="tx-center">
+                                <h3 class="tx-lato tx-white mg-b-5">80<span class="tx-light op-8 tx-20">%</span></h3>
+                                <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Free Space</p>
+                            </div>
+                            </div>
+                        </div><!-- card -->
 
 
-                    <div class="card card-body bd-0 pd-25 bg-primary mg-t-20">
-                        <div class="d-xs-flex justify-content-between align-items-center tx-white mg-b-20">
-                        <h6 class="tx-13 tx-uppercase tx-semibold tx-spacing-1 mg-b-0">Server Status</h6>
-                        <span class="tx-12 tx-uppercase">Oct 2017</span>
-                        </div>
-                        <p class="tx-sm tx-white tx-medium mg-b-0">Hardware Monitoring</p>
-                        <p class="tx-12 tx-white-7">Intel Dothraki G125H 2.5GHz</p>
-                        <div class="progress bg-white-3 rounded-0 mg-b-0">
-                        <div class="progress-bar bg-success wd-50p lh-3" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-                        </div><!-- progress -->
-                        <p class="tx-11 mg-b-0 mg-t-15 tx-white-7">Notice: Lorem ipsum dolor sit amet.</p>
-                    </div><!-- card -->
+                        <div class="card card-body bd-0 pd-25 bg-primary mg-t-20">
+                            <div class="d-xs-flex justify-content-between align-items-center tx-white mg-b-20">
+                            <h6 class="tx-13 tx-uppercase tx-semibold tx-spacing-1 mg-b-0">Server Status</h6>
+                            <span class="tx-12 tx-uppercase">Oct 2017</span>
+                            </div>
+                            <p class="tx-sm tx-white tx-medium mg-b-0">Hardware Monitoring</p>
+                            <p class="tx-12 tx-white-7">Intel Dothraki G125H 2.5GHz</p>
+                            <div class="progress bg-white-3 rounded-0 mg-b-0">
+                            <div class="progress-bar bg-success wd-50p lh-3" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                            </div><!-- progress -->
+                            <p class="tx-11 mg-b-0 mg-t-15 tx-white-7">Notice: Lorem ipsum dolor sit amet.</p>
+                        </div><!-- card -->
 
 
 

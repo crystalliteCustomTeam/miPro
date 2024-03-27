@@ -59,6 +59,38 @@ class BasicController extends Controller
         }
     }
 
+    function kyclogout(Request $request)
+    {
+        $request->session()->forget(['GuestUser']);
+        $request->session()->flush();
+        return redirect('/auth');
+    }
+
+    function get_book_email()
+    {
+        return view("get_book_email");
+    }
+
+    function get_book_email_process(Request $request)
+    {
+        $email = $request->input('email');
+        $match_email = Employee::where('email', $email)->get();
+        $match_count = count($match_email);
+        if ($match_count > 0) {
+            $request->session()->put('GuestUser', $match_email);
+            return redirect('/book_kyc_form');
+        } else {
+            return redirect()->back()->with('Error', "Email Not Found!!");
+        }
+    }
+
+    function kyclogoutbook(Request $request)
+    {
+        $request->session()->forget(['GuestUser']);
+        $request->session()->flush();
+        return redirect('/book_auth');
+    }
+
     function seo_kyc_form(Request $request)
     {
         $brand = Brand::all();
@@ -122,6 +154,73 @@ class BasicController extends Controller
         return redirect('/kyclogout');
     }
 
+    function book_kyc_form(Request $request)
+    {
+        $brand = Brand::all();
+        $projectManager = Employee::get();
+        $frontSeller = $request->session()->get('GuestUser');
+        $department = Department::get();
+        $productionservices = ProductionServices::get();
+
+        return view('book_kyc_form', [
+            'Brands' => $brand,
+            'ProjectManagers' => $projectManager,
+            'frontSeller' => $frontSeller,
+            'departments' => $department,
+            'productionservices' => $productionservices
+        ]);
+
+    }
+
+    function book_kyc_form_process(Request $request)
+    {
+
+        $findclient = Client::where('email', $request->input('email'))->get();
+        if (count($findclient) > 0) {
+            return redirect()->back()->with('Error', 'Client Email Found Please Used New Email');
+        }
+
+        $createClient = Client::insertGetId([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'brand' => $request->input('brand'),
+            'frontSeler' => $request->input('saleperson'),
+            'website' => $request->input('website'),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+
+
+        $BOOK_ARRAY = [
+            "PRODUCT" => $request->input('product'),
+            "MENU_SCRIPT" => $request->input('menuscript'),
+            "BOOK_GENRE" => $request->input('bookgenre'),
+            "COVER_DESIGN" => $request->input('coverdesign'),
+            "TOTAL_NUMBER_OF_PAGES" => $request->input('totalnumberofpages'),
+            "PUBLISHING_PLATFORM" => $request->input('publishingplatform'),
+            "ISBN_OFFERED" => $request->input('isbn_offered'),
+            "LEAD_PLATFORM" => $request->input('leadplatform'),
+            "ANY_COMMITMENT" => $request->input('anycommitment')
+        ];
+        $clientmeta = DB::table('clientmetas')->insert([
+            'clientID' => $createClient,
+            'service' => $request->input('serviceType'),
+            'packageName' => $request->input('package'),
+            'amountPaid' =>  $request->input('projectamount'),
+            'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+            'nextPayment' =>  $request->input('nextamount'),
+            'paymentRecuring' => $request->input('ChargingPlan'),
+            'orderDetails' => json_encode($BOOK_ARRAY),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+
+        return redirect('/kyclogoutbook');
+    }
+
     function roleExits($request)
     {
         $loginUser = $request->session()->get('AdminUser');
@@ -143,6 +242,15 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
         if ($loginUser[2] == 0) {
+            $brand = Brand::get();
+            $eachbranddata = [];
+            foreach($brand as $brands){
+                $brandName = Brand::where("id", $brands->id)->get();
+                $brandclient = Client::where('brand',$brands->id)->count();
+                $brandrefund_Month = QAFORM::where('brandID',$brands->id)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
+                $branddispute_Month = QAFORM::where('brandID',$brands->id)->whereMonth('created_at', now())->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                $eachbranddata[] = [$brandName, $brandclient, $brandrefund_Month, $branddispute_Month];
+            }
             $idInQadepart = Department::where('name', 'LIKE', 'Q%')->get();
             $qapersons = json_decode($idInQadepart[0]->users);
             $eachPersonqaform = [];
@@ -161,6 +269,7 @@ class BasicController extends Controller
             $totaldispute =  QAFORM::where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
 
             return view('dashboard', [
+                'eachbranddatas' => $eachbranddata,
                 'eachPersonqaform' => $eachPersonqaform,
                 'last5qaform' => $last5qaform,
                 'last5qaformstatus' => $last5qaformstatus,
@@ -242,13 +351,6 @@ class BasicController extends Controller
         $request->session()->forget(['AdminUser']);
         $request->session()->flush();
         return redirect('/');
-    }
-
-    function kyclogout(Request $request)
-    {
-        $request->session()->forget(['GuestUser']);
-        $request->session()->flush();
-        return redirect('/auth');
     }
 
     function loginProcess(Request $request)
@@ -1934,7 +2036,13 @@ class BasicController extends Controller
         $project = Project::where('id', $id)->get();
         $projectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
         $QA = QAFORM::where('projectID', $id)->get();
-        return view('projectQA', ['projects' => $project, 'productions' => $projectProduction, 'qafroms' => $QA, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('projectQA', [
+            'projects' => $project,
+            'productions' => $projectProduction,
+            'qafroms' => $QA,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function projectQaReport_view($id, Request $request)
@@ -2102,6 +2210,7 @@ class BasicController extends Controller
         $get_enddate = $request->input('enddate');
         //OPTIONAL;
         $get_brand = $request->input('brand');
+        $get_projectmanager = $request->input('projectmanager');
         $get_client = $request->input('client');
         $get_Production = $request->input('Production');
         $get_employee = $request->input('employee');
@@ -2115,19 +2224,31 @@ class BasicController extends Controller
         if ($get_startdate == null) {
             $role = 0;
             $result = 0;
+            $get_brands = "--";
+            $get_projectmanagers = "--";
+            $get_clients = "--";
+            $get_Productions = "--";
+            $get_employees = "--";
+            $get_statuss = "--";
+            $get_remarkss = "--";
+            $get_expectedRefunds = "--";
+
         } else {
 
             $role = 1;
-            $qaform = QAFORM::whereBetween('QAFORM.created_at', [$get_startdate, $get_enddate])->latest('QAFORM.created_at')->distinct('projectID');
+            $qaform = QAFORM::whereBetween('qaform.created_at', [$get_startdate, $get_enddate])->latest('qaform.created_at')->distinct('projectID');
 
             ($get_brand != 0)
                 ? $qaform->where('brandID', $get_brand)
+                : null;
+            ($get_projectmanager != 0)
+                ? $qaform->where('projectmanagerID', $get_projectmanager)
                 : null;
             ($get_client != 0)
                 ? $qaform->where('clientID', $get_client)
                 : null;
             ($get_status != 0)
-                ? $qaform->where('status', $get_status)
+                ? $qaform->where('qaform.status', $get_status)
                 : null;
             ($get_remarks != 0)
                 ? $qaform->where('client_satisfaction', $get_remarks)
@@ -2136,19 +2257,72 @@ class BasicController extends Controller
                 ? $qaform->where('status_of_refund', $get_expectedRefund)
                 : null;
             ($get_Production != 0 || $get_employee != 0 || $get_issues != 0)
-                ? $qaform->join('QAFORM_METAS', 'QAFORM.qaformID', '=', 'QAFORM_METAS.formid')
+                ? $qaform->join('qaform_metas', 'qaform.qaformID', '=', 'qaform_metas.formid')
                 : null;
             ($get_Production != 0)
-                ? $qaform->where('QAFORM_METAS.departmant', $get_Production)
+                ? $qaform->where('qaform_metas.departmant', $get_Production)
                 : null;
             ($get_employee != 0)
-                ? $qaform->where('QAFORM_METAS.responsible_person', $get_employee)
+                ? $qaform->where('qaform_metas.responsible_person', $get_employee)
                 : null;
             ($get_issues != 0)
-                ? $qaform->whereJsonContains('QAFORM_METAS.issues', $get_issues)
+                ? $qaform->whereJsonContains('qaform_metas.issues', $get_issues)
                 : null;
 
             $result = $qaform->get();
+
+            if($get_brand != 0){
+                $getbrands = Brand::where('id',$get_brand)->get();
+                $get_brands = $getbrands[0]->name;
+            }else{
+                $get_brands = "--";
+            }
+
+            if($get_projectmanager != 0){
+                $getprojectmanagers = Employee::where('id',$get_projectmanager)->get();
+                $get_projectmanagers = $getprojectmanagers[0]->name;
+            }else{
+                $get_projectmanagers = "--";
+            }
+
+            if($get_client != 0){
+                $getclients = Client::where('id',$get_client)->get();
+                $get_clients = $getclients[0]->name;
+            }else{
+                $get_clients = "--";
+            }
+
+            if($get_Production != 0){
+                $getProductions = Department::where('id',$get_Production)->get();
+                $get_Productions = $getProductions[0]->name;
+            }else{
+                $get_Productions = "--";
+            }
+
+            if($get_employee != 0){
+                $getemployees = Employee::where('id',$get_employee)->get();
+                $get_employees = $getemployees[0]->name;
+            }else{
+                $get_employees = "--";
+            }
+
+            if($get_status != 0){
+                $get_statuss = $get_status;
+            }else{
+                $get_statuss = "--";
+            }
+
+            if($get_remarks != 0){
+                $get_remarkss = $get_remarks;
+            }else{
+                $get_remarkss = "--";
+            }
+
+            if($get_expectedRefund != 0){
+                $get_expectedRefunds = $get_expectedRefund;
+            }else{
+                $get_expectedRefunds = "--";
+            }
 
 
         }
@@ -2164,6 +2338,14 @@ class BasicController extends Controller
             'brands' => $brand,
             'roles' => $role,
             'qaforms' => $result,
+            'gets_brand' =>$get_brands,
+            'gets_projectmanager' =>$get_projectmanagers,
+            'gets_client' =>$get_clients,
+            'gets_Production' =>$get_Productions,
+            'gets_employee' =>$get_employees,
+            'gets_status' =>$get_statuss,
+            'gets_remarks' =>$get_remarkss,
+            'gets_expectedRefund' =>$get_expectedRefunds,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]

@@ -24,14 +24,21 @@ Route::controller(BasicController::class)->group(function (){
     Route::get('/register','register');
     Route::get('/logout','logout');
 
-    Route::get('/kyclogout','kyclogout');
-
+    //seo_sale_kyc
     Route::get('/auth','get_email');
     Route::post('/auth/process','get_email_process');
+    Route::get('/kyclogout','kyclogout');
+    //book_sale_kyc
+    Route::get('/book_auth','get_book_email');
+    Route::post('/book_auth/process','get_book_email_process');
+    Route::get('/kyclogoutbook','kyclogoutbook');
 
     Route::middleware(['GuestUser'])->group(function () {
         Route::get('/seo_kyc_form','seo_kyc_form');
         Route::post('/seo_kyc_form/process','seo_kyc_form_process');
+
+        Route::get('/book_kyc_form','book_kyc_form');
+        Route::post('/book_kyc_form/process','book_kyc_form_process');
     });
 
 
