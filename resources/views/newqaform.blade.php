@@ -44,7 +44,12 @@
                         @csrf
                         <input type="hidden" name="clientID" value="{{$projects[0]->ClientName->id }}">
                         <input type="hidden" name="projectID" value="{{$projects[0]->id }}">
+                        @if (isset($projects[0]->EmployeeName->id) and $projects[0]->EmployeeName->id !== null)
                         <input type="hidden" name="projectmanagerID" value="{{$projects[0]->EmployeeName->id }}">
+                        @else
+                        <input type="hidden" name="projectmanagerID" value="0">
+                        @endif
+                        {{-- <input type="hidden" name="projectmanagerID" value="{{$projects[0]->EmployeeName->id }}"> --}}
                         <input type="hidden" name="brandID" value="{{$projects[0]->ClientName->projectbrand->id }}">
                         <input type="hidden" name="qaformID" value="{{ substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,6)}}">
                         <input type="hidden" name="ProjectproductionID" value="{{$projects[0]->projectID }}">
@@ -54,7 +59,12 @@
                             <h3 style="color:black" class="mb-5">Quality Assaurance Form:</h3>
                             <div class="btn-group">
                               <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
+                              @if (isset($projects[0]->EmployeeName->name) and $projects[0]->EmployeeName->name !== null)
                               <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
+                              @else
+                              <button class="btn btn-outline-danger">Project Manager: User Deleted</button>
+                              @endif
+                              {{-- <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button> --}}
                               <button class="btn btn-outline-primary">Brand: {{$projects[0]->ClientName->projectbrand->name }}</button>
                            </div>
 

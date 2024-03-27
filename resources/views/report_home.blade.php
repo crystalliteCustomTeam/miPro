@@ -142,7 +142,13 @@
                                 <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->clientID}}">{{$qaform->Client_Name->name}}</a></td>
                                 <td>{{$qaform->Project_Name->name}}</td>
                                 <td>{{$qaform->status}}</td>
+                                @if (isset($qaform->Project_ProjectManager->name) and $qaform->Project_ProjectManager->name !== null)
                                 <td>{{$qaform->Project_ProjectManager->name}}</td>
+                                @else
+                                <td><p style="color: red">User Deleted</p></td>
+                                @endif
+
+                                {{-- <td>{{$qaform->Project_ProjectManager->name}}</td> --}}
                                 <td>{{$qaform->Refund_Request_summery}}</td>
                                 <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
                                 @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)

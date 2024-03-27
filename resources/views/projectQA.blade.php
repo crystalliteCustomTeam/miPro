@@ -26,7 +26,13 @@
             <h2>Project QA Report:</h2>
               <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
               <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
+              @if (isset($projects[0]->EmployeeName->name) and $projects[0]->EmployeeName->name !== null)
               <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
+              @else
+              <button class="btn btn-outline-danger">Project Manager: User Deleted</button>
+              @endif
+
+              {{-- <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button> --}}
             <div class="row">
               <div class="col-12 mt-4">
                 <table id="datatable1"  class="table-dark table-hover">
@@ -43,7 +49,13 @@
                       @foreach($qafroms as $qafrom)
                       <tr>
                         <td>{{ $qafrom->GETDEPARTMENT->DepartNameinProjectProduction->name }}</td>
+                        @if (isset($qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name) and $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name !== null)
                         <td>{{ $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name }}</td>
+                        @else
+                        <td><p style="color: red">User Deleted</p></td>
+                        @endif
+
+                        {{-- <td>{{ $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name }}</td> --}}
                         <td>{{ $qafrom->client_satisfaction }}</td>
                         <td>{{ $qafrom->status }}</td>
                         <td>{{ $qafrom->created_at }}</td>
