@@ -18,7 +18,7 @@
 
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Select Brand:</label>
-                <select class="form-control select2"  name="brand" onchange="createURL11(this.value)" >
+                <select class="form-control select2"  name="brand" onchange="createURL2(this.value)" >
                     <option value="0" >Select</option>
                 @foreach($brands as $brand)
                     <option value="{{ $brand->id }}" >
@@ -29,32 +29,8 @@
             </div>
 
             <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Select Client:</label>
-                <select class="form-control select2"  name="client" onchange="createURL7(this.value)" >
-                    <option value="0" >Select</option>
-                @foreach($clients as $client)
-                    <option value="{{ $client->id }}" >
-                      {{ $client->name }}
-                    </option>
-                @endforeach
-              </select>
-            </div>
-
-            <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Select Department:</label>
-                <select class="form-control select2"  name="Production" onchange="createURL2(this.value)" >
-                    <option value="0" >Select</option>
-                @foreach($departments as $department)
-                    <option value="{{ $department->id }}" >
-                      {{ $department->name }}
-                    </option>
-                @endforeach
-              </select>
-            </div>
-
-            <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Employee:</label>
-                <select class="form-control select2"  name="employee" onchange="createURL5(this.value)">
+                <label for="" style="font-weight:bold;">Project Manager:</label>
+                <select class="form-control select2"  name="projectmanager" onchange="createURL3(this.value)">
                     <option value="0" >Select</option>
                     @foreach($employees as $employee)
                     <option value="{{ $employee->id }}">
@@ -69,20 +45,48 @@
             </div>
 
             <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Issues:</label>
-                <select class="form-control select2"  name="issues" onchange="createURL6(this.value)">
+                <label for="" style="font-weight:bold;">Select Client:</label>
+                <select class="form-control select2"  name="client" onchange="createURL4(this.value)" >
                     <option value="0" >Select</option>
-                    @foreach($issues as $issue)
-                        <option value="{{ $issue->id }}">
-                            {{ $issue->issues }}
-                        </option>
-                    @endforeach
-                </select>
+                @foreach($clients as $client)
+                    <option value="{{ $client->id }}" >
+                      {{ $client->name }}
+                    </option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="col-12 mt-3">
+                <label for="" style="font-weight:bold;">Select Department:</label>
+                <select class="form-control select2"  name="Production" onchange="createURL5(this.value)" >
+                    <option value="0" >Select</option>
+                @foreach($departments as $department)
+                    <option value="{{ $department->id }}" >
+                      {{ $department->name }}
+                    </option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="col-12 mt-3">
+                <label for="" style="font-weight:bold;">Employee:</label>
+                <select class="form-control select2"  name="employee" onchange="createURL6(this.value)">
+                    <option value="0" >Select</option>
+                    @foreach($employees as $employee)
+                    <option value="{{ $employee->id }}">
+                      {{ $employee->name }}
+                      --
+                      @foreach($employee->deparment($employee->id)  as $dm)
+                                <strong>{{ $dm->name }}</strong>
+                              @endforeach
+                    </option>
+                @endforeach
+              </select>
             </div>
 
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Status:</label>
-                <select class="form-control select2"  name="status" onchange="createURL8(this.value)">
+                <select class="form-control select2"  name="status" onchange="createURL7(this.value)">
                     <option value="0" >Select</option>
                     <option value="Dispute">Dispute</option>
                     <option value="Refund">Refund</option>
@@ -93,7 +97,7 @@
 
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Client Satisfaction Level:</label>
-                <select class="form-control select2"  name="remarks" onchange="createURL9(this.value)">
+                <select class="form-control select2"  name="remarks" onchange="createURL8(this.value)">
                     <option value="0" >Select</option>
                     <option value="Extremely Satisfied">Extremely Satisfied</option>
                     <option value="Somewhat Satisfied">Somewhat Satisfied</option>
@@ -105,12 +109,24 @@
 
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Refund & Dispute Expected:</label>
-                <select class="form-control select2"  name="expectedRefund" onchange="createURL10(this.value)">
+                <select class="form-control select2"  name="expectedRefund" onchange="createURL9(this.value)">
                     <option value="0" >Select</option>
                     <option value="Going Good">Going Good</option>
                     <option value="Low">Low</option>
                     <option value="Moderate">Moderate</option>
                     <option value="High">High</option>
+                </select>
+            </div>
+
+            <div class="col-12 mt-3">
+                <label for="" style="font-weight:bold;">Issues:</label>
+                <select class="form-control select2"  name="issues" onchange="createURL10(this.value)">
+                    <option value="0" >Select</option>
+                    @foreach($issues as $issue)
+                        <option value="{{ $issue->id }}">
+                            {{ $issue->issues }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
@@ -125,14 +141,15 @@
             var baseURL = {
                         "start" : 0,
                         "end" : 0,
+                        "brand" : 0,
+                        "projectmanager" : 0,
+                        "client": 0,
                         "production": 0,
                         "employee": 0,
-                        "issue": 0,
-                        "client": 0,
                         "status": 0,
                         "remarks": 0,
                         "expectedRefund": 0,
-                        "expectedRefund": 0
+                        "issue": 0,
                     };
 
 
@@ -159,39 +176,28 @@
             }
 
             function createURL2(value) {
-                if (baseURL.hasOwnProperty("production")) {
+                if (baseURL.hasOwnProperty("brand")) {
                     // Update the existing "start" property
-                    baseURL["production"] = value;
+                    baseURL["brand"] = value;
                 } else {
                     // If "start" property doesn't exist, add it
-                    baseURL["production"] = value;
+                    baseURL["brand"] = value;
                 }
                 console.log(baseURL);
             }
 
-            function createURL5(value) {
-                if (baseURL.hasOwnProperty("employee")) {
+            function createURL3(value) {
+                if (baseURL.hasOwnProperty("projectmanager")) {
                     // Update the existing "start" property
-                    baseURL["employee"] = value;
+                    baseURL["projectmanager"] = value;
                 } else {
                     // If "start" property doesn't exist, add it
-                    baseURL["employee"] = value;
+                    baseURL["projectmanager"] = value;
                 }
                 console.log(baseURL);
             }
 
-            function createURL6(value) {
-                if (baseURL.hasOwnProperty("issue")) {
-                    // Update the existing "start" property
-                    baseURL["issue"] = value;
-                } else {
-                    // If "start" property doesn't exist, add it
-                    baseURL["issue"] = value;
-                }
-                console.log(baseURL);
-            }
-
-            function createURL7(value) {
+            function createURL4(value) {
                 if (baseURL.hasOwnProperty("client")) {
                     // Update the existing "start" property
                     baseURL["client"] = value;
@@ -202,7 +208,29 @@
                 console.log(baseURL);
             }
 
-            function createURL8(value) {
+            function createURL5(value) {
+                if (baseURL.hasOwnProperty("production")) {
+                    // Update the existing "start" property
+                    baseURL["production"] = value;
+                } else {
+                    // If "start" property doesn't exist, add it
+                    baseURL["production"] = value;
+                }
+                console.log(baseURL);
+            }
+
+            function createURL6(value) {
+                if (baseURL.hasOwnProperty("employee")) {
+                    // Update the existing "start" property
+                    baseURL["employee"] = value;
+                } else {
+                    // If "start" property doesn't exist, add it
+                    baseURL["employee"] = value;
+                }
+                console.log(baseURL);
+            }
+
+            function createURL7(value) {
                 if (baseURL.hasOwnProperty("status")) {
                     // Update the existing "start" property
                     baseURL["status"] = value;
@@ -213,7 +241,7 @@
                 console.log(baseURL);
             }
 
-            function createURL9(value) {
+            function createURL8(value) {
                 if (baseURL.hasOwnProperty("remarks")) {
                     // Update the existing "start" property
                     baseURL["remarks"] = value;
@@ -224,7 +252,7 @@
                 console.log(baseURL);
             }
 
-            function createURL10(value) {
+            function createURL9(value) {
                 if (baseURL.hasOwnProperty("expectedRefund")) {
                     // Update the existing "start" property
                     baseURL["expectedRefund"] = value;
@@ -235,13 +263,13 @@
                 console.log(baseURL);
             }
 
-            function createURL11(value) {
-                if (baseURL.hasOwnProperty("brand")) {
+            function createURL10(value) {
+                if (baseURL.hasOwnProperty("issue")) {
                     // Update the existing "start" property
-                    baseURL["brand"] = value;
+                    baseURL["issue"] = value;
                 } else {
                     // If "start" property doesn't exist, add it
-                    baseURL["brand"] = value;
+                    baseURL["issue"] = value;
                 }
                 console.log(baseURL);
             }

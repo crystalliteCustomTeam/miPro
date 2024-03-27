@@ -34,8 +34,13 @@
 
 
     @extends('layouts.report.report_leftpanel')
+    @extends('layouts.rightpanel')
 
     <div class="br-mainpanel">
+
+        {{-- <div class="br-pageheader">
+        </div><!-- br-pageheader --> --}}
+
 
 
 
@@ -43,71 +48,73 @@
       <div class="br-pagebody">
         <div class="row">
 
-            <div class="col-3">
+            <div class="col-3 mt-4">
                 <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Brand Name: --</h6>
+                  <h6 style="color: black">Brand Name: {{$gets_brand}}</h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
               {{-- ======================================================== --}}
-              <div class="col-3">
+
+              <div class="col-3 mt-4">
                 <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Client Name: --</h6>
+                  <h6 style="color: black">Project Manager: {{$gets_projectmanager}}</h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
               {{-- ======================================================== --}}
-              <div class="col-3">
+              <div class="col-3 mt-4">
+                <div class="card bd-gray-400 pd-20">
+                  <h6 style="color: black">Client Name: {{$gets_client}}</h6>
+                </div><!-- card -->
+              </div><!-- col-4 -->
+
+              {{-- ======================================================== --}}
+              <div class="col-3 mt-4">
                   <div class="card bd-gray-400 bg-lightblue  pd-20">
-                      <h6 style="color: black">Department:  --</h6>
+                      <h6 style="color: black">Department: {{$gets_Production}}</h6>
                   </div><!-- card -->
               </div><!-- col-4 -->
 
-              <div class="col-3">
+              {{-- ======================================================== --}}
+              <div class="col-3 mt-3">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Employee Name: --</h6>
+                    <h6 style="color: black">Employee Name: {{$gets_employee}}</h6>
                 </div><!-- card -->
             </div><!-- col-4 -->
 
-
-              <div class="col-3">
+              {{-- ======================================================== --}}
+              <div class="col-3 mt-3">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Status: --</h6>
+                    <h6 style="color: black">Status: {{$gets_status}}</h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
-
-
-              <div class="col-3">
+              {{-- ======================================================== --}}
+              <div class="col-3 mt-3">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Expected Refund:  --</h6>
+                    <h6 style="color: black">Expected Refund: {{$gets_expectedRefund}}</h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
-              <div class="col-3">
+              {{-- ======================================================== --}}
+              <div class="col-3 mt-3">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Client Satisfaction: --</h6>
+                    <h6 style="color: black">Client Satisfaction: {{$gets_remarks}}</h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
-
-              <div class="col-3">
+                {{-- ======================================================== --}}
+              {{-- <div class="col-3">
                   <div class="card bd-gray-400 pd-20">
-                      <h6  style="color: black">Signature:</h6>
+                      <h6  style="color: black">Signature:   _____________</h6>
                   </div><!-- card -->
-              </div><!-- col-4 -->
+              </div><!-- col-4 --> --}}
 
         </div>
 
 
 </div><!-- br-pagebody -->
-
-
-
-
-
-
-
 
 
 
@@ -125,13 +132,14 @@
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Production</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Issue</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Description</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">view</th>
                   </tr>
                 </thead>
                 <tbody>
                     @if ($roles == 1)
                         @foreach ($qaforms as $qaform)
                             <tr role="row" class="odd">
-                                <td tabindex="0" class="sorting_1">{{$qaform->Client_Name->name}}</td>
+                                <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->clientID}}">{{$qaform->Client_Name->name}}</a></td>
                                 <td>{{$qaform->Project_Name->name}}</td>
                                 <td>{{$qaform->status}}</td>
                                 <td>{{$qaform->Project_ProjectManager->name}}</td>
@@ -151,11 +159,13 @@
 
                                 <td>{{ $meta->Description_of_issue }}</td>
                                 @endforeach
+                                <td><a href="/client/project/qareport/view/{{$qaform->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > View </button></a></td>
                             </tr>
                         @endforeach
                     @else
                         <tr role="row" class="odd">
                             <td tabindex="0" class="sorting_1">--</td>
+                            <td>--</td>
                             <td>--</td>
                             <td>--</td>
                             <td>--</td>
@@ -169,6 +179,7 @@
 
                 </tbody>
             </table>
+            <a href="/dashboard"><button class="btn btn-outline-primary">BACK</button></a>
 
 
 

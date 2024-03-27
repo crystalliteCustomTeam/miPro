@@ -39,7 +39,11 @@
                   @foreach($departments as $department)
                   <tr role="row" class="odd">
                     <td tabindex="0" class="sorting_1">{{ $department['name'] }}</td>
+                    @if (isset($department->UserName->name) and $department->UserName->name !== null)
                     <td>{{ $department->UserName->name }}</td>
+                    @else
+                        <td><p style="color: red">User Deleted</p></td>
+                    @endif
                     <td>
                       <div class="btn-group">
                           <a href="/deletedepartment/{{ $department->id }}"><button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button></a>
