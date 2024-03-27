@@ -36,7 +36,7 @@
 
             @if ( $qa_data[0]->status != "Not Started Yet")
 
-            <table  id="datatable1"  style="width:70%"  class="table-dark table-hover">
+            <table  id="datatable1"  style="width:100%"  class="table-dark table-hover">
                 <tr>
                   <th>Department:</th>
                   <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td>

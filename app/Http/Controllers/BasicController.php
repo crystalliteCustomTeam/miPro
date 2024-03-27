@@ -2232,12 +2232,12 @@ class BasicController extends Controller
             $get_statuss = "--";
             $get_remarkss = "--";
             $get_expectedRefunds = "--";
+            $get_issuess = "--";
 
         } else {
 
             $role = 1;
             $qaform = QAFORM::whereBetween('qaform.created_at', [$get_startdate, $get_enddate])->latest('qaform.created_at')->distinct('projectID');
-
             ($get_brand != 0)
                 ? $qaform->where('brandID', $get_brand)
                 : null;
@@ -2268,8 +2268,13 @@ class BasicController extends Controller
             ($get_issues != 0)
                 ? $qaform->whereJsonContains('qaform_metas.issues', $get_issues)
                 : null;
+            ($get_Production != 0 || $get_employee != 0 || $get_issues != 0)
+            ? $qaform->select('qaform.id as mainID','qaform.*','qaform_metas.*')
+            : $qaform->select('qaform.id as mainID','qaform.*');
 
             $result = $qaform->get();
+
+
 
             if($get_brand != 0){
                 $getbrands = Brand::where('id',$get_brand)->get();
@@ -2324,6 +2329,12 @@ class BasicController extends Controller
                 $get_expectedRefunds = "--";
             }
 
+            if($get_issues != 0){
+                $get_issuess = $get_issues;
+            }else{
+                $get_issuess = "--";
+            }
+
 
         }
 
@@ -2346,6 +2357,7 @@ class BasicController extends Controller
             'gets_status' =>$get_statuss,
             'gets_remarks' =>$get_remarkss,
             'gets_expectedRefund' =>$get_expectedRefunds,
+            'gets_issues' =>$get_issuess,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]

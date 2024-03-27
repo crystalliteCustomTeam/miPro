@@ -105,11 +105,13 @@
               </div><!-- col-4 -->
 
                 {{-- ======================================================== --}}
-              {{-- <div class="col-3">
-                  <div class="card bd-gray-400 pd-20">
-                      <h6  style="color: black">Signature:   _____________</h6>
-                  </div><!-- card -->
-              </div><!-- col-4 --> --}}
+                <div class="col-3 mt-3">
+                    <div class="card bd-gray-400 pd-20">
+                        <h6 style="color: black">Issue: <label for="" style="color: red">{{$gets_issues}}</label></h6>
+                    </div><!-- card -->
+                  </div><!-- col-4 -->
+
+                 {{-- ======================================================== --}}
 
         </div>
 
@@ -128,10 +130,8 @@
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Project</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Status</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Project Manager</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Summery</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Production</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Issue</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Description</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">view</th>
                   </tr>
                 </thead>
@@ -149,7 +149,6 @@
                                 @endif
 
                                 {{-- <td>{{$qaform->Project_ProjectManager->name}}</td> --}}
-                                <td>{{$qaform->Refund_Request_summery}}</td>
                                 <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
                                 @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
                                 @php
@@ -162,10 +161,8 @@
                                         </ul>
                                     @endforeach
                                 </td>
-
-                                <td>{{ $meta->Description_of_issue }}</td>
                                 @endforeach
-                                <td><a href="/client/project/qareport/view/{{$qaform->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > View </button></a></td>
+                                <td><a href="/client/project/qareport/view/{{$qaform->mainID}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > View </button></a></td>
                             </tr>
                         @endforeach
                     @else
