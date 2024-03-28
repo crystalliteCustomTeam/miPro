@@ -72,35 +72,6 @@
 
                 <div class="row row-sm mg-t-20">
 
-                    @foreach ($eachbranddatas as $eachbranddata)
-                        <div class="col-3 mg-b-15">
-                        <div class="card bd-gray-400 pd-20">
-                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">{{$eachbranddata[0][0]->name}}</h6>
-                            <div class="d-flex mg-b-10">
-                            <div class="bd-r pd-r-10">
-                                <label class="tx-12">Clients</label>
-                                <p class="tx-lato tx-inverse tx-bold">{{$eachbranddata[1]}}</p>
-                            </div>
-                            <div class="bd-r pd-x-10">
-                                <label class="tx-12">M.Refund</label>
-                                <p class="tx-lato tx-inverse tx-bold">{{$eachbranddata[2]}}</p>
-                            </div>
-                            <div class="pd-l-10">
-                                <label class="tx-12">M.Dispute</label>
-                                <p class="tx-lato tx-inverse tx-bold">{{$eachbranddata[3]}}</p>
-                            </div>
-                            </div><!-- d-flex -->
-                            <div class="progress mg-b-10">
-                                <div class="progress-bar bg-purple wd-100p" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div><!-- card -->
-                    </div><!-- col-4 -->
-                    @endforeach
-                </div><!-- row -->
-
-
-                <div class="row row-sm mg-t-20">
-
 
                         <div class="col-3 mg-b-15">
                         <div class="card bd-gray-400 pd-20">
@@ -114,19 +85,6 @@
                         </div><!-- card -->
                     </div><!-- col-4 -->
                 </div><!-- row -->
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             </div><!-- br-pagebody -->
