@@ -71,16 +71,18 @@
         <div class="br-section-wrapper">
            <h2>QA Issues:</h2>
 
-           <table class="table" id="datatable1">
-              <tr>
-                <td style="font-weight:bold;">ID</td>
-                <td style="font-weight:bold;">Department</td>
-                <td style="font-weight:bold;">Servicess</td>
-                <td style="font-weight:bold;">Action</td>
-              </tr>
-              <tbody>
+           <table class="table" id="datatable1" class="table-dark table-hover">
+            <thead>
+                <tr role="row">
+                    <td style="font-weight:bold;">ID</td>
+                    <td style="font-weight:bold;">Department</td>
+                    <td style="font-weight:bold;">Servicess</td>
+                    <td style="font-weight:bold;">Action</td>
+                  </tr>
+            </thead>
+            <tbody>
                 @foreach ($ProductionServices as $ProductionService)
-                  <tr>
+                  <tr  role="row" class="odd">
                     <td>{{ $ProductionService->id }}</td>
                     <td>{{ $ProductionService->Prod_Depart->name  }}</td>
                     <td>{{ $ProductionService->services  }}</td>

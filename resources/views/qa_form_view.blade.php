@@ -169,9 +169,14 @@
                   <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td>
                 </tr>
                 <tr>
-                  <th>Assignee:</th>
-                  <td>{{$Proj_Prod[0]->EmployeeNameinProjectProduction->name}}</td>
-                </tr>
+                    <th>Assignee:</th>
+                    @if (isset($Proj_Prod[0]->EmployeeNameinProjectProduction->name) and $Proj_Prod[0]->EmployeeNameinProjectProduction->name !== null)
+                    <td>{{$Proj_Prod[0]->EmployeeNameinProjectProduction->name}}</td>
+                    @else
+                    <td><p style="color: red">User Deleted</p></td>
+                    @endif
+                    {{-- <td>{{$Proj_Prod[0]->EmployeeNameinProjectProduction->name}}</td> --}}
+                  </tr>
                 <tr>
                     <th>Issue:</th>
                     <td>--</td>

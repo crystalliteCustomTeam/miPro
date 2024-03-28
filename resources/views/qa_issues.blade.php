@@ -67,16 +67,18 @@
         <div class="br-section-wrapper">
            <h2>QA Issues:</h2>
 
-           <table class="table" id="datatable1">
-              <tr>
-                <td style="font-weight:bold;">ID</td>
-                <td style="font-weight:bold;">Department</td>
-                <td style="font-weight:bold;">Issues</td>
-                <td style="font-weight:bold;">Action</td>
-              </tr>
+           <table class="table" id="datatable1" class="table-dark table-hover">
+            <thead>
+                <tr role="row">
+                    <td style="font-weight:bold;">ID</td>
+                    <td style="font-weight:bold;">Department</td>
+                    <td style="font-weight:bold;">Issues</td>
+                    <td style="font-weight:bold;">Action</td>
+                  </tr>
+            </thead>
               <tbody>
                 @foreach ($qa_issues as $qa_issue)
-                  <tr>
+                  <tr role="row" class="odd">
                     <td>{{ $qa_issue->id }}</td>
                     <td>{{ $qa_issue->Issue_Depart->name  }}</td>
                     <td>{{ $qa_issue->issues  }}</td>

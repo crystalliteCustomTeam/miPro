@@ -22,12 +22,12 @@
     <link href="{{ asset('lib/datatables.net-dt/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{{ asset('css/bracket.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bracket.oreo.css') }}">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   </head>
 
   <body>
@@ -122,6 +122,157 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
+            <div class="row">
+                <div class="col-4">
+                    <script type="text/javascript">
+
+                        // Load the Visualization API and the corechart package.
+                        google.charts.load('current', {'packages':['corechart']});
+
+                        // Set a callback to run when the Google Visualization API is loaded.
+                        google.charts.setOnLoadCallback(drawChart);
+
+                        // Callback that creates and populates a data table,
+                        // instantiates the pie chart, passes in the data and
+                        // draws it.
+                        function drawChart() {
+
+                          // Create the data table.
+                          var data = new google.visualization.DataTable();
+                          data.addColumn('string', 'Topping');
+                          data.addColumn('number', 'Slices');
+                          data.addRows([
+                            ['On Going', {{$status_OnGoing}}],
+                            ['Dispute', {{$status_Dispute}}],
+                            ['Refund', {{$status_Refund}}],
+                            ['Not Started Yet', {{$status_NotStartedYet}}],
+                          ]);
+
+                          // Set chart options
+                          var options = {'title':'Monthly Client Status',
+                                         'width':400,
+                                         'height':300};
+
+                          // Instantiate and draw our chart, passing in some options.
+                          var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                          chart.draw(data, options);
+                        }
+                      </script>
+
+                    <div id="chart_div"></div>
+
+                </div>
+                <div class="col-4">
+                    <script type="text/javascript">
+
+                        // Load the Visualization API and the corechart package.
+                        google.charts.load('current', {'packages':['corechart']});
+
+                        // Set a callback to run when the Google Visualization API is loaded.
+                        google.charts.setOnLoadCallback(drawChart);
+
+                        // Callback that creates and populates a data table,
+                        // instantiates the pie chart, passes in the data and
+                        // draws it.
+                        function drawChart() {
+
+                          // Create the data table.
+                          var data = new google.visualization.DataTable();
+                          data.addColumn('string', 'Topping');
+                          data.addColumn('number', 'Slices');
+                          data.addRows([
+                            ['Extremely Satisfied', {{$remark_ExtremelySatisfied}}],
+                            ['Somewhat Satisfied', {{$remark_SomewhatSatisfied}}],
+                            ['Neither Satisfied nor Dissatisfied', {{$remark_NeitherSatisfiednorDissatisfied}}],
+                            ['Somewhat Dissatisfied', {{$remark_SomewhatDissatisfied}}],
+                            ['Extremely Dissatisfied', {{$remark_ExtremelyDissatisfied}}]
+                          ]);
+
+                          // Set chart options
+                          var options = {'title':'Monthly Client Remarks',
+                         // colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+                                         'width':400,
+                                         'height':300};
+
+                          // Instantiate and draw our chart, passing in some options.
+                          var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+                          chart.draw(data, options);
+                        }
+                      </script>
+
+                    <div id="chart_div1"></div>
+
+                </div>
+
+                <div class="col-4">
+                    <script type="text/javascript">
+
+                        // Load the Visualization API and the corechart package.
+                        google.charts.load('current', {'packages':['corechart']});
+
+                        // Set a callback to run when the Google Visualization API is loaded.
+                        google.charts.setOnLoadCallback(drawChart);
+
+                        // Callback that creates and populates a data table,
+                        // instantiates the pie chart, passes in the data and
+                        // draws it.
+                        function drawChart() {
+
+                          // Create the data table.
+                          var data = new google.visualization.DataTable();
+                          data.addColumn('string', 'Topping');
+                          data.addColumn('number', 'Slices');
+                          data.addRows([
+                            ['Going Good', {{$ExpectedRefundDispute_GoingGood}}],
+                            ['Low', {{$ExpectedRefundDispute_Low}}],
+                            ['Medium', {{$ExpectedRefundDispute_Moderate}}],
+                            ['High', {{$ExpectedRefundDispute_High}}],
+                          ]);
+
+                          // Set chart options
+                          var options = {'title':'Monthly Expected Refund',
+                                         'width':400,
+                                         'height':300};
+
+                          // Instantiate and draw our chart, passing in some options.
+                          var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
+                          chart.draw(data, options);
+                        }
+                      </script>
+
+                    <div id="chart_div2"></div>
+
+                </div>
+
+                {{-- <div class="col-4">
+                    <script type="text/javascript">
+                        google.charts.load("current", {packages:["corechart"]});
+                        google.charts.setOnLoadCallback(drawChart);
+                        function drawChart() {
+                          var data = google.visualization.arrayToDataTable([
+                            ['Task', 'Hours per Day'],
+                            ['Work',     11],
+                            ['Eat',      2],
+                            ['Commute',  2],
+                            ['Watch TV', 2],
+                            ['Sleep',    7]
+                          ]);
+
+                          var options = {
+                            title: 'My Daily Activities',
+                            pieHole: 0.4,
+                          };
+
+                          var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                          chart.draw(data, options);
+                        }
+                      </script>
+
+                        <div id="donutchart" style="width: 500px; height: 250px;"></div>
+
+                </div>
+
+            </div> --}}
 
             <table id="datatable1" class="table-dark table-hover">
                 <thead>
@@ -150,6 +301,7 @@
 
                                 {{-- <td>{{$qaform->Project_ProjectManager->name}}</td> --}}
                                 <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
+                                @if ($qaform->status != "Not Started Yet")
                                 @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
                                 @php
                                 $qa_issues = json_decode($meta->issues)
@@ -160,16 +312,20 @@
                                             <li>{{$issue}}</li>
                                         </ul>
                                     @endforeach
+
                                 </td>
                                 @endforeach
+                                @else
+                                <td>--</td>
+
+                                @endif
+
                                 <td><a href="/client/project/qareport/view/{{$qaform->mainID}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > View </button></a></td>
                             </tr>
                         @endforeach
                     @else
                         <tr role="row" class="odd">
                             <td tabindex="0" class="sorting_1">--</td>
-                            <td>--</td>
-                            <td>--</td>
                             <td>--</td>
                             <td>--</td>
                             <td>--</td>
