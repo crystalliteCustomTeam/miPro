@@ -79,13 +79,6 @@
               {{-- ======================================================== --}}
               <div class="col-3 mt-3">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Employee Name: {{$gets_employee}}</h6>
-                </div><!-- card -->
-            </div><!-- col-4 -->
-
-              {{-- ======================================================== --}}
-              <div class="col-3 mt-3">
-                <div class="card bd-gray-400 pd-20">
                     <h6 style="color: black">Status: {{$gets_status}}</h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
@@ -150,6 +143,7 @@
 
                           // Set chart options
                           var options = {'title':'Monthly Client Status',
+                          colors: ['green', 'red', 'purple', 'blue'],
                                          'width':400,
                                          'height':300};
 
@@ -189,8 +183,8 @@
                           ]);
 
                           // Set chart options
-                          var options = {'title':'Monthly Client Remarks',
-                         // colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+                          var options = {'title':'Monthly QA Remarks',
+                          colors: ['green', 'blue', 'yellow', 'purple', 'red'],
                                          'width':400,
                                          'height':300};
 
@@ -231,6 +225,7 @@
 
                           // Set chart options
                           var options = {'title':'Monthly Expected Refund',
+                          colors: ['green', 'yellow', 'purple', 'red'],
                                          'width':400,
                                          'height':300};
 

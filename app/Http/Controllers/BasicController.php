@@ -324,34 +324,8 @@ class BasicController extends Controller
                 $loginUser = $request->session()->get('AdminUser');
                 $superUser = $loginUser->userRole;
                 $userID = $loginUser->id;
-                $brand = Brand::get();
-                $eachbranddata = [];
-                foreach($brand as $brands){
-                    $brandName = Brand::where("id", $brands->id)->get();
-                    $brandclient = Client::where('brand',$brands->id)->count();
-                    $brandrefund_Month = QAFORM::where('brandID',$brands->id)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
-                    $branddispute_Month = QAFORM::where('brandID',$brands->id)->whereMonth('created_at', now())->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
-                    $eachbranddata[] = [$brandName, $brandclient, $brandrefund_Month, $branddispute_Month];
-                }
-                // $idInQadepart = Department::where('name', 'LIKE', 'Q%')->get();
-                // $qapersons = json_decode($idInQadepart[0]->users);
-                // $eachPersonqaform = [];
-                // foreach ($qapersons as $users) {
-                //     $personName = Employee::where("id", $users)->get();
-                //     $qapersonsclients = QaPersonClientAssign::where("user", $users)->count();
-                //     $today_count = QAFORM::where('qaPerson', $users)->whereDate('created_at', '=', now()->toDateString())->count();
-                //     $currentMonth_disputedClients = QAFORM::where('qaPerson', $users)->whereMonth('created_at', now())->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
-                //     $currentMonth_refundClients = QAFORM::where('qaPerson', $users)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
-                //     $eachPersonqaform[] = [$personName, $qapersonsclients, $today_count, $currentMonth_disputedClients, $currentMonth_refundClients];
-                // }
-                // $last5qaform = QAFORM::where('client_satisfaction', 'Extremely Dissatisfied')->orwhere('status_of_refund', 'High')->latest('id')->limit(5)->get();
-                // $last5qaformstatus = Count($last5qaform);
-                // $totalClient = Client::count();
-                // $totalrefund =  QAFORM::where('Refund_Requested', 'Yes')->Distinct('projectID')->latest('created_at')->count();
-                // $totaldispute =  QAFORM::where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
 
                 return view('dashboard_without_department', [
-                    'eachbranddatas' => $eachbranddata,
                     'LoginUser' => $loginUser,
                     'departmentAccess' => $userID,
                     'superUser' => $superUser
@@ -1160,10 +1134,12 @@ class BasicController extends Controller
         $productionservices = ProductionServices::get();
         $Client = Client::where('id', $id)->get();
         $ClientMeta = ClientMeta::where('clientID', $id)->get();
+        $clientMetaCount = Count($ClientMeta);
 
         return view('editClient', [
             'clients' => $Client,
             'clientmetas' => $ClientMeta,
+            'clientMetaCount' => $clientMetaCount,
             'Brands' => $brand,
             'ProjectManagers' => $projectManager,
             'departments' => $department,
@@ -1199,7 +1175,7 @@ class BasicController extends Controller
                 "Payment_Nature" => $request->input('paymentnature'),
                 "ANY_COMMITMENT" => $request->input('anycommitment')
             ];
-            $clientmeta = DB::table('clientmetas')->where('clientID', $id)->update([
+            $clientmeta = ClientMeta::table('clientmetas')->where('clientID', $id)->update([
                 'packageName' => $request->input('package'),
                 'amountPaid' =>  $request->input('projectamount'),
                 'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
@@ -1269,6 +1245,137 @@ class BasicController extends Controller
         }
 
         return redirect('all/clients');
+    }
+
+    function editClientProcess_withoutmeta(Request $request, $id){
+        $createClient = Client::where('id', $id)
+        ->Update([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'brand' => $request->input('brand'),
+            'frontSeler' => $request->input('saleperson'),
+            'website' => $request->input('website'),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+        $domain =$request->input('domain');
+
+        return redirect('/clientmetaupdate/'. $id .'/'. $domain);
+
+    }
+
+    function editClientmeta(Request $request, $id, $domain){
+        $loginUser = $this->roleExits($request);
+        $clientid = $id;
+        $domains = $domain;
+        $productionservice = ProductionServices::get();
+        return view('client_meta_editcreation',[
+            'clientid' => $clientid,
+            'domains' => $domains,
+            'productionservices' => $productionservice,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
+
+    function editClientProcess_withoutmeta_metacreationprocess(Request $request){
+        $domain = $request->input('serviceType');
+        $client = $request->input('clientID');
+
+        if ($domain == 'seo') {
+
+
+            $SEO_ARRAY = [
+                "KEYWORD_COUNT" => $request->input('KeywordCount'),
+                "TARGET_MARKET" => $request->input('TargetMarket'),
+                "OTHER_SERVICE" => $request->input('OtherServices'),
+                "LEAD_PLATFORM" => $request->input('leadplatform'),
+                "Payment_Nature" => $request->input('paymentnature'),
+                "ANY_COMMITMENT" => $request->input('anycommitment')
+            ];
+            $clientmeta = ClientMeta::create([
+                'clientID' => $client,
+                'service' => $domain,
+                'packageName' => $request->input('package'),
+                'amountPaid' =>  $request->input('projectamount'),
+                'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+                'nextPayment' =>  $request->input('nextamount'),
+                'paymentRecuring' => $request->input('ChargingPlan'),
+                'orderDetails' => json_encode($SEO_ARRAY),
+                'updated_at' => date('y-m-d H:m:s')
+            ]);
+        } elseif ($domain == 'book') {
+
+
+            $BOOK_ARRAY = [
+                "PRODUCT" => $request->input('product'),
+                "MENU_SCRIPT" => $request->input('menuscript'),
+                "BOOK_GENRE" => $request->input('bookgenre'),
+                "COVER_DESIGN" => $request->input('coverdesign'),
+                "TOTAL_NUMBER_OF_PAGES" => $request->input('totalnumberofpages'),
+                "PUBLISHING_PLATFORM" => $request->input('publishingplatform'),
+                "ISBN_OFFERED" => $request->input('isbn_offered'),
+                "LEAD_PLATFORM" => $request->input('leadplatform'),
+                "ANY_COMMITMENT" => $request->input('anycommitment')
+            ];
+            $clientmeta = ClientMeta::create([
+                'clientID' => $client,
+                'service' => $domain,
+                'packageName' => $request->input('package'),
+                'amountPaid' =>  $request->input('projectamount'),
+                'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+                'nextPayment' =>  $request->input('nextamount'),
+                'paymentRecuring' => $request->input('ChargingPlan'),
+                'orderDetails' => json_encode($BOOK_ARRAY),
+                'updated_at' => date('y-m-d H:m:s')
+            ]);
+        } elseif ($domain == 'website') {
+
+            $WEBSITE_ARRAY = [
+                "OTHER_SERVICES" => $request->input('otherservices'),
+                "LEAD_PLATFORM" => $request->input('leadplatform'),
+                "ANY_COMMITMENT" => $request->input('anycommitment')
+
+            ];
+
+            $clientmeta = ClientMeta::create([
+                'clientID' => $client,
+                'service' => $domain,
+                'packageName' => json_encode($request->input('package')),
+                'amountPaid' =>  $request->input('projectamount'),
+                'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+                'nextPayment' =>  $request->input('nextamount'),
+                'paymentRecuring' => $request->input('ChargingPlan'),
+                'orderDetails' => json_encode($WEBSITE_ARRAY),
+                'updated_at' => date('y-m-d H:m:s')
+            ]);
+        } else {
+
+            $CLD_ARRAY = [
+                "OTHER_SERVICES" => $request->input('otherservices'),
+                "LEAD_PLATFORM" => $request->input('leadplatform'),
+                "ANY_COMMITMENT" => $request->input('anycommitment')
+            ];
+
+            $clientmeta = ClientMeta::create([
+                'clientID' => $client,
+                'service' => $domain,
+                'packageName' => json_encode($request->input('package')),
+                'amountPaid' =>  $request->input('projectamount'),
+                'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
+                'nextPayment' =>  $request->input('nextamount'),
+                'paymentRecuring' => $request->input('ChargingPlan'),
+                'orderDetails' => json_encode($CLD_ARRAY),
+                'updated_at' => date('y-m-d H:m:s')
+            ]);
+        }
+
+        return redirect('all/clients');
+
+
     }
 
     function book(Request $request)
@@ -2269,7 +2376,6 @@ class BasicController extends Controller
             $get_projectmanagers = "--";
             $get_clients = "--";
             $get_Productions = "--";
-            $get_employees = "--";
             $get_statuss = "--";
             $get_remarkss = "--";
             $get_expectedRefunds = "--";
@@ -2302,9 +2408,6 @@ class BasicController extends Controller
                 : null;
             ($get_Production != 0)
                 ? $qaform->where('qaform_metas.departmant', $get_Production)
-                : null;
-            ($get_employee != 0)
-                ? $qaform->where('qaform_metas.responsible_person', $get_employee)
                 : null;
             ($get_issues != 0)
                 ? $qaform->whereJsonContains('qaform_metas.issues', $get_issues)
@@ -2345,13 +2448,6 @@ class BasicController extends Controller
                 $get_Productions = "--";
             }
 
-            if($get_employee != 0){
-                $getemployees = Employee::where('id',$get_employee)->get();
-                $get_employees = $getemployees[0]->name;
-            }else{
-                $get_employees = "--";
-            }
-
             if($get_status != 0){
                 $get_statuss = $get_status;
             }else{
@@ -2384,11 +2480,7 @@ class BasicController extends Controller
 
         }
 
-            $status_OnGoing = QAFORM::whereMonth('created_at', now())
-                                        ->latest('qaform.created_at')
-                                        ->distinct('projectID')
-                                        ->where('status','On Going')
-                                        ->count();
+            $status_OnGoing = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','On Going')->count();
             $status_Dispute = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Dispute')->count();
             $status_Refund = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Refund')->count();
             $status_NotStartedYet = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Not Started Yet')->count();
@@ -2417,7 +2509,6 @@ class BasicController extends Controller
             'gets_projectmanager' =>$get_projectmanagers,
             'gets_client' =>$get_clients,
             'gets_Production' =>$get_Productions,
-            'gets_employee' =>$get_employees,
             'gets_status' =>$get_statuss,
             'gets_remarks' =>$get_remarkss,
             'gets_expectedRefund' =>$get_expectedRefunds,

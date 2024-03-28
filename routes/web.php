@@ -82,6 +82,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/csv_uploads','csv_client');
 
         Route::get('/forms/kyc/edit/{id}','editClient');
+        Route::get('/clientmetaupdate/{id}/{n}','editClientmeta');
 
         //qaform:
         Route::get('/forms/qaform_d','qaform');
@@ -130,6 +131,8 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/forms/kyc/process/client','kycclientprocess');
         Route::post('/forms/csv_uploads/process','importExcel');
         Route::post('/forms/kyc/process/editclient/{id}','editClientProcess');
+        Route::post('/forms/kyc/process/editclientwithoutmeta/{id}','editClientProcess_withoutmeta');
+        Route::post('/forms/kyc/process/editclientwithoutmeta_metacreationprocess','editClientProcess_withoutmeta_metacreationprocess');
         Route::post('/client/project/process','clientProjectProcess');
         ROute::post('/client/project/production/{id}/process','Project_ProductionProcess');
         Route::post('/client/editproject/{id}/process','editProjectProcess');

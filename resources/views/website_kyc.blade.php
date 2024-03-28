@@ -29,15 +29,15 @@
             <div class="row">
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Name:</label>
-                    <input type="text" required name="name" class="form-control" required>
+                    <input type="text"  name="name" class="form-control" required>
                 </div>
                 <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Phone Number:</label>
-                    <input type="text" required name="phone" required class="form-control">
+                    <input type="text"  name="phone" required class="form-control">
                 </div>
                 <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Email:</label>
-                    <input type="email" required name="email" required class="form-control">
+                    <input type="email"  name="email" required class="form-control">
                 </div>
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Brand:</label>
@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
-                  <input type="text" required name="website" required class="form-control">
+                  <input type="text"  name="website" required class="form-control">
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package</label>
@@ -124,19 +124,19 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Project Amount</label>
-                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount">
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
-                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Future Next Payment Date </label>
-                    <input type="date" class="form-control" name="nextamount">
+                    <input type="date" class="form-control" name="nextamount" required>
                   </div>
                       <div class="col-8 mt-3">
                         <label for="" style="font-weight:bold;">Anymore commitment?</label>
-                        <input type="text" class="form-control" name="anycommitment">
+                        <input type="text" class="form-control" name="anycommitment" required>
                       </div>
 
             </div>

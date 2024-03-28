@@ -69,22 +69,6 @@
             </div>
 
             <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Employee:</label>
-                <select class="form-control select2"  name="employee" onchange="createURL6(this.value)">
-                    <option value="0" >Select</option>
-                    @foreach($employees as $employee)
-                    <option value="{{ $employee->id }}">
-                      {{ $employee->name }}
-                      --
-                      @foreach($employee->deparment($employee->id)  as $dm)
-                                <strong>{{ $dm->name }}</strong>
-                              @endforeach
-                    </option>
-                @endforeach
-              </select>
-            </div>
-
-            <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Status:</label>
                 <select class="form-control select2"  name="status" onchange="createURL7(this.value)">
                     <option value="0" >Select</option>
@@ -145,7 +129,6 @@
                         "projectmanager" : 0,
                         "client": 0,
                         "production": 0,
-                        "employee": 0,
                         "status": 0,
                         "remarks": 0,
                         "expectedRefund": 0,
@@ -215,17 +198,6 @@
                 } else {
                     // If "start" property doesn't exist, add it
                     baseURL["production"] = value;
-                }
-                console.log(baseURL);
-            }
-
-            function createURL6(value) {
-                if (baseURL.hasOwnProperty("employee")) {
-                    // Update the existing "start" property
-                    baseURL["employee"] = value;
-                } else {
-                    // If "start" property doesn't exist, add it
-                    baseURL["employee"] = value;
                 }
                 console.log(baseURL);
             }
