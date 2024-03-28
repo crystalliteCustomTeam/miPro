@@ -35,7 +35,12 @@
                     @foreach($employees as $employee)
                     <tr>
                         @if (in_array($employee->id, json_decode($departeditdata->users)))
+                        @if (isset($employee->id) and $employee->id !== null)
                         <td><a href="/userprofile/{{ $employee->id }}">{{ $employee->name }}</td>
+                        @else
+                            <td><p style="color: red">User Deleted</p></td>
+                        @endif
+                        {{-- <td><a href="/userprofile/{{ $employee->id }}">{{ $employee->name }}</td> --}}
                       <td>{{ $employee->position }}</td>
                       <td>{{ $employee->email }}</td>
                         @endif

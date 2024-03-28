@@ -24,20 +24,31 @@
           <div class="br-section-wrapper">
             <button class="btn btn-outline-primary">Client Name: {{$qa_data[0]->Client_Name->name}}</button>
               <button class="btn btn-outline-primary">Project Name:  {{$qa_data[0]->Project_Name->name}} </button>
+              @if (isset($qa_data[0]->Project_ProjectManager->name) and $qa_data[0]->Project_ProjectManager->name !== null)
               <button class="btn btn-outline-primary">Project Manager: {{$qa_data[0]->Project_ProjectManager->name}}</button>
+              @else
+              <button class="btn btn-outline-danger">Project Manager: User Deleted</button>
+              @endif
+
+              {{-- <button class="btn btn-outline-primary">Project Manager: {{$qa_data[0]->Project_ProjectManager->name}}</button> --}}
               <button class="btn btn-outline-primary">Brand: {{$qa_data[0]->Brand_Name->name}}</button>
               <br><br>
 
             @if ( $qa_data[0]->status != "Not Started Yet")
 
-            <table  id="datatable1"  style="width:70%"  class="table-dark table-hover">
+            <table  id="datatable1"  style="width:100%"  class="table-dark table-hover">
                 <tr>
                   <th>Department:</th>
                   <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td>
                 </tr>
                 <tr>
                   <th>Assignee:</th>
+                  @if (isset($Proj_Prod[0]->EmployeeNameinProjectProduction->name) and $Proj_Prod[0]->EmployeeNameinProjectProduction->name !== null)
                   <td>{{$Proj_Prod[0]->EmployeeNameinProjectProduction->name}}</td>
+                  @else
+                  <td><p style="color: red">User Deleted</p></td>
+                  @endif
+                  {{-- <td>{{$Proj_Prod[0]->EmployeeNameinProjectProduction->name}}</td> --}}
                 </tr>
                 <tr>
                     <th>Issue:</th>
@@ -123,7 +134,12 @@
                 </tr>
                 <tr>
                     <th>QA Person:</th>
+                    @if (isset($qa_data[0]->QA_Person->name) and $qa_data[0]->QA_Person->name !== null)
                     <td>{{$qa_data[0]->QA_Person->name}}</td>
+                    @else
+                    <td><p style="color: red">User Deleted</p></td>
+                    @endif
+                    {{-- <td>{{$qa_data[0]->QA_Person->name}}</td> --}}
                 </tr>
 
                 @if ($qa_data[0]->Refund_Request_Attachment != "--")
@@ -153,9 +169,14 @@
                   <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td>
                 </tr>
                 <tr>
-                  <th>Assignee:</th>
-                  <td>{{$Proj_Prod[0]->EmployeeNameinProjectProduction->name}}</td>
-                </tr>
+                    <th>Assignee:</th>
+                    @if (isset($Proj_Prod[0]->EmployeeNameinProjectProduction->name) and $Proj_Prod[0]->EmployeeNameinProjectProduction->name !== null)
+                    <td>{{$Proj_Prod[0]->EmployeeNameinProjectProduction->name}}</td>
+                    @else
+                    <td><p style="color: red">User Deleted</p></td>
+                    @endif
+                    {{-- <td>{{$Proj_Prod[0]->EmployeeNameinProjectProduction->name}}</td> --}}
+                  </tr>
                 <tr>
                     <th>Issue:</th>
                     <td>--</td>

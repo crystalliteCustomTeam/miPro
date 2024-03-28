@@ -42,7 +42,12 @@
                   <td tabindex="0" class="sorting_1">{{ $company->name }}</td>
                   <td>{{ $company->email }}</td>
                   <td>{{ $company->tel }}</td>
-                  <td>{{ $company->brandOwnerName->name }}</td>
+                  @if (isset($company->brandOwnerName->name) and $company->brandOwnerName->name !== null)
+                    <td>{{ $company->brandOwnerName->name }}</td>
+                  @else
+                    <td><p style="color: red">User Deleted</p></td>
+                  @endif
+                  {{-- <td>{{ $company->brandOwnerName->name }}</td> --}}
                   <td>{{ $company->website }}</td>
                   <td>
                       <div class="button-group">

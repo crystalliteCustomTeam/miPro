@@ -39,7 +39,7 @@
                               <strong>{{ $dm->name }}</strong>
                               @endforeach
                             @endif
-
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -48,6 +48,8 @@
                     <select class="form-control select2" name="client">
                         @foreach($clients as $client)
                         <option value="{{ $client->id }}">{{ $client->name }}
+                            --
+                              <strong>{{ $client->projectbrand->name }}</strong>
                         </option>
                         @endforeach
                     </select>
@@ -81,19 +83,23 @@
         <div class="br-section-wrapper">
            <h2>Assigned Clients:</h2>
 
-           <table class="table" id="datatable1">
-              <tr>
-                <td style="font-weight:bold;">ID</td>
-                <td style="font-weight:bold;">User Name</td>
-                <td style="font-weight:bold;">Client</td>
-                <td style="font-weight:bold;">Action</td>
-              </tr>
+           <table class="table" id="datatable1" class="table-dark table-hover">
+            <thead>
+                <tr  role="row">
+                    <td style="font-weight:bold;">ID</td>
+                    <td style="font-weight:bold;">User Name</td>
+                    <td style="font-weight:bold;">Client</td>
+                    <td style="font-weight:bold;">Brand</td>
+                    <td style="font-weight:bold;">Action</td>
+                  </tr>
+            </thead>
               <tbody>
                 @foreach ($QaPersonClientAssigns as $QaPersonClientAssign)
-                  <tr>
+                  <tr role="row" class="odd">
                     <td>{{ $QaPersonClientAssign->id }}</td>
                     <td>{{ $QaPersonClientAssign->Username->name  }}</td>
                     <td>{{ $QaPersonClientAssign->clientname->name  }}</td>
+                    <td>{{ $QaPersonClientAssign->clientname->projectbrand->name  }}</td>
                     <td>
                         <div class="btn-group">
                             <a href="/settings/changeuser/client/{{ $QaPersonClientAssign->id }}"><button class="btn btn-success btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/1159/1159633.png" alt="" style="filter: invert(1);"> Change Assignee</button></a>

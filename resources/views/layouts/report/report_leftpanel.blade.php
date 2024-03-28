@@ -21,7 +21,7 @@
                 <select class="form-control select2"  name="brand" onchange="createURL2(this.value)" >
                     <option value="0" >Select</option>
                 @foreach($brands as $brand)
-                    <option value="{{ $brand->id }}" >
+                    <option value="{{ $brand->id }}">
                       {{ $brand->name }}
                     </option>
                 @endforeach
@@ -123,7 +123,7 @@
                 <select class="form-control select2"  name="issues" onchange="createURL10(this.value)">
                     <option value="0" >Select</option>
                     @foreach($issues as $issue)
-                        <option value="{{ $issue->id }}">
+                        <option value="{{ $issue->issues }}">
                             {{ $issue->issues }}
                         </option>
                     @endforeach

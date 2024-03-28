@@ -26,7 +26,12 @@
             <br><br>
               <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
               <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
-              <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
+              @if (isset( $projects[0]->EmployeeName->name) and $projects[0]->EmployeeName->name !== null)
+              <button class="btn btn-outline-primary">Project Manager: {{ $projects[0]->EmployeeName->name }}</button>
+              @else
+              <button class="btn btn-outline-danger">Project Manager: User Deleted</button>
+              @endif
+              {{-- <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button> --}}
               <a href="/client/project/productions/{{$prjectid}}"><button class="btn btn-outline-success">Add Production</button></a>
               <br><br>
             <div class="row">
@@ -42,8 +47,13 @@
                   <tbody>
                     @foreach($productions as $production)
                     <tr>
-                        <td>{{ $production->DepartNameinProjectProduction->name }}</td>
-                        <td><a href="/userprofile/{{ $production->responsible_person }}">{{ $production->EmployeeNameinProjectProduction->name }}</a></td>
+                      <td>{{ $production->DepartNameinProjectProduction->name }}</td>
+                      @if (isset( $production->EmployeeNameinProjectProduction->name) and $production->EmployeeNameinProjectProduction->name !== null)
+                      <td><a href="/userprofile/{{ $production->responsible_person }}">{{ $production->EmployeeNameinProjectProduction->name }}</a></td>
+                      @else
+                      <td><p style="color: red">User Deleted</p></td>
+                      @endif
+                      {{-- <td><a href="/userprofile/{{ $production->responsible_person }}">{{ $production->EmployeeNameinProjectProduction->name }}</a></td> --}}
                       <td>{{ $production->services }}</td>
                       <td>{{ $production->anycomment}}</td>
                       <td>
