@@ -1175,7 +1175,7 @@ class BasicController extends Controller
                 "Payment_Nature" => $request->input('paymentnature'),
                 "ANY_COMMITMENT" => $request->input('anycommitment')
             ];
-            $clientmeta = ClientMeta::table('clientmetas')->where('clientID', $id)->update([
+            $clientmeta = DB::table('clientmetas')->where('clientID', $id)->update([
                 'packageName' => $request->input('package'),
                 'amountPaid' =>  $request->input('projectamount'),
                 'remainingAmount' => $request->input('projectamount') - $request->input('paidamount'),
