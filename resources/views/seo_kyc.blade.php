@@ -31,15 +31,15 @@
             <div class="row">
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Name:</label>
-                    <input type="text" required name="name" class="form-control" required>
+                    <input type="text" required name="name" class="form-control">
                 </div>
                 <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Phone Number:</label>
-                    <input type="text" required name="phone" required class="form-control">
+                    <input type="text" required name="phone" class="form-control">
                 </div>
                 <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Email:</label>
-                    <input type="email" required name="email" required class="form-control">
+                    <input type="email" required name="email" class="form-control">
                 </div>
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Brand:</label>
@@ -69,15 +69,15 @@
 
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
-                  <input type="text" required name="website" required class="form-control">
+                  <input type="text" required name="website"  class="form-control">
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package Name</label>
-                    <input type="text" class="form-control" name="package">
+                    <input type="text" class="form-control" name="package" required>
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Keyword Count</label>
-                    <input type="text" class="form-control" name="KeywordCount">
+                    <input type="text" class="form-control" name="KeywordCount" required>
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Target Market</label>
@@ -142,15 +142,15 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Project Amount</label>
-                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount">
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
-                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Future Next Payment Date </label>
-                    <input type="date" class="form-control" name="nextamount">
+                    <input type="date" class="form-control" name="nextamount" required>
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Lead Platform</label>
