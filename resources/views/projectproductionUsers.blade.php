@@ -66,6 +66,7 @@
                     @endforeach
                   </tbody>
                 </table>
+                <a href="/client/details/{{$projects[0]->ClientName->id}}"><button class="btn btn-outline-primary">BACK</button></a>
             </div>
             </div>
 

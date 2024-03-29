@@ -64,6 +64,7 @@
                         <div class="btn-group">
                             <a href="/forms/editnewqaform/{{$qafrom->id}}"><button class="btn btn-info btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Edit </button></a>
                             <a href="/client/project/qareport/view/{{$qafrom->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > View </button></a>
+                            <a href="/forms/deletenewqaform/{{$qafrom->id}}"><button class="btn btn-danger btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Delete </button></a>
                         </div>
                      </td>
                       </tr>

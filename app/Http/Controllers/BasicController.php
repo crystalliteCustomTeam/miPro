@@ -1344,7 +1344,15 @@ class BasicController extends Controller
             ]);
         }
 
-        return redirect('all/clients');
+        $loginUser = $this->roleExits($request);
+
+        if( $loginUser[2] == 0 ){
+            return redirect('all/clients');
+        }else{
+            return redirect('/assigned/clients');
+        }
+
+        //return redirect('all/clients');
     }
 
     function editClientProcess_withoutmeta(Request $request, $id){
@@ -1473,7 +1481,15 @@ class BasicController extends Controller
             ]);
         }
 
-        return redirect('all/clients');
+        $loginUser = $this->roleExits($request);
+
+        if( $loginUser[2] == 0){
+            return redirect('all/clients');
+        }else{
+            return redirect('/assigned/clients');
+        }
+
+        //return redirect('all/clients');
 
 
     }
@@ -2260,6 +2276,16 @@ class BasicController extends Controller
 
             return redirect('/forms/newqaform/' . $request->input('projectID'));
         }
+    }
+
+    function new_qaform_delete(Request $request, $id){
+        $deleteqaform1 = DB::table('qaform')->where('id', $id)->get();
+        $deleteqaformMetas = DB::table('qaform_metas')->where('formid', $deleteqaform1[0]->qaformID)->delete();
+        $deleteqaform = DB::table('qaform')->where('id', $id)->delete();
+
+
+        return redirect('/client/project/qareport/'.$deleteqaform1[0]->projectID);
+
     }
 
     function qaformclient(Request $request, $clientid)

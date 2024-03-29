@@ -1,7 +1,14 @@
+
+
+
+
+
+
+
+
 @extends('layouts.app')
 
 @section('maincontent')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -25,6 +32,7 @@
           <div class="br-section-wrapper">
 
 @if ($clientMetaCount > 0)
+
            <form action="/forms/kyc/process/editclient/{{$clients[0]->id}}" method="POST">
                 @csrf
 
@@ -143,524 +151,536 @@
                         @endif
                     </div>
 
-                    @if ($clientmetas[0]->service == 'seo')
-                            @php
-                            $seo_details = json_decode($clientmetas[0]->orderDetails)
-                            @endphp
 
 
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Keyword Count</label>
-                                @if (isset($clientmetas[0]->nextPayment))
-                                <input type="text" class="form-control" name="KeywordCount" value="{{$seo_details->KEYWORD_COUNT}}">
-                                @else
-                                <input type="text" class="form-control" name="KeywordCount">
-                                @endif
-                            </div>
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Target Market</label>
-                                @if (isset($seo_details->TARGET_MARKET))
-                                    <select class="form-control select2"   name="TargetMarket[]" multiple="multiple">
-                                        @foreach ($seo_details->TARGET_MARKET as $targetMarket)
-                                        <option value="{{$targetMarket}}" selected>{{$targetMarket}}</option>
-                                        @endforeach
-                                        <option value="Global">Global</option>
-                                        <option value="Nationwide">Nationwide</option>
-                                        <option value="Local">Local</option>
-                                    </select>
-                                @else
-                                    <select class="form-control select2"   name="TargetMarket[]" multiple="multiple">
-                                        <option value="Global">Global</option>
-                                        <option value="Nationwide">Nationwide</option>
-                                        <option value="Local">Local</option>
-                                    </select>
-                                @endif
-                            </div>
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Other Services</label>
-                                @if (isset($seo_details->OTHER_SERVICE))
-                                    <select class="form-control select2"   name="OtherServices[]" multiple="multiple">
-                                        @foreach ($seo_details->OTHER_SERVICE as $item)
-                                        <option value="{{$item}}" selected>{{$item}}</option>
-                                        @endforeach
-                                        <option value="SMM">SMM</option>
-                                        <option value="GMB">GMB</option>
-                                        <option value="Adword Campaign">Adword Campaign</option>
-                                        <option value="Facebook Campaign">Facebook Campaign</option>
-                                        <option value="Website">Website</option>
-                                        <option value="NFT">NFT</option>
-                                        <option value="NFT Marketing only">NFT Marketing only</option>
-                                        <option value="--">Not Applicable</option>
+            @if ($clientmetas[0]->service == 'seo')
+                    @php
+                    $seo_details = json_decode($clientmetas[0]->orderDetails)
+                    @endphp
 
-                                        @foreach($productionservices as $productionservice)
-                                        <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
-                                        @endforeach
-                                    </select>
-                                @else
-                                <select class="form-control select2"   name="OtherServices[]" multiple="multiple">
-                                    <option value="SMM">SMM</option>
-                                    <option value="GMB">GMB</option>
-                                    <option value="Adword Campaign">Adword Campaign</option>
-                                    <option value="Facebook Campaign">Facebook Campaign</option>
-                                    <option value="Website">Website</option>
-                                    <option value="NFT">NFT</option>
-                                    <option value="NFT Marketing only">NFT Marketing only</option>
-                                    <option value="--">Not Applicable</option>
 
-                                    @foreach($productionservices as $productionservice)
-                                    <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
-                                    @endforeach
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Keyword Count</label>
+                        @if (isset($clientmetas[0]->nextPayment))
+                        <input type="text" class="form-control" name="KeywordCount" value="{{$seo_details->KEYWORD_COUNT}}">
+                        @else
+                        <input type="text" class="form-control" name="KeywordCount">
+                        @endif
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Target Market</label>
+                        @if (isset($seo_details->TARGET_MARKET))
+                            <select class="form-control select2"   name="TargetMarket[]" multiple="multiple">
+                                @foreach ($seo_details->TARGET_MARKET as $targetMarket)
+                                <option value="{{$targetMarket}}" selected>{{$targetMarket}}</option>
+                                @endforeach
+                                <option value="Global">Global</option>
+                                <option value="Nationwide">Nationwide</option>
+                                <option value="Local">Local</option>
+                            </select>
+                        @else
+                            <select class="form-control select2"   name="TargetMarket[]" multiple="multiple">
+                                <option value="Global">Global</option>
+                                <option value="Nationwide">Nationwide</option>
+                                <option value="Local">Local</option>
+                            </select>
+                        @endif
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Other Services</label>
+                        @if (isset($seo_details->OTHER_SERVICE))
+                            <select class="form-control select2"   name="OtherServices[]" multiple="multiple">
+                                @foreach ($seo_details->OTHER_SERVICE as $item)
+                                <option value="{{$item}}" selected>{{$item}}</option>
+                                @endforeach
+                                <option value="SMM">SMM</option>
+                                <option value="GMB">GMB</option>
+                                <option value="Adword Campaign">Adword Campaign</option>
+                                <option value="Facebook Campaign">Facebook Campaign</option>
+                                <option value="Website">Website</option>
+                                <option value="NFT">NFT</option>
+                                <option value="NFT Marketing only">NFT Marketing only</option>
+                                <option value="--">Not Applicable</option>
+
+                                @foreach($productionservices as $productionservice)
+                                <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                        <select class="form-control select2"   name="OtherServices[]" multiple="multiple">
+                            <option value="SMM">SMM</option>
+                            <option value="GMB">GMB</option>
+                            <option value="Adword Campaign">Adword Campaign</option>
+                            <option value="Facebook Campaign">Facebook Campaign</option>
+                            <option value="Website">Website</option>
+                            <option value="NFT">NFT</option>
+                            <option value="NFT Marketing only">NFT Marketing only</option>
+                            <option value="--">Not Applicable</option>
+
+                            @foreach($productionservices as $productionservice)
+                            <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                            @endforeach
+                        </select>
+                        @endif
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Lead Platform</label>
+                        @if (isset($seo_details->LEAD_PLATFORM))
+                            <select class="form-control select2"  name="leadplatform">
+                                <option value="{{$seo_details->LEAD_PLATFORM}}" selected>{{$seo_details->LEAD_PLATFORM}}</option>
+                                <option value="Google Ads">Google Ads</option>
+                                <option value="Bark Lead">Bark Lead</option>
+                                <option value="UpWork Lead">UpWork Lead</option>
+                                <option value="Freelancer">Freelances</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Thumbtack">Thumbtack</option>
+                                <option value="Email Marketing">Email Marketing</option>
+                            </select>
+                        @else
+                            <select class="form-control select2"  name="leadplatform">
+                                <option value="Google Ads">Google Ads</option>
+                                <option value="Bark Lead">Bark Lead</option>
+                                <option value="UpWork Lead">UpWork Lead</option>
+                                <option value="Freelancer">Freelances</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Thumbtack">Thumbtack</option>
+                                <option value="Email Marketing">Email Marketing</option>
+                            </select>
+                        @endif
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Payment Nature</label>
+                        @if (isset($seo_details->Payment_Nature))
+                            <select class="form-control select2"  name="paymentnature">
+                                <option value="{{$seo_details->Payment_Nature}}" selected>{{$seo_details->Payment_Nature}}</option>
+                                <option value="Renewal">Renewal</option>
+                                <option value="Recurring">Recurring</option>
+                                <option value="One Time">One Time</option>
+                            </select>
+                        @else
+                            <select class="form-control select2"  name="paymentnature">
+                                <option value="Renewal">Renewal</option>
+                                <option value="Recurring">Recurring</option>
+                                <option value="One Time">One Time</option>
+                            </select>
+                        @endif
+                    </div>
+                    <div class="col-12 mt-3">
+                        <label for="" style="font-weight:bold;">Anymore commitments?</label>
+                        @if (isset($seo_details->ANY_COMMITMENT))
+                        <textarea name="anycommitment" class="form-control" id="" cols="30" rows="10">{{$seo_details->ANY_COMMITMENT}}</textarea>
+                        @else
+                        <textarea name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
+                        @endif
+                    </div>
+
+            @elseif ($clientmetas[0]->service == 'book')
+                    @php
+                    $book_details = json_decode($clientmetas[0]->orderDetails)
+                    @endphp
+
+
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Product</label>
+                        @if (isset($book_details->PRODUCT))
+                        <select class="form-control select2"  name="product[]" multiple="multiple">
+                            @foreach ($book_details->PRODUCT as $item)
+                            <option value="{{$item}}" selected>{{$item}}</option>
+                            @endforeach
+                            <option value="Editing & Proofreading">Editing & Proofreading</option>
+                            <option value="Ghost Writing">Ghost Writing</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Only Proofreading">Only Proofreading</option>
+
+                            @foreach($productionservices as $productionservice)
+                            <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                            @endforeach
+                        </select>
+                        @else
+                        <select class="form-control select2"  name="product[]" multiple="multiple">
+                            <option value="Editing & Proofreading">Editing & Proofreading</option>
+                            <option value="Ghost Writing">Ghost Writing</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Only Proofreading">Only Proofreading</option>
+
+                            @foreach($productionservices as $productionservice)
+                            <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                            @endforeach
+                        </select>
+                        @endif
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">MenuScript Provided?</label>
+                        @if (isset($book_details->MENU_SCRIPT))
+                            <select class="form-control select2"  name="menuscript">
+                                <option value="{{$book_details->MENU_SCRIPT}}" selected>{{$book_details->MENU_SCRIPT}}</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        @else
+                            <select class="form-control select2"  name="menuscript">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        @endif
+                    </div>
+                        <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Genre of the book?</label>
+                        @if (isset($book_details->BOOK_GENRE))
+                            <input type="text" class="form-control" name="bookgenre" value="{{$book_details->BOOK_GENRE}}">
+                        @else
+                            <input type="text" class="form-control" name="bookgenre">
+                        @endif
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;">Cover design included?</label>
+                            @if (isset($book_details->COVER_DESIGN))
+                                <select class="form-control select2"  name="coverdesign">
+                                    <option value="{{$book_details->COVER_DESIGN}}" selected>{{$book_details->COVER_DESIGN}}</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
                                 </select>
-                                @endif
-                            </div>
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Lead Platform</label>
-                                @if (isset($seo_details->LEAD_PLATFORM))
-                                    <select class="form-control select2"  name="leadplatform">
-                                        <option value="{{$seo_details->LEAD_PLATFORM}}" selected>{{$seo_details->LEAD_PLATFORM}}</option>
-                                        <option value="Google Ads">Google Ads</option>
-                                        <option value="Bark Lead">Bark Lead</option>
-                                        <option value="UpWork Lead">UpWork Lead</option>
-                                        <option value="Freelancer">Freelances</option>
-                                        <option value="Facebook">Facebook</option>
-                                        <option value="Thumbtack">Thumbtack</option>
-                                        <option value="Email Marketing">Email Marketing</option>
-                                    </select>
-                                @else
-                                    <select class="form-control select2"  name="leadplatform">
-                                        <option value="Google Ads">Google Ads</option>
-                                        <option value="Bark Lead">Bark Lead</option>
-                                        <option value="UpWork Lead">UpWork Lead</option>
-                                        <option value="Freelancer">Freelances</option>
-                                        <option value="Facebook">Facebook</option>
-                                        <option value="Thumbtack">Thumbtack</option>
-                                        <option value="Email Marketing">Email Marketing</option>
-                                    </select>
-                                @endif
-                            </div>
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Payment Nature</label>
-                                @if (isset($seo_details->Payment_Nature))
-                                    <select class="form-control select2"  name="paymentnature">
-                                        <option value="{{$seo_details->Payment_Nature}}" selected>{{$seo_details->Payment_Nature}}</option>
-                                        <option value="Renewal">Renewal</option>
-                                        <option value="Recurring">Recurring</option>
-                                        <option value="One Time">One Time</option>
-                                    </select>
-                                @else
-                                    <select class="form-control select2"  name="paymentnature">
-                                        <option value="Renewal">Renewal</option>
-                                        <option value="Recurring">Recurring</option>
-                                        <option value="One Time">One Time</option>
-                                    </select>
-                                @endif
-                            </div>
-                            <div class="col-12 mt-3">
-                                <label for="" style="font-weight:bold;">Anymore commitments?</label>
-                                @if (isset($seo_details->ANY_COMMITMENT))
-                                <textarea name="anycommitment" class="form-control" id="" cols="30" rows="10">{{$seo_details->ANY_COMMITMENT}}</textarea>
-                                @else
-                                <textarea name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
-                                @endif
-                            </div>
-
-                    @elseif ($clientmetas[0]->service == 'book')
-                            @php
-                            $book_details = json_decode($clientmetas[0]->orderDetails)
-                            @endphp
-
-
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Product</label>
-                                @if (isset($book_details->PRODUCT))
-                                <select class="form-control select2"  name="product[]" multiple="multiple">
-                                    @foreach ($book_details->PRODUCT as $item)
-                                    <option value="{{$item}}" selected>{{$item}}</option>
-                                    @endforeach
-                                    <option value="Editing & Proofreading">Editing & Proofreading</option>
-                                    <option value="Ghost Writing">Ghost Writing</option>
-                                    <option value="Marketing">Marketing</option>
-                                    <option value="Only Proofreading">Only Proofreading</option>
-
-                                    @foreach($productionservices as $productionservice)
-                                    <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
-                                    @endforeach
-                                </select>
-                                @else
-                                <select class="form-control select2"  name="product[]" multiple="multiple">
-                                    <option value="Editing & Proofreading">Editing & Proofreading</option>
-                                    <option value="Ghost Writing">Ghost Writing</option>
-                                    <option value="Marketing">Marketing</option>
-                                    <option value="Only Proofreading">Only Proofreading</option>
-
-                                    @foreach($productionservices as $productionservice)
-                                    <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
-                                    @endforeach
-                                </select>
-                                @endif
-                            </div>
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">MenuScript Provided?</label>
-                                @if (isset($book_details->MENU_SCRIPT))
-                                    <select class="form-control select2"  name="menuscript">
-                                        <option value="{{$book_details->MENU_SCRIPT}}" selected>{{$book_details->MENU_SCRIPT}}</option>
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
-                                    </select>
-                                @else
-                                    <select class="form-control select2"  name="menuscript">
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
-                                    </select>
-                                @endif
-                            </div>
-                                <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Genre of the book?</label>
-                                @if (isset($book_details->BOOK_GENRE))
-                                    <input type="text" class="form-control" name="bookgenre" value="{{$book_details->BOOK_GENRE}}">
-                                @else
-                                    <input type="text" class="form-control" name="bookgenre">
-                                @endif
-                                </div>
-                                <div class="col-4 mt-3">
-                                    <label for="" style="font-weight:bold;">Cover design included?</label>
-                                    @if (isset($book_details->COVER_DESIGN))
-                                        <select class="form-control select2"  name="coverdesign">
-                                            <option value="{{$book_details->COVER_DESIGN}}" selected>{{$book_details->COVER_DESIGN}}</option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    @else
-                                        <select class="form-control select2"  name="coverdesign">
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    @endif
-                                </div>
-                                <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Total number of pages</label>
-                                @if (isset($book_details->TOTAL_NUMBER_OF_PAGES))
-                                <input type="text" class="form-control" name="totalnumberofpages" value="{{$book_details->TOTAL_NUMBER_OF_PAGES}}">
-                                @else
-                                <input type="text" class="form-control" name="totalnumberofpages">
-                                @endif
-                                </div>
-                                <div class="col-4 mt-3">
-                                    <label for="" style="font-weight:bold;">Publishing platforms offered?</label>
-                                    @if (isset($book_details->PUBLISHING_PLATFORM))
-                                    <input type="text" class="form-control" name="publishingplatform" value="{{$book_details->PUBLISHING_PLATFORM}}">
-                                    @else
-                                    <input type="text" class="form-control" name="publishingplatform">
-                                    @endif
-                                </div>
-                                <div class="col-4 mt-3">
-                                    <label for="" style="font-weight:bold;">ISBN Offered or Bar Code?</label>
-                                    @if (isset($book_details->ISBN_OFFERED))
-                                        <select class="form-control select2"  name="isbn_offered">
-                                            <option value="{{$book_details->ISBN_OFFERED}}" selected>{{$book_details->ISBN_OFFERED}}</option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    @else
-                                        <select class="form-control select2"  name="isbn_offered">
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    @endif
-
-                                </div>
-                                <div class="col-4 mt-3">
-                                    <label for="" style="font-weight:bold;">Lead Platform</label>
-                                    @if (isset($book_details->LEAD_PLATFORM))
-                                        <select class="form-control select2"  name="leadplatform">
-                                            <option value="{{$book_details->LEAD_PLATFORM}}" selected>{{$book_details->LEAD_PLATFORM}}</option>
-                                            <option value="Google Ads">Google Ads</option>
-                                            <option value="Bark Lead">Bark Lead</option>
-                                            <option value="UpWork Lead">UpWork Lead</option>
-                                            <option value="Freelancer">Freelances</option>
-                                            <option value="Facebook">Facebook</option>
-                                            <option value="Thumbtack">Thumbtack</option>
-                                            <option value="Email Marketing">Email Marketing</option>
-                                            <option value="Email Marketing">Back Data</option>
-                                            <option value="Email Marketing">Incoming Call</option>
-                                            <option value="Email Marketing">Reference</option>
-                                            <option value="Email Marketing">Social Media</option>
-                                        </select>
-                                    @else
-                                        <select class="form-control select2"  name="leadplatform">
-                                            <option value="Google Ads">Google Ads</option>
-                                            <option value="Bark Lead">Bark Lead</option>
-                                            <option value="UpWork Lead">UpWork Lead</option>
-                                            <option value="Freelancer">Freelances</option>
-                                            <option value="Facebook">Facebook</option>
-                                            <option value="Thumbtack">Thumbtack</option>
-                                            <option value="Email Marketing">Email Marketing</option>
-                                            <option value="Email Marketing">Back Data</option>
-                                            <option value="Email Marketing">Incoming Call</option>
-                                            <option value="Email Marketing">Reference</option>
-                                            <option value="Email Marketing">Social Media</option>
-                                        </select>
-                                    @endif
-                                </div>
-
-                    @elseif ($clientmetas[0]->service == 'website')
-                            @php
-                            $website_details = json_decode($clientmetas[0]->orderDetails)
-                            @endphp
-
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Other Services</label>
-                                @if (isset($website_details->OTHER_SERVICES))
-                                    <select class="form-control select2"  name="otherservices[]" multiple="multiple">
-                                        @foreach ($website_details->OTHER_SERVICES as $item)
-                                        <option value="{{$item}}" selected>{{$item}}</option>
-                                        @endforeach
-                                        <option value="Logo">Logo</option>
-                                        <option value="Hosting">Hosting</option>
-                                        <option value="Content">Content</option>
-                                        <option value="SEO Marketing">SEO Marketing</option>
-                                        <option value="SMM Marketing">SMM Marketing</option>
-                                        <option value="--">Not Applicable</option>
-
-                                        @foreach($productionservices as $productionservice)
-                                        <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
-                                        @endforeach
-
-                                    </select>
-                                @else
-                                    <select class="form-control select2"  name="otherservices[]" multiple="multiple">
-                                        <option value="Logo">Logo</option>
-                                        <option value="Hosting">Hosting</option>
-                                        <option value="Content">Content</option>
-                                        <option value="SEO Marketing">SEO Marketing</option>
-                                        <option value="SMM Marketing">SMM Marketing</option>
-                                        <option value="--">Not Applicable</option>
-                                        @foreach($productionservices as $productionservice)
-                                        <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
-                                        @endforeach
-
-                                    </select>
-                                @endif
-
-                            </div>
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Lead Platform</label>
-                                @if (isset($website_details->LEAD_PLATFORM))
-                                    <select class="form-control select2"  name="leadplatform">
-                                        <option value="{{$website_details->LEAD_PLATFORM}}" selected>{{$website_details->LEAD_PLATFORM}}</option>
-                                        <option value="Google Ads">Google Ads</option>
-                                        <option value="Bark Lead">Bark Lead</option>
-                                        <option value="UpWork Lead">UpWork Lead</option>
-                                        <option value="Freelancer">Freelances</option>
-                                        <option value="Facebook">Facebook</option>
-                                        <option value="Thumbtack">Thumbtack</option>
-                                        <option value="Email Marketing">Email Marketing</option>
-                                    </select>
-                                @else
-                                    <select class="form-control select2"  name="leadplatform">
-                                        <option value="Google Ads">Google Ads</option>
-                                        <option value="Bark Lead">Bark Lead</option>
-                                        <option value="UpWork Lead">UpWork Lead</option>
-                                        <option value="Freelancer">Freelances</option>
-                                        <option value="Facebook">Facebook</option>
-                                        <option value="Thumbtack">Thumbtack</option>
-                                        <option value="Email Marketing">Email Marketing</option>
-                                    </select>
-                                @endif
-
-                            </div>
-                            <div class="col-8 mt-3">
-                            <label for="" style="font-weight:bold;">Anymore commitment?</label>
-                            @if (isset($website_details->ANY_COMMITMENT))
-                            <input type="text" class="form-control" name="anycommitment" value="{{$website_details->ANY_COMMITMENT}}">
                             @else
-                            <input type="text" class="form-control" name="anycommitment">
+                                <select class="form-control select2"  name="coverdesign">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
                             @endif
-                            </div>
+                        </div>
+                        <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Total number of pages</label>
+                        @if (isset($book_details->TOTAL_NUMBER_OF_PAGES))
+                        <input type="text" class="form-control" name="totalnumberofpages" value="{{$book_details->TOTAL_NUMBER_OF_PAGES}}">
+                        @else
+                        <input type="text" class="form-control" name="totalnumberofpages">
+                        @endif
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;">Publishing platforms offered?</label>
+                            @if (isset($book_details->PUBLISHING_PLATFORM))
+                            <input type="text" class="form-control" name="publishingplatform" value="{{$book_details->PUBLISHING_PLATFORM}}">
+                            @else
+                            <input type="text" class="form-control" name="publishingplatform">
+                            @endif
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;">ISBN Offered or Bar Code?</label>
+                            @if (isset($book_details->ISBN_OFFERED))
+                                <select class="form-control select2"  name="isbn_offered">
+                                    <option value="{{$book_details->ISBN_OFFERED}}" selected>{{$book_details->ISBN_OFFERED}}</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            @else
+                                <select class="form-control select2"  name="isbn_offered">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            @endif
 
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;">Lead Platform</label>
+                            @if (isset($book_details->LEAD_PLATFORM))
+                                <select class="form-control select2"  name="leadplatform">
+                                    <option value="{{$book_details->LEAD_PLATFORM}}" selected>{{$book_details->LEAD_PLATFORM}}</option>
+                                    <option value="Google Ads">Google Ads</option>
+                                    <option value="Bark Lead">Bark Lead</option>
+                                    <option value="UpWork Lead">UpWork Lead</option>
+                                    <option value="Freelancer">Freelances</option>
+                                    <option value="Facebook">Facebook</option>
+                                    <option value="Thumbtack">Thumbtack</option>
+                                    <option value="Email Marketing">Email Marketing</option>
+                                    <option value="Email Marketing">Back Data</option>
+                                    <option value="Email Marketing">Incoming Call</option>
+                                    <option value="Email Marketing">Reference</option>
+                                    <option value="Email Marketing">Social Media</option>
+                                </select>
+                            @else
+                                <select class="form-control select2"  name="leadplatform">
+                                    <option value="Google Ads">Google Ads</option>
+                                    <option value="Bark Lead">Bark Lead</option>
+                                    <option value="UpWork Lead">UpWork Lead</option>
+                                    <option value="Freelancer">Freelances</option>
+                                    <option value="Facebook">Facebook</option>
+                                    <option value="Thumbtack">Thumbtack</option>
+                                    <option value="Email Marketing">Email Marketing</option>
+                                    <option value="Email Marketing">Back Data</option>
+                                    <option value="Email Marketing">Incoming Call</option>
+                                    <option value="Email Marketing">Reference</option>
+                                    <option value="Email Marketing">Social Media</option>
+                                </select>
+                            @endif
+                        </div>
+
+            @elseif ($clientmetas[0]->service == 'website')
+                    @php
+                    $website_details = json_decode($clientmetas[0]->orderDetails)
+                    @endphp
+
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Other Services</label>
+                        @if (isset($website_details->OTHER_SERVICES))
+                            <select class="form-control select2"  name="otherservices[]" multiple="multiple">
+                                @foreach ($website_details->OTHER_SERVICES as $item)
+                                <option value="{{$item}}" selected>{{$item}}</option>
+                                @endforeach
+                                <option value="Logo">Logo</option>
+                                <option value="Hosting">Hosting</option>
+                                <option value="Content">Content</option>
+                                <option value="SEO Marketing">SEO Marketing</option>
+                                <option value="SMM Marketing">SMM Marketing</option>
+                                <option value="--">Not Applicable</option>
+
+                                @foreach($productionservices as $productionservice)
+                                <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                                @endforeach
+
+                            </select>
+                        @else
+                            <select class="form-control select2"  name="otherservices[]" multiple="multiple">
+                                <option value="Logo">Logo</option>
+                                <option value="Hosting">Hosting</option>
+                                <option value="Content">Content</option>
+                                <option value="SEO Marketing">SEO Marketing</option>
+                                <option value="SMM Marketing">SMM Marketing</option>
+                                <option value="--">Not Applicable</option>
+                                @foreach($productionservices as $productionservice)
+                                <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                                @endforeach
+
+                            </select>
+                        @endif
+
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Lead Platform</label>
+                        @if (isset($website_details->LEAD_PLATFORM))
+                            <select class="form-control select2"  name="leadplatform">
+                                <option value="{{$website_details->LEAD_PLATFORM}}" selected>{{$website_details->LEAD_PLATFORM}}</option>
+                                <option value="Google Ads">Google Ads</option>
+                                <option value="Bark Lead">Bark Lead</option>
+                                <option value="UpWork Lead">UpWork Lead</option>
+                                <option value="Freelancer">Freelances</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Thumbtack">Thumbtack</option>
+                                <option value="Email Marketing">Email Marketing</option>
+                            </select>
+                        @else
+                            <select class="form-control select2"  name="leadplatform">
+                                <option value="Google Ads">Google Ads</option>
+                                <option value="Bark Lead">Bark Lead</option>
+                                <option value="UpWork Lead">UpWork Lead</option>
+                                <option value="Freelancer">Freelances</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Thumbtack">Thumbtack</option>
+                                <option value="Email Marketing">Email Marketing</option>
+                            </select>
+                        @endif
+
+                    </div>
+                    <div class="col-8 mt-3">
+                    <label for="" style="font-weight:bold;">Anymore commitment?</label>
+                    @if (isset($website_details->ANY_COMMITMENT))
+                    <input type="text" class="form-control" name="anycommitment" value="{{$website_details->ANY_COMMITMENT}}">
                     @else
-                            @php
-                            $cld_details = json_decode($clientmetas[0]->orderDetails)
-                            @endphp
-
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Other Services</label>
-                                @if (isset($cld_details->OTHER_SERVICES))
-                                    <select class="form-control select2"  name="otherservices[]" multiple="multiple">
-                                        @foreach ($cld_details->OTHER_SERVICES as $item)
-                                        <option value="{{$item}}" selected>{{$item}}</option>
-                                        @endforeach
-                                        <option value="Logo">Logo</option>
-                                        <option value="Hosting">Hosting</option>
-                                        <option value="Content">Content</option>
-                                        <option value="SEO Marketing">SEO Marketing</option>
-                                        <option value="SMM Marketing">SMM Marketing</option>
-                                        <option value="--">Not Applicable</option>
-
-                                        @foreach($productionservices as $productionservice)
-                                        <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
-                                        @endforeach
-                                    </select>
-                                @else
-                                    <select class="form-control select2"  name="otherservices[]" multiple="multiple">
-                                        <option value="Logo">Logo</option>
-                                        <option value="Hosting">Hosting</option>
-                                        <option value="Content">Content</option>
-                                        <option value="SEO Marketing">SEO Marketing</option>
-                                        <option value="SMM Marketing">SMM Marketing</option>
-                                        <option value="--">Not Applicable</option>
-
-                                        @foreach($productionservices as $productionservice)
-                                        <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
-                                        @endforeach
-                                    </select>
-                                @endif
-                            </div>
-                            <div class="col-4 mt-3">
-                                <label for="" style="font-weight:bold;">Lead Platform</label>
-                                @if (isset($cld_details->LEAD_PLATFORM))
-                                    <select class="form-control select2"  name="leadplatform">
-                                        <option value="{{$cld_details->LEAD_PLATFORM}}" selected>{{$cld_details->LEAD_PLATFORM}}</option>
-                                        <option value="Google Ads">Google Ads</option>
-                                        <option value="Bark Lead">Bark Lead</option>
-                                        <option value="UpWork Lead">UpWork Lead</option>
-                                        <option value="Freelancer">Freelances</option>
-                                        <option value="Facebook">Facebook</option>
-                                        <option value="Thumbtack">Thumbtack</option>
-                                        <option value="Email Marketing">Email Marketing</option>
-                                    </select>
-                                @else
-                                    <select class="form-control select2"  name="leadplatform">
-                                        <option value="Google Ads">Google Ads</option>
-                                        <option value="Bark Lead">Bark Lead</option>
-                                        <option value="UpWork Lead">UpWork Lead</option>
-                                        <option value="Freelancer">Freelances</option>
-                                        <option value="Facebook">Facebook</option>
-                                        <option value="Thumbtack">Thumbtack</option>
-                                        <option value="Email Marketing">Email Marketing</option>
-                                    </select>
-                                @endif
-
-                            </div>
-                            <div class="col-8 mt-3">
-                            <label for="" style="font-weight:bold;">Anymore commitment?</label>
-                            @if (isset($cld_details->LEAD_PLATFORM))
-                            <input type="text" class="form-control" name="anycommitment" value="{{$cld_details->ANY_COMMITMENT}}">
-                            @else
-                            <input type="text" class="form-control" name="anycommitment">
-                            @endif
-                            </div>
-
+                    <input type="text" class="form-control" name="anycommitment">
                     @endif
+                    </div>
 
-                </div>
-                <div class="col-4">
-                    <br>
-                    <input type="submit" value="Update" name="" class="btn btn-success mt-2">
-                </div>
-                <div class="col-4">
-                        @if (Session::has('Success'))
+            @else
+                    @php
+                    $cld_details = json_decode($clientmetas[0]->orderDetails)
+                    @endphp
 
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>{{ Session::get('Success') }}</strong>
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
-                        </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Other Services</label>
+                        @if (isset($cld_details->OTHER_SERVICES))
+                            <select class="form-control select2"  name="otherservices[]" multiple="multiple">
+                                @foreach ($cld_details->OTHER_SERVICES as $item)
+                                <option value="{{$item}}" selected>{{$item}}</option>
+                                @endforeach
+                                <option value="Logo">Logo</option>
+                                <option value="Hosting">Hosting</option>
+                                <option value="Content">Content</option>
+                                <option value="SEO Marketing">SEO Marketing</option>
+                                <option value="SMM Marketing">SMM Marketing</option>
+                                <option value="--">Not Applicable</option>
 
+                                @foreach($productionservices as $productionservice)
+                                <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <select class="form-control select2"  name="otherservices[]" multiple="multiple">
+                                <option value="Logo">Logo</option>
+                                <option value="Hosting">Hosting</option>
+                                <option value="Content">Content</option>
+                                <option value="SEO Marketing">SEO Marketing</option>
+                                <option value="SMM Marketing">SMM Marketing</option>
+                                <option value="--">Not Applicable</option>
+
+                                @foreach($productionservices as $productionservice)
+                                <option value="{{ $productionservice->services }}">{{ $productionservice->services }}</option>
+                                @endforeach
+                            </select>
                         @endif
-                        @if (Session::has('Error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>{{ Session::get('Error') }}</strong>
-                            <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
-                        </div>
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Lead Platform</label>
+                        @if (isset($cld_details->LEAD_PLATFORM))
+                            <select class="form-control select2"  name="leadplatform">
+                                <option value="{{$cld_details->LEAD_PLATFORM}}" selected>{{$cld_details->LEAD_PLATFORM}}</option>
+                                <option value="Google Ads">Google Ads</option>
+                                <option value="Bark Lead">Bark Lead</option>
+                                <option value="UpWork Lead">UpWork Lead</option>
+                                <option value="Freelancer">Freelances</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Thumbtack">Thumbtack</option>
+                                <option value="Email Marketing">Email Marketing</option>
+                            </select>
+                        @else
+                            <select class="form-control select2"  name="leadplatform">
+                                <option value="Google Ads">Google Ads</option>
+                                <option value="Bark Lead">Bark Lead</option>
+                                <option value="UpWork Lead">UpWork Lead</option>
+                                <option value="Freelancer">Freelances</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Thumbtack">Thumbtack</option>
+                                <option value="Email Marketing">Email Marketing</option>
+                            </select>
                         @endif
-                </div>
-            </div>
-            </form>
-@else
-    <form action="/forms/kyc/process/editclientwithoutmeta/{{$clients[0]->id}}" method="POST">
-        @csrf
 
-        <div class="row">
-            <div class="col-4 mt-3">
-                <label for="" style="font-weight:bold;">Client Name:</label>
-                <input type="text"  name="name" class="form-control" value="{{$clients[0]->name}}" >
-            </div>
-            <div class="col-4 mt-3">
-                <label for=""style="font-weight:bold;">Phone Number:</label>
-                <input type="text"  name="phone"  class="form-control" value="{{$clients[0]->phone}}">
-            </div>
-            <div class="col-4 mt-3">
-                <label for=""style="font-weight:bold;">Email:</label>
-                <input type="email"  name="email"  class="form-control" value="{{$clients[0]->email}}">
-            </div>
-            <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Brand:</label>
-            <select class="form-control" id="select2forme"  name="brand">
+                    </div>
+                    <div class="col-8 mt-3">
+                    <label for="" style="font-weight:bold;">Anymore commitment?</label>
+                    @if (isset($cld_details->LEAD_PLATFORM))
+                    <input type="text" class="form-control" name="anycommitment" value="{{$cld_details->ANY_COMMITMENT}}">
+                    @else
+                    <input type="text" class="form-control" name="anycommitment">
+                    @endif
+                    </div>
 
-            @foreach ($Brands as $brand)
-                    <option value="{{ $brand->id }}"{{ $brand->id == $clients[0]->brand ? 'selected' : '' }}>{{ $brand->name }}</option>
-            @endforeach
-            </select>
-            </div>
-            <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Sales Person:</label>
-            <select class="form-control select2"  name="saleperson">
-            @foreach($ProjectManagers as $pm)
-                <option value="{{ $pm->id }}"{{ $pm->id == $clients[0]->frontSeler ? 'selected' : '' }}>
-                    {{ $pm->name }}
-                    --
-                    @foreach($pm->deparment($pm->id)  as $dm)
-                    <strong>{{ $dm->name }}</strong>
-                    @endforeach
-                </option>
-            @endforeach
-            </select>
+            @endif
 
-            </div>
-            <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
-            <input type="text"  name="website"  class="form-control" value="{{$clients[0]->website}}">
-            </div>
 
-            <div class="col-4 mt-3">
-                <label for="" style="font-weight:bold;">Select Domain:</label>
-                    <select class="form-control select2"  name="domain">
-                        <option value="seo">seo</option>
-                        <option value="book">book</option>
-                        <option value="Website">Website</option>
-                        <option value="cld">cld</option>
-                    </select>
-            </div>
-
-        </div>
-        <div class="col-4">
-            <br>
-            <input type="submit" value="Update" name="" class="btn btn-success mt-2">
-        </div>
-        <div class="col-4">
-                @if (Session::has('Success'))
-
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ Session::get('Success') }}</strong>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
-                </div>
-
-                @endif
-                @if (Session::has('Error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ Session::get('Error') }}</strong>
-                    <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
-                </div>
-                @endif
-        </div>
+</div>
+<div class="row mt-3">
+    <div class="col-3">
+        <br>
+        <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
     </div>
-    </form>
+    <div class="col-9">
+            @if (Session::has('Success'))
+
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ Session::get('Success') }}</strong>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+            </div>
+
+            @endif
+            @if (Session::has('Error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ Session::get('Error') }}</strong>
+                <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+            </div>
+            @endif
+    </div>
+</div>
+</form>
 
 
+@else
 
+<form action="/forms/kyc/process/editclientwithoutmeta/{{$clients[0]->id}}" method="POST">
+    @csrf
+
+    <div class="row">
+        <div class="col-4 mt-3">
+            <label for="" style="font-weight:bold;">Client Name:</label>
+            <input type="text"  name="name" class="form-control" value="{{$clients[0]->name}}" >
+        </div>
+        <div class="col-4 mt-3">
+            <label for=""style="font-weight:bold;">Phone Number:</label>
+            <input type="text"  name="phone"  class="form-control" value="{{$clients[0]->phone}}">
+        </div>
+        <div class="col-4 mt-3">
+            <label for=""style="font-weight:bold;">Email:</label>
+            <input type="email"  name="email"  class="form-control" value="{{$clients[0]->email}}">
+        </div>
+        <div class="col-4 mt-3">
+        <label for="" style="font-weight:bold;">Brand:</label>
+        <select class="form-control" id="select2forme"  name="brand">
+
+        @foreach ($Brands as $brand)
+                <option value="{{ $brand->id }}"{{ $brand->id == $clients[0]->brand ? 'selected' : '' }}>{{ $brand->name }}</option>
+        @endforeach
+        </select>
+        </div>
+        <div class="col-4 mt-3">
+        <label for="" style="font-weight:bold;">Sales Person:</label>
+        <select class="form-control select2"  name="saleperson">
+        @foreach($ProjectManagers as $pm)
+            <option value="{{ $pm->id }}"{{ $pm->id == $clients[0]->frontSeler ? 'selected' : '' }}>
+                {{ $pm->name }}
+                --
+                @foreach($pm->deparment($pm->id)  as $dm)
+                <strong>{{ $dm->name }}</strong>
+                @endforeach
+            </option>
+        @endforeach
+        </select>
+
+        </div>
+        <div class="col-4 mt-3">
+        <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
+        <input type="text"  name="website"  class="form-control" value="{{$clients[0]->website}}">
+        </div>
+
+        <div class="col-4 mt-3">
+            <label for="" style="font-weight:bold;">Select Domain:</label>
+                <select class="form-control select2"  name="domain">
+                    <option value="seo">seo</option>
+                    <option value="book">book</option>
+                    <option value="Website">Website</option>
+                    <option value="cld">cld</option>
+                </select>
+        </div>
+
+    </div>
+
+
+</div>
+<div class="row mt-3">
+    <div class="col-3">
+        <br>
+        <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
+    </div>
+    <div class="col-9">
+            @if (Session::has('Success'))
+
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ Session::get('Success') }}</strong>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+            </div>
+
+            @endif
+            @if (Session::has('Error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ Session::get('Error') }}</strong>
+                <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+            </div>
+            @endif
+    </div>
+</div>
+</form>
 
 
 @endif
+
+
+
+
 
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
@@ -685,3 +705,4 @@
 
 
 @endsection
+

@@ -91,6 +91,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/qaform/{id}','qaform_prefilled');
         Route::get('/forms/newqaform/{id}','new_qaform');
         Route::get('/forms/editnewqaform/{id}','edit_new_qaform');
+        Route::get('/forms/deletenewqaform/{id}','new_qaform_delete');
 
        //qaformprocess :
         Route::post('/forms/qaform_getproduction/process','qaform_getproduction');
