@@ -80,6 +80,8 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/website','website');
         Route::get('/forms/cld','cld');
         Route::get('/forms/csv_uploads','csv_client');
+        Route::get('/forms/csv_uploads_projects','csv_project');
+        Route::post('/forms/csv_uploads_upload/process','csv_project_process');
 
         Route::get('/forms/kyc/edit/{id}','editClient');
         Route::get('/clientmetaupdate/{id}/{n}','editClientmeta');
