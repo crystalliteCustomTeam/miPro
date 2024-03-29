@@ -78,6 +78,7 @@
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
         <li class="sub-item"><a href="/client/project" class="sub-link">Create Project</a></li>
+        <li class="sub-item"><a href="/forms/csv_uploads_projects" class="sub-link">Create Project(CSV)</a></li>
       </ul>
     </li><!-- br-menu-item -->
     <li class="br-menu-item">
@@ -152,6 +153,7 @@
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
           <li class="sub-item"><a href="/assignedclient/project" class="sub-link">Create Project</a></li>
+          <li class="sub-item"><a href="/forms/csv_uploads_projects" class="sub-link">Create Project(CSV)</a></li>
         </ul>
       </li><!-- br-menu-item -->
       <li class="br-menu-item">

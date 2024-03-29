@@ -1125,6 +1125,96 @@ class BasicController extends Controller
         return redirect('all/clients');
     }
 
+    function csv_project(Request $request){
+        $loginUser = $this->roleExits($request);
+        return view('projectUpload',[
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+             'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function csv_project_process(Request $request){
+        $data = Excel::toArray([], $request->file('projectfile'));
+        $project = [];
+        $production = [];
+        $newArray = array();
+        foreach ($data as $extractData) {
+            foreach ($extractData as $sepratedtoarray) {
+
+                for ($i = 0; $i < 6; $i++) {
+                    $newarray = $sepratedtoarray[$i];
+                    array_push($newArray, $newarray);
+                    if (($i + 1) % 6 == 0) {
+                        array_push($project, $newArray);
+                        $newArray = array(); // reset $newArray
+                    }
+                }
+                for ($i = 6; $i < 10; $i++) {
+                    $newarray = $sepratedtoarray[$i];
+                    array_push($newArray, $newarray);
+                    if (($i + 1) % 10 == 0) {
+                        array_push($production, $newArray);
+                        $newArray = array(); // reset $newArray
+                    }
+                }
+            }
+        };
+        $LOOPCOUNTONE = 0;
+
+        foreach ($project as $projects) {
+
+
+            $getclientEmail_pushID = Client::where('email', $projects[0])->get();
+            $productionID =  substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,6);
+
+                $insertproject = Project::insertGetId([
+                    "clientID" => $getclientEmail_pushID[0]->id,
+                    'projectManager' => $projects[1],
+                    "productionID" => $productionID,
+                    "name" => $projects[2],
+                    "domainOrwebsite" => $projects[3],
+                    "basecampUrl" => $projects[4],
+                    "projectDescription" => $projects[5],
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s')
+                ]);
+                //  echo $LOOPCOUNTONE."<br>";
+
+                array_unshift($production[$LOOPCOUNTONE],$insertproject);
+
+                $LOOPCOUNTONE++;
+        }
+
+
+
+
+        foreach ($production as $productions) {
+            $project = Project::where('id',$productions[0])->get();
+
+
+           $check = ProjectProduction::Create([
+                'clientID' => $project[0]->clientID,
+                'projectID' => $project[0]->productionID,
+                'departmant' => $productions[1],
+                'responsible_person' =>  $productions[2],
+                'services' => $productions[3],
+                'anycomment' =>  $productions[4],
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s')
+
+            ]);
+
+
+
+
+
+        }
+
+        return redirect('all/clients');
+
+    }
+
     function editClient(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
@@ -1145,7 +1235,8 @@ class BasicController extends Controller
             'departments' => $department,
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]
+            'departmentAccess' => $loginUser[0],
+             'superUser' => $loginUser[2]
         ]);
     }
 
@@ -1485,7 +1576,17 @@ class BasicController extends Controller
         $departstatus = Count($department);
         $employee = Employee::get();
 
-        return view('projectProduction', ['departstatus' => $departstatus, 'departments' => $department, 'employees' => $employee, 'project_id' => $project, 'productions' => $production, 'projects' => $project, 'productionservices' => $productionservices, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('projectProduction', ['
+        departstatus' => $departstatus,
+         'departments' => $department,
+         'employees' => $employee,
+         'project_id' => $project,
+          'productions' => $production,
+           'projects' => $project,
+           'productionservices' => $productionservices,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+             'superUser' => $loginUser[2]]);
     }
 
     function Project_ProductionProcess(Request $request, $id)
