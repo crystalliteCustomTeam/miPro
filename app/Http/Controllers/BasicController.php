@@ -1166,10 +1166,11 @@ class BasicController extends Controller
 
 
             $getclientEmail_pushID = Client::where('email', $projects[0])->get();
-            $productionID =  substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,6);
-
-                $insertproject = Project::insertGetId([
-                    "clientID" => $getclientEmail_pushID[0]->id,
+           if(isset($getclientEmail_pushID)){
+               foreach($getclientEmail_pushID as $value){
+                     $productionID =  substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,6);
+                    $insertproject = Project::insertGetId([
+                    "clientID" => $value->id,
                     'projectManager' => $projects[1],
                     "productionID" => $productionID,
                     "name" => $projects[2],
@@ -1179,6 +1180,14 @@ class BasicController extends Controller
                     'created_at' => date('y-m-d H:m:s'),
                     'updated_at' => date('y-m-d H:m:s')
                 ]);
+               }
+           }
+           else{
+               echo $projects[0]."</br>";
+           }
+          
+
+               
                 //  echo $LOOPCOUNTONE."<br>";
 
                 array_unshift($production[$LOOPCOUNTONE],$insertproject);
