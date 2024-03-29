@@ -1185,9 +1185,9 @@ class BasicController extends Controller
            else{
                echo $projects[0]."</br>";
            }
-          
 
-               
+
+
                 //  echo $LOOPCOUNTONE."<br>";
 
                 array_unshift($production[$LOOPCOUNTONE],$insertproject);
@@ -1585,17 +1585,17 @@ class BasicController extends Controller
         $departstatus = Count($department);
         $employee = Employee::get();
 
-        return view('projectProduction', ['
-        departstatus' => $departstatus,
-         'departments' => $department,
-         'employees' => $employee,
-         'project_id' => $project,
-          'productions' => $production,
-           'projects' => $project,
-           'productionservices' => $productionservices,
-            'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0],
-             'superUser' => $loginUser[2]]);
+        return view('projectProduction', [
+        'departstatus' => $departstatus,
+        'departments' => $department,
+        'employees' => $employee,
+        'project_id' => $project,
+        'productions' => $production,
+        'projects' => $project,
+        'productionservices' => $productionservices,
+        'LoginUser' => $loginUser[1],
+        'departmentAccess' => $loginUser[0],
+        'superUser' => $loginUser[2]]);
     }
 
     function Project_ProductionProcess(Request $request, $id)
