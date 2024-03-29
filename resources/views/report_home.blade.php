@@ -310,8 +310,9 @@
                                             <li>{{$issue}}</li>
                                         </ul>
                                     @endforeach
+
                                     @else
-                                    <li>No issue attached</li>
+                                    <p>No issue attached</p>
                                     @endif
                                 </td>
                                 @endforeach
