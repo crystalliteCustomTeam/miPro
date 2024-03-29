@@ -299,15 +299,20 @@
                                 @if ($qaform->status != "Not Started Yet")
                                 @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
                                 @php
+
                                 $qa_issues = json_decode($meta->issues)
                                 @endphp
                                 <td>
+                                    @if (isset($qa_issues))
+
                                     @foreach ($qa_issues as $issue)
                                         <ul>
                                             <li>{{$issue}}</li>
                                         </ul>
                                     @endforeach
-
+                                    @else
+                                    <li>No issue attached</li>
+                                    @endif
                                 </td>
                                 @endforeach
                                 @else

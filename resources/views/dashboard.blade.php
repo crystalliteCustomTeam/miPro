@@ -157,7 +157,7 @@
                                             <div class="bg-br-primary pd-30 ht-300 pos-relative d-flex align-items-center rounded">
                                                 <div class="tx-white">
                                                 <p class="tx-uppercase tx-11 tx-semibold tx-mont tx-spacing-2 tx-white-5">Client: <a href="/client/details/{{$item->clientID}}">{{$item->Client_Name->name}}</a></p>
-                                                <p class="lh-5 mg-b-20">{{$last5qaform[0]->Refund_Request_summery}}</p>
+                                                <p class="lh-5 mg-b-20" style="display:block;text-overflow: ellipsis;width: 300px;overflow: hidden; white-space: nowrap;">{{$last5qaform[0]->Refund_Request_summery}}</p>
                                                 <nav class="nav flex-row tx-13">
                                                     <a href="" class="tx-white-8 hover-white pd-l-0 pd-r-5">Brand: {{$item->Brand_Name->name}}</a>
                                                     <a href="" class="tx-white-8 hover-white pd-l-0 pd-r-5">Project: {{$item->Project_Name->name}}</a>

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ClientImport;
+use Illuminate\Support\Facades\Validator;
 
 use function GuzzleHttp\json_decode;
 
@@ -424,15 +425,15 @@ class BasicController extends Controller
         if ($findCompany > 0) {
             return redirect()->back()->with('Error', "Company Already Exists");
         } else {
-            $insertCompany = Company::create([
-                "name"      =>  $companyName,
-                "website"   =>  $request->input("website"),
-                "tel"       =>  $request->input("tel"),
-                "email"     =>  $request->input("email"),
-                "address"   =>  $request->input("address"),
-                "status"    =>  "Active"
-            ]);
-            return redirect()->back()->with('Success', "Company Added !");
+                $insertCompany = Company::create([
+                    "name"      =>  $companyName,
+                    "website"   =>  $request->input("website"),
+                    "tel"       =>  $request->input("tel"),
+                    "email"     =>  $request->input("email"),
+                    "address"   =>  $request->input("address"),
+                    "status"    =>  "Active"
+                ]);
+                return redirect()->back()->with('Success', "Company Added !");
         }
     }
 
@@ -1122,7 +1123,14 @@ class BasicController extends Controller
             }
         }
 
-        return redirect('all/clients');
+        //return redirect('all/clients');
+        $loginUser = $this->roleExits($request);
+
+        if( $loginUser[2] == 0 ){
+            return redirect('all/clients');
+        }else{
+            return redirect('/assigned/clients');
+        }
     }
 
     function csv_project(Request $request){
@@ -1220,7 +1228,15 @@ class BasicController extends Controller
 
         }
 
-        return redirect('all/clients');
+        //return redirect('all/clients');
+
+        $loginUser = $this->roleExits($request);
+
+        if( $loginUser[2] == 0 ){
+            return redirect('all/clients');
+        }else{
+            return redirect('/assigned/clients');
+        }
 
     }
 

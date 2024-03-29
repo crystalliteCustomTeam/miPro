@@ -19,7 +19,7 @@
             <p class="mg-b-0">Company</p>
           </div>
         </div><!-- d-flex -->
-  
+
         <div class="br-pagebody">
           <div class="br-section-wrapper">
            <form action="/setupcompany/process" method="POST">
@@ -58,7 +58,7 @@
                             <strong>{{ Session::get('Success') }}</strong>
                             <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
                         </div>
-                    
+
                         @endif
                         @if (Session::has('Error'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -69,15 +69,15 @@
                 </div>
             </div>
            </form>
-  
-       
-            
-            
-          
-            
-   
 
-  
+
+
+
+
+
+
+
+
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
         <footer class="br-footer">
