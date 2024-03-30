@@ -297,27 +297,26 @@
                                 {{-- <td>{{$qaform->Project_ProjectManager->name}}</td> --}}
                                 <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
                                 @if ($qaform->status != "Not Started Yet")
-                                @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
-                                @php
+                                    @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
+                                    @php
 
-                                $qa_issues = json_decode($meta->issues)
-                                @endphp
-                                <td>
-                                    @if(isset($qa_issues))
-                                    @foreach ($qa_issues as $issue)
-                                        <ul>
-                                            <li>{{$issue}}</li>
-                                        </ul>
+                                    $qa_issues = json_decode($meta->issues)
+                                    @endphp
+                                    <td>
+                                        @if(isset($qa_issues))
+                                        @foreach ($qa_issues as $issue)
+                                            <ul>
+                                                <li>{{$issue}}</li>
+                                            </ul>
+                                        @endforeach
+                                        @else
+                                        <p>Issue Undefined</p>
+                                        @endif
+
+                                    </td>
                                     @endforeach
-                                    @else
-                                    <td><p>Issue Undefined</p></td>
-                                    @endif
-
-
-                                </td>
-                                @endforeach
                                 @else
-                                <td>--</td>
+                                    <td>--</td>
 
                                 @endif
 
