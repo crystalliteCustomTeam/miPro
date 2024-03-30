@@ -303,17 +303,17 @@
                                 $qa_issues = json_decode($meta->issues)
                                 @endphp
                                 <td>
-                                    @if (isset($qa_issues))
-
+                                    @if(isset($qa_issues))
                                     @foreach ($qa_issues as $issue)
                                         <ul>
                                             <li>{{$issue}}</li>
                                         </ul>
                                     @endforeach
-
                                     @else
-                                    <p>No issue attached</p>
+                                    <td><p>Issue Undefined</p></td>
                                     @endif
+
+
                                 </td>
                                 @endforeach
                                 @else

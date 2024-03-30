@@ -80,7 +80,7 @@
 
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Medium of communication:</label>
-                                <select class="form-control select2" required name="Medium_of_communication[]" multiple="multiple">
+                                <select class="form-control select2" required name="Medium_of_communication[]" multiple="multiple" required>
                                     <option value="Calls">Calls</option>
                                     <option value="Messages">Messages</option>
                                     <option value="Basecamp">Basecamp</option>
@@ -103,6 +103,7 @@
                                     <option value="Refund">Refund</option>
                                     <option value="On Going">On Going</option>
                                     <option value="Not Started Yet">Not Started Yet</option>
+                                    <option value="Not Started Yet">Completed</option>
                                 </select>
                             </div>
 
@@ -126,7 +127,7 @@
                             {{-- ----------------Remarks------------------- --}}
                             <div class="col-6 mt-3" id="remark">
                                 <label for="" style="font-weight:bold;">Client Satisfaction Level:</label>
-                                <select class="form-control select2" name="client_satisfation">
+                                <select class="form-control select2" name="client_satisfation" required>
                                     <option value="Extremely Satisfied">Extremely Satisfied</option>
                                     <option value="Somewhat Satisfied">Somewhat Satisfied</option>
                                     <option value="Neither Satisfied nor Dissatisfied">Neither Satisfied nor Dissatisfied</option>

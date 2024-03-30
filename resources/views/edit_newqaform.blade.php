@@ -95,6 +95,7 @@
                                         <option value="Refund">Refund</option>
                                         <option value="On Going">On Going</option>
                                         <option value="Not Started Yet">Not Started Yet</option>
+                                        <option value="Not Started Yet">Completed</option>
                                     </select>
                                 </div>
 
