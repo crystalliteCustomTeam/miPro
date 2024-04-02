@@ -8,12 +8,23 @@
 
             <div class="col-12 mt-3">
                 <label for="">Start Date:</label><br>
-                <input onchange="createURL(this.value)" class="form-control" type="Date" name="startdate">
+                @if(isset($_GET['startdate']))
+                      <input onchange="createURL(this.value)" value="{{ $_GET['startdate'] }}" class="form-control" type="Date" name="startdate">
+                @else
+                 <input onchange="createURL(this.value)"  class="form-control" type="Date" name="startdate">
+                @endif
+              
             </div>
 
             <div class="col-12 mt-3">
                 <label for="">End Date:</label><br>
-                <input onchange="createURL1(this.value)" class="form-control" type="Date" name="enddate">
+                @if(isset($_GET['enddate']))
+                
+                      <input onchange="createURL1(this.value)"   value="{{ $_GET['enddate'] }}" class="form-control" type="Date" name="enddate">
+                @else
+                    <input onchange="createURL1(this.value)"    class="form-control" type="Date" name="enddate">
+                @endif
+                
             </div>
 
             <div class="col-12 mt-3">

@@ -268,8 +268,14 @@
                 </div>
 
             </div> --}}
-
-            <table id="datatable1" class="table-dark table-hover">
+            <style>
+                .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
+    background-color: #ffffff !important;
+    color: #060708;
+    border: 0.5px solid #ecececcc !important;
+}
+            </style>
+            <table id="datatable1" class=" table-dark table-hover">
                 <thead>
                   <tr role="row">
                     <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Client Name</th>
@@ -287,7 +293,17 @@
                             <tr role="row" class="odd">
                                 <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->clientID}}">{{$qaform->Client_Name->name}}</a></td>
                                 <td>{{$qaform->Project_Name->name}}</td>
-                                <td>{{$qaform->status}}</td>
+                                <td>
+                                    
+                                   @if($qaform->status == "Refund")
+                                     <div class="alert alert-danger" role="alert">
+                                        {{$qaform->status}}
+                                    </div>
+                                   @else
+                                   {{$qaform->status}}
+                                   @endif 
+                                    
+                                </td>
                                 @if (isset($qaform->Project_Name->EmployeeName->name) and $qaform->Project_Name->EmployeeName->name !== null)
                                 <td>{{$qaform->Project_Name->EmployeeName->name}}</td>
                                 @else
