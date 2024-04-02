@@ -199,6 +199,22 @@
                             <div class="col-12">
                                 <input type="submit" value="Create Information" class=" mt-3 btn btn-success">
                             </div>
+                            <div class="col-4">
+                                @if (Session::has('Success'))
+
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>{{ Session::get('Success') }}</strong>
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                                </div>
+
+                                @endif
+                                @if (Session::has('Error'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>{{ Session::get('Error') }}</strong>
+                                    <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                                </div>
+                                @endif
+                        </div>
                         </div>
                        </form>
 

@@ -115,159 +115,7 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-            <div class="row">
-                <div class="col-4">
-                    <script type="text/javascript">
 
-                        // Load the Visualization API and the corechart package.
-                        google.charts.load('current', {'packages':['corechart']});
-
-                        // Set a callback to run when the Google Visualization API is loaded.
-                        google.charts.setOnLoadCallback(drawChart);
-
-                        // Callback that creates and populates a data table,
-                        // instantiates the pie chart, passes in the data and
-                        // draws it.
-                        function drawChart() {
-
-                          // Create the data table.
-                          var data = new google.visualization.DataTable();
-                          data.addColumn('string', 'Topping');
-                          data.addColumn('number', 'Slices');
-                          data.addRows([
-                            ['On Going', {{$status_OnGoing}}],
-                            ['Dispute', {{$status_Dispute}}],
-                            ['Refund', {{$status_Refund}}],
-                            ['Not Started Yet', {{$status_NotStartedYet}}],
-                          ]);
-
-                          // Set chart options
-                          var options = {'title':'Monthly Client Status',
-                          colors: ['green', 'red', 'purple', 'blue'],
-                                         'width':400,
-                                         'height':300};
-
-                          // Instantiate and draw our chart, passing in some options.
-                          var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                          chart.draw(data, options);
-                        }
-                      </script>
-
-                    <div id="chart_div"></div>
-
-                </div>
-                <div class="col-4">
-                    <script type="text/javascript">
-
-                        // Load the Visualization API and the corechart package.
-                        google.charts.load('current', {'packages':['corechart']});
-
-                        // Set a callback to run when the Google Visualization API is loaded.
-                        google.charts.setOnLoadCallback(drawChart);
-
-                        // Callback that creates and populates a data table,
-                        // instantiates the pie chart, passes in the data and
-                        // draws it.
-                        function drawChart() {
-
-                          // Create the data table.
-                          var data = new google.visualization.DataTable();
-                          data.addColumn('string', 'Topping');
-                          data.addColumn('number', 'Slices');
-                          data.addRows([
-                            ['Extremely Satisfied', {{$remark_ExtremelySatisfied}}],
-                            ['Somewhat Satisfied', {{$remark_SomewhatSatisfied}}],
-                            ['Neither Satisfied nor Dissatisfied', {{$remark_NeitherSatisfiednorDissatisfied}}],
-                            ['Somewhat Dissatisfied', {{$remark_SomewhatDissatisfied}}],
-                            ['Extremely Dissatisfied', {{$remark_ExtremelyDissatisfied}}]
-                          ]);
-
-                          // Set chart options
-                          var options = {'title':'Monthly QA Remarks',
-                          colors: ['green', 'blue', 'yellow', 'purple', 'red'],
-                                         'width':400,
-                                         'height':300};
-
-                          // Instantiate and draw our chart, passing in some options.
-                          var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
-                          chart.draw(data, options);
-                        }
-                      </script>
-
-                    <div id="chart_div1"></div>
-
-                </div>
-
-                <div class="col-4">
-                    <script type="text/javascript">
-
-                        // Load the Visualization API and the corechart package.
-                        google.charts.load('current', {'packages':['corechart']});
-
-                        // Set a callback to run when the Google Visualization API is loaded.
-                        google.charts.setOnLoadCallback(drawChart);
-
-                        // Callback that creates and populates a data table,
-                        // instantiates the pie chart, passes in the data and
-                        // draws it.
-                        function drawChart() {
-
-                          // Create the data table.
-                          var data = new google.visualization.DataTable();
-                          data.addColumn('string', 'Topping');
-                          data.addColumn('number', 'Slices');
-                          data.addRows([
-                            ['Going Good', {{$ExpectedRefundDispute_GoingGood}}],
-                            ['Low', {{$ExpectedRefundDispute_Low}}],
-                            ['Medium', {{$ExpectedRefundDispute_Moderate}}],
-                            ['High', {{$ExpectedRefundDispute_High}}],
-                          ]);
-
-                          // Set chart options
-                          var options = {'title':'Monthly Expected Refund',
-                          colors: ['green', 'yellow', 'purple', 'red'],
-                                         'width':400,
-                                         'height':300};
-
-                          // Instantiate and draw our chart, passing in some options.
-                          var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
-                          chart.draw(data, options);
-                        }
-                      </script>
-
-                    <div id="chart_div2"></div>
-
-                </div>
-
-                {{-- <div class="col-4">
-                    <script type="text/javascript">
-                        google.charts.load("current", {packages:["corechart"]});
-                        google.charts.setOnLoadCallback(drawChart);
-                        function drawChart() {
-                          var data = google.visualization.arrayToDataTable([
-                            ['Task', 'Hours per Day'],
-                            ['Work',     11],
-                            ['Eat',      2],
-                            ['Commute',  2],
-                            ['Watch TV', 2],
-                            ['Sleep',    7]
-                          ]);
-
-                          var options = {
-                            title: 'My Daily Activities',
-                            pieHole: 0.4,
-                          };
-
-                          var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-                          chart.draw(data, options);
-                        }
-                      </script>
-
-                        <div id="donutchart" style="width: 500px; height: 250px;"></div>
-
-                </div>
-
-            </div> --}}
             <style>
                 .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
     background-color: #ffffff !important;
@@ -294,15 +142,15 @@
                                 <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->clientID}}">{{$qaform->Client_Name->name}}</a></td>
                                 <td>{{$qaform->Project_Name->name}}</td>
                                 <td>
-                                    
+
                                    @if($qaform->status == "Refund")
                                      <div class="alert alert-danger" role="alert">
                                         {{$qaform->status}}
                                     </div>
                                    @else
                                    {{$qaform->status}}
-                                   @endif 
-                                    
+                                   @endif
+
                                 </td>
                                 @if (isset($qaform->Project_Name->EmployeeName->name) and $qaform->Project_Name->EmployeeName->name !== null)
                                 <td>{{$qaform->Project_Name->EmployeeName->name}}</td>

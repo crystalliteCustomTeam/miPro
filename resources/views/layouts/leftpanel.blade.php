@@ -68,9 +68,19 @@
         <li class="sub-item"><a href="/forms/website" class="sub-link">Website Kyc</a></li>
         <li class="sub-item"><a href="/forms/cld" class="sub-link">CLD Kyc</a></li>
         <li class="sub-item"><a href="/forms/csv_uploads" class="sub-link">Client Registration(CSV)</a></li>
-        <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li>
+        {{-- <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li> --}}
       </ul>
     </li><!-- br-menu-item -->
+    <li class="br-menu-item">
+        <a href="#" class="br-menu-link with-sub">
+          <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
+          <span class="menu-item-label">Client</span>
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub">
+          <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li>
+          <li class="sub-item"><a href="/all/newclients" class="sub-link">New Client</a></li>
+        </ul>
+      </li><!-- br-menu-item -->
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
@@ -143,6 +153,14 @@
           <li class="sub-item"><a href="/forms/website" class="sub-link">Website Kyc</a></li>
           <li class="sub-item"><a href="/forms/cld" class="sub-link">CLD Kyc</a></li>
           <li class="sub-item"><a href="/forms/csv_uploads" class="sub-link">Client Registration(CSV)</a></li>
+        </ul>
+      </li><!-- br-menu-item -->
+      <li class="br-menu-item">
+        <a href="#" class="br-menu-link with-sub">
+          <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
+          <span class="menu-item-label">Clients</span>
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub">
           <li class="sub-item"><a href="/assigned/clients" class="sub-link">Clients</a></li>
         </ul>
       </li><!-- br-menu-item -->

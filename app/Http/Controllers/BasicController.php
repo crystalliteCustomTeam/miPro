@@ -297,10 +297,11 @@ class BasicController extends Controller
                 $currentMonth_refundClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
                 $Total_disputedClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
                 $Total_refundClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
-                $last5qaform = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where(function($query) {
-                                $query->where('client_satisfaction', 'Extremely Dissatisfied')
-                                ->orWhere('status_of_refund', 'High');
-                                })->latest('id')->limit(5)->get();
+                $last5qaform = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where(function($query)
+                {
+                    $query->where('client_satisfaction', 'Extremely Dissatisfied')
+                    ->orWhere('status_of_refund', 'High');
+                })->latest('id')->limit(5)->get();
                 $last5qaformstatus = Count($last5qaform);
                 return view('dashboard', [
                     'currentMonth_lowRiskClients' => $currentMonth_lowRiskClients,
@@ -1745,6 +1746,20 @@ class BasicController extends Controller
         ]);
     }
 
+    function monthClient(Request $request){
+        $loginUser = $this->roleExits($request);
+        $findclient = Client::whereMonth('created_at', now())->get();
+        $user_id = count($findclient);
+        return view('currentMonth_Client', [
+            'user_id' => $user_id,
+            'clients' => $findclient,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
+
     function assignedclients(Request $request)
     {
         $loginUser = $this->roleExits($request);
@@ -2216,8 +2231,9 @@ class BasicController extends Controller
                 "Refund_Request_summery" => "--",
                 "qaPerson" => $qaPerson[0]->id,
             ]);
+            return redirect()->back()->with('Success', "ADDED !");
 
-            return redirect('/forms/newqaform/' . $request->input('projectID'));
+            //return redirect('/forms/newqaform/' . $request->input('projectID'));
         } else {
 
             if ($request->file('Refund_Request_Attachment') != null) {
@@ -2270,7 +2286,7 @@ class BasicController extends Controller
                 $evidence = $request->file('Evidence')->store('uploads');
 
 
-                QAFORM_METAS::create([
+                $checkQA_META  = QAFORM_METAS::create([
                     'formid' =>  $request->input('qaformID'),
                     'departmant' => $production_data[0]->departmant,
                     'responsible_person' =>  $production_data[0]->responsible_person,
@@ -2279,10 +2295,21 @@ class BasicController extends Controller
                     "Description_of_issue" => $request->input('Description_of_issue'),
                     "evidence" =>   $evidence
                 ]);
+
+                $qaform = QAFORM::where('qaformID',$request->input('qaformID'))->count();
+                $qaform_meta = QAFORM_METAS::where('formid',$request->input('qaformID'))->count();
+
+                if($qaform > 0 && $qaform_meta >0 ){
+                    return redirect()->back()->with('Success', "ADDED !");
+
+                }else{
+                    return redirect()->back()->with('Error', "META NOT ADDED");
+
+                }
             } else {
 
 
-                QAFORM_METAS::create([
+                $checkQA_META  = QAFORM_METAS::create([
                     'formid' =>  $request->input('qaformID'),
                     'departmant' => $production_data[0]->departmant,
                     'responsible_person' => $production_data[0]->responsible_person,
@@ -2291,9 +2318,22 @@ class BasicController extends Controller
                     "Description_of_issue" => $request->input('Description_of_issue'),
                     "evidence" => '--'
                 ]);
+
+                $qaform = QAFORM::where('qaformID',$request->input('qaformID'))->count();
+                $qaform_meta = QAFORM_METAS::where('formid',$request->input('qaformID'))->count();
+
+                if($qaform > 0 && $qaform_meta >0 ){
+                    return redirect()->back()->with('Success', "ADDED !");
+
+                }elseif($qaform > 0 && $qaform_meta == null){
+                    return redirect()->back()->with('Error', "META NOT ADDED");
+
+                }
             }
 
-            return redirect('/forms/newqaform/' . $request->input('projectID'));
+
+
+
         }
     }
 
@@ -2635,19 +2675,19 @@ class BasicController extends Controller
 
         }
 
-            $status_OnGoing = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','On Going')->count();
-            $status_Dispute = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Dispute')->count();
-            $status_Refund = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Refund')->count();
-            $status_NotStartedYet = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Not Started Yet')->count();
-            $remark_ExtremelySatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Satisfied')->count();
-            $remark_SomewhatSatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Satisfied')->count();
-            $remark_NeitherSatisfiednorDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Neither Satisfied nor Dissatisfied')->count();
-            $remark_SomewhatDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Dissatisfied')->count();
-            $remark_ExtremelyDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Dissatisfied')->count();
-            $ExpectedRefundDispute_GoingGood = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Going Good')->count();
-            $ExpectedRefundDispute_Low = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Low')->count();
-            $ExpectedRefundDispute_Moderate = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Moderate')->count();
-            $ExpectedRefundDispute_High = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','High')->count();
+            // $status_OnGoing = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','On Going')->count();
+            // $status_Dispute = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Dispute')->count();
+            // $status_Refund = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Refund')->count();
+            // $status_NotStartedYet = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Not Started Yet')->count();
+            // $remark_ExtremelySatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Satisfied')->count();
+            // $remark_SomewhatSatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Satisfied')->count();
+            // $remark_NeitherSatisfiednorDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Neither Satisfied nor Dissatisfied')->count();
+            // $remark_SomewhatDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Dissatisfied')->count();
+            // $remark_ExtremelyDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Dissatisfied')->count();
+            // $ExpectedRefundDispute_GoingGood = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Going Good')->count();
+            // $ExpectedRefundDispute_Low = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Low')->count();
+            // $ExpectedRefundDispute_Moderate = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Moderate')->count();
+            // $ExpectedRefundDispute_High = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','High')->count();
 
 
 
@@ -2668,19 +2708,19 @@ class BasicController extends Controller
             'gets_remarks' =>$get_remarkss,
             'gets_expectedRefund' =>$get_expectedRefunds,
 
-            'status_OnGoing' =>$status_OnGoing,
-            'status_Dispute' =>$status_Dispute,
-            'status_Refund' =>$status_Refund,
-            'status_NotStartedYet' =>$status_NotStartedYet,
-            'remark_ExtremelySatisfied' =>$remark_ExtremelySatisfied,
-            'remark_SomewhatSatisfied' =>$remark_SomewhatSatisfied,
-            'remark_NeitherSatisfiednorDissatisfied' =>$remark_NeitherSatisfiednorDissatisfied,
-            'remark_SomewhatDissatisfied' =>$remark_SomewhatDissatisfied,
-            'remark_ExtremelyDissatisfied' =>$remark_ExtremelyDissatisfied,
-            'ExpectedRefundDispute_GoingGood' =>$ExpectedRefundDispute_GoingGood,
-            'ExpectedRefundDispute_Low' =>$ExpectedRefundDispute_Low,
-            'ExpectedRefundDispute_Moderate' =>$ExpectedRefundDispute_Moderate,
-            'ExpectedRefundDispute_High' =>$ExpectedRefundDispute_High,
+            // 'status_OnGoing' =>$status_OnGoing,
+            // 'status_Dispute' =>$status_Dispute,
+            // 'status_Refund' =>$status_Refund,
+            // 'status_NotStartedYet' =>$status_NotStartedYet,
+            // 'remark_ExtremelySatisfied' =>$remark_ExtremelySatisfied,
+            // 'remark_SomewhatSatisfied' =>$remark_SomewhatSatisfied,
+            // 'remark_NeitherSatisfiednorDissatisfied' =>$remark_NeitherSatisfiednorDissatisfied,
+            // 'remark_SomewhatDissatisfied' =>$remark_SomewhatDissatisfied,
+            // 'remark_ExtremelyDissatisfied' =>$remark_ExtremelyDissatisfied,
+            // 'ExpectedRefundDispute_GoingGood' =>$ExpectedRefundDispute_GoingGood,
+            // 'ExpectedRefundDispute_Low' =>$ExpectedRefundDispute_Low,
+            // 'ExpectedRefundDispute_Moderate' =>$ExpectedRefundDispute_Moderate,
+            // 'ExpectedRefundDispute_High' =>$ExpectedRefundDispute_High,
 
             'gets_issues' =>$get_issuess,
             'LoginUser' => $loginUser[1],
