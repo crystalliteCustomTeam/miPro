@@ -297,7 +297,10 @@ class BasicController extends Controller
                 $currentMonth_refundClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
                 $Total_disputedClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
                 $Total_refundClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
-                $last5qaform = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where('client_satisfaction', 'Extremely Dissatisfied')->orwhere('status_of_refund', 'High')->latest('id')->limit(5)->get();
+                $last5qaform = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where(function($query) {
+                                $query->where('client_satisfaction', 'Extremely Dissatisfied')
+                                ->orWhere('status_of_refund', 'High');
+                                })->latest('id')->limit(5)->get();
                 $last5qaformstatus = Count($last5qaform);
                 return view('dashboard', [
                     'currentMonth_lowRiskClients' => $currentMonth_lowRiskClients,
