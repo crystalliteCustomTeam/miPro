@@ -78,7 +78,6 @@
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
           <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li>
-          <li class="sub-item"><a href="/all/newclients" class="sub-link">New Client</a></li>
         </ul>
       </li><!-- br-menu-item -->
     <li class="br-menu-item">
@@ -162,6 +161,7 @@
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
           <li class="sub-item"><a href="/assigned/clients" class="sub-link">Clients</a></li>
+          <li class="sub-item"><a href="/all/newclients" class="sub-link">New Client</a></li>
         </ul>
       </li><!-- br-menu-item -->
       <li class="br-menu-item">
