@@ -88,16 +88,15 @@ Route::controller(BasicController::class)->group(function (){
 
         //qaform:
         Route::get('/forms/qaform_d','qaform');
-        Route::get('/forms/qaform/{id}','qaform_prefilled');
-        Route::get('/forms/newqaform/{id}','new_qaform');
-        Route::get('/forms/editnewqaform/{id}','edit_new_qaform');
-        Route::get('/forms/deletenewqaform/{id}','new_qaform_delete');
-
-       //qaformprocess :
         Route::post('/forms/qaform_getproduction/process','qaform_getproduction');
-        Route::post('/forms/qaform_d/process','qaform_direct_process');
+        Route::get('/forms/newqaform/{id}','new_qaform');
         Route::post('/forms/qaform/{id}/process','qaform_prefilled_process');
+
+        Route::get('/forms/editnewqaform/{id}','edit_new_qaform');
         Route::post('/forms/editnewqaform/{id}/process','edit_new_qaform_process');
+        Route::get('/forms/deletenewqaform/{id}','new_qaform_delete');
+        // Route::get('/forms/qaform/{id}','qaform_prefilled');
+        // Route::post('/forms/qaform_d/process','qaform_direct_process');
 
         //projects form:
         Route::get('/client/project','clientProject');
