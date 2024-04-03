@@ -56,11 +56,15 @@
                     $qa_issues = json_decode($qa_meta[0]->issues)
                     @endphp
                     <td>
+                        @if(isset($qa_issues))
                         @foreach ($qa_issues as $issue)
                             <ul>
                                 <li>{{$issue}}</li>
                             </ul>
                         @endforeach
+                        @else
+                        <p>Issue Undefined</p>
+                        @endif
                     </td>
                   </tr>
                   <tr>
