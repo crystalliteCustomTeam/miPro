@@ -29,16 +29,18 @@
             <div class="row">
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Select Project:</label>
-                <select class="form-control select2"  required name="projectname">
-                @foreach($projects as $project)
-                    <option value="{{ $project->id }}">
-                      {{ $project->name }}
-                      --
-                      {{ $project->ClientName->name }}
+                    <select class="form-control select2"  required name="projectname">
+                        @foreach($projects as $project)
+                            <option value="{{ $project->id }}">
+                            {{ $project->name }}
+                            --
+                            {{ $project->ClientName->name }}
+                            --
+                            {{ $project->ClientName->projectbrand->name }}
 
-                    </option>
-                @endforeach
-              </select>
+                            </option>
+                        @endforeach
+                    </select>
 
               </div>
 

@@ -1888,14 +1888,26 @@ class BasicController extends Controller
 
     function qaform(Request $request)
     {
-        $loginUser = $this->roleExits($request);
-        $brand = Brand::get();
-        $department = Department::get();
-        $employee = Employee::get();
-        $project = Project::get();
-        $client = Client::get();
-        $qa_issues = QaIssues::get();
-        return view('qaform', ['brands' => $brand, 'departments' => $department, 'projects' => $project, 'clients' => $client, 'employees' => $employee, 'qaissues' => $qa_issues, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+            $loginUser = $this->roleExits($request);
+            $brand = Brand::get();
+            $department = Department::get();
+            $employee = Employee::get();
+            $project = Project::get();
+            $client = Client::get();
+            $qa_issues = QaIssues::get();
+            $qarole = 0;
+            return view('qaform', [
+                'qarole' => $qarole,
+                'brands' => $brand,
+                'departments' => $department,
+                'projects' => $project,
+                'clients' => $client,
+                'employees' => $employee,
+                'qaissues' => $qa_issues,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2]
+            ]);
     }
 
     function qaform_getproduction(Request $request)
