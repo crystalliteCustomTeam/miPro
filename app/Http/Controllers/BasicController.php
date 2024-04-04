@@ -668,7 +668,6 @@ class BasicController extends Controller
         return view("departmentuser", ["departdata" => $departdata, "employees" => $employees, "brands" => $brand, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
     }
 
-
     function createuser(Request $request)
     {
         $loginUser = $this->roleExits($request);
@@ -1146,7 +1145,8 @@ class BasicController extends Controller
         ]);
     }
 
-    function csv_project_process(Request $request){
+    function csv_project_process(Request $request)
+    {
         $data = Excel::toArray([], $request->file('projectfile'));
         $project = [];
         $production = [];
@@ -1375,7 +1375,8 @@ class BasicController extends Controller
         //return redirect('all/clients');
     }
 
-    function editClientProcess_withoutmeta(Request $request, $id){
+    function editClientProcess_withoutmeta(Request $request, $id)
+    {
         $createClient = Client::where('id', $id)
         ->Update([
             'name' => $request->input('name'),
@@ -1393,7 +1394,8 @@ class BasicController extends Controller
 
     }
 
-    function editClientmeta(Request $request, $id, $domain){
+    function editClientmeta(Request $request, $id, $domain)
+    {
         $loginUser = $this->roleExits($request);
         $clientid = $id;
         $domains = $domain;
@@ -1409,7 +1411,8 @@ class BasicController extends Controller
 
     }
 
-    function editClientProcess_withoutmeta_metacreationprocess(Request $request){
+    function editClientProcess_withoutmeta_metacreationprocess(Request $request)
+    {
         $domain = $request->input('serviceType');
         $client = $request->input('clientID');
 
@@ -1584,8 +1587,6 @@ class BasicController extends Controller
         return view('project', ['user_id' => $user_id, 'clients' => $findclient, 'employee' => $employee, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
     }
 
-
-
     function clientProjectProcess(Request $request)
     {
         Project::create([
@@ -1682,6 +1683,17 @@ class BasicController extends Controller
         return redirect('/client/details/' . $request->input('client'));
     }
 
+    function deleteproject(Request $request, $id){
+        $project = Project::where('id',$id)->get();
+        $projectProduction = ProjectProduction::where('projectID',$project[0]->productionID)->get();
+
+        $deleteproduction = DB::table('project_productions')->where('projectID',$project[0]->productionID)->delete();
+        $deleteProject = DB::table('projects')->where('id',$id)->delete();
+
+
+        return redirect('/client/details/' . $project[0]->clientID);
+    }
+
     function Edit_Project_production(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
@@ -1729,7 +1741,20 @@ class BasicController extends Controller
         } else {
             $findProject_Manager = [];
         }
-        return view('clientDetail', ['client' => $findclient, 'recentClients' => $recentClients, 'projects' => $allprojects, 'findProject_Manager' => $findProject_Manager, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+
+        foreach ($allprojects as $allproject) {
+            $COUNT = QAFORM::where('projectID', $allproject->id)->count();
+            $allproject->project_count = $COUNT;
+        }
+        return view('clientDetail', [
+            'client' => $findclient,
+            'recentClients' => $recentClients,
+            'projects' => $allprojects,
+            'findProject_Manager' => $findProject_Manager,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function allclients(Request $request)
@@ -1746,7 +1771,8 @@ class BasicController extends Controller
         ]);
     }
 
-    function monthClient(Request $request){
+    function monthClient(Request $request)
+    {
         $loginUser = $this->roleExits($request);
         $findclient = Client::whereMonth('created_at', now())->get();
         $user_id = count($findclient);
@@ -2326,7 +2352,8 @@ class BasicController extends Controller
 
 
 
-    function new_qaform_delete(Request $request, $id){
+    function new_qaform_delete(Request $request, $id)
+    {
         $deleteqaform1 = DB::table('qaform')->where('id', $id)->get();
         $deleteqaformMetas = DB::table('qaform_metas')->where('formid', $deleteqaform1[0]->qaformID)->delete();
         $deleteqaform = DB::table('qaform')->where('id', $id)->delete();

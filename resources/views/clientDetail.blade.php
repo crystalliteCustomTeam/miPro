@@ -62,6 +62,9 @@
                             <a href="/forms/newqaform/{{  $project->id }}" class="btn btn-sm  btn-warning" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/4381/4381727.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> QA</a>
                             <a href="/client/project/qareport/{{  $project->id }}" class="btn btn-sm  btn-danger" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/3094/3094851.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">QA Report</a>
                             <a href="/project/report/{{  $project->id }}" class="btn btn-sm  btn-success" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/3094/3094851.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Project Report</a>
+                            @if ($project->project_count == 0)
+                            <a href="/client/deleteproject/{{  $project->id }}" class="btn btn-sm  btn-danger" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/1214/1214428.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Delete Project({{ $project->project_count }})</a>
+                            @endif
                         </div>
                       </div><!-- d-flex -->
                     </div><!-- media-body -->

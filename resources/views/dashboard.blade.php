@@ -87,11 +87,11 @@
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">Month Refund</label>
-                                <p class="tx-lato tx-inverse tx-bold">{{$item[3]}}</p>
+                                <p class="tx-lato tx-inverse tx-bold">{{$item[4]}}</p>
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">Month Dispute</label>
-                                <p class="tx-lato tx-inverse tx-bold">{{$item[4]}}</p>
+                                <p class="tx-lato tx-inverse tx-bold">{{$item[3]}}</p>
                             </div>
                         </div><!-- d-flex -->
                         <div class="progress mg-b-10">

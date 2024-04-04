@@ -106,6 +106,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/client/project/productions/{id}','Project_production');
         Route::get('/client/project/productions/users/{id}','ProjectProduction_users');
         Route::get('/client/editproject/{id}','editproject');
+        Route::get('/client/deleteproject/{id}','deleteproject');
         Route::get('/client/project/editproductions/{id}','Edit_Project_production');
         Route::get('/client/project/deleteproductions/{id}','deleteproduction');
         Route::get('/client/details/{id}','getclientDetails');
