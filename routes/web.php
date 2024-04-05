@@ -169,6 +169,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/settings/changeuser/client/{id}','Edit_Assign_Client_to_qaperson');
         Route::post('/settings/changeuser/client/{id}/Process','Edit_Assign_Client_to_qaperson_process');
         Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
+
     });
 
 
