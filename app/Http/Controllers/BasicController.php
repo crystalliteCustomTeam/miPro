@@ -50,11 +50,10 @@ class BasicController extends Controller
     function get_email_process(Request $request)
     {
         $email = $request->input('email');
-        $salemode = $request->input('saletype');
         $match_email = Employee::where('email', $email)->get();
         $match_count = count($match_email);
         if ($match_count > 0) {
-            $request->session()->put('GuestUser',[ $match_email, $salemode]);
+            $request->session()->put('GuestUser', $match_email);
             return redirect('/seo_kyc_form');
         } else {
             return redirect()->back()->with('Error', "Email Not Found!!");
