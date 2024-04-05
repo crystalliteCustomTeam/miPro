@@ -50,10 +50,11 @@ class BasicController extends Controller
     function get_email_process(Request $request)
     {
         $email = $request->input('email');
+        $salemode = $request->input('saletype');
         $match_email = Employee::where('email', $email)->get();
         $match_count = count($match_email);
         if ($match_count > 0) {
-            $request->session()->put('GuestUser', $match_email);
+            $request->session()->put('GuestUser',[ $match_email, $salemode]);
             return redirect('/seo_kyc_form');
         } else {
             return redirect()->back()->with('Error', "Email Not Found!!");
@@ -108,6 +109,29 @@ class BasicController extends Controller
             'productionservices' => $productionservices
         ]);
     }
+
+    // function seo_kyc_form(Request $request)
+    // {
+    //     $brand = Brand::all();
+    //     $client = Client::all();
+    //     $projectManager = Employee::get();
+    //     $frontSeller = $request->session()->get('GuestUser');
+    //     // echo("<pre>");
+    //     // print_r($frontSeller[1]);
+    //     // die();
+    //     $department = Department::get();
+    //     $productionservices = ProductionServices::get();
+
+    //     return view('new_seo_kyc_form', [
+    //         'Brands' => $brand,
+    //         'clients' => $client,
+    //         'ProjectManagers' => $projectManager,
+    //         'frontSeller' => $frontSeller,
+    //         'departments' => $department,
+    //         'productionservices' => $productionservices
+    //     ]);
+    // }
+
 
     function seo_kyc_form_process(Request $request)
     {

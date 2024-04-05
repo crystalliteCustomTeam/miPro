@@ -47,6 +47,13 @@
                     <label for=""style="font-weight:bold;">Please Enter Your Email:</label>
                     <input type="email" required name="email" required class="form-control">
                 </div>
+                <div class="col-12 mt-3">
+                    <label for=""style="font-weight:bold;">Select Sale Mode:</label>
+                    <select class="form-control select2"  required name="saletype">
+                        <option value="New Lead">New Lead (New Client)</option>
+                        <option value="New Sale">New Sale (Existing Client)</option>
+                    </select>
+                </div>
 
                 <div class="col-8 mt-3">
                     <input type="submit" value="Submit" name="" class="btn btn-success mt-2">
