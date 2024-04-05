@@ -85,6 +85,9 @@
             <div class="card pd-20 pd-xs-30 bd-gray-400">
               <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-25">Contact Information</h6>
 
+              <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Brand</label>
+              <p class="tx-info mg-b-25">{{ $client[0]->projectbrand->name }}</p>
+
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Phone Number</label>
               <p class="tx-info mg-b-25">{{ $client[0]->phone }}</p>
 
