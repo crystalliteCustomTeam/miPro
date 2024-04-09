@@ -69,13 +69,33 @@
                            </div>
 
                           </div>
+                          <div class="col-12">
+                            @if (Session::has('Success'))
+
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ Session::get('Success') }}</strong>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                            </div>
+
+                            @endif
+                            @if (Session::has('Error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{{ Session::get('Error') }}</strong>
+                                <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                            </div>
+                            @endif
+                          </div>
 
 
 
                             {{-- <input type="hidden" name="basecamp" value="{{$projects[0]->basecampUrl }}"> --}}
                             <div class="col-6 mt-3" >
                               <label for="" style="font-weight:bold;">Last communication of client </label>
+                              @if ( $errors->all() != null)
+                              <input type="date" name="last_communication_with_client" required class="form-control" value="{{old('last_communication_with_client')}}">
+                              @else
                               <input type="date" name="last_communication_with_client" required class="form-control">
+                              @endif
                             </div>
 
                             <div class="col-6 mt-3">
@@ -91,6 +111,12 @@
                               <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Select Production: </label>
                                 <select class="form-control select2" required name="production_name" required>
+                                    @if ( $errors->all() != null)
+                                    @php
+                                        $value = old('production_name');
+                                    @endphp
+                                    <option value="{{old('production_name')}}" selected>{{old('production_name')}}</option>
+                                    @endif
                                     @foreach($productions as $production)
                                     <option value="{{ $production->id }}">{{ $production->DepartNameinProjectProduction->name }}</option>
                                     @endforeach
@@ -99,6 +125,9 @@
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Status:</label>
                                 <select class="form-control select2" required name="status"  id="paymentType" onchange="displayfields()">
+                                    @if ( $errors->all() != null)
+                                    <option value="{{old('status')}}" selected>{{old('status')}}</option>
+                                    @endif
                                     <option value="Dispute">Dispute</option>
                                     <option value="Refund">Refund</option>
                                     <option value="On Going">On Going</option>
@@ -114,11 +143,25 @@
                                     <option value="{{ $qaissue->issues }}">{{ $qaissue->issues }}</option>
                                     @endforeach
                                 </select>
+                                <span class="text-danger">
+                                    @error('issues')
+                                        {{$message}}
+                                    @enderror
+                                </span>
                             </div>
 
                             <div class="col-12 mt-3" id="Description" >
                                 <label for="" style="font-weight:bold;">Description of issue</label>
+                                @if ( $errors->all() != null)
+                                <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10">{{old('Description_of_issue')}}</textarea>
+                                @else
                                 <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10"></textarea>
+                                @endif
+                                <span class="text-danger">
+                                    @error('Description_of_issue')
+                                        {{$message}}
+                                    @enderror
+                                </span>
                             </div>
                             <div class="col-12 mt-3" id="shareamount" >
                                 <label for="" style="font-weight:bold;">Evidence(if any issue) </label>
@@ -128,6 +171,9 @@
                             <div class="col-6 mt-3" id="remark">
                                 <label for="" style="font-weight:bold;">Client Satisfaction Level:</label>
                                 <select class="form-control select2" name="client_satisfation" required>
+                                    @if ( $errors->all() != null)
+                                    <option value="{{old('client_satisfation')}}" selected>{{old('client_satisfation')}}</option>
+                                    @endif
                                     <option value="Extremely Satisfied">Extremely Satisfied</option>
                                     <option value="Somewhat Satisfied">Somewhat Satisfied</option>
                                     <option value="Neither Satisfied nor Dissatisfied">Neither Satisfied nor Dissatisfied</option>
@@ -138,6 +184,9 @@
                             <div class="col-6 mt-3" id="expected_refund">
                                 <label for="" style="font-weight:bold;">Refund & Dispute Expected :</label>
                                 <select class="form-control select2"  name="status_of_refund" >
+                                    @if ( $errors->all() != null)
+                                    <option value="{{old('status_of_refund')}}" selected>{{old('status_of_refund')}}</option>
+                                    @endif
                                     <option value="Going Good">Going Good</option>
                                     <option value="Low">Low</option>
                                     <option value="Moderate">Moderate</option>
@@ -147,6 +196,9 @@
                               <div class="col-6 mt-3" id="refund_request">
                                 <label for="" style="font-weight:bold;">Refund Requested: </label>
                                 <select class="form-control select2"  name="Refund_Requested" >
+                                    @if ( $errors->all() != null)
+                                    <option value="{{old('Refund_Requested')}}" selected>{{old('Refund_Requested')}}</option>
+                                    @endif
                                     <option value="No">No</option>
                                     <option value="Yes">Yes</option>
 
@@ -158,7 +210,16 @@
                             </div>
                             <div class="col-12 mt-3" id="summery">
                                 <label for="" style="font-weight:bold;">Summery </label>
+                                @if ( $errors->all() != null)
+                                <textarea  name="Refund_Request_summery"  class="form-control" id="" cols="30" rows="10">{{old('Refund_Request_summery')}}</textarea>
+                                @else
                                 <textarea  name="Refund_Request_summery"  class="form-control" id="" cols="30" rows="10"></textarea>
+                                @endif
+                                <span class="text-danger">
+                                    @error('Refund_Request_summery')
+                                        {{$message}}
+                                    @enderror
+                                </span>
                             </div>
                             <script>
                                 function displayfields(){
@@ -199,7 +260,7 @@
                             <div class="col-12">
                                 <input type="submit" value="Create Information" class=" mt-3 btn btn-success">
                             </div>
-                            <div class="col-4">
+                            {{-- <div class="col-4">
                                 @if (Session::has('Success'))
 
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -214,7 +275,8 @@
                                     <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
                                 </div>
                                 @endif
-                        </div>
+                                $errors->all()
+                            </div> --}}
                         </div>
                        </form>
 

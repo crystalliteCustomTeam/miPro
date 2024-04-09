@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-4 mt-3" id="chargingpackage" style="display: none">
                     <label for="" style="font-weight:bold;">Charging Plan</label>
-                    <select class="form-control "  name="ChargingPlan">
+                    <select class="form-control"  name="ChargingPlan">
                         <option value="One Time Payment">One Time Payment</option>
                         <option value="Monthly">Monthly</option>
                         <option value="2 Months">2 Months</option>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="col-4 mt-3" id="paymentMode" style="display: none">
                     <label for="" style="font-weight:bold;">Payment Mode</label>
-                    <select class="form-control "  name="paymentModes">
+                    <select class="form-control"  name="paymentModes">
                         <option value="One Time Payment">One Time Payment</option>
                         <option value="Renewal">Renewal</option>
                         <option value="Recurring">Recurring</option>
@@ -216,7 +216,7 @@
                 @for ($i = 1; $i <= 4; $i++)
                     <div id="fieldsSet{{$i}}" class="col-6 mt-3" style="display: none;">
                             <label for="" style="font-weight:bold;">{{$i}}: Project Manager (If Split):</label><br>
-                            <select class="form-control" name="shareProjectManager[]">
+                            <select class="form-control select2" name="shareProjectManager[]">
                                 <option value="0">Select</option>
                                 @foreach ($employee as $client)
                                     <option value="{{ $client->id }}">{{ $client->name }}
@@ -255,6 +255,7 @@
                             var fieldsSet = document.getElementById("fieldsSet" + i);
                             fieldsSet.style.display = i <= selection ? "block" : "none";
                         }
+                        setwhenweset();
                     }
                 </script>
 

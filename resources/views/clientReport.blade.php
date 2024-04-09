@@ -65,17 +65,36 @@
                 </div>
                 @if ($qaformcount > 0)
                     <div class="col-4 mt-3" >
-                        <h5>Status: {{$qaformlasts[0]->status}}</h5>
+                        @if (isset($qaformlasts[0]->status) and $qaformlasts[0]->status !== null)
+                        <h5>Remarks: {{$qaformlasts[0]->status}}</h5>
+                        @else
+                            <p style="color: red"></p>
+                        @endif
                     </div>
                     <div class="col-4 mt-3" >
+
+                        @if (isset($qaformlasts[0]->client_satisfaction) and $qaformlasts[0]->client_satisfaction !== null)
                         <h5>Remarks: {{$qaformlasts[0]->client_satisfaction}}</h5>
+                        @else
+                            <p style="color: red"></p>
+                        @endif
                     </div>
                     <div class="col-4 mt-3" >
+
+                        @if (isset($qaformlasts[0]->status_of_refund) and $qaformlasts[0]->status_of_refund !== null)
                         <h5>Expected Refund: {{$qaformlasts[0]->status_of_refund}}</h5>
+                        @else
+                            <p style="color: red"></p>
+                        @endif
                     </div>
                     <div class="col-12 mt-3" >
                         <h5>Summery:</h5>
+                        @if (isset($qaformlasts[0]->Refund_Request_summery) and $qaformlasts[0]->Refund_Request_summery !== null)
                         <p> {{$qaformlasts[0]->Refund_Request_summery}}</p>
+                        @else
+                            <p style="color: red">No QAFORM</p>
+                        @endif
+
                     </div>
                 @else
 
@@ -98,13 +117,22 @@
                             </thead>
                             <tbody>
                             <tr role="row" class="odd">
+                                @if (isset($project->ProjectProduction->DepartNameinProjectProduction->name) and $project->ProjectProduction->DepartNameinProjectProduction->name !== null)
                                 <td tabindex="0" class="sorting_1">{{$project->ProjectProduction->DepartNameinProjectProduction->name}}</td>
+                                @else
+                                    <td><p style="color: red">No Production Assigned</p></td>
+                                @endif
+
                                 @if (isset($project->ProjectProduction->EmployeeNameinProjectProduction->name) and $project->ProjectProduction->EmployeeNameinProjectProduction->name !== null)
                                 <td>{{ $project->ProjectProduction->EmployeeNameinProjectProduction->name }}</td>
                                 @else
-                                    <td><p style="color: red">User Deleted</p></td>
+                                    <td><p style="color: red">User Deleted or No Production Assigned</p></td>
                                 @endif
+                                @if (isset($project->ProjectProduction->services) and $project->ProjectProduction->services !== null)
                                 <td>{{$project->ProjectProduction->services}}</td>
+                                @else
+                                    <td><p style="color: red">No Production Assigned</p></td>
+                                @endif
                             </tr>
                             </tbody>
                         </table>
@@ -142,21 +170,21 @@
                               <td>{{$qaform->status}}</td>
                               <td>{{$qaform->last_communication}}</td>
                               <td>{{$qaform->Refund_Request_summery}}</td>
-                              @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
-                              @php
-                              $qa_issues = json_decode($meta->issues)
-                              @endphp
-                              <td>
-                                  @foreach ($qa_issues as $issue)
-                                      <ul>
-                                          <li>{{$issue}}</li>
-                                      </ul>
-                                  @endforeach
-                              </td>
 
-                              <td>{{ $meta->Description_of_issue }}</td>
-                              @endforeach
-                              <td>{{$qaform->created_at}}</td>
+                                    @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
+                                    @php
+                                    $qa_issues = json_decode($meta->issues)
+                                    @endphp
+                                    <td>
+                                        @foreach ($qa_issues as $issue)
+                                            <ul>
+                                                <li>{{$issue}}</li>
+                                            </ul>
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $meta->Description_of_issue }}</td>
+                                    @endforeach
+                                    <td>{{$qaform->created_at}}</td>
                             </tr>
                             @endforeach
                         @else

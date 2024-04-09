@@ -3,6 +3,7 @@
 @section('maincontent')
 
 <!-- ########## START: MAIN PANEL ########## -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 <div class="br-mainpanel br-profile-page">
 
     <div class="card widget-4 bd-0 rounded-0">
@@ -26,6 +27,7 @@
     <div class="ht-70 bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center bd-b bd-gray-400">
       <ul class="nav nav-outline active-primary align-items-center flex-row" role="tablist">
         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#projects" role="tab">Projects</a></li>
+        <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#payments" role="tab">Payments</a></li>
         <li><a href="/client/project/{{ $client[0]->id }}" style="color:grey;">Create Project</a></li>
       </ul>
     </div>
@@ -62,8 +64,30 @@
                             <a href="/forms/newqaform/{{  $project->id }}" class="btn btn-sm  btn-warning" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/4381/4381727.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> QA</a>
                             <a href="/client/project/qareport/{{  $project->id }}" class="btn btn-sm  btn-danger" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/3094/3094851.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">QA Report</a>
                             {{-- <a href="/project/report/{{  $project->id }}" class="btn btn-sm  btn-success" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/3094/3094851.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Project Report</a> --}}
-                            @if ($project->project_count == 0)
-                            <a href="/client/deleteproject/{{  $project->id }}" class="btn btn-sm  btn-danger" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/1214/1214428.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Delete Project({{ $project->project_count }})</a>
+                            @if ($project->project_count == 0 && $project->payment_count == 0)
+                            <a href="#" onclick="myConfirm('{{ $project->id }}')" class="btn btn-sm  btn-danger" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/1214/1214428.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Delete Project({{ $project->project_count }})</a>
+                            <script>
+                                function myConfirm(id){
+                                    Swal.fire({
+                                    title: "Are you sure?",
+                                    text: "You won't be able to revert this !",
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#3085d6",
+                                    cancelButtonColor: "#d33",
+                                    confirmButtonText: "Yes, delete it!"
+                                    }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = "/client/deleteproject/" + id;
+                                        Swal.fire({
+                                        title: "Deleted!",
+                                        text: "Project has been deleted.",
+                                        icon: "success"
+                                        });
+                                    }});
+
+                                }
+                            </script>
                             @endif
                         </div>
                       </div><!-- d-flex -->
@@ -135,6 +159,9 @@
                 <br><br>
                 ANY COMMITMENT :
                 {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+                <br><br>
+                QA Assignee :
+                {{ $qaAssignee[0]->Username->name  }}
               </p>
             </div><!-- card -->
 
@@ -170,6 +197,9 @@
               <br><br>
               ANY COMMITMENT :
               {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+              <br><br>
+              QA Assignee :
+              {{ $qaAssignee[0]->Username->name  }}
             </p>
           </div><!-- card -->
 
@@ -193,6 +223,9 @@
               <br><br>
               ANY COMMITMENT :
               {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+              <br><br>
+              QA Assignee :
+              {{ $qaAssignee[0]->Username->name  }}
             </p>
           </div><!-- card -->
 
@@ -214,6 +247,9 @@
               <br><br>
               ANY COMMITMENT :
               {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+              <br><br>
+              QA Assignee :
+              {{ $qaAssignee[0]->Username->name }}
             </p>
           </div><!-- card -->
           @endif
@@ -267,6 +303,66 @@
           </div><!-- col-lg-4 -->
         </div><!-- row -->
       </div><!-- tab-pane -->
+
+
+
+      <div class="tab-pane fade" id="payments">
+
+        <div class="br-section-wrapper">
+
+        <table id="datatable1" class="table-dark table-hover">
+            <thead>
+              <tr role="row">
+                <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Project</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Nature</th>
+                <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Charging Plan</th>
+                <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Charging Mode</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Start date: activate to sort column ascending">Payment_Gateway</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Payment Date</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach ($clientPayments as $item)
+                <tr role="row" class="odd">
+                    <td tabindex="0" class="sorting_1">{{$item->ProjectID}}</td>
+                    <td>{{$item->paymentNature}}</td>
+                    <td>{{$item->ChargingPlan}}</td>
+                    <td>{{$item->ChargingMode}}</td>
+                    <td>{{$item->Payment_Gateway}}</td>
+                    <td>{{$item->paymentDate}}</td>
+                    <td>{{$item->Description}}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+       </div><!-- br-section-wrapper -->
+
+
+
+
+
+
+
+
+      </div><!-- tab-pane -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div><!-- br-pagebody -->
 
   </div><!-- br-mainpanel -->

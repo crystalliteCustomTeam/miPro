@@ -116,6 +116,8 @@ Route::controller(BasicController::class)->group(function (){
 
         //payment
         Route::get('/forms/payment/{id}','payment');
+        Route::get('/client/add/payment','addPayment');
+        Route::post('/client/add/payment/process','addPaymentProcess');
 
 
 

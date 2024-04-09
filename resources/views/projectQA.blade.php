@@ -2,6 +2,7 @@
 
 @section('maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
     <div class="br-mainpanel">
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -64,13 +65,36 @@
                         <div class="btn-group">
                             <a href="/forms/editnewqaform/{{$qafrom->id}}"><button class="btn btn-info btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Edit </button></a>
                             <a href="/client/project/qareport/view/{{$qafrom->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > View </button></a>
-                            <a href="/forms/deletenewqaform/{{$qafrom->id}}"><button class="btn btn-danger btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Delete </button></a>
+                            {{-- <a href="/forms/deletenewqaform/{{$qafrom->id}}"><button class="btn btn-danger btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Delete </button></a> --}}
+                            <a href="#"  onclick="myConfirm('{{ $qafrom->id }}')"><button class="btn btn-danger btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Delete </button></a>
                         </div>
                      </td>
                       </tr>
                       @endforeach
                     </tbody>
                 </table>
+                    <script>
+                        function myConfirm(id){
+                            Swal.fire({
+                            title: "Are you sure?",
+                            text: "You won't be able to revert this !",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Yes, delete it!"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/forms/deletenewqaform/" + id;
+                                Swal.fire({
+                                title: "Deleted!",
+                                text: "QAFORM has been deleted.",
+                                icon: "success"
+                                });
+                            }});
+
+                        }
+                    </script>
                 <a href="/client/details/{{$projects[0]->ClientName->id}}"><button class="btn btn-outline-primary">BACK</button></a>
             </div>
             </div>

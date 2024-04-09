@@ -1760,6 +1760,8 @@ class BasicController extends Controller
         $findclient = Client::where('id', $clientID)->get();
         $allprojects = Project::where('clientID', $clientID)->get();
         $recentClients = Client::where('id', '!=', $clientID)->limit(5)->get();
+        $clientPayments = NewPaymentsClients::where('ClientID',$clientID)->get();
+        $qaAssignee = QaPersonClientAssign::where('client',$clientID)->get();
         if (count($allprojects) > 0) {
             $findProject_Manager = Employee::where('id', $allprojects[0]->projectManager)->get();
         } else {
@@ -1768,11 +1770,18 @@ class BasicController extends Controller
 
         foreach ($allprojects as $allproject) {
             $COUNT = QAFORM::where('projectID', $allproject->id)->count();
+            $Payment = NewPaymentsClients::where('ProjectID', $allproject->id)->count();
             $allproject->project_count = $COUNT;
+            $allproject->payment_count = $Payment;
         }
+        // echo("<pre>");
+        // print_r($allprojects);
+        // die();
         return view('clientDetail', [
             'client' => $findclient,
+            'qaAssignee' => $qaAssignee,
             'recentClients' => $recentClients,
+            'clientPayments' => $clientPayments,
             'projects' => $allprojects,
             'findProject_Manager' => $findProject_Manager,
             'LoginUser' => $loginUser[1],
@@ -1823,9 +1832,41 @@ class BasicController extends Controller
             'superUser' => $loginUser[2]
         ]);
     }
+    function addPayment(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+            $brand = Brand::get();
+            $department = Department::get();
+            $employee = Employee::get();
+            $project = Project::get();
+            $client = Client::get();
+            $qa_issues = QaIssues::get();
+            $qarole = 0;
+            return view('select_clientProjectPayment', [
+                'qarole' => $qarole,
+                'brands' => $brand,
+                'departments' => $department,
+                'projects' => $project,
+                'clients' => $client,
+                'employees' => $employee,
+                'qaissues' => $qa_issues,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2]
+            ]);
+    }
+
+    function addPaymentProcess(Request $request){
+        $loginUser = $this->roleExits($request);
+        return redirect('/forms/payment/' . $request->input('projectname'));
+    }
 
     function payment(Request $request, $id)
     {
+        // echo("<pre>");
+        // print_r($a[0]);
+        // echo(gettype($a[0]));
+        // die();
         $loginUser = $this->roleExits($request);
 
         $findproject = Project::where('id', $id)->get();
@@ -1907,6 +1948,52 @@ class BasicController extends Controller
                 "Description"=> $request->input('description')
 
             ]);
+
+
+
+
+        // if ($paymentType == "Split Payment") {
+        //     $projectManager = $request->input('pmID');
+        //     $amountShare = $request->input('splitamount');
+        //     $SecondProjectManager = $request->input('shareProjectManager');
+        //     $total =  $request->input('paidamount') - $amountShare;
+        //     $findusername = DB::table('employees')->where('id', $request->input('pmID'))->get();
+        //     $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
+
+        //     $paymentDescription = $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name;
+        //     $createMainEmployeePayment  = EmployeePayment::create(
+        //         [
+        //             "paymentID" => $createpayment,
+        //             "employeeID" => $request->input('pmID'),
+        //             "paymentDescription" => $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name,
+        //             "amount" =>     $total
+        //         ],
+
+        //     );
+
+        //     $createSharedPersonEmployeePayment  = EmployeePayment::create(
+        //         [
+        //             "paymentID" => $createpayment,
+        //             "employeeID" => $SecondProjectManager,
+        //             "paymentDescription" => "Amount Share By " . $findusername[0]->name,
+        //             "amount" =>  $amountShare
+        //         ],
+        //     );
+        // } else {
+        //     $projectManager = $request->input('pmID');
+
+        //     $total =  $request->input('paidamount');
+
+        //     $createEmployeePayment  = EmployeePayment::create(
+        //         [
+        //             "paymentID" => $createpayment,
+        //             "employeeID" => $request->input('pmID'),
+        //             "paymentDescription" => $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name,
+        //             "amount" =>  $total
+        //         ]
+        //     );
+        // }
+
 
             return redirect('/forms/payment/' . $request->input('project'));
     }
@@ -2045,6 +2132,11 @@ class BasicController extends Controller
 
             //return redirect('/forms/newqaform/' . $request->input('projectID'));
         } else {
+                $request->validate([
+                    'issues' => 'required',
+                    'Description_of_issue' => 'required',
+                    'Refund_Request_summery' => 'required',
+                ]);
 
             if ($request->file('Refund_Request_Attachment') != null) {
 

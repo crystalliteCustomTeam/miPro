@@ -2,6 +2,7 @@
 
 @section('maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
     <div class="br-mainpanel">
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -59,13 +60,36 @@
                       <td>
                         <div class="btn-group">
                             <a href="/client/project/editproductions/{{$production->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Edit </button></a>
-                            <a href="/client/project/deleteproductions/{{$production->id}}"><button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button></a>
+                            {{-- <a href="/client/project/deleteproductions/{{$production->id}}"><button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button></a> --}}
+                            <a href="#"  onclick="myConfirm('{{ $production->id }}')"><button class="btn btn-danger btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Delete </button></a>
                         </div>
                       </td>
                     </tr>
                     @endforeach
                   </tbody>
                 </table>
+                <script>
+                    function myConfirm(id){
+                        Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this !",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!"
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/client/project/deleteproductions/" + id;
+                            Swal.fire({
+                            title: "Deleted!",
+                            text: "Production has been deleted.",
+                            icon: "success"
+                            });
+                        }});
+
+                    }
+                </script>
                 <a href="/client/details/{{$projects[0]->ClientName->id}}"><button class="btn btn-outline-primary">BACK</button></a>
             </div>
             </div>
