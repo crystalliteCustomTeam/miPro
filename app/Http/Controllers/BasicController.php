@@ -20,6 +20,7 @@ use App\Models\ProjectProduction;
 use App\Models\QaIssues;
 use App\Models\ProductionServices;
 use App\Models\QaPersonClientAssign;
+use App\Models\NewPaymentsClients;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -1831,7 +1832,7 @@ class BasicController extends Controller
         $findclient = Client::get();
         $findemployee = Employee::get();
         $get_projectCount = Project::where('clientID', $findproject[0]->ClientName->id)->count();
-        $allPayments = ClientPayment::where('clientID', $findproject[0]->ClientName->id)->get();
+        $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)->get();
 
         if ($get_projectCount <= 1) {
             $amount = true;
@@ -1839,7 +1840,16 @@ class BasicController extends Controller
             $amount = false;
         }
 
-        return view('payment', ['allPayments' => $allPayments, 'id' => $id, 'projectmanager' => $findproject, 'clients' => $findclient, 'employee' => $findemployee, 'AmountCheck' => $amount, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('payment', [
+            'allPayments' => $allPayments,
+            'id' => $id,
+            'projectmanager' => $findproject,
+            'clients' => $findclient,
+            'employee' => $findemployee,
+            'AmountCheck' => $amount,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
 
@@ -1857,83 +1867,127 @@ class BasicController extends Controller
         return view('userreport', ['company' => $companies, 'brand' => $brands, 'department' => $departments, 'employee' => $employees, 'client' => $clients, 'project' => $projects, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
     }
 
-
-
     function clientPayment(Request $request)
     {
 
         $paymentType = $request->input('paymentType');
+        $paymentNature = $request->input('paymentNature');
+        if($request->file('bankWireUpload') != null ){
+            $bookwire = $request->file('bankWireUpload')->store('Payment');
+        }else{
+            $bookwire ="--";
+        }
         $findusername = DB::table('employees')->where('id', $request->input('pmID'))->get();
         $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
 
 
-        if ($paymentType == "Split Payment") {
-            $projectManager = $request->input('pmID');
-            $amountShare = $request->input('splitamount');
-            $SecondProjectManager = $request->input('shareProjectManager');
-            $total =  $request->input('paidamount') - $amountShare;
+            $createpayment = NewPaymentsClients::create([
+                "BrandID" => $request->input('brandID'),
+                "ClientID"=> $request->input('clientID'),
+                "ProjectID"=> $request->input('project'),
+                "ProjectManager"=> $request->input('accountmanager'),
+                "paymentNature"=> $request->input('paymentNature'),
+                "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                "Platform"=> $request->input('platform'),
+                "Card_Brand"=> $request->input('cardBrand'),
+                "Payment_Gateway"=> $request->input('paymentgateway'),
+                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                "TransactionID"=> $request->input('transactionID'),
+                "paymentDate"=> $request->input('paymentdate'),
+                "futureDate"=> $request->input('nextpaymentdate'),
+                "SalesPerson"=> $request->input('saleperson'),
+                "TotalAmount"=> $request->input('totalamount'),
+                "Paid"=> $request->input('clientpaid'),
+                "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
+                "PaymentType"=> $request->input('paymentType'),
+                "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
+                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
+                "Description"=> $request->input('description')
 
-            $createpayment = ClientPayment::insertGetId([
-                "clientID"  => $request->input('clientID'),
-                "projectID" => $request->input('project'),
-                "paymentNature" => $request->input('paymentNature'),
-                "clientPaid" => $request->input('paidamount'),
-                "remainingPayment" => $request->input('remainingamount'),
-                "paymentGateway" => $request->input('paymentgateway'),
-                "paymentType" => $request->input('paymentType'),
-                "ProjectManager" =>  $projectManager,
-                "amountShare" => $amountShare,
             ]);
 
-            $findusername = DB::table('employees')->where('id', $request->input('pmID'))->get();
-            $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
-            $paymentDescription = $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name;
-            $createMainEmployeePayment  = EmployeePayment::create(
-                [
-                    "paymentID" => $createpayment,
-                    "employeeID" => $request->input('pmID'),
-                    "paymentDescription" => $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name,
-                    "amount" =>     $total
-                ],
-
-            );
-
-            $createSharedPersonEmployeePayment  = EmployeePayment::create(
-                [
-                    "paymentID" => $createpayment,
-                    "employeeID" => $SecondProjectManager,
-                    "paymentDescription" => "Amount Share By " . $findusername[0]->name,
-                    "amount" =>  $amountShare
-                ],
-            );
-        } else {
-            $projectManager = $request->input('pmID');
-
-            $total =  $request->input('paidamount');
-            $createpayment = ClientPayment::insertGetId([
-                "clientID"  => $request->input('clientID'),
-                "projectID" => $request->input('project'),
-                "paymentNature" => $request->input('paymentNature'),
-                "clientPaid" => $request->input('paidamount'),
-                "remainingPayment" => $request->input('remainingamount'),
-                "paymentGateway" => $request->input('paymentgateway'),
-                "paymentType" => $request->input('paymentType'),
-                "ProjectManager" =>  $projectManager,
-                "amountShare" => 0,
-            ]);
-
-            $createEmployeePayment  = EmployeePayment::create(
-                [
-                    "paymentID" => $createpayment,
-                    "employeeID" => $request->input('pmID'),
-                    "paymentDescription" => $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name,
-                    "amount" =>  $total
-                ]
-            );
-        }
-
-        return "CHECK";
+            return redirect('/forms/payment/' . $request->input('project'));
     }
+
+
+
+    // function clientPayment1(Request $request)
+    // {
+
+    //     $paymentType = $request->input('paymentType');
+    //     $findusername = DB::table('employees')->where('id', $request->input('pmID'))->get();
+    //     $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
+
+
+    //     if ($paymentType == "Split Payment") {
+    //         $projectManager = $request->input('pmID');
+    //         $amountShare = $request->input('splitamount');
+    //         $SecondProjectManager = $request->input('shareProjectManager');
+    //         $total =  $request->input('paidamount') - $amountShare;
+
+    //         $createpayment = ClientPayment::insertGetId([
+    //             "clientID"  => $request->input('clientID'),
+    //             "projectID" => $request->input('project'),
+    //             "paymentNature" => $request->input('paymentNature'),
+    //             "clientPaid" => $request->input('paidamount'),
+    //             "remainingPayment" => $request->input('remainingamount'),
+    //             "paymentGateway" => $request->input('paymentgateway'),
+    //             "paymentType" => $request->input('paymentType'),
+    //             "ProjectManager" =>  $projectManager,
+    //             "amountShare" => $amountShare,
+    //         ]);
+
+    //         $findusername = DB::table('employees')->where('id', $request->input('pmID'))->get();
+    //         $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
+    //         $paymentDescription = $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name;
+    //         $createMainEmployeePayment  = EmployeePayment::create(
+    //             [
+    //                 "paymentID" => $createpayment,
+    //                 "employeeID" => $request->input('pmID'),
+    //                 "paymentDescription" => $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name,
+    //                 "amount" =>     $total
+    //             ],
+
+    //         );
+
+    //         $createSharedPersonEmployeePayment  = EmployeePayment::create(
+    //             [
+    //                 "paymentID" => $createpayment,
+    //                 "employeeID" => $SecondProjectManager,
+    //                 "paymentDescription" => "Amount Share By " . $findusername[0]->name,
+    //                 "amount" =>  $amountShare
+    //             ],
+    //         );
+    //     } else {
+    //         $projectManager = $request->input('pmID');
+
+    //         $total =  $request->input('paidamount');
+    //         $createpayment = ClientPayment::insertGetId([
+    //             "clientID"  => $request->input('clientID'),
+    //             "projectID" => $request->input('project'),
+    //             "paymentNature" => $request->input('paymentNature'),
+    //             "clientPaid" => $request->input('paidamount'),
+    //             "remainingPayment" => $request->input('remainingamount'),
+    //             "paymentGateway" => $request->input('paymentgateway'),
+    //             "paymentType" => $request->input('paymentType'),
+    //             "ProjectManager" =>  $projectManager,
+    //             "amountShare" => 0,
+    //         ]);
+
+    //         $createEmployeePayment  = EmployeePayment::create(
+    //             [
+    //                 "paymentID" => $createpayment,
+    //                 "employeeID" => $request->input('pmID'),
+    //                 "paymentDescription" => $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name,
+    //                 "amount" =>  $total
+    //             ]
+    //         );
+    //     }
+
+    //     return "CHECK";
+    // }
 
     function qaform(Request $request)
     {
