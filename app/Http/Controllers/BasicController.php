@@ -3019,6 +3019,8 @@ class BasicController extends Controller
         $qaform = QAFORM::where('clientID',$id)->get();
         $qaformcount = count($qaform);
         $qaformlast = QAFORM::where('clientID',$id)->whereMonth('created_at', now())->latest('created_at')->get();
+        $clientpayments = NewPaymentsClients::where('ClientID',$id)->get();
+        $clientpaymentscount = count($clientpayments);
 
         return view('clientReport',[
             'clients'=> $client,
@@ -3027,6 +3029,8 @@ class BasicController extends Controller
             'qaformlasts' => $qaformlast,
             'qaformcount' => $qaformcount,
             'projectcount' => $projectcount,
+            'clientpayments' => $clientpayments,
+            'clientpaymentscount' => $clientpaymentscount,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]

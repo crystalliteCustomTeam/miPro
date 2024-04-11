@@ -160,8 +160,10 @@
                 ANY COMMITMENT :
                 {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
                 <br><br>
-                QA Assignee :
-                {{ $qaAssignee[0]->Username->name  }}
+                @if (isset($qaAssignee[0]->Username->name))
+              QA Assignee :
+              {{ $qaAssignee[0]->Username->name }}
+              @endif
               </p>
             </div><!-- card -->
 
@@ -198,8 +200,10 @@
               ANY COMMITMENT :
               {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
               <br><br>
+              @if (isset($qaAssignee[0]->Username->name))
               QA Assignee :
-              {{ $qaAssignee[0]->Username->name  }}
+              {{ $qaAssignee[0]->Username->name }}
+              @endif
             </p>
           </div><!-- card -->
 
@@ -224,8 +228,10 @@
               ANY COMMITMENT :
               {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
               <br><br>
+              @if (isset($qaAssignee[0]->Username->name))
               QA Assignee :
-              {{ $qaAssignee[0]->Username->name  }}
+              {{ $qaAssignee[0]->Username->name }}
+              @endif
             </p>
           </div><!-- card -->
 
@@ -248,8 +254,11 @@
               ANY COMMITMENT :
               {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
               <br><br>
+              @if (isset($qaAssignee[0]->Username->name))
               QA Assignee :
               {{ $qaAssignee[0]->Username->name }}
+              @endif
+
             </p>
           </div><!-- card -->
           @endif

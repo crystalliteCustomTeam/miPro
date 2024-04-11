@@ -113,6 +113,7 @@
                           <option value="SMM">SMM</option>
                           <option value="Thumbtack">Thumbtack</option>
                           <option value="UpWork Lead">UpWork Lead</option>
+                          <option value="PayPall">PayPall</option>
                     </select>
                   </div>
                 <div class="col-4 mt-3">
@@ -123,6 +124,7 @@
                         <option value="MasterCard">MasterCard</option>
                         <option value="VISA">VISA</option>
                         <option value="WIRE">WIRE</option>
+                        <option value="PayPall">PayPall</option>
                     </select>
                 </div>
                 <div class="col-4 mt-3">

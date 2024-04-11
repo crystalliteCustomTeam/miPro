@@ -41,4 +41,9 @@ class NewPaymentsClients extends Model
     {
         return $this->hasOne(Employee::class,'id','ProjectManager');
     }
+
+    public function paymentprojectName(): HasOne
+    {
+        return $this->hasOne(Project::class,'id','ProjectID');
+    }
 }

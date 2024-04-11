@@ -60,49 +60,85 @@
                             @endforeach
                         </ul>
                     @else
-                        Project is not created
+                        {{-- Project is not created --}}
                     @endif
                 </div>
                 @if ($qaformcount > 0)
-                    <div class="col-4 mt-3" >
-                        @if (isset($qaformlasts[0]->status) and $qaformlasts[0]->status !== null)
-                        <h5>Remarks: {{$qaformlasts[0]->status}}</h5>
-                        @else
-                            <p style="color: red"></p>
-                        @endif
-                    </div>
-                    <div class="col-4 mt-3" >
+                     @if (isset($qaformlasts[0]->status) and $qaformlasts[0]->status !== null)
+                        <div class="col-4 mt-3" >
+                            <h5>Status: {{$qaformlasts[0]->status}}</h5>
+                        </div>
+                    @else
+                    @endif
 
-                        @if (isset($qaformlasts[0]->client_satisfaction) and $qaformlasts[0]->client_satisfaction !== null)
-                        <h5>Remarks: {{$qaformlasts[0]->client_satisfaction}}</h5>
-                        @else
-                            <p style="color: red"></p>
-                        @endif
-                    </div>
-                    <div class="col-4 mt-3" >
+                    @if (isset($qaformlasts[0]->client_satisfaction) and $qaformlasts[0]->client_satisfaction !== null)
+                        <div class="col-4 mt-3" >
+                            <h5>Remarks: {{$qaformlasts[0]->client_satisfaction}}</h5>
+                        </div>
+                    @else
+                    @endif
 
-                        @if (isset($qaformlasts[0]->status_of_refund) and $qaformlasts[0]->status_of_refund !== null)
-                        <h5>Expected Refund: {{$qaformlasts[0]->status_of_refund}}</h5>
-                        @else
-                            <p style="color: red"></p>
-                        @endif
-                    </div>
-                    <div class="col-12 mt-3" >
-                        <h5>Summery:</h5>
-                        @if (isset($qaformlasts[0]->Refund_Request_summery) and $qaformlasts[0]->Refund_Request_summery !== null)
-                        <p> {{$qaformlasts[0]->Refund_Request_summery}}</p>
-                        @else
-                            <p style="color: red">No QAFORM</p>
-                        @endif
+                    @if (isset($qaformlasts[0]->status_of_refund) and $qaformlasts[0]->status_of_refund !== null)
+                        <div class="col-4 mt-3" >
+                            <h5>Expected Refund: {{$qaformlasts[0]->status_of_refund}}</h5>
+                        </div>
+                    @else
+                    @endif
 
-                    </div>
-                @else
-
+                    @if (isset($qaformlasts[0]->Refund_Request_summery) and $qaformlasts[0]->Refund_Request_summery !== null)
+                        <div class="col-12 mt-3" >
+                            <h4>Summery:</h4>
+                            <p> {{$qaformlasts[0]->Refund_Request_summery}}</p>
+                        </div>
+                    @else
+                    @endif
                 @endif
 
                 <div class="col-12 mt-3">
-                    <h4>Projects</h4>
+                    <h4>Payments:</h4>
                 </div>
+                <div class="col-12 mt-3" >
+                    @if ($clientpaymentscount > 0)
+                    <table id="datatable1" class="table-dark table-hover">
+                        <thead>
+                          <tr role="row">
+                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Project</th>
+                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Payment Nature</th>
+                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Payment Gateway</th>
+                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Payment Date</th>
+                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Future Date</th>
+                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Sales Person</th>
+                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Total Amount</th>
+                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Paid</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($clientpayments as $clientpayment)
+                            <tr role="row" class="odd">
+                              <td tabindex="0" class="sorting_1">{{$clientpayment->paymentprojectName->name}}</td>
+                              <td>{{$clientpayment->paymentNature}}</td>
+                              <td>{{$clientpayment->Payment_Gateway}}</td>
+                              <td>{{$clientpayment->paymentDate}}</td>
+                              <td>{{$clientpayment->futureDate}}</td>
+                              <td>{{$clientpayment->EmployeesName->name}}</td>
+                              <td>${{$clientpayment->TotalAmount}}</td>
+                              <td>${{$clientpayment->Paid}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @else
+                       <p>No Payment Received</p>
+                    @endif
+                </div>
+
+
+                @if ($projectcount > 0)
+                <div class="col-12 mt-3">
+                    <h4>Production:</h4>
+                </div>
+                @endif
+
                 @if ($projectcount > 0)
                     @foreach ($projects as $project)
                     <div class="col-6 mt-3" >
@@ -138,16 +174,15 @@
                         </table>
                     </div>
                     @endforeach
+
                 @else
-                    <div class="col-4 mt-3" >
-                        <p>Project is not created</p>
-                    </div>
                 @endif
 
                 <div class="col-12 mt-3">
                     <h4>QA Data:</h4>
                 </div>
                 <div class="col-12 mt-3" >
+                    @if ($qaformcount > 0)
                     <table id="datatable1" class="table-dark table-hover">
                         <thead>
                           <tr role="row">
@@ -162,7 +197,6 @@
                           </tr>
                         </thead>
                         <tbody>
-                        @if ($qaformcount > 0)
                             @foreach ($qaforms as $qaform)
                             <tr role="row" class="odd">
                               <td tabindex="0" class="sorting_1">{{$qaform->Project_Name->name}}</td>
@@ -187,20 +221,11 @@
                                     <td>{{$qaform->created_at}}</td>
                             </tr>
                             @endforeach
-                        @else
-                            <tr role="row" class="odd">
-                            <td tabindex="0" class="sorting_1">--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            </tr>
-                            @endif
                         </tbody>
                     </table>
+                    @else
+                    <p>No QA Data</p>
+                    @endif
                 </div>
             </div>
 
