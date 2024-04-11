@@ -1910,90 +1910,203 @@ class BasicController extends Controller
 
     function clientPayment(Request $request)
     {
+        // $SecondProjectManager = $request->input('shareProjectManager');
+        // echo("<pre>");
+        // print_r($SecondProjectManager);
+        // die();
 
         $paymentType = $request->input('paymentType');
         $paymentNature = $request->input('paymentNature');
+        $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
+        $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
+
         if($request->file('bankWireUpload') != null ){
             $bookwire = $request->file('bankWireUpload')->store('Payment');
         }else{
             $bookwire ="--";
         }
-        $findusername = DB::table('employees')->where('id', $request->input('pmID'))->get();
-        $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
 
 
-            $createpayment = NewPaymentsClients::create([
-                "BrandID" => $request->input('brandID'),
-                "ClientID"=> $request->input('clientID'),
-                "ProjectID"=> $request->input('project'),
-                "ProjectManager"=> $request->input('accountmanager'),
-                "paymentNature"=> $request->input('paymentNature'),
-                "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                "Platform"=> $request->input('platform'),
-                "Card_Brand"=> $request->input('cardBrand'),
-                "Payment_Gateway"=> $request->input('paymentgateway'),
-                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                "TransactionID"=> $request->input('transactionID'),
-                "paymentDate"=> $request->input('paymentdate'),
-                "futureDate"=> $request->input('nextpaymentdate'),
-                "SalesPerson"=> $request->input('saleperson'),
-                "TotalAmount"=> $request->input('totalamount'),
-                "Paid"=> $request->input('clientpaid'),
-                "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                "PaymentType"=> $request->input('paymentType'),
-                "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
-                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
-                "Description"=> $request->input('description')
+            if( $request->input('nextpaymentdate') != null ){
 
-            ]);
+                $createpayment = NewPaymentsClients::insertGetId([
+                    "BrandID" => $request->input('brandID'),
+                    "ClientID"=> $request->input('clientID'),
+                    "ProjectID"=> $request->input('project'),
+                    "ProjectManager"=> $request->input('accountmanager'),
+                    "paymentNature"=> $request->input('paymentNature'),
+                    "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform"=> $request->input('platform'),
+                    "Card_Brand"=> $request->input('cardBrand'),
+                    "Payment_Gateway"=> $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID"=> $request->input('transactionID'),
+                    "paymentDate"=> $request->input('paymentdate'),
+                    "futureDate"=> $request->input('nextpaymentdate'),
+                    "SalesPerson"=> $request->input('saleperson'),
+                    "TotalAmount"=> $request->input('totalamount'),
+                    "Paid"=> $request->input('clientpaid'),
+                    "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType"=> $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
+                    "Description"=> $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s')
+
+                ]);
+
+            }elseif( $request->input('ChargingPlan') != null && $request->input('nextpaymentdate') == null){
+
+                $today = date('Y-m-d');
+                if ($request->input('ChargingPlan') == "One Time Payment") {
+                    $date = null ;
+                } elseif ($request->input('ChargingPlan') == "Monthly") {
+                    $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "2 Months") {
+                    $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "3 Months") {
+                    $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "4 Months") {
+                    $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "5 Months") {
+                    $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "6 Months") {
+                    $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "7 Months") {
+                    $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "8 Months") {
+                    $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "9 Months") {
+                    $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "10 Months") {
+                    $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "11 Months") {
+                    $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "12 Months") {
+                    $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
+                }elseif ($request->input('ChargingPlan') == "2 Years") {
+                    $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "3 Years") {
+                    $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
+                }
+
+
+                $createpayment = NewPaymentsClients::insertGetId([
+                    "BrandID" => $request->input('brandID'),
+                    "ClientID"=> $request->input('clientID'),
+                    "ProjectID"=> $request->input('project'),
+                    "ProjectManager"=> $request->input('accountmanager'),
+                    "paymentNature"=> $request->input('paymentNature'),
+                    "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform"=> $request->input('platform'),
+                    "Card_Brand"=> $request->input('cardBrand'),
+                    "Payment_Gateway"=> $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID"=> $request->input('transactionID'),
+                    "paymentDate"=> $request->input('paymentdate'),
+                    "futureDate"=> $date,
+                    "SalesPerson"=> $request->input('saleperson'),
+                    "TotalAmount"=> $request->input('totalamount'),
+                    "Paid"=> $request->input('clientpaid'),
+                    "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType"=> $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
+                    "Description"=> $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s')
+
+                ]);
+
+            }else{
+
+                $createpayment = NewPaymentsClients::insertGetId([
+                    "BrandID" => $request->input('brandID'),
+                    "ClientID"=> $request->input('clientID'),
+                    "ProjectID"=> $request->input('project'),
+                    "ProjectManager"=> $request->input('accountmanager'),
+                    "paymentNature"=> $request->input('paymentNature'),
+                    "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform"=> $request->input('platform'),
+                    "Card_Brand"=> $request->input('cardBrand'),
+                    "Payment_Gateway"=> $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID"=> $request->input('transactionID'),
+                    "paymentDate"=> $request->input('paymentdate'),
+                    "futureDate"=> $request->input('nextpaymentdate'),
+                    "SalesPerson"=> $request->input('saleperson'),
+                    "TotalAmount"=> $request->input('totalamount'),
+                    "Paid"=> $request->input('clientpaid'),
+                    "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType"=> $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
+                    "Description"=> $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s')
+
+                ]);
+
+            }
+
+
+        if ($paymentType == "Split Payment") {
+
+            $paymentDescription = $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name;
+            $totalamount = $request->input('totalamount');
+            $amountShare = $request->input('splitamount');
+            $sharedProjectManager = $request->input('shareProjectManager');
+            $c = [];
+            $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
+
+            $createMainEmployeePayment  = EmployeePayment::create([
+                    "paymentID" => $createpayment,
+                    "employeeID" => $request->input('accountmanager'),
+                    "paymentDescription" => $paymentDescription ,
+                    "amount" => $amount
+                ]);
 
 
 
+            foreach ($sharedProjectManager as $key => $value) {
+                $c[$key] = [$value, $amountShare[$key]];
+            }
 
-        // if ($paymentType == "Split Payment") {
-        //     $projectManager = $request->input('pmID');
-        //     $amountShare = $request->input('splitamount');
-        //     $SecondProjectManager = $request->input('shareProjectManager');
-        //     $total =  $request->input('paidamount') - $amountShare;
-        //     $findusername = DB::table('employees')->where('id', $request->input('pmID'))->get();
-        //     $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
+            foreach($c as $SecondProjectManagers){
+                if($SecondProjectManagers[0] != 0){
+                    $createSharedPersonEmployeePayment  = EmployeePayment::create(
+                        [
+                            "paymentID" => $createpayment,
+                            "employeeID" => $SecondProjectManagers[0],
+                            "paymentDescription" => "Amount Share By " . $findusername[0]->name,
+                            "amount" =>  $SecondProjectManagers[1]
+                        ]);
+                }
+            }
 
-        //     $paymentDescription = $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name;
-        //     $createMainEmployeePayment  = EmployeePayment::create(
-        //         [
-        //             "paymentID" => $createpayment,
-        //             "employeeID" => $request->input('pmID'),
-        //             "paymentDescription" => $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name,
-        //             "amount" =>     $total
-        //         ],
+        } else {
 
-        //     );
+            $paymentDescription = $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name;
+            $clientpaid = $request->input('clientpaid');
 
-        //     $createSharedPersonEmployeePayment  = EmployeePayment::create(
-        //         [
-        //             "paymentID" => $createpayment,
-        //             "employeeID" => $SecondProjectManager,
-        //             "paymentDescription" => "Amount Share By " . $findusername[0]->name,
-        //             "amount" =>  $amountShare
-        //         ],
-        //     );
-        // } else {
-        //     $projectManager = $request->input('pmID');
 
-        //     $total =  $request->input('paidamount');
 
-        //     $createEmployeePayment  = EmployeePayment::create(
-        //         [
-        //             "paymentID" => $createpayment,
-        //             "employeeID" => $request->input('pmID'),
-        //             "paymentDescription" => $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name,
-        //             "amount" =>  $total
-        //         ]
-        //     );
-        // }
-
+            $createEmployeePayment  = EmployeePayment::create(
+                [
+                    "paymentID" => $createpayment,
+                    "employeeID" => $request->input('accountmanager'),
+                    "paymentDescription" =>  $paymentDescription,
+                    "amount" =>   $clientpaid
+                ]
+            );
+        }
 
             return redirect('/forms/payment/' . $request->input('project'));
     }
