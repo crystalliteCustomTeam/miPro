@@ -2288,6 +2288,12 @@ class BasicController extends Controller
     {
         $qaPerson = $request->session()->get('AdminUser');
         if ($request->input('status') == 'Not Started Yet') {
+            $request->validate([
+                'last_communication_with_client' => 'required',
+                'Medium_of_communication' => 'required',
+                'production_name' => 'required',
+                'status' => 'required',
+            ]);
 
             QAFORM::create([
                 'clientID' => $request->input('clientID'),
@@ -2311,9 +2317,13 @@ class BasicController extends Controller
             //return redirect('/forms/newqaform/' . $request->input('projectID'));
         } else {
                 $request->validate([
+                    'last_communication_with_client' => 'required',
+                    'Medium_of_communication' => 'required',
+                    'production_name' => 'required',
+                    'status' => 'required',
                     'issues' => 'required',
                     'Description_of_issue' => 'required',
-                    'Refund_Request_summery' => 'required',
+                    'Refund_Request_summery' => 'required'
                 ]);
 
             if ($request->file('Refund_Request_Attachment') != null) {

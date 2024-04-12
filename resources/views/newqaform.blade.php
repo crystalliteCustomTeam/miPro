@@ -96,6 +96,11 @@
                               @else
                               <input type="date" name="last_communication_with_client" required class="form-control">
                               @endif
+                              <span class="text-danger">
+                                @error('last_communication_with_client')
+                                    {{$message}}
+                                @enderror
+                            </span>
                             </div>
 
                             <div class="col-6 mt-3">
@@ -107,6 +112,11 @@
                                     <option value="Email">Email</option>
                                     <option value="Whatsapp">Whatsapp</option>
                                 </select>
+                                <span class="text-danger">
+                                    @error('Medium_of_communication')
+                                        {{$message}}
+                                    @enderror
+                                </span>
                               </div>
                               <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Select Production: </label>
@@ -121,6 +131,11 @@
                                     <option value="{{ $production->id }}">{{ $production->DepartNameinProjectProduction->name }}</option>
                                     @endforeach
                                 </select>
+                                <span class="text-danger">
+                                    @error('production_name')
+                                        {{$message}}
+                                    @enderror
+                                </span>
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Status:</label>
@@ -134,6 +149,11 @@
                                     <option value="Not Started Yet">Not Started Yet</option>
                                     <option value="Completed">Completed</option>
                                 </select>
+                                <span class="text-danger">
+                                    @error('status')
+                                        {{$message}}
+                                    @enderror
+                                </span>
                             </div>
 
                             <div class="col-12 mt-3" id="issues">
