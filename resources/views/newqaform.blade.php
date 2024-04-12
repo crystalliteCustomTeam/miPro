@@ -143,9 +143,9 @@
                                     @if ( $errors->all() != null)
                                     <option value="{{old('status')}}" selected>{{old('status')}}</option>
                                     @endif
+                                    <option value="On Going">On Going</option>
                                     <option value="Dispute">Dispute</option>
                                     <option value="Refund">Refund</option>
-                                    <option value="On Going">On Going</option>
                                     <option value="Not Started Yet">Not Started Yet</option>
                                     <option value="Completed">Completed</option>
                                 </select>
