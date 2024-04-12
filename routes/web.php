@@ -88,6 +88,7 @@ Route::controller(BasicController::class)->group(function (){
 
         //qaform:
         Route::get('/forms/qaform_d','qaform');
+        Route::get('/allfilled/qaforms','filledqaformIndv');
         Route::post('/forms/qaform_getproduction/process','qaform_getproduction');
         Route::get('/forms/newqaform/{id}','new_qaform');
         Route::post('/forms/qaform/{id}/process','qaform_prefilled_process');
@@ -118,6 +119,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/payment/{id}','payment');
         Route::get('/client/add/payment','addPayment');
         Route::post('/client/add/payment/process','addPaymentProcess');
+        Route::get('/client/project/payment/view/{id}','payment_view');
 
 
 
@@ -151,6 +153,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/generate/report/{id}','clientReport');
         Route::get('/client/project/qareport/{id}','projectQaReport');
         Route::get('/client/project/qareport/view/{id}','projectQaReport_view');
+        Route::get('/client/project/qaform/view/{id}','projectQaReport_view_without_backButton');
         Route::get('/allproject/report/{id?}','projectreport');
 
 
@@ -171,9 +174,6 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/settings/changeuser/client/{id}','Edit_Assign_Client_to_qaperson');
         Route::post('/settings/changeuser/client/{id}/Process','Edit_Assign_Client_to_qaperson_process');
         Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
-
-        //PAYMENTS:
-        Route::get('/client/project/payment','Assign_Client_to_qaperson');
 
     });
 

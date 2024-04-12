@@ -316,7 +316,7 @@
                   @foreach ($allPayments as $payments)
                     <tr>
                       <td>{{ $payments->id }}</td>
-                      <td>{{ $payments->EmployeesName->name }}</td>
+                      <td>{{ $payments->saleEmployeesName->name }}</td>
                       <td>${{ $payments->Paid }}</td>
                       <td>${{ $payments->RemainingAmount }}</td>
                       <td>${{ $payments->TotalAmount}}</td>

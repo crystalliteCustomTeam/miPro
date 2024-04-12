@@ -56,7 +56,14 @@
                         <label for="">Projects:</label>
                         <ul>
                             @foreach ($projects as $project)
-                            <li>{{$project->name}}--PM: {{$project->EmployeeName->name}}</li>
+                            <li>
+                                {{$project->name}}--PM:
+                                @if (isset($project->EmployeeName->name) and $project->EmployeeName->name !== null)
+                                {{$project->EmployeeName->name}}
+                                @else
+                                <label style="color: red">User Deleted</label>
+                                @endif
+                            </li>
                             @endforeach
                         </ul>
                     @else
@@ -99,7 +106,7 @@
                 </div>
                 <div class="col-12 mt-3" >
                     @if ($clientpaymentscount > 0)
-                    <table id="datatable1" class="table-dark table-hover">
+                    <table id="" class="table-dark table-hover">
                         <thead>
                           <tr role="row">
                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Project</th>
@@ -120,7 +127,7 @@
                               <td>{{$clientpayment->Payment_Gateway}}</td>
                               <td>{{$clientpayment->paymentDate}}</td>
                               <td>{{$clientpayment->futureDate}}</td>
-                              <td>{{$clientpayment->EmployeesName->name}}</td>
+                              <td>{{$clientpayment->saleEmployeesName->name}}</td>
                               <td>${{$clientpayment->TotalAmount}}</td>
                               <td>${{$clientpayment->Paid}}</td>
                             </tr>

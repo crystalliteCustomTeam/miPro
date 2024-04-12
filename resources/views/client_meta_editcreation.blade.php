@@ -6,8 +6,8 @@
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
-            <a class="breadcrumb-item" href="#">Brand</a>
-            <span class="breadcrumb-item active">Set Up Brand</span>
+            <a class="breadcrumb-item" href="#">EditClient</a>
+            <span class="breadcrumb-item active">Set Up Client</span>
           </nav>
         </div><!-- br-pageheader -->
 
@@ -15,8 +15,8 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Set Up Brand</h4>
-            <p class="mg-b-0">Brand</p>
+            <h4>Set Up Client</h4>
+            <p class="mg-b-0">Client</p>
           </div>
         </div><!-- d-flex -->
 
@@ -163,6 +163,7 @@
         </form>
 @elseif ($domains == "book")
             <input type="hidden" name="serviceType" id="book" value="book">
+        <div class="row">
             <div class="col-4 mt-3">
                 <label for="" style="font-weight:bold;">Package Name</label>
                 <input type="text" class="form-control" name="package" required>
@@ -294,7 +295,7 @@
 @elseif ($domains == "Website")
 
             <input type="hidden" name="serviceType" id="website" value="website">
-
+        <div class="row">
         <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Package</label>
             <select class="form-control select2"  required name="package[]" multiple="multiple">
@@ -399,6 +400,7 @@
 @else
 
             <input type="hidden" name="serviceType" id="cld" value="cld">
+        <div class="row">
         <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Package</label>
             <select class="form-control select2"  required name="package[]" multiple="multiple">

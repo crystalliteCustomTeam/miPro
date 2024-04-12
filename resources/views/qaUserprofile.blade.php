@@ -37,8 +37,6 @@
         <ul class="nav nav-outline active-primary align-items-center flex-row" role="tablist">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#projects" role="tab">Clients</a></li>
             <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#dashboard" role="tab">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#clients" role="tab">Projects</a></li>
-
         </ul>
       </div>
 
@@ -226,14 +224,6 @@
 
             </div><!-- row -->
           </div><!-- tab-pane -->
-
-
-
-
-
-
-
-
 
       </div><!-- br-pagebody -->
 

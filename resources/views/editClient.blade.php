@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 @extends('layouts.app')
 
 @section('maincontent')
@@ -564,116 +556,116 @@
             @endif
 
 
-</div>
-<div class="row mt-3">
-    <div class="col-3">
-        <br>
-        <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
-    </div>
-    <div class="col-9">
-            @if (Session::has('Success'))
-
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>{{ Session::get('Success') }}</strong>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
             </div>
+            <div class="row mt-3">
+                <div class="col-3">
+                    <br>
+                    <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
+                </div>
+                <div class="col-9">
+                        @if (Session::has('Success'))
 
-            @endif
-            @if (Session::has('Error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>{{ Session::get('Error') }}</strong>
-                <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('Success') }}</strong>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                        </div>
+
+                        @endif
+                        @if (Session::has('Error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('Error') }}</strong>
+                            <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                        </div>
+                        @endif
+                </div>
             </div>
-            @endif
-    </div>
-</div>
-</form>
+            </form>
 
 
 @else
 
-<form action="/forms/kyc/process/editclientwithoutmeta/{{$clients[0]->id}}" method="POST">
-    @csrf
+            <form action="/forms/kyc/process/editclientwithoutmeta/{{$clients[0]->id}}" method="POST">
+                @csrf
 
-    <div class="row">
-        <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Client Name:</label>
-            <input type="text"  name="name" class="form-control" value="{{$clients[0]->name}}" >
-        </div>
-        <div class="col-4 mt-3">
-            <label for=""style="font-weight:bold;">Phone Number:</label>
-            <input type="text"  name="phone"  class="form-control" value="{{$clients[0]->phone}}">
-        </div>
-        <div class="col-4 mt-3">
-            <label for=""style="font-weight:bold;">Email:</label>
-            <input type="email"  name="email"  class="form-control" value="{{$clients[0]->email}}">
-        </div>
-        <div class="col-4 mt-3">
-        <label for="" style="font-weight:bold;">Brand:</label>
-        <select class="form-control" id="select2forme"  name="brand">
+                <div class="row">
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Client Name:</label>
+                        <input type="text"  name="name" class="form-control" value="{{$clients[0]->name}}" >
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for=""style="font-weight:bold;">Phone Number:</label>
+                        <input type="text"  name="phone"  class="form-control" value="{{$clients[0]->phone}}">
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for=""style="font-weight:bold;">Email:</label>
+                        <input type="email"  name="email"  class="form-control" value="{{$clients[0]->email}}">
+                    </div>
+                    <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Brand:</label>
+                    <select class="form-control" id="select2forme"  name="brand">
 
-        @foreach ($Brands as $brand)
-                <option value="{{ $brand->id }}"{{ $brand->id == $clients[0]->brand ? 'selected' : '' }}>{{ $brand->name }}</option>
-        @endforeach
-        </select>
-        </div>
-        <div class="col-4 mt-3">
-        <label for="" style="font-weight:bold;">Sales Person:</label>
-        <select class="form-control select2"  name="saleperson">
-        @foreach($ProjectManagers as $pm)
-            <option value="{{ $pm->id }}"{{ $pm->id == $clients[0]->frontSeler ? 'selected' : '' }}>
-                {{ $pm->name }}
-                --
-                @foreach($pm->deparment($pm->id)  as $dm)
-                <strong>{{ $dm->name }}</strong>
-                @endforeach
-            </option>
-        @endforeach
-        </select>
+                    @foreach ($Brands as $brand)
+                            <option value="{{ $brand->id }}"{{ $brand->id == $clients[0]->brand ? 'selected' : '' }}>{{ $brand->name }}</option>
+                    @endforeach
+                    </select>
+                    </div>
+                    <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Sales Person:</label>
+                    <select class="form-control select2"  name="saleperson">
+                    @foreach($ProjectManagers as $pm)
+                        <option value="{{ $pm->id }}"{{ $pm->id == $clients[0]->frontSeler ? 'selected' : '' }}>
+                            {{ $pm->name }}
+                            --
+                            @foreach($pm->deparment($pm->id)  as $dm)
+                            <strong>{{ $dm->name }}</strong>
+                            @endforeach
+                        </option>
+                    @endforeach
+                    </select>
 
-        </div>
-        <div class="col-4 mt-3">
-        <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
-        <input type="text"  name="website"  class="form-control" value="{{$clients[0]->website}}">
-        </div>
+                    </div>
+                    <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
+                    <input type="text"  name="website"  class="form-control" value="{{$clients[0]->website}}">
+                    </div>
 
-        <div class="col-4 mt-3">
-            <label for="" style="font-weight:bold;">Select Domain:</label>
-                <select class="form-control select2"  name="domain">
-                    <option value="seo">seo</option>
-                    <option value="book">book</option>
-                    <option value="Website">Website</option>
-                    <option value="cld">cld</option>
-                </select>
-        </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Select Domain:</label>
+                            <select class="form-control select2"  name="domain">
+                                <option value="seo">seo</option>
+                                <option value="book">book</option>
+                                <option value="Website">Website</option>
+                                <option value="cld">cld</option>
+                            </select>
+                    </div>
 
-    </div>
+                </div>
 
 
-</div>
-<div class="row mt-3">
-    <div class="col-3">
-        <br>
-        <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
-    </div>
-    <div class="col-9">
-            @if (Session::has('Success'))
 
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>{{ Session::get('Success') }}</strong>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+            <div class="row mt-3">
+                <div class="col-3">
+                    <br>
+                    <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
+
+                <div class="col-9">
+                        @if (Session::has('Success'))
+
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('Success') }}</strong>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                        </div>
+
+                        @endif
+                        @if (Session::has('Error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('Error') }}</strong>
+                            <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                        </div>
+                        @endif
+                </div>
             </div>
-
-            @endif
-            @if (Session::has('Error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>{{ Session::get('Error') }}</strong>
-                <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
-            </div>
-            @endif
-    </div>
-</div>
-</form>
+            </form>
 
 
 @endif

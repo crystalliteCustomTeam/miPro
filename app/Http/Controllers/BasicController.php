@@ -295,6 +295,21 @@ class BasicController extends Controller
                 $totalrefund =  QAFORM::where('Refund_Requested', 'Yes')->Distinct('projectID')->latest('created_at')->count();
                 $totaldispute =  QAFORM::where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
 
+                $status_OnGoing = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','On Going')->count();
+                $status_Dispute = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Dispute')->count();
+                $status_Refund = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Refund')->count();
+                $status_NotStartedYet = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Not Started Yet')->count();
+                $remark_ExtremelySatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Satisfied')->count();
+                $remark_SomewhatSatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Satisfied')->count();
+                $remark_NeitherSatisfiednorDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Neither Satisfied nor Dissatisfied')->count();
+                $remark_SomewhatDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Dissatisfied')->count();
+                $remark_ExtremelyDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Dissatisfied')->count();
+                $ExpectedRefundDispute_GoingGood = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Going Good')->count();
+                $ExpectedRefundDispute_Low = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Low')->count();
+                $ExpectedRefundDispute_Moderate = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Moderate')->count();
+                $ExpectedRefundDispute_High = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','High')->count();
+
+
                 return view('dashboard', [
                     'eachbranddatas' => $eachbranddata,
                     'eachPersonqaform' => $eachPersonqaform,
@@ -305,7 +320,21 @@ class BasicController extends Controller
                     'totaldispute' => $totaldispute,
                     'LoginUser' => $loginUser[1],
                     'departmentAccess' => $loginUser[0],
-                    'superUser' => $loginUser[2]
+                    'superUser' => $loginUser[2],
+
+                    'status_OnGoing' =>$status_OnGoing,
+                    'status_Dispute' =>$status_Dispute,
+                    'status_Refund' =>$status_Refund,
+                    'status_NotStartedYet' =>$status_NotStartedYet,
+                    'remark_ExtremelySatisfied' =>$remark_ExtremelySatisfied,
+                    'remark_SomewhatSatisfied' =>$remark_SomewhatSatisfied,
+                    'remark_NeitherSatisfiednorDissatisfied' =>$remark_NeitherSatisfiednorDissatisfied,
+                    'remark_SomewhatDissatisfied' =>$remark_SomewhatDissatisfied,
+                    'remark_ExtremelyDissatisfied' =>$remark_ExtremelyDissatisfied,
+                    'ExpectedRefundDispute_GoingGood' =>$ExpectedRefundDispute_GoingGood,
+                    'ExpectedRefundDispute_Low' =>$ExpectedRefundDispute_Low,
+                    'ExpectedRefundDispute_Moderate' =>$ExpectedRefundDispute_Moderate,
+                    'ExpectedRefundDispute_High' =>$ExpectedRefundDispute_High,
                 ]);
             } else {
                 $total_client = QaPersonClientAssign::where("user", $loginUser[1][0]->id)->get();
@@ -689,7 +718,13 @@ class BasicController extends Controller
         $brand = Brand::all();
         $employees = Employee::whereNotIn('position', ['Owner', 'Admin', 'VP', 'Brand Owner', ''])->get();
         $departdata = Department::where('id', $id)->get();
-        return view("departmentuser", ["departdata" => $departdata, "employees" => $employees, "brands" => $brand, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view("departmentuser", [
+            "departdata" => $departdata,
+            "employees" => $employees,
+            "brands" => $brand,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function createuser(Request $request)
@@ -1893,21 +1928,6 @@ class BasicController extends Controller
             'superUser' => $loginUser[2]]);
     }
 
-
-    function userreport(Request $request)
-    {
-        $loginUser = $this->roleExits($request);
-        $companies = Company::all();
-        $brands = Brand::all();
-        $departments = Department::all();
-        $employees = Employee::all();
-        $clients = Client::all();
-        $projects = Project::all();
-
-
-        return view('userreport', ['company' => $companies, 'brand' => $brands, 'department' => $departments, 'employee' => $employees, 'client' => $clients, 'project' => $projects, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
-    }
-
     function clientPayment(Request $request)
     {
         // $SecondProjectManager = $request->input('shareProjectManager');
@@ -2111,7 +2131,31 @@ class BasicController extends Controller
             return redirect('/forms/payment/' . $request->input('project'));
     }
 
+    function payment_view(Request $request, $id){
+        $loginUser = $this->roleExits($request);
+        $client_payment = NewPaymentsClients::where('id', $id)->get();
+        return view('payment_view', [
+            'client_payment' => $client_payment,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
 
+    }
+
+    function userreport(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $companies = Company::all();
+        $brands = Brand::all();
+        $departments = Department::all();
+        $employees = Employee::all();
+        $clients = Client::all();
+        $projects = Project::all();
+
+
+        return view('userreport', ['company' => $companies, 'brand' => $brands, 'department' => $departments, 'employee' => $employees, 'client' => $clients, 'project' => $projects, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+    }
 
     // function clientPayment1(Request $request)
     // {
@@ -2188,6 +2232,27 @@ class BasicController extends Controller
 
     //     return "CHECK";
     // }
+
+    function filledqaformIndv(Request $request){
+        $loginUser = $this->roleExits($request);
+        $qa_form = QAFORM::where('qaPerson', $loginUser[1][0]->id)->get();
+        return view('filledqaform', [
+            'qa_forms' => $qa_form,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
+
+    function projectQaReport_view_without_backButton($id, Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $QA_FORM = QAFORM::where('id', $id)->get();
+        $QA_META = QAFORM_METAS::where('formid', $QA_FORM[0]->qaformID)->get();
+        $Proj_Prod = ProjectProduction::where('id', $QA_FORM[0]->ProjectProductionID)->get();
+        return view('qa_form_view_without_backButton', ['qa_data' => $QA_FORM, 'qa_meta' => $QA_META, 'Proj_Prod' => $Proj_Prod, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+    }
 
     function qaform(Request $request)
     {
@@ -2391,7 +2456,18 @@ class BasicController extends Controller
         $allproductions = projectProduction::where('projectID', $project[0]->productionID)->get();
         $recentClients = Client::where('id', '!=', $client[0]->id)->limit(5)->get();
         $allissues = QaIssues::get();
-        return view('edit_newqaform', ['qa_data' => $QA_FORM, 'qa_meta' => $QA_META, 'Proj_Prod' => $Proj_Prod, 'projects' => $project, 'clients' => $client, 'recentClients' => $recentClients, 'productions' => $allproductions, 'allissues' => $allissues, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('edit_newqaform', [
+            'qa_data' => $QA_FORM,
+            'qa_meta' => $QA_META,
+            'Proj_Prod' => $Proj_Prod,
+            'projects' => $project,
+            'clients' => $client,
+            'recentClients' => $recentClients,
+            'productions' => $allproductions,
+            'allissues' => $allissues,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function edit_new_qaform_process(Request $request, $id)
@@ -2600,7 +2676,7 @@ class BasicController extends Controller
         }
     }
 
-        // function qaform_direct_process(Request $request)
+    // function qaform_direct_process(Request $request)
     // {
     //     $project = Project::where('id', $request->input('projectname'))->get();
     //     $qaPerson = $request->session()->get('AdminUser');
@@ -2949,29 +3025,11 @@ class BasicController extends Controller
             }
 
 
-
             // echo('<pre>');
             // echo($status_OnGoing);
             // die();
 
         }
-
-            // $status_OnGoing = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','On Going')->count();
-            // $status_Dispute = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Dispute')->count();
-            // $status_Refund = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Refund')->count();
-            // $status_NotStartedYet = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Not Started Yet')->count();
-            // $remark_ExtremelySatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Satisfied')->count();
-            // $remark_SomewhatSatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Satisfied')->count();
-            // $remark_NeitherSatisfiednorDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Neither Satisfied nor Dissatisfied')->count();
-            // $remark_SomewhatDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Dissatisfied')->count();
-            // $remark_ExtremelyDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Dissatisfied')->count();
-            // $ExpectedRefundDispute_GoingGood = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Going Good')->count();
-            // $ExpectedRefundDispute_Low = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Low')->count();
-            // $ExpectedRefundDispute_Moderate = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Moderate')->count();
-            // $ExpectedRefundDispute_High = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','High')->count();
-
-
-
 
         return view('report_home', [
             'clients' => $client,
@@ -2988,21 +3046,6 @@ class BasicController extends Controller
             'gets_status' =>$get_statuss,
             'gets_remarks' =>$get_remarkss,
             'gets_expectedRefund' =>$get_expectedRefunds,
-
-            // 'status_OnGoing' =>$status_OnGoing,
-            // 'status_Dispute' =>$status_Dispute,
-            // 'status_Refund' =>$status_Refund,
-            // 'status_NotStartedYet' =>$status_NotStartedYet,
-            // 'remark_ExtremelySatisfied' =>$remark_ExtremelySatisfied,
-            // 'remark_SomewhatSatisfied' =>$remark_SomewhatSatisfied,
-            // 'remark_NeitherSatisfiednorDissatisfied' =>$remark_NeitherSatisfiednorDissatisfied,
-            // 'remark_SomewhatDissatisfied' =>$remark_SomewhatDissatisfied,
-            // 'remark_ExtremelyDissatisfied' =>$remark_ExtremelyDissatisfied,
-            // 'ExpectedRefundDispute_GoingGood' =>$ExpectedRefundDispute_GoingGood,
-            // 'ExpectedRefundDispute_Low' =>$ExpectedRefundDispute_Low,
-            // 'ExpectedRefundDispute_Moderate' =>$ExpectedRefundDispute_Moderate,
-            // 'ExpectedRefundDispute_High' =>$ExpectedRefundDispute_High,
-
             'gets_issues' =>$get_issuess,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],

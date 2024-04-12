@@ -2,6 +2,7 @@
 
 @section('maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <div class="br-mainpanel">
             <div class="br-pagetitle">
               <i class="icon ion-ios-home-outline tx-70 lh-0"></i>
@@ -297,7 +298,194 @@
                                     </div><!-- carousel -->
                                 </div><!-- card -->
                                 </div>
-                        </div>
+
+
+
+
+
+                                <div class="col-6">
+                                    <div class="card bd-0 mg-t-20">
+                                        <div id="carousel12" class="carousel slide" data-ride="carousel">
+
+                                        <div class="carousel-inner" role="listbox">
+
+                                            <div class="carousel-item active">
+                                                <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
+                                                    <script type="text/javascript">
+
+                                                        // Load the Visualization API and the corechart package.
+                                                        google.charts.load('current', {'packages':['corechart']});
+
+                                                        // Set a callback to run when the Google Visualization API is loaded.
+                                                        google.charts.setOnLoadCallback(drawChart);
+
+                                                        // Callback that creates and populates a data table,
+                                                        // instantiates the pie chart, passes in the data and
+                                                        // draws it.
+                                                        function drawChart() {
+
+                                                        // Create the data table.
+                                                        var data = new google.visualization.DataTable();
+                                                        data.addColumn('string', 'Topping');
+                                                        data.addColumn('number', 'Slices');
+                                                        data.addRows([
+                                                            ['On Going', {{$status_OnGoing}}],
+                                                            ['Dispute', {{$status_Dispute}}],
+                                                            ['Refund', {{$status_Refund}}],
+                                                            ['Not Started Yet', {{$status_NotStartedYet}}],
+                                                        ]);
+
+                                                        // Set chart options
+                                                        var options = {'title':'Monthly Client Status',
+                                                        colors: ['green', 'red', 'purple', 'blue'],
+                                                                        'width':400,
+                                                                        'height':300};
+
+                                                        // Instantiate and draw our chart, passing in some options.
+                                                        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                                                        chart.draw(data, options);
+                                                        }
+                                                    </script>
+
+                                                    <div id="chart_div"></div>
+                                                </div><!-- d-flex -->
+                                            </div>
+
+
+                                        </div><!-- carousel-inner -->
+                                        </div><!-- carousel -->
+                                    </div><!-- card -->
+                                </div>
+
+
+
+
+
+
+
+                                <div class="col-6">
+                                    <div class="card bd-0 mg-t-20">
+                                        <div id="carousel12" class="carousel slide" data-ride="carousel">
+
+                                        <div class="carousel-inner" role="listbox">
+
+                                            <div class="carousel-item active">
+                                                <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
+                                                    <script type="text/javascript">
+
+                                                        // Load the Visualization API and the corechart package.
+                                                        google.charts.load('current', {'packages':['corechart']});
+
+                                                        // Set a callback to run when the Google Visualization API is loaded.
+                                                        google.charts.setOnLoadCallback(drawChart);
+
+                                                        // Callback that creates and populates a data table,
+                                                        // instantiates the pie chart, passes in the data and
+                                                        // draws it.
+                                                        function drawChart() {
+
+                                                          // Create the data table.
+                                                          var data = new google.visualization.DataTable();
+                                                          data.addColumn('string', 'Topping');
+                                                          data.addColumn('number', 'Slices');
+                                                          data.addRows([
+                                                            ['Extremely Satisfied', {{$remark_ExtremelySatisfied}}],
+                                                            ['Somewhat Satisfied', {{$remark_SomewhatSatisfied}}],
+                                                            ['Neither Satisfied nor Dissatisfied', {{$remark_NeitherSatisfiednorDissatisfied}}],
+                                                            ['Somewhat Dissatisfied', {{$remark_SomewhatDissatisfied}}],
+                                                            ['Extremely Dissatisfied', {{$remark_ExtremelyDissatisfied}}]
+                                                          ]);
+
+                                                          // Set chart options
+                                                          var options = {'title':'Monthly QA Remarks',
+                                                          colors: ['green', 'blue', 'yellow', 'purple', 'red'],
+                                                                         'width':400,
+                                                                         'height':300};
+
+                                                          // Instantiate and draw our chart, passing in some options.
+                                                          var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+                                                          chart.draw(data, options);
+                                                        }
+                                                      </script>
+
+                                                    <div id="chart_div1"></div>
+                                                </div><!-- d-flex -->
+                                            </div>
+
+
+                                        </div><!-- carousel-inner -->
+                                        </div><!-- carousel -->
+                                    </div><!-- card -->
+                                </div>
+
+
+
+
+
+
+
+
+                                <div class="col-6">
+                                    <div class="card bd-0 mg-t-20">
+                                        <div id="carousel12" class="carousel slide" data-ride="carousel">
+
+                                        <div class="carousel-inner" role="listbox">
+
+                                            <div class="carousel-item active">
+                                                <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
+                                                    <script type="text/javascript">
+
+                                                        // Load the Visualization API and the corechart package.
+                                                        google.charts.load('current', {'packages':['corechart']});
+
+                                                        // Set a callback to run when the Google Visualization API is loaded.
+                                                        google.charts.setOnLoadCallback(drawChart);
+
+                                                        // Callback that creates and populates a data table,
+                                                        // instantiates the pie chart, passes in the data and
+                                                        // draws it.
+                                                        function drawChart() {
+
+                                                          // Create the data table.
+                                                          var data = new google.visualization.DataTable();
+                                                          data.addColumn('string', 'Topping');
+                                                          data.addColumn('number', 'Slices');
+                                                          data.addRows([
+                                                            ['Going Good', {{$ExpectedRefundDispute_GoingGood}}],
+                                                            ['Low', {{$ExpectedRefundDispute_Low}}],
+                                                            ['Medium', {{$ExpectedRefundDispute_Moderate}}],
+                                                            ['High', {{$ExpectedRefundDispute_High}}],
+                                                          ]);
+
+                                                          // Set chart options
+                                                          var options = {'title':'Monthly Expected Refund',
+                                                          colors: ['green', 'yellow', 'purple', 'red'],
+                                                                         'width':400,
+                                                                         'height':300};
+
+                                                          // Instantiate and draw our chart, passing in some options.
+                                                          var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
+                                                          chart.draw(data, options);
+                                                        }
+                                                      </script>
+
+                                                    <div id="chart_div2"></div>
+                                                </div><!-- d-flex -->
+                                            </div>
+
+
+                                        </div><!-- carousel-inner -->
+                                        </div><!-- carousel -->
+                                    </div><!-- card -->
+                                </div>
+
+
+
+                            </div>
+
+
+
+
 
                         <div class="card bd-gray-400 pd-25 mg-t-20">
 

@@ -37,9 +37,24 @@ class NewPaymentsClients extends Model
 
     ];
 
-    public function EmployeesName(): HasOne
+    public function pmEmployeesName(): HasOne
     {
         return $this->hasOne(Employee::class,'id','ProjectManager');
+    }
+
+    public function saleEmployeesName(): HasOne
+    {
+        return $this->hasOne(Employee::class,'id','SalesPerson');
+    }
+
+    public function paymentbrandName(): HasOne
+    {
+        return $this->hasOne(Brand::class,'id','BrandID');
+    }
+
+    public function paymentclientName(): HasOne
+    {
+        return $this->hasOne(Client::class,'id','ClientID');
     }
 
     public function paymentprojectName(): HasOne

@@ -184,7 +184,7 @@
 
                                 @endif
 
-                                <td><a href="/client/project/qareport/view/{{$qaform->mainID}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > View </button></a></td>
+                                <td><a href="/client/project/qaform/view/{{$qaform->mainID}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > View </button></a></td>
                             </tr>
                         @endforeach
                     @else

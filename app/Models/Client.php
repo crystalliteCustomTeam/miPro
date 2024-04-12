@@ -26,6 +26,11 @@ class Client extends Model
         return DB::table('brands')->where('id',$employeList)->get();
     }
 
+    public function frontsale():HasOne
+    {
+        return $this->hasOne(Employee::class,'id','frontSeler');
+    }
+
     public function clientMetas():HasOne
     {
         return $this->hasOne(ClientMeta::class,'clientID','id');

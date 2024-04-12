@@ -24,6 +24,9 @@
           <div class="br-section-wrapper">
             @foreach ($departdata as $departeditdata)
             <div class="row">
+                <div class="col-12 mt-4">
+                    <h3>Department: {{$departeditdata->name}}</h3>
+                </div>
               <div class="col-12 mt-4">
                 <table id="datatable1">
                   <thead>

@@ -17,54 +17,36 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Client Project</h4>
-            <p class="mg-b-0">Report:</p>
+            <h4>QAFORMS</h4>
           </div>
         </div><!-- d-flex -->
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-            <h2>Project QA Report:</h2>
-              <button class="btn btn-outline-primary">Client Name: {{$projects[0]->ClientName->name }}</button>
-              <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
-              @if (isset($projects[0]->EmployeeName->name) and $projects[0]->EmployeeName->name !== null)
-              <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
-              @else
-              <button class="btn btn-outline-danger">Project Manager: User Deleted</button>
-              @endif
 
-              {{-- <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button> --}}
             <div class="row">
               <div class="col-12 mt-4">
                 <table id="datatable1"  class="table-dark table-hover">
                     <thead>
-                        <th>Department</th>
-                        <th>Responsible Person</th>
-                        <th>client satisfaction</th>
+                        <th>Client</th>
+                        <th>Brand</th>
                         <th>Status</th>
                         <th>Date</th>
                         <th>Summery</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
-                      @foreach($qafroms as $qafrom)
+                      @foreach($qa_forms as $qafrom)
                       <tr>
-                        <td>{{ $qafrom->GETDEPARTMENT->DepartNameinProjectProduction->name }}</td>
-                        @if (isset($qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name) and $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name !== null)
-                        <td>{{ $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name }}</td>
-                        @else
-                        <td><p style="color: red">User Deleted</p></td>
-                        @endif
-
-                        {{-- <td>{{ $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name }}</td> --}}
-                        <td>{{ $qafrom->client_satisfaction }}</td>
+                        <td>{{ $qafrom->Client_Name->name }}</td>
+                        <td>{{ $qafrom->Brand_Name->name }}</td>
                         <td>{{ $qafrom->status }}</td>
                         <td>{{ $qafrom->created_at }}</td>
                         <td>{{ $qafrom->Refund_Request_summery }}</td>
                         <td>
                         <div class="btn-group">
                             <a href="/forms/editnewqaform/{{$qafrom->id}}"><button class="btn btn-info btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Edit </button></a>
-                            <a href="/client/project/qareport/view/{{$qafrom->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/3094/3094851.png" alt="" style="filter: invert(1);" > View </button></a>
+                            <a href="/client/project/qaform/view/{{$qafrom->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/3094/3094851.png" alt="" style="filter: invert(1);" > View </button></a>
                             {{-- <a href="/forms/deletenewqaform/{{$qafrom->id}}"><button class="btn btn-danger btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Delete </button></a> --}}
                             <a href="#"  onclick="myConfirm('{{ $qafrom->id }}')"><button class="btn btn-danger btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/1214/1214428.png" alt="" style="filter: invert(1);" > Delete </button></a>
                         </div>
@@ -95,7 +77,6 @@
 
                         }
                     </script>
-                <a href="/client/details/{{$projects[0]->ClientName->id}}"><button class="btn btn-outline-primary">BACK</button></a>
             </div>
             </div>
 

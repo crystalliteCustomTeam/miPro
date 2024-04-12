@@ -258,7 +258,7 @@
                                 }
                               </script>
                             <div class="col-12">
-                                <input type="submit" value="Create Information" class=" mt-3 btn btn-success">
+                                <input type="submit" value="Create Information" class=" mt-3 btn btn-success" onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">
                             </div>
                             {{-- <div class="col-4">
                                 @if (Session::has('Success'))
