@@ -33,7 +33,7 @@
   <body>
 
 
-    @extends('layouts.report.report_leftpanel')
+    @extends('layouts.report.revenueReport_leftpanel')
     @extends('layouts.rightpanel')
 
     <div class="br-mainpanel">
@@ -71,40 +71,28 @@
 
               {{-- ======================================================== --}}
               <div class="col-3 mt-4">
-                  <div class="card bd-gray-400 bg-lightblue  pd-20">
-                      <h6 style="color: black">Department: {{$gets_Production}}</h6>
-                  </div><!-- card -->
-              </div><!-- col-4 -->
-
-              {{-- ======================================================== --}}
-              <div class="col-3 mt-3">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Status: {{$gets_status}}</h6>
+                    <h6 style="color: black">Status: {{$gets_status}} </h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
               {{-- ======================================================== --}}
-              <div class="col-3 mt-3">
+
+              <div class="col-3 mt-4">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Expected Refund: {{$gets_expectedRefund}}</h6>
+                    <h6 style="color: black">Charging Mode: {{$get_chargingModes}} </h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
               {{-- ======================================================== --}}
-              <div class="col-3 mt-3">
+
+              <div class="col-3 mt-4">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Client Satisfaction: {{$gets_remarks}}</h6>
+                    <h6 style="color: black">Payment Nature: {{$get_paymentNatures}} </h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
-                {{-- ======================================================== --}}
-                <div class="col-3 mt-3">
-                    <div class="card bd-gray-400 pd-20">
-                        <h6 style="color: black">Issue: <label for="" style="color: red">{{$gets_issues}}</label></h6>
-                    </div><!-- card -->
-                  </div><!-- col-4 -->
-
-                 {{-- ======================================================== --}}
+              {{-- ======================================================== --}}
 
         </div>
 
@@ -130,8 +118,12 @@
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Project</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Status</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Project Manager</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Production</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Issue</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Nature</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Mode</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Date</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Next Date</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Total Amt</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Client Paid</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">view</th>
                   </tr>
                 </thead>
@@ -139,52 +131,33 @@
                     @if ($roles == 1)
                         @foreach ($qaforms as $qaform)
                             <tr role="row" class="odd">
-                                <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->clientID}}">{{$qaform->Client_Name->name}}</a></td>
-                                <td>{{$qaform->Project_Name->name}}</td>
+                                <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->clientID}}">{{$qaform->paymentclientName->name}}</a></td>
+                                <td>{{$qaform->paymentprojectName->name}}</td>
                                 <td>
 
-                                   @if($qaform->status == "Refund")
+                                   @if($qaform->refundStatus == "Refund")
                                      <div class="alert alert-danger" role="alert">
-                                        {{$qaform->status}}
+                                        {{$qaform->refundStatus}}
                                     </div>
                                    @else
-                                   {{$qaform->status}}
+                                   {{$qaform->refundStatus}}
                                    @endif
 
                                 </td>
-                                @if (isset($qaform->Project_Name->EmployeeName->name) and $qaform->Project_Name->EmployeeName->name !== null)
-                                <td>{{$qaform->Project_Name->EmployeeName->name}}</td>
+                                @if (isset($qaform->paymentprojectName->EmployeeName->name) and $qaform->paymentprojectName->EmployeeName->name !== null)
+                                <td>{{$qaform->paymentprojectName->EmployeeName->name}}</td>
                                 @else
                                 <td><p style="color: red">User Deleted</p></td>
                                 @endif
 
                                 {{-- <td>{{$qaform->Project_ProjectManager->name}}</td> --}}
-                                <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
-                                @if ($qaform->status != "Not Started Yet")
-                                    @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
-                                    @php
-
-                                    $qa_issues = json_decode($meta->issues)
-                                    @endphp
-                                    <td>
-                                        @if(isset($qa_issues))
-                                        @foreach ($qa_issues as $issue)
-                                            <ul>
-                                                <li>{{$issue}}</li>
-                                            </ul>
-                                        @endforeach
-                                        @else
-                                        <p>Issue Undefined</p>
-                                        @endif
-
-                                    </td>
-                                    @endforeach
-                                @else
-                                    <td>--</td>
-
-                                @endif
-
-                                <td><a href="/client/project/qaform/view/{{$qaform->mainID}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/3094/3094851.png" alt="" style="filter: invert(1);" > View </button></a></td>
+                                <td>{{$qaform->paymentNature}}</td>
+                                <td>{{$qaform->ChargingMode}}</td>
+                                <td>{{$qaform->paymentDate}}</td>
+                                <td>{{$qaform->futureDate}}</td>
+                                <td>{{$qaform->TotalAmount}}</td>
+                                <td>{{$qaform->Paid}}</td>
+                                <td><a href="/client/project/payment/report/view/{{$qaform->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/3094/3094851.png" alt="" style="filter: invert(1);" > View </button></a></td>
                             </tr>
                         @endforeach
                     @else
@@ -196,11 +169,16 @@
                             <td>--</td>
                             <td>--</td>
                             <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
                         </tr>
 
                     @endif
 
                 </tbody>
+
             </table>
             <a href="/dashboard"><button class="btn btn-outline-primary">BACK</button></a>
 

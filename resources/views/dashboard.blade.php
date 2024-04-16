@@ -237,7 +237,7 @@
                                             <div class="carousel-item active">
                                                 <div class="alert-dark ht-300 pos-relative overflow-hidden d-flex flex-column align-items-start rounded">
                                                     <div class="pos-absolute t-15 r-25">
-                                                    <a href="" class="tx-gray-500 hover-info mg-l-7"><i class="icon ion-more tx-20"></i></a>
+                                                    {{-- <a href="" class="tx-gray-500 hover-info mg-l-7"><i class="icon ion-more tx-20"></i></a> --}}
                                                     </div>
                                                     <div class="pd-x-30 pd-t-30 mg-b-auto">
                                                     <p class="tx-info tx-uppercase tx-11 tx-semibold tx-mont mg-b-5">{{$eachbrand_RevenueStatuss[0][0]->name}}</p>

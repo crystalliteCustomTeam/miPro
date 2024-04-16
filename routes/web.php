@@ -120,6 +120,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/client/add/payment','addPayment');
         Route::post('/client/add/payment/process','addPaymentProcess');
         Route::get('/client/project/payment/view/{id}','payment_view');
+        Route::get('/client/project/payment/report/view/{id}','payment_view1');
 
         Route::get('/client/project/payment/RefundDispute/{id}','payment_Refund_Dispute');
         Route::post('/client/project/payment/RefundDispute/{id}/process','payment_Refund_Dispute_Process');

@@ -117,6 +117,7 @@
                             <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Sales Person</th>
                             <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Total Amount</th>
                             <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Paid</th>
+                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Status</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -130,6 +131,7 @@
                               <td>{{$clientpayment->saleEmployeesName->name}}</td>
                               <td>${{$clientpayment->TotalAmount}}</td>
                               <td>${{$clientpayment->Paid}}</td>
+                              <td>${{$clientpayment->refundStatus}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -196,11 +198,12 @@
                             <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Project</th>
                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Department</th>
                             <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Status</th>
-                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Last Communication</th>
+                            {{-- <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Last Communication</th> --}}
                             <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Summery</th>
                             <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Issue</th>
-                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Description</th>
+                            {{-- <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Description</th> --}}
                             <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">Date</th>
+                            <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Position: activate to sort column ascending">View</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -209,7 +212,7 @@
                               <td tabindex="0" class="sorting_1">{{$qaform->Project_Name->name}}</td>
                               <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
                               <td>{{$qaform->status}}</td>
-                              <td>{{$qaform->last_communication}}</td>
+                              {{-- <td>{{$qaform->last_communication}}</td> --}}
                               <td>{{$qaform->Refund_Request_summery}}</td>
 
                                     @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
@@ -223,9 +226,10 @@
                                             </ul>
                                         @endforeach
                                     </td>
-                                    <td>{{ $meta->Description_of_issue }}</td>
+                                    {{-- <td>{{ $meta->Description_of_issue }}</td> --}}
                                     @endforeach
                                     <td>{{$qaform->created_at}}</td>
+                                    <td><a href="/client/project/qaform/view/{{$qaform->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/3094/3094851.png" alt="" style="filter: invert(1);" > View </button></a></td>
                             </tr>
                             @endforeach
                         </tbody>

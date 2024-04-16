@@ -118,7 +118,7 @@
                       </div>
                         <div class="col-4 mt-3">
                           <label for="" style="font-weight:bold;">Genre of the book?</label>
-                          <input type="text" class="form-control" name="bookgenre">
+                          <input type="text" class="form-control" name="bookgenre" required>
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Cover design included?</label>

@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package Name</label>
-                    <input type="text" class="form-control" name="package">
+                    <input type="text" class="form-control" name="package" required>
                   </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Product</label>

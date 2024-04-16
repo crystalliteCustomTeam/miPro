@@ -313,34 +313,34 @@ class BasicController extends Controller
                 $Renewal_Month = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
                                 ->where('ChargingMode', 'Renewal')
-                                ->where('refundStatus', null)
+                                ->where('refundStatus' ,'On Going')
                                 ->get();
                 $Renewal_Month_count = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
                                 ->where('ChargingMode', 'Renewal')
-                                ->where('refundStatus', null)
+                                ->where('refundStatus', 'On Going')
                                 ->distinct('ClientID')->count();
                 $Renewal_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
                                 ->where('ChargingMode', 'Renewal')
-                                ->where('refundStatus', null)
+                                ->where('refundStatus','On Going')
                                 ->SUM('TotalAmount');
 
                 $Recurring_Month = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
                                 ->where('ChargingMode', 'Recurring')
-                                ->where('refundStatus', null)
+                                ->where('refundStatus','On Going')
                                 ->get();
                 $Recurring_Month_count = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
                                 ->where('ChargingMode', 'Recurring')
-                                ->where('refundStatus', null)
+                                ->where('refundStatus','On Going')
                                 ->distinct('ClientID')
                                 ->count();
                 $Recurring_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
                                 ->where('ChargingMode', 'Recurring')
-                                ->where('refundStatus', null)
+                                ->where('refundStatus','On Going')
                                 ->SUM('TotalAmount');
 
                 $Refund_Month = NewPaymentsClients::whereYear('futureDate', now())
@@ -375,11 +375,11 @@ class BasicController extends Controller
                         $brandName = Brand::where("id", $brands->id)->get();
                         $brand_renewal = NewPaymentsClients::where('BrandID',$brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
                                 ->where('ChargingMode', 'Renewal')
-                                ->where('refundStatus', null)
+                                ->where('refundStatus','On Going')
                                 ->SUM('TotalAmount');
                         $brandrefund_recurring = NewPaymentsClients::where('BrandID',$brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
                                 ->where('ChargingMode', 'Recurring')
-                                ->where('refundStatus', null)
+                                ->where('refundStatus','On Going')
                                 ->SUM('TotalAmount');
                         $branddispute_refund = NewPaymentsClients::where('BrandID',$brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
                                 ->where('refundStatus', 'Refund')
@@ -2068,7 +2068,8 @@ class BasicController extends Controller
                     "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
                     "Description"=> $request->input('description'),
                     'created_at' => date('y-m-d H:m:s'),
-                    'updated_at' => date('y-m-d H:m:s')
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus"=> 'On Going'
 
                 ]);
 
@@ -2133,7 +2134,8 @@ class BasicController extends Controller
                     "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
                     "Description"=> $request->input('description'),
                     'created_at' => date('y-m-d H:m:s'),
-                    'updated_at' => date('y-m-d H:m:s')
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus"=> 'On Going'
 
                 ]);
 
@@ -2164,7 +2166,8 @@ class BasicController extends Controller
                     "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
                     "Description"=> $request->input('description'),
                     'created_at' => date('y-m-d H:m:s'),
-                    'updated_at' => date('y-m-d H:m:s')
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus"=> 'On Going'
 
                 ]);
 
@@ -2229,6 +2232,18 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
         $client_payment = NewPaymentsClients::where('id', $id)->get();
         return view('payment_view', [
+            'client_payment' => $client_payment,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
+
+    function payment_view1(Request $request, $id){
+        $loginUser = $this->roleExits($request);
+        $client_payment = NewPaymentsClients::where('id', $id)->get();
+        return view('payment_view1', [
             'client_payment' => $client_payment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -3193,6 +3208,163 @@ class BasicController extends Controller
 
     function revenuereport(Request $request, $id = null){
         $loginUser = $this->roleExits($request);
+
+        //left panel:
+        $client = Client::get();
+        $employee = Employee::get();
+        $department = Department::get();
+        $issue = QaIssues::get();
+        $brand = Brand::get();
+
+         //BASE;
+         $get_startdate = $request->input('startdate');
+         $get_enddate = $request->input('enddate');
+         //OPTIONAL;
+         $get_type = $request->input('type');
+         $get_brand = $request->input('brand');
+         $get_projectmanager = $request->input('projectmanager');
+         $get_client = $request->input('client');
+         $get_status = $request->input('status');
+         $get_chargingMode = $request->input('chargingMode');
+         $get_paymentNature = $request->input('paymentNature');
+
+         if ($get_startdate == null) {
+            $role = 0;
+            $result = 0;
+            $get_types = "--";
+            $get_brands = "--";
+            $get_projectmanagers = "--";
+            $get_clients = "--";
+            $get_statuss = "--";
+            $get_chargingModes = "--";
+            $get_paymentNatures = "--";
+
+        } else {
+
+            $role = 1;
+            if($get_type == "Received"){
+                $payment = NewPaymentsClients::whereBetween('created_at', [$get_startdate, $get_enddate]);
+                ($get_brand != 0)
+                    ? $payment->where('BrandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('ProjectManager', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('ClientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+
+                $result = $payment->get();
+
+            }elseif($get_type == "Upcoming"){
+
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate]);
+                ($get_brand != 0)
+                    ? $payment->where('brandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('projectmanagerID', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('clientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+
+                $result = $payment->get();
+
+            }else{
+                $result = 0;
+            }
+
+
+            if($get_type != 0){
+                $get_types = $get_type;
+            }else{
+                $get_types = "--";
+            }
+
+            if($get_brand != 0){
+                $getbrands = Brand::where('id',$get_brand)->get();
+                $get_brands = $getbrands[0]->name;
+            }else{
+                $get_brands = "--";
+            }
+
+            if($get_chargingMode != 0){
+                $get_chargingModes = $get_chargingMode;
+            }else{
+                $get_chargingModes = "--";
+            }
+
+            if($get_paymentNature != 0){
+                $get_paymentNatures = $get_paymentNature;
+            }else{
+                $get_paymentNatures = "--";
+            }
+
+            if($get_projectmanager != 0){
+                $getprojectmanagers = Employee::where('id',$get_projectmanager)->get();
+                $get_projectmanagers = $getprojectmanagers[0]->name;
+            }else{
+                $get_projectmanagers = "--";
+            }
+
+            if($get_client != 0){
+                $getclients = Client::where('id',$get_client)->get();
+                $get_clients = $getclients[0]->name;
+            }else{
+                $get_clients = "--";
+            }
+
+            if($get_status != 0){
+                $get_statuss = $get_status;
+            }else{
+                $get_statuss = "--";
+            }
+
+
+            // echo('<pre>');
+            // echo($status_OnGoing);
+            // die();
+
+        }
+
+        return view('revenue_Report', [
+            'clients' => $client,
+            'employees' => $employee,
+            'departments' => $department,
+            'issues' => $issue,
+            'brands' => $brand,
+            'get_chargingModes' => $get_chargingModes,
+            'get_paymentNatures' => $get_paymentNatures,
+            'roles' => $role,
+            'qaforms' => $result,
+            'get_types' =>$get_types,
+            'gets_brand' =>$get_brands,
+            'gets_projectmanager' =>$get_projectmanagers,
+            'gets_client' =>$get_clients,
+            'gets_status' =>$get_statuss,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
 
     }
 
