@@ -34,6 +34,7 @@ class NewPaymentsClients extends Model
         "SplitProjectManager",
         "ShareAmount",
         "Description",
+        "refundStatus"
 
     ];
 

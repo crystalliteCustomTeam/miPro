@@ -21,6 +21,7 @@ use App\Models\QaIssues;
 use App\Models\ProductionServices;
 use App\Models\QaPersonClientAssign;
 use App\Models\NewPaymentsClients;
+use App\Models\RefundPayments;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -294,7 +295,7 @@ class BasicController extends Controller
                 $totalClient = Client::count();
                 $totalrefund =  QAFORM::where('Refund_Requested', 'Yes')->Distinct('projectID')->latest('created_at')->count();
                 $totaldispute =  QAFORM::where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
-
+                //pie charts
                 $status_OnGoing = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','On Going')->count();
                 $status_Dispute = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Dispute')->count();
                 $status_Refund = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Refund')->count();
@@ -308,7 +309,86 @@ class BasicController extends Controller
                 $ExpectedRefundDispute_Low = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Low')->count();
                 $ExpectedRefundDispute_Moderate = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Moderate')->count();
                 $ExpectedRefundDispute_High = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','High')->count();
+                //renewal,recurring,dispute,refund
+                $Renewal_Month = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('ChargingMode', 'Renewal')
+                                ->where('refundStatus', null)
+                                ->get();
+                $Renewal_Month_count = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('ChargingMode', 'Renewal')
+                                ->where('refundStatus', null)
+                                ->distinct('ClientID')->count();
+                $Renewal_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('ChargingMode', 'Renewal')
+                                ->where('refundStatus', null)
+                                ->SUM('TotalAmount');
 
+                $Recurring_Month = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('ChargingMode', 'Recurring')
+                                ->where('refundStatus', null)
+                                ->get();
+                $Recurring_Month_count = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('ChargingMode', 'Recurring')
+                                ->where('refundStatus', null)
+                                ->distinct('ClientID')
+                                ->count();
+                $Recurring_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('ChargingMode', 'Recurring')
+                                ->where('refundStatus', null)
+                                ->SUM('TotalAmount');
+
+                $Refund_Month = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('refundStatus', 'Refund')
+                                ->get();
+                $Refund_count = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('refundStatus', 'Refund')
+                                ->distinct('ClientID')
+                                ->count();
+                $Refund_sum = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('refundStatus', 'Refund')
+                                ->SUM('TotalAmount');
+                $Dispute_Month = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('refundStatus', 'Dispute')
+                                ->get();
+                $Dispute_count = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('refundStatus', 'Dispute')
+                                ->distinct('ClientID')
+                                ->count();
+                $Dispute_sum = NewPaymentsClients::whereYear('futureDate', now())
+                                ->whereMonth('futureDate', now())
+                                ->where('refundStatus', 'Dispute')
+                                ->SUM('TotalAmount');
+
+                $eachbrand_RevenueStatus = [];
+                foreach($brand as $brands){
+                        $brandName = Brand::where("id", $brands->id)->get();
+                        $brand_renewal = NewPaymentsClients::where('BrandID',$brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                                ->where('ChargingMode', 'Renewal')
+                                ->where('refundStatus', null)
+                                ->SUM('TotalAmount');
+                        $brandrefund_recurring = NewPaymentsClients::where('BrandID',$brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                                ->where('ChargingMode', 'Recurring')
+                                ->where('refundStatus', null)
+                                ->SUM('TotalAmount');
+                        $branddispute_refund = NewPaymentsClients::where('BrandID',$brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                                ->where('refundStatus', 'Refund')
+                                ->SUM('TotalAmount');
+                        $branddispute_dispute = NewPaymentsClients::where('BrandID',$brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                                ->where('refundStatus', 'Dispute')
+                                ->SUM('TotalAmount');
+                        $eachbrand_RevenueStatus[] = [$brandName, $brand_renewal, $brandrefund_recurring, $branddispute_refund, $branddispute_dispute];
+                        }
 
                 return view('dashboard', [
                     'eachbranddatas' => $eachbranddata,
@@ -321,7 +401,7 @@ class BasicController extends Controller
                     'LoginUser' => $loginUser[1],
                     'departmentAccess' => $loginUser[0],
                     'superUser' => $loginUser[2],
-
+                    //pie charts
                     'status_OnGoing' =>$status_OnGoing,
                     'status_Dispute' =>$status_Dispute,
                     'status_Refund' =>$status_Refund,
@@ -335,6 +415,20 @@ class BasicController extends Controller
                     'ExpectedRefundDispute_Low' =>$ExpectedRefundDispute_Low,
                     'ExpectedRefundDispute_Moderate' =>$ExpectedRefundDispute_Moderate,
                     'ExpectedRefundDispute_High' =>$ExpectedRefundDispute_High,
+                    //renewal,recurring,upsell
+                    'Renewal_Months' =>$Renewal_Month,
+                    'Renewal_Month_counts' =>$Renewal_Month_count,
+                    'Renewal_Month_sums' =>$Renewal_Month_sum,
+                    'Recurring_Months' =>$Recurring_Month,
+                    'Recurring_Month_counts' =>$Recurring_Month_count,
+                    'Recurring_Month_sums' =>$Recurring_Month_sum,
+                    'Refund_Month' => $Refund_Month,
+                    'Refund_count' => $Refund_count,
+                    'Refund_sum' => $Refund_sum,
+                    'Dispute_Month' => $Dispute_Month,
+                    'Dispute_count' => $Dispute_count,
+                    'Dispute_sum' => $Dispute_sum,
+                    'eachbrand_RevenueStatus' => $eachbrand_RevenueStatus
                 ]);
             } else {
                 $total_client = QaPersonClientAssign::where("user", $loginUser[1][0]->id)->get();
@@ -2143,6 +2237,40 @@ class BasicController extends Controller
 
     }
 
+    function payment_Refund_Dispute(Request $request, $id){
+        $loginUser = $this->roleExits($request);
+        $client_payment = NewPaymentsClients::where('id', $id)->get();
+        return view('payment_Refund_Dispute', [
+            'client_payment' => $client_payment,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
+
+    function payment_Refund_Dispute_Process(Request $request, $id){
+        $addrefund = NewPaymentsClients::where('id', $id)
+        ->update([
+            'refundStatus' => $request->input('chargebacktype')
+        ]);
+
+        $createrefund = RefundPayments::create([
+            "BrandID"  => $request->input('brandID'),
+            "ClientID"  => $request->input('ClientID'),
+            "ProjectID"  => $request->input('projectID'),
+            "ProjectManager"  => $request->input('pmID'),
+            "PaymentID"  => $request->input('paymentID'),
+            "refundAmount"  => $request->input('chagebackAmt'),
+            "refundtype"  => $request->input('chargebacktype'),
+            "refund_date" => $request->input('chagebackDate'),
+            "refundReason"  => $request->input('Description_of_issue')
+        ]);
+
+        return redirect('/client/details/'.$request->input('ClientID'));
+
+    }
+
     function userreport(Request $request)
     {
         $loginUser = $this->roleExits($request);
@@ -3061,6 +3189,11 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
+    }
+
+    function revenuereport(Request $request, $id = null){
+        $loginUser = $this->roleExits($request);
+
     }
 
     function clientReport(Request $request, $id)

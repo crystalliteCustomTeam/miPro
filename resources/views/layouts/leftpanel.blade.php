@@ -115,7 +115,7 @@
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
           <li class="sub-item"><a href="/allproject/report" class="sub-link">QA Report</a></li>
-          <li class="sub-item"><a href="#" class="sub-link">Revenue Report</a></li>
+          <li class="sub-item"><a href="/client/revenue" class="sub-link">Revenue Report</a></li>
         </ul>
       </li><!-- br-menu-item -->
 

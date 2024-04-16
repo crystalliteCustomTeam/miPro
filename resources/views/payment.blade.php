@@ -27,7 +27,11 @@
             @csrf
             <input type="hidden" name="project" value=" {{$projectmanager[0]->id }} ">
             <input type="hidden" name="clientID" value=" {{$projectmanager[0]->ClientName->id}} ">
+            @if (isset($projectmanager[0]->EmployeeName->id) and $projectmanager[0]->EmployeeName->id !== null)
             <input type="hidden" name="pmID" value=" {{$projectmanager[0]->EmployeeName->id}} ">
+            @else
+            {{-- <input type="hidden" name="pmID" value=" {{$projectmanager[0]->EmployeeName->id}} "> --}}
+            @endif
             <input type="hidden" name="brandID" value=" {{$projectmanager[0]->ClientName->projectbrand->id}} ">
 
             <div class="row">
@@ -43,7 +47,11 @@
                   </div>
                  <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;font-size:150%;">Project Manager:</label>
+                    @if (isset($projectmanager[0]->EmployeeName->name) and $projectmanager[0]->EmployeeName->name !== null)
                     <label for="" style="font-size:150%;">{{$projectmanager[0]->EmployeeName->name }}</label>
+                    @else
+                    <label for="" style="font-size:150%;"><p style="color: red">User Daleted</p></label>
+                    @endif
                 </div>
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Payment Nature:</label>
@@ -179,8 +187,13 @@
                     <label for="" style="font-weight:bold;" >Account Manager:</label>
                     <select class="form-control select2" required name="accountmanager">
                       @foreach ($employee as $client)
-                          <option value="{{ $client->id }}"{{ $client->id == $projectmanager[0]->EmployeeName->id ? 'selected' : '' }}>{{ $client->name }}
+                            @if (isset($projectmanager[0]->EmployeeName->id) and $projectmanager[0]->EmployeeName->id !== null)
+                            <option value="{{ $client->id }}"{{ $client->id == $projectmanager[0]->EmployeeName->id ? 'selected' : '' }}>{{ $client->name }}
                             --
+                            @else
+                            <option value="{{ $client->id }}">{{ $client->name }}
+                            --
+                            @endif
                             @foreach($client->deparment($client->id)  as $dm)
                             <strong>{{ $dm->name }}</strong>
                             @endforeach

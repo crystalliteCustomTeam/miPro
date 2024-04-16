@@ -121,6 +121,9 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/client/add/payment/process','addPaymentProcess');
         Route::get('/client/project/payment/view/{id}','payment_view');
 
+        Route::get('/client/project/payment/RefundDispute/{id}','payment_Refund_Dispute');
+        Route::post('/client/project/payment/RefundDispute/{id}/process','payment_Refund_Dispute_Process');
+
 
 
         //PROCESSES
@@ -155,6 +158,8 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/client/project/qareport/view/{id}','projectQaReport_view');
         Route::get('/client/project/qaform/view/{id}','projectQaReport_view_without_backButton');
         Route::get('/allproject/report/{id?}','projectreport');
+
+        Route::get('/client/revenue/{id?}','revenuereport');
 
 
         //settings:

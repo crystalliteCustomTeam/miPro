@@ -352,7 +352,12 @@
                     <td>{{$item->Payment_Gateway}}</td>
                     <td>{{$item->paymentDate}}</td>
                     <td>{{$item->Description}}</td>
-                    <td><a href="/client/project/payment/view/{{$item->id}}" class="btn btn-success">View</a></td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="/client/project/payment/view/{{$item->id}}" class="btn btn-success">View</a>
+                            <a href="/client/project/payment/RefundDispute/{{$item->id}}" class="btn btn-danger">Refund/Request</a>
+                        </div>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

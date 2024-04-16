@@ -231,61 +231,66 @@
                                         <li data-target="#carousel3" data-slide-to="1"></li>
                                     </ol>
                                     <div class="carousel-inner" role="listbox">
-                                        <div class="carousel-item active">
-                                        <div class="bg-white ht-300 pos-relative overflow-hidden d-flex flex-column align-items-start rounded">
-                                            <div class="pos-absolute t-15 r-25">
-                                            <a href="" class="tx-gray-500 hover-info mg-l-7"><i class="icon ion-more tx-20"></i></a>
-                                            </div>
-                                            <div class="pd-x-30 pd-t-30 mg-b-auto">
-                                            <p class="tx-info tx-uppercase tx-11 tx-semibold tx-mont mg-b-5">Brand #1</p>
-                                            <h5 class="tx-inverse mg-b-20">Expected:</h5>
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Refund</p>
-                                                    <h2 class="tx-inverse tx-lato tx-bold mg-b-0">36</h2>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Upsell</p>
-                                                    <h2 class="tx-inverse tx-lato tx-bold mg-b-0">23</h2>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Renewal</p>
-                                                    <h2 class="tx-inverse tx-lato tx-bold mg-b-0">26</h2>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Recurring</p>
-                                                    <h2 class="tx-inverse tx-lato tx-bold mg-b-0">66</h2>
-                                                </div>
 
-                                                </div>
+                                        @foreach ($eachbrand_RevenueStatus as $eachbrand_RevenueStatuss)
+                                        @if ($eachbrand_RevenueStatuss == $eachbrand_RevenueStatus[0])
+                                            <div class="carousel-item active">
+                                                <div class="alert-dark ht-300 pos-relative overflow-hidden d-flex flex-column align-items-start rounded">
+                                                    <div class="pos-absolute t-15 r-25">
+                                                    <a href="" class="tx-gray-500 hover-info mg-l-7"><i class="icon ion-more tx-20"></i></a>
+                                                    </div>
+                                                    <div class="pd-x-30 pd-t-30 mg-b-auto">
+                                                    <p class="tx-info tx-uppercase tx-11 tx-semibold tx-mont mg-b-5">{{$eachbrand_RevenueStatuss[0][0]->name}}</p>
+                                                    <h5 class="tx-inverse mg-b-20">Expected:</h5>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Renewal</p>
+                                                            <h2 class="tx-inverse tx-lato tx-bold mg-b-0">{{$eachbrand_RevenueStatuss[1]}}</h2>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Recurring</p>
+                                                            <h2 class="tx-inverse tx-lato tx-bold mg-b-0">{{$eachbrand_RevenueStatuss[2]}}</h2>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Refund</p>
+                                                            <h2 class="tx-inverse tx-lato tx-bold mg-b-0">{{$eachbrand_RevenueStatuss[3]}}</h2>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Dispute</p>
+                                                            <h2 class="tx-inverse tx-lato tx-bold mg-b-0">{{$eachbrand_RevenueStatuss[4]}}</h2>
+                                                        </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div id="ch10" class="ht-100 tr-y-1"></div>
+                                                </div><!-- d-flex -->
                                             </div>
-                                            <div id="ch10" class="ht-100 tr-y-1"></div>
-                                        </div><!-- d-flex -->
-                                        </div>
+                                        @else
+
                                         <div class="carousel-item">
-                                        <div class="bg-white ht-300 pos-relative overflow-hidden d-flex flex-column align-items-start rounded">
+                                        <div class="alert-dark ht-300 pos-relative overflow-hidden d-flex flex-column align-items-start rounded">
                                             <div class="pos-absolute t-15 r-25">
                                             <a href="" class="tx-gray-500 hover-info mg-l-7"><i class="icon ion-more tx-20"></i></a>
                                             </div>
                                             <div class="pd-x-30 pd-t-30 mg-b-auto">
-                                            <p class="tx-info tx-uppercase tx-11 tx-semibold tx-mont mg-b-5">Brand #2</p>
+                                            <p class="tx-info tx-uppercase tx-11 tx-semibold tx-mont mg-b-5">{{$eachbrand_RevenueStatuss[0][0]->name}}</p>
                                             <h5 class="tx-inverse mg-b-20">Expected:</h5>
                                             <div class="row">
-                                            <div class="col-6">
-                                                <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Refund</p>
-                                                <h2 class="tx-inverse tx-lato tx-bold mg-b-0">36</h2>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Upsell</p>
-                                                <h2 class="tx-inverse tx-lato tx-bold mg-b-0">23</h2>
-                                            </div>
                                             <div class="col-6">
                                                 <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Renewal</p>
-                                                <h2 class="tx-inverse tx-lato tx-bold mg-b-0">26</h2>
+                                                <h2 class="tx-inverse tx-lato tx-bold mg-b-0">{{$eachbrand_RevenueStatuss[1]}}</h2>
                                             </div>
                                             <div class="col-6">
                                                 <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Recurring</p>
-                                                <h2 class="tx-inverse tx-lato tx-bold mg-b-0">66</h2>
+                                                <h2 class="tx-inverse tx-lato tx-bold mg-b-0">{{$eachbrand_RevenueStatuss[2]}}</h2>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Refund</p>
+                                                <h2 class="tx-inverse tx-lato tx-bold mg-b-0">{{$eachbrand_RevenueStatuss[3]}}</h2>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="tx-uppercase tx-11 tx-semibold tx-mont mg-b-0">Dispute</p>
+                                                <h2 class="tx-inverse tx-lato tx-bold mg-b-0">{{$eachbrand_RevenueStatuss[4]}}</h2>
                                             </div>
 
                                             </div>
@@ -294,6 +299,8 @@
                                             <div id="ch11" class="ht-100 tr-y-1"></div>
                                         </div><!-- d-flex -->
                                         </div><!-- cardousel-item -->
+                                        @endif
+                                        @endforeach
                                     </div><!-- carousel-inner -->
                                     </div><!-- carousel -->
                                 </div><!-- card -->
@@ -517,45 +524,165 @@
 
                     <div class="col-lg-4 mg-t-20 mg-lg-t-0">
 
-                        <div class="card bd-gray-400 overflow-hidden">
+                        <div class="card bd-gray-400 overflow-hidden ">
                             <div class="pd-x-25 pd-t-25">
-                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Upcoming Recurring Payments</h6>
-                            <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0">As of Today</p>
-                            <h1 class="tx-56 tx-light tx-inverse mg-b-0">755<span class="tx-teal tx-24">gb</span></h1>
-                            <p><span class="tx-primary">80%</span> of free space remaining</p>
+                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Month Renewal Payments: (${{$Renewal_Month_sums}})</h6>
+
+                            {{-- <div class="bg-teal pd-x-25 pd-b-25 d-flex justify-content-between mg-t-20">
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5">{{$Renewal_Month_counts}}</h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Number</p>
+                                </div>
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5"><span class="tx-light op-8 tx-20">$</span>{{$Renewal_Month_sums}}</h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Amount</p>
+                                </div>
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5">80<span class="tx-light op-8 tx-20">%</span></h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Free Space</p>
+                                </div>
+                                </div> --}}
+
+                            @foreach ($Renewal_Months as $Renewal_Month)
+                                @if ($Renewal_Month->paymentNature == "New Lead" || $Renewal_Month->paymentNature == "New Sale")
+                                <div class="alert alert-primary mg-t-20" role="alert">
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Renewal_Month->paymentclientName->name}}</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Renewal_Month->futureDate}}| PM:{{$Renewal_Month->pmEmployeesName->name}} | Payment Nature:{{$Renewal_Month->paymentNature}}| Amt:{{$Renewal_Month->TotalAmount}}| <a href="/client/project/payment/view/{{$Renewal_Month->id}}">view</a></span></p>
+                                </div>
+                                @else
+                                <div class="alert alert-secondary mg-t-20" role="alert">
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Renewal_Month->paymentclientName->name}}</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Renewal_Month->futureDate}}| PM:{{$Renewal_Month->pmEmployeesName->name}} | Payment Nature:{{$Renewal_Month->paymentNature}}| Amt:{{$Renewal_Month->TotalAmount}}| <a href="/client/project/payment/view/{{$Renewal_Month->id}}">view</a></span></p>
+                                </div>
+                                @endif
+                            @endforeach
                             </div><!-- pd-x-25 -->
-                            <div id="ch6" class="ht-115 mg-r--1"></div>
-                            <div class="bg-teal pd-x-25 pd-b-25 d-flex justify-content-between">
-                            <div class="tx-center">
-                                <h3 class="tx-lato tx-white mg-b-5">989<span class="tx-light op-8 tx-20">gb</span></h3>
-                                <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Space</p>
-                            </div>
-                            <div class="tx-center">
-                                <h3 class="tx-lato tx-white mg-b-5">234<span class="tx-light op-8 tx-20">gb</span></h3>
-                                <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Used Space</p>
-                            </div>
-                            <div class="tx-center">
-                                <h3 class="tx-lato tx-white mg-b-5">80<span class="tx-light op-8 tx-20">%</span></h3>
-                                <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Free Space</p>
-                            </div>
-                            </div>
                         </div><!-- card -->
 
 
-                        <div class="card card-body bd-0 pd-25 bg-primary mg-t-20">
-                            <div class="d-xs-flex justify-content-between align-items-center tx-white mg-b-20">
-                            <h6 class="tx-13 tx-uppercase tx-semibold tx-spacing-1 mg-b-0">Server Status</h6>
-                            <span class="tx-12 tx-uppercase">Oct 2017</span>
-                            </div>
-                            <p class="tx-sm tx-white tx-medium mg-b-0">Hardware Monitoring</p>
-                            <p class="tx-12 tx-white-7">Intel Dothraki G125H 2.5GHz</p>
-                            <div class="progress bg-white-3 rounded-0 mg-b-0">
-                            <div class="progress-bar bg-success wd-50p lh-3" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-                            </div><!-- progress -->
-                            <p class="tx-11 mg-b-0 mg-t-15 tx-white-7">Notice: Lorem ipsum dolor sit amet.</p>
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="card bd-gray-400 overflow-hidden mg-t-20">
+                            <div class="pd-x-25 pd-t-25">
+                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Month Recurring Payments: (${{$Recurring_Month_sums}})</h6>
+
+                            {{-- <div class="bg-teal pd-x-25 pd-b-25 d-flex justify-content-between">
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5">{{$Recurring_Month_counts}}</h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Number</p>
+                                </div>
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5"><span class="tx-light op-8 tx-20">$</span>{{$Recurring_Month_sums}}</h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Amount</p>
+                                </div>
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5">80<span class="tx-light op-8 tx-20">%</span></h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Free Space</p>
+                                </div>
+                            </div> --}}
+
+                            @foreach ($Recurring_Months as $Recurring_Month)
+                                @if ($Recurring_Month->paymentNature == "New Lead" || $Recurring_Month->paymentNature == "New Sale")
+                                <div class="alert alert-primary  mg-t-20" role="alert">
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Recurring_Month->paymentclientName->name}}</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Recurring_Month->futureDate}}| PM:{{$Recurring_Month->pmEmployeesName->name}}| Payment Nature:{{$Recurring_Month->paymentNature}}| Amt:{{$Recurring_Month->TotalAmount}}| <a href="/client/project/payment/view/{{$Recurring_Month->id}}">view</a></span></p>
+                                </div>
+                                @else
+                                <div class="alert alert-secondary  mg-t-20" role="alert">
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Recurring_Month->paymentclientName->name}}</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Recurring_Month->futureDate}}| PM:{{$Recurring_Month->pmEmployeesName->name}}| Payment Nature:{{$Recurring_Month->paymentNature}}| Amt:{{$Recurring_Month->TotalAmount}} | <a href="/client/project/payment/view/{{$Recurring_Month->id}}">view</a></span></p>
+                                </div>
+                                @endif
+
+                            @endforeach
+                            </div><!-- pd-x-25 -->
                         </div><!-- card -->
 
 
+
+
+
+
+
+
+
+
+
+
+                        <div class="card bd-gray-400 overflow-hidden mg-t-20">
+                            <div class="pd-x-25 pd-t-25">
+                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Month Refunds: (${{$Refund_sum}})</h6>
+
+                            {{-- <div class="bg-warning  pd-x-25 pd-b-25 d-flex justify-content-between">
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5">{{$Refund_count}}</h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Number</p>
+                                </div>
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5"><span class="tx-light op-8 tx-20">$</span>{{$Refund_sum}}</h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Amount</p>
+                                </div>
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5">80<span class="tx-light op-8 tx-20">%</span></h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Free Space</p>
+                                </div>
+                            </div> --}}
+
+                            @foreach ($Refund_Month as $Refund_Months)
+                                <div class="alert alert-warning mg-t-20" role="alert">
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Refund_Months->paymentclientName->name}}</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Refund_Months->futureDate}}| PM:{{$Refund_Months->pmEmployeesName->name}}| Payment Nature:{{$Refund_Months->paymentNature}}| Amt:{{$Refund_Months->TotalAmount}} | <a href="/client/project/payment/view/{{$Refund_Months->id}}">view</a></span></p>
+                                </div>
+                            @endforeach
+                            </div><!-- pd-x-25 -->
+                        </div><!-- card -->
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="card bd-gray-400 overflow-hidden mg-t-20">
+                            <div class="pd-x-25 pd-t-25">
+                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Month Disputes: (${{$Dispute_sum}})</h6>
+
+                            {{-- <div class="bg-danger  pd-x-25 pd-b-25 d-flex justify-content-between">
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5">{{$Dispute_count}}</h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Number</p>
+                                </div>
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5"><span class="tx-light op-8 tx-20">$</span>{{$Dispute_sum}}</h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Total Amount</p>
+                                </div>
+                                <div class="tx-center">
+                                    <h3 class="tx-lato tx-white mg-b-5">80<span class="tx-light op-8 tx-20">%</span></h3>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0 tx-white-8">Free Space</p>
+                                </div>
+                            </div> --}}
+
+                            @foreach ($Dispute_Month as $Dispute_Months)
+                                <div class="alert alert-danger mg-b-5" role="alert">
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Dispute_Months->paymentclientName->name}}</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Dispute_Months->futureDate}}| PM:{{$Dispute_Months->pmEmployeesName->name}}| Payment Nature:{{$Dispute_Months->paymentNature}}| Amt:{{$Dispute_Months->TotalAmount}}  | <a href="/client/project/payment/view/{{$Dispute_Months->id}}">view</a></span></p>
+                                </div>
+                            @endforeach
+                            </div><!-- pd-x-25 -->
+                        </div><!-- card -->
 
 
 
