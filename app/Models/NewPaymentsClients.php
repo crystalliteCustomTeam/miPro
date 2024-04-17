@@ -34,7 +34,10 @@ class NewPaymentsClients extends Model
         "SplitProjectManager",
         "ShareAmount",
         "Description",
-        "refundStatus"
+        "refundStatus",
+        "remainingID",
+        "remainingStatus",
+        "transactionType"
 
     ];
 

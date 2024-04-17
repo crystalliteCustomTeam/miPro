@@ -1889,7 +1889,23 @@ class BasicController extends Controller
         $findclient = Client::where('id', $clientID)->get();
         $allprojects = Project::where('clientID', $clientID)->get();
         $recentClients = Client::where('id', '!=', $clientID)->limit(5)->get();
-        $clientPayments = NewPaymentsClients::where('ClientID',$clientID)->get();
+        $clientPayments = NewPaymentsClients::where('ClientID',$clientID)->where('refundStatus','!=','Pending Payment')->get();
+        // $transactions = NewPaymentsClients::where('ClientID',$clientID)->where('ProjectID',$allprojects[0]->id)->where('refundStatus','Pending Payment')->get();
+        // $uniquepaymentarray = [];
+        // foreach($allprojects as $allproject){
+        //     $transactions = NewPaymentsClients::where('ClientID',$clientID)->where('ProjectID',$allproject->id)->where('refundStatus','Pending Payment')->get();
+        //     foreach ($transactions as $transaction) {
+        //         $transactionType = $transaction['transactionType'];
+        //         if (!array_key_exists($transactionType, $uniquepaymentarray)) {
+        //             $uniquepaymentarray[$transactionType] = $transaction;
+        //         }
+        //     }
+        // }
+        // echo("<pre>");
+        // foreach($uniquepaymentarray as $dd){
+        //     echo($dd); echo("<br>");
+        // }
+        // die();
         $qaAssignee = QaPersonClientAssign::where('client',$clientID)->get();
         if (count($allprojects) > 0) {
             $findProject_Manager = Employee::where('id', $allprojects[0]->projectManager)->get();
@@ -1992,17 +2008,33 @@ class BasicController extends Controller
 
     function payment(Request $request, $id)
     {
+        // $interval = "3 Months";
+        // $today = date('Y-m-d');
+
+        // for ($i = 0; $i <= 10; $i++) {
+        //     if ($interval == "One Time Payment") {
+        //         $datefinal = null;
+        //     } elseif ($interval == "Monthly") {
+        //         $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
+        //     } elseif ($interval == "2 Months") {
+        //         $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
+        //     } elseif ($interval == "3 Months") {
+        //         $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
+        //     }
+        //     echo $datefinal . "<br>";
+        // }
+
         // echo("<pre>");
         // print_r($a[0]);
         // echo(gettype($a[0]));
-        // die();
+        //  die();
         $loginUser = $this->roleExits($request);
 
         $findproject = Project::where('id', $id)->get();
         $findclient = Client::get();
         $findemployee = Employee::get();
         $get_projectCount = Project::where('clientID', $findproject[0]->ClientName->id)->count();
-        $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)->get();
+        $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)->where('refundStatus','!=','Pending Payment')->get();
 
         if ($get_projectCount <= 1) {
             $amount = true;
@@ -2033,6 +2065,20 @@ class BasicController extends Controller
         $paymentNature = $request->input('paymentNature');
         $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
         $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
+        $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
+        if($remainingamt == 0){
+            $remainingstatus = "Not Remaining";
+        }else{
+            $remainingstatus = "Remaining";
+        }
+
+        if($request->input('paymentNature') == 0){
+            $remainingstatus = "Not Remaining";
+        }elseif($request->input('paymentNature') == 0){
+
+        }else{
+            $remainingstatus = "Remaining";
+        }
 
         if($request->file('bankWireUpload') != null ){
             $bookwire = $request->file('bankWireUpload')->store('Payment');
@@ -2069,7 +2115,9 @@ class BasicController extends Controller
                     "Description"=> $request->input('description'),
                     'created_at' => date('y-m-d H:m:s'),
                     'updated_at' => date('y-m-d H:m:s'),
-                    "refundStatus"=> 'On Going'
+                    "refundStatus"=> 'On Going',
+                    "remainingStatus"=> $remainingstatus,
+                    "transactionType" => $request->input('paymentNature')
 
                 ]);
 
@@ -2135,7 +2183,9 @@ class BasicController extends Controller
                     "Description"=> $request->input('description'),
                     'created_at' => date('y-m-d H:m:s'),
                     'updated_at' => date('y-m-d H:m:s'),
-                    "refundStatus"=> 'On Going'
+                    "refundStatus"=> 'On Going',
+                    "remainingStatus"=> $remainingstatus,
+                    "transactionType" => $request->input('paymentNature')
 
                 ]);
 
@@ -2167,9 +2217,96 @@ class BasicController extends Controller
                     "Description"=> $request->input('description'),
                     'created_at' => date('y-m-d H:m:s'),
                     'updated_at' => date('y-m-d H:m:s'),
-                    "refundStatus"=> 'On Going'
+                    "refundStatus"=> 'On Going',
+                    "remainingStatus"=> $remainingstatus,
+                    "transactionType" => $request->input('paymentNature')
 
                 ]);
+
+            }
+
+            if( $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
+
+                if( $request->input('paymentModes') == 'Renewal' ){
+                    $paymentNature = "Renewal Payment";
+                }else{
+                    $paymentNature = "Recurring Payment";
+                }
+
+
+
+                $interval = $request->input('ChargingPlan');
+                $today = date('Y-m-d');
+
+                for ($i = 1; $i <= 10; $i++) {
+                    if ($interval == "One Time Payment") {
+                        $datefinal = null;
+                    } elseif ($interval == "Monthly") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
+                    } elseif ($interval == "2 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
+                    } elseif ($interval == "3 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
+                    }
+                    elseif ($interval == "4 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
+                    }elseif ($interval == "5 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
+                    }elseif ($interval == "6 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
+                    }elseif ($interval == "7 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
+                    }elseif ($interval == "8 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
+                    }elseif ($interval == "9 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
+                    }elseif ($interval == "10 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
+                    }elseif ($interval == "11 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
+                    }elseif ($interval == "12 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
+                    }elseif ($interval == "2 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
+                    } elseif ($interval == "3 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
+                    }
+                    // echo $datefinal . "<br>";
+
+
+
+                    $futurePayment = NewPaymentsClients::create([
+                        "BrandID" => $request->input('brandID'),
+                        "ClientID"=> $request->input('clientID'),
+                        "ProjectID"=> $request->input('project'),
+                        "ProjectManager"=> $request->input('accountmanager'),
+                        "paymentNature"=>  $paymentNature,
+                        "ChargingPlan"=> '--',
+                        "ChargingMode"=> '--',
+                        "Platform"=> '--',
+                        "Card_Brand"=> '--',
+                        "Payment_Gateway"=> '--',
+                        "bankWireUpload" => '--',
+                        "TransactionID"=> '--',
+                        // "paymentDate"=> $request->input('paymentdate'),
+                        "futureDate"=> $datefinal,
+                        "SalesPerson"=> $request->input('saleperson'),
+                        "TotalAmount"=> $request->input('totalamount'),
+                        "Paid"=> 0,
+                        "RemainingAmount" => 0,
+                        "PaymentType"=> '--',
+                        "numberOfSplits" => '--',
+                        "SplitProjectManager" => json_encode(['--']),
+                        "ShareAmount" => json_encode(['--']),
+                        "Description"=> '--',
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus"=> 'Pending Payment',
+                        "remainingStatus"=> '--',
+                        "transactionType" => $request->input('paymentNature')
+
+                    ]);
+                }
 
             }
 
@@ -2283,6 +2420,143 @@ class BasicController extends Controller
         ]);
 
         return redirect('/client/details/'.$request->input('ClientID'));
+
+    }
+
+    function payment_remaining_amount(Request $request, $id)
+    {
+        $loginUser = $this->roleExits($request);
+        $mainPayment = NewPaymentsClients::where('id', $id)->get();
+
+        $findproject = Project::where('id', $mainPayment[0]->ProjectID)->get();
+        $findclient = Client::get();
+        $findemployee = Employee::get();
+        $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)->get();
+
+        return view('remainingPayment', [
+            'mainPayments' => $mainPayment,
+            'allPayments' => $allPayments,
+            'id' => $id,
+            'projectmanager' => $findproject,
+            'clients' => $findclient,
+            'employee' => $findemployee,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
+    }
+
+    function payment_remaining_amount_process(Request $request, $id){
+
+        $changeStatus = NewPaymentsClients::where('id',$id)->update([
+            "remainingID"  => $request->input('remainingID'),
+            "remainingStatus"  => "Received Remaining"
+        ]);
+
+        $paymentType = $request->input('paymentType');
+        $paymentNature = $request->input('paymentNature');
+        $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
+        $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
+        $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
+        if($remainingamt == 0){
+            $remainingstatus = "Received Remaining";
+        }else{
+            $remainingstatus = "Remaining";
+        }
+
+        if($request->file('bankWireUpload') != null ){
+            $bookwire = $request->file('bankWireUpload')->store('Payment');
+        }else{
+            $bookwire ="--";
+        }
+
+
+            // if( $request->input('nextpaymentdate') != null ){
+
+                $createpayment = NewPaymentsClients::insertGetId([
+                    "BrandID" => $request->input('brandID'),
+                    "ClientID"=> $request->input('clientID'),
+                    "ProjectID"=> $request->input('project'),
+                    "ProjectManager"=> $request->input('accountmanager'),
+                    "paymentNature"=> $request->input('paymentNature'),
+                    "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform"=> $request->input('platform'),
+                    "Card_Brand"=> $request->input('cardBrand'),
+                    "Payment_Gateway"=> $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID"=> $request->input('transactionID'),
+                    "paymentDate"=> $request->input('paymentdate'),
+                    // "futureDate"=> $request->input('nextpaymentdate'),
+                    "SalesPerson"=> $request->input('saleperson'),
+                    "TotalAmount"=> $request->input('totalamount'),
+                    "Paid"=> $request->input('clientpaid'),
+                    "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType"=> $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
+                    "Description"=> $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus"=> 'On Going',
+                    "remainingID" => $request->input('remainingID'),
+                    "remainingStatus"=> $remainingstatus
+
+                ]);
+
+
+        if ($paymentType == "Split Payment") {
+
+            $paymentDescription = $findusername[0]->name . " Charge Remaining Payment For Client " . $findclient[0]->name;
+            $totalamount = $request->input('totalamount');
+            $amountShare = $request->input('splitamount');
+            $sharedProjectManager = $request->input('shareProjectManager');
+            $c = [];
+            $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
+
+            $createMainEmployeePayment  = EmployeePayment::create([
+                    "paymentID" => $createpayment,
+                    "employeeID" => $request->input('accountmanager'),
+                    "paymentDescription" => $paymentDescription ,
+                    "amount" => $amount
+                ]);
+
+
+
+            foreach ($sharedProjectManager as $key => $value) {
+                $c[$key] = [$value, $amountShare[$key]];
+            }
+
+            foreach($c as $SecondProjectManagers){
+                if($SecondProjectManagers[0] != 0){
+                    $createSharedPersonEmployeePayment  = EmployeePayment::create(
+                        [
+                            "paymentID" => $createpayment,
+                            "employeeID" => $SecondProjectManagers[0],
+                            "paymentDescription" => "Remaining(Payment) Amount Share By " . $findusername[0]->name,
+                            "amount" =>  $SecondProjectManagers[1]
+                        ]);
+                }
+            }
+
+        } else {
+
+            $paymentDescription = $findusername[0]->name . " Charge Remaining Payment For Client " . $findclient[0]->name;
+            $clientpaid = $request->input('clientpaid');
+
+
+
+            $createEmployeePayment  = EmployeePayment::create(
+                [
+                    "paymentID" => $createpayment,
+                    "employeeID" => $request->input('accountmanager'),
+                    "paymentDescription" =>  $paymentDescription,
+                    "amount" =>   $clientpaid
+                ]
+            );
+        }
+
+            return redirect('/client/details/' . $request->input('clientID'));
 
     }
 
@@ -2866,7 +3140,7 @@ class BasicController extends Controller
     function new_qaform_delete(Request $request, $id)
     {
         $deleteqaform1 = DB::table('qaform')->where('id', $id)->get();
-        $deleteqaformMetas = DB::table('qaform_metas')->where('formid', $deleteqaform1[0]->qaformID)->delete();
+        $deleteqaformMetas = DB::table('qaform_metas')->where('formid', $deleteqaform1[0]->qaformID)->limit(1)->delete();
         $deleteqaform = DB::table('qaform')->where('id', $id)->delete();
 
 
@@ -3278,7 +3552,7 @@ class BasicController extends Controller
                     ? $payment->where('paymentNature', $get_paymentNature)
                     : null;
                 ($get_projectmanager != 0)
-                    ? $payment->where('projectmanagerID', $get_projectmanager)
+                    ? $payment->where('ProjectManager', $get_projectmanager)
                     : null;
                 ($get_client != 0)
                     ? $payment->where('clientID', $get_client)

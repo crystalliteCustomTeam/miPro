@@ -157,9 +157,13 @@
                                 @else
                                 <td><p style="color: red">User Deleted</p></td>
                                 @endif
+                                @if (isset($qaform->GETDEPARTMENT->DepartNameinProjectProduction->name) and $qaform->GETDEPARTMENT->DepartNameinProjectProduction->name !== null)
+                                <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
+                                @else
+                                <td><p style="color: red">Production Deleted</p></td>
+                                @endif
 
                                 {{-- <td>{{$qaform->Project_ProjectManager->name}}</td> --}}
-                                <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
                                 @if ($qaform->status != "Not Started Yet")
                                     @foreach ($qaform->QA_META_DATA($qaform->qaformID) as $meta)
                                     @php

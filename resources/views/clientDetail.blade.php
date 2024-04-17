@@ -28,6 +28,7 @@
       <ul class="nav nav-outline active-primary align-items-center flex-row" role="tablist">
         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#projects" role="tab">Projects</a></li>
         <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#payments" role="tab">Payments</a></li>
+        <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#cashflow" role="tab">cashflow</a></li>
         <li><a href="/client/project/{{ $client[0]->id }}" style="color:grey;">Create Project</a></li>
       </ul>
     </div>
@@ -58,7 +59,7 @@
                       <p class="mg-b-20">{{ $project->projectDescription }}</p>
                       <div class="media-footer">
                         <div class=" ">
-                            <a href="/forms/payment/{{ $project->id }}" style="color:white;border-radius: 15px;" class="btn btn-sm   btn-success"><img src="https://cdn-icons-png.flaticon.com/16/1611/1611179.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Payment</a>
+                            {{-- <a href="/forms/payment/{{ $project->id }}" style="color:white;border-radius: 15px;" class="btn btn-sm   btn-success"><img src="https://cdn-icons-png.flaticon.com/16/1611/1611179.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Payment</a> --}}
                             {{-- <a href="" class="btn btn-sm btn-primary" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/11524/11524412.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Change PM </a> --}}
                             <a href="/client/editproject/{{ $project->id }}" class="btn btn-sm  btn-info" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/16/1159/1159633.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Edit </a>
                             <a href="/forms/newqaform/{{  $project->id }}" class="btn btn-sm  btn-warning" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/16/4381/4381727.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> QA</a>
@@ -336,10 +337,10 @@
               <tr role="row">
                 <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Project</th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Nature</th>
-                <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Charging Plan</th>
-                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Start date: activate to sort column ascending">Payment_Gateway</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Payment Date</th>
-                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Description</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Total Amount</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Client Paid</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Remaining</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">view</th>
               </tr>
             </thead>
@@ -348,14 +349,17 @@
                 <tr role="row" class="odd">
                     <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}}</td>
                     <td>{{$item->paymentNature}}</td>
-                    <td>{{$item->ChargingPlan}}</td>
-                    <td>{{$item->Payment_Gateway}}</td>
                     <td>{{$item->paymentDate}}</td>
-                    <td>{{$item->Description}}</td>
+                    <td>${{$item->TotalAmount}}</td>
+                    <td>${{$item->Paid}}</td>
+                    <td>${{$item->RemainingAmount}}</td>
                     <td>
                         <div class="btn-group">
                             <a href="/client/project/payment/view/{{$item->id}}" class="btn btn-success">View</a>
                             <a href="/client/project/payment/RefundDispute/{{$item->id}}" class="btn btn-danger">Refund/Request</a>
+                            @if ($item->remainingStatus == "Remaining")
+                            <a href="/client/project/payment/remaining/{{$item->id}}" class="btn btn-warning">Add Remaining</a>
+                            @endif
                         </div>
                     </td>
                 </tr>
@@ -375,7 +379,56 @@
 
 
 
+      <div class="tab-pane fade" id="cashflow">
 
+        <div class="br-section-wrapper">
+
+
+            <table id="datatable1" class="table-dark table-hover">
+            <thead>
+              <tr role="row">
+                <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Project</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Nature</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Mode</th>
+                <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Charging Plan</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Payment Date</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Total Amount</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Client Paid</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Remaining</th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach ($clientPayments as $item)
+                <tr role="row" class="odd">
+                    <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}}</td>
+                    <td>{{$item->paymentNature}}</td>
+                    <td>{{$item->ChargingMode}}</td>
+                    <td>{{$item->ChargingPlan}}</td>
+                    <td>{{$item->paymentDate}}</td>
+                    <td>{{$item->TotalAmount}}</td>
+                    <td>{{$item->Paid}}</td>
+                    <td>{{$item->RemainingAmount}}</td>
+                </tr>
+                @endforeach
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><div class="alert alert-warning">$</div></td>
+                    <td><div class="alert alert-success">$</div></td>
+                    <td><div class="alert alert-danger">$</div></td>
+                </tr>
+            </tbody>
+        </table>
+
+       </div><!-- br-section-wrapper -->
+
+
+
+
+      </div><!-- tab-pane -->
 
 
 

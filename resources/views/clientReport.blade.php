@@ -210,7 +210,11 @@
                             @foreach ($qaforms as $qaform)
                             <tr role="row" class="odd">
                               <td tabindex="0" class="sorting_1">{{$qaform->Project_Name->name}}</td>
-                              <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
+                            @if (isset($qaform->GETDEPARTMENT->DepartNameinProjectProduction->name) and $qaform->GETDEPARTMENT->DepartNameinProjectProduction->name !== null)
+                                <td>{{$qaform->GETDEPARTMENT->DepartNameinProjectProduction->name}}</td>
+                            @else
+                                <td><p style="color: red">Production Deleted</p></td>
+                            @endif
                               <td>{{$qaform->status}}</td>
                               {{-- <td>{{$qaform->last_communication}}</td> --}}
                               <td>{{$qaform->Refund_Request_summery}}</td>
