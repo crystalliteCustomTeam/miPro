@@ -39,7 +39,12 @@
             <table  id="datatable1"  style="width:100%"  class="table-dark table-hover">
                 <tr>
                   <th>Department:</th>
-                  <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td>
+                  {{-- <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td> --}}
+                  @if (isset($Proj_Prod[0]->DepartNameinProjectProduction->name) and $Proj_Prod[0]->DepartNameinProjectProduction->name !== null)
+                    <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td>
+                    @else
+                    <td><p style="color: red">Production Deleted</p></td>
+                    @endif
                 </tr>
                 <tr>
                   <th>Assignee:</th>
