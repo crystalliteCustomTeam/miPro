@@ -50,7 +50,7 @@
                     @if (isset($projectmanager[0]->EmployeeName->name) and $projectmanager[0]->EmployeeName->name !== null)
                     <label for="" style="font-size:150%;">{{$projectmanager[0]->EmployeeName->name }}</label>
                     @else
-                    <label for="" style="font-size:150%;"><p style="color: red">User Daleted</p></label>
+                    <label for="" style="font-size:150%;"><p style="color: red">User Deleted</p></label>
                     @endif
                 </div>
                 <div class="col-4 mt-3">
@@ -175,8 +175,13 @@
                     <label for="" style="font-weight:bold;" >Sale Person:</label>
                     <select class="form-control select2" required name="saleperson">
                       @foreach ($employee as $client)
-                          <option value="{{ $client->id }}">{{ $client->name }}
+                            @if (isset($projectmanager[0]->EmployeeName->id) and $projectmanager[0]->EmployeeName->id !== null)
+                            <option value="{{ $client->id }}"{{ $client->id == $findclientofproject[0]->frontSeler ? 'selected' : '' }}>{{ $client->name }}
                             --
+                            @else
+                            <option value="{{ $client->id }}">{{ $client->name }}
+                            --
+                            @endif
                             @foreach($client->deparment($client->id)  as $dm)
                             <strong>{{ $dm->name }}</strong>
                             @endforeach

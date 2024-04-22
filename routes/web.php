@@ -121,12 +121,21 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/client/add/payment/process','addPaymentProcess');
         Route::get('/client/project/payment/view/{id}','payment_view');
         Route::get('/client/project/payment/report/view/{id}','payment_view1');
+        Route::get('/client/project/payment/all','all_payments');
         //refund
         Route::get('/client/project/payment/RefundDispute/{id}','payment_Refund_Dispute');
         Route::post('/client/project/payment/RefundDispute/{id}/process','payment_Refund_Dispute_Process');
         //remaining
         Route::get('/client/project/payment/remaining/{id}','payment_remaining_amount');
         Route::post('/client/project/payment/remaining/{id}/process','payment_remaining_amount_process');
+        //pending
+        Route::get('/client/project/payment/pending/{id}','payment_pending_amount');
+        Route::post('/client/project/payment/pending/{id}/process','payment_pending_amount_process');
+        //Edit
+        Route::get('/client/project/payment/edit/{id}','payment_edit_amount');
+        Route::post('/client/project/payment/edit/{id}/process','payment_edit_amount_process');
+        //deletePayments:
+        Route::get('/client/project/payment/delete/{id}','delete_payment');
 
 
 

@@ -28,7 +28,7 @@
       <ul class="nav nav-outline active-primary align-items-center flex-row" role="tablist">
         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#projects" role="tab">Projects</a></li>
         <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#payments" role="tab">Payments</a></li>
-        <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#cashflow" role="tab">cashflow</a></li>
+        <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#cashflow" role="tab">CashFlow</a></li>
         <li><a href="/client/project/{{ $client[0]->id }}" style="color:grey;">Create Project</a></li>
       </ul>
     </div>
@@ -59,7 +59,7 @@
                       <p class="mg-b-20">{{ $project->projectDescription }}</p>
                       <div class="media-footer">
                         <div class=" ">
-                            {{-- <a href="/forms/payment/{{ $project->id }}" style="color:white;border-radius: 15px;" class="btn btn-sm   btn-success"><img src="https://cdn-icons-png.flaticon.com/16/1611/1611179.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Payment</a> --}}
+                            <a href="/forms/payment/{{ $project->id }}" style="color:white;border-radius: 15px;" class="btn btn-sm   btn-success"><img src="https://cdn-icons-png.flaticon.com/16/1611/1611179.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Payment</a>
                             {{-- <a href="" class="btn btn-sm btn-primary" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/11524/11524412.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Change PM </a> --}}
                             <a href="/client/editproject/{{ $project->id }}" class="btn btn-sm  btn-info" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/16/1159/1159633.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Edit </a>
                             <a href="/forms/newqaform/{{  $project->id }}" class="btn btn-sm  btn-warning" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/16/4381/4381727.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> QA</a>
@@ -305,19 +305,21 @@
 
 
             <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
-              <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-30">Recent Clients</h6>
+              <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-30">Next Payments</h6>
               <div class="media-list">
-                @foreach ($recentClients as $recentClient)
+                @foreach ($uniquepaymentarray as $recentClient)
+                @foreach ($recentClient as $item)
                     <div class="media align-items-center pd-b-10">
-                        <img src="https://via.placeholder.com/500" class="wd-45 rounded-circle" alt="">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077874.png" class="wd-45 rounded-circle" alt="">
                         <div class="media-body mg-x-15 mg-xs-x-20">
-                        <h6 class="mg-b-2 tx-inverse tx-14">{{$recentClient->name}}</h6>
-                        <p class="mg-b-0 tx-12">{{$recentClient->findbrand($recentClient->brand)[0]->name}}</p>
+                        <h6 class="mg-b-2 tx-inverse tx-14">{{$item->paymentprojectName->name}}</h6>
+                        <p class="mg-b-0 tx-12"> {{$item->transactionType}} | {{$item->paymentNature}} |{{$item->TotalAmount}}</p>
                         </div><!-- media-body -->
-                        <a href="{{ url('/client/details/'.$recentClient->id) }}" class="btn btn-outline-secondary btn-icon rounded-circle mg-r-5">
-                        <div><img src="https://cdn-icons-png.flaticon.com/16/3113/3113022.png" alt=""></div>
+                            <a href="{{ url('/client/project/payment/pending/'.$item->id) }}" class="btn btn-outline-secondary btn-icon rounded-circle mg-r-5">
+                        <div><img src="https://cdn-icons-png.flaticon.com/16/2997/2997933.png" alt=""></div>
                         </a>
                   </div><!-- media -->
+                @endforeach
                 @endforeach
 
               </div><!-- media-list -->
@@ -341,7 +343,10 @@
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Total Amount</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Client Paid</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Remaining</th>
-                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">view</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Descirption</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Actions</th>
+                {{-- <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Refund Status</th> --}}
+
               </tr>
             </thead>
             <tbody>
@@ -353,15 +358,27 @@
                     <td>${{$item->TotalAmount}}</td>
                     <td>${{$item->Paid}}</td>
                     <td>${{$item->RemainingAmount}}</td>
+                    <td>{{$item->Description}}</td>
                     <td>
+                        @if ($item->refundStatus != "On Going" && $item->refundStatus != "Pending Payment")
+                        <div class="btn-group">
+                            <a href="/client/project/payment/view/{{$item->id}}" class="btn btn-warning">View (Refund)</a>
+                        </div>
+                        @else
                         <div class="btn-group">
                             <a href="/client/project/payment/view/{{$item->id}}" class="btn btn-success">View</a>
-                            <a href="/client/project/payment/RefundDispute/{{$item->id}}" class="btn btn-danger">Refund/Request</a>
-                            @if ($item->remainingStatus == "Remaining")
-                            <a href="/client/project/payment/remaining/{{$item->id}}" class="btn btn-warning">Add Remaining</a>
-                            @endif
+                            {{-- <a href="/client/project/payment/RefundDispute/{{$item->id}}" class="btn btn-danger">Refund/Request</a> --}}
+                            {{-- @if ($item->remainingStatus == "Remaining")
+                            <a href="/client/project/payment/remaining/{{$item->id}}" class="btn btn-info">Add Remaining</a>
+                            @endif --}}
+                        @endif
                         </div>
                     </td>
+                    {{-- @if ($item->refundStatus != "On Going" && $item->refundStatus != "Pending Payment")
+                    <td><p style="color: red">Refund</p></td>
+                    @else
+                    <td><p >On Going</p></td>
+                    @endif --}}
                 </tr>
                 @endforeach
             </tbody>
@@ -383,6 +400,13 @@
 
         <div class="br-section-wrapper">
 
+            <style>
+                .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
+                    background-color: #ffffff !important;
+                    color: #060708;
+                    border: 0.5px solid #ecececcc !important;
+                }
+            </style>
 
             <table id="datatable1" class="table-dark table-hover">
             <thead>
@@ -392,22 +416,100 @@
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Mode</th>
                 <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Charging Plan</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Payment Date</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Refund Status</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Total Amount</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Client Paid</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Remaining</th>
               </tr>
             </thead>
             <tbody>
-                @foreach ($clientPayments as $item)
+                @foreach ($cashflows as $item)
                 <tr role="row" class="odd">
-                    <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}}</td>
+                    <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
                     <td>{{$item->paymentNature}}</td>
                     <td>{{$item->ChargingMode}}</td>
                     <td>{{$item->ChargingPlan}}</td>
                     <td>{{$item->paymentDate}}</td>
-                    <td>{{$item->TotalAmount}}</td>
-                    <td>{{$item->Paid}}</td>
-                    <td>{{$item->RemainingAmount}}</td>
+                    <td>
+                        @if ($item->refundStatus != "On Going" && $item->refundStatus != "Pending Payment")
+                        <div class="alert alert-danger">
+                            {{$item->refundStatus}}
+                        </div>
+                        @else
+                        {{-- <div class="alert alert-success"> --}}
+                            {{$item->refundStatus}}
+                        {{-- </div> --}}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($item->refundStatus != "On Going" && $item->refundStatus != "Pending Payment")
+                        <div class="alert alert-danger">
+                            {{$item->TotalAmount}}
+                        </div>
+                        @else
+                        @if ($item->paymentNature == "Remaining")
+
+                            {{$item->TotalAmount}}
+
+                        @else
+
+                        <div class="alert alert-primary">
+
+                            {{$item->TotalAmount}}
+
+                        </div>
+
+                        @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if ($item->refundStatus != "On Going" && $item->refundStatus != "Pending Payment")
+                        <div class="alert alert-danger">
+                            {{$item->Paid}}
+                        </div>
+                        @else
+                        <div class="alert alert-success">
+
+                            {{$item->Paid}}
+
+                        </div>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($item->refundStatus != "On Going" && $item->refundStatus != "Pending Payment")
+                        <div class="alert alert-danger">
+
+                            @if ($item->remainingStatus == 'Remaining')
+                            {{$item->RemainingAmount}}
+                            @elseif($item->remainingStatus == 'Not Remaining')
+                                {{$item->RemainingAmount}}
+                            @else
+                                @if ($item->RemainingAmount == 0)
+                                {{$item->RemainingAmount}}
+                                @else
+                                {{$item->RemainingAmount}} (Received)
+                                @endif
+                            @endif
+
+                        </div>
+                        @else
+                        <div class="alert alert-warning">
+
+                                @if ($item->remainingStatus == 'Remaining')
+                                {{$item->RemainingAmount}}
+                                @elseif($item->remainingStatus == 'Not Remaining')
+                                    {{$item->RemainingAmount}}
+                                @else
+                                    @if ($item->RemainingAmount == 0)
+                                    {{$item->RemainingAmount}}
+                                    @else
+                                    {{$item->RemainingAmount}} (Received)
+                                    @endif
+                                @endif
+
+                        </div>
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
                 <tr>
@@ -416,9 +518,14 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><div class="alert alert-warning">$</div></td>
-                    <td><div class="alert alert-success">$</div></td>
-                    <td><div class="alert alert-danger">$</div></td>
+                    <td>
+                        @if ($clientrefundcount > 0)
+                        <div class="alert alert-danger"><strong>${{$clienttotal}}</strong></div>
+                        @endif
+                    </td>
+                    <td><div class="alert alert-primary"><strong>${{$clienttotalwithoutRefund}}</strong></div></td>
+                    <td><div class="alert alert-success"><strong>${{$clientPaid}}</strong></div></td>
+                    <td><div class="alert alert-warning"><strong>${{$clientRemaining}}</strong></div></td>
                 </tr>
             </tbody>
         </table>

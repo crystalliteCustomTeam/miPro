@@ -97,6 +97,8 @@
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
           <li class="sub-item"><a href="/client/add/payment" class="sub-link">Add Payment</a></li>
+          <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">Payments</a></li>
+          <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">Refund/Disputes</a></li>
         </ul>
       </li><!-- br-menu-item -->
     <li class="br-menu-item">

@@ -37,7 +37,9 @@ class NewPaymentsClients extends Model
         "refundStatus",
         "remainingID",
         "remainingStatus",
-        "transactionType"
+        "transactionType",
+        "dateDifference",
+        "oldExpecteddate"
 
     ];
 
