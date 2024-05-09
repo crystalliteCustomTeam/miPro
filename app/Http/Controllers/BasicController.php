@@ -2933,8 +2933,8 @@ class BasicController extends Controller
 
         ]);
 
-        if ($$referencepayment[0]->PaymentType == "Split Payment") {
-            $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
+        if ($referencepayment[0]->PaymentType == "Split Payment") {
+            $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
             $totalamount = $request->input('totalamount');
             $amountShare = $request->input('splitamount');
             $sharedProjectManager = $request->input('shareProjectManager');
@@ -2960,7 +2960,7 @@ class BasicController extends Controller
                         [
                             "paymentID" => $originalrefund,
                             "employeeID" => $SecondProjectManagers[0],
-                            "paymentDescription" => "Amount Share By " . $request->input('saleperson'),
+                            "paymentDescription" => "refund Share By " . $request->input('saleperson'),
                             "amount" =>  $SecondProjectManagers[1]
                         ]);
                 }
@@ -2968,7 +2968,7 @@ class BasicController extends Controller
 
         } else {
 
-            $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
+            $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
             $clientpaid = $request->input('clientpaid');
 
 
@@ -3126,7 +3126,7 @@ class BasicController extends Controller
 
 
         if ($referencepayment[0]->PaymentType == "Split Payment") {
-            $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
+            $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
             $totalamount = $request->input('totalamount');
             $amountShare = $request->input('splitamount');
             $sharedProjectManager = $request->input('shareProjectManager');
@@ -3152,7 +3152,7 @@ class BasicController extends Controller
                         [
                             "paymentID" => $originalrefund,
                             "employeeID" => $SecondProjectManagers[0],
-                            "paymentDescription" => "Amount Share By " . $request->input('saleperson'),
+                            "paymentDescription" => "Refund Share By " . $request->input('saleperson'),
                             "amount" =>  $SecondProjectManagers[1]
                         ]);
                 }
@@ -3160,7 +3160,7 @@ class BasicController extends Controller
 
         } else {
 
-            $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
+            $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
             $clientpaid = $request->input('clientpaid');
 
 
@@ -4182,6 +4182,58 @@ class BasicController extends Controller
         }
 
 
+        if ($paymentType == "Split Payment") {
+
+            $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
+            $totalamount = $request->input('totalamount');
+            $amountShare = $request->input('splitamount');
+            $sharedProjectManager = $request->input('shareProjectManager');
+            $c = [];
+            $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
+
+            $createMainEmployeePayment  = EmployeePayment::create([
+                    "paymentID" => $id,
+                    "employeeID" => $request->input('saleperson'),
+                    "paymentDescription" => $paymentDescription ,
+                    "amount" => $amount
+                ]);
+
+
+
+            foreach ($sharedProjectManager as $key => $value) {
+                $c[$key] = [$value, $amountShare[$key]];
+            }
+
+            foreach($c as $SecondProjectManagers){
+                if($SecondProjectManagers[0] != 0){
+                    $createSharedPersonEmployeePayment  = EmployeePayment::create(
+                        [
+                            "paymentID" => $id,
+                            "employeeID" => $SecondProjectManagers[0],
+                            "paymentDescription" => "Amount Share By " . $request->input('saleperson'),
+                            "amount" =>  $SecondProjectManagers[1]
+                        ]);
+                }
+            }
+
+        } else {
+
+            $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
+            $clientpaid = $request->input('clientpaid');
+
+
+
+            $createEmployeePayment  = EmployeePayment::create(
+                [
+                    "paymentID" => $id,
+                    "employeeID" => $request->input('saleperson'),
+                    "paymentDescription" =>  $paymentDescription,
+                    "amount" =>   $clientpaid
+                ]
+            );
+        }
+
+
 
         // return ('check');
         return redirect('/client/project/payment/all');
@@ -4545,7 +4597,7 @@ class BasicController extends Controller
             $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
             $createMainEmployeePayment  = EmployeePayment::create([
-                    "paymentID" => $createpayment,
+                    "paymentID" => $id,
                     "employeeID" => $request->input('saleperson'),
                     "paymentDescription" => $paymentDescription ,
                     "amount" => $amount
@@ -4561,7 +4613,7 @@ class BasicController extends Controller
                 if($SecondProjectManagers[0] != 0){
                     $createSharedPersonEmployeePayment  = EmployeePayment::create(
                         [
-                            "paymentID" => $createpayment,
+                            "paymentID" => $id,
                             "employeeID" => $SecondProjectManagers[0],
                             "paymentDescription" => "Amount Share By " . $request->input('saleperson'),
                             "amount" =>  $SecondProjectManagers[1]
@@ -4578,7 +4630,7 @@ class BasicController extends Controller
 
             $createEmployeePayment  = EmployeePayment::create(
                 [
-                    "paymentID" => $createpayment,
+                    "paymentID" => $id,
                     "employeeID" => $request->input('saleperson'),
                     "paymentDescription" =>  $paymentDescription,
                     "amount" =>   $clientpaid
