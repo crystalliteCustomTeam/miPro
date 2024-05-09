@@ -16,7 +16,7 @@
           <i class="icon ion-ios-gear-outline"></i>
           <div>
             <h4>Set Up Department</h4>
-            <p class="mg-b-0">Department</p>
+            <p class="mg-b-0">Edit Department</p>
           </div>
         </div><!-- d-flex -->
 
@@ -48,6 +48,7 @@
                   @foreach($brands as $brand)
                     <option value="{{ $brand->id }}" {{ $brand->id == $departeditdata->brand ? 'selected' : '' }}>{{ $brand->name }}</option>
                   @endforeach
+                  <option value="0">Admin</option>
                 </select>
             </div>
 
@@ -74,7 +75,8 @@
                   <option value="3">Reporting Screen Only</option>
               </select>
           </div>
-              <div class="col-12 mt-4">
+
+            {{-- <div class="col-12 mt-4">
                 <table id="datatable1">
                   <thead>
                     <th>Name</th>
@@ -145,7 +147,60 @@
                         });
                     });
                 </script>
+            </div> --}}
+
+            <div class="col-12 mt-3">
+                <label for="" style="font-weight:bold;" >Select Users:</label>
+                @php
+                    $usersIndepartment = json_decode($departeditdata->users);
+                @endphp
+                <select class="form-control select2" name="users[]" id="userInput"  multiple="multiple">
+                @foreach ($employees as $client)
+                    @php
+                        $matched = false;
+                    @endphp
+                        @foreach ($usersIndepartment as $item)
+                            @if ($client->id == $item)
+                                @php
+                                    $matched = true;
+                                @endphp
+                                @break;
+                            @endif
+                        @endforeach
+
+                    @if ($matched)
+                        <option value="{{ $client->id }}" selected>{{ $client->name }}
+                            --
+                            @foreach($client->deparment($client->id)  as $dm)
+                            <strong>{{ $dm->name }}</strong>
+                            @endforeach
+                        </option>
+                    @endif
+
+                    <option value="{{ $client->id }}">{{ $client->name }}
+                        --
+                        @foreach($client->deparment($client->id)  as $dm)
+                        <strong>{{ $dm->name }}</strong>
+                        @endforeach
+                    </option>
+                @endforeach
+                </select>
             </div>
+            <div class="col-12 mt-3">
+                <button type="button"   class="btn btn-info mt-2">Employees</button>
+            </div>
+            <div class="col-12 mt-3">
+                <div id="output" >
+                    <ul>
+                        @foreach($departeditdata->findEmp($departeditdata->users) as $emp)
+                          <li>{{$emp->name}}</li>
+                        @endforeach
+                        {{-- <input type="hidden" name="usersinarray[]" value="{{$departeditdata->users}}"> --}}
+                      </ul>
+
+                </div>
+            </div>
+
 
             </div>
             <div class="row mt-3">

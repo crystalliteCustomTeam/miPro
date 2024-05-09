@@ -24,7 +24,8 @@
           <div class="br-section-wrapper">
            <form action="/setupdepartment/process" method="POST">
             @csrf
-            <input type="hidden" id="Employeesdd" name="Employeesdata" >
+            <input type="hidden" name="Employeesdd" id="Employeesdd">
+            {{-- <input type="hidden" id="Employeesdd" name="Employeesdata" > --}}
             <div class="row">
 
                 <div class="col-3">
@@ -58,7 +59,7 @@
 
               </select>
           </div>
-              <div class="col-12 mt-4">
+              {{-- <div class="col-12 mt-4">
                 <table id="datatable1">
                   <thead>
                     <th>Name</th>
@@ -120,7 +121,116 @@
                         });
                     });
                 </script>
+            </div> --}}
+
+
+
+
+
+
+
+            <div class="col-12 mt-3">
+                <label for="" style="font-weight:bold;" >Select Users:</label>
+                <select class="form-control select2" name="users[]" id="userInput">
+                @foreach ($employees as $client)
+                        <option value="{{ $client->id }}">{{ $client->name }}
+                        --
+                        @foreach($client->deparment($client->id)  as $dm)
+                        <strong>{{ $dm->name }}</strong>
+                        @endforeach
+                    </option>
+                @endforeach
+                </select>
             </div>
+            <div class="col-12 mt-3">
+                <button type="button" onclick="storeInput()"  class="btn btn-info mt-2">Store Input</button>
+            </div>
+
+            <script>
+                // Array to store selected employee IDs
+                var selectedEmployees = [];
+
+                function storeInput() {
+                    var employeeId = document.getElementById("userInput").value;
+
+                    if (!selectedEmployees.includes(employeeId)) {
+                        selectedEmployees.push(employeeId);
+                    } else {
+                        var index = selectedEmployees.indexOf(employeeId);
+                        if (index !== -1) {
+                            selectedEmployees.splice(index, 1);
+                        }
+                    }
+
+                    document.getElementById("Employeesdd").value = selectedEmployees.join(', ');
+                    console.log('Selected Employees:', selectedEmployees);
+                    displayArray();
+                }
+
+                function displayArray() {
+                    var outputDiv = document.getElementById("output");
+                    outputDiv.innerHTML = '';
+                    var responsesCount = 0; // Variable to keep track of received responses
+
+                    selectedEmployees.forEach(function(value, index) {
+                        $.ajax({
+                            url: "/api/fetch-username",
+                            type: "get",
+                            data: {
+                                "state_id": value
+                            },
+                            success: (Response) => {
+                                let empname =  Response.pmname;
+                                var p = document.createElement('p');
+                                p.textContent = 'User ' + (index + 1) + ': ' + empname;
+                                outputDiv.appendChild(p);
+                                responsesCount++; // Increment the count of received responses
+
+                                // Check if all responses have been received
+                                if (responsesCount === selectedEmployees.length) {
+                                    // If all responses are received, sort paragraphs by index
+                                    var paragraphs = Array.from(outputDiv.querySelectorAll('p'));
+                                    paragraphs.sort((a, b) => {
+                                        return parseInt(a.textContent.split(':')[0].split(' ')[1]) - parseInt(b.textContent.split(':')[0].split(' ')[1]);
+                                    });
+                                    // Append sorted paragraphs to output div
+                                    paragraphs.forEach(paragraph => outputDiv.appendChild(paragraph));
+                                }
+                            }
+                        });
+                    });
+                };
+
+
+            </script>
+
+
+
+
+            <div class="col-12 mt-3">
+                <div id="output" ></div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             </div>
             <div class="row mt-3">

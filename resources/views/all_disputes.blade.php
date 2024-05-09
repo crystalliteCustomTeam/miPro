@@ -16,57 +16,55 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Departments List</h4>
+            <h4>Disputes Payments:</h4>
           </div>
         </div><!-- d-flex -->
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-
-
-
+            <style>
+                .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
+                    background-color: #ffffff !important;
+                    color: #060708;
+                    border: 0.5px solid #ecececcc !important;
+                }
+            </style>
 
             <table id="datatable1" class="table-dark table-hover">
                 <thead>
                   <tr role="row">
-                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Name</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Manager</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Action</th>
-                    {{-- <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Users</th> --}}
+                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Client Name</th>
+                    <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Brand</th>
+                    <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Date</th>
+                    <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Amount</th>
+                    <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Actions</th>
+
                   </tr>
                 </thead>
                 <tbody>
-
-                  @foreach($departments as $department)
-                  <tr role="row" class="odd">
-                    <td tabindex="0" class="sorting_1">{{ $department['name'] }}</td>
-                    @if (isset($department->UserName->name) and $department->UserName->name !== null)
-                    <td>{{ $department->UserName->name }}</td>
-                    @else
-                        <td><p style="color: red">User Deleted</p></td>
-                    @endif
-                    <td>
-                      <div class="btn-group">
-                          <a href="#" onclick="myConfirm('{{ $department->id }}')"><button class="btn btn-danger btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/8745/8745912.png" alt="" style="filter: invert(1);"> Delete</button></a>
-                          <a href="/editdepartment/{{ $department->id }}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/10140/10140139.png" alt="" style="filter: invert(1);" > Edit </button></a>
-                          <a href="/departmentusers/{{ $department->id }}"><button class="btn btn-primary btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/5397/5397601.png" alt="" style="filter: invert(1);"> {{ count($department->findEmp($department->users)) }} Employees </button></a>
-
-                      </div>
-                    </td>
-                    {{-- <td>
-                      <ul>
-                        @foreach($department->findEmp($department->users) as $emp)
-                          <li>{{$emp->name}}</li>
-                        @endforeach
-                      </ul>
-                    </td> --}}
-
-                  </tr>
-                  @endforeach
-
+                    @foreach ($clientPayments as $item)
+                    <tr role="row" class="odd">
+                            <td tabindex="0" class="sorting_1">
+                                <strong> {{$item->disputeclientName->name}}</strong>
+                            </td>
+                            <td>{{$item->disputebrandName->name}}</td>
+                            <td>{{$item->dispute_Date}}</td>
+                            <td>${{$item->disputedAmount}}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="/client/project/payment/Dispute/view/{{$item->id}}" class="btn btn-success">View</a>
+                                    @if ($item->disputeStatus == null)
+                                    <a href="/client/project/payment/Dispute/won/{{$item->id}}" class="btn btn-warning">Dispute Won</a>
+                                    <a href="/client/project/payment/Dispute/lost/{{$item->id}}" class="btn btn-info">Dispute Lost</a>
+                                    @endif
+                                </div>
+                            </td>
+                    </tr>
+                    @endforeach
                 </tbody>
-              </table>
-              <script>
+            </table>
+
+            <script>
                 function myConfirm(id){
                     Swal.fire({
                     title: "Are you sure?",
@@ -78,17 +76,21 @@
                     confirmButtonText: "Yes, delete it!"
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "/deletedepartment/" + id;
+                        window.location.href = "/client/project/payment/delete/" + id;
                         Swal.fire({
                         title: "Deleted!",
-                        text: "Department has been deleted.",
+                        text: "Payment has been deleted.",
                         icon: "success"
                         });
                     }});
 
                 }
-
             </script>
+
+
+
+
+
 
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->

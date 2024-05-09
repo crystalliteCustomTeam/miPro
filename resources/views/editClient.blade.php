@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('maincontent')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -38,10 +39,6 @@
                         <input type="text"  name="phone"  class="form-control" value="{{$clients[0]->phone}}">
                     </div>
                     <div class="col-4 mt-3">
-                        <label for=""style="font-weight:bold;">Email:</label>
-                        <input type="email"  name="email"  class="form-control" value="{{$clients[0]->email}}">
-                    </div>
-                    <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Brand:</label>
                         <select class="form-control" id="select2forme"  name="brand">
 
@@ -50,7 +47,96 @@
                         @endforeach
                         </select>
                         </div>
-                        <div class="col-4 mt-3">
+                    {{-- <div class="col-4 mt-3">
+                        <label for=""style="font-weight:bold;">Email:</label>
+                        <input type="email"  name="email"  class="form-control" value="{{$clients[0]->email}}">
+                    </div> --}}
+                    @php
+                        $clientmetas_otheremails = json_decode($clientmetas[0]->otheremail);
+                    @endphp
+                    @if ($clientmetas[0]->otheremail == null)
+                        <div class="row field_wrapper col-12">
+                            <div class="col-4 mt-3">
+                                <label for=""style="font-weight:bold;">Email:</label><br>
+                                <div class="btn-group">
+                                    <input type="email" name="email[]" class="form-control" value="{{$clients[0]->email}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function(){
+                                var maxField = 10; //Input fields increment limitation
+                                var addButton = $('.add_button'); //Add button selector
+                                var wrapper = $('.field_wrapper'); //Input field wrapper
+                                var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                                var x = 1; //Initial field counter is 1
+
+                                // Once add button is clicked
+                                $(addButton).click(function(){
+                                    //Check maximum number of input fields
+                                    if(x < maxField){
+                                        x++; //Increase field counter
+                                        $(wrapper).append(fieldHTML); //Add field html
+                                    }else{
+                                        alert('A maximum of '+maxField+' fields are allowed to be added. ');
+                                    }
+                                });
+
+                                // Once remove button is clicked
+                                $(wrapper).on('click', '.remove_button', function(e){
+                                    e.preventDefault();
+                                    $(this).parent('div').remove(); //Remove field html
+                                    x--; //Decrease field counter
+                                });
+                            });
+                        </script>
+                    @else
+                        <div class="row field_wrapper col-12">
+                        @foreach ($clientmetas_otheremails as $item)
+                            @if ($item == $clientmetas_otheremails[0])
+                                <div class="col-4 mt-3">
+                                    <label for=""style="font-weight:bold;">Email:</label><br>
+                                    <div class="btn-group">
+                                        <input type="email" name="email[]" class="form-control" value="{{$item}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="btn-group col-4 mt-5">
+                                <input type="email" name="email[]" class="form-control" value="{{$item}}"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a>
+                            </div>
+                           @endif
+                        @endforeach
+                        </div>
+                    @endif
+                    <script>
+                        $(document).ready(function(){
+                            var maxField = 10; //Input fields increment limitation
+                            var addButton = $('.add_button'); //Add button selector
+                            var wrapper = $('.field_wrapper'); //Input field wrapper
+                            var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control" ><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var x = 1; //Initial field counter is 1
+
+                            // Once add button is clicked
+                            $(addButton).click(function(){
+                                //Check maximum number of input fields
+                                if(x < maxField){
+                                    x++; //Increase field counter
+                                    $(wrapper).append(fieldHTML); //Add field html
+                                }else{
+                                    alert('A maximum of '+maxField+' fields are allowed to be added. ');
+                                }
+                            });
+
+                            // Once remove button is clicked
+                            $(wrapper).on('click', '.remove_button', function(e){
+                                e.preventDefault();
+                                $(this).parent('div').remove(); //Remove field html
+                                x--; //Decrease field counter
+                            });
+                        });
+                    </script>
+
+                    <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Sales Person:</label>
                         <select class="form-control select2"  name="saleperson">
                         @foreach($ProjectManagers as $pm)
@@ -596,10 +682,10 @@
                         <label for=""style="font-weight:bold;">Phone Number:</label>
                         <input type="text"  name="phone"  class="form-control" value="{{$clients[0]->phone}}">
                     </div>
-                    <div class="col-4 mt-3">
+                    {{-- <div class="col-4 mt-3">
                         <label for=""style="font-weight:bold;">Email:</label>
                         <input type="email"  name="email"  class="form-control" value="{{$clients[0]->email}}">
-                    </div>
+                    </div> --}}
                     <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Brand:</label>
                     <select class="form-control" id="select2forme"  name="brand">
@@ -609,6 +695,41 @@
                     @endforeach
                     </select>
                     </div>
+                    <div class="row field_wrapper col-12">
+                        <div class="col-4 mt-3">
+                            <label for=""style="font-weight:bold;">Email:</label><br>
+                            <div class="btn-group">
+                                <input type="email" name="email[]" class="form-control" value="{{$clients[0]->email}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $(document).ready(function(){
+                            var maxField = 10; //Input fields increment limitation
+                            var addButton = $('.add_button'); //Add button selector
+                            var wrapper = $('.field_wrapper'); //Input field wrapper
+                            var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var x = 1; //Initial field counter is 1
+
+                            // Once add button is clicked
+                            $(addButton).click(function(){
+                                //Check maximum number of input fields
+                                if(x < maxField){
+                                    x++; //Increase field counter
+                                    $(wrapper).append(fieldHTML); //Add field html
+                                }else{
+                                    alert('A maximum of '+maxField+' fields are allowed to be added. ');
+                                }
+                            });
+
+                            // Once remove button is clicked
+                            $(wrapper).on('click', '.remove_button', function(e){
+                                e.preventDefault();
+                                $(this).parent('div').remove(); //Remove field html
+                                x--; //Decrease field counter
+                            });
+                        });
+                    </script>
                     <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Sales Person:</label>
                     <select class="form-control select2"  name="saleperson">

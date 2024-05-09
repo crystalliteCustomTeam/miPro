@@ -38,18 +38,49 @@
                     <input type="text" required name="phone" class="form-control">
                 </div>
                 <div class="col-4 mt-3">
-                    <label for=""style="font-weight:bold;">Email:</label>
-                    <input type="email" required name="email" class="form-control">
-                </div>
-                <div class="col-4 mt-3">
-                  <label for="" style="font-weight:bold;">Brand:</label>
-                  <select class="form-control" id="select2forme" required name="brand">
+                    <label for="" style="font-weight:bold;">Brand:</label>
+                    <select class="form-control" id="select2forme" required name="brand">
 
-                  @foreach ($Brands as $brand)
-                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                  @endforeach
-                  </select>
+                    @foreach ($Brands as $brand)
+                          <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                    @endforeach
+                    </select>
                 </div>
+                <div class="row field_wrapper col-12">
+                    <div class="col-4 mt-3">
+                        <label for=""style="font-weight:bold;">Email:</label><br>
+                        <div class="btn-group">
+                            <input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                        </div>
+                    </div>
+                </div>
+                  <script>
+                    $(document).ready(function(){
+                        var maxField = 10; //Input fields increment limitation
+                        var addButton = $('.add_button'); //Add button selector
+                        var wrapper = $('.field_wrapper'); //Input field wrapper
+                        var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                        var x = 1; //Initial field counter is 1
+
+                        // Once add button is clicked
+                        $(addButton).click(function(){
+                            //Check maximum number of input fields
+                            if(x < maxField){
+                                x++; //Increase field counter
+                                $(wrapper).append(fieldHTML); //Add field html
+                            }else{
+                                alert('A maximum of '+maxField+' fields are allowed to be added. ');
+                            }
+                        });
+
+                        // Once remove button is clicked
+                        $(wrapper).on('click', '.remove_button', function(e){
+                            e.preventDefault();
+                            $(this).parent('div').remove(); //Remove field html
+                            x--; //Decrease field counter
+                        });
+                    });
+                </script>
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Sales Person:</label>
                   <select class="form-control select2"   required name="saleperson">
@@ -228,3 +259,34 @@
 
 
 @endsection
+
+
+{{-- <form id="form" action="" method="POST">
+    <fieldset class="inputs-set" id="email-list" class="input-field">
+      <input class="input-field" type="email" name="email_field[]" required />
+    </fieldset>
+    <button class="btn-submit" type="submit">SUBMIT</button>
+  </form>
+  <button class="btn-add-input" onclick="addEmailField()" type="">
+    Add email
+  </button>
+
+  <script>
+    const myForm = document.getElementById("email-list");
+
+    function addEmailField() {
+      // create an input field to insert
+      const newEmailField = document.createElement("input");
+      // set input field data type to text
+      newEmailField.type = "email";
+      // set input field name
+      newEmailField.name = "email_field";
+      // set required
+      newEmailField.setAttribute("required", "");
+
+      newEmailField.classList.add("input-field");
+
+      // insert element
+      myForm.appendChild(newEmailField);
+    }
+  </script> --}}

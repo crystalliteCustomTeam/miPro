@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('maincontent')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
             <a class="breadcrumb-item" href="#">Client</a>
-            <span class="breadcrumb-item active">Client Remaining Payment</span>
+            <span class="breadcrumb-item active">Client Payment</span>
           </nav>
         </div><!-- br-pageheader -->
 
@@ -15,7 +16,7 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Client Remaining Payment</h4>
+            <h4>Client Payment</h4>
             <p class="mg-b-0">Client</p>
           </div>
         </div><!-- d-flex -->
@@ -24,7 +25,7 @@
           <div class="br-section-wrapper">
             @foreach ($mainPayments as $mainPayment)
 
-            <form action="/client/project/payment/remaining/{{$mainPayment->id}}/process" method="POST" enctype="multipart/form-data">
+            <form action="/client/project/payment/pending/{{$mainPayment->id}}/process" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="remainingID" value="{{ substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,6)}}">
                 <input type="hidden" name="project" value=" {{$projectmanager[0]->id }} ">
@@ -37,6 +38,23 @@
                 <input type="hidden" name="brandID" value=" {{$projectmanager[0]->ClientName->projectbrand->id}} ">
 
                 <div class="row">
+
+                    <div class="col-11 mt-3">
+                        <label for="" style="font-weight:bold;">Stripe Payment:</label>
+                        <select class="form-control select2" required name="stripe"  id="payment-stripe" >
+                            @foreach ($stripePayment as $referencepayments)
+                            <option value="{{ $referencepayments->id }}">{{ $referencepayments->paymentclientName->name }}
+                                --
+                                Paid:{{ $referencepayments->Paid }}
+                                --
+                                {{ $referencepayments->Description }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-1 mt-5">
+                        <button class="btn btn-primary" id="searchstripepayment">Get</button>
+                    </div>
 
 
                     <div class="col-4 mt-3">
@@ -58,7 +76,17 @@
                     <div class="col-4 mt-3">
                       <label for="" style="font-weight:bold;">Payment Nature:</label>
                       <select class="form-control select2" required name="paymentNature"  id="paymentNaturetype" onchange="paymentnature()">
-                            <option value="Remaining" selected>Remaining</option>
+                            {{-- <option value="Select">Select</option> --}}
+                            <option value="{{$mainPayment->paymentNature}}" selected>{{$mainPayment->paymentNature}}</option>
+                            {{-- <option value="New Lead">New Lead</option>
+                            <option value="New Sale">New Sale</option> --}}
+                            {{-- <option value="Renewal Payment">Renewal Payment</option>
+                            <option value="Recurring Payment">Recurring Payment</option>
+                            <option value="Small Payment">Small Payment</option>
+                            <option value="Upsell">Upsell</option>
+                            <option value="Remaining">Remaining</option>
+                            <option value="One Time Payment">One Time Payment</option>
+                            <option value="ChargeBack Won">ChargeBack Won</option> --}}
                       </select>
                     </div>
                     <div class="col-4 mt-3" id="chargingpackage" style="display: none">
@@ -120,7 +148,7 @@
                       </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Card Brand:</label>
-                        <select  class="form-control select2" required name="cardBrand">
+                        <select  class="form-control select2" required name="cardBrand" id="cardbrand">
                             <option value="AMEX">AMEX</option>
                             <option value="DISCOVER">DISCOVER</option>
                             <option value="MasterCard">MasterCard</option>
@@ -154,16 +182,16 @@
                       </script>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Transaction ID:</label>
-                        <input type="text" class="form-control" required name="transactionID">
+                        <input type="text" class="form-control" required name="transactionID" id="stripeID">
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Date:</label>
-                        <input type="date" class="form-control" required name="paymentdate">
+                        <input type="date" class="form-control" required name="paymentdate" id="paymentdate">
                       </div>
-                    {{-- <div class="col-4 mt-3">
+                    <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Next Payment Date:</label>
                         <input type="date" class="form-control"  name="nextpaymentdate">
-                    </div> --}}
+                    </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;" >Sale Person:</label>
                         <select class="form-control select2" required name="saleperson">
@@ -196,14 +224,13 @@
                           @endforeach
                         </select>
                     </div> --}}
-                    <input type="hidden" name="accountmanager" value="{{$projectmanager[0]->EmployeeName->id}}">
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Total Amount:</label>
-                        <input type="text" class="form-control" required value="{{$mainPayment->RemainingAmount}}" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount">
+                        <input type="text" class="form-control" required value="{{$mainPayment->TotalAmount}}" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount">
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Client Paid</label>
-                        <input type="text" class="form-control" required value="{{$mainPayment->RemainingAmount}}" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
+                        <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" id="clientpaid">
                       </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Type</label>
@@ -274,12 +301,41 @@
 
                     <div class="col-12 mt-3">
                         <label for="" style="font-weight:bold;">Description:</label>
-                        <textarea required name="description" class="form-control" id="" cols="30" rows="10"></textarea>
+                        <textarea required name="description" class="form-control" id="desc" cols="30" rows="10"></textarea>
                     </div>
 
 
                 </div>
-                <div class="row mt-3">
+                @if (isset($projectmanager[0]->EmployeeName->id) and $projectmanager[0]->EmployeeName->id !== null)
+                        <input type="hidden" name="accountmanager" value="{{$projectmanager[0]->EmployeeName->id}}">
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                <br>
+                                <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
+                            </div>
+                            <div class="col-9">
+                                    @if (Session::has('Success'))
+
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>{{ Session::get('Success') }}</strong>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                                    </div>
+
+                                    @endif
+                                    @if (Session::has('Error'))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>{{ Session::get('Error') }}</strong>
+                                        <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                                    </div>
+                                    @endif
+                            </div>
+                        </div>
+                @else
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;" >Assign Project Manager</label>
+                    </div>
+                @endif
+                {{-- <div class="row mt-3">
                     <div class="col-3">
                         <br>
                         <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
@@ -300,7 +356,7 @@
                             </div>
                             @endif
                     </div>
-                </div>
+                </div> --}}
                </form>
 
 
@@ -309,60 +365,6 @@
           </div>
         </div>
 
-        <div class="br-pagebody">
-          <div class="br-section-wrapper">
-             <h2>All Payments By {{$projectmanager[0]->ClientName->name }}</h2>
-
-             <table class="table" id="datatable1">
-                <tr>
-                  <td style="font-weight:bold;">Notice ID</td>
-                  <td style="font-weight:bold;">Payment By</td>
-                  <td style="font-weight:bold;">Charged Amount</td>
-                  <td style="font-weight:bold;">Remaning Amount</td>
-                  <td style="font-weight:bold;">Total Payment</td>
-                  <td style="font-weight:bold;">Shared Managers</td>
-                  <td style="font-weight:bold;">Shared Amounts</td>
-                </tr>
-                <tbody>
-                  @foreach ($allPayments as $payments)
-                    <tr>
-                      <td>{{ $payments->id }}</td>
-                      <td>{{ $payments->saleEmployeesName->name }}</td>
-                      <td>${{ $payments->Paid }}</td>
-                      <td>${{ $payments->RemainingAmount }}</td>
-                      <td>${{ $payments->TotalAmount}}</td>
-                      @php
-                          $amount = json_decode( $payments->ShareAmount);
-                          $managers = json_decode( $payments->SplitProjectManager);
-                      @endphp
-                      <td>
-                        <ul>
-                            @foreach ($managers as $items)
-                            @if($items != 0 && $items != "--")
-                                <li>{{$items}}</li>
-                            @else
-
-                            @endif
-                            @endforeach
-                        </ul>
-                       </td>
-                       <td>
-                        <ul>
-                            @foreach ($amount as $item)
-                            @if(isset($item) && $items != "--")
-                                <li>${{$item}}</li>
-                            @else
-
-                            @endif
-                            @endforeach
-                        </ul>
-                       </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-             </table>
-          </div>
-        </div>
 
 
 
@@ -379,6 +381,70 @@
           </footer>
         </div><!-- br-mainpanel -->
         <!-- ########## END: MAIN PANEL ########## -->
+
+
+        <script>
+            $(document).ready(function () {
+
+                $("#searchstripepayment").click(function(event){
+                    event.preventDefault();
+                    let paymentID = $("#payment-stripe");
+                    $.ajax({
+                            url:"/api/fetch-stripeunlinkeddata",
+                            type:"get",
+                            data:{
+                                "payment_id":paymentID.val()
+                            },
+                            beforeSend:(()=>{
+                                paymentID.attr('disabled','disabled');
+                                $("#searchstripepayment").text("wait...");
+                                $("#searchstripepayment").attr('disabled','disabled');
+                            }),
+                            success:((Response)=>{
+                                    let cardbrand =  Response.cardbrand;
+                                    var newOption = new Option(cardbrand, cardbrand);
+                                    $('#cardbrand').append(newOption);
+                                    $(newOption).prop('selected', true);
+
+                                    let paymentgateway = Response.paymentgateway;
+                                    var newOption2 = new Option(paymentgateway, paymentgateway);
+                                    $('#paymentgateway').append(newOption2);
+                                    $(newOption2).prop('selected', true);
+
+                                    let transactionID = Response.transactionID;
+                                    $("#stripeID").val(transactionID);
+
+                                    let paymentdate =  Response.paymentdate;
+                                    $("#paymentdate").val(paymentdate);
+
+                                    let clientpaid = Response.clientpaid;
+                                    $("#clientpaid").val(clientpaid);
+
+
+                                    let description = Response.description;
+                                    $("#desc").val(description);
+
+
+                            paymentID.removeAttr('disabled');
+                            $("#searchstripepayment").text("Search");
+                            $("#searchstripepayment").removeAttr('disabled');
+
+
+                            }),
+                            error:(()=>{
+                                alert("Error Found Please Referesh Window And Try Again !")
+
+                                paymentID.removeAttr('disabled');
+                                $("#searchstripepayment").text("Search");
+                                $("#searchstripepayment").removeAttr('disabled');
+                            })
+
+                    });
+                });
+
+
+            });
+        </script>
 
 
 

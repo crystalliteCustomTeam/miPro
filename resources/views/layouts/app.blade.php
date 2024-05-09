@@ -464,22 +464,86 @@
         'use strict';
 
         $('#datatable1').DataTable({
-
+            drawCallback:function(){
+                $('.paginate_button ').on('click',()=>{
+                    setwhenweset();
+                });
+            }
         });
       });
 
       $(document).ready(function() {
         $('#select2forme,#frontsale,#projectmanager,.select2').select2();
-        frontsale
       });
 
       function setwhenweset(){
         $(document).ready(function() {
         $('#select2forme,#frontsale,#projectmanager,.select2').select2();
-        frontsale
+
       });
       }
+
+
     </script>
+
+<script>
+    $(document).ready(function(){
+       $("#fetchstripe").click(function(event){
+           event.preventDefault();
+           let transactionID = $("#transactionid");
+           $.ajax({
+                url:"/api/fetchStripe/transaction",
+                type:"get",
+                data:{
+                    "ID":transactionID.val()
+                },
+                beforeSend:(()=>{
+                    transactionID.attr('disabled','disabled');
+                    $("#fetchstripe").text("Data Fetching Please Wait");
+                    $("#fetchstripe").attr('disabled','disabled');
+                }),
+                success:((Response)=>{
+                    results = JSON.parse(Response);
+                    if(results.status != 200){
+                        alert(results.message);
+                    }
+                    else{
+                        let ClientPaidAmount =  results.message.amount_captured;
+                        let cardBrand = results.message.payment_method_details.card.brand;
+                        $("#amountPaid").val(ClientPaidAmount / 100);
+
+                        var newOption = new Option(cardBrand, cardBrand);
+
+                        // Append the new option to the select element
+                        $('#clientcard').append(newOption);
+
+                        // Set the newly added option as selected
+                        $(newOption).prop('selected', true);
+
+                    }
+
+
+                    transactionID.removeAttr('disabled');
+                    $("#fetchstripe").text("Fetch Record");
+                    $("#fetchstripe").removeAttr('disabled');
+                }),
+                error:(()=>{
+                    alert("Error Found Please Referesh Window And Try Again !")
+                })
+
+           });
+       });
+   });
+
+   </script>
+
+
+
+
+
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   </body>
 </html>

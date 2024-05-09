@@ -6,7 +6,7 @@
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
-            <a class="breadcrumb-item" href="#">Payments</a>
+            <a class="breadcrumb-item" href="#">Client</a>
             <span class="breadcrumb-item active">Set Up Payments</span>
           </nav>
         </div><!-- br-pageheader -->
@@ -15,62 +15,56 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Set Up Payments</h4>
+            <h4>Stripe Payments(CSV)</h4>
             <p class="mg-b-0">Payments</p>
           </div>
         </div><!-- d-flex -->
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-            <h3 style="color:black" class="mb-5">Select Project:</h3>
-           <form action="/client/add/payment/process" method="POST">
+           <form action="/forms/csv_uploads_stripePayments/process" method="POST" enctype="multipart/form-data">
             @csrf
-
             <div class="row">
-            <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Select Project:</label>
-                    <select class="form-control select2"  required name="projectname">
-                        @foreach($projects as $project)
-                            <option value="{{ $project->id }}">
-                            {{ $project->name }}
-                            --
-                            {{ $project->ClientName->name }}
-                            --
-                            {{ $project->ClientName->projectbrand->name }}
 
-                            </option>
-                        @endforeach
-                    </select>
+                <div class="col-6  mt-3">
+                    <label for="">Upload</label>
+                    <input type="file" name="stripepayments" class="form-control" required>
+                </div>
 
-              </div>
-              <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Select Type:</label>
-                    <select class="form-control"  required name="payment_type">
-                            <option value="0">Add Payment</option>
-                            <option value="1">Refund</option>
-                    </select>
 
-              </div>
+                <div class="col-4  mt-3">
+                    <br>
+                    <input type="submit" value="Upload" name="" class="btn btn-success mt-2">
+                </div>
+                <div class="col-4">
+                        @if (Session::has('Success'))
 
-                <div class="col-12">
-                    <input type="submit" value="Submit" class=" mt-3 btn btn-success">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('Success') }}</strong>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                        </div>
+
+                        @endif
+                        @if (Session::has('Error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('Error') }}</strong>
+                            <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                        </div>
+                        @endif
                 </div>
             </div>
            </form>
+
+
+
+
+
+
+
+
+
           </div><!-- br-section-wrapper -->
         </div><!-- br-pagebody -->
-
-
-
-
-
-
-
-
-
-
-
-
         <footer class="br-footer">
           <div class="footer-left">
             <div class="mg-b-2">Copyright &copy; 2017. Crystal Pro. All Rights Reserved.</div>

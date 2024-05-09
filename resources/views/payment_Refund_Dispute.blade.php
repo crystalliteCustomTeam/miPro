@@ -34,11 +34,12 @@
             @if (isset($client_payment[0]->saleEmployeesName->name) and $client_payment[0]->saleEmployeesName->name !== null)
             <button class="btn btn-outline-primary">Sales Person: {{$client_payment[0]->saleEmployeesName->name}}</button>
             @else
-            <button class="btn btn-outline-danger">Project Manager: User Deleted</button>
+            <button class="btn btn-outline-danger">Sales Person: User Deleted</button>
             @endif
             <button class="btn btn-outline-primary">Payment Nature: {{$client_payment[0]->paymentNature}}</button>
             <button class="btn btn-outline-primary">Charging Plan: {{$client_payment[0]->ChargingPlan}}</button>
             <button class="btn btn-outline-primary">Payment Modes: {{$client_payment[0]->ChargingMode}}</button>
+            <button class="btn btn-outline-primary">Payment Type: {{$client_payment[0]->PaymentType}}</button>
             <button class="btn btn-outline-primary">Payment Date: {{$client_payment[0]->paymentDate}}</button>
             <button class="btn btn-outline-primary">Next Payment Date: {{$client_payment[0]->futureDate}}</button>
             <button class="btn btn-outline-primary">Total Amount: {{$client_payment[0]->TotalAmount}}</button>
@@ -80,6 +81,36 @@
                     <label for="" style="font-weight:bold;">Chargeback Description:</label>
                     <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10"></textarea>
                 </div>
+                <div class="col-12 mt-3">
+                    <br><br>
+                </div>
+                @if ($client_payment[0]->PaymentType == "Split Payment")
+                    <div class="col-12 mt-3" >
+                        <label for="" style="font-weight:bold;font-size:150%;">Employee Shared Amount:</label>
+                        <div class="row">
+                            @foreach ($employee_payment as $item)
+                            <div class="col-6">
+                                <div class="col-12 mt-3">
+                                    <label for="" style="font-weight:bold;font-size:150%;">Project Manager:</label><br>
+                                    <label for="" style="font-size:150%;">{{$item->empname->name}}</label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="col-12 mt-3">
+                                    <label for="" style="font-weight:bold;font-size:150%;">Shared Amount:</label><br>
+                                    <label for="" style="font-size:150%;">${{$item->amount}}</label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="col-12 mt-3">
+                                    <label for="" style="font-weight:bold;">New Amount:</label>
+                                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]" value="0">
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
             </div>
             <div class="row mt-3">

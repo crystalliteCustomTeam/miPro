@@ -35,9 +35,11 @@ class NewPaymentsClients extends Model
         "ShareAmount",
         "Description",
         "refundStatus",
+        "refundID",
         "remainingID",
         "remainingStatus",
-        "transactionType"
+        "transactionType",
+        "dispute"
 
     ];
 
