@@ -68,7 +68,7 @@
                         <option value="Upsell">Upsell</option>
                         <option value="Remaining">Remaining</option>
                         <option value="One Time Payment">One Time Payment</option>
-                        <option value="ChargeBack Won">Dispute Won</option>
+                        {{-- <option value="ChargeBack Won">Dispute Won</option> --}}
                   </select>
                 </div>
                 <div class="col-8 mt-3" id="remainingpaymentfor" style="display: none">

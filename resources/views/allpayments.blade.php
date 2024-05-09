@@ -53,8 +53,31 @@
                                 --
                                 {{$item->paymentprojectName->name}}
                             </td>
-                            {{-- <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}}</td> --}}
-                            <td>{{$item->paymentNature}}</td>
+                            <td>
+                                @if ( $item->paymentNature == "New Lead" || $item->paymentNature == "New Sale" || $item->paymentNature == "Upsell" )
+                                    <div class="alert alert-success">
+                                        {{$item->paymentNature}}
+                                    </div>
+                                @elseif ( $item->paymentNature == "Renewal Payment" || $item->paymentNature == "Recurring Payment" )
+                                    <div class="alert alert-info ">
+                                        {{$item->paymentNature}}
+                                    </div>
+                                @elseif ( $item->paymentNature == "Small Payment" || $item->paymentNature == "One Time Payment" )
+                                    <div class="alert alert-primary">
+                                        {{$item->paymentNature}}
+                                    </div>
+                                @elseif( $item->paymentNature == "Dispute Won")
+                                    <div class="alert alert-warning">
+                                        {{$item->paymentNature}}
+                                    </div>
+                                @elseif( $item->paymentNature == "Dispute Lost" ||  $item->refundStatus == "Refund" ||  $item->refundStatus == "Refunded" )
+                                    <div class="alert alert-danger">
+                                        {{$item->paymentNature}}
+                                    </div>
+                                @else
+                                {{$item->paymentNature}}
+                                @endif
+                            </td>
                             <td>{{$item->paymentDate}}</td>
                             <td>${{$item->TotalAmount}}</td>
                             <td>${{$item->Paid}}</td>
@@ -102,7 +125,7 @@
                         <td>{{$item->Description}}</td>
                         <td>
                             <div class="btn-group">
-                                <a href="/client/project/payment/edit/{{$item->id}}" class="btn btn-primary">Edit</a>
+                                <a href="/client/project/payment/edit/{{$item->id}}" class="btn btn-primary">Link</a>
                                 <a href="#" onclick="myConfirm('{{ $item->id }}')" class="btn btn-danger">Delete</a>
                             </div>
                         </td>
