@@ -28,3 +28,5 @@ Route::get('/fetch-projectdata', [BasicController::class, 'fetchprojectdata']);
 Route::get('/fetch-username', [BasicController::class, 'ajax_username']);
 
 Route::get('/fetch-paymentdata', [BasicController::class, 'fetchPaymentdata']);
+
+Route::get('/fetch-stripeunlinkeddata', [BasicController::class, 'fetchstripeunlinkeddata']);

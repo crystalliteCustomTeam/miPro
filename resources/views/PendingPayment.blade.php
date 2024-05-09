@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('maincontent')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -37,6 +38,23 @@
                 <input type="hidden" name="brandID" value=" {{$projectmanager[0]->ClientName->projectbrand->id}} ">
 
                 <div class="row">
+
+                    <div class="col-11 mt-3">
+                        <label for="" style="font-weight:bold;">Stripe Payment:</label>
+                        <select class="form-control select2" required name="stripe"  id="payment-stripe" >
+                            @foreach ($stripePayment as $referencepayments)
+                            <option value="{{ $referencepayments->id }}">{{ $referencepayments->paymentclientName->name }}
+                                --
+                                Paid:{{ $referencepayments->Paid }}
+                                --
+                                {{ $referencepayments->Description }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-1 mt-5">
+                        <button class="btn btn-primary" id="searchstripepayment">Get</button>
+                    </div>
 
 
                     <div class="col-4 mt-3">
@@ -130,7 +148,7 @@
                       </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Card Brand:</label>
-                        <select  class="form-control select2" required name="cardBrand">
+                        <select  class="form-control select2" required name="cardBrand" id="cardbrand">
                             <option value="AMEX">AMEX</option>
                             <option value="DISCOVER">DISCOVER</option>
                             <option value="MasterCard">MasterCard</option>
@@ -164,11 +182,11 @@
                       </script>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Transaction ID:</label>
-                        <input type="text" class="form-control" required name="transactionID">
+                        <input type="text" class="form-control" required name="transactionID" id="stripeID">
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Date:</label>
-                        <input type="date" class="form-control" required name="paymentdate">
+                        <input type="date" class="form-control" required name="paymentdate" id="paymentdate">
                       </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Next Payment Date:</label>
@@ -212,7 +230,7 @@
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Client Paid</label>
-                        <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
+                        <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" id="clientpaid">
                       </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Type</label>
@@ -283,7 +301,7 @@
 
                     <div class="col-12 mt-3">
                         <label for="" style="font-weight:bold;">Description:</label>
-                        <textarea required name="description" class="form-control" id="" cols="30" rows="10"></textarea>
+                        <textarea required name="description" class="form-control" id="desc" cols="30" rows="10"></textarea>
                     </div>
 
 
@@ -363,6 +381,70 @@
           </footer>
         </div><!-- br-mainpanel -->
         <!-- ########## END: MAIN PANEL ########## -->
+
+
+        <script>
+            $(document).ready(function () {
+
+                $("#searchstripepayment").click(function(event){
+                    event.preventDefault();
+                    let paymentID = $("#payment-stripe");
+                    $.ajax({
+                            url:"/api/fetch-stripeunlinkeddata",
+                            type:"get",
+                            data:{
+                                "payment_id":paymentID.val()
+                            },
+                            beforeSend:(()=>{
+                                paymentID.attr('disabled','disabled');
+                                $("#searchstripepayment").text("wait...");
+                                $("#searchstripepayment").attr('disabled','disabled');
+                            }),
+                            success:((Response)=>{
+                                    let cardbrand =  Response.cardbrand;
+                                    var newOption = new Option(cardbrand, cardbrand);
+                                    $('#cardbrand').append(newOption);
+                                    $(newOption).prop('selected', true);
+
+                                    let paymentgateway = Response.paymentgateway;
+                                    var newOption2 = new Option(paymentgateway, paymentgateway);
+                                    $('#paymentgateway').append(newOption2);
+                                    $(newOption2).prop('selected', true);
+
+                                    let transactionID = Response.transactionID;
+                                    $("#stripeID").val(transactionID);
+
+                                    let paymentdate =  Response.paymentdate;
+                                    $("#paymentdate").val(paymentdate);
+
+                                    let clientpaid = Response.clientpaid;
+                                    $("#clientpaid").val(clientpaid);
+
+
+                                    let description = Response.description;
+                                    $("#desc").val(description);
+
+
+                            paymentID.removeAttr('disabled');
+                            $("#searchstripepayment").text("Search");
+                            $("#searchstripepayment").removeAttr('disabled');
+
+
+                            }),
+                            error:(()=>{
+                                alert("Error Found Please Referesh Window And Try Again !")
+
+                                paymentID.removeAttr('disabled');
+                                $("#searchstripepayment").text("Search");
+                                $("#searchstripepayment").removeAttr('disabled');
+                            })
+
+                    });
+                });
+
+
+            });
+        </script>
 
 
 

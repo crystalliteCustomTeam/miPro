@@ -3029,6 +3029,9 @@ class BasicController extends Controller
 
         return redirect('/client/project/payment/all');
     }
+
+
+
     function all_disputes(Request $request){
         $loginUser = $this->roleExits($request);
         $client_payment = Disputedpayments::get();
@@ -3040,6 +3043,9 @@ class BasicController extends Controller
             'superUser' => $loginUser[2]
         ]);
     }
+
+
+
     function payment_Dispute_lost(Request $request, $id){
         $loginUser = $this->roleExits($request);
         $dispute = Disputedpayments::where('id',$id)->get();
@@ -3179,6 +3185,9 @@ class BasicController extends Controller
         return redirect('/client/project/payment/all');
 
     }
+
+
+
     function payment_Dispute_won(Request $request, $id){
         $loginUser = $this->roleExits($request);
         $dispute = Disputedpayments::where('id',$id)->get();
@@ -3292,6 +3301,8 @@ class BasicController extends Controller
         return redirect('/client/project/payment/all');
 
     }
+
+
 
     function projectpayment_view_dispute($id, Request $request)
     {
@@ -4877,6 +4888,7 @@ class BasicController extends Controller
 
         $loginUser = $this->roleExits($request);
         $mainPayment = NewPaymentsClients::where('id', $id)->get();
+        $stripePayment = NewPaymentsClients::where('ClientID', $mainPayment[0]->ClientID)->where('remainingStatus',"Unlinked Payments")->get();
 
         $findproject = Project::where('id', $mainPayment[0]->ProjectID)->get();
         $findclient = Client::get();
@@ -4890,10 +4902,35 @@ class BasicController extends Controller
             'projectmanager' => $findproject,
             'clients' => $findclient,
             'employee' => $findemployee,
+            'stripePayment' => $stripePayment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]]);
 
+    }
+    public function fetchstripeunlinkeddata(Request $request)
+    {
+        $data['paymentdata'] = NewPaymentsClients::where("id", $request->payment_id)->get();
+
+        $cardbrand = $data['paymentdata'][0]->Card_Brand;
+        $paymentgateway = $data['paymentdata'][0]->Payment_Gateway;
+        $transactionID = $data['paymentdata'][0]->TransactionID;
+        $paymentdate = $data['paymentdata'][0]->paymentDate;
+        $clientpaid = $data['paymentdata'][0]->Paid;
+        $description = $data['paymentdata'][0]->Description;
+
+        $return_array = [
+            "cardbrand" => $cardbrand,
+            "paymentgateway" => $paymentgateway,
+            "transactionID" => $transactionID,
+            "paymentdate" => $paymentdate,
+            "clientpaid" => $clientpaid,
+            "description" => $description
+        ];
+
+        $deleteexistingStripeUnlinked = NewPaymentsClients::where("TransactionID", $transactionID)->delete();
+
+        return response()->json($return_array);
     }
     function payment_pending_amount_process(Request $request, $id){
         $paymentType = $request->input('paymentType');
@@ -5098,6 +5135,9 @@ class BasicController extends Controller
     function delete_payment(Request $request, $id){
 
         $getpayment = DB::table('newpaymentsclients')->where('id', $id)->get();
+        // echo("<pre>");
+        // print_r($getpayment[0]->paymentNature);
+        // die();
 
         if($getpayment[0]->paymentNature == "New Lead" || $getpayment[0]->paymentNature == "New Sale" || $getpayment[0]->paymentNature == "Upsell"){
 
@@ -5115,7 +5155,7 @@ class BasicController extends Controller
             }
 
 
-        }elseif($getpayment->paymentNature == "Remaining"){
+        }elseif($getpayment[0]->paymentNature == "Remaining"){
 
             $getRefundpayment = DB::table('refundtable')->where('PaymentID', $getpayment[0]->id)->delete();
             $getemployeepayment = DB::table('employeepayment')->where('paymentID', $getpayment[0]->id)->delete();
@@ -6939,7 +6979,5 @@ class BasicController extends Controller
 
         return redirect('/payments/unmatched');
     }
-
-
 
 }
