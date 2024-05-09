@@ -68,7 +68,7 @@
         <li class="sub-item"><a href="/forms/website" class="sub-link">Website Kyc</a></li>
         <li class="sub-item"><a href="/forms/cld" class="sub-link">CLD Kyc</a></li>
         <li class="sub-item"><a href="/forms/csv_uploads" class="sub-link">Client Registration(CSV)</a></li>
-        {{-- <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li> --}}
+        <li class="sub-item"><a href="/client/emails" class="sub-link">push emails</a></li>
       </ul>
     </li><!-- br-menu-item -->
     <li class="br-menu-item">
@@ -97,8 +97,11 @@
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
           <li class="sub-item"><a href="/client/add/payment" class="sub-link">Add Payment</a></li>
-          <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">Payments</a></li>
-          <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">Refund/Disputes</a></li>
+          {{-- <li class="sub-item"><a href="/client/new/payment" class="sub-link">Stripe Payments</a></li> --}}
+          <li class="sub-item"><a href="/forms/csv_uploads_stripePayments" class="sub-link">Stripe Payments(CSV)</a></li>
+          <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">All Payments</a></li>
+          <li class="sub-item"><a href="/payments/unmatched" class="sub-link">Unmatched Payments</a></li>
+          <li class="sub-item"><a href="/client/project/payment/disputes" class="sub-link">Disputes</a></li>
         </ul>
       </li><!-- br-menu-item -->
     <li class="br-menu-item">

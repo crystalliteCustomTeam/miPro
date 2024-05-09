@@ -35,7 +35,10 @@
             <input type="hidden" name="brandID" value=" {{$projectmanager[0]->ClientName->projectbrand->id}} ">
 
             <div class="row">
-
+                {{-- <div class="col-12 mt-3">
+                    <input type="text" class="form-control mb-3 " id="transactionid" placeholder="Transaction ID">
+                    <button class="btn btn-primary" id="fetchstripe">Fetch From Stripe</button>
+                </div> --}}
 
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;font-size:150%;">Client Name:</label>
@@ -44,8 +47,8 @@
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;font-size:150%;">Project Name:</label>
                     <label for="" style="font-size:150%;">{{$projectmanager[0]->name }}</label>
-                  </div>
-                 <div class="col-4 mt-3">
+                </div>
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;font-size:150%;">Project Manager:</label>
                     @if (isset($projectmanager[0]->EmployeeName->name) and $projectmanager[0]->EmployeeName->name !== null)
                     <label for="" style="font-size:150%;">{{$projectmanager[0]->EmployeeName->name }}</label>
@@ -65,8 +68,29 @@
                         <option value="Upsell">Upsell</option>
                         <option value="Remaining">Remaining</option>
                         <option value="One Time Payment">One Time Payment</option>
-                        <option value="ChargeBack Won">ChargeBack Won</option>
+                        <option value="ChargeBack Won">Dispute Won</option>
                   </select>
+                </div>
+                <div class="col-8 mt-3" id="remainingpaymentfor" style="display: none">
+                    <label for="" style="font-weight:bold;">Remaining For:</label>
+                    <input type="hidden" name="remainingpaymentcount" value="{{$remainingpaymentcount}}">
+                    <input type="hidden" name="remainingID" value="{{ substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,6)}}">
+                    <select class="form-control"  name="remainingamountfor">
+                        @if ($remainingpaymentcount == 0)
+                            <option value="">No Remaining Amount</option>
+                        @else
+                            @foreach ($remainingpayments as $remainingpayment)
+                                <option value="{{ $remainingpayment->id }}">{{ $remainingpayment->paymentNature }}
+                                    --
+                                    Total:{{ $remainingpayment->TotalAmount }}
+                                    --
+                                    Remaining:<strong>{{ $remainingpayment->RemainingAmount }}</strong>
+                                    --
+                                    {{ $remainingpayment->Description }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
                 </div>
                 <div class="col-4 mt-3" id="chargingpackage" style="display: none">
                     <label for="" style="font-weight:bold;">Charging Plan</label>
@@ -101,13 +125,20 @@
                     var paymentNature = document.getElementById("paymentNaturetype").value;
                     var chargingpackage = document.getElementById("chargingpackage");
                     var paymentMode = document.getElementById("paymentMode");
+                    var remainingamtfor = document.getElementById("remainingpaymentfor");
 
                     if (paymentNature === "New Lead" || paymentNature === "New Sale" || paymentNature === "Upsell"){
                         chargingpackage.style.display = 'block';
                         paymentMode.style.display = 'block';
+                        remainingamtfor.style.display = 'none';
+                    }else if(paymentNature === "Remaining"){
+                        chargingpackage.style.display = 'none';
+                        paymentMode.style.display = 'none';
+                        remainingamtfor.style.display = 'block';
                     }else{
                         chargingpackage.style.display = 'none';
                         paymentMode.style.display = 'none';
+                        remainingamtfor.style.display = 'none';
                     }
                     }
                   </script>
@@ -127,7 +158,8 @@
                   </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Card Brand:</label>
-                    <select  class="form-control select2" required name="cardBrand">
+                    <select  class="form-control " required name="cardBrand" id="clientcard">
+
                         <option value="AMEX">AMEX</option>
                         <option value="DISCOVER">DISCOVER</option>
                         <option value="MasterCard">MasterCard</option>
@@ -173,26 +205,26 @@
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;" >Sale Person:</label>
-                    <select class="form-control select2" required name="saleperson">
-                      @foreach ($employee as $client)
-                            @if (isset($projectmanager[0]->EmployeeName->id) and $projectmanager[0]->EmployeeName->id !== null)
-                            <option value="{{ $client->id }}"{{ $client->id == $findclientofproject[0]->frontSeler ? 'selected' : '' }}>{{ $client->name }}
-                            --
-                            @else
-                            <option value="{{ $client->id }}">{{ $client->name }}
-                            --
-                            @endif
-                            @foreach($client->deparment($client->id)  as $dm)
-                            <strong>{{ $dm->name }}</strong>
+                        <select class="form-control select2" required name="saleperson">
+                            @foreach ($saleemployee as $client)
+                                @if (isset($findclientofproject[0]->frontSeler) and $findclientofproject[0]->frontSeler !== null)
+                                <option value="{{ $client->id }}"{{ $client->id == $findclientofproject[0]->frontSeler ? 'selected' : '' }}>{{ $client->name }}
+                                --
+                                @else
+                                <option value="{{ $client->id }}">{{ $client->name }}
+                                --
+                                @endif
+                                @foreach($client->deparment($client->id)  as $dm)
+                                <strong>{{ $dm->name }}</strong>
+                                @endforeach
+                            </option>
                             @endforeach
-                        </option>
-                      @endforeach
-                    </select>
+                        </select>
                 </div>
-                <div class="col-4 mt-3">
+                {{-- <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;" >Account Manager:</label>
-                    <select class="form-control select2" required name="accountmanager">
-                      @foreach ($employee as $client)
+                    <select class="form-control select2" required name="accountmanager1" disabled>
+                      @foreach ($pmemployee as $client)
                             @if (isset($projectmanager[0]->EmployeeName->id) and $projectmanager[0]->EmployeeName->id !== null)
                             <option value="{{ $client->id }}"{{ $client->id == $projectmanager[0]->EmployeeName->id ? 'selected' : '' }}>{{ $client->name }}
                             --
@@ -206,14 +238,15 @@
                         </option>
                       @endforeach
                     </select>
-                </div>
+                </div> --}}
+                <input type="hidden" name="accountmanager" value="{{$projectmanager[0]->EmployeeName->id}}">
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Amount:</label>
-                    <input type="text" class="form-control" required value="@if($AmountCheck) {{ $projectmanager[0]->ClientName->clientMetas->amountPaid }} @endif" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount">
+                    <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="totalamount">
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
-                    <input type="text" class="form-control" required value="@if($AmountCheck) {{ $projectmanager[0]->ClientName->clientMetas->amountPaid }} @endif" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
+                    <input id="amountPaid" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Payment Type</label>
@@ -317,60 +350,7 @@
           </div>
         </div>
 
-        <div class="br-pagebody">
-          <div class="br-section-wrapper">
-             <h2>All Payments By {{$projectmanager[0]->ClientName->name }}</h2>
 
-             <table class="table" id="datatable1">
-                <tr>
-                  <td style="font-weight:bold;">Notice ID</td>
-                  <td style="font-weight:bold;">Payment By</td>
-                  <td style="font-weight:bold;">Charged Amount</td>
-                  <td style="font-weight:bold;">Remaning Amount</td>
-                  <td style="font-weight:bold;">Total Payment</td>
-                  <td style="font-weight:bold;">Shared Managers</td>
-                  <td style="font-weight:bold;">Shared Amounts</td>
-                </tr>
-                <tbody>
-                  @foreach ($allPayments as $payments)
-                    <tr>
-                      <td>{{ $payments->id }}</td>
-                      <td>{{ $payments->saleEmployeesName->name }}</td>
-                      <td>${{ $payments->Paid }}</td>
-                      <td>${{ $payments->RemainingAmount }}</td>
-                      <td>${{ $payments->TotalAmount}}</td>
-                      @php
-                          $amount = json_decode( $payments->ShareAmount);
-                          $managers = json_decode( $payments->SplitProjectManager);
-                      @endphp
-                      <td>
-                        <ul>
-                            @foreach ($managers as $items)
-                            @if($items != 0 && $items != "--")
-                                <li>{{$items}}</li>
-                            @else
-
-                            @endif
-                            @endforeach
-                        </ul>
-                       </td>
-                       <td>
-                        <ul>
-                            @foreach ($amount as $item)
-                            @if(isset($item) && $items != "--")
-                                <li>${{$item}}</li>
-                            @else
-
-                            @endif
-                            @endforeach
-                        </ul>
-                       </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-             </table>
-          </div>
-        </div>
 
 
 

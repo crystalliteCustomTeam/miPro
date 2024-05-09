@@ -7,7 +7,7 @@
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
             <a class="breadcrumb-item" href="#">Client</a>
-            <span class="breadcrumb-item active">Client Payment</span>
+            <span class="breadcrumb-item active">Client Remaining Payment</span>
           </nav>
         </div><!-- br-pageheader -->
 
@@ -15,7 +15,7 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Client Payment</h4>
+            <h4>Client Remaining Payment</h4>
             <p class="mg-b-0">Client</p>
           </div>
         </div><!-- d-flex -->
@@ -178,7 +178,7 @@
                           @endforeach
                         </select>
                     </div>
-                    <div class="col-4 mt-3">
+                    {{-- <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;" >Account Manager:</label>
                         <select class="form-control select2" required name="accountmanager">
                           @foreach ($employee as $client)
@@ -195,7 +195,8 @@
                             </option>
                           @endforeach
                         </select>
-                    </div>
+                    </div> --}}
+                    <input type="hidden" name="accountmanager" value="{{$projectmanager[0]->EmployeeName->id}}">
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Total Amount:</label>
                         <input type="text" class="form-control" required value="{{$mainPayment->RemainingAmount}}" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount">

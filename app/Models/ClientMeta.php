@@ -17,7 +17,8 @@ class ClientMeta extends Model
         'remainingAmount',
         'nextPayment',
         'paymentRecuring',
-        'orderDetails'
+        'orderDetails',
+        'otheremail'
     ];
-    
+
 }

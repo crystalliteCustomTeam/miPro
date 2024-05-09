@@ -188,7 +188,7 @@
                           @endforeach
                         </select>
                     </div>
-                    <div class="col-4 mt-3">
+                    {{-- <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;" >Account Manager:</label>
                         <select class="form-control select2" required name="accountmanager">
                           @foreach ($employee as $client)
@@ -205,7 +205,7 @@
                             </option>
                           @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Total Amount:</label>
                         <input type="text" class="form-control" required value="{{$mainPayment->TotalAmount}}" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount">
@@ -288,7 +288,36 @@
 
 
                 </div>
-                <div class="row mt-3">
+                @if (isset($projectmanager[0]->EmployeeName->id) and $projectmanager[0]->EmployeeName->id !== null)
+                        <input type="hidden" name="accountmanager" value="{{$projectmanager[0]->EmployeeName->id}}">
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                <br>
+                                <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
+                            </div>
+                            <div class="col-9">
+                                    @if (Session::has('Success'))
+
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>{{ Session::get('Success') }}</strong>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                                    </div>
+
+                                    @endif
+                                    @if (Session::has('Error'))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>{{ Session::get('Error') }}</strong>
+                                        <button type="button" class="btn-danger" data-bs-dismiss="alert" aria-label="Close">X</button>
+                                    </div>
+                                    @endif
+                            </div>
+                        </div>
+                @else
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;" >Assign Project Manager</label>
+                    </div>
+                @endif
+                {{-- <div class="row mt-3">
                     <div class="col-3">
                         <br>
                         <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
@@ -309,7 +338,7 @@
                             </div>
                             @endif
                     </div>
-                </div>
+                </div> --}}
                </form>
 
 
@@ -318,60 +347,6 @@
           </div>
         </div>
 
-        <div class="br-pagebody">
-          <div class="br-section-wrapper">
-             <h2>All Payments By {{$projectmanager[0]->ClientName->name }}</h2>
-
-             <table class="table" id="datatable1">
-                <tr>
-                  <td style="font-weight:bold;">Notice ID</td>
-                  <td style="font-weight:bold;">Payment By</td>
-                  <td style="font-weight:bold;">Charged Amount</td>
-                  <td style="font-weight:bold;">Remaning Amount</td>
-                  <td style="font-weight:bold;">Total Payment</td>
-                  <td style="font-weight:bold;">Shared Managers</td>
-                  <td style="font-weight:bold;">Shared Amounts</td>
-                </tr>
-                <tbody>
-                  @foreach ($allPayments as $payments)
-                    <tr>
-                      <td>{{ $payments->id }}</td>
-                      <td>{{ $payments->saleEmployeesName->name }}</td>
-                      <td>${{ $payments->Paid }}</td>
-                      <td>${{ $payments->RemainingAmount }}</td>
-                      <td>${{ $payments->TotalAmount}}</td>
-                      @php
-                          $amount = json_decode( $payments->ShareAmount);
-                          $managers = json_decode( $payments->SplitProjectManager);
-                      @endphp
-                      <td>
-                        <ul>
-                            @foreach ($managers as $items)
-                            @if($items != 0 && $items != "--")
-                                <li>{{$items}}</li>
-                            @else
-
-                            @endif
-                            @endforeach
-                        </ul>
-                       </td>
-                       <td>
-                        <ul>
-                            @foreach ($amount as $item)
-                            @if(isset($item) && $items != "--")
-                                <li>${{$item}}</li>
-                            @else
-
-                            @endif
-                            @endforeach
-                        </ul>
-                       </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-             </table>
-          </div>
-        </div>
 
 
 

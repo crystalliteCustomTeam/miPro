@@ -86,6 +86,9 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/kyc/edit/{id}','editClient');
         Route::get('/clientmetaupdate/{id}/{n}','editClientmeta');
 
+        //pushemailstometa
+        Route::get('/client/emails','pushEmailtometa');
+
         //qaform:
         Route::get('/forms/qaform_d','qaform');
         Route::get('/allfilled/qaforms','filledqaformIndv');
@@ -123,12 +126,26 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/client/project/payment/report/view/{id}','payment_view1');
         Route::get('/client/project/payment/all','all_payments');
         //refund
-        Route::get('/client/project/payment/RefundDispute/{id}','payment_Refund_Dispute');
-        Route::post('/client/project/payment/RefundDispute/{id}/process','payment_Refund_Dispute_Process');
+        Route::get('/client/project/payment/Refund/{id}','payment_Refund');
+        Route::post('/client/project/payment/Refund/process','payment_Refund_Process');
+        //dispute:
+        Route::get('/client/project/payment/Dispute/{id}','payment_Dispute');
+        Route::post('/client/project/payment/Dispute/process','payment_Dispute_Process');
+        //disputeTable
+        Route::get('/client/project/payment/disputes','all_disputes');
+        //disputeLost:
+         Route::get('/client/project/payment/Dispute/lost/{id}','payment_Dispute_lost');
+         Route::post('/client/project/payment/Dispute/process/lost','payment_Dispute_Process_lost');
+        //disputeWon:
+        Route::get('/client/project/payment/Dispute/won/{id}','payment_Dispute_won');
+        Route::post('/client/project/payment/Dispute/process/won','payment_Dispute_Process_won');
+        //dispute view:
+        Route::get('/client/project/payment/Dispute/view/{id}','projectpayment_view_dispute');
+
         //remaining
         Route::get('/client/project/payment/remaining/{id}','payment_remaining_amount');
         Route::post('/client/project/payment/remaining/{id}/process','payment_remaining_amount_process');
-        //pending
+        //pending (Upcoming)
         Route::get('/client/project/payment/pending/{id}','payment_pending_amount');
         Route::post('/client/project/payment/pending/{id}/process','payment_pending_amount_process');
         //Edit
@@ -136,8 +153,18 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/client/project/payment/edit/{id}/process','payment_edit_amount_process');
         //deletePayments:
         Route::get('/client/project/payment/delete/{id}','delete_payment');
+        //new payments:
+        Route::get('/client/new/payment','new_payments');
+        Route::post('/client/new/payment/process','new_payments_process');
+        //csv_paymentsFromstripeUpload:
+        Route::get('/forms/csv_uploads_stripePayments','csv_stripepayments');
+        Route::post('/forms/csv_uploads_stripePayments/process','csv_stripepayments_process');
+        //Unmatched Payments:
+        Route::get('/payments/unmatched','unmatchedPayments');
 
-
+        //Link New Payment Email With Client:
+        Route::get('/client/newemail/{id}','NewEmailLinkCLient');
+        Route::post('/client/newemail/process','NewEmailLinkCLientprocess');
 
         //PROCESSES
         Route::post('/setupcompany/process','setupcompanyprocess');
@@ -151,6 +178,8 @@ Route::controller(BasicController::class)->group(function (){
 
 
         Route::post('/setupdepartment/process','setupdepartmentsProcess');
+        Route::get('/setupdepartment/users/{id}','selectdepartusers');
+        Route::post('/setupdepartment/setusers/{id}','addusersIndepart');
         Route::post('/editdepartment/{id}/process','editdepartmentprocess');
         Route::post('/forms/kyc/process/client','kycclientprocess');
         Route::post('/forms/csv_uploads/process','importExcel');
@@ -162,6 +191,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/client/editproject/{id}/process','editProjectProcess');
         Route::post('/client/project/editproduction/{id}/process','Edit_Project_production_Process');
         Route::post('/client/payment','clientPayment');
+        Route::post('/client/payment/unlinked/{id}','clientPayment_Unlinked');
 
 
         //REPORTS:

@@ -29,6 +29,7 @@
         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#projects" role="tab">Projects</a></li>
         <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#payments" role="tab">Payments</a></li>
         <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#cashflow" role="tab">CashFlow</a></li>
+        <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#Dispute" role="tab">Dispute</a></li>
         <li><a href="/client/project/{{ $client[0]->id }}" style="color:grey;">Create Project</a></li>
       </ul>
     </div>
@@ -59,7 +60,7 @@
                       <p class="mg-b-20">{{ $project->projectDescription }}</p>
                       <div class="media-footer">
                         <div class=" ">
-                            <a href="/forms/payment/{{ $project->id }}" style="color:white;border-radius: 15px;" class="btn btn-sm   btn-success"><img src="https://cdn-icons-png.flaticon.com/16/1611/1611179.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Payment</a>
+                            {{-- <a href="/forms/payment/{{ $project->id }}" style="color:white;border-radius: 15px;" class="btn btn-sm   btn-success"><img src="https://cdn-icons-png.flaticon.com/16/1611/1611179.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small">Payment</a> --}}
                             {{-- <a href="" class="btn btn-sm btn-primary" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/24/11524/11524412.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Change PM </a> --}}
                             <a href="/client/editproject/{{ $project->id }}" class="btn btn-sm  btn-info" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/16/1159/1159633.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> Edit </a>
                             <a href="/forms/newqaform/{{  $project->id }}" class="btn btn-sm  btn-warning" style="color:white;border-radius: 15px;"><img src="https://cdn-icons-png.flaticon.com/16/4381/4381727.png" style="filter: invert(1); margin-right:10px" alt="" title="" class="img-small"> QA</a>
@@ -117,7 +118,13 @@
               <p class="tx-info mg-b-25">{{ $client[0]->phone }}</p>
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Email Address</label>
-              <p class="tx-inverse mg-b-25">{{ $client[0]->email }}</p>
+              {{-- <p class="tx-inverse mg-b-25">{{ $client[0]->email }}</p>--}}
+              @php
+                  $allemails = json_decode($client[0]->clientMetas->otheremail);
+              @endphp
+              @foreach ($allemails as $item)
+              <p class="tx-inverse mg-b-25">{{ $item }}</p>
+              @endforeach
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Initail Payment</label>
               <p class="tx-inverse mg-b-25">$ {{ $client[0]->clientMetas->amountPaid  }}</p>
@@ -333,6 +340,11 @@
       <div class="tab-pane fade" id="payments">
 
         <div class="br-section-wrapper">
+            @if ($unlinkedpayment > 0)
+            <div class="alert alert-danger">
+                <h5>{{$unlinkedpayment}} Unlinked payments availble for this client.</h5>
+            </div>
+            @endif
 
         <table id="datatable1" class="table-dark table-hover">
             <thead>
@@ -425,6 +437,102 @@
             <tbody>
                 @foreach ($cashflows as $item)
                 <tr role="row" class="odd">
+                    @if(isset($item->dispute) and $item->dispute != null )
+                        <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}}</td>
+                        <td>{{$item->paymentNature}}</td>
+                        <td>{{$item->ChargingMode}}</td>
+                        <td>{{$item->ChargingPlan}}</td>
+                        <td>{{$item->paymentDate}}</td>
+                        <td><div class="alert alert-warning">Dispute</div></td>
+                        <td><div class="alert alert-primary">{{$item->TotalAmount}}</div></td>
+                        <td><div class="alert alert-success">{{$item->Paid}}</div></td>
+                        <td>
+                            @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
+                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                            @else
+                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
+                            @endif
+                        </td>
+                    @else
+
+                        @if ( $item->refundStatus == 'On Going' and $item->paymentNature != 'Dispute Won' and $item->paymentNature != 'Dispute Lost' )
+
+                        <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
+                        <td>{{$item->paymentNature}}</td>
+                        <td>{{$item->ChargingMode}}</td>
+                        <td>{{$item->ChargingPlan}}</td>
+                        <td>{{$item->paymentDate}}</td>
+                        <td><div class="alert alert-success">{{$item->refundStatus}}</div></td>
+                        <td><div class="alert alert-primary">{{$item->TotalAmount}}</div></td>
+                        <td><div class="alert alert-success">{{$item->Paid}}</div></td>
+                        <td>
+                            @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
+                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                            @else
+                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
+                            @endif
+                        </td>
+
+                        @elseif ( ($item->refundStatus == 'Refunded' || $item->refundStatus == 'Refund') and $item->paymentNature != 'Dispute Won' and $item->paymentNature != 'Dispute Lost'  )
+
+                        <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
+                        <td>{{$item->paymentNature}}</td>
+                        <td>{{$item->ChargingMode}}</td>
+                        <td>{{$item->ChargingPlan}}</td>
+                        <td>{{$item->paymentDate}}</td>
+                        <td><div class="alert alert-danger">{{$item->refundStatus}}</div></td>
+                        <td><div class="alert alert-primary">({{$item->TotalAmount}})</div></td>
+                        <td><div class="alert alert-success">({{$item->Paid}})</div></td>
+                        <td>
+                            @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
+                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                            @else
+                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
+                            @endif
+                        </td>
+
+                        @elseif ( $item->paymentNature == 'Dispute Won' )
+
+                        <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
+                        <td>{{$item->paymentNature}}</td>
+                        <td>{{$item->ChargingMode}}</td>
+                        <td>{{$item->ChargingPlan}}</td>
+                        <td>{{$item->paymentDate}}</td>
+                        <td><div class="alert alert-info">Won</div></td>
+                        <td><div class="alert alert-primary">{{$item->TotalAmount}}</div></td>
+                        <td><div class="alert alert-success">{{$item->Paid}}</div></td>
+                        <td>
+                            @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
+                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                            @else
+                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
+                            @endif
+                        </td>
+
+                        @elseif ( $item->paymentNature == 'Dispute Lost' )
+
+                        <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
+                        <td>{{$item->paymentNature}}</td>
+                        <td>{{$item->ChargingMode}}</td>
+                        <td>{{$item->ChargingPlan}}</td>
+                        <td>{{$item->paymentDate}}</td>
+                        <td><div class="alert alert-secondary ">Lost</div></td>
+                        <td><div class="alert alert-primary">({{$item->TotalAmount}})</div></td>
+                        <td><div class="alert alert-success">({{$item->Paid}})</div></td>
+                        <td>
+                            @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
+                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                            @else
+                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
+                            @endif
+                        </td>
+
+                        @endif
+
+                    @endif
+                </tr>
+
+                {{-- <tr role="row" class="odd">
                     <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
                     <td>{{$item->paymentNature}}</td>
                     <td>{{$item->ChargingMode}}</td>
@@ -436,9 +544,9 @@
                             {{$item->refundStatus}}
                         </div>
                         @else
-                        {{-- <div class="alert alert-success"> --}}
+
                             {{$item->refundStatus}}
-                        {{-- </div> --}}
+
                         @endif
                     </td>
                     <td>
@@ -510,7 +618,8 @@
                         </div>
                         @endif
                     </td>
-                </tr>
+                </tr> --}}
+
                 @endforeach
                 <tr>
                     <td></td>
@@ -518,11 +627,25 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>
-                        @if ($clientrefundcount > 0)
+                    <td></td>
+                    {{-- <td>
+                        <div class="alert alert-danger"><strong>Total With Refund</strong></div>
+                    </td> --}}
+                    <td><div class="alert alert-primary"><strong>Total Amount</strong></div></td>
+                    <td><div class="alert alert-success"><strong>Total Received</strong></div></td>
+                    <td><div class="alert alert-warning"><strong>Total Remaining</strong></div></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    {{-- <td>
                         <div class="alert alert-danger"><strong>${{$clienttotal}}</strong></div>
-                        @endif
-                    </td>
+                    </td> --}}
                     <td><div class="alert alert-primary"><strong>${{$clienttotalwithoutRefund}}</strong></div></td>
                     <td><div class="alert alert-success"><strong>${{$clientPaid}}</strong></div></td>
                     <td><div class="alert alert-warning"><strong>${{$clientRemaining}}</strong></div></td>
@@ -542,8 +665,62 @@
 
 
 
+      <div class="tab-pane fade" id="Dispute">
+
+        <div class="br-section-wrapper">
+
+            <style>
+                .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
+                    background-color: #ffffff !important;
+                    color: #060708;
+                    border: 0.5px solid #ecececcc !important;
+                }
+            </style>
+
+            <table id="datatable1" class="table-dark table-hover">
+            <thead>
+              <tr role="row">
+                <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Project</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Dispute Date</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Disputed Amount</th>
+                <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Dispute Reason</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Dispute Status</th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach ($disputepayment as $item)
+                <tr role="row" class="odd">
+                    <td tabindex="0" class="sorting_1">{{$item->disputeprojectName->name}} </td>
+                    <td>{{$item->dispute_Date}}</td>
+                    <td>${{$item->disputedAmount}}</td>
+                    <td>{{$item->disputeReason}}</td>
+                    <td>
+                        @if ( isset($item->disputeStatus) and $item->disputeStatus != null and $item->disputeStatus == "Won" )
+                            <div class="alert alert-success">
+                                {{$item->disputeStatus}}
+                            </div>
+                        @elseif (isset($item->disputeStatus) and $item->disputeStatus != null and $item->disputeStatus == "Lost")
+                            <div class="alert alert-danger">
+                                {{$item->disputeStatus}}
+                            </div>
+                        @else
+                            <div class="alert alert-primary">
+                                Under Review
+                            </div>
+                        @endif
+                        {{-- {{$item->disputeStatus}} --}}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+       </div><!-- br-section-wrapper -->
 
 
+
+
+      </div><!-- tab-pane -->
 
 
 

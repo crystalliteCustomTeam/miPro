@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('newpaymentsclients', function (Blueprint $table) {
-            $table->integer('dateDifference')->nullable()->after('transactionType');
-            $table->date('oldExpecteddate')->nullable();
+        Schema::table('unmatched_payments', function (Blueprint $table) {
+            $table->string('stripePaymentstatus')->nullable()->after('cardBrand');
         });
     }
 
@@ -22,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('newpaymentsclients', function (Blueprint $table) {
+        Schema::table('unmatched_payments', function (Blueprint $table) {
             //
         });
     }

@@ -25,6 +25,11 @@ class Department extends Model
         return $this->hasOne(Employee::class,'id','manager');
     }
 
+    public function departbrand(): HasOne
+    {
+        return $this->hasOne(Brand::class,'id','brand');
+    }
+
     public function findEmp($employeList)
     {
         return DB::table('employees')->whereIn('id',json_decode($employeList))->get();

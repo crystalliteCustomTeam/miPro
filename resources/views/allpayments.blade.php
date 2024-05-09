@@ -47,10 +47,52 @@
                 <tbody>
                     @foreach ($clientPayments as $item)
                     <tr role="row" class="odd">
+                        @if ($item->remainingStatus != 'Unlinked Payments')
+                            <td tabindex="0" class="sorting_1">
+                                <strong> {{$item->paymentclientName->name}}</strong>
+                                --
+                                {{$item->paymentprojectName->name}}
+                            </td>
+                            {{-- <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}}</td> --}}
+                            <td>{{$item->paymentNature}}</td>
+                            <td>{{$item->paymentDate}}</td>
+                            <td>${{$item->TotalAmount}}</td>
+                            <td>${{$item->Paid}}</td>
+                            <td>{{$item->Description}}</td>
+                            <td>
+                                @if ($item->refundStatus != "On Going" && $item->refundStatus != "Pending Payment")
+                                <div class="btn-group">
+                                    <a href="/client/project/payment/view/{{$item->id}}" class="btn btn-success">View (Refund)</a>
+                                </div>
+                                @else
+                                <div class="btn-group">
+                                    <a href="/client/project/payment/report/view/{{$item->id}}" class="btn btn-success">View</a>
+                                    @if ($item->dispute == null and $item->paymentNature != "Dispute Won" and $item->paymentNature != "Dispute Lost")
+                                    <a href="/client/project/payment/edit/{{$item->id}}" class="btn btn-primary">Edit</a>
+                                    <a href="#" onclick="myConfirm('{{ $item->id }}')" class="btn btn-danger">Delete</a>
+                                    <a href="/client/project/payment/Dispute/{{$item->id}}" class="btn btn-warning">Submit Dispute</a>
+                                    @endif
+                                    @if ($item->remainingStatus == "Remaining")
+                                    <a href="/client/project/payment/remaining/{{$item->id}}" class="btn btn-info">Add Remaining</a>
+                                    @endif
+                                @endif
+                                </div>
+                            </td>
+                        @else
                         <td tabindex="0" class="sorting_1">
-                            <strong> {{$item->paymentclientName->name}}</strong>
-                            --
-                            {{$item->paymentprojectName->name}}
+                            @if ($item->refundStatus == "On Going")
+                                <div class="alert alert-warning">
+                                    <strong>{{$item->paymentclientName->name}}</strong>
+                                </div>
+                            @elseif($item->refundStatus == "Refunded")
+                                <div class="alert alert-danger">
+                                    <strong>{{$item->paymentclientName->name}}</strong>
+                                </div>
+                            @elseif($item->dispute != null)
+                                <div class="alert alert-info">
+                                    <strong>{{$item->paymentclientName->name}}</strong>
+                                </div>
+                            @endif
                         </td>
                         {{-- <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}}</td> --}}
                         <td>{{$item->paymentNature}}</td>
@@ -59,22 +101,13 @@
                         <td>${{$item->Paid}}</td>
                         <td>{{$item->Description}}</td>
                         <td>
-                            @if ($item->refundStatus != "On Going" && $item->refundStatus != "Pending Payment")
                             <div class="btn-group">
-                                <a href="/client/project/payment/view/{{$item->id}}" class="btn btn-success">View (Refund)</a>
-                            </div>
-                            @else
-                            <div class="btn-group">
-                                <a href="/client/project/payment/report/view/{{$item->id}}" class="btn btn-success">View</a>
                                 <a href="/client/project/payment/edit/{{$item->id}}" class="btn btn-primary">Edit</a>
                                 <a href="#" onclick="myConfirm('{{ $item->id }}')" class="btn btn-danger">Delete</a>
-                                <a href="/client/project/payment/RefundDispute/{{$item->id}}" class="btn btn-warning">Refund/Request</a>
-                                @if ($item->remainingStatus == "Remaining")
-                                <a href="/client/project/payment/remaining/{{$item->id}}" class="btn btn-info">Add Remaining</a>
-                                @endif
-                            @endif
                             </div>
                         </td>
+
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>
