@@ -144,8 +144,8 @@
                                    @endif
 
                                 </td>
-                                @if (isset($qaform->paymentprojectName->EmployeeName->name) and $qaform->paymentprojectName->EmployeeName->name !== null)
-                                <td>{{$qaform->paymentprojectName->EmployeeName->name}}</td>
+                                @if (isset($qaform->saleEmployeesName->name) and $qaform->saleEmployeesName->name !== null)
+                                <td>{{$qaform->saleEmployeesName->name}}</td>
                                 @else
                                 <td><p style="color: red">User Deleted</p></td>
                                 @endif
