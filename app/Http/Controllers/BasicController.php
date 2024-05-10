@@ -6227,7 +6227,7 @@ class BasicController extends Controller
 
             }elseif($get_type == "Upcoming"){
 
-                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate]);
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('paymentDate',null);
                 ($get_brand != 0)
                     ? $payment->where('brandID', $get_brand)
                     : null;
