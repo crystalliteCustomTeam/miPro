@@ -6252,6 +6252,33 @@ class BasicController extends Controller
 
                 $result = $payment->get();
 
+            }elseif($get_type == "Missed"){
+
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('futureDate', '<', $get_enddate)->where('paymentDate', null);
+                ($get_brand != 0)
+                    ? $payment->where('brandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('clientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
+                    : null;
+
+                $result = $payment->get();
+
             }else{
                 $result = 0;
             }
