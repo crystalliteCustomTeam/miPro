@@ -6367,6 +6367,212 @@ class BasicController extends Controller
 
     }
 
+    function new_revenuereport(Request $request, $id = null){
+
+        $loginUser = $this->roleExits($request);
+
+        //left panel:
+        $client = Client::get();
+        $employee = Employee::get();
+        $department = Department::get();
+        $issue = QaIssues::get();
+        $brand = Brand::get();
+
+         //BASE;
+         $get_startdate = $request->input('startdate');
+         $get_enddate = $request->input('enddate');
+         //OPTIONAL;
+         $get_type = $request->input('type');
+         $get_brand = $request->input('brand');
+         $get_projectmanager = $request->input('projectmanager');
+         $get_client = $request->input('client');
+         if($request->input('status') == 'Dispute'){
+            $get_dispute = $request->input('status');
+            $get_status = 0;
+         }else{
+            $get_status = $request->input('status');
+            $get_dispute = 0;
+         }
+         $get_chargingMode = $request->input('chargingMode');
+         $get_paymentNature = $request->input('paymentNature');
+
+         if ($get_startdate == null) {
+            $role = 0;
+            $result = 0;
+            $get_types = "--";
+            $get_brands = "--";
+            $get_projectmanagers = "--";
+            $get_clients = "--";
+            $get_statuss = "--";
+            $get_chargingModes = "--";
+            $get_paymentNatures = "--";
+
+        } else {
+
+            $role = 1;
+            if($get_type == "Received"){
+                $payment = NewPaymentsClients::whereBetween('created_at', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments');
+                ($get_brand != 0)
+                    ? $payment->where('BrandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('ClientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
+                    : null;
+
+                $result = $payment->get();
+
+            }elseif($get_type == "Upcoming"){
+
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('paymentDate',null);
+                ($get_brand != 0)
+                    ? $payment->where('brandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('clientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
+                    : null;
+
+                $result = $payment->get();
+
+            }elseif($get_type == "Missed"){
+
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('futureDate', '<', $get_enddate)->where('paymentDate', null);
+                ($get_brand != 0)
+                    ? $payment->where('brandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('clientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
+                    : null;
+
+                $result = $payment->get();
+
+            }else{
+                $result = 0;
+            }
+
+
+            if($get_type != 0){
+                $get_types = $get_type;
+            }else{
+                $get_types = "--";
+            }
+
+            if($get_brand != 0){
+                $getbrands = Brand::where('id',$get_brand)->get();
+                $get_brands = $getbrands[0]->name;
+            }else{
+                $get_brands = "--";
+            }
+
+            if($get_chargingMode != 0){
+                $get_chargingModes = $get_chargingMode;
+            }else{
+                $get_chargingModes = "--";
+            }
+
+            if($get_paymentNature != 0){
+                $get_paymentNatures = $get_paymentNature;
+            }else{
+                $get_paymentNatures = "--";
+            }
+
+            if($get_projectmanager != 0){
+                $getprojectmanagers = Employee::where('id',$get_projectmanager)->get();
+                $get_projectmanagers = $getprojectmanagers[0]->name;
+            }else{
+                $get_projectmanagers = "--";
+            }
+
+            if($get_client != 0){
+                $getclients = Client::where('id',$get_client)->get();
+                $get_clients = $getclients[0]->name;
+            }else{
+                $get_clients = "--";
+            }
+
+            if($get_status != 0 || $get_dispute != 0){
+                if($get_status != 0){
+                    $get_statuss = $get_status;
+                }else{
+                    $get_statuss = "Dispute";
+                }
+            }else{
+                $get_statuss = "--";
+            }
+
+
+            // echo('<pre>');
+            // echo($status_OnGoing);
+            // die();
+
+        }
+
+        return view('new_revenueReport', [
+            'clients' => $client,
+            'employees' => $employee,
+            'departments' => $department,
+            'issues' => $issue,
+            'brands' => $brand,
+            'get_chargingModes' => $get_chargingModes,
+            'get_paymentNatures' => $get_paymentNatures,
+            'roles' => $role,
+            'qaforms' => $result,
+            'get_types' =>$get_types,
+            'gets_brand' =>$get_brands,
+            'gets_projectmanager' =>$get_projectmanagers,
+            'gets_client' =>$get_clients,
+            'gets_status' =>$get_statuss,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
+
     function clientReport(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
@@ -6561,6 +6767,8 @@ class BasicController extends Controller
                 $checktransactionID = NewPaymentsClients::where('TransactionID',$sepratedtoarray[0])->count();
                 if($checktransactionID == 0){
                     if($sepratedtoarray != $extractData[0]){
+                        $sql_date = date("Y-m-d", strtotime($sepratedtoarray[1]));
+                        $sql_date_dispute = date("Y-m-d", strtotime($sepratedtoarray[50]));
                         if($sepratedtoarray[16] == 'Paid'){
                             if( $sepratedtoarray[53] == null ){
                                 $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',($sepratedtoarray[40]))->get();
@@ -6581,7 +6789,7 @@ class BasicController extends Controller
                                             "Payment_Gateway"=> "Stripe",
                                             "bankWireUpload" =>  "--",
                                             "TransactionID"=>$sepratedtoarray[0],
-                                            "paymentDate"=>$sepratedtoarray[1],
+                                            "paymentDate"=>$sql_date,
                                             "SalesPerson"=> 0,
                                             "TotalAmount"=> 0,
                                             "Paid"=> $sepratedtoarray[6],
@@ -6607,7 +6815,7 @@ class BasicController extends Controller
                                             $createClientUnmatchedPayment = UnmatchedPayments::create([
                                                 "TransactionID" => $sepratedtoarray[0],
                                                 "Clientemail"=> $sepratedtoarray[40],
-                                                "paymentDate"=> $sepratedtoarray[1],
+                                                "paymentDate"=> $sql_date,
                                                 "Paid"=> $sepratedtoarray[6],
                                                 "Description"=> $sepratedtoarray[9],
                                                 "cardBrand"=> $sepratedtoarray[29],
@@ -6630,7 +6838,7 @@ class BasicController extends Controller
                                         $createClientUnmatchedPayment = UnmatchedPayments::create([
                                             "TransactionID" => $sepratedtoarray[0],
                                             "Clientemail"=> $sepratedtoarray[40],
-                                            "paymentDate"=> $sepratedtoarray[1],
+                                            "paymentDate"=> $sql_date,
                                             "Paid"=> $sepratedtoarray[6],
                                             "Description"=> $sepratedtoarray[9],
                                             "cardBrand"=> $sepratedtoarray[29],
@@ -6667,7 +6875,7 @@ class BasicController extends Controller
                                                     "ProjectID"=> $disputePayment[0]->ProjectID,
                                                     "ProjectManager" => $disputePayment[0]->ProjectManager,
                                                     "PaymentID" => $disputePayment[0]->id,
-                                                    "dispute_Date" =>  $sepratedtoarray[50],
+                                                    "dispute_Date" =>  $sql_date_dispute,
                                                     "disputedAmount" =>  $sepratedtoarray[49],
                                                     "disputeReason" => $sepratedtoarray[52]
                                                 ]);
@@ -6704,7 +6912,7 @@ class BasicController extends Controller
                                     "Payment_Gateway"=> "Stripe",
                                     "bankWireUpload" =>  "--",
                                     "TransactionID"=>$sepratedtoarray[0],
-                                    "paymentDate"=>$sepratedtoarray[1],
+                                    "paymentDate"=>$sql_date,
                                     "SalesPerson"=> 0,
                                     "TotalAmount"=> 0,
                                     "Paid"=> $sepratedtoarray[6],
@@ -6730,7 +6938,7 @@ class BasicController extends Controller
                                     $createClientUnmatchedPayment = UnmatchedPayments::create([
                                         "TransactionID" => $sepratedtoarray[0],
                                         "Clientemail"=> $sepratedtoarray[40],
-                                        "paymentDate"=> $sepratedtoarray[1],
+                                        "paymentDate"=> $sql_date,
                                         "Paid"=> $sepratedtoarray[6],
                                         "Description"=> $sepratedtoarray[9],
                                         "cardBrand"=> $sepratedtoarray[29],
@@ -6757,6 +6965,8 @@ class BasicController extends Controller
 
                 }else{
                     if($sepratedtoarray != $extractData[0]){
+                        $sql_date = date("Y-m-d", strtotime($sepratedtoarray[1]));
+                        $sql_date_dispute = date("Y-m-d", strtotime($sepratedtoarray[50]));
                         if(isset($sepratedtoarray[53]) && $sepratedtoarray[53] != null){
                             $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',$sepratedtoarray[40])->get();
                             if ($matchclientmeta->isNotEmpty()){
@@ -6780,7 +6990,7 @@ class BasicController extends Controller
                                                 "ProjectID"=> $disputePayment[0]->ProjectID,
                                                 "ProjectManager" => $disputePayment[0]->ProjectManager,
                                                 "PaymentID" => $disputePayment[0]->id,
-                                                "dispute_Date" =>  $sepratedtoarray[50],
+                                                "dispute_Date" =>  $sql_date_dispute,
                                                 "disputedAmount" =>  $sepratedtoarray[49],
                                                 "disputeReason" => $sepratedtoarray[52]
                                             ]);
