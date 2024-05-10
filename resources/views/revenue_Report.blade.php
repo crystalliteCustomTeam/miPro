@@ -139,6 +139,10 @@
                                      <div class="alert alert-danger" role="alert">
                                         {{$qaform->refundStatus}}
                                     </div>
+                                   @elseif(isset($qaform->dispute))
+                                   <div class="alert alert-warning" role="alert">
+                                    {{$qaform->refundStatus}}
+                                   </div>
                                    @else
                                    {{$qaform->refundStatus}}
                                    @endif

@@ -2093,6 +2093,7 @@ class BasicController extends Controller
                                 ->where('refundStatus','!=','Pending Payment')
                                 ->where('paymentNature','!=','Remaining')
                                 ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundStatus','!=','Refund')
                                 ->where('dispute',null)
                                 ->SUM('TotalAmount');
         $clientrefundcount = NewPaymentsClients::where('ClientID', $clientID)
@@ -2104,12 +2105,14 @@ class BasicController extends Controller
         $clientPaid = NewPaymentsClients::where('ClientID', $clientID)
                                 ->where('refundStatus','On Going')
                                 ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundID',null )
                                 ->where('dispute',null)
                                 ->SUM('Paid');
         $clienttotalwithoutRefund = NewPaymentsClients::where('ClientID', $clientID)
                                 ->where('refundStatus','On Going')
                                 ->where('paymentNature','!=','Remaining')
                                 ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundID',null )
                                 ->where('dispute',null)
                                 ->SUM('TotalAmount');
         $clientpaidwithoutRefund = NewPaymentsClients::where('ClientID', $clientID)
@@ -2117,7 +2120,7 @@ class BasicController extends Controller
                                 ->where('remainingStatus','!=','Unlinked Payments')
                                 ->where('dispute',null)
                                 ->SUM('Paid');
-        $clientRemaining = $clienttotalwithoutRefund - $clientpaidwithoutRefund ;
+        $clientRemaining = $clienttotalwithoutRefund - $clientPaid ;
         $unlinkedpayment = NewPaymentsClients::where('ClientID', $clientID)
                                 ->where('remainingStatus','Unlinked Payments')
                                 ->where('dispute',null)
@@ -4948,11 +4951,13 @@ class BasicController extends Controller
             "description" => $description
         ];
 
-        $deleteexistingStripeUnlinked = NewPaymentsClients::where("TransactionID", $transactionID)->delete();
-
         return response()->json($return_array);
     }
     function payment_pending_amount_process(Request $request, $id){
+
+        $deleteexistingStripeUnlinked = NewPaymentsClients::where("TransactionID", $request->input('transactionID'))->delete();
+
+
         $paymentType = $request->input('paymentType');
         $paymentNature = $request->input('paymentNature');
         $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
