@@ -66,16 +66,6 @@
             </div>
 
             <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Charging Mode:</label>
-                <select class="form-control select2"  name="chargingMode" onchange="createURL11(this.value)">
-                    <option value="0" >Select</option>
-                    <option value="Renewal">Renewal</option>
-                    <option value="Recurring">Recurring</option>
-                    <option value="One Time Payment">One Time Payment</option>
-                </select>
-            </div>
-
-            <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Payment Nature:</label>
                 <select class="form-control select2"  name="paymentNature" onchange="createURL12(this.value)">
                     <option value="0" >Select</option>
@@ -87,11 +77,23 @@
                     <option value="Upsell">Upsell</option>
                     <option value="Remaining">Remaining</option>
                     <option value="One Time Payment">One Time Payment</option>
+                    <option value="Dispute Won">Dispute Won</option>
+                    <option value="Dispute Lost">Dispute Lost</option>
                 </select>
             </div>
 
             <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Project Manager:</label>
+                <label for="" style="font-weight:bold;">Charging Mode:</label>
+                <select class="form-control select2"  name="chargingMode" onchange="createURL11(this.value)">
+                    <option value="0" >Select</option>
+                    <option value="Renewal">Renewal</option>
+                    <option value="Recurring">Recurring</option>
+                    <option value="One Time Payment">One Time Payment</option>
+                </select>
+            </div>
+
+            <div class="col-12 mt-3">
+                <label for="" style="font-weight:bold;">Sale Person:</label>
                 <select class="form-control select2"  name="projectmanager" onchange="createURL3(this.value)">
                     <option value="0" >Select</option>
                     @foreach($employees as $employee)

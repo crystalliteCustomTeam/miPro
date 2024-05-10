@@ -58,7 +58,7 @@
 
               <div class="col-3 mt-4">
                 <div class="card bd-gray-400 pd-20">
-                  <h6 style="color: black">Project Manager: {{$gets_projectmanager}}</h6>
+                  <h6 style="color: black">Seller: {{$gets_projectmanager}}</h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
@@ -80,7 +80,7 @@
 
               <div class="col-3 mt-4">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Charging Mode: {{$get_chargingModes}} </h6>
+                    <h6 style="color: black">Payment Nature: {{$get_paymentNatures}} </h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
@@ -88,7 +88,7 @@
 
               <div class="col-3 mt-4">
                 <div class="card bd-gray-400 pd-20">
-                    <h6 style="color: black">Payment Nature: {{$get_paymentNatures}} </h6>
+                    <h6 style="color: black">Charging Mode: {{$get_chargingModes}} </h6>
                 </div><!-- card -->
               </div><!-- col-4 -->
 
@@ -106,10 +106,10 @@
 
             <style>
                 .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
-    background-color: #ffffff !important;
-    color: #060708;
-    border: 0.5px solid #ecececcc !important;
-}
+                    background-color: #ffffff !important;
+                    color: #060708;
+                    border: 0.5px solid #ecececcc !important;
+                }
             </style>
             <table id="datatable1" class=" table-dark table-hover">
                 <thead>
@@ -117,13 +117,13 @@
                     <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Client Name</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Project</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Status</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Project Manager</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Nature</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Mode</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Date</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Seller</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Nature</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Mode</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Date</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Next Date</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Total Amt</th>
-                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Client Paid</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Amount</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Paid</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">view</th>
                   </tr>
                 </thead>
