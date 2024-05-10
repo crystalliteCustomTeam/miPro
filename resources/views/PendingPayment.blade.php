@@ -41,7 +41,7 @@
 
                     <div class="col-11 mt-3">
                         <label for="" style="font-weight:bold;">Stripe Payment:</label>
-                        <select class="form-control select2" required name="stripe"  id="payment-stripe" >
+                        <select class="form-control select2"  name="stripe"  id="payment-stripe" >
                             @foreach ($stripePayment as $referencepayments)
                             <option value="{{ $referencepayments->id }}">{{ $referencepayments->paymentclientName->name }}
                                 --

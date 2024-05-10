@@ -203,6 +203,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/allproject/report/{id?}','projectreport');
 
         Route::get('/client/revenue/{id?}','revenuereport');
+        Route::get('/allclient/revenue/{id?}','new_revenuereport');
 
 
         //settings:

@@ -628,9 +628,6 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    {{-- <td>
-                        <div class="alert alert-danger"><strong>Total With Refund</strong></div>
-                    </td> --}}
                     <td><div class="alert alert-primary"><strong>Total Amount</strong></div></td>
                     <td><div class="alert alert-success"><strong>Total Received</strong></div></td>
                     <td><div class="alert alert-warning"><strong>Total Remaining</strong></div></td>
@@ -643,9 +640,6 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    {{-- <td>
-                        <div class="alert alert-danger"><strong>${{$clienttotal}}</strong></div>
-                    </td> --}}
                     <td><div class="alert alert-primary"><strong>${{$clienttotalwithoutRefund}}</strong></div></td>
                     <td><div class="alert alert-success"><strong>${{$clientPaid}}</strong></div></td>
                     <td><div class="alert alert-warning"><strong>${{$clientRemaining}}</strong></div></td>

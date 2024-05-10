@@ -318,83 +318,103 @@ class BasicController extends Controller
                 //renewal,recurring,dispute,refund
                 $Renewal_Month = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
-                                ->where('ChargingMode', 'Renewal')
-                                ->where('refundStatus' ,'On Going')
+                                ->where('paymentNature', 'Renewal Payment')
+                                ->where('refundStatus','Pending Payment')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->get();
                 $Renewal_Month_count = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
-                                ->where('ChargingMode', 'Renewal')
-                                ->where('refundStatus', 'On Going')
+                                ->where('paymentNature', 'Renewal Payment')
+                                ->where('refundStatus','Pending Payment')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->distinct('ClientID')->count();
                 $Renewal_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
-                                ->where('ChargingMode', 'Renewal')
-                                ->where('refundStatus','On Going')
+                                ->where('paymentNature', 'Renewal Payment')
+                                ->where('refundStatus','Pending Payment')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->SUM('TotalAmount');
 
                 $Recurring_Month = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
-                                ->where('ChargingMode', 'Recurring')
-                                ->where('refundStatus','On Going')
+                                ->where('paymentNature', 'Recurring Payment')
+                                ->where('refundStatus','Pending Payment')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->get();
                 $Recurring_Month_count = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
-                                ->where('ChargingMode', 'Recurring')
-                                ->where('refundStatus','On Going')
+                                ->where('paymentNature', 'Recurring Payment')
+                                ->where('refundStatus','Pending Payment')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->distinct('ClientID')
                                 ->count();
                 $Recurring_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
                                 ->whereMonth('futureDate', now())
-                                ->where('ChargingMode', 'Recurring')
-                                ->where('refundStatus','On Going')
+                                ->where('paymentNature', 'Recurring Payment')
+                                ->where('refundStatus','Pending Payment')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->SUM('TotalAmount');
 
-                $Refund_Month = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
+                $Refund_Month = NewPaymentsClients::whereYear('paymentDate', now())
+                                ->whereMonth('paymentDate', now())
                                 ->where('refundStatus', 'Refund')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->get();
-                $Refund_count = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
+                $Refund_count = NewPaymentsClients::whereYear('paymentDate', now())
+                                ->whereMonth('paymentDate', now())
                                 ->where('refundStatus', 'Refund')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->distinct('ClientID')
                                 ->count();
-                $Refund_sum = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
+                $Refund_sum = NewPaymentsClients::whereYear('paymentDate', now())
+                                ->whereMonth('paymentDate', now())
                                 ->where('refundStatus', 'Refund')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->SUM('TotalAmount');
-                $Dispute_Month = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
-                                ->where('refundStatus', 'Dispute')
+                $Dispute_Month = NewPaymentsClients::whereYear('paymentDate', now())
+                                ->whereMonth('paymentDate', now())
+                                ->where('dispute', 'Dispute')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->get();
-                $Dispute_count = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
-                                ->where('refundStatus', 'Dispute')
+                $Dispute_count = NewPaymentsClients::whereYear('paymentDate', now())
+                                ->whereMonth('paymentDate', now())
+                                ->where('dispute', 'Dispute')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->distinct('ClientID')
                                 ->count();
-                $Dispute_sum = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
-                                ->where('refundStatus', 'Dispute')
+                $Dispute_sum = NewPaymentsClients::whereYear('paymentDate', now())
+                                ->whereMonth('paymentDate', now())
+                                ->where('dispute', 'Dispute')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->SUM('TotalAmount');
 
                 $eachbrand_RevenueStatus = [];
                 foreach($brand as $brands){
                         $brandName = Brand::where("id", $brands->id)->get();
                         $brand_renewal = NewPaymentsClients::where('BrandID',$brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
-                                ->where('ChargingMode', 'Renewal')
-                                ->where('refundStatus','On Going')
+                                ->where('paymentNature', 'Renewal Payment')
+                                ->where('refundStatus','Pending Payment')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->SUM('TotalAmount');
                         $brandrefund_recurring = NewPaymentsClients::where('BrandID',$brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
-                                ->where('ChargingMode', 'Recurring')
-                                ->where('refundStatus','On Going')
+                                ->where('paymentNature', 'Recurring Payment')
+                                ->where('refundStatus','Pending Payment')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->SUM('TotalAmount');
                         $branddispute_refund = NewPaymentsClients::where('BrandID',$brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
                                 ->where('refundStatus', 'Refund')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->SUM('TotalAmount');
                         $branddispute_dispute = NewPaymentsClients::where('BrandID',$brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
-                                ->where('refundStatus', 'Dispute')
+                                ->where('dispute', 'Dispute')
+                                ->where('remainingStatus','!=','Unlinked Payments')
                                 ->SUM('TotalAmount');
                         $eachbrand_RevenueStatus[] = [$brandName, $brand_renewal, $brandrefund_recurring, $branddispute_refund, $branddispute_dispute];
                         }
+
+                // echo("<pre>");
+                // print_r($eachbrand_RevenueStatus);
+                // die();
 
                 return view('dashboard', [
                     'eachbranddatas' => $eachbranddata,
@@ -2073,6 +2093,7 @@ class BasicController extends Controller
                                 ->where('refundStatus','!=','Pending Payment')
                                 ->where('paymentNature','!=','Remaining')
                                 ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundStatus','!=','Refund')
                                 ->where('dispute',null)
                                 ->SUM('TotalAmount');
         $clientrefundcount = NewPaymentsClients::where('ClientID', $clientID)
@@ -2084,12 +2105,14 @@ class BasicController extends Controller
         $clientPaid = NewPaymentsClients::where('ClientID', $clientID)
                                 ->where('refundStatus','On Going')
                                 ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundID',null )
                                 ->where('dispute',null)
                                 ->SUM('Paid');
         $clienttotalwithoutRefund = NewPaymentsClients::where('ClientID', $clientID)
                                 ->where('refundStatus','On Going')
                                 ->where('paymentNature','!=','Remaining')
                                 ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundID',null )
                                 ->where('dispute',null)
                                 ->SUM('TotalAmount');
         $clientpaidwithoutRefund = NewPaymentsClients::where('ClientID', $clientID)
@@ -2097,7 +2120,7 @@ class BasicController extends Controller
                                 ->where('remainingStatus','!=','Unlinked Payments')
                                 ->where('dispute',null)
                                 ->SUM('Paid');
-        $clientRemaining = $clienttotalwithoutRefund - $clientpaidwithoutRefund ;
+        $clientRemaining = $clienttotalwithoutRefund - $clientPaid ;
         $unlinkedpayment = NewPaymentsClients::where('ClientID', $clientID)
                                 ->where('remainingStatus','Unlinked Payments')
                                 ->where('dispute',null)
@@ -4928,11 +4951,13 @@ class BasicController extends Controller
             "description" => $description
         ];
 
-        $deleteexistingStripeUnlinked = NewPaymentsClients::where("TransactionID", $transactionID)->delete();
-
         return response()->json($return_array);
     }
     function payment_pending_amount_process(Request $request, $id){
+
+        $deleteexistingStripeUnlinked = NewPaymentsClients::where("TransactionID", $request->input('transactionID'))->delete();
+
+
         $paymentType = $request->input('paymentType');
         $paymentNature = $request->input('paymentNature');
         $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
@@ -6155,7 +6180,13 @@ class BasicController extends Controller
          $get_brand = $request->input('brand');
          $get_projectmanager = $request->input('projectmanager');
          $get_client = $request->input('client');
-         $get_status = $request->input('status');
+         if($request->input('status') == 'Dispute'){
+            $get_dispute = $request->input('status');
+            $get_status = 0;
+         }else{
+            $get_status = $request->input('status');
+            $get_dispute = 0;
+         }
          $get_chargingMode = $request->input('chargingMode');
          $get_paymentNature = $request->input('paymentNature');
 
@@ -6174,7 +6205,7 @@ class BasicController extends Controller
 
             $role = 1;
             if($get_type == "Received"){
-                $payment = NewPaymentsClients::whereBetween('created_at', [$get_startdate, $get_enddate]);
+                $payment = NewPaymentsClients::whereBetween('created_at', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments');
                 ($get_brand != 0)
                     ? $payment->where('BrandID', $get_brand)
                     : null;
@@ -6185,7 +6216,7 @@ class BasicController extends Controller
                     ? $payment->where('paymentNature', $get_paymentNature)
                     : null;
                 ($get_projectmanager != 0)
-                    ? $payment->where('ProjectManager', $get_projectmanager)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
                     : null;
                 ($get_client != 0)
                     ? $payment->where('ClientID', $get_client)
@@ -6193,12 +6224,15 @@ class BasicController extends Controller
                 ($get_status != 0)
                     ? $payment->where('refundStatus', $get_status)
                     : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
+                    : null;
 
                 $result = $payment->get();
 
             }elseif($get_type == "Upcoming"){
 
-                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate]);
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('paymentDate',null);
                 ($get_brand != 0)
                     ? $payment->where('brandID', $get_brand)
                     : null;
@@ -6209,13 +6243,43 @@ class BasicController extends Controller
                     ? $payment->where('paymentNature', $get_paymentNature)
                     : null;
                 ($get_projectmanager != 0)
-                    ? $payment->where('ProjectManager', $get_projectmanager)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
                     : null;
                 ($get_client != 0)
                     ? $payment->where('clientID', $get_client)
                     : null;
                 ($get_status != 0)
                     ? $payment->where('refundStatus', $get_status)
+                    : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
+                    : null;
+
+                $result = $payment->get();
+
+            }elseif($get_type == "Missed"){
+
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('futureDate', '<', $get_enddate)->where('paymentDate', null);
+                ($get_brand != 0)
+                    ? $payment->where('brandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('clientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
                     : null;
 
                 $result = $payment->get();
@@ -6264,8 +6328,12 @@ class BasicController extends Controller
                 $get_clients = "--";
             }
 
-            if($get_status != 0){
-                $get_statuss = $get_status;
+            if($get_status != 0 || $get_dispute != 0){
+                if($get_status != 0){
+                    $get_statuss = $get_status;
+                }else{
+                    $get_statuss = "Dispute";
+                }
             }else{
                 $get_statuss = "--";
             }
@@ -6278,6 +6346,212 @@ class BasicController extends Controller
         }
 
         return view('revenue_Report', [
+            'clients' => $client,
+            'employees' => $employee,
+            'departments' => $department,
+            'issues' => $issue,
+            'brands' => $brand,
+            'get_chargingModes' => $get_chargingModes,
+            'get_paymentNatures' => $get_paymentNatures,
+            'roles' => $role,
+            'qaforms' => $result,
+            'get_types' =>$get_types,
+            'gets_brand' =>$get_brands,
+            'gets_projectmanager' =>$get_projectmanagers,
+            'gets_client' =>$get_clients,
+            'gets_status' =>$get_statuss,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
+
+    function new_revenuereport(Request $request, $id = null){
+
+        $loginUser = $this->roleExits($request);
+
+        //left panel:
+        $client = Client::get();
+        $employee = Employee::get();
+        $department = Department::get();
+        $issue = QaIssues::get();
+        $brand = Brand::get();
+
+         //BASE;
+         $get_startdate = $request->input('startdate');
+         $get_enddate = $request->input('enddate');
+         //OPTIONAL;
+         $get_type = $request->input('type');
+         $get_brand = $request->input('brand');
+         $get_projectmanager = $request->input('projectmanager');
+         $get_client = $request->input('client');
+         if($request->input('status') == 'Dispute'){
+            $get_dispute = $request->input('status');
+            $get_status = 0;
+         }else{
+            $get_status = $request->input('status');
+            $get_dispute = 0;
+         }
+         $get_chargingMode = $request->input('chargingMode');
+         $get_paymentNature = $request->input('paymentNature');
+
+         if ($get_startdate == null) {
+            $role = 0;
+            $result = 0;
+            $get_types = "--";
+            $get_brands = "--";
+            $get_projectmanagers = "--";
+            $get_clients = "--";
+            $get_statuss = "--";
+            $get_chargingModes = "--";
+            $get_paymentNatures = "--";
+
+        } else {
+
+            $role = 1;
+            if($get_type == "Received"){
+                $payment = NewPaymentsClients::whereBetween('created_at', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments');
+                ($get_brand != 0)
+                    ? $payment->where('BrandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('ClientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
+                    : null;
+
+                $result = $payment->get();
+
+            }elseif($get_type == "Upcoming"){
+
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('paymentDate',null);
+                ($get_brand != 0)
+                    ? $payment->where('brandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('clientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
+                    : null;
+
+                $result = $payment->get();
+
+            }elseif($get_type == "Missed"){
+
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('futureDate', '<', $get_enddate)->where('paymentDate', null);
+                ($get_brand != 0)
+                    ? $payment->where('brandID', $get_brand)
+                    : null;
+                ($get_chargingMode != 0)
+                    ? $payment->where('ChargingMode', $get_chargingMode)
+                    : null;
+                ($get_paymentNature != 0)
+                    ? $payment->where('paymentNature', $get_paymentNature)
+                    : null;
+                ($get_projectmanager != 0)
+                    ? $payment->where('SalesPerson', $get_projectmanager)
+                    : null;
+                ($get_client != 0)
+                    ? $payment->where('clientID', $get_client)
+                    : null;
+                ($get_status != 0)
+                    ? $payment->where('refundStatus', $get_status)
+                    : null;
+                ($get_dispute != 0)
+                    ? $payment->where('dispute', $get_dispute)
+                    : null;
+
+                $result = $payment->get();
+
+            }else{
+                $result = 0;
+            }
+
+
+            if($get_type != 0){
+                $get_types = $get_type;
+            }else{
+                $get_types = "--";
+            }
+
+            if($get_brand != 0){
+                $getbrands = Brand::where('id',$get_brand)->get();
+                $get_brands = $getbrands[0]->name;
+            }else{
+                $get_brands = "--";
+            }
+
+            if($get_chargingMode != 0){
+                $get_chargingModes = $get_chargingMode;
+            }else{
+                $get_chargingModes = "--";
+            }
+
+            if($get_paymentNature != 0){
+                $get_paymentNatures = $get_paymentNature;
+            }else{
+                $get_paymentNatures = "--";
+            }
+
+            if($get_projectmanager != 0){
+                $getprojectmanagers = Employee::where('id',$get_projectmanager)->get();
+                $get_projectmanagers = $getprojectmanagers[0]->name;
+            }else{
+                $get_projectmanagers = "--";
+            }
+
+            if($get_client != 0){
+                $getclients = Client::where('id',$get_client)->get();
+                $get_clients = $getclients[0]->name;
+            }else{
+                $get_clients = "--";
+            }
+
+            if($get_status != 0 || $get_dispute != 0){
+                if($get_status != 0){
+                    $get_statuss = $get_status;
+                }else{
+                    $get_statuss = "Dispute";
+                }
+            }else{
+                $get_statuss = "--";
+            }
+
+
+            // echo('<pre>');
+            // echo($status_OnGoing);
+            // die();
+
+        }
+
+        return view('new_revenueReport', [
             'clients' => $client,
             'employees' => $employee,
             'departments' => $department,
@@ -6493,6 +6767,8 @@ class BasicController extends Controller
                 $checktransactionID = NewPaymentsClients::where('TransactionID',$sepratedtoarray[0])->count();
                 if($checktransactionID == 0){
                     if($sepratedtoarray != $extractData[0]){
+                        $sql_date = date("Y-m-d", strtotime($sepratedtoarray[1]));
+                        $sql_date_dispute = date("Y-m-d", strtotime($sepratedtoarray[50]));
                         if($sepratedtoarray[16] == 'Paid'){
                             if( $sepratedtoarray[53] == null ){
                                 $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',($sepratedtoarray[40]))->get();
@@ -6513,7 +6789,7 @@ class BasicController extends Controller
                                             "Payment_Gateway"=> "Stripe",
                                             "bankWireUpload" =>  "--",
                                             "TransactionID"=>$sepratedtoarray[0],
-                                            "paymentDate"=>$sepratedtoarray[1],
+                                            "paymentDate"=>$sql_date,
                                             "SalesPerson"=> 0,
                                             "TotalAmount"=> 0,
                                             "Paid"=> $sepratedtoarray[6],
@@ -6539,7 +6815,7 @@ class BasicController extends Controller
                                             $createClientUnmatchedPayment = UnmatchedPayments::create([
                                                 "TransactionID" => $sepratedtoarray[0],
                                                 "Clientemail"=> $sepratedtoarray[40],
-                                                "paymentDate"=> $sepratedtoarray[1],
+                                                "paymentDate"=> $sql_date,
                                                 "Paid"=> $sepratedtoarray[6],
                                                 "Description"=> $sepratedtoarray[9],
                                                 "cardBrand"=> $sepratedtoarray[29],
@@ -6562,7 +6838,7 @@ class BasicController extends Controller
                                         $createClientUnmatchedPayment = UnmatchedPayments::create([
                                             "TransactionID" => $sepratedtoarray[0],
                                             "Clientemail"=> $sepratedtoarray[40],
-                                            "paymentDate"=> $sepratedtoarray[1],
+                                            "paymentDate"=> $sql_date,
                                             "Paid"=> $sepratedtoarray[6],
                                             "Description"=> $sepratedtoarray[9],
                                             "cardBrand"=> $sepratedtoarray[29],
@@ -6599,7 +6875,7 @@ class BasicController extends Controller
                                                     "ProjectID"=> $disputePayment[0]->ProjectID,
                                                     "ProjectManager" => $disputePayment[0]->ProjectManager,
                                                     "PaymentID" => $disputePayment[0]->id,
-                                                    "dispute_Date" =>  $sepratedtoarray[50],
+                                                    "dispute_Date" =>  $sql_date_dispute,
                                                     "disputedAmount" =>  $sepratedtoarray[49],
                                                     "disputeReason" => $sepratedtoarray[52]
                                                 ]);
@@ -6636,7 +6912,7 @@ class BasicController extends Controller
                                     "Payment_Gateway"=> "Stripe",
                                     "bankWireUpload" =>  "--",
                                     "TransactionID"=>$sepratedtoarray[0],
-                                    "paymentDate"=>$sepratedtoarray[1],
+                                    "paymentDate"=>$sql_date,
                                     "SalesPerson"=> 0,
                                     "TotalAmount"=> 0,
                                     "Paid"=> $sepratedtoarray[6],
@@ -6648,7 +6924,7 @@ class BasicController extends Controller
                                     "Description"=> $sepratedtoarray[9],
                                     'created_at' => date('y-m-d H:m:s'),
                                     'updated_at' => date('y-m-d H:m:s'),
-                                    "refundStatus"=> 'Refunded',
+                                    "refundStatus"=> 'Refund',
                                     "remainingStatus"=> "Unlinked Payments",
                                     "transactionType" => "--"
 
@@ -6662,7 +6938,7 @@ class BasicController extends Controller
                                     $createClientUnmatchedPayment = UnmatchedPayments::create([
                                         "TransactionID" => $sepratedtoarray[0],
                                         "Clientemail"=> $sepratedtoarray[40],
-                                        "paymentDate"=> $sepratedtoarray[1],
+                                        "paymentDate"=> $sql_date,
                                         "Paid"=> $sepratedtoarray[6],
                                         "Description"=> $sepratedtoarray[9],
                                         "cardBrand"=> $sepratedtoarray[29],
@@ -6689,6 +6965,8 @@ class BasicController extends Controller
 
                 }else{
                     if($sepratedtoarray != $extractData[0]){
+                        $sql_date = date("Y-m-d", strtotime($sepratedtoarray[1]));
+                        $sql_date_dispute = date("Y-m-d", strtotime($sepratedtoarray[50]));
                         if(isset($sepratedtoarray[53]) && $sepratedtoarray[53] != null){
                             $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',$sepratedtoarray[40])->get();
                             if ($matchclientmeta->isNotEmpty()){
@@ -6712,7 +6990,7 @@ class BasicController extends Controller
                                                 "ProjectID"=> $disputePayment[0]->ProjectID,
                                                 "ProjectManager" => $disputePayment[0]->ProjectManager,
                                                 "PaymentID" => $disputePayment[0]->id,
-                                                "dispute_Date" =>  $sepratedtoarray[50],
+                                                "dispute_Date" =>  $sql_date_dispute,
                                                 "disputedAmount" =>  $sepratedtoarray[49],
                                                 "disputeReason" => $sepratedtoarray[52]
                                             ]);
