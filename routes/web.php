@@ -201,6 +201,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/client/project/qareport/view/{id}','projectQaReport_view');
         Route::get('/client/project/qaform/view/{id}','projectQaReport_view_without_backButton');
         Route::get('/allproject/report/{id?}','projectreport');
+        Route::get('/project/report/{id?}','newprojectreport');
 
         Route::get('/client/revenue/{id?}','revenuereport');
         Route::get('/allclient/revenue/{id?}','new_revenuereport');
@@ -223,6 +224,10 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/settings/changeuser/client/{id}','Edit_Assign_Client_to_qaperson');
         Route::post('/settings/changeuser/client/{id}/Process','Edit_Assign_Client_to_qaperson_process');
         Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
+        //payment dashboard:
+        Route::get('/paymentdashboard/{id?}','paymentdashboard');
+        Route::get('/settarget','brandtarget');
+        Route::post('/settarget/process','brandtargetprocess');
 
     });
 

@@ -95,9 +95,9 @@
                                     <a href="#" onclick="myConfirm('{{ $item->id }}')" class="btn btn-danger">Delete</a>
                                     <a href="/client/project/payment/Dispute/{{$item->id}}" class="btn btn-warning">Submit Dispute</a>
                                     @endif
-                                    @if ($item->remainingStatus == "Remaining")
+                                    {{-- @if ($item->remainingStatus == "Remaining")
                                     <a href="/client/project/payment/remaining/{{$item->id}}" class="btn btn-info">Add Remaining</a>
-                                    @endif
+                                    @endif --}}
                                 @endif
                                 </div>
                             </td>

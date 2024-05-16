@@ -118,10 +118,10 @@
 
             <style>
                 .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
-    background-color: #ffffff !important;
-    color: #060708;
-    border: 0.5px solid #ecececcc !important;
-}
+                    background-color: #ffffff !important;
+                    color: #060708;
+                    border: 0.5px solid #ecececcc !important;
+                }
             </style>
             <table id="datatable1" class=" table-dark table-hover">
                 <thead>
