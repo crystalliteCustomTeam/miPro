@@ -119,9 +119,12 @@
           <span class="menu-item-label">Report</span>
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
-          <li class="sub-item"><a href="/allproject/report" class="sub-link">QA Report</a></li>
-          <li class="sub-item"><a href="/client/revenue" class="sub-link">Report</a></li>
+          {{-- <li class="sub-item"><a href="/allproject/report" class="sub-link">QA Report</a></li> --}}
+          <li class="sub-item"><a href="/project/report" class="sub-link">Quality Assurance Report</a></li>
+          {{-- <li class="sub-item"><a href="/client/revenue" class="sub-link">Report</a></li> --}}
           <li class="sub-item"><a href="/allclient/revenue" class="sub-link">Revenue Report</a></li>
+          <li class="sub-item"><a href="/settarget" class="sub-link">Set Brand Target</a></li>
+          <li class="sub-item"><a href="/paymentdashboard" class="sub-link">Payment Dashboard</a></li>
         </ul>
       </li><!-- br-menu-item -->
 

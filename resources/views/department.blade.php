@@ -126,11 +126,8 @@
 
 
 
-
-
-
             <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;" >Select Users:</label>
+                <label for="" style="font-weight:bold;" >Select Users:</label><br>
                 <select class="form-control select2" name="users[]" id="userInput">
                 @foreach ($employees as $client)
                         <option value="{{ $client->id }}">{{ $client->name }}

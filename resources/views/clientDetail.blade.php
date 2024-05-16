@@ -123,9 +123,9 @@
                   $allemails = json_decode($client[0]->clientMetas->otheremail);
               @endphp
               @foreach ($allemails as $item)
-              <p class="tx-inverse mg-b-25">{{ $item }}</p>
+              <p class="tx-inverse mg-b-5">{{ $item }}</p>
               @endforeach
-
+              <br>
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Initail Payment</label>
               <p class="tx-inverse mg-b-25">$ {{ $client[0]->clientMetas->amountPaid  }}</p>
 
@@ -448,7 +448,8 @@
                         <td><div class="alert alert-success">{{$item->Paid}}</div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
-                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                                {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
+                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
                             @else
                                 <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
                             @endif
@@ -467,7 +468,8 @@
                         <td><div class="alert alert-success">{{$item->Paid}}</div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
-                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                                {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
+                                <div class="alert alert-warning">{{$item->RemainingAmount}} </div>
                             @else
                                 <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
                             @endif
@@ -485,7 +487,8 @@
                         <td><div class="alert alert-success">({{$item->Paid}})</div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
-                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                                {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
+                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
                             @else
                                 <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
                             @endif
@@ -503,7 +506,8 @@
                         <td><div class="alert alert-success">{{$item->Paid}}</div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
-                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                                {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
+                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
                             @else
                                 <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
                             @endif
@@ -521,7 +525,8 @@
                         <td><div class="alert alert-success">({{$item->Paid}})</div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
-                                <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div>
+                                {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
+                                <div class="alert alert-warning">{{$item->RemainingAmount}} </div>
                             @else
                                 <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
                             @endif

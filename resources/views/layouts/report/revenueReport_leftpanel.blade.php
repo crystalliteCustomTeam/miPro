@@ -56,6 +56,13 @@
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Select Brand:</label>
                 <select class="form-control select2"  name="brand" onchange="createURL2(this.value)" >
+                    @if(isset($_GET['brand']) and $_GET['brand'] != 0)
+                    @foreach($brands as $brand)
+                    <option value="{{ $brand->id }}"{{ $brand->id == $_GET['brand'] ? "selected":"" }}>
+                      {{ $brand->name }}
+                    </option>
+                    @endforeach
+                   @endif
                     <option value="0" >Select</option>
                 @foreach($brands as $brand)
                     <option value="{{ $brand->id }}">
@@ -68,6 +75,9 @@
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Payment Nature:</label>
                 <select class="form-control select2"  name="paymentNature" onchange="createURL12(this.value)">
+                    @if(isset($_GET['paymentNature']) and $_GET['paymentNature'] != 0)
+                    <option value="{{ $_GET['paymentNature'] }}" selected>{{ $_GET['paymentNature'] }}</option>
+                    @endif
                     <option value="0" >Select</option>
                     <option value="New Lead">New Lead</option>
                     <option value="New Sale">New Sale</option>
@@ -85,6 +95,9 @@
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Charging Mode:</label>
                 <select class="form-control select2"  name="chargingMode" onchange="createURL11(this.value)">
+                    @if(isset($_GET['chargingMode']) and $_GET['chargingMode'] != 0)
+                    <option value="{{ $_GET['chargingMode'] }}" selected>{{ $_GET['chargingMode'] }}</option>
+                    @endif
                     <option value="0" >Select</option>
                     <option value="Renewal">Renewal</option>
                     <option value="Recurring">Recurring</option>
@@ -95,6 +108,17 @@
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Sale Person:</label>
                 <select class="form-control select2"  name="projectmanager" onchange="createURL3(this.value)">
+                    @if(isset($_GET['projectmanager']) and $_GET['projectmanager'] != 0)
+                    @foreach($employees as $employee)
+                    <option value="{{ $employee->id }}"{{ $employee->id == $_GET['projectmanager'] ? "selected":"" }}>
+                      {{ $employee->name }}
+                      --
+                      @foreach($employee->deparment($employee->id)  as $dm)
+                                <strong>{{ $dm->name }}</strong>
+                              @endforeach
+                    </option>
+                    @endforeach
+                   @endif
                     <option value="0" >Select</option>
                     @foreach($employees as $employee)
                     <option value="{{ $employee->id }}">
@@ -111,6 +135,13 @@
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Select Client:</label>
                 <select class="form-control select2"  name="client" onchange="createURL4(this.value)" >
+                    @if(isset($_GET['client']) and $_GET['client'] != 0)
+                    @foreach($clients as $client)
+                    <option value="{{ $client->id }}"{{ $client->id == $_GET['client'] ? "selected":"" }}>
+                      {{ $client->name }}
+                    </option>
+                    @endforeach
+                   @endif
                     <option value="0" >Select</option>
                 @foreach($clients as $client)
                     <option value="{{ $client->id }}" >
@@ -123,6 +154,9 @@
             <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Status:</label>
                 <select class="form-control select2"  name="status" onchange="createURL7(this.value)">
+                    @if(isset($_GET['status']) and $_GET['status'] != 0)
+                    <option value="{{ $_GET['status'] }}" selected>{{ $_GET['status'] }}</option>
+                    @endif
                     <option value="0" >Select</option>
                     <option value="On Going">On Going</option>
                     <option value="Dispute">Dispute</option>
