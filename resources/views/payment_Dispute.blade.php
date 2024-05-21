@@ -63,6 +63,10 @@
                             <input id="amountPaid" type="text" class="form-control" required onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" value="{{$client_payment[0]->Paid}}">
                         </div>
                         <div class="col-6 mt-3">
+                            <label for="" style="font-weight:bold;">Dispute Fee</label>
+                            <input id="disputefee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="disputefee">
+                        </div>
+                        <div class="col-6 mt-3">
                             <label for="" style="font-weight:bold;">Payments Include:</label>
                             <select class="form-control" required name="chargebacktype"  id="chargebacktype" >
                                 <option value="this" selected>this</option>
@@ -112,41 +116,7 @@
           </div>
         </div>
 
-        <div class="br-pagebody">
-            <div class="br-section-wrapper">
-               <h2>Related Payments:</h2>
 
-               <table class="table" id="datatable1">
-                  <tr>
-                    <td style="font-weight:bold;">Notice ID</td>
-                    <td style="font-weight:bold;">Total Amount</td>
-                    <td style="font-weight:bold;">Client Paid</td>
-                    <td style="font-weight:bold;">Nature</td>
-                    <td style="font-weight:bold;">Description</td>
-                  </tr>
-                  <tbody>
-                    @foreach ($related_payment as $payments)
-                      <tr>
-                        <td>{{ $payments->id }}</td>
-                        <td>${{ $payments->TotalAmount }}</td>
-                        <td>${{ $payments->Paid }}</td>
-                        <td>{{ $payments->paymentNature }}</td>
-                        <td>{{ $payments->Description}}</td>
-                      </tr>
-                    @endforeach
-                    @foreach ($remaining_payment as $remaining_payments)
-                    <tr>
-                      <td>{{ $remaining_payments->id }}</td>
-                      <td>${{ $remaining_payments->TotalAmount }}</td>
-                      <td>${{ $remaining_payments->Paid }}</td>
-                      <td>{{ $remaining_payments->paymentNature }}</td>
-                      <td>{{ $remaining_payments->Description}}</td>
-                    </tr>
-                  @endforeach
-                  </tbody>
-               </table>
-            </div>
-          </div>
 
 
         <footer class="br-footer">

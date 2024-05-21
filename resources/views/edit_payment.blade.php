@@ -59,7 +59,7 @@
                             <option value="Recurring Payment">Recurring Payment</option>
                             <option value="Small Payment">Small Payment</option>
                             <option value="Upsell">Upsell</option>
-                            <option value="Remaining">Remaining</option>
+                            {{-- <option value="Remaining">Remaining</option> --}}
                             <option value="One Time Payment">One Time Payment</option>
                             <option value="ChargeBack Won">ChargeBack Won</option>
                       </select>
@@ -192,6 +192,10 @@
                         <label for="" style="font-weight:bold;">Client Paid</label>
                         <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid"value="{{$editPayment->Paid}}">
                       </div>
+                      <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Transaction Fee</label>
+                        <input id="transactionfee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" value="{{$editPayment->transactionfee}}">
+                    </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Type</label>
                         <select class="form-control select2" name="paymentType" id="paymentType" required >

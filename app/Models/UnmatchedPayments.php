@@ -16,6 +16,7 @@ class UnmatchedPayments extends Model
         "Paid",
         "Description",
         "cardBrand",
-        "stripePaymentstatus"
+        "stripePaymentstatus",
+        "fee"
     ];
 }

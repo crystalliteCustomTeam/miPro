@@ -206,6 +206,10 @@
                         <input type="text" class="form-control" required value="{{$mainPayment->RemainingAmount}}" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
                       </div>
                       <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;">Transaction Fee</label>
+                        <input id="transactionfee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee">
+                    </div>
+                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Type</label>
                         <select class="form-control select2" name="paymentType" id="paymentType" required onchange="displayfields()">
                             <option value="Select">Select</option>

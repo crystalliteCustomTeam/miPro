@@ -206,16 +206,18 @@
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;" >Sale Person:</label>
                         <select class="form-control select2" required name="saleperson">
-                            @foreach ($saleemployee as $client)
+                            @foreach ($employee as $client)
                                 @if (isset($findclientofproject[0]->frontSeler) and $findclientofproject[0]->frontSeler !== null)
                                 <option value="{{ $client->id }}"{{ $client->id == $findclientofproject[0]->frontSeler ? 'selected' : '' }}>{{ $client->name }}
+                                --
+                                {{ $client->email }}
                                 --
                                 @else
                                 <option value="{{ $client->id }}">{{ $client->name }}
                                 --
                                 @endif
                                 @foreach($client->deparment($client->id)  as $dm)
-                                <strong>{{ $dm->name }}</strong>
+                                <strong>{{ $dm->name }},</strong>
                                 @endforeach
                             </option>
                             @endforeach
@@ -247,8 +249,12 @@
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
                     <input id="amountPaid" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
-                  </div>
-                  <div class="col-4 mt-3">
+                </div>
+                <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Transaction Fee</label>
+                    <input id="transactionfee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee">
+                </div>
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Payment Type</label>
                     <select class="form-control select2" name="paymentType" id="paymentType" required onchange="displayfields()">
                         <option value="Select">Select</option>

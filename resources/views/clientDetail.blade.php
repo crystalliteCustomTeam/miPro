@@ -424,13 +424,14 @@
             <thead>
               <tr role="row">
                 <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Project</th>
-                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Nature</th>
-                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Payment Mode</th>
-                <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Charging Plan</th>
-                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Payment Date</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Nature</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Mode</th>
+                {{-- <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">Charging Plan</th> --}}
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Date</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Refund Status</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Total Amount</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Client Paid</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Received</th>
                 <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Salary: activate to sort column ascending">Remaining</th>
               </tr>
             </thead>
@@ -441,11 +442,19 @@
                         <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}}</td>
                         <td>{{$item->paymentNature}}</td>
                         <td>{{$item->ChargingMode}}</td>
-                        <td>{{$item->ChargingPlan}}</td>
+                        {{-- <td>{{$item->ChargingPlan}}</td> --}}
                         <td>{{$item->paymentDate}}</td>
                         <td><div class="alert alert-warning">Dispute</div></td>
                         <td><div class="alert alert-primary">{{$item->TotalAmount}}</div></td>
                         <td><div class="alert alert-success">{{$item->Paid}}</div></td>
+                        <td><div class="alert alert-success">{{$item->amt_after_transactionfee}}
+                            {{-- @if (isset($item->disputetable->disputefee) && $item->disputetable->disputefee !== null)
+                            {{$item->disputetable->disputefee}}
+                            @else
+                            not found, {{$item->id}}
+                            @endif --}}
+
+                            </div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
                                 {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
@@ -461,11 +470,12 @@
                         <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
                         <td>{{$item->paymentNature}}</td>
                         <td>{{$item->ChargingMode}}</td>
-                        <td>{{$item->ChargingPlan}}</td>
+                        {{-- <td>{{$item->ChargingPlan}}</td> --}}
                         <td>{{$item->paymentDate}}</td>
                         <td><div class="alert alert-success">{{$item->refundStatus}}</div></td>
                         <td><div class="alert alert-primary">{{$item->TotalAmount}}</div></td>
                         <td><div class="alert alert-success">{{$item->Paid}}</div></td>
+                        <td><div class="alert alert-success">{{$item->amt_after_transactionfee}}</div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
                                 {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
@@ -480,11 +490,12 @@
                         <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
                         <td>{{$item->paymentNature}}</td>
                         <td>{{$item->ChargingMode}}</td>
-                        <td>{{$item->ChargingPlan}}</td>
+                        {{-- <td>{{$item->ChargingPlan}}</td> --}}
                         <td>{{$item->paymentDate}}</td>
                         <td><div class="alert alert-danger">{{$item->refundStatus}}</div></td>
                         <td><div class="alert alert-primary">({{$item->TotalAmount}})</div></td>
                         <td><div class="alert alert-success">({{$item->Paid}})</div></td>
+                        <td><div class="alert alert-success">({{$item->amt_after_transactionfee}})</div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
                                 {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
@@ -499,11 +510,12 @@
                         <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
                         <td>{{$item->paymentNature}}</td>
                         <td>{{$item->ChargingMode}}</td>
-                        <td>{{$item->ChargingPlan}}</td>
+                        {{-- <td>{{$item->ChargingPlan}}</td> --}}
                         <td>{{$item->paymentDate}}</td>
                         <td><div class="alert alert-info">Won</div></td>
                         <td><div class="alert alert-primary">{{$item->TotalAmount}}</div></td>
                         <td><div class="alert alert-success">{{$item->Paid}}</div></td>
+                        <td><div class="alert alert-success">{{$item->amt_after_transactionfee}}</div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
                                 {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
@@ -518,11 +530,13 @@
                         <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
                         <td>{{$item->paymentNature}}</td>
                         <td>{{$item->ChargingMode}}</td>
-                        <td>{{$item->ChargingPlan}}</td>
+                        {{-- <td>{{$item->ChargingPlan}}</td> --}}
                         <td>{{$item->paymentDate}}</td>
                         <td><div class="alert alert-secondary ">Lost</div></td>
                         <td><div class="alert alert-primary">({{$item->TotalAmount}})</div></td>
                         <td><div class="alert alert-success">({{$item->Paid}})</div></td>
+                        <td><div class="alert alert-success">({{$item->amt_after_disputefee}})
+                        </div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
                                 {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
@@ -632,9 +646,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td><div class="alert alert-primary"><strong>Total Amount</strong></div></td>
                     <td><div class="alert alert-success"><strong>Total Received</strong></div></td>
+                    <td><div class="alert alert-success"><strong>Total Received(Fee)</strong></div></td>
                     <td><div class="alert alert-warning"><strong>Total Remaining</strong></div></td>
                 </tr>
 
@@ -644,9 +658,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td><div class="alert alert-primary"><strong>${{$clienttotalwithoutRefund}}</strong></div></td>
                     <td><div class="alert alert-success"><strong>${{$clientPaid}}</strong></div></td>
+                    <td><div class="alert alert-success"><strong>${{$netReceivedamt}}</strong></div></td>
                     <td><div class="alert alert-warning"><strong>${{$clientRemaining}}</strong></div></td>
                 </tr>
             </tbody>

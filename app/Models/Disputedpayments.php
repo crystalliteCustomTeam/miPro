@@ -21,6 +21,8 @@ class Disputedpayments extends Model
         "disputedAmount",
         "disputeReason",
         "disputeStatus",
+        "disputefee",
+        "amt_after_disputefee"
 
     ];
 

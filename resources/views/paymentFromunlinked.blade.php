@@ -233,6 +233,10 @@
                             <input id="amountPaid" type="text" class="form-control" required value="{{$item->Paid}}" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
                         </div>
                         <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;">Transaction Fee</label>
+                            <input id="transactionfee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" value="{{$item->transactionfee}}">
+                        </div>
+                        <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Payment Type</label>
                             <select class="form-control select2" name="paymentType" id="paymentType" required onchange="displayfields()">
                                 <option value="Select">Select</option>
@@ -330,7 +334,7 @@
                     </div>
                 </form>
             @elseif($item->refundStatus == "Refunded")
-                <form action="/client/project/payment/RefundDispute/{{$item->id}}/process" method="POST" enctype="multipart/form-data">
+                <form action="/client/project/payment/Refund/{{$item->id}}/process" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="clientID" value=" {{$projectmanager[0]->ClientName->id}} ">
                     <input type="hidden" name="brandID" value=" {{$projectmanager[0]->ClientName->projectbrand->id}} ">
@@ -359,7 +363,7 @@
                                 --
                                 Total:{{ $referencepayments->TotalAmount }}
                                 --
-                                Paid:{{ $referencepayments->ProjectID }}
+                                Paid:{{ $referencepayments->Paid }}
                                 --
                                 {{ $referencepayments->Description }}
                             </option>
@@ -469,6 +473,10 @@
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Client Paid (Refunded)</label>
                             <input id="amountPaid" type="text" class="form-control" required value="{{$item->Paid}}" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;">Transaction Fee</label>
+                            <input id="transactionfee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" value="{{$item->transactionfee}}">
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Payment Type</label>
@@ -610,60 +618,6 @@
           </div>
         </div>
 
-        <div class="br-pagebody">
-          <div class="br-section-wrapper">
-             <h2>All Payments By {{$projectmanager[0]->ClientName->name }}</h2>
-
-             <table class="table" id="datatable1">
-                <tr>
-                  <td style="font-weight:bold;">Notice ID</td>
-                  <td style="font-weight:bold;">Payment By</td>
-                  <td style="font-weight:bold;">Charged Amount</td>
-                  <td style="font-weight:bold;">Remaning Amount</td>
-                  <td style="font-weight:bold;">Total Payment</td>
-                  <td style="font-weight:bold;">Shared Managers</td>
-                  <td style="font-weight:bold;">Shared Amounts</td>
-                </tr>
-                <tbody>
-                  @foreach ($allPayments as $payments)
-                    <tr>
-                      <td>{{ $payments->id }}</td>
-                      <td>{{ $payments->saleEmployeesName->name }}</td>
-                      <td>${{ $payments->Paid }}</td>
-                      <td>${{ $payments->RemainingAmount }}</td>
-                      <td>${{ $payments->TotalAmount}}</td>
-                      @php
-                          $amount = json_decode( $payments->ShareAmount);
-                          $managers = json_decode( $payments->SplitProjectManager);
-                      @endphp
-                      <td>
-                        <ul>
-                            @foreach ($managers as $items)
-                            @if($items != 0 && $items != "--")
-                                <li>{{$items}}</li>
-                            @else
-
-                            @endif
-                            @endforeach
-                        </ul>
-                       </td>
-                       <td>
-                        <ul>
-                            @foreach ($amount as $item)
-                            @if(isset($item) && $items != "--")
-                                <li>${{$item}}</li>
-                            @else
-
-                            @endif
-                            @endforeach
-                        </ul>
-                       </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-             </table>
-          </div>
-        </div>
 
 
 

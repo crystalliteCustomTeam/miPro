@@ -698,9 +698,87 @@ class BasicController extends Controller
                                 ->where('dispute',null)
                                 ->sum('Paid');
 
-            // $front = 0;
-            // $back = 0;
+            // $front = NewPaymentsClients::where("BrandID", $request->brand_id)
+            //                     ->whereYear('paymentDate',$request->year_id)
+            //                     ->whereMonth('paymentDate',$month)
+            //                     ->where('remainingStatus','!=', 'Unlinked Payments')
+            //                     ->where('refundStatus','!=', 'Pending Payment')
+            //                     ->where('paymentNature', 'New Lead')
+            //                     ->where(function($query)
+            //                     {
+            //                         $query->where('refundStatus','!=' ,'Refund')
+            //                         ->orwhere('dispute', null);
+            //                     })
+            //                     ->sum('Paid');
 
+            $front = NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereYear('paymentDate', $request->year_id)
+            ->whereMonth('paymentDate', $month)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', 'New Lead')
+            ->where(function ($query) {
+                $query->where('refundStatus', '!=', 'Refund')
+                    ->orWhere('dispute', null);
+            })
+            ->get();
+
+            $remaining = [];
+
+            foreach ($front as $fronts) {
+            if (!is_null($fronts->remainingID)) {
+                $frontnew = NewPaymentsClients::where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('remainingID', $fronts->remainingID)
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum("Paid");
+                $remaining[] = $frontnew;
+            }
+            }
+            $arraysum = array_sum($remaining);
+            // echo($arraysum);
+
+            $back = NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereYear('paymentDate', $request->year_id)
+            ->whereMonth('paymentDate', $month)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature','!=' ,'New Lead')
+            ->where(function ($query) {
+                $query->where('refundStatus', '!=', 'Refund')
+                    ->orWhere('dispute', null);
+            })
+            ->get();
+
+            $remainingback = [];
+
+            foreach ($back as $backs) {
+            if (!is_null($backs->remainingID)) {
+                $backnew = NewPaymentsClients::where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('remainingID', $backs->remainingID)
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum("Paid");
+                $remainingback[] = $backnew;
+            }
+            }
+            $arraysumback = array_sum($remainingback);
+
+            // echo($arraysumback);
+
+            // die();
             $return_array = [
                 "brandtargetofMonth" => $brandtargetofMonth,
                 "brandsales" => $brandsales,
@@ -708,6 +786,8 @@ class BasicController extends Controller
                 "net_revenue" => $net_revenue,
                 "dispute" => $dispute,
                 "refund" => $refund,
+                "front" => $arraysum,
+                "back" => $arraysumback,
             ];
 
             return response()->json($return_array);
@@ -2361,6 +2441,7 @@ class BasicController extends Controller
         $clientPaid = NewPaymentsClients::where('ClientID', $clientID)
                                 ->where('refundStatus','On Going')
                                 ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundStatus','!=','Pending Payment')
                                 ->where('refundID',null )
                                 ->where('dispute',null)
                                 ->SUM('Paid');
@@ -2408,6 +2489,42 @@ class BasicController extends Controller
         $disputepayment = Disputedpayments::where('ClientID', $clientID)
                                 ->get();
 
+
+
+
+        $paymentreceived = NewPaymentsClients::where('ClientID', $clientID)
+                                ->where('refundStatus','On Going')
+                                ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundStatus','!=','Pending Payment')
+                                ->where('refundID',null )
+                                ->where('dispute',null)
+                                ->SUM('amt_after_transactionfee');
+
+        $disputefee = NewPaymentsClients::where('ClientID', $clientID)
+                                ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundStatus','!=','Pending Payment')
+                                ->where('paymentNature','Dispute Lost')
+                                ->SUM('disputefee');
+
+        $deisputelosttransactionfee = NewPaymentsClients::where('ClientID', $clientID)
+                                ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundStatus','!=','Pending Payment')
+                                ->where('paymentNature','Dispute Lost')
+                                ->SUM('transactionfee');
+
+        $refundtransactionfeedata = NewPaymentsClients::where('ClientID', $clientID)
+                                ->where('remainingStatus','!=','Unlinked Payments')
+                                ->where('refundStatus','!=','Pending Payment')
+                                ->where('paymentNature','!=','Dispute Lost')
+                                ->where('refundStatus','!=','Refund')
+                                ->where('refundID','!=',null )
+                                ->where('dispute', null)
+                                ->SUM('transactionfee');
+
+
+        $netReceivedamt = $paymentreceived - $disputefee - $deisputelosttransactionfee - $refundtransactionfeedata;
+
+
         return view('clientDetail', [
             'client' => $findclient,
             'qaAssignee' => $qaAssignee,
@@ -2423,6 +2540,7 @@ class BasicController extends Controller
             'clientrefundcount' => $clientrefundcount,
             'disputepayment' => $disputepayment,
             'unlinkedpayment' => $unlinkedpayment,
+            'netReceivedamt' => $netReceivedamt,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
@@ -2529,6 +2647,7 @@ class BasicController extends Controller
         // print_r($a[0]);
         // echo(gettype($a[0]));
         //  die();
+
         $loginUser = $this->roleExits($request);
 
         $findproject = Project::where('id', $id)->get();
@@ -2647,7 +2766,9 @@ class BasicController extends Controller
                         'updated_at' => date('y-m-d H:m:s'),
                         "refundStatus"=> 'On Going',
                         "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                     ]);
 
@@ -2715,7 +2836,9 @@ class BasicController extends Controller
                         'updated_at' => date('y-m-d H:m:s'),
                         "refundStatus"=> 'On Going',
                         "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                     ]);
 
@@ -2749,7 +2872,9 @@ class BasicController extends Controller
                         'updated_at' => date('y-m-d H:m:s'),
                         "refundStatus"=> 'On Going',
                         "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                     ]);
 
@@ -2777,8 +2902,7 @@ class BasicController extends Controller
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
                         } elseif ($interval == "3 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                        }
-                        elseif ($interval == "4 Months") {
+                        }elseif ($interval == "4 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
                         }elseif ($interval == "5 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
@@ -2833,7 +2957,9 @@ class BasicController extends Controller
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'Pending Payment',
                             "remainingStatus"=> '--',
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
                     }
@@ -2860,8 +2986,7 @@ class BasicController extends Controller
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
                         } elseif ($interval == "3 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                        }
-                        elseif ($interval == "4 Months") {
+                        }elseif ($interval == "4 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
                         }elseif ($interval == "5 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
@@ -2916,7 +3041,9 @@ class BasicController extends Controller
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'Pending Payment',
                             "remainingStatus"=> '--',
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
                     }
@@ -3040,7 +3167,9 @@ class BasicController extends Controller
                             "refundStatus"=> 'On Going',
                             "remainingID" => $checkremaining[0]->remainingID,
                             "remainingStatus"=>  "Remaining Payment",
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
 
@@ -3157,7 +3286,9 @@ class BasicController extends Controller
                             "refundStatus"=> 'On Going',
                             "remainingID" => $request->input('remainingID'),
                             "remainingStatus"=> "Remaining Payment",
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
 
@@ -3217,7 +3348,6 @@ class BasicController extends Controller
             }
         }
 
-            // return redirect('/forms/payment/' . $request->input('project'));
             return redirect('/client/details/' . $request->input('clientID'));
     }
 
@@ -3338,7 +3468,9 @@ class BasicController extends Controller
             "refundStatus"=> 'Refund',
             "refundID" => $request->input('refundID'),
             "remainingStatus"=> 0,
-            "transactionType" =>  $referencepayment[0]->transactionType
+            "transactionType" =>  $referencepayment[0]->transactionType,
+            "transactionfee" => $request->input('transactionfee'),
+            "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
 
         ]);
 
@@ -3358,6 +3490,9 @@ class BasicController extends Controller
             "splitmanagers" =>   $referencepayment[0]->SplitProjectManager,
             "splitamounts" =>  $referencepayment[0]->ShareAmount,
             "splitRefunds" =>   ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+            "transactionfee" => $request->input('transactionfee'),
+            "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
+
 
         ]);
 
@@ -3439,7 +3574,7 @@ class BasicController extends Controller
         $referencepayment = NewPaymentsClients::where('id', $request->input('paymentID'))->get();
 
         $originalpayment = NewPaymentsClients::where('id', $request->input('paymentID'))->update([
-            "dispute" => "dispute"
+            "dispute" => "dispute",
         ]);
 
 
@@ -3452,6 +3587,8 @@ class BasicController extends Controller
             "dispute_Date" => $request->input('disputedate'),
             "disputedAmount" => $request->input('clientpaid'),
             "disputeReason" => $request->input('description'),
+            "disputefee" => $request->input('disputefee'),
+            "amt_after_disputefee" => $request->input('clientpaid') + $request->input('disputefee'),
 
         ]);
 
@@ -3493,8 +3630,9 @@ class BasicController extends Controller
     }
     function payment_Dispute_Process_lost(Request $request){
         $referencepayment = NewPaymentsClients::where('id', $request->input('mainpayment'))->get();
+        $disputetogetfee = Disputedpayments::where('id', $request->input('disputeID'))->get();
         $Disputedpayments = Disputedpayments::where('id', $request->input('disputeID'))->update([
-            "disputeStatus" => "Lost"
+            "disputeStatus" => "Lost",
         ]);
 
         $originalpayment = NewPaymentsClients::where('id', $request->input('mainpayment'))->update([
@@ -3535,7 +3673,11 @@ class BasicController extends Controller
             "refundStatus"=> 'Refund',
             "refundID" => $request->input('refundID'),
             "remainingStatus"=> "Dispute Lost",
-            "transactionType" =>  $referencepayment[0]->transactionType
+            "transactionType" =>  $referencepayment[0]->transactionType,
+            "transactionfee" => $referencepayment[0]->transactionfee,
+            "amt_after_transactionfee" => $referencepayment[0]->Paid,
+            "disputefee" => $disputetogetfee[0]->disputefee,
+            "amt_after_disputefee" => $referencepayment[0]->Paid + $disputetogetfee[0]->disputefee,
 
         ]);
 
@@ -3595,7 +3737,7 @@ class BasicController extends Controller
         } else {
 
             $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
-            $clientpaid = $request->input('clientpaid');
+            $clientpaid = $request->input('chagebackAmt');
 
 
 
@@ -3674,19 +3816,23 @@ class BasicController extends Controller
             "refundStatus"=> 'On Going',
             "remainingStatus"=> "Dispute Won",
             "transactionType" => $referencepayment[0]->transactionType,
+            "transactionfee" => $referencepayment[0]->transactionfee,
+            "amt_after_transactionfee" => $request->input('wonamount') - $referencepayment[0]->transactionfee,
+            // "disputefee" => 0,
+            // "amt_after_disputefee" => $request->input('wonamount') - $referencepayment[0]->transactionfee,
         ]);
 
         if ($referencepayment[0]->PaymentType == "Split Payment") {
             $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
-            $totalamount = $request->input('totalamount');
-            $amountShare = $request->input('splitamount');
+            $totalamount = $request->input('wonamount');
+            $amountShare = $request->input('newamount');
             $sharedProjectManager = $request->input('shareProjectManager');
             $c = [];
             $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
             $createMainEmployeePayment  = EmployeePayment::create([
                     "paymentID" => $createpayment,
-                    "employeeID" => $request->input('saleperson'),
+                    "employeeID" => $referencepayment[0]->SalesPerson,
                     "paymentDescription" => $paymentDescription ,
                     "amount" => $amount
                 ]);
@@ -3719,9 +3865,9 @@ class BasicController extends Controller
             $createEmployeePayment  = EmployeePayment::create(
                 [
                     "paymentID" => $createpayment,
-                    "employeeID" => $request->input('saleperson'),
+                    "employeeID" => $referencepayment[0]->SalesPerson,
                     "paymentDescription" =>  $paymentDescription,
-                    "amount" =>   $clientpaid
+                    "amount" =>   $referencepayment[0]->TotalAmount
                 ]
             );
         }
@@ -3890,7 +4036,9 @@ class BasicController extends Controller
                     "Description"=> $request->input('description'),
                     'updated_at' => date('y-m-d H:m:s'),
                     "refundStatus"=> 'On Going',
-                    "remainingStatus"=> $remainingstatus
+                    "remainingStatus"=> $remainingstatus,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
                 ]);
 
             }else{
@@ -3919,7 +4067,9 @@ class BasicController extends Controller
                     "Description"=> $request->input('description'),
                     'updated_at' => date('y-m-d H:m:s'),
                     "refundStatus"=> 'On Going',
-                    "remainingStatus"=> $remainingstatus
+                    "remainingStatus"=> $remainingstatus,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
                 ]);
                 $deletePendingpayments = NewPaymentsClients::where('transactionType', $allPayments[0]->transactionType)->where('paymentDate', null)->delete();
 
@@ -3998,7 +4148,9 @@ class BasicController extends Controller
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'Pending Payment',
                             "remainingStatus"=> '--',
-                            "transactionType" => $allPayments[0]->transactionType
+                            "transactionType" => $allPayments[0]->transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
                     }
@@ -4036,7 +4188,9 @@ class BasicController extends Controller
                             "Description"=> $request->input('description'),
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'On Going',
-                            "remainingStatus"=> $remainingstatus
+                            "remainingStatus"=> $remainingstatus,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
                         ]);
 
                         if($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
@@ -4114,7 +4268,9 @@ class BasicController extends Controller
                                     'updated_at' => date('y-m-d H:m:s'),
                                     "refundStatus"=> 'Pending Payment',
                                     "remainingStatus"=> '--',
-                                    "transactionType" => $allPayments[0]->transactionType
+                                    "transactionType" => $allPayments[0]->transactionType,
+                                    "transactionfee" => $request->input('transactionfee'),
+                                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                                 ]);
                             }
@@ -4186,7 +4342,9 @@ class BasicController extends Controller
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'On Going',
                             "remainingStatus"=> $remainingstatus,
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
 
@@ -4265,7 +4423,9 @@ class BasicController extends Controller
                                     'updated_at' => date('y-m-d H:m:s'),
                                     "refundStatus"=> 'Pending Payment',
                                     "remainingStatus"=> '--',
-                                    "transactionType" => $allPayments[0]->transactionType
+                                    "transactionType" => $allPayments[0]->transactionType,
+                                    "transactionfee" => $request->input('transactionfee'),
+                                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                                 ]);
                             }
@@ -4302,7 +4462,9 @@ class BasicController extends Controller
                             "Description"=> $request->input('description'),
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'On Going',
-                            "remainingStatus"=> $remainingstatus
+                            "remainingStatus"=> $remainingstatus,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
                         ]);
 
                         if($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
@@ -4380,7 +4542,9 @@ class BasicController extends Controller
                                     'updated_at' => date('y-m-d H:m:s'),
                                     "refundStatus"=> 'Pending Payment',
                                     "remainingStatus"=> '--',
-                                    "transactionType" => $allPayments[0]->transactionType
+                                    "transactionType" => $allPayments[0]->transactionType,
+                                    "transactionfee" => $request->input('transactionfee'),
+                                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                                 ]);
                             }
@@ -4452,7 +4616,9 @@ class BasicController extends Controller
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'On Going',
                             "remainingStatus"=> $remainingstatus,
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
 
@@ -4531,7 +4697,9 @@ class BasicController extends Controller
                                     'updated_at' => date('y-m-d H:m:s'),
                                     "refundStatus"=> 'Pending Payment',
                                     "remainingStatus"=> '--',
-                                    "transactionType" => $allPayments[0]->transactionType
+                                    "transactionType" => $allPayments[0]->transactionType,
+                                    "transactionfee" => $request->input('transactionfee'),
+                                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                                 ]);
                             }
@@ -4576,7 +4744,9 @@ class BasicController extends Controller
                         'updated_at' => date('y-m-d H:m:s'),
                         "refundStatus"=> 'On Going',
                         "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                     ]);
 
@@ -4610,7 +4780,9 @@ class BasicController extends Controller
                         'updated_at' => date('y-m-d H:m:s'),
                         "refundStatus"=> 'On Going',
                         "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                     ]);
 
@@ -4751,7 +4923,9 @@ class BasicController extends Controller
                         'updated_at' => date('y-m-d H:m:s'),
                         "refundStatus"=> 'On Going',
                         "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                     ]);
 
@@ -4819,7 +4993,9 @@ class BasicController extends Controller
                         'updated_at' => date('y-m-d H:m:s'),
                         "refundStatus"=> 'On Going',
                         "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                     ]);
 
@@ -4853,7 +5029,9 @@ class BasicController extends Controller
                         'updated_at' => date('y-m-d H:m:s'),
                         "refundStatus"=> 'On Going',
                         "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                     ]);
 
@@ -4937,7 +5115,9 @@ class BasicController extends Controller
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'Pending Payment',
                             "remainingStatus"=> '--',
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
                     }
@@ -5020,7 +5200,9 @@ class BasicController extends Controller
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'Pending Payment',
                             "remainingStatus"=> '--',
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
                     }
@@ -5143,7 +5325,9 @@ class BasicController extends Controller
                             "refundStatus"=> 'On Going',
                             "remainingID" => $checkremaining[0]->remainingID,
                             "remainingStatus"=>  "Remaining Payment",
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
 
@@ -5260,7 +5444,9 @@ class BasicController extends Controller
                             "refundStatus"=> 'On Going',
                             "remainingID" => $request->input('remainingID'),
                             "remainingStatus"=> "Remaining Payment",
-                            "transactionType" => $transactionType
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
 
@@ -5330,89 +5516,254 @@ class BasicController extends Controller
     }
 
 
+    function payment_Refund_stripePayment_Process(Request $request, $id){
+        $referencepayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->get();
+        if($referencepayment[0]->dispute == null){
+            $originalpayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->update([
+                "refundID" => $request->input('refundID')
+            ]);
 
-    // function payment_Refund_Dispute(Request $request, $id){
-    //     $loginUser = $this->roleExits($request);
-    //     $client_payment = NewPaymentsClients::where('id', $id)->get();
-    //     $employee_payment = Employeepayment::where('paymentID', $id)->get();
-    //     return view('payment_Refund_Dispute', [
-    //         'client_payment' => $client_payment,
-    //         'employee_payment' => $employee_payment,
-    //         'LoginUser' => $loginUser[1],
-    //         'departmentAccess' => $loginUser[0],
-    //         'superUser' => $loginUser[2]
-    //     ]);
+            if($request->file('bankWireUpload') != null ){
+                $bookwire = $request->file('bankWireUpload')->store('Payment');
+            }else{
+                $bookwire ="--";
+            }
 
-    // }
+            $originalrefund = NewPaymentsClients::insertGetId([
+                "BrandID" => $request->input('brandID'),
+                "ClientID"=> $request->input('clientID'),
+                "ProjectID"=> $request->input('project'),
+                "ProjectManager"=> $request->input('accountmanager'),
+                "paymentNature"=> $referencepayment[0]->paymentNature,
+                "ChargingPlan"=> $referencepayment[0]->ChargingPlan,
+                "ChargingMode"=> $referencepayment[0]->ChargingMode,
+                "Platform"=> $request->input('platform'),
+                "Card_Brand"=> $request->input('cardBrand'),
+                "Payment_Gateway"=> $request->input('paymentgateway'),
+                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                "TransactionID"=> $request->input('transactionID'),
+                "paymentDate"=> $request->input('paymentdate'),
+                "SalesPerson"=> $request->input('saleperson'),
+                "TotalAmount"=> $request->input('totalamount'),
+                "Paid"=> $request->input('clientpaid'),
+                "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
+                "PaymentType"=> $referencepayment[0]->PaymentType,
+                "numberOfSplits" => $referencepayment[0]->numberOfSplits,
+                "SplitProjectManager" => $referencepayment[0]->SplitProjectManager,
+                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                "Description"=> $request->input('description'),
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s'),
+                "refundStatus"=> 'Refund',
+                "refundID" => $request->input('refundID'),
+                "remainingStatus"=> 0,
+                "transactionType" =>  $referencepayment[0]->transactionType,
+                "transactionfee" => 0,
+                "amt_after_transactionfee" => $request->input('clientpaid')
 
-    // function payment_Refund_Dispute_Process(Request $request, $id){
-    //     $addrefunds = NewPaymentsClients::where('id', $id)->get();
-    //     $referencepayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->get();
-    //     $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
+            ]);
 
-    //     if($remainingamt == 0){
-    //         $remainingstatus = "Not Remaining";
-    //     }else{
-    //         $remainingstatus = "Remaining";
-    //     }
-
-    //     $addrefundpayment = NewPaymentsClients::where('id',$id)
-    //                         ->update([
-    //                             "ProjectID"=> $referencepayment[0]->paymentNature,
-    //                             "ProjectManager"=> $request->input('accountmanager'),
-    //                             "paymentNature"=> $referencepayment[0]->paymentNature,
-    //                             "ChargingPlan"=>  $referencepayment[0]->ChargingPlan,
-    //                             "ChargingMode"=>  $referencepayment[0]->ChargingMode,
-    //                             "Platform"=> $request->input('platform'),
-    //                             "Card_Brand"=> $request->input('cardBrand'),
-    //                             "Payment_Gateway"=> $request->input('paymentgateway'),
-    //                             "bankWireUpload" => '--',
-    //                             "TransactionID"=> $request->input('transactionID'),
-    //                             "paymentDate"=> $request->input('paymentdate'),
-    //                             "SalesPerson"=> $request->input('saleperson'),
-    //                             "TotalAmount"=> $request->input('totalamount'),
-    //                             "Paid"=> $request->input('clientpaid'),
-    //                             "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-    //                             "PaymentType"=>  $referencepayment[0]->PaymentType,
-    //                             "numberOfSplits" => $referencepayment[0]->numberOfSplits,
-    //                             "SplitProjectManager" =>  $referencepayment[0]->SplitProjectManager,
-    //                             "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode([null, null, null, null]) : json_encode($request->input('splitamount')),
-    //                             "Description"=> $request->input('description'),
-    //                             'updated_at' => date('y-m-d H:m:s'),
-    //                             'refundStatus' => $request->input('chargebacktype'),
-    //                             'refundID' => $request->input('refundID'),
-    //                             "remainingStatus"=> $remainingstatus,
-    //                             "transactionType" => $referencepayment[0]->transactionType,
-    //                         ]);
-
-    //     $addrefundInrefundTable = RefundPayments::create([
-    //                             "BrandID" => $referencepayment[0]->BrandID,
-    //                             "ClientID" => $referencepayment[0]->ClientID,
-    //                             "ProjectID"=> $referencepayment[0]->ProjectID,
-    //                             "ProjectManager" =>$request->input('accountmanager'),
-    //                             "PaymentID" => $id,
-    //                             "refundAmount" => $request->input('chagebackAmt'),
-    //                             "refundtype" => $request->input('chargebacktype'),
-    //                             "refund_date" => $request->input('chagebackDate'),
-    //                             "refundReason" => $request->input('Description_of_issue'),
-
-    //                         ]);
+            $payment_in_refund_table = RefundPayments::create([
+                "BrandID" =>  $request->input('brandID'),
+                "ClientID" =>  $request->input('clientID'),
+                "ProjectID"=> $request->input('project'),
+                'ProjectManager' => $request->input('accountmanager'),
+                'PaymentID' => $originalrefund,
+                'basicAmount' =>  $request->input('totalamount'),
+                "refundAmount"=> $request->input('clientpaid'),
+                "refundtype" => $request->input('chargebacktype'),
+                "refund_date"=> $request->input('paymentdate'),
+                "refundReason" =>  $request->input('description'),
+                "clientpaid" =>   $referencepayment[0]->Paid,
+                "paymentType" =>   $referencepayment[0]->PaymentType,
+                "splitmanagers" =>   $referencepayment[0]->SplitProjectManager,
+                "splitamounts" =>  $referencepayment[0]->ShareAmount,
+                "splitRefunds" =>   ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                "transactionfee" => $request->input('transactionfee'),
+                "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
 
 
-    //     if(($addrefunds[0]->paymentNature == "New Lead" || $addrefunds[0]->paymentNature == "New Sale" || $addrefunds[0]->paymentNature == "Upsell") && $addrefunds[0]->ChargingPlan != "One Time Payment"){
+            ]);
 
-    //                             $addrefund = NewPaymentsClients::where('ClientID', $referencepayment[0]->id )
-    //                                         ->where('ProjectID', $referencepayment[0]->ProjectID )
-    //                                         ->where('transactionType', $referencepayment[0]->transactionType)
-    //                                         ->where('refundStatus', "Pending Payment")
-    //                                         ->delete();
-    //     }
+            if ($referencepayment[0]->PaymentType == "Split Payment") {
+                $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
+                $totalamount = $request->input('totalamount');
+                $amountShare = $request->input('splitamount');
+                $sharedProjectManager = $request->input('shareProjectManager');
+                $c = [];
+                $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
-    //     return redirect('/client/project/payment/all');
+                $createMainEmployeePayment  = EmployeePayment::create([
+                        "paymentID" => $originalrefund,
+                        "employeeID" => $request->input('saleperson'),
+                        "paymentDescription" => $paymentDescription ,
+                        "amount" => $amount
+                    ]);
 
-    // }
 
 
+                foreach ($sharedProjectManager as $key => $value) {
+                    $c[$key] = [$value, $amountShare[$key]];
+                }
+
+                foreach($c as $SecondProjectManagers){
+                    if($SecondProjectManagers[0] != 0){
+                        $createSharedPersonEmployeePayment  = EmployeePayment::create(
+                            [
+                                "paymentID" => $originalrefund,
+                                "employeeID" => $SecondProjectManagers[0],
+                                "paymentDescription" => "refund Share By " . $request->input('saleperson'),
+                                "amount" =>  $SecondProjectManagers[1]
+                            ]);
+                    }
+                }
+
+            } else {
+
+                $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
+                $clientpaid = $request->input('clientpaid');
+
+
+
+                $createEmployeePayment  = EmployeePayment::create(
+                    [
+                        "paymentID" => $originalrefund,
+                        "employeeID" => $request->input('accountmanager'),
+                        "paymentDescription" =>  $paymentDescription,
+                        "amount" =>   $clientpaid
+                    ]
+                );
+            }
+
+        }else{
+            $referencepayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->get();
+            $disputetogetfee = Disputedpayments::where('PaymentID', $request->input('paymentreference'))->get();
+            $Disputedpayments = Disputedpayments::where('PaymentID', $request->input('paymentreference'))->update([
+                "disputeStatus" => "Lost",
+            ]);
+
+            $originalpayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->update([
+                "refundID" => $request->input('refundID')
+            ]);
+
+            if($request->file('bankWireUpload') != null ){
+                $bookwire = $request->file('bankWireUpload')->store('Payment');
+            }else{
+                $bookwire ="--";
+            }
+
+            $originalrefund = NewPaymentsClients::where('id', $request->input('paymentreference'))->update([
+                "BrandID" => $request->input('brandID'),
+                "ClientID"=> $request->input('clientID'),
+                "ProjectID"=> $request->input('project'),
+                "ProjectManager"=> $request->input('accountmanager'),
+                "paymentNature"=> $referencepayment[0]->paymentNature,
+                "ChargingPlan"=> $referencepayment[0]->ChargingPlan,
+                "ChargingMode"=> $referencepayment[0]->ChargingMode,
+                "Platform"=> $referencepayment[0]->Platform,
+                "Card_Brand"=> $referencepayment[0]->Card_Brand,
+                "Payment_Gateway"=> $referencepayment[0]->Payment_Gateway,
+                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                "TransactionID"=> $referencepayment[0]->TransactionID."(Refund)",
+                "paymentDate"=> $request->input('paymentdate'),
+                "SalesPerson"=> $referencepayment[0]->SalesPerson,
+                "TotalAmount"=> $referencepayment[0]->TotalAmount,
+                "Paid"=> $referencepayment[0]->Paid,
+                "RemainingAmount" =>0,
+                "PaymentType"=> $referencepayment[0]->PaymentType,
+                "numberOfSplits" => $referencepayment[0]->numberOfSplits,
+                "SplitProjectManager" => $referencepayment[0]->SplitProjectManager,
+                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('refundamount')),
+                "Description"=> $request->input('Description_of_issue'),
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s'),
+                "refundStatus"=> 'Refund',
+                "refundID" => $request->input('refundID'),
+                "remainingStatus"=> "Dispute Lost",
+                "transactionType" =>  $referencepayment[0]->transactionType,
+                "transactionfee" => 0,
+                "amt_after_transactionfee" => $referencepayment[0]->Paid,
+                "disputefee" => $disputetogetfee[0]->disputefee,
+                "amt_after_disputefee" => $referencepayment[0]->Paid + $disputetogetfee[0]->disputefee,
+
+            ]);
+
+            $payment_in_refund_table = RefundPayments::create([
+                "BrandID" =>  $request->input('brandID'),
+                "ClientID" =>  $request->input('clientID'),
+                "ProjectID"=> $request->input('project'),
+                'ProjectManager' => $request->input('accountmanager'),
+                'PaymentID' => $request->input('paymentreference'),
+                'basicAmount' =>  $referencepayment[0]->TotalAmount,
+                "refundAmount"=> $request->input('chagebackAmt'),
+                "refundtype" => $request->input('chargebacktype'),
+                "refund_date"=> $request->input('chagebackDate'),
+                "refundReason" =>  $request->input('Description_of_issue'),
+                "clientpaid" =>   $referencepayment[0]->Paid,
+                "paymentType" =>   $referencepayment[0]->PaymentType,
+                "splitmanagers" =>   $referencepayment[0]->SplitProjectManager,
+                "splitamounts" =>  $referencepayment[0]->ShareAmount,
+                "splitRefunds" =>   ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('refundamount')),
+
+            ]);
+
+
+            if ($referencepayment[0]->PaymentType == "Split Payment") {
+                $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
+                $totalamount = $request->input('totalamount');
+                $amountShare = $request->input('splitamount');
+                $sharedProjectManager = $request->input('shareProjectManager');
+                $c = [];
+                $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
+
+                $createMainEmployeePayment  = EmployeePayment::create([
+                        "paymentID" => $request->input('paymentreference'),
+                        "employeeID" => $request->input('saleperson'),
+                        "paymentDescription" => $paymentDescription ,
+                        "amount" => $amount
+                    ]);
+
+
+
+                foreach ($sharedProjectManager as $key => $value) {
+                    $c[$key] = [$value, $amountShare[$key]];
+                }
+
+                foreach($c as $SecondProjectManagers){
+                    if($SecondProjectManagers[0] != 0){
+                        $createSharedPersonEmployeePayment  = EmployeePayment::create(
+                            [
+                                "paymentID" => $request->input('paymentreference'),
+                                "employeeID" => $SecondProjectManagers[0],
+                                "paymentDescription" => "Refund Share By " . $request->input('saleperson'),
+                                "amount" =>  $SecondProjectManagers[1]
+                            ]);
+                    }
+                }
+
+            } else {
+
+                $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
+                $clientpaid = $request->input('chagebackAmt');
+
+
+
+                $createEmployeePayment  = EmployeePayment::create(
+                    [
+                        "paymentID" => $request->input('paymentreference'),
+                        "employeeID" => $request->input('saleperson'),
+                        "paymentDescription" =>  $paymentDescription,
+                        "amount" =>   $clientpaid
+                    ]
+                );
+            }
+
+
+        }
+
+        return redirect('/client/project/payment/all');
+
+    }
 
     function payment_remaining_amount(Request $request, $id)
     {
@@ -5496,7 +5847,9 @@ class BasicController extends Controller
                     "refundStatus"=> 'On Going',
                     "remainingID" => $request->input('remainingID'),
                     "remainingStatus"=> $remainingstatus,
-                    "transactionType" => $transactionType
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                 ]);
 
@@ -5593,6 +5946,7 @@ class BasicController extends Controller
         $paymentdate = $data['paymentdata'][0]->paymentDate;
         $clientpaid = $data['paymentdata'][0]->Paid;
         $description = $data['paymentdata'][0]->Description;
+        $transactionfee = $data['paymentdata'][0]->transactionfee;
 
         $return_array = [
             "cardbrand" => $cardbrand,
@@ -5600,7 +5954,8 @@ class BasicController extends Controller
             "transactionID" => $transactionID,
             "paymentdate" => $paymentdate,
             "clientpaid" => $clientpaid,
-            "description" => $description
+            "description" => $description,
+            "transactionfee" => $transactionfee
         ];
 
         return response()->json($return_array);
@@ -5687,6 +6042,8 @@ class BasicController extends Controller
                     'updated_at' => date('y-m-d H:m:s'),
                     "refundStatus"=> 'On Going',
                     "remainingStatus"=> $remainingstatus,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
                     // "transactionType" => $transactionType
 
                 ]);
@@ -5714,6 +6071,8 @@ class BasicController extends Controller
                     'updated_at' => date('y-m-d H:m:s'),
                     "refundStatus"=> 'On Going',
                     "remainingStatus"=> $remainingstatus,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
                     // "transactionType" => $transactionType
 
                 ]);
@@ -5905,7 +6264,17 @@ class BasicController extends Controller
         $projects = Project::all();
 
 
-        return view('userreport', ['company' => $companies, 'brand' => $brands, 'department' => $departments, 'employee' => $employees, 'client' => $clients, 'project' => $projects, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('userreport', [
+            'company' => $companies,
+            'brand' => $brands,
+            'department' => $departments,
+            'employee' => $employees,
+            'client' => $clients,
+            'project' => $projects,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     // function clientPayment1(Request $request)
@@ -6436,40 +6805,6 @@ class BasicController extends Controller
             }
         }
     }
-
-    // function qaform_direct_process(Request $request)
-    // {
-    //     $project = Project::where('id', $request->input('projectname'))->get();
-    //     $qaPerson = $request->session()->get('AdminUser');
-    //     QAFORM::create([
-    //         'clientID' => $project[0]->ClientName->id,
-    //         'projectID' => $request->input('projectname'),
-    //         'projectmanagerID' => $project[0]->EmployeeName->id,
-    //         'brandID' => $project[0]->ClientName->projectbrand->id,
-    //         "qaformID" => $request->input('qaformID'),
-    //         "status" => $request->input('status'),
-    //         "last_communication" =>   $request->input('last_communication_with_client'),
-    //         "medium_of_communication" => json_encode($request->input('Medium_of_communication')),
-    //         "qaPerson" => $qaPerson[0]->id,
-    //     ]);
-
-    //     return redirect('/forms/qaform/qa_meta/' . $request->input('qaformID'));
-    // }
-
-    // function qaform_prefilled(Request $request, $id)
-    // {
-    //     $loginUser = $this->roleExits($request);
-    //     $project = Project::where('id', $id)->get();
-    //     $production = ProjectProduction::where('projectID', $project[0]->productionID)->get();
-    //     $brand = Brand::get();
-    //     $department = Department::get();
-    //     $employee = Employee::get();
-    //     $qa_issues = QaIssues::get();
-
-    //     return view('combined_qaform', ['brands' => $brand, 'departments' => $department, 'projects' => $project, 'employees' => $employee, 'productions' => $production, 'qaissues' => $qa_issues, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
-    // }
-
-
 
     function new_qaform_delete(Request $request, $id)
     {
@@ -7645,8 +7980,9 @@ class BasicController extends Controller
                                             'updated_at' => date('y-m-d H:m:s'),
                                             "refundStatus"=> 'On Going',
                                             "remainingStatus"=> "Unlinked Payments",
-                                            "transactionType" => "--"
-
+                                            "transactionType" => "--",
+                                            "transactionfee" =>  $newarray['Fee'],
+                                            "amt_after_transactionfee" => $newarray['Converted Amount'] - $newarray['Fee'],
                                         ]);
                                     }else{
                                         $checkinUnmatched = UnmatchedPayments::where('TransactionID',$newarray['id'])->count();
@@ -7662,6 +7998,7 @@ class BasicController extends Controller
                                                 "Description"=> $newarray['Description'],
                                                 "cardBrand"=> $newarray['Card Brand'],
                                                 "stripePaymentstatus"=> $newarray['Status'],
+                                                "fee" =>  $newarray['Fee'],
                                                 'created_at' => date('y-m-d H:m:s'),
                                                 'updated_at' => date('y-m-d H:m:s'),
 
@@ -7685,9 +8022,9 @@ class BasicController extends Controller
                                             "Description"=> $newarray['Description'],
                                             "cardBrand"=> $newarray['Card Brand'],
                                             "stripePaymentstatus"=> $newarray['Status'],
+                                            "fee" =>  $newarray['Fee'],
                                             'created_at' => date('y-m-d H:m:s'),
                                             'updated_at' => date('y-m-d H:m:s'),
-
                                         ]);
 
                                     }
@@ -7768,7 +8105,9 @@ class BasicController extends Controller
                                     'updated_at' => date('y-m-d H:m:s'),
                                     "refundStatus"=> 'Refund',
                                     "remainingStatus"=> "Unlinked Payments",
-                                    "transactionType" => "--"
+                                    "transactionType" => "--",
+                                    "transactionfee"=> 0,
+                                    "amt_after_transactionfee" => $newarray['Converted Amount']
 
                                 ]);
                             }else{
@@ -7785,6 +8124,7 @@ class BasicController extends Controller
                                         "Description"=> $newarray['Description'],
                                         "cardBrand"=> $newarray['Card Brand'],
                                         "stripePaymentstatus"=> $newarray['Status'],
+                                        "fee" =>  $newarray['Fee'],
                                         'created_at' => date('y-m-d H:m:s'),
                                         'updated_at' => date('y-m-d H:m:s'),
 
@@ -7891,7 +8231,9 @@ class BasicController extends Controller
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'Refunded',
                             "remainingStatus"=> "Unlinked Payments",
-                            "transactionType" => "--"
+                            "transactionType" => "--",
+                            "transactionfee"=> 0,
+                            "amt_after_transactionfee" => $getUnmatcheds->Paid,
 
                         ]);
 
@@ -7924,7 +8266,9 @@ class BasicController extends Controller
                             'updated_at' => date('y-m-d H:m:s'),
                             "refundStatus"=> 'On Going',
                             "remainingStatus"=> "Unlinked Payments",
-                            "transactionType" => "--"
+                            "transactionType" => "--",
+                            "transactionfee"=> $getUnmatcheds->fee,
+                            "amt_after_transactionfee" => $getUnmatcheds->Paid - $getUnmatcheds->fee,
 
                         ]);
                     }
