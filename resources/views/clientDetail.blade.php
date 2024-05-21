@@ -494,14 +494,14 @@
                         <td>{{$item->paymentDate}}</td>
                         <td><div class="alert alert-danger">{{$item->refundStatus}}</div></td>
                         <td><div class="alert alert-primary">({{$item->TotalAmount}})</div></td>
-                        <td><div class="alert alert-success">({{$item->Paid}})</div></td>
-                        <td><div class="alert alert-success">({{$item->amt_after_transactionfee}})</div></td>
+                        <td><div class="alert alert-secondary">({{$item->Paid}})</div></td>
+                        <td><div class="alert alert-secondary">({{$item->amt_after_transactionfee}})</div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
                                 {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
-                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
+                                <div class="alert alert-secondary">{{$item->RemainingAmount}}</div>
                             @else
-                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
+                                <div class="alert alert-secondary">{{$item->RemainingAmount}}</div>
                             @endif
                         </td>
 
@@ -532,17 +532,17 @@
                         <td>{{$item->ChargingMode}}</td>
                         {{-- <td>{{$item->ChargingPlan}}</td> --}}
                         <td>{{$item->paymentDate}}</td>
-                        <td><div class="alert alert-secondary ">Lost</div></td>
+                        <td><div class="alert alert-danger ">Lost</div></td>
                         <td><div class="alert alert-primary">({{$item->TotalAmount}})</div></td>
-                        <td><div class="alert alert-success">({{$item->Paid}})</div></td>
-                        <td><div class="alert alert-success">({{$item->amt_after_disputefee}})
+                        <td><div class="alert alert-secondary">({{$item->Paid}})</div></td>
+                        <td><div class="alert alert-secondary">({{$item->amt_after_disputefee}})
                         </div></td>
                         <td>
                             @if ($item->RemainingAmount != 0 and isset($item->remainingID) and $item->remainingID != null )
                                 {{-- <div class="alert alert-warning">{{$item->RemainingAmount}} (Received)</div> --}}
-                                <div class="alert alert-warning">{{$item->RemainingAmount}} </div>
+                                <div class="alert alert-secondary">{{$item->RemainingAmount}} </div>
                             @else
-                                <div class="alert alert-warning">{{$item->RemainingAmount}}</div>
+                                <div class="alert alert-secondary">{{$item->RemainingAmount}}</div>
                             @endif
                         </td>
 
