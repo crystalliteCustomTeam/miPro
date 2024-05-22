@@ -180,10 +180,16 @@
                                 <div class="col-6">
                                     @foreach ($sharedamt as $item)
                                         <div class="col-12 mt-3">
+                                            <div class="row">
+                                            <div class="col-6">
                                             <label for="" style="font-weight:bold;">Share Amount:</label>
                                             <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]" value="{{$item}}" disabled>
+                                            </div>
+                                            <div class="col-6">
                                             <label for="" style="font-weight:bold;">Refund Amount:</label>
                                             <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="refundamount[]"  >
+                                            </div>
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>

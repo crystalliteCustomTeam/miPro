@@ -39,7 +39,11 @@ class NewPaymentsClients extends Model
         "remainingID",
         "remainingStatus",
         "transactionType",
-        "dispute"
+        "dispute",
+        "transactionfee",
+        "amt_after_transactionfee",
+        "disputefee",
+        "amt_after_disputefee"
 
     ];
 
@@ -66,5 +70,10 @@ class NewPaymentsClients extends Model
     public function paymentprojectName(): HasOne
     {
         return $this->hasOne(Project::class,'id','ProjectID');
+    }
+
+    public function disputetable(): HasOne
+    {
+        return $this->hasOne(Disputedpayments::class,'PaymentID','id');
     }
 }

@@ -27,6 +27,8 @@ class RefundPayments extends Model
     "splitmanagers",
     "splitamounts",
     "splitRefunds",
+    "transactionfee",
+    "amt_after_transactionfee"
 
     ];
 

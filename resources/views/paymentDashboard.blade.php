@@ -135,19 +135,19 @@
 
                         <div class="col-4 mg-b-15">
                         <div class="card bd-gray-400 pd-20">
-                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Month: May2024</h6>
+                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Month:</h6>
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Front</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold" id="front">--</p>
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">Back</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold" id="back">--</p>
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">Sub Total</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold" id="subtotal">--</p>
                             </div>
                             </div><!-- d-flex -->
                             <div class="progress mg-b-10">
@@ -162,15 +162,15 @@
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Fee:</label>
-                                <p class="tx-lato tx-inverse tx-bold" >$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">Refund:</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="dispute"></p>
+                                <p class="tx-lato tx-inverse tx-bold" id="dispute">--</p>
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">ChargeBack:</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="refund">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold" id="refund">--</p>
                             </div>
                             </div><!-- d-flex -->
                             <div class="progress mg-b-10">
@@ -187,7 +187,7 @@
                             <div class="d-flex mg-b-10">
                                 <div class="bd-r pd-r-10">
                                     <label class="tx-12">Fee:</label>
-                                    <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                    <p class="tx-lato tx-inverse tx-bold">--</p>
                                 </div>
                                 </div><!-- d-flex -->
 
@@ -203,15 +203,15 @@
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Sales Commision:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">IN/Client Exp:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">Total Exp:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             </div><!-- d-flex -->
                             <div class="progress mg-b-10">
@@ -227,15 +227,15 @@
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Lead Count/Converted Amount:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">Conversion Ration:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">ROI:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             </div><!-- d-flex -->
                             <div class="progress mg-b-10">
@@ -251,19 +251,19 @@
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Net Revenue:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">Remaining:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">Percentage:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">Require /Day:</label>
-                                <p class="tx-lato tx-inverse tx-bold">$00</p>
+                                <p class="tx-lato tx-inverse tx-bold">--</p>
                             </div>
                             </div><!-- d-flex -->
                             <div class="progress mg-b-10">
@@ -378,19 +378,25 @@
                                     document.getElementById("brandtarget").innerHTML = brandtargetofMonth;
 
                                     let brandsales =  Response.brandsales;
-                                    document.getElementById("brandsales").innerHTML = '$'+brandsales;
+                                    document.getElementById("brandsales").innerHTML = brandsales;
 
                                     let chargeback = Response.chargeback;
-                                    document.getElementById("branddisputes").innerHTML = '$'+chargeback;
+                                    document.getElementById("branddisputes").innerHTML = chargeback;
 
                                     let net_revenue = Response.net_revenue;
-                                    document.getElementById("brand_net_revenue").innerHTML = '$'+net_revenue;
+                                    document.getElementById("brand_net_revenue").innerHTML = net_revenue;
 
                                     let dispute = Response.dispute;
-                                    document.getElementById("dispute").innerHTML = '$'+ dispute;
+                                    document.getElementById("dispute").innerHTML =  dispute;
 
                                     let refund =  Response.refund;
-                                    document.getElementById("refund").innerHTML = '$'+ refund;
+                                    document.getElementById("refund").innerHTML =  refund;
+
+                                    let front =  Response.front;
+                                    document.getElementById("front").innerHTML =  front;
+
+                                    let back =  Response.back;
+                                    document.getElementById("back").innerHTML =  back;
 
                                     brandID.removeAttr('disabled');
                                     monthID.removeAttr('disabled');
@@ -400,22 +406,30 @@
                                     return;
                                 }
                                     let brandtargetofMonth =  Response.brandtargetofMonth;
-                                    document.getElementById("brandtarget").innerHTML = '$'+brandtargetofMonth;
+                                    document.getElementById("brandtarget").innerHTML = brandtargetofMonth;
 
                                     let brandsales =  Response.brandsales;
-                                    document.getElementById("brandsales").innerHTML = '$'+brandsales;
+                                    document.getElementById("brandsales").innerHTML = brandsales;
 
                                     let chargeback = Response.chargeback;
-                                    document.getElementById("branddisputes").innerHTML = '$'+chargeback;
+                                    document.getElementById("branddisputes").innerHTML = chargeback;
 
                                     let net_revenue = Response.net_revenue;
-                                    document.getElementById("brand_net_revenue").innerHTML = '$'+net_revenue;
+                                    document.getElementById("brand_net_revenue").innerHTML = net_revenue;
 
                                     let dispute = Response.dispute;
-                                    document.getElementById("dispute").innerHTML = '$'+ dispute;
+                                    document.getElementById("dispute").innerHTML =  dispute;
 
                                     let refund =  Response.refund;
-                                    document.getElementById("refund").innerHTML = '$'+ refund;
+                                    document.getElementById("refund").innerHTML =  refund;
+
+                                    let front =  Response.front;
+                                    document.getElementById("front").innerHTML =  front;
+
+                                    let back =  Response.back;
+                                    document.getElementById("back").innerHTML =  back;subtotal
+
+                                    document.getElementById("subtotal").innerHTML = front + back
 
                                     brandID.removeAttr('disabled');
                                     monthID.removeAttr('disabled');

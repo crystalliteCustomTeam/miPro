@@ -125,7 +125,12 @@
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
                     <input id="amountPaid" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" value="{{$dispute[0]->disputepayment->Paid}}" disabled>
+                    <input type="hidden" name="wonamount" value="{{$dispute[0]->disputepayment->Paid}}">
                   </div>
+                  <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;">Transaction Fee</label>
+                    <input id="transactionfee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" value="{{$dispute[0]->disputepayment->transactionfee}}" disabled>
+                </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Payment Type</label>
                     <select class="form-control select2" name="paymentType" id="paymentType" required onchange="displayfields()" disabled>
@@ -172,10 +177,16 @@
                         <div class="col-6">
                             @foreach ($sharedamt as $item)
                                 <div class="col-12 mt-3">
-                                    <label for="" style="font-weight:bold;">Share Amount:</label>
-                                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]" value="{{$item}}" disabled>
-                                    <label for="" style="font-weight:bold;">New Amount:</label>
-                                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="newamount[]" value="{{$item}}" >
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="" style="font-weight:bold;">Share Amount:</label>
+                                            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]" value="{{$item}}" disabled>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="" style="font-weight:bold;">New Amount:</label>
+                                            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="newamount[]" value="{{$item}}" >
+                                        </div>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
