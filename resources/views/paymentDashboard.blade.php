@@ -162,15 +162,15 @@
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Fee:</label>
-                                <p class="tx-lato tx-inverse tx-bold">--</p>
+                                <p class="tx-lato tx-inverse tx-bold" id="disputefees">--</p>
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">Refund:</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="dispute">--</p>
+                                <p class="tx-lato tx-inverse tx-bold" id="refund">--</p>
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">ChargeBack:</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="refund">--</p>
+                                <p class="tx-lato tx-inverse tx-bold" id="dispute">--</p>
                             </div>
                             </div><!-- d-flex -->
                             <div class="progress mg-b-10">
@@ -275,7 +275,6 @@
                     <div class="col-12 mg-b-15">
                         <div class="card bd-gray-400 pd-20">
                             <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Agents:</h6>
-                            <br><br>
                             <style>
                                 .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
                                     background-color: #ffffff !important;
@@ -283,7 +282,7 @@
                                     border: 0.5px solid #ecececcc !important;
                                 }
                             </style>
-                            <table id="datatable1" class=" table-dark table-hover">
+                            <table id="" class=" table-dark table-hover">
                                 <thead>
                                   <tr role="row">
                                     <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agent Name</th>
@@ -298,8 +297,8 @@
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Net Total</th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                        <tr role="row" class="odd">
+                                <tbody id="employeeTableBody">
+                                        {{-- <tr role="row" class="odd">
                                             <td tabindex="0" class="sorting_1">--</td>
                                             <td>--</td>
                                             <td>--</td>
@@ -310,9 +309,110 @@
                                             <td>--</td>
                                             <td>--</td>
                                             <td>--</td>
-                                        </tr>
+                                        </tr> --}}
+                                </tbody>
+                            </table>
+
+                        </div><!-- card -->
+                    </div><!-- col-4 -->
+
+                    <div class="col-6 mg-b-15">
+                        <div class="card bd-gray-400 pd-20">
+                                    <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Today's Brand Payment:</h6>
+                                    <style>
+                                        .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
+                                            background-color: #ffffff !important;
+                                            color: #060708;
+                                            border: 0.5px solid #ecececcc !important;
+                                        }
+                                    </style>
+                                    <table id="" class=" table-dark table-hover">
+                                        <thead>
+                                          <tr role="row">
+                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Total</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="brandtodaypayment">
+                                                {{-- <tr role="row" class="odd">
+                                                    <td tabindex="0" class="sorting_1">--</td>
+                                                    <td>--</td>
+                                                    <td>--</td>
+                                                    <td>--</td>
+                                                </tr> --}}
+                                        </tbody>
+                                    </table>
+                        </div><!-- card -->
+                    </div><!-- col-4 -->
+
+                    <div class="col-6 mg-b-15">
+                        <div class="card bd-gray-400 pd-20">
+                                    <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Today's Individual Stats:</h6>
+                                    <style>
+                                        .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
+                                            background-color: #ffffff !important;
+                                            color: #060708;
+                                            border: 0.5px solid #ecececcc !important;
+                                        }
+                                    </style>
+                                    <table id="" class=" table-dark table-hover">
+                                        <thead>
+                                          <tr role="row">
+                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agent</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Revenue</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Total</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="empdailypayment">
+                                                {{-- <tr role="row" class="odd">
+                                                    <td tabindex="0" class="sorting_1">--</td>
+                                                    <td>--</td>
+                                                    <td>--</td>
+                                                </tr> --}}
+                                        </tbody>
+                                    </table>
+                        </div><!-- card -->
+                    </div><!-- col-4 -->
 
 
+                    <div class="col-12 mg-b-15">
+                        <div class="card bd-gray-400 pd-20">
+                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Dispute & Refund Report:</h6>
+                            <style>
+                                .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
+                                    background-color: #ffffff !important;
+                                    color: #060708;
+                                    border: 0.5px solid #ecececcc !important;
+                                }
+                            </style>
+                            <table id="" class=" table-dark table-hover">
+                                <thead>
+                                  <tr role="row">
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Brand</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Client Name</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Amount</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Services</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Upseller</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Support</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Type</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front Person</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="dispreftable">
+                                        {{-- <tr role="row" class="odd">
+                                            <td tabindex="0" class="sorting_1">--</td>
+                                            <td>--</td>
+                                            <td>--</td>
+                                            <td>--</td>
+                                            <td>--</td>
+                                            <td>--</td>
+                                            <td>--</td>
+                                            <td>--</td>
+                                            <td>--</td>
+                                        </tr> --}}
                                 </tbody>
                             </table>
 
@@ -383,6 +483,9 @@
                                     let chargeback = Response.chargeback;
                                     document.getElementById("branddisputes").innerHTML = chargeback;
 
+                                    let disputefees = Response.disputefees;
+                                    document.getElementById("disputefees").innerHTML = disputefees;
+
                                     let net_revenue = Response.net_revenue;
                                     document.getElementById("brand_net_revenue").innerHTML = net_revenue;
 
@@ -397,6 +500,203 @@
 
                                     let back =  Response.back;
                                     document.getElementById("back").innerHTML =  back;
+
+                                    let employees = Response.employees;
+                                    let tableBody = document.getElementById('employeeTableBody');
+                                    tableBody.innerHTML = '';
+
+                                    employees.forEach(employee => {
+                                        let row = document.createElement('tr');
+
+                                        let agentname = document.createElement('td');
+                                        agentname.textContent = employee.name;
+                                        row.appendChild(agentname);
+
+                                        let target = document.createElement('td');
+                                        target.textContent = employee.id;  // Assuming employee has a 'target' property
+                                        row.appendChild(target);
+
+                                        let revenue = document.createElement('td');
+                                        revenue.textContent = employee.totalcomplete;  // Assuming employee has a 'revenue' property
+                                        row.appendChild(revenue);
+
+                                        let front = document.createElement('td');
+                                        front.textContent = employee.totalfront;  // Assuming employee has a 'front' property
+                                        row.appendChild(front);
+
+                                        let back = document.createElement('td');
+                                        back.textContent = employee.totalback;  // Assuming employee has a 'back' property
+                                        row.appendChild(back);
+
+                                        let refund = document.createElement('td');
+                                        refund.textContent = employee.refund;  // Assuming employee has a 'refund' property
+                                        row.appendChild(refund);
+
+                                        let chargeback = document.createElement('td');
+                                        chargeback.textContent = employee.dispute;  // Assuming employee has a 'chargeback' property
+                                        row.appendChild(chargeback);
+
+                                        let ntotal = document.createElement('td');
+                                        ntotal.textContent = employee.id;  // Assuming employee has a 'ntotal' property
+                                        row.appendChild(ntotal);
+
+                                        let exp = document.createElement('td');
+                                        exp.textContent = employee.id;  // Assuming employee has a 'exp' property
+                                        row.appendChild(exp);
+
+                                        let nettotal = document.createElement('td');
+                                        nettotal.textContent = employee.id;  // Assuming employee has a 'nettotal' property
+                                        row.appendChild(nettotal);
+
+                                        // Append the row to the table body
+                                        tableBody.appendChild(row);
+                                    });
+
+                                    let selectedbrandname = Response.selectedbrandname.name;
+                                    let brandfronttodaypayment = Response.brandfronttodaypayment;
+                                    let brandbacktodaypayment = Response.brandbacktodaypayment;
+                                    let brandalltodaypayment = Response.brandalltodaypayment;
+                                    let brndtodaypayment = document.getElementById('brandtodaypayment');
+                                    brndtodaypayment.innerHTML = '';
+
+                                        let row1 = document.createElement('tr');
+
+                                        let brandname = document.createElement('td');
+                                        brandname.textContent = selectedbrandname;
+                                        row1.appendChild(brandname);
+
+                                        let fronttoday = document.createElement('td');
+                                        fronttoday.textContent = brandfronttodaypayment;
+                                        row1.appendChild(fronttoday);
+
+                                        let backtoday = document.createElement('td');
+                                        backtoday.textContent = brandbacktodaypayment;
+                                        row1.appendChild(backtoday);
+
+                                        let totaltoday = document.createElement('td');
+                                        totaltoday.textContent = brandalltodaypayment;
+                                        row1.appendChild(totaltoday);
+
+                                        brndtodaypayment.appendChild(row1);
+
+
+                                        let emptodaysdata = Response.employeetodayspayment;
+                                        let emptodaypayment = document.getElementById('empdailypayment');
+                                        emptodaypayment.innerHTML = '';
+
+                                    emptodaysdata.forEach(emptodaysdatas => {
+                                        let row2 = document.createElement('tr');
+
+                                        let empname = document.createElement('td');
+                                        empname.textContent = emptodaysdatas.name;
+                                        row2.appendChild(empname);
+
+                                        let emptoday = document.createElement('td');
+                                        emptoday.textContent = emptodaysdatas.allrevenue;
+                                        row2.appendChild(emptoday);
+
+                                        let emptotal = document.createElement('td');
+                                        emptotal.textContent = emptodaysdatas.allrevenue;
+                                        row2.appendChild(emptotal);
+
+                                        emptodaypayment.appendChild(row2);
+                                    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    let disputerefunddata = Response.disputerefund;
+                                        let disputetable = document.getElementById('dispreftable');
+                                        disputetable.innerHTML = '';
+
+                                    disputerefunddata.forEach(disputerefunddatas => {
+                                        let row3 = document.createElement('tr');
+
+                                        let disputedate = document.createElement('td');
+                                        disputedate.textContent = disputerefunddatas.date;
+                                        row3.appendChild(disputedate);
+
+                                        let disputebrand = document.createElement('td');
+                                        disputebrand.textContent = disputerefunddatas.brand;
+                                        row3.appendChild(disputebrand);
+
+                                        let disputeclient = document.createElement('td');
+                                        disputeclient.textContent = disputerefunddatas.client;
+                                        row3.appendChild(disputeclient);
+
+                                        let disputeamount = document.createElement('td');
+                                        disputeamount.textContent = disputerefunddatas.amount;
+                                        row3.appendChild(disputeamount);
+
+                                        let disputeservices = document.createElement('td');
+                                        disputeservices.textContent = disputerefunddatas.services;
+                                        row3.appendChild(disputeservices);
+
+                                        let disputeupseller = document.createElement('td');
+                                        disputeupseller.textContent = disputerefunddatas.upseller;
+                                        row3.appendChild(disputeupseller);
+
+                                        let disputesupport = document.createElement('td');
+                                        disputesupport.textContent = disputerefunddatas.support;
+                                        row3.appendChild(disputesupport);
+
+                                        let disputetype = document.createElement('td');
+                                        disputetype.textContent = disputerefunddatas.type;
+                                        row3.appendChild(disputetype);
+
+                                        let disputefrontperson = document.createElement('td');
+                                        disputetype.textContent = disputerefunddatas.frontperson;
+                                        row3.appendChild(disputefrontperson);
+
+                                        disputetable.appendChild(row3);
+                                    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                     brandID.removeAttr('disabled');
                                     monthID.removeAttr('disabled');
@@ -414,6 +714,9 @@
                                     let chargeback = Response.chargeback;
                                     document.getElementById("branddisputes").innerHTML = chargeback;
 
+                                    let disputefees = Response.disputefees;
+                                    document.getElementById("disputefees").innerHTML = disputefees;
+
                                     let net_revenue = Response.net_revenue;
                                     document.getElementById("brand_net_revenue").innerHTML = net_revenue;
 
@@ -430,6 +733,156 @@
                                     document.getElementById("back").innerHTML =  back;subtotal
 
                                     document.getElementById("subtotal").innerHTML = front + back
+
+                                    let employees = Response.employees;
+                                    let tableBody = document.getElementById('employeeTableBody');
+                                    tableBody.innerHTML = '';
+
+                                    employees.forEach(employee => {
+                                        let row = document.createElement('tr');
+
+                                        let agentname = document.createElement('td');
+                                        agentname.textContent = employee.name;
+                                        row.appendChild(agentname);
+
+                                        let target = document.createElement('td');
+                                        target.textContent = employee.id;
+                                        row.appendChild(target);
+
+                                        let revenue = document.createElement('td');
+                                        revenue.textContent = employee.totalcomplete;
+                                        row.appendChild(revenue);
+
+                                        let front = document.createElement('td');
+                                        front.textContent = employee.totalfront;
+                                        row.appendChild(front);
+
+                                        let back = document.createElement('td');
+                                        back.textContent = employee.totalback;
+                                        row.appendChild(back);
+
+                                        let refund = document.createElement('td');
+                                        refund.textContent = employee.refund;
+                                        row.appendChild(refund);
+
+                                        let chargeback = document.createElement('td');
+                                        chargeback.textContent = employee.dispute;
+                                        row.appendChild(chargeback);
+
+                                        let ntotal = document.createElement('td');
+                                        ntotal.textContent = employee.id;
+                                        row.appendChild(ntotal);
+
+                                        let exp = document.createElement('td');
+                                        exp.textContent = employee.id;
+                                        row.appendChild(exp);
+
+                                        let nettotal = document.createElement('td');
+                                        nettotal.textContent = employee.id;
+                                        row.appendChild(nettotal);
+
+                                        tableBody.appendChild(row);
+                                    });
+
+
+                                    let selectedbrandname = Response.selectedbrandname[0].name;
+                                    let brandfronttodaypayment = Response.brandfronttodaypayment;
+                                    let brandbacktodaypayment = Response.brandbacktodaypayment;
+                                    let brandalltodaypayment = Response.brandalltodaypayment;
+                                    let brndtodaypayment = document.getElementById('brandtodaypayment');
+                                    brndtodaypayment.innerHTML = '';
+
+                                        let row1 = document.createElement('tr');
+
+                                        let brandname = document.createElement('td');
+                                        brandname.textContent = selectedbrandname;
+                                        row1.appendChild(brandname);
+
+                                        let fronttoday = document.createElement('td');
+                                        fronttoday.textContent = brandfronttodaypayment;
+                                        row1.appendChild(fronttoday);
+
+                                        let backtoday = document.createElement('td');
+                                        backtoday.textContent = brandbacktodaypayment;
+                                        row1.appendChild(backtoday);
+
+                                        let totaltoday = document.createElement('td');
+                                        totaltoday.textContent = brandalltodaypayment;
+                                        row1.appendChild(totaltoday);
+
+                                        brndtodaypayment.appendChild(row1);
+
+
+                                        let emptodaysdata = Response.employeetodayspayment;
+                                        let emptodaypayment = document.getElementById('empdailypayment');
+                                        emptodaypayment.innerHTML = '';
+
+                                    emptodaysdata.forEach(emptodaysdatas => {
+                                        let row2 = document.createElement('tr');
+
+                                        let empname = document.createElement('td');
+                                        empname.textContent = emptodaysdatas.name;
+                                        row2.appendChild(empname);
+
+                                        let emptoday = document.createElement('td');
+                                        emptoday.textContent = emptodaysdatas.allrevenue;
+                                        row2.appendChild(emptoday);
+
+                                        let emptotal = document.createElement('td');
+                                        emptotal.textContent = emptodaysdatas.allrevenue;
+                                        row2.appendChild(emptotal);
+
+                                        emptodaypayment.appendChild(row2);
+                                    });
+
+
+                                    let disputerefunddata = Response.disputerefund;
+                                        let disputetable = document.getElementById('dispreftable');
+                                        disputetable.innerHTML = '';
+
+                                    disputerefunddata.forEach(disputerefunddatas => {
+                                        let row3 = document.createElement('tr');
+
+                                        let disputedate = document.createElement('td');
+                                        disputedate.textContent = disputerefunddatas.date;
+                                        row3.appendChild(disputedate);
+
+                                        let disputebrand = document.createElement('td');
+                                        disputebrand.textContent = disputerefunddatas.brand;
+                                        row3.appendChild(disputebrand);
+
+                                        let disputeclient = document.createElement('td');
+                                        disputeclient.textContent = disputerefunddatas.client;
+                                        row3.appendChild(disputeclient);
+
+                                        let disputeamount = document.createElement('td');
+                                        disputeamount.textContent = disputerefunddatas.amount;
+                                        row3.appendChild(disputeamount);
+
+                                        let disputeservices = document.createElement('td');
+                                        disputeservices.textContent = disputerefunddatas.services;
+                                        row3.appendChild(disputeservices);
+
+                                        let disputeupseller = document.createElement('td');
+                                        disputeupseller.textContent = disputerefunddatas.upseller;
+                                        row3.appendChild(disputeupseller);
+
+                                        let disputesupport = document.createElement('td');
+                                        disputesupport.textContent = disputerefunddatas.support;
+                                        row3.appendChild(disputesupport);
+
+                                        let disputetype = document.createElement('td');
+                                        disputetype.textContent = disputerefunddatas.type;
+                                        row3.appendChild(disputetype);
+
+                                        let disputefrontperson = document.createElement('td');
+                                        disputetype.textContent = disputerefunddatas.frontperson;
+                                        row3.appendChild(disputefrontperson);
+
+                                        disputetable.appendChild(row3);
+                                    });
+
+
 
                                     brandID.removeAttr('disabled');
                                     monthID.removeAttr('disabled');

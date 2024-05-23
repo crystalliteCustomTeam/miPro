@@ -230,6 +230,10 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/settarget','brandtarget');
         Route::post('/settarget/process','brandtargetprocess');
 
+         //csv_paymentsFromstripeUpload:
+         Route::get('/forms/csv_uploads_ppc','csv_ppc');
+         Route::post('/forms/csv_uploads_ppc/process','csv_ppc_process');
+
     });
 
 

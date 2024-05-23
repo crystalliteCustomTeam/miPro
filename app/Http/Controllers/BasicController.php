@@ -526,38 +526,363 @@ class BasicController extends Controller
 
     public function fetchbranddata(Request $request)
     {
-        $brandtarget = BrandTarget::where("BrandID", $request->brand_id)->where('Year', $request->year_id)->first();
+        if($request->month_id == "January"){
+            $month = 1;
+        }elseif($request->month_id == "February"){
+            $month = 2;
+        }elseif($request->month_id == "March"){
+            $month = 3;
+        }elseif($request->month_id == "April"){
+            $month = 4;
+        }elseif($request->month_id == "May"){
+            $month = 5;
+        }elseif($request->month_id == "June"){
+            $month = 6;
+        }elseif($request->month_id == "July"){
+            $month = 7;
+        }elseif($request->month_id == "August"){
+            $month = 8;
+        }elseif($request->month_id == "September"){
+            $month = 9;
+        }elseif($request->month_id == "October"){
+            $month = 10;
+        }elseif($request->month_id == "November"){
+            $month = 11;
+        }elseif($request->month_id == "December"){
+            $month = 12;
+        }
 
-        if($brandtarget == false){
-            if($request->month_id == "January"){
-                $month = 1;
-            }elseif($request->month_id == "February"){
-                $month = 2;
-            }elseif($request->month_id == "March"){
-                $month = 3;
-            }elseif($request->month_id == "April"){
-                $month = 4;
-            }elseif($request->month_id == "May"){
-                $month = 5;
-            }elseif($request->month_id == "June"){
-                $month = 6;
-            }elseif($request->month_id == "July"){
-                $month = 7;
-            }elseif($request->month_id == "August"){
-                $month = 8;
-            }elseif($request->month_id == "September"){
-                $month = 9;
-            }elseif($request->month_id == "October"){
-                $month = 10;
-            }elseif($request->month_id == "November"){
-                $month = 11;
-            }elseif($request->month_id == "December"){
-                $month = 12;
+        $getdepartment = Department::where('brand', $request->brand_id)
+                                    ->where(function($query)
+                                    {
+                                        $query->where('name', 'LIKE', '%Project Manager')
+                                        ->orWhere('name', 'LIKE', 'Project manager%')
+                                        ->orWhere('name', 'LIKE', '%Project manager%')
+                                        ->orwhere('name', 'LIKE', '%sale')
+                                        ->orWhere('name', 'LIKE', 'sale%')
+                                        ->orWhere('name', 'LIKE', '%sale%');
+                                    })->get();
+
+
+        $allUsers = [];
+
+        foreach($getdepartment as $getdepartments) {
+           $allarrays = json_decode($getdepartments->users);
+           array_push($allUsers,$allarrays);
+        }
+
+        $mergedArray = [];
+
+
+
+        for ($i = 0; $i < count($allUsers); $i++) {
+            for ($j = 0; $j < count($allUsers[$i]); $j++) {
+                $mergedArray[] = $allUsers[$i][$j];
+            }
+        }
+
+        // // Optionally, remove duplicates
+        $mergedArray = array_unique($mergedArray);
+        $employees = Employee::whereIn('id',$mergedArray)->get();
+        $employeepayment = [];
+        $employeetodayspayment = [];
+
+        foreach($employees as $employee){
+
+            $todayemppay = NewPaymentsClients::where('SalesPerson', $employee->id)
+                    ->where("BrandID", $request->brand_id)
+                    ->whereDate('paymentDate', '=', now()->toDateString())
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum('Paid');
+
+            $employeetodayspayment[] = [
+                        'userID' => $employee->id,
+                        'name' => $employee->name,
+                        'allrevenue' => $todayemppay
+                    ];
+
+        }
+
+        foreach($employees as $employee){
+            $getcomplete = NewPaymentsClients::where('SalesPerson', $employee->id)
+                    ->where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    // ->where('paymentNature', 'New Lead')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->get();
+
+            $getcompletesum = NewPaymentsClients::where('SalesPerson', $employee->id)
+                    ->where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    // ->where('paymentNature', 'New Lead')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum('Paid');
+
+            $getfront = NewPaymentsClients::where('SalesPerson', $employee->id)
+                    ->where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('paymentNature', 'New Lead')
+                    ->where('paymentNature','!=','Remaining')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->get();
+
+            $getfrontsum = NewPaymentsClients::where('SalesPerson', $employee->id)
+                    ->where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('paymentNature', 'New Lead')
+                    ->where('paymentNature','!=','Remaining')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum('Paid');
+
+            $getback = NewPaymentsClients::where('SalesPerson', $employee->id)
+                    ->where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('paymentNature','!=','New Lead')
+                    ->where('paymentNature','!=','Remaining')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->get();
+
+            $getbacksum = NewPaymentsClients::where('SalesPerson', $employee->id)
+                    ->where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('paymentNature','!=','New Lead')
+                    ->where('paymentNature','!=','Remaining')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum('Paid');
+
+            $getdispute = NewPaymentsClients::where('SalesPerson', $employee->id)
+                                ->where("BrandID", $request->brand_id)
+                                ->whereMonth('paymentDate',$month)
+                                ->whereYear('paymentDate',$request->year_id)
+                                ->where('remainingStatus','!=', 'Unlinked Payments')
+                                ->where('refundStatus','!=', 'Pending Payment')
+                                ->where(function($query)
+                                {
+                                    $query->where('refundStatus', 'On Going')
+                                    ->where('dispute',"!=",null);
+                                })
+                                // ->get();
+                                ->sum('Paid');
+
+            $getrefund = NewPaymentsClients::where('SalesPerson', $employee->id)
+                                ->where("BrandID", $request->brand_id)
+                                ->whereMonth('paymentDate',$month)
+                                ->whereYear('paymentDate',$request->year_id)
+                                ->where('refundStatus', 'Refund')
+                                ->where('remainingStatus','!=', 'Unlinked Payments')
+                                ->where('refundStatus','!=', 'Pending Payment')
+                                ->where('dispute',null)
+                                // ->get();
+                                ->sum('Paid');
+
+            $employeepayment[] = [
+                'userID' => $employee->id ,
+                'name' => $employee->name ,
+                'allrevenue' => $getcomplete ,
+                'getcompletesum' => $getcompletesum ,
+                'front' => $getfront,
+                'getfrontsum' => $getfrontsum,
+                'back' => $getback,
+                'getbacksum' => $getbacksum,
+                'dispute' => $getdispute,
+                'refund' => $getrefund];
+        }
+
+        $finalpaymentswithrem = [];
+        $a = [];
+        $b = [];
+        $c = [];
+        foreach($employeepayment as $employeepayments){
+            $allrevforrem = $employeepayments['allrevenue'];
+            foreach($allrevforrem as $revenueremaining){
+                if (!is_null($revenueremaining->remainingID)) {
+                    $allrevrem = NewPaymentsClients::select("Paid")
+                        ->where("BrandID", $request->brand_id)
+                        ->whereYear('paymentDate', $request->year_id)
+                        ->whereMonth('paymentDate', $month)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('remainingID', $revenueremaining->remainingID)
+                        ->where(function ($query) {
+                            $query->where('refundStatus', '!=', 'Refund')
+                                ->orWhere('dispute', null);
+                        })
+                        ->get();
+                        // ->sum('Paid');
+                    $a[] = [$allrevrem];
+                }
+
             }
 
+            $frontforrem = $employeepayments['front'];
+            foreach($frontforrem as $frontforrems){
+                if (!is_null($frontforrems->remainingID)) {
+                    $frontrem = NewPaymentsClients::select("Paid")
+                        ->where("BrandID", $request->brand_id)
+                        ->whereYear('paymentDate', $request->year_id)
+                        ->whereMonth('paymentDate', $month)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('remainingID', $frontforrems->remainingID)
+                        ->where(function ($query) {
+                            $query->where('refundStatus', '!=', 'Refund')
+                                ->orWhere('dispute', null);
+                        })
+                        ->get();
+                        // ->sum('Paid');
+                    $b[] = [$frontrem];
+            }
+
+            }
+
+            $backforrem = $employeepayments['back'];
+            foreach($backforrem as $backforrems){
+                if (!is_null($backforrems->remainingID)) {
+                    $backrem = NewPaymentsClients::select("Paid")
+                        ->where("BrandID", $request->brand_id)
+                        ->whereYear('paymentDate', $request->year_id)
+                        ->whereMonth('paymentDate', $month)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('remainingID', $backforrems->remainingID)
+                        ->where(function ($query) {
+                            $query->where('refundStatus', '!=', 'Refund')
+                                ->orWhere('dispute', null);
+                        })
+                        ->get();
+                        // ->sum('Paid');
+                    $c[] = [$backrem];
+            }
+
+            }
+
+            $finalpaymentswithrem[] = [
+                'userID' => $employeepayments['userID'] ,
+                'allrevenuerem' => array_sum($a) ,
+                'frontrem' => array_sum($b),
+                'backrem' => array_sum($c)
+            ];
+        }
+
+        $emppaymentarray = [];
+
+        foreach ($employeepayment as $detail) {
+            $matched = false;
+
+            // Iterate through each payment
+            foreach ($finalpaymentswithrem as $payment) {
+                // Check if the IDs match
+                if ($detail['userID'] == $payment['userID']) {
+                    $matched = true;
+                    $emppaymentarray[] = [
+                        'employeeID' => $detail['userID'],
+                        'name' => $detail['name'],
+                        'getcompletesum' => $detail['getcompletesum'],
+                        'allrevenuerem' => $payment['allrevenuerem'],
+                        'getfrontsum' => $detail['getfrontsum'],
+                        'frontrem' => $payment['frontrem'],
+                        'getbacksum' => $detail['getbacksum'],
+                        'backrem' => $payment['backrem'],
+                        'dispute' => $detail['dispute'],
+                        'refund' => $detail['refund']
+                    ];
+                }else{
+                    continue;
+                }
+            }
+
+        }
+
+        foreach($emppaymentarray as &$emppaymentarrays){
+            $emppaymentarrays['totalcomplete'] = $emppaymentarrays['getcompletesum'] + $emppaymentarrays['allrevenuerem'];
+            $emppaymentarrays['totalfront'] = $emppaymentarrays['getfrontsum'] + $emppaymentarrays['frontrem'];
+            $emppaymentarrays['totalback'] = $emppaymentarrays['getbacksum'] + $emppaymentarrays['backrem'];
+        }
+        // To ensure the reference is released after the loop, use unset:
+       unset($emppaymentarrays);
+        // print_r($emppaymentarray);
+
+        // die();
 
 
-            $brandsales = NewPaymentsClients::where("BrandID", $request->brand_id)
+        $brandtarget = BrandTarget::where("BrandID", $request->brand_id)->where('Year', $request->year_id)->first();
+
+        $brandfronttodaypayment = NewPaymentsClients::where('BrandID',$request->brand_id)
+                    ->whereDate('paymentDate', '=', now()->toDateString())
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('paymentNature', 'New Lead')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum('Paid');
+
+        $brandbacktodaypayment = NewPaymentsClients::where('BrandID',$request->brand_id)
+                    ->whereDate('paymentDate', '=', now()->toDateString())
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('paymentNature','!=','New Lead')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum('Paid');
+
+        $brandalltodaypayment = NewPaymentsClients::where('BrandID',$request->brand_id)
+                    ->whereDate('paymentDate', '=', now()->toDateString())
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum('Paid');
+
+        $selectedbrandname = Brand::select('name')->where('id',$request->brand_id)->get();
+
+        $brandsales = NewPaymentsClients::where("BrandID", $request->brand_id)
             ->whereMonth('paymentDate',$month)
             ->whereYear('paymentDate', $request->year_id)
             ->where('remainingStatus','!=', 'Unlinked Payments')
@@ -606,16 +931,177 @@ class BasicController extends Controller
                                 ->where('dispute',null)
                                 ->sum('Paid');
 
-            $return_arrays = [
+            $disputefees = NewPaymentsClients::where("BrandID", $request->brand_id)
+                                ->whereMonth('paymentDate',$month)
+                                ->whereYear('paymentDate',$request->year_id)
+                                ->where('refundStatus', 'Refund')
+                                ->where('paymentNature', 'Dispute Lost')
+                                ->where('remainingStatus','!=', 'Unlinked Payments')
+                                ->where('refundStatus','!=', 'Pending Payment')
+                                ->where('dispute',null)
+                                ->sum('disputefee');
+
+            $front = NewPaymentsClients::where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('paymentNature', 'New Lead')
+                    ->where('paymentNature','!=','Remaining')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->get();
+
+            $frontsum = NewPaymentsClients::where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('paymentNature', 'New Lead')
+                    ->where('paymentNature','!=','Remaining')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum("Paid");
+
+            $remaining = [];
+
+            foreach ($front as $fronts) {
+            if (!is_null($fronts->remainingID)) {
+                $frontnew = NewPaymentsClients::select('Paid')
+                    ->where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('remainingID', $fronts->remainingID)
+                    ->where('paymentNature','Remaining')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->get();
+                    // ->sum("Paid");
+                $remaining[] = [$frontnew];
+            }
+            }
+            $arraysum = array_sum($remaining);
+
+            $totalfront = $arraysum + $frontsum;
+
+            $back = NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereYear('paymentDate', $request->year_id)
+            ->whereMonth('paymentDate', $month)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature','!=' ,'New Lead')
+            ->where('paymentNature','!=','Remaining')
+            ->where(function ($query) {
+                $query->where('refundStatus', '!=', 'Refund')
+                    ->orWhere('dispute', null);
+            })
+            ->get();
+
+            $backsum = NewPaymentsClients::where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('paymentNature', '!=' ,'New Lead')
+                    ->where('paymentNature','!=','Remaining')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->sum("Paid");
+
+            $remainingback = [];
+
+            foreach ($back as $backs) {
+            if (!is_null($backs->remainingID)) {
+                $backnew = NewPaymentsClients::Select("Paid")
+                    ->where("BrandID", $request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('remainingID', $backs->remainingID)
+                    ->where('paymentNature','Remaining')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', '!=', 'Refund')
+                            ->orWhere('dispute', null);
+                    })
+                    ->get();
+                    // ->sum("Paid");
+                $remainingback[] = [$backnew];
+            }
+            }
+            $arraysumback = array_sum($remainingback);
+            $totalback = $arraysumback + $backsum;
+
+
+            $brandrefundDispute = NewPaymentsClients::where('BrandID',$request->brand_id)
+                    ->whereYear('paymentDate', $request->year_id)
+                    ->whereMonth('paymentDate', $month)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where(function ($query) {
+                        $query->where('refundStatus', 'Refund')
+                            ->orWhere('dispute','!=',null);
+                    })
+                    ->get();
+
+            $disputerefund = [];
+            foreach($brandrefundDispute as $brandrefundDisputes){
+                $salespersonname = Employee::where('id',$brandrefundDisputes->SalesPerson)->get();
+                $supportpersonname = Employee::where('id',$brandrefundDisputes->ProjectManager)->get();
+                $clientname = Client::where('id',$brandrefundDisputes->ClientID)->get();
+                $brandname = Brand::where('id',$brandrefundDisputes->BrandID)->get();
+
+                if($brandrefundDisputes->dispute == null ){
+                    $type = "Dispute";
+                }else{
+                    $type = "Refund";
+                }
+
+                $disputerefund[] = [
+                    "date" => $brandrefundDisputes->paymentDate,
+                    "brand" => $brandname[0]->name,
+                    "client" => $clientname[0]->name,
+                    "amount" => $brandrefundDisputes->TotalAmount,
+                    "services" => $brandrefundDisputes->Description,
+                    "upseller" => 0,
+                    "support" => $supportpersonname[0]->name,
+                    "type" => $type,
+                    "frontperson" => $salespersonname[0]->name,
+
+                ];
+
+            }
+
+        if($brandtarget == false){
+
+            $return_array = [
+                    "selectedbrandname" => $selectedbrandname,
                     "message" => "NO BRAND FOUND !",
                     "brandsales" => $brandsales,
                     "chargeback" => $chargeback,
                     "net_revenue" => $net_revenue,
                     "dispute" => $dispute,
                     "refund" => $refund,
+                    "disputefees" => $disputefees,
+                    "front" => $totalfront,
+                    "back" => $totalback,
+                    "employees" => $emppaymentarray,
+                    "brandfronttodaypayment" => $brandfronttodaypayment,
+                    "brandbacktodaypayment" => $brandbacktodaypayment,
+                    "brandalltodaypayment" => $brandalltodaypayment,
+                    "employeetodayspayment" => $employeetodayspayment,
+                    "disputerefund" => $disputerefund
                     ];
-
-            return response()->json($return_arrays);
 
         }else{
             $desiredmonth = $request->month_id;
@@ -647,152 +1133,28 @@ class BasicController extends Controller
                 $month = 12;
             }
 
-
-
-            $brandsales = NewPaymentsClients::where("BrandID", $request->brand_id)
-            ->whereMonth('paymentDate',$month)
-            ->whereYear('paymentDate', $request->year_id)
-            ->where('remainingStatus','!=', 'Unlinked Payments')
-            ->where('refundStatus','!=', 'Pending Payment')
-            ->where(function($query)
-            {
-                $query->where('refundStatus', '!=', 'Refund')
-                ->orwhere('dispute', null);
-            })
-            ->sum('Paid') ;
-
-
-            $chargeback = NewPaymentsClients::where("BrandID", $request->brand_id)
-                                ->whereYear('paymentDate',$request->year_id)
-                                ->whereMonth('paymentDate',$month)
-                                ->where('remainingStatus','!=', 'Unlinked Payments')
-                                ->where('refundStatus','!=', 'Pending Payment')
-                                ->where(function($query)
-                                {
-                                    $query->where('refundStatus', 'Refund')
-                                    ->orwhere('dispute',"!=",null);
-                                })
-                                ->sum('Paid');
-
-
-            $net_revenue = $brandsales - $chargeback;
-
-            $dispute =  NewPaymentsClients::where("BrandID", $request->brand_id)
-                                ->whereMonth('paymentDate',$month)
-                                ->whereYear('paymentDate',$request->year_id)
-                                ->where('remainingStatus','!=', 'Unlinked Payments')
-                                ->where('refundStatus','!=', 'Pending Payment')
-                                ->where(function($query)
-                                {
-                                    $query->where('refundStatus', 'On Going')
-                                    ->where('dispute',"!=",null);
-                                })
-                                ->sum('Paid');
-
-            $refund = NewPaymentsClients::where("BrandID", $request->brand_id)
-                                ->whereMonth('paymentDate',$month)
-                                ->whereYear('paymentDate',$request->year_id)
-                                ->where('refundStatus', 'Refund')
-                                ->where('remainingStatus','!=', 'Unlinked Payments')
-                                ->where('refundStatus','!=', 'Pending Payment')
-                                ->where('dispute',null)
-                                ->sum('Paid');
-
-            // $front = NewPaymentsClients::where("BrandID", $request->brand_id)
-            //                     ->whereYear('paymentDate',$request->year_id)
-            //                     ->whereMonth('paymentDate',$month)
-            //                     ->where('remainingStatus','!=', 'Unlinked Payments')
-            //                     ->where('refundStatus','!=', 'Pending Payment')
-            //                     ->where('paymentNature', 'New Lead')
-            //                     ->where(function($query)
-            //                     {
-            //                         $query->where('refundStatus','!=' ,'Refund')
-            //                         ->orwhere('dispute', null);
-            //                     })
-            //                     ->sum('Paid');
-
-            $front = NewPaymentsClients::where("BrandID", $request->brand_id)
-            ->whereYear('paymentDate', $request->year_id)
-            ->whereMonth('paymentDate', $month)
-            ->where('remainingStatus', '!=', 'Unlinked Payments')
-            ->where('refundStatus', '!=', 'Pending Payment')
-            ->where('paymentNature', 'New Lead')
-            ->where(function ($query) {
-                $query->where('refundStatus', '!=', 'Refund')
-                    ->orWhere('dispute', null);
-            })
-            ->get();
-
-            $remaining = [];
-
-            foreach ($front as $fronts) {
-            if (!is_null($fronts->remainingID)) {
-                $frontnew = NewPaymentsClients::where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('remainingID', $fronts->remainingID)
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum("Paid");
-                $remaining[] = $frontnew;
-            }
-            }
-            $arraysum = array_sum($remaining);
-            // echo($arraysum);
-
-            $back = NewPaymentsClients::where("BrandID", $request->brand_id)
-            ->whereYear('paymentDate', $request->year_id)
-            ->whereMonth('paymentDate', $month)
-            ->where('remainingStatus', '!=', 'Unlinked Payments')
-            ->where('refundStatus', '!=', 'Pending Payment')
-            ->where('paymentNature','!=' ,'New Lead')
-            ->where(function ($query) {
-                $query->where('refundStatus', '!=', 'Refund')
-                    ->orWhere('dispute', null);
-            })
-            ->get();
-
-            $remainingback = [];
-
-            foreach ($back as $backs) {
-            if (!is_null($backs->remainingID)) {
-                $backnew = NewPaymentsClients::where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('remainingID', $backs->remainingID)
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum("Paid");
-                $remainingback[] = $backnew;
-            }
-            }
-            $arraysumback = array_sum($remainingback);
-
-            // echo($arraysumback);
-
-            // die();
             $return_array = [
+                "selectedbrandname" => $selectedbrandname,
                 "brandtargetofMonth" => $brandtargetofMonth,
                 "brandsales" => $brandsales,
                 "chargeback" => $chargeback,
                 "net_revenue" => $net_revenue,
                 "dispute" => $dispute,
                 "refund" => $refund,
-                "front" => $arraysum,
-                "back" => $arraysumback,
+                "disputefees" => $disputefees,
+                "front" => $totalfront,
+                "back" => $totalback,
+                "employees" => $emppaymentarray,
+                "brandfronttodaypayment" => $brandfronttodaypayment,
+                "brandbacktodaypayment" => $brandbacktodaypayment,
+                "brandalltodaypayment" => $brandalltodaypayment,
+                "employeetodayspayment" => $employeetodayspayment,
+                "disputerefund" => $disputerefund
             ];
 
-            return response()->json($return_array);
-
         }
+
+        return response()->json($return_array);
 
     }
 
@@ -2276,7 +2638,14 @@ class BasicController extends Controller
         $project = Project::where('productionID', $id)->get();
         $projectProduction = ProjectProduction::where('projectID', $id)->get();
 
-        return view('projectproductionUsers', ['projects' => $project, 'productions' => $projectProduction, 'prjectid' => $id, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('projectproductionUsers', [
+            'projects' => $project,
+            'productions' => $projectProduction,
+            'prjectid' => $id,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function editproject(Request $request, $id)
@@ -2285,7 +2654,13 @@ class BasicController extends Controller
         $findproject = Project::Where('id', $id)->get();
         $findclient = Client::get();
         $employee = Employee::get();
-        return view('editproject', ['clients' => $findclient, 'employee' => $employee, 'projects' => $findproject, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('editproject', [
+            'clients' => $findclient,
+            'employee' => $employee,
+            'projects' => $findproject,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function editProjectProcess(Request $request, $id)
@@ -2322,7 +2697,14 @@ class BasicController extends Controller
         $employee = Employee::get();
         $productionservices = ProductionServices::get();
 
-        return view('edit_project_production', ['projectProductions' => $projectProduction, 'departments' => $department, 'employees' => $employee, 'productionservices' => $productionservices, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('edit_project_production', [
+            'projectProductions' => $projectProduction,
+            'departments' => $department,
+            'employees' => $employee,
+            'productionservices' => $productionservices,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
     }
 
     function Edit_Project_production_Process(Request $request, $id)
@@ -8435,6 +8817,19 @@ class BasicController extends Controller
         }
 
         return redirect('/payments/unmatched');
+    }
+
+    function csv_ppc(Request $request){
+        $loginUser = $this->roleExits($request);
+        return view('ppc_upload',[
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+             'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function csv_ppc_process(Request $request){
+        echo("Hello");
     }
 
 }
