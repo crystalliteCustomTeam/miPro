@@ -315,11 +315,16 @@
 
                         </div><!-- card -->
                     </div><!-- col-4 -->
-                    <div class="col-6 mg-b-15">
-                        <h6>Select Date:</h6>
-                        <input type="date" name="">
-                   </div>
-
+                    <div class="col-4 mg-b-15">
+                    </div>
+                    <div class="col-3 mg-b-15">
+                        <input type="date" class="form-control" required name="date">
+                    </div>
+                    <div class="col-1 mg-b-15">
+                        <button class="btn btn-primary mt-1" id="getdateagentsandbrand">Search</button>
+                    </div>
+                    <div class="col-4 mg-b-15">
+                    </div>
                     <div class="col-6 mg-b-15">
                         <div class="card bd-gray-400 pd-20">
                                     <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Today's Brand Payment:</h6>
@@ -379,6 +384,62 @@
                                     </table>
                         </div><!-- card -->
                     </div><!-- col-4 -->
+
+
+
+
+
+
+
+
+                    {{-- <div class="col-6 mg-b-15">
+                        <div class="card bd-gray-400 pd-20">
+                                    <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Today's Brand Payment:</h6>
+                                    <style>
+                                        .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
+                                            background-color: #ffffff !important;
+                                            color: #060708;
+                                            border: 0.5px solid #ecececcc !important;
+                                        }
+                                    </style>
+                                    <table id="" class=" table-dark table-hover">
+                                        <thead>
+                                          <tr role="row">
+                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Total</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="brandtodaypayment">
+                                        </tbody>
+                                    </table>
+                        </div>
+                    </div>
+
+                    <div class="col-6 mg-b-15">
+                        <div class="card bd-gray-400 pd-20">
+                                    <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Today's Individual Stats:</h6>
+                                    <style>
+                                        .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
+                                            background-color: #ffffff !important;
+                                            color: #060708;
+                                            border: 0.5px solid #ecececcc !important;
+                                        }
+                                    </style>
+                                    <table id="" class=" table-dark table-hover">
+                                        <thead>
+                                          <tr role="row">
+                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agent</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Revenue</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Total</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="empdailypayment">
+                                        </tbody>
+                                    </table>
+                        </div>
+                    </div> --}}
 
 
                     <div class="col-12 mg-b-15">

@@ -131,7 +131,7 @@
                     @if ($roles == 1)
                         @foreach ($qaforms as $qaform)
                             <tr role="row" class="odd">
-                                <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->clientID}}">{{$qaform->paymentclientName->name}}</a></td>
+                                <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->ClientID}}">{{$qaform->paymentclientName->name}}</a></td>
                                 <td>{{$qaform->paymentprojectName->name}}</td>
                                 <td>
 

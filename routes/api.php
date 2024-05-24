@@ -32,3 +32,5 @@ Route::get('/fetch-paymentdata', [BasicController::class, 'fetchPaymentdata']);
 Route::get('/fetch-stripeunlinkeddata', [BasicController::class, 'fetchstripeunlinkeddata']);
 
 Route::get('/fetch-branddata', [BasicController::class, 'fetchbranddata']);
+
+Route::get('/fetch-datewisedata', [BasicController::class, 'datewisedata']);

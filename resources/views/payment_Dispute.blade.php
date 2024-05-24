@@ -69,9 +69,9 @@
                         <div class="col-6 mt-3">
                             <label for="" style="font-weight:bold;">Payments Include:</label>
                             <select class="form-control" required name="chargebacktype"  id="chargebacktype" >
-                                <option value="this" selected>this</option>
-                                <option value="this and remaining" selected>this and remaining</option>
-                                <option value="all payments" selected>all payments</option>
+                                <option value="this" >This</option>
+                                <option value="this and remaining" >This and Remaining</option>
+                                <option value="all payments" >All Payments</option>
                           </select>
                         </div>
 

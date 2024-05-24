@@ -424,6 +424,7 @@
                     <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Client Name</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Project</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Status</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Brand</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Seller</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Nature</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Mode</th>
@@ -438,7 +439,7 @@
                     @if ($roles == 1)
                         @foreach ($qaforms as $qaform)
                             <tr role="row" class="odd">
-                                <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->clientID}}">{{$qaform->paymentclientName->name}}</a></td>
+                                <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->ClientID}}">{{$qaform->paymentclientName->name}}</a></td>
                                 <td>{{$qaform->paymentprojectName->name}}</td>
                                 <td>
 
@@ -455,6 +456,7 @@
                                    @endif
 
                                 </td>
+                                <td>{{$qaform->paymentbrandName->name}}</td>
                                 @if (isset($qaform->saleEmployeesName->name) and $qaform->saleEmployeesName->name !== null)
                                 <td>{{$qaform->saleEmployeesName->name}}</td>
                                 @else
@@ -464,8 +466,16 @@
                                 {{-- <td>{{$qaform->Project_ProjectManager->name}}</td> --}}
                                 <td>{{$qaform->paymentNature}}</td>
                                 <td>{{$qaform->ChargingMode}}</td>
-                                <td>{{$qaform->paymentDate}}</td>
-                                <td>{{$qaform->futureDate}}</td>
+                                @php
+                                $originalDate1 = $qaform->paymentDate;
+                                $newDate1 = \Carbon\Carbon::parse($originalDate1)->format('d-m-Y');
+                                @endphp
+                                <td>{{$newDate1}}</td>
+                                @php
+                                $originalDate = $qaform->futureDate;
+                                $newDate = \Carbon\Carbon::parse($originalDate)->format('d-m-Y');
+                                @endphp
+                                <td>{{$newDate}}</td>
                                 <td>{{$qaform->TotalAmount}}</td>
                                 <td>{{$qaform->Paid}}</td>
                                 <td><a href="/client/project/payment/report/view/{{$qaform->id}}"><button class="btn btn-success btn-sm"><img src="https://cdn-icons-png.flaticon.com/16/3094/3094851.png" alt="" style="filter: invert(1);" > View </button></a></td>
