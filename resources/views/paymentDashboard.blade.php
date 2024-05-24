@@ -315,6 +315,10 @@
 
                         </div><!-- card -->
                     </div><!-- col-4 -->
+                    <div class="col-6 mg-b-15">
+                        <h6>Select Date:</h6>
+                        <input type="date" name="">
+                   </div>
 
                     <div class="col-6 mg-b-15">
                         <div class="card bd-gray-400 pd-20">
