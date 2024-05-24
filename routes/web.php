@@ -229,6 +229,13 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/paymentdashboard/{id?}','paymentdashboard');
         Route::get('/settarget','brandtarget');
         Route::post('/settarget/process','brandtargetprocess');
+        Route::get('/brandtarget','viewbrandtarget');
+        Route::get('/settarget/edit/{id}','brandtargetedit');
+        Route::post('/settarget/edit/process/{id}','brandtargetprocesseditprocess');
+
+         //csv_paymentsFromstripeUpload:
+         Route::get('/forms/csv_uploads_ppc','csv_ppc');
+         Route::post('/forms/csv_uploads_ppc/process','csv_ppc_process');
 
     });
 

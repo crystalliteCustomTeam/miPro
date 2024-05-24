@@ -49,6 +49,8 @@
                         @foreach($clients as $client)
                         <option value="{{ $client->id }}">{{ $client->name }}
                             --
+                            {{ $client->email }}
+                            ---
                               <strong>{{ $client->projectbrand->name }}</strong>
                         </option>
                         @endforeach

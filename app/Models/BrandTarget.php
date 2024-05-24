@@ -27,4 +27,9 @@ class BrandTarget extends Model
         "December"
 
     ];
+
+    public function brandoftarget():HasOne
+    {
+        return $this->hasOne(Brand::class,'id','BrandID');
+    }
 }
