@@ -501,6 +501,8 @@
                                     let back =  Response.back;
                                     document.getElementById("back").innerHTML =  back;
 
+                                    document.getElementById("subtotal").innerHTML = front + back
+
                                     let employees = Response.employees;
                                     let tableBody = document.getElementById('employeeTableBody');
                                     tableBody.innerHTML = '';
@@ -552,7 +554,7 @@
                                         tableBody.appendChild(row);
                                     });
 
-                                    let selectedbrandname = Response.selectedbrandname.name;
+                                    let selectedbrandname = Response.selectedbrandname[0].name;
                                     let brandfronttodaypayment = Response.brandfronttodaypayment;
                                     let brandbacktodaypayment = Response.brandbacktodaypayment;
                                     let brandalltodaypayment = Response.brandalltodaypayment;
@@ -602,26 +604,6 @@
                                         emptodaypayment.appendChild(row2);
                                     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                     let disputerefunddata = Response.disputerefund;
                                         let disputetable = document.getElementById('dispreftable');
                                         disputetable.innerHTML = '';
@@ -662,41 +644,11 @@
                                         row3.appendChild(disputetype);
 
                                         let disputefrontperson = document.createElement('td');
-                                        disputetype.textContent = disputerefunddatas.frontperson;
+                                        disputefrontperson.textContent = disputerefunddatas.frontperson;
                                         row3.appendChild(disputefrontperson);
 
                                         disputetable.appendChild(row3);
                                     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                                     brandID.removeAttr('disabled');
                                     monthID.removeAttr('disabled');
@@ -730,8 +682,9 @@
                                     document.getElementById("front").innerHTML =  front;
 
                                     let back =  Response.back;
-                                    document.getElementById("back").innerHTML =  back;subtotal
+                                    document.getElementById("back").innerHTML =  back;
 
+                                    // document.getElementById("subtotal").innerHTML = '';
                                     document.getElementById("subtotal").innerHTML = front + back
 
                                     let employees = Response.employees;
@@ -876,7 +829,7 @@
                                         row3.appendChild(disputetype);
 
                                         let disputefrontperson = document.createElement('td');
-                                        disputetype.textContent = disputerefunddatas.frontperson;
+                                        disputefrontperson.textContent = disputerefunddatas.frontperson;
                                         row3.appendChild(disputefrontperson);
 
                                         disputetable.appendChild(row3);

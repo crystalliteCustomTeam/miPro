@@ -839,11 +839,7 @@ class BasicController extends Controller
             $emppaymentarrays['totalfront'] = $emppaymentarrays['getfrontsum'] + $emppaymentarrays['frontrem'];
             $emppaymentarrays['totalback'] = $emppaymentarrays['getbacksum'] + $emppaymentarrays['backrem'];
         }
-        // To ensure the reference is released after the loop, use unset:
        unset($emppaymentarrays);
-        // print_r($emppaymentarray);
-
-        // die();
 
 
         $brandtarget = BrandTarget::where("BrandID", $request->brand_id)->where('Year', $request->year_id)->first();
@@ -1195,7 +1191,59 @@ class BasicController extends Controller
             "updated_at" => date('y-m-d H:m:s')
         ]);
 
-        return redirect('/paymentdashboard');
+        return redirect('/brandtarget');
+
+    }
+
+    function brandtargetedit(Request $request, $id){
+        $loginUser = $this->roleExits($request);
+        $brantarget = BrandTarget::where('id',$id)->get();
+        $brands = Brand::get();
+        return view('brandTargetedit', [
+            'brandedit' => $brantarget,
+            'brands' => $brands,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+             'superUser' => $loginUser[2]]);
+
+    }
+
+    function brandtargetprocesseditprocess(Request $request){
+        $brandID = $request->input('brand');
+
+        // echo( date('Y'));
+        // die();
+
+        $addbrandtarget = BrandTarget::where('id',$brandID)->update([
+            "BrandID" => $brandID,
+            "January" => $request->input('jan'),
+            "February" => $request->input('feb'),
+            "March" => $request->input('mar'),
+            "April" => $request->input('apr'),
+            "May" => $request->input('may'),
+            "June" => $request->input('june'),
+            "July" => $request->input('july'),
+            "August" => $request->input('aug'),
+            "September" => $request->input('sept'),
+            "October" => $request->input('oct'),
+            "November" => $request->input('nov'),
+            "December" => $request->input('dec'),
+            "updated_at" => date('y-m-d H:m:s')
+        ]);
+
+        return redirect('/brandtarget');
+
+    }
+
+
+    function viewbrandtarget(Request $request){
+        $loginUser = $this->roleExits($request);
+        $brands = BrandTarget::get();
+        return view('viewbrandTarget', [
+            'brands' => $brands,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]]);
 
     }
 
