@@ -315,16 +315,22 @@
 
                         </div><!-- card -->
                     </div><!-- col-4 -->
-                    <div class="col-4 mg-b-15">
+
+
+
+                    {{-- <div class="col-4 mg-b-15">
                     </div>
                     <div class="col-3 mg-b-15">
-                        <input type="date" class="form-control" required name="date">
+                        <input type="date" class="form-control" required name="date" id="date">
                     </div>
                     <div class="col-1 mg-b-15">
                         <button class="btn btn-primary mt-1" id="getdateagentsandbrand">Search</button>
                     </div>
                     <div class="col-4 mg-b-15">
-                    </div>
+                    </div> --}}
+
+
+
                     <div class="col-6 mg-b-15">
                         <div class="card bd-gray-400 pd-20">
                                     <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Today's Brand Payment:</h6>
@@ -923,6 +929,92 @@
 
                     });
                 });
+
+                // $("#getdateagentsandbrand").click(function(event){
+                //     event.preventDefault();
+                //     let brandID = $("#date");
+                //     $.ajax({
+                //             url:"/api/fetch-datewisedata",
+                //             type:"get",
+                //             data:{
+                //                 "date_id":brandID.val(),
+                //             },
+                //             beforeSend:(()=>{
+                //                 brandID.attr('disabled','disabled');
+                //                 $("#getdateagentsandbrand").text("wait...");
+                //                 $("#getdateagentsandbrand").attr('disabled','disabled');
+                //             }),
+                //             success:((Response)=>{
+                //                 console.log(Response);
+
+                //                 let selectedbrandname = Response.selectedbrandname[0].name;
+                //                     let brandfronttodaypayment = Response.brandfronttodaypayment;
+                //                     let brandbacktodaypayment = Response.brandbacktodaypayment;
+                //                     let brandalltodaypayment = Response.brandalltodaypayment;
+                //                     let brndtodaypayment = document.getElementById('brandtodaypayment');
+                //                     brndtodaypayment.innerHTML = '';
+
+                //                         let row1 = document.createElement('tr');
+
+                //                         let brandname = document.createElement('td');
+                //                         brandname.textContent = selectedbrandname;
+                //                         row1.appendChild(brandname);
+
+                //                         let fronttoday = document.createElement('td');
+                //                         fronttoday.textContent = brandfronttodaypayment;
+                //                         row1.appendChild(fronttoday);
+
+                //                         let backtoday = document.createElement('td');
+                //                         backtoday.textContent = brandbacktodaypayment;
+                //                         row1.appendChild(backtoday);
+
+                //                         let totaltoday = document.createElement('td');
+                //                         totaltoday.textContent = brandalltodaypayment;
+                //                         row1.appendChild(totaltoday);
+
+                //                         brndtodaypayment.appendChild(row1);
+
+
+                //                     let emptodaysdata = Response.employeetodayspayment;
+                //                     let emptodaypayment = document.getElementById('empdailypayment');
+                //                     emptodaypayment.innerHTML = '';
+
+                //                     emptodaysdata.forEach(emptodaysdatas => {
+                //                         let row2 = document.createElement('tr');
+
+                //                         let empname = document.createElement('td');
+                //                         empname.textContent = emptodaysdatas.name;
+                //                         row2.appendChild(empname);
+
+                //                         let emptoday = document.createElement('td');
+                //                         emptoday.textContent = emptodaysdatas.allrevenue;
+                //                         row2.appendChild(emptoday);
+
+                //                         let emptotal = document.createElement('td');
+                //                         emptotal.textContent = emptodaysdatas.allrevenue;
+                //                         row2.appendChild(emptotal);
+
+                //                         emptodaypayment.appendChild(row2);
+                //                     });
+
+
+                //                 brandID.removeAttr('disabled');
+                //                 $("#getdateagentsandbrand").text("Search");
+                //                 $("#getdateagentsandbrand").removeAttr('disabled');
+
+
+                //             }),
+                //             error:((error)=>{
+                //                 console.log(error);
+                //                 alert("Error Found Please Referesh Window And Try Again !")
+
+                //                 brandID.removeAttr('disabled');
+                //                 $("#getdateagentsandbrand").text("Search");
+                //                 $("#getdateagentsandbrand").removeAttr('disabled');
+                //             })
+
+                //     });
+                // });
 
 
             });
