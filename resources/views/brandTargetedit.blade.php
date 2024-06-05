@@ -39,8 +39,16 @@
                       </select>
                       <input type="hidden" name="brand" value="{{$brandeditdata->BrandID}}">
                 </div>
-                <div class="col-3 mt-3">
-                </div>
+
+                <div class="col-6 mt-3">
+                    <label for="">Select Year</label>
+                    <select class="form-control select2" required name="years" disabled>
+                        <option value="{{ $brandeditdata->Year }}" selected>{{ $brandeditdata->Year }}</option>
+                  </select>
+                  <input type="hidden" name="selectedyear" value="{{$brandeditdata->Year}}">
+            </div>
+            <div class="col-3 mt-3">
+            </div>
             </div>
             <br><br>
             <style>

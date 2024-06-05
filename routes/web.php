@@ -160,12 +160,28 @@ Route::controller(BasicController::class)->group(function (){
         //csv_paymentsFromstripeUpload:
         Route::get('/forms/csv_uploads_stripePayments','csv_stripepayments');
         Route::post('/forms/csv_uploads_stripePayments/process','csv_stripepayments_process');
+
+         //csv_paymentsFromSheet(previous data upload):
+         Route::get('/forms/csv_uploads_sheetinvoicing','csv_sheetpayments');
+         Route::post('/forms/csv_uploads_sheetinvoicing/process','csv_sheetpayments_process');
+
         //Unmatched Payments:
         Route::get('/payments/unmatched','unmatchedPayments');
+
+         //not found clients fron invoicing:
+         Route::get('/payments/invoicing/notfoundclient','notfoundclient');
 
         //Link New Payment Email With Client:
         Route::get('/client/newemail/{id}','NewEmailLinkCLient');
         Route::post('/client/newemail/process','NewEmailLinkCLientprocess');
+
+        //create_salesTeam:
+        Route::get('/forms/create/team','createteam');
+        Route::post('/forms/create/team/process','createteam_process');
+
+          //sales team view:
+          Route::get('/sales/teams','salesteam_view');
+
 
         //PROCESSES
         Route::post('/setupcompany/process','setupcompanyprocess');
@@ -227,15 +243,24 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/settings/user/client/delete/{id}','delete_Assign_Client_to_qaperson');
         //payment dashboard:
         Route::get('/paymentdashboard/{id?}','paymentdashboard');
+        //allpayment dashboard:
+         Route::get('/allpaymentdashboard/{id?}','allpaymentdashboard');
+        //brandTarget
         Route::get('/settarget','brandtarget');
         Route::post('/settarget/process','brandtargetprocess');
         Route::get('/brandtarget','viewbrandtarget');
         Route::get('/settarget/edit/{id}','brandtargetedit');
         Route::post('/settarget/edit/process/{id}','brandtargetprocesseditprocess');
+        //agentTarget
+        Route::get('/setagenttarget','agenttarget');
+        Route::post('/setagenttarget/process','agent_targetprocess');
+        Route::get('/setagenttarget/edit/{id}','agenttargetedit');
+        Route::post('/setagenttarget/edit/process/{id}','agenttargetprocesseditprocess');
 
          //csv_paymentsFromstripeUpload:
          Route::get('/forms/csv_uploads_ppc','csv_ppc');
          Route::post('/forms/csv_uploads_ppc/process','csv_ppc_process');
+         Route::get('/agenttarget','viewagenttarget');
 
     });
 

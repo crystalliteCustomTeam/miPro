@@ -108,8 +108,8 @@
                         <option value="10 Months">10 Months</option>
                         <option value="11 Months">11 Months</option>
                         <option value="12 Months">12 Months</option>
-                        <option value="12 Months">2 Years</option>
-                        <option value="12 Months">3 Years</option>
+                        <option value="2 Years">2 Years</option>
+                        <option value="3 Years">3 Years</option>
                     </select>
                 </div>
                 <div class="col-4 mt-3" id="paymentMode" style="display: none">

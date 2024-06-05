@@ -99,6 +99,8 @@
           <li class="sub-item"><a href="/client/add/payment" class="sub-link">Add Payment</a></li>
           {{-- <li class="sub-item"><a href="/client/new/payment" class="sub-link">Stripe Payments</a></li> --}}
           <li class="sub-item"><a href="/forms/csv_uploads_stripePayments" class="sub-link">Stripe Payments(CSV)</a></li>
+          <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicing" class="sub-link">Sheet Invoicing(CSV)</a></li>
+          <li class="sub-item"><a href="/payments/invoicing/notfoundclient" class="sub-link">Not Found Clients</a></li>
           <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">All Payments</a></li>
           <li class="sub-item"><a href="/payments/unmatched" class="sub-link">Unmatched Payments</a></li>
           <li class="sub-item"><a href="/client/project/payment/disputes" class="sub-link">Disputes</a></li>
@@ -122,8 +124,10 @@
         <ul class="br-menu-sub">
             <li class="sub-item"><a href="/settarget" class="sub-link">Set Brand Target</a></li>
             <li class="sub-item"><a href="/brandtarget" class="sub-link">Targets</a></li>
-            <li class="sub-item"><a href="#" class="sub-link">Set Agent Target</a></li>
-            <li class="sub-item"><a href="#" class="sub-link">Agents</a></li>
+            <li class="sub-item"><a href="/setagenttarget" class="sub-link">Set Agent Target</a></li>
+            <li class="sub-item"><a href="agenttarget" class="sub-link">Agents</a></li>
+            <li class="sub-item"><a href="/forms/create/team" class="sub-link">Ceate Sales Team</a></li>
+            <li class="sub-item"><a href="/sales/teams" class="sub-link">Sales Teams</a></li>
         </ul>
       </li><!-- br-menu-item -->
     <li class="br-menu-item">
@@ -146,6 +150,7 @@
           {{-- <li class="sub-item"><a href="/client/revenue" class="sub-link">Report</a></li> --}}
           <li class="sub-item"><a href="/allclient/revenue" class="sub-link">Revenue Report</a></li>
           <li class="sub-item"><a href="/paymentdashboard" class="sub-link">Payment Dashboard</a></li>
+          <li class="sub-item"><a href="/allpaymentdashboard" class="sub-link">All Brand Payment Dashboard</a></li>
         </ul>
       </li><!-- br-menu-item -->
 

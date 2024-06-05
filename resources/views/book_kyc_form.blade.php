@@ -37,7 +37,7 @@
           <i class="icon ion-ios-gear-outline"></i>
             <div>
                 <h4>Set Up Client</h4>
-                <p class="mg-b-0">SEO</p>
+                <p class="mg-b-0">Book</p>
             </div>
         </div><!-- d-flex -->
 

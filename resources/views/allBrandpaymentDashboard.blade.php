@@ -8,7 +8,7 @@
             <div class="br-pagetitle">
               <i class="icon ion-ios-home-outline tx-70 lh-0"></i>
               <div>
-                <h4>Brand Analytics</h4>
+                <h4>All Brands</h4>
                 <p class="mg-b-0">Target, Sales, Revenue, Expences.</p>
               </div>
             </div><!-- d-flex -->

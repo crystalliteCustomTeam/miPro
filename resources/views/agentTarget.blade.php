@@ -7,7 +7,7 @@
         <div class="br-pageheader">
           <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="index.html">Crystal Pro</a>
-            <a class="breadcrumb-item" href="#">Brand</a>
+            <a class="breadcrumb-item" href="#">Agents</a>
             <span class="breadcrumb-item active">Set Up Target</span>
           </nav>
         </div><!-- br-pageheader -->
@@ -16,21 +16,21 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Brand Target:</h4>
+            <h4>Agent Target:</h4>
           </div>
         </div><!-- d-flex -->
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
 
-           <form action="/settarget/process" method="post">
+           <form action="/setagenttarget/process" method="post">
             @csrf
             <div class="row">
                 {{-- <div class="col-3 mt-3">
                 </div> --}}
                 <div class="col-6 mt-3">
-                        <label for="">Select Brand</label>
-                        <select class="form-control select2" required name="brand">
+                        <label for="">Select Agent</label>
+                        <select class="form-control select2" required name="agent">
                         @foreach($brands as $brand)
                             <option value="{{ $brand->id }}">
                               {{ $brand->name }}

@@ -34,3 +34,5 @@ Route::get('/fetch-stripeunlinkeddata', [BasicController::class, 'fetchstripeunl
 Route::get('/fetch-branddata', [BasicController::class, 'fetchbranddata']);
 
 Route::get('/fetch-datewisedata', [BasicController::class, 'datewisedata']);
+
+Route::get('/fetch-sales', [BasicController::class, 'ajax_sales']);

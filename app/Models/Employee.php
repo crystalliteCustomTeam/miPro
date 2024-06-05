@@ -28,9 +28,15 @@ class Employee extends Model
     }
 
     public function deparment($employeList)
-    {  
-       
+    {
+
         return DB::table('departments')->whereJsonContains('users',json_encode($employeList))->get();
-        
+
     }
+
+    public function employeeTarget():HasOne
+    {
+        return $this->hasOne(AgentTarget::class,'AgentID','id');
+    }
+
 }

@@ -25,6 +25,10 @@ use App\Models\RefundPayments;
 use App\Models\UnmatchedPayments;
 use App\Models\Disputedpayments;
 use App\Models\BrandTarget;
+use App\Models\AgentTarget;
+use App\Models\PPC;
+use App\Models\Payments;
+use App\Models\Salesteam;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -176,7 +180,7 @@ class BasicController extends Controller
             'nextPayment' =>  $request->input('nextamount'),
             'paymentRecuring' => $request->input('ChargingPlan'),
             'orderDetails' => json_encode($SEO_ARRAY),
-            'otheremail'=> json_encode($firstemail),
+            'otheremail' => json_encode($firstemail),
             'created_at' => date('y-m-d H:m:s'),
             'updated_at' => date('y-m-d H:m:s')
         ]);
@@ -200,7 +204,6 @@ class BasicController extends Controller
             'departments' => $department,
             'productionservices' => $productionservices
         ]);
-
     }
 
     function book_kyc_form_process(Request $request)
@@ -245,7 +248,7 @@ class BasicController extends Controller
             'nextPayment' =>  $request->input('nextamount'),
             'paymentRecuring' => $request->input('ChargingPlan'),
             'orderDetails' => json_encode($BOOK_ARRAY),
-            'otheremail'=> json_encode($firstemail),
+            'otheremail' => json_encode($firstemail),
             'created_at' => date('y-m-d H:m:s'),
             'updated_at' => date('y-m-d H:m:s')
         ]);
@@ -274,16 +277,16 @@ class BasicController extends Controller
     function dashboard(Request $request)
     {
         $depart = Department::count();
-        if($depart > 0){
+        if ($depart > 0) {
             $loginUser = $this->roleExits($request);
             if ($loginUser[2] == 0) {
                 $brand = Brand::get();
                 $eachbranddata = [];
-                foreach($brand as $brands){
+                foreach ($brand as $brands) {
                     $brandName = Brand::where("id", $brands->id)->get();
-                    $brandclient = Client::where('brand',$brands->id)->count();
-                    $brandrefund_Month = QAFORM::where('brandID',$brands->id)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
-                    $branddispute_Month = QAFORM::where('brandID',$brands->id)->whereMonth('created_at', now())->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                    $brandclient = Client::where('brand', $brands->id)->count();
+                    $brandrefund_Month = QAFORM::where('brandID', $brands->id)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
+                    $branddispute_Month = QAFORM::where('brandID', $brands->id)->whereMonth('created_at', now())->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
                     $eachbranddata[] = [$brandName, $brandclient, $brandrefund_Month, $branddispute_Month];
                 }
                 $idInQadepart = Department::where('name', 'LIKE', 'Q%')->get();
@@ -303,115 +306,115 @@ class BasicController extends Controller
                 $totalrefund =  QAFORM::where('Refund_Requested', 'Yes')->Distinct('projectID')->latest('created_at')->count();
                 $totaldispute =  QAFORM::where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
                 //pie charts
-                $status_OnGoing = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','On Going')->count();
-                $status_Dispute = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Dispute')->count();
-                $status_Refund = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Refund')->count();
-                $status_NotStartedYet = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status','Not Started Yet')->count();
-                $remark_ExtremelySatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Satisfied')->count();
-                $remark_SomewhatSatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Satisfied')->count();
-                $remark_NeitherSatisfiednorDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Neither Satisfied nor Dissatisfied')->count();
-                $remark_SomewhatDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Somewhat Dissatisfied')->count();
-                $remark_ExtremelyDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction','Extremely Dissatisfied')->count();
-                $ExpectedRefundDispute_GoingGood = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Going Good')->count();
-                $ExpectedRefundDispute_Low = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Low')->count();
-                $ExpectedRefundDispute_Moderate = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','Moderate')->count();
-                $ExpectedRefundDispute_High = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund','High')->count();
+                $status_OnGoing = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status', 'On Going')->count();
+                $status_Dispute = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status', 'Dispute')->count();
+                $status_Refund = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status', 'Refund')->count();
+                $status_NotStartedYet = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status', 'Not Started Yet')->count();
+                $remark_ExtremelySatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Extremely Satisfied')->count();
+                $remark_SomewhatSatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Somewhat Satisfied')->count();
+                $remark_NeitherSatisfiednorDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Neither Satisfied nor Dissatisfied')->count();
+                $remark_SomewhatDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Somewhat Dissatisfied')->count();
+                $remark_ExtremelyDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Extremely Dissatisfied')->count();
+                $ExpectedRefundDispute_GoingGood = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund', 'Going Good')->count();
+                $ExpectedRefundDispute_Low = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund', 'Low')->count();
+                $ExpectedRefundDispute_Moderate = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund', 'Moderate')->count();
+                $ExpectedRefundDispute_High = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund', 'High')->count();
                 //renewal,recurring,dispute,refund
                 $Renewal_Month = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
-                                ->where('paymentNature', 'Renewal Payment')
-                                ->where('refundStatus','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->get();
+                    ->whereMonth('futureDate', now())
+                    ->where('paymentNature', 'Renewal Payment')
+                    ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->get();
                 $Renewal_Month_count = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
-                                ->where('paymentNature', 'Renewal Payment')
-                                ->where('refundStatus','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->distinct('ClientID')->count();
+                    ->whereMonth('futureDate', now())
+                    ->where('paymentNature', 'Renewal Payment')
+                    ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->distinct('ClientID')->count();
                 $Renewal_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
-                                ->where('paymentNature', 'Renewal Payment')
-                                ->where('refundStatus','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->SUM('TotalAmount');
+                    ->whereMonth('futureDate', now())
+                    ->where('paymentNature', 'Renewal Payment')
+                    ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->SUM('TotalAmount');
 
                 $Recurring_Month = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
-                                ->where('paymentNature', 'Recurring Payment')
-                                ->where('refundStatus','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->get();
+                    ->whereMonth('futureDate', now())
+                    ->where('paymentNature', 'Recurring Payment')
+                    ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->get();
                 $Recurring_Month_count = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
-                                ->where('paymentNature', 'Recurring Payment')
-                                ->where('refundStatus','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->distinct('ClientID')
-                                ->count();
+                    ->whereMonth('futureDate', now())
+                    ->where('paymentNature', 'Recurring Payment')
+                    ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->distinct('ClientID')
+                    ->count();
                 $Recurring_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
-                                ->whereMonth('futureDate', now())
-                                ->where('paymentNature', 'Recurring Payment')
-                                ->where('refundStatus','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->SUM('TotalAmount');
+                    ->whereMonth('futureDate', now())
+                    ->where('paymentNature', 'Recurring Payment')
+                    ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->SUM('TotalAmount');
 
                 $Refund_Month = NewPaymentsClients::whereYear('paymentDate', now())
-                                ->whereMonth('paymentDate', now())
-                                ->where('refundStatus', 'Refund')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->get();
+                    ->whereMonth('paymentDate', now())
+                    ->where('refundStatus', 'Refund')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->get();
                 $Refund_count = NewPaymentsClients::whereYear('paymentDate', now())
-                                ->whereMonth('paymentDate', now())
-                                ->where('refundStatus', 'Refund')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->distinct('ClientID')
-                                ->count();
+                    ->whereMonth('paymentDate', now())
+                    ->where('refundStatus', 'Refund')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->distinct('ClientID')
+                    ->count();
                 $Refund_sum = NewPaymentsClients::whereYear('paymentDate', now())
-                                ->whereMonth('paymentDate', now())
-                                ->where('refundStatus', 'Refund')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->SUM('TotalAmount');
+                    ->whereMonth('paymentDate', now())
+                    ->where('refundStatus', 'Refund')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->SUM('TotalAmount');
                 $Dispute_Month = NewPaymentsClients::whereYear('paymentDate', now())
-                                ->whereMonth('paymentDate', now())
-                                ->where('dispute', 'Dispute')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->get();
+                    ->whereMonth('paymentDate', now())
+                    ->where('dispute', 'Dispute')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->get();
                 $Dispute_count = NewPaymentsClients::whereYear('paymentDate', now())
-                                ->whereMonth('paymentDate', now())
-                                ->where('dispute', 'Dispute')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->distinct('ClientID')
-                                ->count();
+                    ->whereMonth('paymentDate', now())
+                    ->where('dispute', 'Dispute')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->distinct('ClientID')
+                    ->count();
                 $Dispute_sum = NewPaymentsClients::whereYear('paymentDate', now())
-                                ->whereMonth('paymentDate', now())
-                                ->where('dispute', 'Dispute')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->SUM('TotalAmount');
+                    ->whereMonth('paymentDate', now())
+                    ->where('dispute', 'Dispute')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->SUM('TotalAmount');
 
                 $eachbrand_RevenueStatus = [];
-                foreach($brand as $brands){
-                        $brandName = Brand::where("id", $brands->id)->get();
-                        $brand_renewal = NewPaymentsClients::where('BrandID',$brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
-                                ->where('paymentNature', 'Renewal Payment')
-                                ->where('refundStatus','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->SUM('TotalAmount');
-                        $brandrefund_recurring = NewPaymentsClients::where('BrandID',$brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
-                                ->where('paymentNature', 'Recurring Payment')
-                                ->where('refundStatus','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->SUM('TotalAmount');
-                        $branddispute_refund = NewPaymentsClients::where('BrandID',$brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
-                                ->where('refundStatus', 'Refund')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->SUM('TotalAmount');
-                        $branddispute_dispute = NewPaymentsClients::where('BrandID',$brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
-                                ->where('dispute', 'Dispute')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->SUM('TotalAmount');
-                        $eachbrand_RevenueStatus[] = [$brandName, $brand_renewal, $brandrefund_recurring, $branddispute_refund, $branddispute_dispute];
-                        }
+                foreach ($brand as $brands) {
+                    $brandName = Brand::where("id", $brands->id)->get();
+                    $brand_renewal = NewPaymentsClients::where('BrandID', $brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                        ->where('paymentNature', 'Renewal Payment')
+                        ->where('refundStatus', 'Pending Payment')
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->SUM('TotalAmount');
+                    $brandrefund_recurring = NewPaymentsClients::where('BrandID', $brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                        ->where('paymentNature', 'Recurring Payment')
+                        ->where('refundStatus', 'Pending Payment')
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->SUM('TotalAmount');
+                    $branddispute_refund = NewPaymentsClients::where('BrandID', $brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                        ->where('refundStatus', 'Refund')
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->SUM('TotalAmount');
+                    $branddispute_dispute = NewPaymentsClients::where('BrandID', $brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                        ->where('dispute', 'Dispute')
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->SUM('TotalAmount');
+                    $eachbrand_RevenueStatus[] = [$brandName, $brand_renewal, $brandrefund_recurring, $branddispute_refund, $branddispute_dispute];
+                }
 
                 // echo("<pre>");
                 // print_r($eachbrand_RevenueStatus);
@@ -429,26 +432,26 @@ class BasicController extends Controller
                     'departmentAccess' => $loginUser[0],
                     'superUser' => $loginUser[2],
                     //pie charts
-                    'status_OnGoing' =>$status_OnGoing,
-                    'status_Dispute' =>$status_Dispute,
-                    'status_Refund' =>$status_Refund,
-                    'status_NotStartedYet' =>$status_NotStartedYet,
-                    'remark_ExtremelySatisfied' =>$remark_ExtremelySatisfied,
-                    'remark_SomewhatSatisfied' =>$remark_SomewhatSatisfied,
-                    'remark_NeitherSatisfiednorDissatisfied' =>$remark_NeitherSatisfiednorDissatisfied,
-                    'remark_SomewhatDissatisfied' =>$remark_SomewhatDissatisfied,
-                    'remark_ExtremelyDissatisfied' =>$remark_ExtremelyDissatisfied,
-                    'ExpectedRefundDispute_GoingGood' =>$ExpectedRefundDispute_GoingGood,
-                    'ExpectedRefundDispute_Low' =>$ExpectedRefundDispute_Low,
-                    'ExpectedRefundDispute_Moderate' =>$ExpectedRefundDispute_Moderate,
-                    'ExpectedRefundDispute_High' =>$ExpectedRefundDispute_High,
+                    'status_OnGoing' => $status_OnGoing,
+                    'status_Dispute' => $status_Dispute,
+                    'status_Refund' => $status_Refund,
+                    'status_NotStartedYet' => $status_NotStartedYet,
+                    'remark_ExtremelySatisfied' => $remark_ExtremelySatisfied,
+                    'remark_SomewhatSatisfied' => $remark_SomewhatSatisfied,
+                    'remark_NeitherSatisfiednorDissatisfied' => $remark_NeitherSatisfiednorDissatisfied,
+                    'remark_SomewhatDissatisfied' => $remark_SomewhatDissatisfied,
+                    'remark_ExtremelyDissatisfied' => $remark_ExtremelyDissatisfied,
+                    'ExpectedRefundDispute_GoingGood' => $ExpectedRefundDispute_GoingGood,
+                    'ExpectedRefundDispute_Low' => $ExpectedRefundDispute_Low,
+                    'ExpectedRefundDispute_Moderate' => $ExpectedRefundDispute_Moderate,
+                    'ExpectedRefundDispute_High' => $ExpectedRefundDispute_High,
                     //renewal,recurring,upsell
-                    'Renewal_Months' =>$Renewal_Month,
-                    'Renewal_Month_counts' =>$Renewal_Month_count,
-                    'Renewal_Month_sums' =>$Renewal_Month_sum,
-                    'Recurring_Months' =>$Recurring_Month,
-                    'Recurring_Month_counts' =>$Recurring_Month_count,
-                    'Recurring_Month_sums' =>$Recurring_Month_sum,
+                    'Renewal_Months' => $Renewal_Month,
+                    'Renewal_Month_counts' => $Renewal_Month_count,
+                    'Renewal_Month_sums' => $Renewal_Month_sum,
+                    'Recurring_Months' => $Recurring_Month,
+                    'Recurring_Month_counts' => $Recurring_Month_count,
+                    'Recurring_Month_sums' => $Recurring_Month_sum,
                     'Refund_Month' => $Refund_Month,
                     'Refund_count' => $Refund_count,
                     'Refund_sum' => $Refund_sum,
@@ -471,10 +474,9 @@ class BasicController extends Controller
                 $currentMonth_refundClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
                 $Total_disputedClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
                 $Total_refundClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
-                $last5qaform = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where(function($query)
-                {
+                $last5qaform = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where(function ($query) {
                     $query->where('client_satisfaction', 'Extremely Dissatisfied')
-                    ->orWhere('status_of_refund', 'High');
+                        ->orWhere('status_of_refund', 'High');
                 })->latest('id')->limit(5)->get();
                 $last5qaformstatus = Count($last5qaform);
                 return view('dashboard', [
@@ -498,77 +500,228 @@ class BasicController extends Controller
                     'superUser' => $loginUser[2]
                 ]);
             }
+        } else {
+            $loginUser = $request->session()->get('AdminUser');
+            $superUser = $loginUser->userRole;
+            $userID = $loginUser->id;
 
-        }else{
-                $loginUser = $request->session()->get('AdminUser');
-                $superUser = $loginUser->userRole;
-                $userID = $loginUser->id;
-
-                return view('dashboard_without_department', [
-                    'LoginUser' => $loginUser,
-                    'departmentAccess' => $userID,
-                    'superUser' => $superUser
-                ]);
-
-            }
+            return view('dashboard_without_department', [
+                'LoginUser' => $loginUser,
+                'departmentAccess' => $userID,
+                'superUser' => $superUser
+            ]);
+        }
     }
 
-    function paymentdashboard(Request $request, $id = null){
+    function paymentdashboard(Request $request, $id = null)
+    {
         $loginUser = $this->roleExits($request);
         $brands = Brand::get();
+        $salesteams = Salesteam::get();
+
+        $Allsalesteams = Salesteam::get();
+
+        $month = date('m');
+
+        if($month == 1){
+            $target = "January";
+        }elseif($month == 2){
+            $target = "February";
+        }elseif($month == 3){
+            $target = "March";
+        }elseif($month == 4){
+            $target = "April";
+        }elseif($month == 5){
+            $target = "May";
+        }elseif($month == 6){
+            $target = "June";
+        }elseif($month == 7){
+            $target = "July";
+        }elseif($month == 8){
+            $target = "August";
+        }elseif($month == 9){
+            $target = "September";
+        }elseif($month == 10){
+            $target = "October";
+        }elseif($month == 11){
+            $target = "November";
+        }elseif($month == 12){
+            $target = "December";
+        }
+
+        $year = date('Y');
+        // echo($year);
+        // die();
+
+        $mainsalesTeam = [];
+        $membersstatus = [];
+
+        foreach($Allsalesteams as $Allsalesteam){
+                //for lead;
+                $leadfront = NewPaymentsClients::where('SalesPerson',$Allsalesteam->teamLead)
+                            ->whereMonth('paymentDate', now())
+                            ->where('paymentNature', 'New Lead')
+                            ->where('refundStatus', 'On Going')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
+
+                $leadback = NewPaymentsClients::where('SalesPerson',$Allsalesteam->teamLead)
+                            ->whereMonth('paymentDate', now())
+                            ->where('refundStatus', 'On Going')
+                            ->where('paymentNature','!=','New Lead')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
+
+                $leadrefund = NewPaymentsClients::where('SalesPerson',$Allsalesteam->teamLead)
+                            ->whereMonth('paymentDate', now())
+                            ->where('refundStatus', 'Refund')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
+
+                $leadtarget = AgentTarget::where('AgentID',$Allsalesteam->teamLead)
+                            ->where('Year', $year)
+                            ->SUM($target);
+
+                $netgainslead = $leadfront + $leadback - $leadrefund;
+
+                $leadnet = $leadtarget - $netgainslead;
+
+
+                $members = json_decode($Allsalesteam->members);
+
+                foreach($members as $member){
+
+                    $emploeename = Employee::where('id',$member)->get();
+
+                    $memberfront = NewPaymentsClients::where('SalesPerson',$member)
+                            ->whereMonth('paymentDate', now())
+                            ->where('paymentNature', 'New Lead')
+                            ->where('refundStatus', 'On Going')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
+
+                    $memberback = NewPaymentsClients::where('SalesPerson',$member)
+                                ->whereMonth('paymentDate', now())
+                                ->where('refundStatus', 'On Going')
+                                ->where('paymentNature','!=','New Lead')
+                                ->where('dispute',null)
+                                ->SUM('Paid');
+
+                    $memberrefund = NewPaymentsClients::where('SalesPerson',$member)
+                                ->whereMonth('paymentDate', now())
+                                ->where('refundStatus', 'Refund')
+                                ->where('dispute',null)
+                                ->SUM('Paid');
+
+                    $membertarget = AgentTarget::where('AgentID',$member)
+                                ->where('Year', $year)
+                                ->SUM($target);
+
+                    $netgainsmember = $memberfront + $memberback - $memberrefund;
+                    $membernet = $membertarget - $netgainsmember;
+
+                    $membersstatus[] = [
+                        'memberID' => $emploeename[0]->name,
+                        'membertarget' => $membertarget,
+                        'memberfront' => $memberfront,
+                        'memberback' => $memberback,
+                        'memberrefund' => $memberrefund,
+                        'membernet' => $membernet,
+                    ];
+
+                    }
+
+                    $emploeenamelead = Employee::where('id',$Allsalesteam->teamLead)->get();
+
+
+
+                    $mainsalesTeam[] = [
+                        'leadID' => $emploeenamelead[0]->name,
+                        'leadtarget' => $leadtarget,
+                        'leadfront' => $leadfront,
+                        'leadback' => $leadback,
+                        'leadrefund' => $leadrefund,
+                        'leadnet' => $leadnet,
+                        'membersdata' => $membersstatus
+                    ];
+
+        }
+
+
+        foreach($mainsalesTeam as &$mainsalesTeams) {
+            $memberTargets = array();
+            $memberNET = array();
+
+            foreach($mainsalesTeams['membersdata'] as $ind) {
+                $memberTargets[] = $ind['membertarget'];
+                $memberNET[] = $ind['membernet'];
+            }
+
+            $b = array_sum($memberTargets);
+            $c = array_sum($memberNET);
+
+            $eachteamtarget = $b + $mainsalesTeams['leadtarget'];
+            $eachteamnetsales = $c + $mainsalesTeams['leadnet'];
+
+            $mainsalesTeams['totalteamtarget'] = $eachteamtarget;
+            $mainsalesTeams['totalteamnet'] = $eachteamnetsales;
+        }
+
+
         return view('paymentDashboard', [
             'brands' => $brands,
+            'salesteams' => $salesteams,
+            'mainsalesTeam' => $mainsalesTeam,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-             'superUser' => $loginUser[2]]);
-
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     public function fetchbranddata(Request $request)
     {
-        if($request->month_id == "January"){
+        if ($request->month_id == "January") {
             $month = 1;
-        }elseif($request->month_id == "February"){
+        } elseif ($request->month_id == "February") {
             $month = 2;
-        }elseif($request->month_id == "March"){
+        } elseif ($request->month_id == "March") {
             $month = 3;
-        }elseif($request->month_id == "April"){
+        } elseif ($request->month_id == "April") {
             $month = 4;
-        }elseif($request->month_id == "May"){
+        } elseif ($request->month_id == "May") {
             $month = 5;
-        }elseif($request->month_id == "June"){
+        } elseif ($request->month_id == "June") {
             $month = 6;
-        }elseif($request->month_id == "July"){
+        } elseif ($request->month_id == "July") {
             $month = 7;
-        }elseif($request->month_id == "August"){
+        } elseif ($request->month_id == "August") {
             $month = 8;
-        }elseif($request->month_id == "September"){
+        } elseif ($request->month_id == "September") {
             $month = 9;
-        }elseif($request->month_id == "October"){
+        } elseif ($request->month_id == "October") {
             $month = 10;
-        }elseif($request->month_id == "November"){
+        } elseif ($request->month_id == "November") {
             $month = 11;
-        }elseif($request->month_id == "December"){
+        } elseif ($request->month_id == "December") {
             $month = 12;
         }
 
         $getdepartment = Department::where('brand', $request->brand_id)
-                                    ->where(function($query)
-                                    {
-                                        $query->where('name', 'LIKE', '%Project Manager')
-                                        ->orWhere('name', 'LIKE', 'Project manager%')
-                                        ->orWhere('name', 'LIKE', '%Project manager%')
-                                        ->orwhere('name', 'LIKE', '%sale')
-                                        ->orWhere('name', 'LIKE', 'sale%')
-                                        ->orWhere('name', 'LIKE', '%sale%');
-                                    })->get();
+            ->where(function ($query) {
+                $query->where('name', 'LIKE', '%Project Manager')
+                    ->orWhere('name', 'LIKE', 'Project manager%')
+                    ->orWhere('name', 'LIKE', '%Project manager%')
+                    ->orwhere('name', 'LIKE', '%sale')
+                    ->orWhere('name', 'LIKE', 'sale%')
+                    ->orWhere('name', 'LIKE', '%sale%');
+            })->get();
 
 
         $allUsers = [];
 
-        foreach($getdepartment as $getdepartments) {
-           $allarrays = json_decode($getdepartments->users);
-           array_push($allUsers,$allarrays);
+        foreach ($getdepartment as $getdepartments) {
+            $allarrays = json_decode($getdepartments->users);
+            array_push($allUsers, $allarrays);
         }
 
         $mergedArray = [];
@@ -583,159 +736,173 @@ class BasicController extends Controller
 
         // // Optionally, remove duplicates
         $mergedArray = array_unique($mergedArray);
-        $employees = Employee::whereIn('id',$mergedArray)->get();
+        $employees = Employee::whereIn('id', $mergedArray)->get();
         $employeepayment = [];
         $employeetodayspayment = [];
 
-        foreach($employees as $employee){
+        foreach ($employees as $employee) {
 
             $todayemppay = NewPaymentsClients::where('SalesPerson', $employee->id)
-                    ->where("BrandID", $request->brand_id)
-                    ->whereDate('paymentDate', '=', now()->toDateString())
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum('Paid');
+                ->where("BrandID", $request->brand_id)
+                ->whereDate('paymentDate', '=', now()->toDateString())
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->sum('Paid');
 
             $employeetodayspayment[] = [
-                        'userID' => $employee->id,
-                        'name' => $employee->name,
-                        'allrevenue' => $todayemppay
-                    ];
-
+                'userID' => $employee->id,
+                'name' => $employee->name,
+                'allrevenue' => $todayemppay
+            ];
         }
 
-        foreach($employees as $employee){
+        foreach ($employees as $employee) {
             $getcomplete = NewPaymentsClients::where('SalesPerson', $employee->id)
-                    ->where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    // ->where('paymentNature', 'New Lead')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->get();
+                ->where("BrandID", $request->brand_id)
+                ->whereYear('paymentDate', $request->year_id)
+                ->whereMonth('paymentDate', $month)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                // ->where('paymentNature', 'New Lead')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->get();
 
             $getcompletesum = NewPaymentsClients::where('SalesPerson', $employee->id)
-                    ->where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    // ->where('paymentNature', 'New Lead')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum('Paid');
+                ->where("BrandID", $request->brand_id)
+                ->whereYear('paymentDate', $request->year_id)
+                ->whereMonth('paymentDate', $month)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                // ->where('paymentNature', 'New Lead')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->sum('Paid');
 
             $getfront = NewPaymentsClients::where('SalesPerson', $employee->id)
-                    ->where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('paymentNature', 'New Lead')
-                    ->where('paymentNature','!=','Remaining')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->get();
+                ->where("BrandID", $request->brand_id)
+                ->whereYear('paymentDate', $request->year_id)
+                ->whereMonth('paymentDate', $month)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('paymentNature', 'New Lead')
+                ->where('paymentNature', '!=', 'Remaining')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->get();
 
             $getfrontsum = NewPaymentsClients::where('SalesPerson', $employee->id)
-                    ->where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('paymentNature', 'New Lead')
-                    ->where('paymentNature','!=','Remaining')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum('Paid');
+                ->where("BrandID", $request->brand_id)
+                ->whereYear('paymentDate', $request->year_id)
+                ->whereMonth('paymentDate', $month)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('paymentNature', 'New Lead')
+                ->where('paymentNature', '!=', 'Remaining')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->sum('Paid');
 
             $getback = NewPaymentsClients::where('SalesPerson', $employee->id)
-                    ->where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('paymentNature','!=','New Lead')
-                    ->where('paymentNature','!=','Remaining')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->get();
+                ->where("BrandID", $request->brand_id)
+                ->whereYear('paymentDate', $request->year_id)
+                ->whereMonth('paymentDate', $month)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('paymentNature', '!=', 'New Lead')
+                ->where('paymentNature', '!=', 'Remaining')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->get();
 
             $getbacksum = NewPaymentsClients::where('SalesPerson', $employee->id)
-                    ->where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('paymentNature','!=','New Lead')
-                    ->where('paymentNature','!=','Remaining')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum('Paid');
+                ->where("BrandID", $request->brand_id)
+                ->whereYear('paymentDate', $request->year_id)
+                ->whereMonth('paymentDate', $month)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('paymentNature', '!=', 'New Lead')
+                ->where('paymentNature', '!=', 'Remaining')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->sum('Paid');
 
             $getdispute = NewPaymentsClients::where('SalesPerson', $employee->id)
-                                ->where("BrandID", $request->brand_id)
-                                ->whereMonth('paymentDate',$month)
-                                ->whereYear('paymentDate',$request->year_id)
-                                ->where('remainingStatus','!=', 'Unlinked Payments')
-                                ->where('refundStatus','!=', 'Pending Payment')
-                                ->where(function($query)
-                                {
-                                    $query->where('refundStatus', 'On Going')
-                                    ->where('dispute',"!=",null);
-                                })
-                                // ->get();
-                                ->sum('Paid');
+                ->where("BrandID", $request->brand_id)
+                ->whereMonth('paymentDate', $month)
+                ->whereYear('paymentDate', $request->year_id)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where(function ($query) {
+                    $query->where('refundStatus', 'On Going')
+                        ->where('dispute', "!=", null);
+                })
+                // ->get();
+                ->sum('Paid');
 
             $getrefund = NewPaymentsClients::where('SalesPerson', $employee->id)
-                                ->where("BrandID", $request->brand_id)
-                                ->whereMonth('paymentDate',$month)
-                                ->whereYear('paymentDate',$request->year_id)
-                                ->where('refundStatus', 'Refund')
-                                ->where('remainingStatus','!=', 'Unlinked Payments')
-                                ->where('refundStatus','!=', 'Pending Payment')
-                                ->where('dispute',null)
-                                // ->get();
-                                ->sum('Paid');
+                ->where("BrandID", $request->brand_id)
+                ->whereMonth('paymentDate', $month)
+                ->whereYear('paymentDate', $request->year_id)
+                ->where('refundStatus', 'Refund')
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('dispute', null)
+                // ->get();
+                ->sum('Paid');
+            $countuserexist = AgentTarget::where('AgentID', $employee->id)
+                ->where('Year', $request->year_id)
+                ->count();
+            if ($countuserexist > 0) {
+                // $agenttarget = 101;
+                $agenttargets = AgentTarget::where('AgentID', $employee->id)
+                    ->where('Year', $request->year_id)
+                    ->get();
+                $desiredagentmonth = $request->month_id;
+                $agenttarget  = $agenttargets[0]->$desiredagentmonth;
+            } else {
+                $agenttarget = 0;
+            }
+
 
             $employeepayment[] = [
-                'userID' => $employee->id ,
-                'name' => $employee->name ,
-                'allrevenue' => $getcomplete ,
-                'getcompletesum' => $getcompletesum ,
+                'userID' => $employee->id,
+                'name' => $employee->name,
+                'allrevenue' => $getcomplete,
+                'getcompletesum' => $getcompletesum,
                 'front' => $getfront,
                 'getfrontsum' => $getfrontsum,
                 'back' => $getback,
                 'getbacksum' => $getbacksum,
                 'dispute' => $getdispute,
-                'refund' => $getrefund];
+                'refund' => $getrefund,
+                'agenttarget' => $agenttarget
+            ];
         }
 
         $finalpaymentswithrem = [];
         $a = [];
         $b = [];
         $c = [];
-        foreach($employeepayment as $employeepayments){
+        foreach ($employeepayment as $employeepayments) {
             $allrevforrem = $employeepayments['allrevenue'];
-            foreach($allrevforrem as $revenueremaining){
+            foreach ($allrevforrem as $revenueremaining) {
                 if (!is_null($revenueremaining->remainingID)) {
                     $allrevrem = NewPaymentsClients::select("Paid")
                         ->where("BrandID", $request->brand_id)
@@ -749,14 +916,13 @@ class BasicController extends Controller
                                 ->orWhere('dispute', null);
                         })
                         ->get();
-                        // ->sum('Paid');
+                    // ->sum('Paid');
                     $a[] = [$allrevrem];
                 }
-
             }
 
             $frontforrem = $employeepayments['front'];
-            foreach($frontforrem as $frontforrems){
+            foreach ($frontforrem as $frontforrems) {
                 if (!is_null($frontforrems->remainingID)) {
                     $frontrem = NewPaymentsClients::select("Paid")
                         ->where("BrandID", $request->brand_id)
@@ -770,14 +936,13 @@ class BasicController extends Controller
                                 ->orWhere('dispute', null);
                         })
                         ->get();
-                        // ->sum('Paid');
+                    // ->sum('Paid');
                     $b[] = [$frontrem];
-            }
-
+                }
             }
 
             $backforrem = $employeepayments['back'];
-            foreach($backforrem as $backforrems){
+            foreach ($backforrem as $backforrems) {
                 if (!is_null($backforrems->remainingID)) {
                     $backrem = NewPaymentsClients::select("Paid")
                         ->where("BrandID", $request->brand_id)
@@ -791,15 +956,14 @@ class BasicController extends Controller
                                 ->orWhere('dispute', null);
                         })
                         ->get();
-                        // ->sum('Paid');
+                    // ->sum('Paid');
                     $c[] = [$backrem];
-            }
-
+                }
             }
 
             $finalpaymentswithrem[] = [
-                'userID' => $employeepayments['userID'] ,
-                'allrevenuerem' => array_sum($a) ,
+                'userID' => $employeepayments['userID'],
+                'allrevenuerem' => array_sum($a),
                 'frontrem' => array_sum($b),
                 'backrem' => array_sum($c)
             ];
@@ -825,147 +989,152 @@ class BasicController extends Controller
                         'getbacksum' => $detail['getbacksum'],
                         'backrem' => $payment['backrem'],
                         'dispute' => $detail['dispute'],
-                        'refund' => $detail['refund']
+                        'refund' => $detail['refund'],
+                        'target' => $detail['agenttarget']
                     ];
-                }else{
+                } else {
                     continue;
                 }
             }
-
         }
 
-        foreach($emppaymentarray as &$emppaymentarrays){
+        foreach ($emppaymentarray as &$emppaymentarrays) {
             $emppaymentarrays['totalcomplete'] = $emppaymentarrays['getcompletesum'] + $emppaymentarrays['allrevenuerem'];
             $emppaymentarrays['totalfront'] = $emppaymentarrays['getfrontsum'] + $emppaymentarrays['frontrem'];
             $emppaymentarrays['totalback'] = $emppaymentarrays['getbacksum'] + $emppaymentarrays['backrem'];
         }
-       unset($emppaymentarrays);
+        unset($emppaymentarrays);
 
 
         $brandtarget = BrandTarget::where("BrandID", $request->brand_id)->where('Year', $request->year_id)->first();
+        $desiredBrand = $request->brand_id;
+        $brandfronttodaypayment = NewPaymentsClients::where('BrandID', $desiredBrand)
+            ->whereDate('paymentDate', '=', now()->toDateString())
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', 'New Lead')
+            ->where(function ($query) {
+                $query->where('refundStatus', '!=', 'Refund')
+                    ->orWhere('dispute', null);
+            })
+            ->sum('Paid');
 
-        $brandfronttodaypayment = NewPaymentsClients::where('BrandID',$request->brand_id)
-                    ->whereDate('paymentDate', '=', now()->toDateString())
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('paymentNature', 'New Lead')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum('Paid');
+        $brandbacktodaypayment = NewPaymentsClients::where('BrandID', $desiredBrand)
+            ->whereDate('paymentDate', '=', now()->toDateString())
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', '!=', 'New Lead')
+            ->where(function ($query) {
+                $query->where('refundStatus', '!=', 'Refund')
+                    ->orWhere('dispute', null);
+            })
+            ->sum('Paid');
 
-        $brandbacktodaypayment = NewPaymentsClients::where('BrandID',$request->brand_id)
-                    ->whereDate('paymentDate', '=', now()->toDateString())
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('paymentNature','!=','New Lead')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum('Paid');
+        $brandalltodaypayment = NewPaymentsClients::where('BrandID', $desiredBrand)
+            ->whereDate('paymentDate', now()->toDateString())
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where(function ($query) {
+                $query->where('refundStatus', '!=', 'Refund')
+                    ->orWhereNull('dispute'); // Changed to orWhereNull for clarity
+            })
+            ->sum('Paid');
 
-        $brandalltodaypayment = NewPaymentsClients::where('BrandID',$request->brand_id)
-                    ->whereDate('paymentDate', '=', now()->toDateString())
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum('Paid');
 
-        $selectedbrandname = Brand::select('name')->where('id',$request->brand_id)->get();
+        $selectedbrandname = Brand::select('name')->where('id', $desiredBrand)->get();
+
+        // $return_array = [ $brandalltodaypayment ];
+
+        //     return response()->json($return_array);
+
+
+        // die();
 
         $brandsales = NewPaymentsClients::where("BrandID", $request->brand_id)
-            ->whereMonth('paymentDate',$month)
+            ->whereMonth('paymentDate', $month)
             ->whereYear('paymentDate', $request->year_id)
-            ->where('remainingStatus','!=', 'Unlinked Payments')
-            ->where('refundStatus','!=', 'Pending Payment')
-            ->where(function($query)
-            {
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where(function ($query) {
                 $query->where('refundStatus', '!=', 'Refund')
-                ->orwhere('dispute', null);
+                    ->orwhere('dispute', null);
             })
-            ->sum('Paid') ;
+            ->sum('Paid');
 
 
-            $chargeback = NewPaymentsClients::where("BrandID", $request->brand_id)
-                                ->whereYear('paymentDate',$request->year_id)
-                                ->whereMonth('paymentDate',$month)
-                                ->where('remainingStatus','!=', 'Unlinked Payments')
-                                ->where('refundStatus','!=', 'Pending Payment')
-                                ->where(function($query)
-                                {
-                                    $query->where('refundStatus', 'Refund')
-                                    ->orwhere('dispute',"!=",null);
-                                })
-                                ->sum('Paid');
+        $chargeback = NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereYear('paymentDate', $request->year_id)
+            ->whereMonth('paymentDate', $month)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where(function ($query) {
+                $query->where('refundStatus', 'Refund')
+                    ->orwhere('dispute', "!=", null);
+            })
+            ->sum('Paid');
 
 
-            $net_revenue = $brandsales - $chargeback;
+        $net_revenue = $brandsales - $chargeback;
 
-            $dispute =  NewPaymentsClients::where("BrandID", $request->brand_id)
-                                ->whereMonth('paymentDate',$month)
-                                ->whereYear('paymentDate',$request->year_id)
-                                ->where('remainingStatus','!=', 'Unlinked Payments')
-                                ->where('refundStatus','!=', 'Pending Payment')
-                                ->where(function($query)
-                                {
-                                    $query->where('refundStatus', 'On Going')
-                                    ->where('dispute',"!=",null);
-                                })
-                                ->sum('Paid');
+        $dispute =  NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereMonth('paymentDate', $month)
+            ->whereYear('paymentDate', $request->year_id)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where(function ($query) {
+                $query->where('refundStatus', 'On Going')
+                    ->where('dispute', "!=", null);
+            })
+            ->sum('Paid');
 
-            $refund = NewPaymentsClients::where("BrandID", $request->brand_id)
-                                ->whereMonth('paymentDate',$month)
-                                ->whereYear('paymentDate',$request->year_id)
-                                ->where('refundStatus', 'Refund')
-                                ->where('remainingStatus','!=', 'Unlinked Payments')
-                                ->where('refundStatus','!=', 'Pending Payment')
-                                ->where('dispute',null)
-                                ->sum('Paid');
+        $refund = NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereMonth('paymentDate', $month)
+            ->whereYear('paymentDate', $request->year_id)
+            ->where('refundStatus', 'Refund')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('dispute', null)
+            ->sum('Paid');
 
-            $disputefees = NewPaymentsClients::where("BrandID", $request->brand_id)
-                                ->whereMonth('paymentDate',$month)
-                                ->whereYear('paymentDate',$request->year_id)
-                                ->where('refundStatus', 'Refund')
-                                ->where('paymentNature', 'Dispute Lost')
-                                ->where('remainingStatus','!=', 'Unlinked Payments')
-                                ->where('refundStatus','!=', 'Pending Payment')
-                                ->where('dispute',null)
-                                ->sum('disputefee');
+        $disputefees = NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereMonth('paymentDate', $month)
+            ->whereYear('paymentDate', $request->year_id)
+            ->where('refundStatus', 'Refund')
+            ->where('paymentNature', 'Dispute Lost')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('dispute', null)
+            ->sum('disputefee');
 
-            $front = NewPaymentsClients::where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('paymentNature', 'New Lead')
-                    ->where('paymentNature','!=','Remaining')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->get();
+        $front = NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereYear('paymentDate', $request->year_id)
+            ->whereMonth('paymentDate', $month)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', 'New Lead')
+            ->where('paymentNature', '!=', 'Remaining')
+            ->where(function ($query) {
+                $query->where('refundStatus', '!=', 'Refund')
+                    ->orWhere('dispute', null);
+            })
+            ->get();
 
-            $frontsum = NewPaymentsClients::where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('paymentNature', 'New Lead')
-                    ->where('paymentNature','!=','Remaining')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum("Paid");
+        $frontsum = NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereYear('paymentDate', $request->year_id)
+            ->whereMonth('paymentDate', $month)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', 'New Lead')
+            ->where('paymentNature', '!=', 'Remaining')
+            ->where(function ($query) {
+                $query->where('refundStatus', '!=', 'Refund')
+                    ->orWhere('dispute', null);
+            })
+            ->sum("Paid");
 
-            $remaining = [];
+        $remaining = [];
 
-            foreach ($front as $fronts) {
+        foreach ($front as $fronts) {
             if (!is_null($fronts->remainingID)) {
                 $frontnew = NewPaymentsClients::select('Paid')
                     ->where("BrandID", $request->brand_id)
@@ -974,49 +1143,49 @@ class BasicController extends Controller
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
                     ->where('remainingID', $fronts->remainingID)
-                    ->where('paymentNature','Remaining')
+                    ->where('paymentNature', 'Remaining')
                     ->where(function ($query) {
                         $query->where('refundStatus', '!=', 'Refund')
                             ->orWhere('dispute', null);
                     })
                     ->get();
-                    // ->sum("Paid");
+                // ->sum("Paid");
                 $remaining[] = [$frontnew];
             }
-            }
-            $arraysum = array_sum($remaining);
+        }
+        $arraysum = array_sum($remaining);
 
-            $totalfront = $arraysum + $frontsum;
+        $totalfront = $arraysum + $frontsum;
 
-            $back = NewPaymentsClients::where("BrandID", $request->brand_id)
+        $back = NewPaymentsClients::where("BrandID", $request->brand_id)
             ->whereYear('paymentDate', $request->year_id)
             ->whereMonth('paymentDate', $month)
             ->where('remainingStatus', '!=', 'Unlinked Payments')
             ->where('refundStatus', '!=', 'Pending Payment')
-            ->where('paymentNature','!=' ,'New Lead')
-            ->where('paymentNature','!=','Remaining')
+            ->where('paymentNature', '!=', 'New Lead')
+            ->where('paymentNature', '!=', 'Remaining')
             ->where(function ($query) {
                 $query->where('refundStatus', '!=', 'Refund')
                     ->orWhere('dispute', null);
             })
             ->get();
 
-            $backsum = NewPaymentsClients::where("BrandID", $request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('paymentNature', '!=' ,'New Lead')
-                    ->where('paymentNature','!=','Remaining')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund')
-                            ->orWhere('dispute', null);
-                    })
-                    ->sum("Paid");
+        $backsum = NewPaymentsClients::where("BrandID", $request->brand_id)
+            ->whereYear('paymentDate', $request->year_id)
+            ->whereMonth('paymentDate', $month)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', '!=', 'New Lead')
+            ->where('paymentNature', '!=', 'Remaining')
+            ->where(function ($query) {
+                $query->where('refundStatus', '!=', 'Refund')
+                    ->orWhere('dispute', null);
+            })
+            ->sum("Paid");
 
-            $remainingback = [];
+        $remainingback = [];
 
-            foreach ($back as $backs) {
+        foreach ($back as $backs) {
             if (!is_null($backs->remainingID)) {
                 $backnew = NewPaymentsClients::Select("Paid")
                     ->where("BrandID", $request->brand_id)
@@ -1025,107 +1194,151 @@ class BasicController extends Controller
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
                     ->where('remainingID', $backs->remainingID)
-                    ->where('paymentNature','Remaining')
+                    ->where('paymentNature', 'Remaining')
                     ->where(function ($query) {
                         $query->where('refundStatus', '!=', 'Refund')
                             ->orWhere('dispute', null);
                     })
                     ->get();
-                    // ->sum("Paid");
+                // ->sum("Paid");
                 $remainingback[] = [$backnew];
             }
-            }
-            $arraysumback = array_sum($remainingback);
-            $totalback = $arraysumback + $backsum;
+        }
+        $arraysumback = array_sum($remainingback);
+        $totalback = $arraysumback + $backsum;
 
 
-            $brandrefundDispute = NewPaymentsClients::where('BrandID',$request->brand_id)
-                    ->whereYear('paymentDate', $request->year_id)
-                    ->whereMonth('paymentDate', $month)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', 'Refund')
-                            ->orWhere('dispute','!=',null);
-                    })
-                    ->get();
+        $brandrefundDispute = NewPaymentsClients::where('BrandID', $request->brand_id)
+            ->whereYear('paymentDate', $request->year_id)
+            ->whereMonth('paymentDate', $month)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where(function ($query) {
+                $query->where('refundStatus', 'Refund')
+                    ->orWhere('dispute', '!=', null);
+            })
+            ->get();
 
-            $disputerefund = [];
-            foreach($brandrefundDispute as $brandrefundDisputes){
-                $salespersonname = Employee::where('id',$brandrefundDisputes->SalesPerson)->get();
-                $supportpersonname = Employee::where('id',$brandrefundDisputes->ProjectManager)->get();
-                $clientname = Client::where('id',$brandrefundDisputes->ClientID)->get();
-                $brandname = Brand::where('id',$brandrefundDisputes->BrandID)->get();
+        $disputerefund = [];
+        foreach ($brandrefundDispute as $brandrefundDisputes) {
+            $salespersonname = Employee::where('id', $brandrefundDisputes->SalesPerson)->get();
+            $supportpersonname = Employee::where('id', $brandrefundDisputes->ProjectManager)->get();
+            $clientname = Client::where('id', $brandrefundDisputes->ClientID)->get();
+            $brandname = Brand::where('id', $brandrefundDisputes->BrandID)->get();
 
-                if($brandrefundDisputes->dispute == null ){
-                    $type = "Dispute";
-                }else{
-                    $type = "Refund";
-                }
-
-                $disputerefund[] = [
-                    "date" => $brandrefundDisputes->paymentDate,
-                    "brand" => $brandname[0]->name,
-                    "client" => $clientname[0]->name,
-                    "amount" => $brandrefundDisputes->TotalAmount,
-                    "services" => $brandrefundDisputes->Description,
-                    "upseller" => 0,
-                    "support" => $supportpersonname[0]->name,
-                    "type" => $type,
-                    "frontperson" => $salespersonname[0]->name,
-
-                ];
-
+            if ($brandrefundDisputes->dispute == null) {
+                $type = "Dispute";
+            } else {
+                $type = "Refund";
             }
 
-        if($brandtarget == false){
+            $disputerefund[] = [
+                "date" => $brandrefundDisputes->paymentDate,
+                "brand" => $brandname[0]->name,
+                "client" => $clientname[0]->name,
+                "amount" => $brandrefundDisputes->TotalAmount,
+                "services" => $brandrefundDisputes->Description,
+                "upseller" => 0,
+                "support" => $supportpersonname[0]->name,
+                "type" => $type,
+                "frontperson" => $salespersonname[0]->name,
+
+            ];
+        }
+
+
+
+        $brand_ongoing = NewPaymentsClients::whereMonth('paymentDate', now())
+                            ->where('BrandID', $request->brand_id)
+                            ->where('refundStatus', 'On Going')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
+        $brand_refund = NewPaymentsClients::whereMonth('paymentDate', now())
+                            ->where('BrandID', $request->brand_id)
+                            ->where('refundStatus', 'Refund')
+                            ->SUM('Paid');
+        $brand_chargeback = NewPaymentsClients::whereMonth('paymentDate', now())
+                            ->where('BrandID', $request->brand_id)
+                            ->where('dispute','!=',null)
+                            ->SUM('Paid');
+
+
+//is renewal and recurring both are included?
+        $brand_renewal = NewPaymentsClients::whereMonth('paymentDate', now())
+                            ->where('BrandID', $request->brand_id)
+                            ->where('paymentNature', 'Renewal Payment')
+                            ->where('refundStatus', 'On Going')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
+
+        $brand_upsell = NewPaymentsClients::whereMonth('paymentDate', now())
+                            ->where('BrandID', $request->brand_id)
+                            ->where('paymentNature', 'Upsell')
+                            ->where('refundStatus', 'On Going')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
+//is clearify the criteria of remainig
+        $brand_newlead = NewPaymentsClients::whereMonth('paymentDate', now())
+                            ->where('BrandID', $request->brand_id)
+                            ->where('paymentNature', 'New Lead')
+                            ->where('refundStatus', 'On Going')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
+
+
+        if ($brandtarget == false) {
 
             $return_array = [
-                    "selectedbrandname" => $selectedbrandname,
-                    "message" => "NO BRAND FOUND !",
-                    "brandsales" => $brandsales,
-                    "chargeback" => $chargeback,
-                    "net_revenue" => $net_revenue,
-                    "dispute" => $dispute,
-                    "refund" => $refund,
-                    "disputefees" => $disputefees,
-                    "front" => $totalfront,
-                    "back" => $totalback,
-                    "employees" => $emppaymentarray,
-                    "brandfronttodaypayment" => $brandfronttodaypayment,
-                    "brandbacktodaypayment" => $brandbacktodaypayment,
-                    "brandalltodaypayment" => $brandalltodaypayment,
-                    "employeetodayspayment" => $employeetodayspayment,
-                    "disputerefund" => $disputerefund
-                    ];
-
-        }else{
+                "selectedbrandname" => $selectedbrandname,
+                "message" => "NO BRAND FOUND !",
+                "brandsales" => $brandsales,
+                "chargeback" => $chargeback,
+                "net_revenue" => $net_revenue,
+                "dispute" => $dispute,
+                "refund" => $refund,
+                "disputefees" => $disputefees,
+                "front" => $totalfront,
+                "back" => $totalback,
+                "employees" => $emppaymentarray,
+                "brandfronttodaypayment" => $brandfronttodaypayment,
+                "brandbacktodaypayment" => $brandbacktodaypayment,
+                "brandalltodaypayment" => $brandalltodaypayment,
+                "employeetodayspayment" => $employeetodayspayment,
+                "disputerefund" => $disputerefund,
+                "brand_ongoing" => $brand_ongoing,
+                "brand_refund" => $brand_refund,
+                "brand_chargeback" => $brand_chargeback,
+                "brand_renewal" => $brand_renewal,
+                "brand_upsell" => $brand_upsell,
+                "brand_newlead" => $brand_newlead
+            ];
+        } else {
             $desiredmonth = $request->month_id;
             $brandtargetofMonth = $brandtarget->$desiredmonth;
             // $month = 0;
-            if($request->month_id == "January"){
+            if ($request->month_id == "January") {
                 $month = 1;
-            }elseif($request->month_id == "February"){
+            } elseif ($request->month_id == "February") {
                 $month = 2;
-            }elseif($request->month_id == "March"){
+            } elseif ($request->month_id == "March") {
                 $month = 3;
-            }elseif($request->month_id == "April"){
+            } elseif ($request->month_id == "April") {
                 $month = 4;
-            }elseif($request->month_id == "May"){
+            } elseif ($request->month_id == "May") {
                 $month = 5;
-            }elseif($request->month_id == "June"){
+            } elseif ($request->month_id == "June") {
                 $month = 6;
-            }elseif($request->month_id == "July"){
+            } elseif ($request->month_id == "July") {
                 $month = 7;
-            }elseif($request->month_id == "August"){
+            } elseif ($request->month_id == "August") {
                 $month = 8;
-            }elseif($request->month_id == "September"){
+            } elseif ($request->month_id == "September") {
                 $month = 9;
-            }elseif($request->month_id == "October"){
+            } elseif ($request->month_id == "October") {
                 $month = 10;
-            }elseif($request->month_id == "November"){
+            } elseif ($request->month_id == "November") {
                 $month = 11;
-            }elseif($request->month_id == "December"){
+            } elseif ($request->month_id == "December") {
                 $month = 12;
             }
 
@@ -1145,332 +1358,309 @@ class BasicController extends Controller
                 "brandbacktodaypayment" => $brandbacktodaypayment,
                 "brandalltodaypayment" => $brandalltodaypayment,
                 "employeetodayspayment" => $employeetodayspayment,
-                "disputerefund" => $disputerefund
+                "disputerefund" => $disputerefund,
+                "brand_ongoing" => $brand_ongoing,
+                "brand_refund" => $brand_refund,
+                "brand_chargeback" => $brand_chargeback,
+                "brand_renewal" => $brand_renewal,
+                "brand_upsell" => $brand_upsell,
+                "brand_newlead" => $brand_newlead
             ];
-
         }
 
         return response()->json($return_array);
-
     }
 
-    // public function datewisedata(Request $request){
+    function allpaymentdashboard(Request $request, $id = null)
+    {
+        $loginUser = $this->roleExits($request);
+        $brands = Brand::get();
+        $salesteams = Salesteam::get();
 
-    //     $branddata = [];
-    //     $allbrand = Brand::get();
-    //     foreach($allbrand as $allbrands){
-    //         $brandfronttodaypayment = NewPaymentsClients::where('id',$allbrands->id)
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                 ->where('refundStatus', '!=', 'Pending Payment')
-    //                 ->where('paymentNature', 'New Lead')
-    //                 ->where(function ($query) {
-    //                     $query->where('refundStatus', '!=', 'Refund')
-    //                         ->orWhere('dispute', null);
-    //                 })
-    //                 ->sum('Paid');
+        $Allsalesteams = Salesteam::get();
 
-    //         $brandbacktodaypayment = NewPaymentsClients::where('id',$allbrands->id)
-    //         ->whereDate('paymentDate', '=', $request->date_id)
-    //                     ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                     ->where('refundStatus', '!=', 'Pending Payment')
-    //                     ->where('paymentNature','!=','New Lead')
-    //                     ->where(function ($query) {
-    //                         $query->where('refundStatus', '!=', 'Refund')
-    //                             ->orWhere('dispute', null);
-    //                     })
-    //                     ->sum('Paid');
+        $month = date('m');
 
-    //         $brandalltodaypayment = NewPaymentsClients::where('id',$allbrands->id)
-    //         ->whereDate('paymentDate', '=', $request->date_id)
-    //                     ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                     ->where('refundStatus', '!=', 'Pending Payment')
-    //                     ->where(function ($query) {
-    //                         $query->where('refundStatus', '!=', 'Refund')
-    //                             ->orWhere('dispute', null);
-    //                     })
-    //                     ->sum('Paid');
+        if($month == 1){
+            $target = "January";
+        }elseif($month == 2){
+            $target = "February";
+        }elseif($month == 3){
+            $target = "March";
+        }elseif($month == 4){
+            $target = "April";
+        }elseif($month == 5){
+            $target = "May";
+        }elseif($month == 6){
+            $target = "June";
+        }elseif($month == 7){
+            $target = "July";
+        }elseif($month == 8){
+            $target = "August";
+        }elseif($month == 9){
+            $target = "September";
+        }elseif($month == 10){
+            $target = "October";
+        }elseif($month == 11){
+            $target = "November";
+        }elseif($month == 12){
+            $target = "December";
+        }
 
-    //         $selectedbrandname = Brand::select('name')->where('id', $allbrands->id )->get();
+        $year = date('Y');
+        // echo($year);
+        // die();
 
-    //         $branddata[] = [
-    //             "name" => $selectedbrandname[0],
-    //             "front" => $brandfronttodaypayment,
-    //             "back" => $brandbacktodaypayment,
-    //             "all" => $brandalltodaypayment
-    //         ];
+        $mainsalesTeam = [];
+        $membersstatus = [];
 
-    //     }
+        foreach($Allsalesteams as $Allsalesteam){
+                //for lead;
+                $leadfront = NewPaymentsClients::where('SalesPerson',$Allsalesteam->teamLead)
+                            ->whereMonth('paymentDate', now())
+                            ->where('paymentNature', 'New Lead')
+                            ->where('refundStatus', 'On Going')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
 
+                $leadback = NewPaymentsClients::where('SalesPerson',$Allsalesteam->teamLead)
+                            ->whereMonth('paymentDate', now())
+                            ->where('refundStatus', 'On Going')
+                            ->where('paymentNature','!=','New Lead')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
 
+                $leadrefund = NewPaymentsClients::where('SalesPerson',$Allsalesteam->teamLead)
+                            ->whereMonth('paymentDate', now())
+                            ->where('refundStatus', 'Refund')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
 
-    //     $getdepartment = Department::where(function($query)
-    //                                 {
-    //                                     $query->where('name', 'LIKE', '%Project Manager')
-    //                                     ->orWhere('name', 'LIKE', 'Project manager%')
-    //                                     ->orWhere('name', 'LIKE', '%Project manager%')
-    //                                     ->orwhere('name', 'LIKE', '%sale')
-    //                                     ->orWhere('name', 'LIKE', 'sale%')
-    //                                     ->orWhere('name', 'LIKE', '%sale%');
-    //                                 })->get();
+                $leadtarget = AgentTarget::where('AgentID',$Allsalesteam->teamLead)
+                            ->where('Year', $year)
+                            ->SUM($target);
 
+                $netgainslead = $leadfront + $leadback - $leadrefund;
 
-    //     $allUsers = [];
-
-    //     foreach($getdepartment as $getdepartments) {
-    //        $allarrays = json_decode($getdepartments->users);
-    //        array_push($allUsers,$allarrays);
-    //     }
-
-    //     $mergedArray = [];
-
-
-
-    //     for ($i = 0; $i < count($allUsers); $i++) {
-    //         for ($j = 0; $j < count($allUsers[$i]); $j++) {
-    //             $mergedArray[] = $allUsers[$i][$j];
-    //         }
-    //     }
-
-    //     // // Optionally, remove duplicates
-    //     $mergedArray = array_unique($mergedArray);
-    //     $employees = Employee::whereIn('id',$mergedArray)->get();
-    //     $employeepayment = [];
-
-    //     $employeetodayspayment = [];
-
-    //     foreach($employees as $employee){
-    //         $getcomplete = NewPaymentsClients::where('SalesPerson', $employee->id)
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                 ->where('refundStatus', '!=', 'Pending Payment')
-    //                 ->where(function ($query) {
-    //                     $query->where('refundStatus', '!=', 'Refund')
-    //                         ->orWhere('dispute', null);
-    //                 })
-    //                 ->get();
-
-    //         $getcompletesum = NewPaymentsClients::where('SalesPerson', $employee->id)
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                 ->where('refundStatus', '!=', 'Pending Payment')
-    //                 ->where(function ($query) {
-    //                     $query->where('refundStatus', '!=', 'Refund')
-    //                         ->orWhere('dispute', null);
-    //                 })
-    //                 ->sum('Paid');
-
-    //         $getfront = NewPaymentsClients::where('SalesPerson', $employee->id)
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                 ->where('refundStatus', '!=', 'Pending Payment')
-    //                 ->where('paymentNature', 'New Lead')
-    //                 ->where('paymentNature','!=','Remaining')
-    //                 ->where(function ($query) {
-    //                     $query->where('refundStatus', '!=', 'Refund')
-    //                         ->orWhere('dispute', null);
-    //                 })
-    //                 ->get();
-
-    //         $getfrontsum = NewPaymentsClients::where('SalesPerson', $employee->id)
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                 ->where('refundStatus', '!=', 'Pending Payment')
-    //                 ->where('paymentNature', 'New Lead')
-    //                 ->where('paymentNature','!=','Remaining')
-    //                 ->where(function ($query) {
-    //                     $query->where('refundStatus', '!=', 'Refund')
-    //                         ->orWhere('dispute', null);
-    //                 })
-    //                 ->sum('Paid');
-
-    //         $getback = NewPaymentsClients::where('SalesPerson', $employee->id)
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                 ->where('refundStatus', '!=', 'Pending Payment')
-    //                 ->where('paymentNature','!=','New Lead')
-    //                 ->where('paymentNature','!=','Remaining')
-    //                 ->where(function ($query) {
-    //                     $query->where('refundStatus', '!=', 'Refund')
-    //                         ->orWhere('dispute', null);
-    //                 })
-    //                 ->get();
-
-    //         $getbacksum = NewPaymentsClients::where('SalesPerson', $employee->id)
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                 ->where('refundStatus', '!=', 'Pending Payment')
-    //                 ->where('paymentNature','!=','New Lead')
-    //                 ->where('paymentNature','!=','Remaining')
-    //                 ->where(function ($query) {
-    //                     $query->where('refundStatus', '!=', 'Refund')
-    //                         ->orWhere('dispute', null);
-    //                 })
-    //                 ->sum('Paid');
-
-    //         $getdispute = NewPaymentsClients::where('SalesPerson', $employee->id)
-    //                             ->whereDate('paymentDate', '=', $request->date_id)
-    //                             ->where('remainingStatus','!=', 'Unlinked Payments')
-    //                             ->where('refundStatus','!=', 'Pending Payment')
-    //                             ->where(function($query)
-    //                             {
-    //                                 $query->where('refundStatus', 'On Going')
-    //                                 ->where('dispute',"!=",null);
-    //                             })
-    //                             // ->get();
-    //                             ->sum('Paid');
-
-    //         $getrefund = NewPaymentsClients::where('SalesPerson', $employee->id)
-    //                             ->whereDate('paymentDate', '=', $request->date_id)
-    //                             ->where('refundStatus', 'Refund')
-    //                             ->where('remainingStatus','!=', 'Unlinked Payments')
-    //                             ->where('refundStatus','!=', 'Pending Payment')
-    //                             ->where('dispute',null)
-    //                             // ->get();
-    //                             ->sum('Paid');
-
-    //         $employeepayment[] = [
-    //             'userID' => $employee->id ,
-    //             'name' => $employee->name ,
-    //             'allrevenue' => $getcomplete ,
-    //             'getcompletesum' => $getcompletesum ,
-    //             'front' => $getfront,
-    //             'getfrontsum' => $getfrontsum,
-    //             'back' => $getback,
-    //             'getbacksum' => $getbacksum,
-    //             'dispute' => $getdispute,
-    //             'refund' => $getrefund];
-    //     }
-
-    //     $finalpaymentswithrem = [];
-    //     $a = [];
-    //     $b = [];
-    //     $c = [];
-    //     foreach($employeepayment as $employeepayments){
-    //         $allrevforrem = $employeepayments['allrevenue'];
-    //         foreach($allrevforrem as $revenueremaining){
-    //             if (!is_null($revenueremaining->remainingID)) {
-    //                 $allrevrem = NewPaymentsClients::select("Paid")
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                     ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                     ->where('refundStatus', '!=', 'Pending Payment')
-    //                     ->where('remainingID', $revenueremaining->remainingID)
-    //                     ->where(function ($query) {
-    //                         $query->where('refundStatus', '!=', 'Refund')
-    //                             ->orWhere('dispute', null);
-    //                     })
-    //                     ->get();
-    //                     // ->sum('Paid');
-    //                 $a[] = [$allrevrem];
-    //             }
-
-    //         }
-
-    //         $frontforrem = $employeepayments['front'];
-    //         foreach($frontforrem as $frontforrems){
-    //             if (!is_null($frontforrems->remainingID)) {
-    //                 $frontrem = NewPaymentsClients::select("Paid")
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                     ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                     ->where('refundStatus', '!=', 'Pending Payment')
-    //                     ->where('remainingID', $frontforrems->remainingID)
-    //                     ->where(function ($query) {
-    //                         $query->where('refundStatus', '!=', 'Refund')
-    //                             ->orWhere('dispute', null);
-    //                     })
-    //                     ->get();
-    //                     // ->sum('Paid');
-    //                 $b[] = [$frontrem];
-    //         }
-
-    //         }
-
-    //         $backforrem = $employeepayments['back'];
-    //         foreach($backforrem as $backforrems){
-    //             if (!is_null($backforrems->remainingID)) {
-    //                 $backrem = NewPaymentsClients::select("Paid")
-    //                 ->whereDate('paymentDate', '=', $request->date_id)
-    //                     ->where('remainingStatus', '!=', 'Unlinked Payments')
-    //                     ->where('refundStatus', '!=', 'Pending Payment')
-    //                     ->where('remainingID', $backforrems->remainingID)
-    //                     ->where(function ($query) {
-    //                         $query->where('refundStatus', '!=', 'Refund')
-    //                             ->orWhere('dispute', null);
-    //                     })
-    //                     ->get();
-    //                     // ->sum('Paid');
-    //                 $c[] = [$backrem];
-    //         }
-
-    //         }
-
-    //         $finalpaymentswithrem[] = [
-    //             'userID' => $employeepayments['userID'] ,
-    //             'allrevenuerem' => array_sum($a) ,
-    //             'frontrem' => array_sum($b),
-    //             'backrem' => array_sum($c)
-    //         ];
-    //     }
-
-    //     $emppaymentarray = [];
-
-    //     foreach ($employeepayment as $detail) {
-    //         $matched = false;
-
-    //         // Iterate through each payment
-    //         foreach ($finalpaymentswithrem as $payment) {
-    //             // Check if the IDs match
-    //             if ($detail['userID'] == $payment['userID']) {
-    //                 $matched = true;
-    //                 $emppaymentarray[] = [
-    //                     'employeeID' => $detail['userID'],
-    //                     'name' => $detail['name'],
-    //                     'getcompletesum' => $detail['getcompletesum'],
-    //                     'allrevenuerem' => $payment['allrevenuerem'],
-    //                     'getfrontsum' => $detail['getfrontsum'],
-    //                     'frontrem' => $payment['frontrem'],
-    //                     'getbacksum' => $detail['getbacksum'],
-    //                     'backrem' => $payment['backrem'],
-    //                     'dispute' => $detail['dispute'],
-    //                     'refund' => $detail['refund']
-    //                 ];
-    //             }else{
-    //                 continue;
-    //             }
-    //         }
-
-    //     }
-
-    //     foreach($emppaymentarray as &$emppaymentarrays){
-    //         $emppaymentarrays['totalcomplete'] = $emppaymentarrays['getcompletesum'] + $emppaymentarrays['allrevenuerem'];
-    //         $emppaymentarrays['totalfront'] = $emppaymentarrays['getfrontsum'] + $emppaymentarrays['frontrem'];
-    //         $emppaymentarrays['totalback'] = $emppaymentarrays['getbacksum'] + $emppaymentarrays['backrem'];
-    //     }
-    //    unset($emppaymentarrays);
-
-    //    $return_array = [
-    //     "employees" => $emppaymentarray,
-    //     "branddata" => $branddata
-    //     ];
-
-    //     return response()->json($return_array);
+                $leadnet = $leadtarget - $netgainslead;
 
 
-    // }
+                $members = json_decode($Allsalesteam->members);
+
+                foreach($members as $member){
+
+                    $emploeename = Employee::where('id',$member)->get();
+
+                    $memberfront = NewPaymentsClients::where('SalesPerson',$member)
+                            ->whereMonth('paymentDate', now())
+                            ->where('paymentNature', 'New Lead')
+                            ->where('refundStatus', 'On Going')
+                            ->where('dispute',null)
+                            ->SUM('Paid');
+
+                    $memberback = NewPaymentsClients::where('SalesPerson',$member)
+                                ->whereMonth('paymentDate', now())
+                                ->where('refundStatus', 'On Going')
+                                ->where('paymentNature','!=','New Lead')
+                                ->where('dispute',null)
+                                ->SUM('Paid');
+
+                    $memberrefund = NewPaymentsClients::where('SalesPerson',$member)
+                                ->whereMonth('paymentDate', now())
+                                ->where('refundStatus', 'Refund')
+                                ->where('dispute',null)
+                                ->SUM('Paid');
+
+                    $membertarget = AgentTarget::where('AgentID',$member)
+                                ->where('Year', $year)
+                                ->SUM($target);
+
+                    $netgainsmember = $memberfront + $memberback - $memberrefund;
+                    $membernet = $membertarget - $netgainsmember;
+
+                    $membersstatus[] = [
+                        'memberID' => $emploeename[0]->name,
+                        'membertarget' => $membertarget,
+                        'memberfront' => $memberfront,
+                        'memberback' => $memberback,
+                        'memberrefund' => $memberrefund,
+                        'membernet' => $membernet,
+                    ];
+
+                    }
+
+                    $emploeenamelead = Employee::where('id',$Allsalesteam->teamLead)->get();
 
 
-    function brandtarget(Request $request){
+
+                    $mainsalesTeam[] = [
+                        'leadID' => $emploeenamelead[0]->name,
+                        'leadtarget' => $leadtarget,
+                        'leadfront' => $leadfront,
+                        'leadback' => $leadback,
+                        'leadrefund' => $leadrefund,
+                        'leadnet' => $leadnet,
+                        'membersdata' => $membersstatus
+                    ];
+
+        }
+
+
+        foreach($mainsalesTeam as &$mainsalesTeams) {
+            $memberTargets = array();
+            $memberNET = array();
+
+            foreach($mainsalesTeams['membersdata'] as $ind) {
+                $memberTargets[] = $ind['membertarget'];
+                $memberNET[] = $ind['membernet'];
+            }
+
+            $b = array_sum($memberTargets);
+            $c = array_sum($memberNET);
+
+            $eachteamtarget = $b + $mainsalesTeams['leadtarget'];
+            $eachteamnetsales = $c + $mainsalesTeams['leadnet'];
+
+            $mainsalesTeams['totalteamtarget'] = $eachteamtarget;
+            $mainsalesTeams['totalteamnet'] = $eachteamnetsales;
+        }
+
+
+        return view('allBrandpaymentDashboard', [
+            'brands' => $brands,
+            'salesteams' => $salesteams,
+            'mainsalesTeam' => $mainsalesTeam,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    public function datewisedata(Request $request)
+    {
+        $requireddate = $request->date_id;
+        $branddata = [];
+        $allbrand = Brand::get();
+        foreach ($allbrand as $allbrands) {
+            $brandfront = NewPaymentsClients::where('BrandID', $allbrands->id)
+                ->whereDate('paymentDate', $requireddate)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('paymentNature', 'New Lead')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->sum('Paid');
+
+            $brandback = NewPaymentsClients::where('BrandID', $allbrands->id)
+                ->whereDate('paymentDate', $requireddate)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('paymentNature', '!=', 'New Lead')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->sum('Paid');
+
+            $brandall = NewPaymentsClients::where('BrandID', $allbrands->id)
+                ->whereDate('paymentDate', $requireddate)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->sum('Paid');
+
+
+            $selectedbrandname = Brand::where('id', $allbrands->id)->get();
+
+            $branddata[] = [
+                "name" => $selectedbrandname[0]->name,
+                "front" => $brandfront,
+                "back" => $brandback,
+                "all" => $brandall
+            ];
+        }
+
+        $getdepartment = Department::where(function ($query) {
+            $query->where('name', 'LIKE', '%Project Manager')
+                ->orWhere('name', 'LIKE', 'Project manager%')
+                ->orWhere('name', 'LIKE', '%Project manager%')
+                ->orwhere('name', 'LIKE', '%sale')
+                ->orWhere('name', 'LIKE', 'sale%')
+                ->orWhere('name', 'LIKE', '%sale%');
+        })->get();
+
+
+        $allUsers = [];
+
+        foreach ($getdepartment as $getdepartments) {
+            $allarrays = json_decode($getdepartments->users);
+            array_push($allUsers, $allarrays);
+        }
+
+        $mergedArray = [];
+
+
+
+        for ($i = 0; $i < count($allUsers); $i++) {
+            for ($j = 0; $j < count($allUsers[$i]); $j++) {
+                $mergedArray[] = $allUsers[$i][$j];
+            }
+        }
+
+        // // Optionally, remove duplicates
+        $mergedArray = array_unique($mergedArray);
+        $employees = Employee::whereIn('id', $mergedArray)->get();
+        $employeepayment = [];
+
+        $employeetodayspayment = [];
+
+        foreach ($employees as $employee) {
+
+            $todayemppay = NewPaymentsClients::where('SalesPerson', $employee->id)
+                ->whereDate('paymentDate', $requireddate)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where(function ($query) {
+                    $query->where('refundStatus', '!=', 'Refund')
+                        ->orWhere('dispute', null);
+                })
+                ->sum('Paid');
+
+            $employeetodayspayment[] = [
+                'userID' => $employee->id,
+                'name' => $employee->name,
+                'allrevenue' => $todayemppay
+            ];
+        }
+
+        $return_array = [
+            "employees" => $employeetodayspayment,
+            "branddata" => $branddata
+        ];
+
+        return response()->json($return_array);
+    }
+
+
+    function brandtarget(Request $request)
+    {
         $loginUser = $this->roleExits($request);
         $brands = Brand::get();
         return view('brandTarget', [
             'brands' => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-             'superUser' => $loginUser[2]]);
-
+            'superUser' => $loginUser[2]
+        ]);
     }
 
-    function brandtargetprocess(Request $request){
+    function brandtargetprocess(Request $request)
+    {
         $brandID = $request->input('brand');
 
         // echo( date('Y'));
@@ -1478,7 +1668,8 @@ class BasicController extends Controller
 
         $addbrandtarget = BrandTarget::create([
             "BrandID" => $request->input('brand'),
-            "Year" => date('Y'),
+            "Year" => $request->input('year'),
+            // "Year" => date('Y'),
             "January" => $request->input('jan'),
             "February" => $request->input('feb'),
             "March" => $request->input('mar'),
@@ -1496,30 +1687,28 @@ class BasicController extends Controller
         ]);
 
         return redirect('/brandtarget');
-
     }
 
-    function brandtargetedit(Request $request, $id){
+    function brandtargetedit(Request $request, $id)
+    {
         $loginUser = $this->roleExits($request);
-        $brantarget = BrandTarget::where('id',$id)->get();
+        $brantarget = BrandTarget::where('id', $id)->get();
         $brands = Brand::get();
         return view('brandTargetedit', [
             'brandedit' => $brantarget,
             'brands' => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-             'superUser' => $loginUser[2]]);
-
+            'superUser' => $loginUser[2]
+        ]);
     }
 
-    function brandtargetprocesseditprocess(Request $request){
-        $brandID = $request->input('brand');
+    function brandtargetprocesseditprocess(Request $request, $id)
+    {
 
-        // echo( date('Y'));
-        // die();
-
-        $addbrandtarget = BrandTarget::where('id',$brandID)->update([
-            "BrandID" => $brandID,
+        $addbrandtarget = BrandTarget::where('id', $id)->update([
+            "BrandID" => $request->input('brand'),
+            "Year" => $request->input('selectedyear'),
             "January" => $request->input('jan'),
             "February" => $request->input('feb'),
             "March" => $request->input('mar'),
@@ -1536,19 +1725,111 @@ class BasicController extends Controller
         ]);
 
         return redirect('/brandtarget');
-
     }
 
 
-    function viewbrandtarget(Request $request){
+    function viewbrandtarget(Request $request)
+    {
         $loginUser = $this->roleExits($request);
         $brands = BrandTarget::get();
         return view('viewbrandTarget', [
             'brands' => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
+    }
 
+    function agenttarget(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $brands = Employee::get();
+        return view('agentTarget', [
+            'brands' => $brands,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function agent_targetprocess(Request $request)
+    {
+        $agentID = $request->input('agent');
+
+        $addbrandtarget = AgentTarget::create([
+            "AgentID" => $request->input('agent'),
+            "Year" => $request->input('year'),
+            "January" => $request->input('jan'),
+            "February" => $request->input('feb'),
+            "March" => $request->input('mar'),
+            "April" => $request->input('apr'),
+            "May" => $request->input('may'),
+            "June" => $request->input('june'),
+            "July" => $request->input('july'),
+            "August" => $request->input('aug'),
+            "September" => $request->input('sept'),
+            "October" => $request->input('oct'),
+            "November" => $request->input('nov'),
+            "December" => $request->input('dec'),
+            "created_at" => date('y-m-d H:m:s'),
+            "updated_at" => date('y-m-d H:m:s')
+        ]);
+
+        return redirect('/agenttarget');
+    }
+
+    function viewagenttarget(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $brands = AgentTarget::get();
+        return view('viewagentTarget', [
+            'brands' => $brands,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function agenttargetedit(Request $request, $id)
+    {
+        $loginUser = $this->roleExits($request);
+        $brantarget = AgentTarget::where('id', $id)->get();
+        $brands = Employee::get();
+        return view('agentTargetedit', [
+            'brandedit' => $brantarget,
+            'brands' => $brands,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function agenttargetprocesseditprocess(Request $request, $id)
+    {
+        $brandID = $request->input('brand');
+
+        // echo( date('Y'));
+        // die();
+
+        $addbrandtarget = AgentTarget::where('id', $id)->update([
+            "AgentID" => $brandID,
+            "Year" => $request->input('selectedyear'),
+            "January" => $request->input('jan'),
+            "February" => $request->input('feb'),
+            "March" => $request->input('mar'),
+            "April" => $request->input('apr'),
+            "May" => $request->input('may'),
+            "June" => $request->input('june'),
+            "July" => $request->input('july'),
+            "August" => $request->input('aug'),
+            "September" => $request->input('sept'),
+            "October" => $request->input('oct'),
+            "November" => $request->input('nov'),
+            "December" => $request->input('dec'),
+            "updated_at" => date('y-m-d H:m:s')
+        ]);
+
+        return redirect('/agenttarget');
     }
 
     function registration(Request $request)
@@ -1630,7 +1911,11 @@ class BasicController extends Controller
     function setupcompany(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        return view('setupcompany', ['LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('setupcompany', [
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function setupcompanyprocess(Request $request)
@@ -1641,15 +1926,15 @@ class BasicController extends Controller
         if ($findCompany > 0) {
             return redirect()->back()->with('Error', "Company Already Exists");
         } else {
-                $insertCompany = Company::create([
-                    "name"      =>  $companyName,
-                    "website"   =>  $request->input("website"),
-                    "tel"       =>  $request->input("tel"),
-                    "email"     =>  $request->input("email"),
-                    "address"   =>  $request->input("address"),
-                    "status"    =>  "Active"
-                ]);
-                return redirect()->back()->with('Success', "Company Added !");
+            $insertCompany = Company::create([
+                "name"      =>  $companyName,
+                "website"   =>  $request->input("website"),
+                "tel"       =>  $request->input("tel"),
+                "email"     =>  $request->input("email"),
+                "address"   =>  $request->input("address"),
+                "status"    =>  "Active"
+            ]);
+            return redirect()->back()->with('Success', "Company Added !");
         }
     }
 
@@ -1664,7 +1949,8 @@ class BasicController extends Controller
             "companydata" => $companydata,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function editcompanyprocess(Request $request, $id)
@@ -1707,7 +1993,8 @@ class BasicController extends Controller
             "companies" => $companies,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function brandlist(Request $request)
@@ -1718,7 +2005,8 @@ class BasicController extends Controller
             "companies" => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function setupbrand(Request $request, $companyID)
@@ -1731,7 +2019,8 @@ class BasicController extends Controller
             'employees' => $employees,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function setupbrandprocess(Request $request)
@@ -1768,7 +2057,8 @@ class BasicController extends Controller
             'employees' => $employees,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function editbrandprocess(Request $request, $id)
@@ -1814,7 +2104,8 @@ class BasicController extends Controller
             'brands' => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function setupdepartments_withBrand(Request $request, $id)
@@ -1827,7 +2118,8 @@ class BasicController extends Controller
             'brands' => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
 
@@ -1856,7 +2148,8 @@ class BasicController extends Controller
         }
     }
 
-    function selectdepartusers(Request $request , $id){
+    function selectdepartusers(Request $request, $id)
+    {
         $loginUser = $this->roleExits($request);
         $employees = Employee::whereNotIn('position', ['Owner', 'Admin', 'VP', 'Brand Owner', ''])->get();
         $department = Department::where('id', $id)->get();
@@ -1865,15 +2158,16 @@ class BasicController extends Controller
             'department' => $department,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
-
+            'superUser' => $loginUser[2]
+        ]);
     }
 
-    function addusersIndepart(Request $request , $id){
+    function addusersIndepart(Request $request, $id)
+    {
 
         $results  = explode(",", $request->input('Employeesdd'));
 
-        $department = Department::where('id',$id)->update([
+        $department = Department::where('id', $id)->update([
             "users" => json_encode($results),
         ]);
 
@@ -1888,9 +2182,10 @@ class BasicController extends Controller
 
         return view('departmentlist', [
             "departments" => $departments,
-             'LoginUser' => $loginUser[1],
-             'departmentAccess' => $loginUser[0],
-              'superUser' => $loginUser[2]]);
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function editdepartment(Request $request, $id)
@@ -1906,7 +2201,8 @@ class BasicController extends Controller
             "brands" => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function editdepartmentprocess(Request $request, $id)
@@ -1956,7 +2252,8 @@ class BasicController extends Controller
             "brands" => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function createuser(Request $request)
@@ -1968,7 +2265,8 @@ class BasicController extends Controller
             "Brands" => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function edituser(Request $request, $id)
@@ -1980,7 +2278,8 @@ class BasicController extends Controller
             "employee" => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-             'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function edituserprocess(Request $request, $id)
@@ -2175,7 +2474,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($SEO_ARRAY),
-                'otheremail'=> json_encode($firstemail),
+                'otheremail' => json_encode($firstemail),
                 'created_at' => date('y-m-d H:m:s'),
                 'updated_at' => date('y-m-d H:m:s')
             ]);
@@ -2202,7 +2501,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($BOOK_ARRAY),
-                'otheremail'=> json_encode($firstemail),
+                'otheremail' => json_encode($firstemail),
                 'created_at' => date('y-m-d H:m:s'),
                 'updated_at' => date('y-m-d H:m:s')
             ]);
@@ -2224,7 +2523,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($WEBSITE_ARRAY),
-                'otheremail'=> json_encode($firstemail),
+                'otheremail' => json_encode($firstemail),
                 'created_at' => date('y-m-d H:m:s'),
                 'updated_at' => date('y-m-d H:m:s')
             ]);
@@ -2245,7 +2544,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($CLD_ARRAY),
-                'otheremail'=> json_encode($firstemail),
+                'otheremail' => json_encode($firstemail),
                 'created_at' => date('y-m-d H:m:s'),
                 'updated_at' => date('y-m-d H:m:s')
             ]);
@@ -2398,35 +2697,33 @@ class BasicController extends Controller
                 ]);
                 //  echo $LOOPCOUNTONE."<br>";
 
-                array_unshift($clientMeta[$LOOPCOUNTONE],$insertclient);
+                array_unshift($clientMeta[$LOOPCOUNTONE], $insertclient);
 
-                array_push($clientMeta[$LOOPCOUNTONE],json_encode($clientMetaTiresWithArray[$LOOPCOUNTONE]));
-                array_push($clientMeta[$LOOPCOUNTONE],"200");
+                array_push($clientMeta[$LOOPCOUNTONE], json_encode($clientMetaTiresWithArray[$LOOPCOUNTONE]));
+                array_push($clientMeta[$LOOPCOUNTONE], "200");
 
                 $LOOPCOUNTONE++;
             }
         }
         foreach ($clientMeta as $clientMetas) {
 
-            if(array_key_exists(8,$clientMetas)){
+            if (array_key_exists(8, $clientMetas)) {
 
                 ClientMeta::Create([
-                'clientID' => $clientMetas[0],
-                'service' => $clientMetas[1],
-                'packageName' => $clientMetas[2],
-                'amountPaid' =>  $clientMetas[3],
-                'remainingAmount' => $clientMetas[4],
-                'nextPayment' =>  $clientMetas[5],
-                'paymentRecuring' => $clientMetas[6],
-                'orderDetails' => $clientMetas[7],
-                'otheremail' => explode(",", $clientMetas[8]),
-                'created_at' => date('y-m-d H:m:s'),
-                'updated_at' => date('y-m-d H:m:s')
+                    'clientID' => $clientMetas[0],
+                    'service' => $clientMetas[1],
+                    'packageName' => $clientMetas[2],
+                    'amountPaid' =>  $clientMetas[3],
+                    'remainingAmount' => $clientMetas[4],
+                    'nextPayment' =>  $clientMetas[5],
+                    'paymentRecuring' => $clientMetas[6],
+                    'orderDetails' => $clientMetas[7],
+                    'otheremail' => explode(",", $clientMetas[8]),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s')
 
-            ]);
-
-
-            }else{
+                ]);
+            } else {
                 continue;
             }
         }
@@ -2434,19 +2731,20 @@ class BasicController extends Controller
         //return redirect('all/clients');
         $loginUser = $this->roleExits($request);
 
-        if( $loginUser[2] == 0 ){
+        if ($loginUser[2] == 0) {
             return redirect('all/clients');
-        }else{
+        } else {
             return redirect('/assigned/clients');
         }
     }
 
-    function csv_project(Request $request){
+    function csv_project(Request $request)
+    {
         $loginUser = $this->roleExits($request);
-        return view('projectUpload',[
+        return view('projectUpload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-             'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2]
         ]);
     }
 
@@ -2483,43 +2781,42 @@ class BasicController extends Controller
 
 
             $getclientEmail_pushID = Client::where('email', $projects[0])->get();
-           if(isset($getclientEmail_pushID)){
-               foreach($getclientEmail_pushID as $value){
-                     $productionID =  substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,6);
+            if (isset($getclientEmail_pushID)) {
+                foreach ($getclientEmail_pushID as $value) {
+                    $productionID =  substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"), 0, 6);
                     $insertproject = Project::insertGetId([
-                    "clientID" => $value->id,
-                    'projectManager' => $projects[1],
-                    "productionID" => $productionID,
-                    "name" => $projects[2],
-                    "domainOrwebsite" => $projects[3],
-                    "basecampUrl" => $projects[4],
-                    "projectDescription" => $projects[5],
-                    'created_at' => date('y-m-d H:m:s'),
-                    'updated_at' => date('y-m-d H:m:s')
-                ]);
-               }
-           }
-           else{
-               echo $projects[0]."</br>";
-           }
+                        "clientID" => $value->id,
+                        'projectManager' => $projects[1],
+                        "productionID" => $productionID,
+                        "name" => $projects[2],
+                        "domainOrwebsite" => $projects[3],
+                        "basecampUrl" => $projects[4],
+                        "projectDescription" => $projects[5],
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s')
+                    ]);
+                }
+            } else {
+                echo $projects[0] . "</br>";
+            }
 
 
 
-                //  echo $LOOPCOUNTONE."<br>";
+            //  echo $LOOPCOUNTONE."<br>";
 
-                array_unshift($production[$LOOPCOUNTONE],$insertproject);
+            array_unshift($production[$LOOPCOUNTONE], $insertproject);
 
-                $LOOPCOUNTONE++;
+            $LOOPCOUNTONE++;
         }
 
 
 
 
         foreach ($production as $productions) {
-            $project = Project::where('id',$productions[0])->get();
+            $project = Project::where('id', $productions[0])->get();
 
 
-           $check = ProjectProduction::Create([
+            $check = ProjectProduction::Create([
                 'clientID' => $project[0]->clientID,
                 'projectID' => $project[0]->productionID,
                 'departmant' => $productions[1],
@@ -2530,23 +2827,17 @@ class BasicController extends Controller
                 'updated_at' => date('y-m-d H:m:s')
 
             ]);
-
-
-
-
-
         }
 
         //return redirect('all/clients');
 
         $loginUser = $this->roleExits($request);
 
-        if( $loginUser[2] == 0 ){
+        if ($loginUser[2] == 0) {
             return redirect('all/clients');
-        }else{
+        } else {
             return redirect('/assigned/clients');
         }
-
     }
 
     function editClient(Request $request, $id)
@@ -2570,7 +2861,7 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-             'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2]
         ]);
     }
 
@@ -2608,7 +2899,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($SEO_ARRAY),
-                'otheremail'=> json_encode($firstemail),
+                'otheremail' => json_encode($firstemail),
                 'updated_at' => date('y-m-d H:m:s')
             ]);
         } elseif ($ClientMeta[0]->service == 'book') {
@@ -2632,7 +2923,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($BOOK_ARRAY),
-                'otheremail'=> json_encode($firstemail),
+                'otheremail' => json_encode($firstemail),
                 'updated_at' => date('y-m-d H:m:s')
             ]);
         } elseif ($ClientMeta[0]->service == 'website') {
@@ -2651,7 +2942,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($WEBSITE_ARRAY),
-                'otheremail'=> json_encode($firstemail),
+                'otheremail' => json_encode($firstemail),
                 'updated_at' => date('y-m-d H:m:s')
             ]);
         } else {
@@ -2669,16 +2960,16 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($CLD_ARRAY),
-                'otheremail'=> json_encode($firstemail),
+                'otheremail' => json_encode($firstemail),
                 'updated_at' => date('y-m-d H:m:s')
             ]);
         }
 
         $loginUser = $this->roleExits($request);
 
-        if( $loginUser[2] == 0 ){
+        if ($loginUser[2] == 0) {
             return redirect('all/clients');
-        }else{
+        } else {
             return redirect('/assigned/clients');
         }
 
@@ -2690,20 +2981,19 @@ class BasicController extends Controller
         $firstemail = $request->input('email');
 
         $createClient = Client::where('id', $id)
-        ->Update([
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'email' => $firstemail[0],
-            'brand' => $request->input('brand'),
-            'frontSeler' => $request->input('saleperson'),
-            'website' => $request->input('website'),
-            'updated_at' => date('y-m-d H:m:s')
-        ]);
+            ->Update([
+                'name' => $request->input('name'),
+                'phone' => $request->input('phone'),
+                'email' => $firstemail[0],
+                'brand' => $request->input('brand'),
+                'frontSeler' => $request->input('saleperson'),
+                'website' => $request->input('website'),
+                'updated_at' => date('y-m-d H:m:s')
+            ]);
 
-        $domain =$request->input('domain');
+        $domain = $request->input('domain');
 
-        return redirect('/clientmetaupdate/'. $id .'/'. $domain);
-
+        return redirect('/clientmetaupdate/' . $id . '/' . $domain);
     }
 
     function editClientmeta(Request $request, $id, $domain)
@@ -2712,7 +3002,7 @@ class BasicController extends Controller
         $clientid = $id;
         $domains = $domain;
         $productionservice = ProductionServices::get();
-        return view('client_meta_editcreation',[
+        return view('client_meta_editcreation', [
             'clientid' => $clientid,
             'domains' => $domains,
             'productionservices' => $productionservice,
@@ -2720,7 +3010,6 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
 
     function editClientProcess_withoutmeta_metacreationprocess(Request $request)
@@ -2818,9 +3107,9 @@ class BasicController extends Controller
 
         $loginUser = $this->roleExits($request);
 
-        if( $loginUser[2] == 0){
+        if ($loginUser[2] == 0) {
             return redirect('all/clients');
-        }else{
+        } else {
             return redirect('/assigned/clients');
         }
 
@@ -2863,7 +3152,8 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function cld(Request $request)
@@ -2875,14 +3165,14 @@ class BasicController extends Controller
         $productionservices = ProductionServices::get();
 
         return view('cld_kyc', [
-                'Brands' => $brand,
-                'ProjectManagers' => $projectManager,
-                'departments' => $department,
-                'productionservices' => $productionservices,
-                'LoginUser' => $loginUser[1],
-                'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2]
-            ]);
+            'Brands' => $brand,
+            'ProjectManagers' => $projectManager,
+            'departments' => $department,
+            'productionservices' => $productionservices,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function clientProject(Request $request)
@@ -2897,7 +3187,8 @@ class BasicController extends Controller
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function assgnedclientProject(Request $request)
@@ -2912,7 +3203,8 @@ class BasicController extends Controller
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function clientProjectProcess(Request $request)
@@ -2942,7 +3234,8 @@ class BasicController extends Controller
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function Project_production(Request $request, string $id)
@@ -2957,16 +3250,17 @@ class BasicController extends Controller
         $employee = Employee::get();
 
         return view('projectProduction', [
-        'departstatus' => $departstatus,
-        'departments' => $department,
-        'employees' => $employee,
-        'project_id' => $project,
-        'productions' => $production,
-        'projects' => $project,
-        'productionservices' => $productionservices,
-        'LoginUser' => $loginUser[1],
-        'departmentAccess' => $loginUser[0],
-        'superUser' => $loginUser[2]]);
+            'departstatus' => $departstatus,
+            'departments' => $department,
+            'employees' => $employee,
+            'project_id' => $project,
+            'productions' => $production,
+            'projects' => $project,
+            'productionservices' => $productionservices,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function Project_ProductionProcess(Request $request, $id)
@@ -3012,7 +3306,8 @@ class BasicController extends Controller
             'projects' => $findproject,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function editProjectProcess(Request $request, $id)
@@ -3030,12 +3325,13 @@ class BasicController extends Controller
         return redirect('/client/details/' . $request->input('client'));
     }
 
-    function deleteproject(Request $request, $id){
-        $project = Project::where('id',$id)->get();
-        $projectProduction = ProjectProduction::where('projectID',$project[0]->productionID)->get();
+    function deleteproject(Request $request, $id)
+    {
+        $project = Project::where('id', $id)->get();
+        $projectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
 
-        $deleteproduction = DB::table('project_productions')->where('projectID',$project[0]->productionID)->delete();
-        $deleteProject = DB::table('projects')->where('id',$id)->delete();
+        $deleteproduction = DB::table('project_productions')->where('projectID', $project[0]->productionID)->delete();
+        $deleteProject = DB::table('projects')->where('id', $id)->delete();
 
 
         return redirect('/client/details/' . $project[0]->clientID);
@@ -3056,7 +3352,8 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function Edit_Project_production_Process(Request $request, $id)
@@ -3090,12 +3387,12 @@ class BasicController extends Controller
         $findclient = Client::where('id', $clientID)->get();
         $allprojects = Project::where('clientID', $clientID)->get();
         $recentClients = Client::where('id', '!=', $clientID)->limit(5)->get();
-        $clientPayments = NewPaymentsClients::where('ClientID',$clientID)
-                            ->where('refundStatus','!=','Pending Payment')
-                            ->where('remainingStatus','!=','Unlinked Payments')
-                            ->get();
+        $clientPayments = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->get();
 
-        $qaAssignee = QaPersonClientAssign::where('client',$clientID)->get();
+        $qaAssignee = QaPersonClientAssign::where('client', $clientID)->get();
         if (count($allprojects) > 0) {
             $findProject_Manager = Employee::where('id', $allprojects[0]->projectManager)->get();
         } else {
@@ -3137,7 +3434,7 @@ class BasicController extends Controller
             $transactions = NewPaymentsClients::where('ClientID', $clientID)
                 ->where('ProjectID', $allproject->id)
                 ->where('refundStatus', 'Pending Payment')
-                ->where('remainingStatus','!=','Unlinked Payments')
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->get();
 
             foreach ($transactions as $transaction) {
@@ -3155,51 +3452,50 @@ class BasicController extends Controller
         }
 
         $checkingpayments = NewPaymentsClients::where('ClientID', $clientID)
-                                ->where('refundStatus','!=' ,'Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->get();
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->get();
 
-        foreach($checkingpayments as $checkingpayment){
+        foreach ($checkingpayments as $checkingpayment) {
 
-            $RefundPayments = RefundPayments::where('PaymentID',$checkingpayment->id)->get();
-            $checkingpayment->refund_with_payments = $RefundPayments ;
-
+            $RefundPayments = RefundPayments::where('PaymentID', $checkingpayment->id)->get();
+            $checkingpayment->refund_with_payments = $RefundPayments;
         }
 
         $clientrefundcount = NewPaymentsClients::where('ClientID', $clientID)
-                                ->where('refundStatus','!=','On Going')
-                                ->where('refundStatus','!=','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->where('dispute',null)
-                                ->count();
+            ->where('refundStatus', '!=', 'On Going')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('dispute', null)
+            ->count();
         $clientPaid = NewPaymentsClients::where('ClientID', $clientID)
-                                ->where('refundStatus','On Going')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->where('refundStatus','!=','Pending Payment')
-                                ->where('refundID',null )
-                                ->where('dispute',null)
-                                ->SUM('Paid');
+            ->where('refundStatus', 'On Going')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('refundID', null)
+            ->where('dispute', null)
+            ->SUM('Paid');
         $clienttotalwithoutRefund = NewPaymentsClients::where('ClientID', $clientID)
-                                ->where('refundStatus','On Going')
-                                ->where('paymentNature','!=','Remaining')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->where('refundID',null )
-                                ->where('dispute',null)
-                                ->SUM('TotalAmount');
+            ->where('refundStatus', 'On Going')
+            ->where('paymentNature', '!=', 'Remaining')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundID', null)
+            ->where('dispute', null)
+            ->SUM('TotalAmount');
         $clientallpayment = NewPaymentsClients::where('ClientID', $clientID)->get();
         $storeremianingpayment = [];
-        foreach($clientallpayment as  $clientallpayments){
-            if(((isset($clientallpayments->refundID) ) || (isset($clientallpayments->dispute))) && isset($clientallpayments->remainingID)){
+        foreach ($clientallpayment as  $clientallpayments) {
+            if (((isset($clientallpayments->refundID)) || (isset($clientallpayments->dispute))) && isset($clientallpayments->remainingID)) {
                 $paymentofremaining = NewPaymentsClients::where('ClientID', $clientID)
-                                ->select('id','TotalAmount')
-                                ->where('remainingID',$clientallpayments->remainingID)
-                                ->where('paymentNature','Remaining')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->where('refundID',null )
-                                ->where('dispute',null)
-                                ->get();
+                    ->select('id', 'TotalAmount')
+                    ->where('remainingID', $clientallpayments->remainingID)
+                    ->where('paymentNature', 'Remaining')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundID', null)
+                    ->where('dispute', null)
+                    ->get();
                 $storeremianingpayment[] = [$paymentofremaining];
-            }else{
+            } else {
                 continue;
             }
         }
@@ -3213,47 +3509,47 @@ class BasicController extends Controller
         }
 
         $total = $clienttotalwithoutRefund + $totalSum;
-        $clientRemaining = $total - $clientPaid ;
+        $clientRemaining = $total - $clientPaid;
 
         $unlinkedpayment = NewPaymentsClients::where('ClientID', $clientID)
-                                ->where('remainingStatus','Unlinked Payments')
-                                ->where('dispute',null)
-                                ->count();
+            ->where('remainingStatus', 'Unlinked Payments')
+            ->where('dispute', null)
+            ->count();
 
         $disputepayment = Disputedpayments::where('ClientID', $clientID)
-                                ->get();
+            ->get();
 
 
 
 
         $paymentreceived = NewPaymentsClients::where('ClientID', $clientID)
-                                ->where('refundStatus','On Going')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->where('refundStatus','!=','Pending Payment')
-                                ->where('refundID',null )
-                                ->where('dispute',null)
-                                ->SUM('amt_after_transactionfee');
+            ->where('refundStatus', 'On Going')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('refundID', null)
+            ->where('dispute', null)
+            ->SUM('amt_after_transactionfee');
 
         $disputefee = NewPaymentsClients::where('ClientID', $clientID)
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->where('refundStatus','!=','Pending Payment')
-                                ->where('paymentNature','Dispute Lost')
-                                ->SUM('disputefee');
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', 'Dispute Lost')
+            ->SUM('disputefee');
 
         $deisputelosttransactionfee = NewPaymentsClients::where('ClientID', $clientID)
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->where('refundStatus','!=','Pending Payment')
-                                ->where('paymentNature','Dispute Lost')
-                                ->SUM('transactionfee');
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', 'Dispute Lost')
+            ->SUM('transactionfee');
 
         $refundtransactionfeedata = NewPaymentsClients::where('ClientID', $clientID)
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->where('refundStatus','!=','Pending Payment')
-                                ->where('paymentNature','!=','Dispute Lost')
-                                ->where('refundStatus','!=','Refund')
-                                ->where('refundID','!=',null )
-                                ->where('dispute', null)
-                                ->SUM('transactionfee');
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', '!=', 'Dispute Lost')
+            ->where('refundStatus', '!=', 'Refund')
+            ->where('refundID', '!=', null)
+            ->where('dispute', null)
+            ->SUM('transactionfee');
 
 
         $netReceivedamt = $paymentreceived - $disputefee - $deisputelosttransactionfee - $refundtransactionfeedata;
@@ -3307,7 +3603,6 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
 
     function assignedclients(Request $request)
@@ -3327,32 +3622,33 @@ class BasicController extends Controller
     function addPayment(Request $request)
     {
         $loginUser = $this->roleExits($request);
-            $brand = Brand::get();
-            $department = Department::get();
-            $employee = Employee::get();
-            $project = Project::get();
-            $client = Client::get();
-            $qa_issues = QaIssues::get();
-            $qarole = 0;
-            return view('select_clientProjectPayment', [
-                'qarole' => $qarole,
-                'brands' => $brand,
-                'departments' => $department,
-                'projects' => $project,
-                'clients' => $client,
-                'employees' => $employee,
-                'qaissues' => $qa_issues,
-                'LoginUser' => $loginUser[1],
-                'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2]
-            ]);
+        $brand = Brand::get();
+        $department = Department::get();
+        $employee = Employee::get();
+        $project = Project::get();
+        $client = Client::get();
+        $qa_issues = QaIssues::get();
+        $qarole = 0;
+        return view('select_clientProjectPayment', [
+            'qarole' => $qarole,
+            'brands' => $brand,
+            'departments' => $department,
+            'projects' => $project,
+            'clients' => $client,
+            'employees' => $employee,
+            'qaissues' => $qa_issues,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
-    function addPaymentProcess(Request $request){
+    function addPaymentProcess(Request $request)
+    {
         $loginUser = $this->roleExits($request);
         $paymenttype = $request->input('payment_type');
-        if($paymenttype == 0){
+        if ($paymenttype == 0) {
             return redirect('/forms/payment/' . $request->input('projectname'));
-        }else{
+        } else {
             return redirect('/client/project/payment/Refund/' . $request->input('projectname'));
         }
     }
@@ -3387,31 +3683,29 @@ class BasicController extends Controller
         $findproject = Project::where('id', $id)->get();
         $findclientofproject = Client::where('id', $findproject[0]->clientID)->get();
         $findclient = Client::get();
-        $pmdepartment = Department::where('brand',$findclientofproject[0]->brand)->where(function($query)
-                {
-                    $query->where('name', 'LIKE', '%Project manager')
-                    ->orWhere('name', 'LIKE', 'Project manager%')
-                    ->orWhere('name', 'LIKE', '%Project manager%');
-                })->get();
-        $pmemployee = Employee::whereIn('id',json_decode($pmdepartment[0]->users))->get();
-        $saledepartment = Department::where('brand',$findclientofproject[0]->brand)->where(function($query)
-                {
-                    $query->where('name', 'LIKE', '%sale')
-                    ->orWhere('name', 'LIKE', 'sale%')
-                    ->orWhere('name', 'LIKE', '%sale%');
-                })->get();
-        $saleemployee = Employee::whereIn('id',json_decode($saledepartment[0]->users))->get();
+        $pmdepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
+            $query->where('name', 'LIKE', '%Project manager')
+                ->orWhere('name', 'LIKE', 'Project manager%')
+                ->orWhere('name', 'LIKE', '%Project manager%');
+        })->get();
+        $pmemployee = Employee::whereIn('id', json_decode($pmdepartment[0]->users))->get();
+        $saledepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
+            $query->where('name', 'LIKE', '%sale')
+                ->orWhere('name', 'LIKE', 'sale%')
+                ->orWhere('name', 'LIKE', '%sale%');
+        })->get();
+        $saleemployee = Employee::whereIn('id', json_decode($saledepartment[0]->users))->get();
         $findemployee = Employee::get();
         $get_projectCount = Project::where('clientID', $findproject[0]->ClientName->id)->count();
         $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)
-                            ->where('refundStatus','!=','Pending Payment')
-                            ->where('remainingStatus','!=','Unlinked Payments')
-                            ->get();
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->get();
         $remainingpayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)
-                            ->where('ProjectID',$id)
-                            ->where('refundStatus','!=','Pending Payment')
-                            ->where('remainingStatus','Remaining')
-                            ->get();
+            ->where('ProjectID', $id)
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', 'Remaining')
+            ->get();
         $remainingpaymentcount = count($remainingpayments);
         return view('payment', [
             'allPayments' => $allPayments,
@@ -3426,7 +3720,8 @@ class BasicController extends Controller
             'remainingpaymentcount' => $remainingpaymentcount,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
     function clientPayment(Request $request)
     {
@@ -3442,347 +3737,342 @@ class BasicController extends Controller
         $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
         $brandID = $findclient[0]->brand;
 
-        if($request->input('paymentNature') != "Remaining"){
+        if ($request->input('paymentNature') != "Remaining") {
 
-            if($remainingamt == 0){
+            if ($remainingamt == 0) {
                 $remainingstatus = "Not Remaining";
-            }else{
+            } else {
                 $remainingstatus = "Remaining";
             }
 
-            if($request->file('bankWireUpload') != null ){
+            if ($request->file('bankWireUpload') != null) {
                 $bookwire = $request->file('bankWireUpload')->store('Payment');
-            }else{
-                $bookwire ="--";
+            } else {
+                $bookwire = "--";
             }
 
-            $upsellCount = NewPaymentsClients::where('ClientID',$request->input('clientID'))->where('paymentNature','Upsell')->count();
+            $upsellCount = NewPaymentsClients::where('ClientID', $request->input('clientID'))->where('paymentNature', 'Upsell')->count();
             // $transactionType = $request->input('paymentNature');
 
-            if($request->input('paymentNature') == 'Upsell'){
-                if($upsellCount == 0){
+            if ($request->input('paymentNature') == 'Upsell') {
+                if ($upsellCount == 0) {
                     $transactionType = $request->input('paymentNature');
-                }else{
-                    $transactionType = $request->input('paymentNature')."(".$upsellCount.")";
+                } else {
+                    $transactionType = $request->input('paymentNature') . "(" . $upsellCount . ")";
                 }
-            }else{
+            } else {
                 $transactionType = $request->input('paymentNature');
             }
 
 
-                if( $request->input('nextpaymentdate') != null ){
+            if ($request->input('nextpaymentdate') != null) {
 
-                    $createpayment = NewPaymentsClients::insertGetId([
-                        "BrandID" => $brandID,
-                        "ClientID"=> $request->input('clientID'),
-                        "ProjectID"=> $request->input('project'),
-                        "ProjectManager"=> $request->input('accountmanager'),
-                        "paymentNature"=> $request->input('paymentNature'),
-                        "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                        "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                        "Platform"=> $request->input('platform'),
-                        "Card_Brand"=> $request->input('cardBrand'),
-                        "Payment_Gateway"=> $request->input('paymentgateway'),
-                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                        "TransactionID"=> $request->input('transactionID'),
-                        "paymentDate"=> $request->input('paymentdate'),
-                        "futureDate"=> $request->input('nextpaymentdate'),
-                        "SalesPerson"=> $request->input('saleperson'),
-                        "TotalAmount"=> $request->input('totalamount'),
-                        "Paid"=> $request->input('clientpaid'),
-                        "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                        "PaymentType"=> $request->input('paymentType'),
-                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                        "Description"=> $request->input('description'),
-                        'created_at' => date('y-m-d H:m:s'),
-                        'updated_at' => date('y-m-d H:m:s'),
-                        "refundStatus"=> 'On Going',
-                        "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                $createpayment = NewPaymentsClients::insertGetId([
+                    "BrandID" => $brandID,
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    "futureDate" => $request->input('nextpaymentdate'),
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingStatus" => $remainingstatus,
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                    ]);
+                ]);
+            } elseif ($request->input('ChargingPlan') != null && $request->input('nextpaymentdate') == null) {
 
-                }elseif( $request->input('ChargingPlan') != null && $request->input('nextpaymentdate') == null){
-
-                    $today = date('Y-m-d');
-                    if ($request->input('ChargingPlan') == "One Time Payment") {
-                        $date = null ;
-                    } elseif ($request->input('ChargingPlan') == "Monthly") {
-                        $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "2 Months") {
-                        $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "3 Months") {
-                        $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "4 Months") {
-                        $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "5 Months") {
-                        $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "6 Months") {
-                        $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "7 Months") {
-                        $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "8 Months") {
-                        $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "9 Months") {
-                        $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "10 Months") {
-                        $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "11 Months") {
-                        $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "12 Months") {
-                        $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "2 Years") {
-                        $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
-                    } elseif ($request->input('ChargingPlan') == "3 Years") {
-                        $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
-                    }
-
-
-                    $createpayment = NewPaymentsClients::insertGetId([
-                        "BrandID" => $brandID,
-                        "ClientID"=> $request->input('clientID'),
-                        "ProjectID"=> $request->input('project'),
-                        "ProjectManager"=> $request->input('accountmanager'),
-                        "paymentNature"=> $request->input('paymentNature'),
-                        "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                        "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                        "Platform"=> $request->input('platform'),
-                        "Card_Brand"=> $request->input('cardBrand'),
-                        "Payment_Gateway"=> $request->input('paymentgateway'),
-                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                        "TransactionID"=> $request->input('transactionID'),
-                        "paymentDate"=> $request->input('paymentdate'),
-                        "futureDate"=> $date,
-                        "SalesPerson"=> $request->input('saleperson'),
-                        "TotalAmount"=> $request->input('totalamount'),
-                        "Paid"=> $request->input('clientpaid'),
-                        "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                        "PaymentType"=> $request->input('paymentType'),
-                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                        "Description"=> $request->input('description'),
-                        'created_at' => date('y-m-d H:m:s'),
-                        'updated_at' => date('y-m-d H:m:s'),
-                        "refundStatus"=> 'On Going',
-                        "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-
-                    ]);
-
-                }else{
-
-                    $createpayment = NewPaymentsClients::insertGetId([
-                        "BrandID" => $brandID,
-                        "ClientID"=> $request->input('clientID'),
-                        "ProjectID"=> $request->input('project'),
-                        "ProjectManager"=> $request->input('accountmanager'),
-                        "paymentNature"=> $request->input('paymentNature'),
-                        "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                        "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                        "Platform"=> $request->input('platform'),
-                        "Card_Brand"=> $request->input('cardBrand'),
-                        "Payment_Gateway"=> $request->input('paymentgateway'),
-                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                        "TransactionID"=> $request->input('transactionID'),
-                        "paymentDate"=> $request->input('paymentdate'),
-                        "futureDate"=> $request->input('nextpaymentdate'),
-                        "SalesPerson"=> $request->input('saleperson'),
-                        "TotalAmount"=> $request->input('totalamount'),
-                        "Paid"=> $request->input('clientpaid'),
-                        "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                        "PaymentType"=> $request->input('paymentType'),
-                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                        "Description"=> $request->input('description'),
-                        'created_at' => date('y-m-d H:m:s'),
-                        'updated_at' => date('y-m-d H:m:s'),
-                        "refundStatus"=> 'On Going',
-                        "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-
-                    ]);
-
+                $today = date('Y-m-d');
+                if ($request->input('ChargingPlan') == "One Time Payment") {
+                    $date = null;
+                } elseif ($request->input('ChargingPlan') == "Monthly") {
+                    $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "2 Months") {
+                    $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "3 Months") {
+                    $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "4 Months") {
+                    $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "5 Months") {
+                    $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "6 Months") {
+                    $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "7 Months") {
+                    $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "8 Months") {
+                    $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "9 Months") {
+                    $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "10 Months") {
+                    $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "11 Months") {
+                    $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "12 Months") {
+                    $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "2 Years") {
+                    $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "3 Years") {
+                    $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
                 }
 
-                if( $request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
 
-                    if( $request->input('paymentModes') == 'Renewal' ){
-                        $paymentNature = "Renewal Payment";
-                    }else{
-                        $paymentNature = "Recurring Payment";
-                    }
+                $createpayment = NewPaymentsClients::insertGetId([
+                    "BrandID" => $brandID,
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    "futureDate" => $date,
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingStatus" => $remainingstatus,
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
+                ]);
+            } else {
 
+                $createpayment = NewPaymentsClients::insertGetId([
+                    "BrandID" => $brandID,
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    "futureDate" => $request->input('nextpaymentdate'),
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingStatus" => $remainingstatus,
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                    $interval = $request->input('ChargingPlan');
-                    $today = date('Y-m-d');
+                ]);
+            }
 
-                    for ($i = 1; $i <= 10; $i++) {
-                        if ($interval == "One Time Payment") {
-                            $datefinal = null;
-                        } elseif ($interval == "Monthly") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
-                        } elseif ($interval == "2 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
-                        } elseif ($interval == "3 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                        }elseif ($interval == "4 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
-                        }elseif ($interval == "5 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
-                        }elseif ($interval == "6 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
-                        }elseif ($interval == "7 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
-                        }elseif ($interval == "8 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
-                        }elseif ($interval == "9 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
-                        }elseif ($interval == "10 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
-                        }elseif ($interval == "11 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
-                        }elseif ($interval == "12 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
-                        }elseif ($interval == "2 Years") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
-                        } elseif ($interval == "3 Years") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
-                        }
-                        // echo $datefinal . "<br>";
+            if ($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
 
-
-
-                        $futurePayment = NewPaymentsClients::create([
-                            "BrandID" => $brandID,
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=>  $paymentNature,
-                            "ChargingPlan"=> '--',
-                            "ChargingMode"=> '--',
-                            "Platform"=> '--',
-                            "Card_Brand"=> '--',
-                            "Payment_Gateway"=> '--',
-                            "bankWireUpload" => '--',
-                            "TransactionID"=> '--',
-                            // "paymentDate"=> $request->input('paymentdate'),
-                            "futureDate"=> $datefinal,
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> 0,
-                            "RemainingAmount" => 0,
-                            "PaymentType"=> '--',
-                            "numberOfSplits" => '--',
-                            "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
-                            "ShareAmount" => json_encode(["-", "-", "-", "-"]),
-                            "Description"=> '--',
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'Pending Payment',
-                            "remainingStatus"=> '--',
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-
-                        ]);
-                    }
-
-                }elseif( $request->input('nextpaymentdate') != null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
-
-                    if( $request->input('paymentModes') == 'Renewal' ){
-                        $paymentNature = "Renewal Payment";
-                    }else{
-                        $paymentNature = "Recurring Payment";
-                    }
-
-
-
-                    $interval = $request->input('ChargingPlan');
-                    $today = $request->input('nextpaymentdate');
-
-                    for ($i = 1; $i <= 10; $i++) {
-                        if ($interval == "One Time Payment") {
-                            $datefinal = null;
-                        } elseif ($interval == "Monthly") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
-                        } elseif ($interval == "2 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
-                        } elseif ($interval == "3 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                        }elseif ($interval == "4 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
-                        }elseif ($interval == "5 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
-                        }elseif ($interval == "6 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
-                        }elseif ($interval == "7 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
-                        }elseif ($interval == "8 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
-                        }elseif ($interval == "9 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
-                        }elseif ($interval == "10 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
-                        }elseif ($interval == "11 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
-                        }elseif ($interval == "12 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
-                        }elseif ($interval == "2 Years") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
-                        } elseif ($interval == "3 Years") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
-                        }
-                        // echo $datefinal . "<br>";
-
-
-
-                        $futurePayment = NewPaymentsClients::create([
-                            "BrandID" => $brandID,
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=>  $paymentNature,
-                            "ChargingPlan"=> '--',
-                            "ChargingMode"=> '--',
-                            "Platform"=> '--',
-                            "Card_Brand"=> '--',
-                            "Payment_Gateway"=> '--',
-                            "bankWireUpload" => '--',
-                            "TransactionID"=> '--',
-                            // "paymentDate"=> $request->input('paymentdate'),
-                            "futureDate"=> $datefinal,
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> 0,
-                            "RemainingAmount" => 0,
-                            "PaymentType"=> '--',
-                            "numberOfSplits" => '--',
-                            "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
-                            "ShareAmount" => json_encode(["-", "-", "-", "-"]),
-                            "Description"=> '--',
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'Pending Payment',
-                            "remainingStatus"=> '--',
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-
-                        ]);
-                    }
-
+                if ($request->input('paymentModes') == 'Renewal') {
+                    $paymentNature = "Renewal Payment";
+                } else {
+                    $paymentNature = "Recurring Payment";
                 }
+
+
+
+                $interval = $request->input('ChargingPlan');
+                $today = date('Y-m-d');
+
+                for ($i = 1; $i <= 10; $i++) {
+                    if ($interval == "One Time Payment") {
+                        $datefinal = null;
+                    } elseif ($interval == "Monthly") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
+                    } elseif ($interval == "2 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
+                    } elseif ($interval == "3 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
+                    } elseif ($interval == "4 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
+                    } elseif ($interval == "5 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
+                    } elseif ($interval == "6 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
+                    } elseif ($interval == "7 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
+                    } elseif ($interval == "8 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
+                    } elseif ($interval == "9 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
+                    } elseif ($interval == "10 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
+                    } elseif ($interval == "11 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
+                    } elseif ($interval == "12 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
+                    } elseif ($interval == "2 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
+                    } elseif ($interval == "3 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
+                    }
+                    // echo $datefinal . "<br>";
+
+
+
+                    $futurePayment = NewPaymentsClients::create([
+                        "BrandID" => $brandID,
+                        "ClientID" => $request->input('clientID'),
+                        "ProjectID" => $request->input('project'),
+                        "ProjectManager" => $request->input('accountmanager'),
+                        "paymentNature" =>  $paymentNature,
+                        "ChargingPlan" => '--',
+                        "ChargingMode" => '--',
+                        "Platform" => '--',
+                        "Card_Brand" => '--',
+                        "Payment_Gateway" => '--',
+                        "bankWireUpload" => '--',
+                        "TransactionID" => '--',
+                        // "paymentDate"=> $request->input('paymentdate'),
+                        "futureDate" => $datefinal,
+                        "SalesPerson" => $request->input('saleperson'),
+                        "TotalAmount" => $request->input('totalamount'),
+                        "Paid" => 0,
+                        "RemainingAmount" => 0,
+                        "PaymentType" => '--',
+                        "numberOfSplits" => '--',
+                        "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
+                        "ShareAmount" => json_encode(["-", "-", "-", "-"]),
+                        "Description" => '--',
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'Pending Payment',
+                        "remainingStatus" => '--',
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+
+                    ]);
+                }
+            } elseif ($request->input('nextpaymentdate') != null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
+
+                if ($request->input('paymentModes') == 'Renewal') {
+                    $paymentNature = "Renewal Payment";
+                } else {
+                    $paymentNature = "Recurring Payment";
+                }
+
+
+
+                $interval = $request->input('ChargingPlan');
+                $today = $request->input('nextpaymentdate');
+
+                for ($i = 1; $i <= 10; $i++) {
+                    if ($interval == "One Time Payment") {
+                        $datefinal = null;
+                    } elseif ($interval == "Monthly") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
+                    } elseif ($interval == "2 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
+                    } elseif ($interval == "3 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
+                    } elseif ($interval == "4 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
+                    } elseif ($interval == "5 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
+                    } elseif ($interval == "6 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
+                    } elseif ($interval == "7 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
+                    } elseif ($interval == "8 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
+                    } elseif ($interval == "9 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
+                    } elseif ($interval == "10 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
+                    } elseif ($interval == "11 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
+                    } elseif ($interval == "12 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
+                    } elseif ($interval == "2 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
+                    } elseif ($interval == "3 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
+                    }
+                    // echo $datefinal . "<br>";
+
+
+
+                    $futurePayment = NewPaymentsClients::create([
+                        "BrandID" => $brandID,
+                        "ClientID" => $request->input('clientID'),
+                        "ProjectID" => $request->input('project'),
+                        "ProjectManager" => $request->input('accountmanager'),
+                        "paymentNature" =>  $paymentNature,
+                        "ChargingPlan" => '--',
+                        "ChargingMode" => '--',
+                        "Platform" => '--',
+                        "Card_Brand" => '--',
+                        "Payment_Gateway" => '--',
+                        "bankWireUpload" => '--',
+                        "TransactionID" => '--',
+                        // "paymentDate"=> $request->input('paymentdate'),
+                        "futureDate" => $datefinal,
+                        "SalesPerson" => $request->input('saleperson'),
+                        "TotalAmount" => $request->input('totalamount'),
+                        "Paid" => 0,
+                        "RemainingAmount" => 0,
+                        "PaymentType" => '--',
+                        "numberOfSplits" => '--',
+                        "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
+                        "ShareAmount" => json_encode(["-", "-", "-", "-"]),
+                        "Description" => '--',
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'Pending Payment',
+                        "remainingStatus" => '--',
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+
+                    ]);
+                }
+            }
 
 
             if ($paymentType == "Split Payment") {
@@ -3794,11 +4084,11 @@ class BasicController extends Controller
                 $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
                 $createMainEmployeePayment  = EmployeePayment::create([
-                        "paymentID" => $createpayment,
-                        "employeeID" => $request->input('saleperson'),
-                        "paymentDescription" => $paymentDescription ,
-                        "amount" => $amount
-                    ]);
+                    "paymentID" => $createpayment,
+                    "employeeID" => $request->input('saleperson'),
+                    "paymentDescription" => $paymentDescription,
+                    "amount" => $amount
+                ]);
 
 
 
@@ -3806,18 +4096,18 @@ class BasicController extends Controller
                     $c[$key] = [$value, $amountShare[$key]];
                 }
 
-                foreach($c as $SecondProjectManagers){
-                    if($SecondProjectManagers[0] != 0){
+                foreach ($c as $SecondProjectManagers) {
+                    if ($SecondProjectManagers[0] != 0) {
                         $createSharedPersonEmployeePayment  = EmployeePayment::create(
                             [
                                 "paymentID" => $createpayment,
                                 "employeeID" => $SecondProjectManagers[0],
                                 "paymentDescription" => "Amount Share By " . $findusername[0]->name,
                                 "amount" =>  $SecondProjectManagers[1]
-                            ]);
+                            ]
+                        );
                     }
                 }
-
             } else {
 
                 $paymentDescription = $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name;
@@ -3834,78 +4124,77 @@ class BasicController extends Controller
                     ]
                 );
             }
+        } else {
 
-        }else{
+            $checkremaining = NewPaymentsClients::where('id', $request->input('remainingamountfor'))->get();
 
-            $checkremaining = NewPaymentsClients::where('id',$request->input('remainingamountfor'))->get();
-
-            if(isset($checkremaining[0]->remainingID) && $checkremaining[0]->remainingID != null){
+            if (isset($checkremaining[0]->remainingID) && $checkremaining[0]->remainingID != null) {
 
                 $paymentType = $request->input('paymentType');
                 $paymentNature = $request->input('paymentNature');
                 $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
                 $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
                 $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
-                $gettingpayment = NewPaymentsClients::where('remainingID',$checkremaining[0]->remainingID)->sum("Paid");
-                $checkingtotalremaining = $checkremaining[0]->TotalAmount - $gettingpayment - $request->input('clientpaid') ;
+                $gettingpayment = NewPaymentsClients::where('remainingID', $checkremaining[0]->remainingID)->sum("Paid");
+                $checkingtotalremaining = $checkremaining[0]->TotalAmount - $gettingpayment - $request->input('clientpaid');
 
                 // echo($checkingtotalremaining);
                 // die();
 
-                if($checkingtotalremaining == 0){
+                if ($checkingtotalremaining == 0) {
                     $remainingstatus = "Received Remaining";
-                }else{
+                } else {
                     $remainingstatus = "Remaining";
                 }
 
-                if($request->file('bankWireUpload') != null ){
+                if ($request->file('bankWireUpload') != null) {
                     $bookwire = $request->file('bankWireUpload')->store('Payment');
-                }else{
-                    $bookwire ="--";
+                } else {
+                    $bookwire = "--";
                 }
 
-                $changeStatus = NewPaymentsClients::where('id',$request->input('remainingamountfor'))->update([
+                $changeStatus = NewPaymentsClients::where('id', $request->input('remainingamountfor'))->update([
                     "remainingStatus"  => $remainingstatus
                 ]);
                 $transactionType = $request->input('paymentNature');
 
 
-                    // if( $request->input('nextpaymentdate') != null ){
+                // if( $request->input('nextpaymentdate') != null ){
 
-                        $createpayment = NewPaymentsClients::insertGetId([
-                            "BrandID" => $request->input('brandID'),
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=> $request->input('paymentNature'),
-                            "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                            "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                            "Platform"=> $request->input('platform'),
-                            "Card_Brand"=> $request->input('cardBrand'),
-                            "Payment_Gateway"=> $request->input('paymentgateway'),
-                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                            "TransactionID"=> $request->input('transactionID'),
-                            "paymentDate"=> $request->input('paymentdate'),
-                            // "futureDate"=> $request->input('nextpaymentdate'),
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> $request->input('clientpaid'),
-                            "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                            "PaymentType"=> $request->input('paymentType'),
-                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                            "Description"=> $request->input('description'),
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingID" => $checkremaining[0]->remainingID,
-                            "remainingStatus"=>  "Remaining Payment",
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                $createpayment = NewPaymentsClients::insertGetId([
+                    "BrandID" => $request->input('brandID'),
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    // "futureDate"=> $request->input('nextpaymentdate'),
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingID" => $checkremaining[0]->remainingID,
+                    "remainingStatus" =>  "Remaining Payment",
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                        ]);
+                ]);
 
 
                 if ($paymentType == "Split Payment") {
@@ -3918,11 +4207,11 @@ class BasicController extends Controller
                     $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
                     $createMainEmployeePayment  = EmployeePayment::create([
-                            "paymentID" => $createpayment,
-                            "employeeID" => $request->input('saleperson'),
-                            "paymentDescription" => $paymentDescription ,
-                            "amount" => $amount
-                        ]);
+                        "paymentID" => $createpayment,
+                        "employeeID" => $request->input('saleperson'),
+                        "paymentDescription" => $paymentDescription,
+                        "amount" => $amount
+                    ]);
 
 
 
@@ -3930,18 +4219,18 @@ class BasicController extends Controller
                         $c[$key] = [$value, $amountShare[$key]];
                     }
 
-                    foreach($c as $SecondProjectManagers){
-                        if($SecondProjectManagers[0] != 0){
+                    foreach ($c as $SecondProjectManagers) {
+                        if ($SecondProjectManagers[0] != 0) {
                             $createSharedPersonEmployeePayment  = EmployeePayment::create(
                                 [
                                     "paymentID" => $createpayment,
                                     "employeeID" => $SecondProjectManagers[0],
                                     "paymentDescription" => "Remaining(Payment) Amount Share By " . $findusername[0]->name,
                                     "amount" =>  $SecondProjectManagers[1]
-                                ]);
+                                ]
+                            );
                         }
                     }
-
                 } else {
 
                     $paymentDescription = $findusername[0]->name . " Charge Remaining Payment For Client " . $findclient[0]->name;
@@ -3958,28 +4247,27 @@ class BasicController extends Controller
                         ]
                     );
                 }
-
-            }else{
+            } else {
                 $paymentType = $request->input('paymentType');
                 $paymentNature = $request->input('paymentNature');
                 $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
                 $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
                 $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
-                $gettingpayment = NewPaymentsClients::where('remainingID',$checkremaining[0]->remainingID)->sum("Paid");
-                $checkingtotalremaining = $checkremaining[0]->TotalAmount - $gettingpayment ;
-                if($checkingtotalremaining == 0){
+                $gettingpayment = NewPaymentsClients::where('remainingID', $checkremaining[0]->remainingID)->sum("Paid");
+                $checkingtotalremaining = $checkremaining[0]->TotalAmount - $gettingpayment;
+                if ($checkingtotalremaining == 0) {
                     $remainingstatus = "Received Remaining";
-                }else{
+                } else {
                     $remainingstatus = "Remaining";
                 }
 
-                if($request->file('bankWireUpload') != null ){
+                if ($request->file('bankWireUpload') != null) {
                     $bookwire = $request->file('bankWireUpload')->store('Payment');
-                }else{
-                    $bookwire ="--";
+                } else {
+                    $bookwire = "--";
                 }
 
-                $changeStatus = NewPaymentsClients::where('id',$request->input('remainingamountfor'))->update([
+                $changeStatus = NewPaymentsClients::where('id', $request->input('remainingamountfor'))->update([
                     "remainingID"  => $request->input('remainingID'),
                     "remainingStatus"  => $remainingstatus
                 ]);
@@ -3989,42 +4277,42 @@ class BasicController extends Controller
                 $transactionType = $request->input('paymentNature');
 
 
-                    // if( $request->input('nextpaymentdate') != null ){
+                // if( $request->input('nextpaymentdate') != null ){
 
-                        $createpayment = NewPaymentsClients::insertGetId([
-                            "BrandID" => $request->input('brandID'),
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=> $request->input('paymentNature'),
-                            "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                            "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                            "Platform"=> $request->input('platform'),
-                            "Card_Brand"=> $request->input('cardBrand'),
-                            "Payment_Gateway"=> $request->input('paymentgateway'),
-                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                            "TransactionID"=> $request->input('transactionID'),
-                            "paymentDate"=> $request->input('paymentdate'),
-                            // "futureDate"=> $request->input('nextpaymentdate'),
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> $request->input('clientpaid'),
-                            "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                            "PaymentType"=> $request->input('paymentType'),
-                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                            "Description"=> $request->input('description'),
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingID" => $request->input('remainingID'),
-                            "remainingStatus"=> "Remaining Payment",
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                $createpayment = NewPaymentsClients::insertGetId([
+                    "BrandID" => $request->input('brandID'),
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    // "futureDate"=> $request->input('nextpaymentdate'),
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingID" => $request->input('remainingID'),
+                    "remainingStatus" => "Remaining Payment",
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                        ]);
+                ]);
 
 
                 if ($paymentType == "Split Payment") {
@@ -4037,11 +4325,11 @@ class BasicController extends Controller
                     $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
                     $createMainEmployeePayment  = EmployeePayment::create([
-                            "paymentID" => $createpayment,
-                            "employeeID" => $request->input('saleperson'),
-                            "paymentDescription" => $paymentDescription ,
-                            "amount" => $amount
-                        ]);
+                        "paymentID" => $createpayment,
+                        "employeeID" => $request->input('saleperson'),
+                        "paymentDescription" => $paymentDescription,
+                        "amount" => $amount
+                    ]);
 
 
 
@@ -4049,18 +4337,18 @@ class BasicController extends Controller
                         $c[$key] = [$value, $amountShare[$key]];
                     }
 
-                    foreach($c as $SecondProjectManagers){
-                        if($SecondProjectManagers[0] != 0){
+                    foreach ($c as $SecondProjectManagers) {
+                        if ($SecondProjectManagers[0] != 0) {
                             $createSharedPersonEmployeePayment  = EmployeePayment::create(
                                 [
                                     "paymentID" => $createpayment,
                                     "employeeID" => $SecondProjectManagers[0],
                                     "paymentDescription" => "Remaining(Payment) Amount Share By " . $findusername[0]->name,
                                     "amount" =>  $SecondProjectManagers[1]
-                                ]);
+                                ]
+                            );
                         }
                     }
-
                 } else {
 
                     $paymentDescription = $findusername[0]->name . " Charge Remaining Payment For Client " . $findclient[0]->name;
@@ -4077,38 +4365,35 @@ class BasicController extends Controller
                         ]
                     );
                 }
-
-
             }
         }
 
-            return redirect('/client/details/' . $request->input('clientID'));
+        return redirect('/client/details/' . $request->input('clientID'));
     }
 
 
 
-    function payment_Refund(Request $request, $id){
+    function payment_Refund(Request $request, $id)
+    {
         $loginUser = $this->roleExits($request);
-        $project = Project::where('id',$id)->get();
-        $client = Client::where('id',$project[0]->clientID)->get();
+        $project = Project::where('id', $id)->get();
+        $client = Client::where('id', $project[0]->clientID)->get();
         $client_payment = NewPaymentsClients::where('ClientID', $project[0]->clientID)
-                        ->where('ProjectID', $id)
-                        ->where('refundStatus','!=','Pending Payment')
-                        ->get();
-        $pmdepartment = Department::where('brand',$client[0]->brand)->where(function($query)
-                        {
-                            $query->where('name', 'LIKE', '%Project manager')
-                            ->orWhere('name', 'LIKE', 'Project manager%')
-                            ->orWhere('name', 'LIKE', '%Project manager%');
-                        })->get();
-        $pmemployee = Employee::whereIn('id',json_decode($pmdepartment[0]->users))->get();
-        $saledepartment = Department::where('brand',$client[0]->brand)->where(function($query)
-                        {
-                            $query->where('name', 'LIKE', '%sale')
-                            ->orWhere('name', 'LIKE', 'sale%')
-                            ->orWhere('name', 'LIKE', '%sale%');
-                        })->get();
-        $saleemployee = Employee::whereIn('id',json_decode($saledepartment[0]->users))->get();
+            ->where('ProjectID', $id)
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->get();
+        $pmdepartment = Department::where('brand', $client[0]->brand)->where(function ($query) {
+            $query->where('name', 'LIKE', '%Project manager')
+                ->orWhere('name', 'LIKE', 'Project manager%')
+                ->orWhere('name', 'LIKE', '%Project manager%');
+        })->get();
+        $pmemployee = Employee::whereIn('id', json_decode($pmdepartment[0]->users))->get();
+        $saledepartment = Department::where('brand', $client[0]->brand)->where(function ($query) {
+            $query->where('name', 'LIKE', '%sale')
+                ->orWhere('name', 'LIKE', 'sale%')
+                ->orWhere('name', 'LIKE', '%sale%');
+        })->get();
+        $saleemployee = Employee::whereIn('id', json_decode($saledepartment[0]->users))->get();
         $employee  = Employee::get();
         return view('payment_Refund', [
             'project' => $project,
@@ -4117,12 +4402,11 @@ class BasicController extends Controller
             'pmemployee' => $pmemployee,
             'saledepartment' => $saledepartment,
             'saleemployee' => $saleemployee,
-            'employee' => $employee ,
+            'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
     public function fetchPaymentdata(Request $request)
     {
@@ -4162,46 +4446,47 @@ class BasicController extends Controller
 
         return response()->json($return_array);
     }
-    function payment_Refund_Process(Request $request){
+    function payment_Refund_Process(Request $request)
+    {
         $referencepayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->get();
         $originalpayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->update([
             "refundID" => $request->input('refundID')
         ]);
 
-        if($request->file('bankWireUpload') != null ){
+        if ($request->file('bankWireUpload') != null) {
             $bookwire = $request->file('bankWireUpload')->store('Payment');
-        }else{
-            $bookwire ="--";
+        } else {
+            $bookwire = "--";
         }
 
         $originalrefund = NewPaymentsClients::insertGetId([
             "BrandID" => $request->input('brandID'),
-            "ClientID"=> $request->input('clientID'),
-            "ProjectID"=> $request->input('projectID'),
-            "ProjectManager"=> $request->input('accountmanager'),
-            "paymentNature"=> $referencepayment[0]->paymentNature,
-            "ChargingPlan"=> $referencepayment[0]->ChargingPlan,
-            "ChargingMode"=> $referencepayment[0]->ChargingMode,
-            "Platform"=> $request->input('platform'),
-            "Card_Brand"=> $request->input('cardBrand'),
-            "Payment_Gateway"=> $request->input('paymentgateway'),
+            "ClientID" => $request->input('clientID'),
+            "ProjectID" => $request->input('projectID'),
+            "ProjectManager" => $request->input('accountmanager'),
+            "paymentNature" => $referencepayment[0]->paymentNature,
+            "ChargingPlan" => $referencepayment[0]->ChargingPlan,
+            "ChargingMode" => $referencepayment[0]->ChargingMode,
+            "Platform" => $request->input('platform'),
+            "Card_Brand" => $request->input('cardBrand'),
+            "Payment_Gateway" => $request->input('paymentgateway'),
             "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-            "TransactionID"=> $request->input('transactionID'),
-            "paymentDate"=> $request->input('paymentdate'),
-            "SalesPerson"=> $request->input('saleperson'),
-            "TotalAmount"=> $request->input('totalamount'),
-            "Paid"=> $request->input('clientpaid'),
-            "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-            "PaymentType"=> $referencepayment[0]->PaymentType,
+            "TransactionID" => $request->input('transactionID'),
+            "paymentDate" => $request->input('paymentdate'),
+            "SalesPerson" => $request->input('saleperson'),
+            "TotalAmount" => $request->input('totalamount'),
+            "Paid" => $request->input('clientpaid'),
+            "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+            "PaymentType" => $referencepayment[0]->PaymentType,
             "numberOfSplits" => $referencepayment[0]->numberOfSplits,
             "SplitProjectManager" => $referencepayment[0]->SplitProjectManager,
             "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-            "Description"=> $request->input('description'),
+            "Description" => $request->input('description'),
             'created_at' => date('y-m-d H:m:s'),
             'updated_at' => date('y-m-d H:m:s'),
-            "refundStatus"=> 'Refund',
+            "refundStatus" => 'Refund',
             "refundID" => $request->input('refundID'),
-            "remainingStatus"=> 0,
+            "remainingStatus" => 0,
             "transactionType" =>  $referencepayment[0]->transactionType,
             "transactionfee" => $request->input('transactionfee'),
             "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
@@ -4211,19 +4496,19 @@ class BasicController extends Controller
         $payment_in_refund_table = RefundPayments::create([
             "BrandID" =>  $request->input('brandID'),
             "ClientID" =>  $request->input('clientID'),
-            "ProjectID"=> $request->input('projectID'),
+            "ProjectID" => $request->input('projectID'),
             'ProjectManager' => $request->input('accountmanager'),
             'PaymentID' => $originalrefund,
             'basicAmount' =>  $request->input('totalamount'),
-            "refundAmount"=> $request->input('clientpaid'),
+            "refundAmount" => $request->input('clientpaid'),
             "refundtype" => $request->input('chargebacktype'),
-            "refund_date"=> $request->input('paymentdate'),
+            "refund_date" => $request->input('paymentdate'),
             "refundReason" =>  $request->input('description'),
             "clientpaid" =>   $referencepayment[0]->Paid,
             "paymentType" =>   $referencepayment[0]->PaymentType,
             "splitmanagers" =>   $referencepayment[0]->SplitProjectManager,
             "splitamounts" =>  $referencepayment[0]->ShareAmount,
-            "splitRefunds" =>   ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+            "splitRefunds" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
             "transactionfee" => $request->input('transactionfee'),
             "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
 
@@ -4239,11 +4524,11 @@ class BasicController extends Controller
             $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
             $createMainEmployeePayment  = EmployeePayment::create([
-                    "paymentID" => $originalrefund,
-                    "employeeID" => $request->input('saleperson'),
-                    "paymentDescription" => $paymentDescription ,
-                    "amount" => $amount
-                ]);
+                "paymentID" => $originalrefund,
+                "employeeID" => $request->input('saleperson'),
+                "paymentDescription" => $paymentDescription,
+                "amount" => $amount
+            ]);
 
 
 
@@ -4251,18 +4536,18 @@ class BasicController extends Controller
                 $c[$key] = [$value, $amountShare[$key]];
             }
 
-            foreach($c as $SecondProjectManagers){
-                if($SecondProjectManagers[0] != 0){
+            foreach ($c as $SecondProjectManagers) {
+                if ($SecondProjectManagers[0] != 0) {
                     $createSharedPersonEmployeePayment  = EmployeePayment::create(
                         [
                             "paymentID" => $originalrefund,
                             "employeeID" => $SecondProjectManagers[0],
                             "paymentDescription" => "refund Share By " . $request->input('saleperson'),
                             "amount" =>  $SecondProjectManagers[1]
-                        ]);
+                        ]
+                    );
                 }
             }
-
         } else {
 
             $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
@@ -4281,16 +4566,16 @@ class BasicController extends Controller
         }
 
         return redirect('/client/project/payment/all');
-
     }
 
 
 
-    function payment_Dispute(Request $request, $id){
+    function payment_Dispute(Request $request, $id)
+    {
         $loginUser = $this->roleExits($request);
         $client_payment = NewPaymentsClients::where('id', $id)->get();
-        $related_payment = NewPaymentsClients::where('ClientID', $client_payment[0]->ClientID)->where('ProjectID', $client_payment[0]->ProjectID)->where('id','!=',$id)->where('transactionType', $client_payment[0]->transactionType)->get();
-        $remaining_payment = NewPaymentsClients::where('ClientID', $client_payment[0]->ClientID)->where('ProjectID', $client_payment[0]->ProjectID)->where('id','!=',$id)->where('remainingID', $client_payment[0]->remainingID)->get();
+        $related_payment = NewPaymentsClients::where('ClientID', $client_payment[0]->ClientID)->where('ProjectID', $client_payment[0]->ProjectID)->where('id', '!=', $id)->where('transactionType', $client_payment[0]->transactionType)->get();
+        $remaining_payment = NewPaymentsClients::where('ClientID', $client_payment[0]->ClientID)->where('ProjectID', $client_payment[0]->ProjectID)->where('id', '!=', $id)->where('remainingID', $client_payment[0]->remainingID)->get();
         $employee  = Employee::get();
         return view('payment_Dispute', [
             'id' => $id,
@@ -4302,9 +4587,9 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
-    function payment_Dispute_Process(Request $request){
+    function payment_Dispute_Process(Request $request)
+    {
         $referencepayment = NewPaymentsClients::where('id', $request->input('paymentID'))->get();
 
         $originalpayment = NewPaymentsClients::where('id', $request->input('paymentID'))->update([
@@ -4315,7 +4600,7 @@ class BasicController extends Controller
         $payment_in_refund_table = Disputedpayments::create([
             "BrandID" =>  $request->input('brandID'),
             "ClientID" =>  $request->input('clientID'),
-            "ProjectID"=> $request->input('projectID'),
+            "ProjectID" => $request->input('projectID'),
             "ProjectManager" => $request->input('projectmanager'),
             "PaymentID" => $request->input('paymentID'),
             "dispute_Date" => $request->input('disputedate'),
@@ -4331,7 +4616,8 @@ class BasicController extends Controller
 
 
 
-    function all_disputes(Request $request){
+    function all_disputes(Request $request)
+    {
         $loginUser = $this->roleExits($request);
         $client_payment = Disputedpayments::get();
 
@@ -4345,11 +4631,12 @@ class BasicController extends Controller
 
 
 
-    function payment_Dispute_lost(Request $request, $id){
+    function payment_Dispute_lost(Request $request, $id)
+    {
         $loginUser = $this->roleExits($request);
-        $dispute = Disputedpayments::where('id',$id)->get();
+        $dispute = Disputedpayments::where('id', $id)->get();
         $projects = Project::get();
-        $referencepayment = NewPaymentsClients::where('remainingStatus','!=','Unlinked Payments')->get();
+        $referencepayment = NewPaymentsClients::where('remainingStatus', '!=', 'Unlinked Payments')->get();
         $employee = Employee::get();
         return view('payment_Dispute_lost', [
             'dispute' => $dispute,
@@ -4360,9 +4647,9 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
-    function payment_Dispute_Process_lost(Request $request){
+    function payment_Dispute_Process_lost(Request $request)
+    {
         $referencepayment = NewPaymentsClients::where('id', $request->input('mainpayment'))->get();
         $disputetogetfee = Disputedpayments::where('id', $request->input('disputeID'))->get();
         $Disputedpayments = Disputedpayments::where('id', $request->input('disputeID'))->update([
@@ -4373,40 +4660,40 @@ class BasicController extends Controller
             "refundID" => $request->input('refundID')
         ]);
 
-        if($request->file('bankWireUpload') != null ){
+        if ($request->file('bankWireUpload') != null) {
             $bookwire = $request->file('bankWireUpload')->store('Payment');
-        }else{
-            $bookwire ="--";
+        } else {
+            $bookwire = "--";
         }
 
         $originalrefund = NewPaymentsClients::insertGetId([
             "BrandID" => $request->input('brandID'),
-            "ClientID"=> $request->input('clientID'),
-            "ProjectID"=> $request->input('projectID'),
-            "ProjectManager"=> $request->input('accountmanager'),
-            "paymentNature"=> $request->input('paymentNature'),
-            "ChargingPlan"=> $referencepayment[0]->ChargingPlan,
-            "ChargingMode"=> $referencepayment[0]->ChargingMode,
-            "Platform"=> $referencepayment[0]->Platform,
-            "Card_Brand"=> $referencepayment[0]->Card_Brand,
-            "Payment_Gateway"=> $referencepayment[0]->Payment_Gateway,
+            "ClientID" => $request->input('clientID'),
+            "ProjectID" => $request->input('projectID'),
+            "ProjectManager" => $request->input('accountmanager'),
+            "paymentNature" => $request->input('paymentNature'),
+            "ChargingPlan" => $referencepayment[0]->ChargingPlan,
+            "ChargingMode" => $referencepayment[0]->ChargingMode,
+            "Platform" => $referencepayment[0]->Platform,
+            "Card_Brand" => $referencepayment[0]->Card_Brand,
+            "Payment_Gateway" => $referencepayment[0]->Payment_Gateway,
             "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-            "TransactionID"=> $referencepayment[0]->TransactionID."(Refund)",
-            "paymentDate"=> $request->input('paymentdate'),
-            "SalesPerson"=> $referencepayment[0]->SalesPerson,
-            "TotalAmount"=> $referencepayment[0]->TotalAmount,
-            "Paid"=> $referencepayment[0]->Paid,
-            "RemainingAmount" =>0,
-            "PaymentType"=> $referencepayment[0]->PaymentType,
+            "TransactionID" => $referencepayment[0]->TransactionID . "(Refund)",
+            "paymentDate" => $request->input('paymentdate'),
+            "SalesPerson" => $referencepayment[0]->SalesPerson,
+            "TotalAmount" => $referencepayment[0]->TotalAmount,
+            "Paid" => $referencepayment[0]->Paid,
+            "RemainingAmount" => 0,
+            "PaymentType" => $referencepayment[0]->PaymentType,
             "numberOfSplits" => $referencepayment[0]->numberOfSplits,
             "SplitProjectManager" => $referencepayment[0]->SplitProjectManager,
             "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('refundamount')),
-            "Description"=> $request->input('Description_of_issue'),
+            "Description" => $request->input('Description_of_issue'),
             'created_at' => date('y-m-d H:m:s'),
             'updated_at' => date('y-m-d H:m:s'),
-            "refundStatus"=> 'Refund',
+            "refundStatus" => 'Refund',
             "refundID" => $request->input('refundID'),
-            "remainingStatus"=> "Dispute Lost",
+            "remainingStatus" => "Dispute Lost",
             "transactionType" =>  $referencepayment[0]->transactionType,
             "transactionfee" => $referencepayment[0]->transactionfee,
             "amt_after_transactionfee" => $referencepayment[0]->Paid,
@@ -4418,19 +4705,19 @@ class BasicController extends Controller
         $payment_in_refund_table = RefundPayments::create([
             "BrandID" =>  $request->input('brandID'),
             "ClientID" =>  $request->input('clientID'),
-            "ProjectID"=> $request->input('projectID'),
+            "ProjectID" => $request->input('projectID'),
             'ProjectManager' => $request->input('accountmanager'),
             'PaymentID' => $originalrefund,
             'basicAmount' =>  $referencepayment[0]->TotalAmount,
-            "refundAmount"=> $request->input('chagebackAmt'),
+            "refundAmount" => $request->input('chagebackAmt'),
             "refundtype" => $request->input('chargebacktype'),
-            "refund_date"=> $request->input('chagebackDate'),
+            "refund_date" => $request->input('chagebackDate'),
             "refundReason" =>  $request->input('Description_of_issue'),
             "clientpaid" =>   $referencepayment[0]->Paid,
             "paymentType" =>   $referencepayment[0]->PaymentType,
             "splitmanagers" =>   $referencepayment[0]->SplitProjectManager,
             "splitamounts" =>  $referencepayment[0]->ShareAmount,
-            "splitRefunds" =>   ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('refundamount')),
+            "splitRefunds" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('refundamount')),
 
         ]);
 
@@ -4444,11 +4731,11 @@ class BasicController extends Controller
             $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
             $createMainEmployeePayment  = EmployeePayment::create([
-                    "paymentID" => $originalrefund,
-                    "employeeID" => $request->input('saleperson'),
-                    "paymentDescription" => $paymentDescription ,
-                    "amount" => $amount
-                ]);
+                "paymentID" => $originalrefund,
+                "employeeID" => $request->input('saleperson'),
+                "paymentDescription" => $paymentDescription,
+                "amount" => $amount
+            ]);
 
 
 
@@ -4456,18 +4743,18 @@ class BasicController extends Controller
                 $c[$key] = [$value, $amountShare[$key]];
             }
 
-            foreach($c as $SecondProjectManagers){
-                if($SecondProjectManagers[0] != 0){
+            foreach ($c as $SecondProjectManagers) {
+                if ($SecondProjectManagers[0] != 0) {
                     $createSharedPersonEmployeePayment  = EmployeePayment::create(
                         [
                             "paymentID" => $originalrefund,
                             "employeeID" => $SecondProjectManagers[0],
                             "paymentDescription" => "Refund Share By " . $request->input('saleperson'),
                             "amount" =>  $SecondProjectManagers[1]
-                        ]);
+                        ]
+                    );
                 }
             }
-
         } else {
 
             $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
@@ -4487,16 +4774,16 @@ class BasicController extends Controller
 
 
         return redirect('/client/project/payment/all');
-
     }
 
 
 
-    function payment_Dispute_won(Request $request, $id){
+    function payment_Dispute_won(Request $request, $id)
+    {
         $loginUser = $this->roleExits($request);
-        $dispute = Disputedpayments::where('id',$id)->get();
+        $dispute = Disputedpayments::where('id', $id)->get();
         $projects = Project::get();
-        $referencepayment = NewPaymentsClients::where('remainingStatus','!=','Unlinked Payments')->get();
+        $referencepayment = NewPaymentsClients::where('remainingStatus', '!=', 'Unlinked Payments')->get();
         $employee = Employee::get();
         return view('payment_Dispute_won', [
             'dispute' => $dispute,
@@ -4507,48 +4794,48 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
-    function payment_Dispute_Process_won(Request $request){
+    function payment_Dispute_Process_won(Request $request)
+    {
         $referencepayment = NewPaymentsClients::where('id', $request->input('mainpayment'))->get();
         $Disputedpayments = Disputedpayments::where('id', $request->input('disputeID'))->update([
             "disputeStatus" => "Won"
         ]);
 
-        if($request->file('bankWireUpload') != null ){
+        if ($request->file('bankWireUpload') != null) {
             $bookwire = $request->file('bankWireUpload')->store('Payment');
-        }else{
-            $bookwire ="--";
+        } else {
+            $bookwire = "--";
         }
 
 
         $createpayment = NewPaymentsClients::insertGetId([
             "BrandID" => $referencepayment[0]->BrandID,
-            "ClientID"=> $referencepayment[0]->ClientID,
-            "ProjectID"=> $referencepayment[0]->ProjectID,
-            "ProjectManager"=> $referencepayment[0]->ProjectManager,
-            "paymentNature"=> $request->input('paymentNature'),
-            "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-            "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-            "Platform"=> $referencepayment[0]->Platform,
-            "Card_Brand"=> $referencepayment[0]->Card_Brand,
-            "Payment_Gateway"=> $referencepayment[0]->Payment_Gateway,
+            "ClientID" => $referencepayment[0]->ClientID,
+            "ProjectID" => $referencepayment[0]->ProjectID,
+            "ProjectManager" => $referencepayment[0]->ProjectManager,
+            "paymentNature" => $request->input('paymentNature'),
+            "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+            "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+            "Platform" => $referencepayment[0]->Platform,
+            "Card_Brand" => $referencepayment[0]->Card_Brand,
+            "Payment_Gateway" => $referencepayment[0]->Payment_Gateway,
             "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-            "TransactionID"=> $referencepayment[0]->TransactionID."(Dispute Won)",
-            "paymentDate"=> $request->input('paymentdate'),
-            "SalesPerson"=> $referencepayment[0]->SalesPerson,
-            "TotalAmount"=> $referencepayment[0]->TotalAmount,
-            "Paid"=> $referencepayment[0]->Paid,
+            "TransactionID" => $referencepayment[0]->TransactionID . "(Dispute Won)",
+            "paymentDate" => $request->input('paymentdate'),
+            "SalesPerson" => $referencepayment[0]->SalesPerson,
+            "TotalAmount" => $referencepayment[0]->TotalAmount,
+            "Paid" => $referencepayment[0]->Paid,
             "RemainingAmount" => 0,
-            "PaymentType"=> $referencepayment[0]->PaymentType,
+            "PaymentType" => $referencepayment[0]->PaymentType,
             "numberOfSplits" => $referencepayment[0]->numberOfSplits,
             "SplitProjectManager" => $referencepayment[0]->SplitProjectManager,
             "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('newamount')),
-            "Description"=> $request->input('description'),
+            "Description" => $request->input('description'),
             'created_at' => date('y-m-d H:m:s'),
             'updated_at' => date('y-m-d H:m:s'),
-            "refundStatus"=> 'On Going',
-            "remainingStatus"=> "Dispute Won",
+            "refundStatus" => 'On Going',
+            "remainingStatus" => "Dispute Won",
             "transactionType" => $referencepayment[0]->transactionType,
             "transactionfee" => $referencepayment[0]->transactionfee,
             "amt_after_transactionfee" => $request->input('wonamount') - $referencepayment[0]->transactionfee,
@@ -4565,11 +4852,11 @@ class BasicController extends Controller
             $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
             $createMainEmployeePayment  = EmployeePayment::create([
-                    "paymentID" => $createpayment,
-                    "employeeID" => $referencepayment[0]->SalesPerson,
-                    "paymentDescription" => $paymentDescription ,
-                    "amount" => $amount
-                ]);
+                "paymentID" => $createpayment,
+                "employeeID" => $referencepayment[0]->SalesPerson,
+                "paymentDescription" => $paymentDescription,
+                "amount" => $amount
+            ]);
 
 
 
@@ -4577,18 +4864,18 @@ class BasicController extends Controller
                 $c[$key] = [$value, $amountShare[$key]];
             }
 
-            foreach($c as $SecondProjectManagers){
-                if($SecondProjectManagers[0] != 0){
+            foreach ($c as $SecondProjectManagers) {
+                if ($SecondProjectManagers[0] != 0) {
                     $createSharedPersonEmployeePayment  = EmployeePayment::create(
                         [
                             "paymentID" => $createpayment,
                             "employeeID" => $SecondProjectManagers[0],
                             "paymentDescription" => "Amount Share By " . $request->input('saleperson'),
                             "amount" =>  $SecondProjectManagers[1]
-                        ]);
+                        ]
+                    );
                 }
             }
-
         } else {
 
             $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
@@ -4607,7 +4894,6 @@ class BasicController extends Controller
         }
 
         return redirect('/client/project/payment/all');
-
     }
 
 
@@ -4615,7 +4901,7 @@ class BasicController extends Controller
     function projectpayment_view_dispute($id, Request $request)
     {
         $loginUser = $this->roleExits($request);
-        $dispute = Disputedpayments::where('id',$id)->get();
+        $dispute = Disputedpayments::where('id', $id)->get();
         // echo("<pre>");
         // print_r($dispute);
         // die();
@@ -4623,35 +4909,35 @@ class BasicController extends Controller
             'dispute' => $dispute,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
 
-    function payment_edit_amount(Request $request, $id){
+    function payment_edit_amount(Request $request, $id)
+    {
         $loginUser = $this->roleExits($request);
         $editPayment = NewPaymentsClients::where('id', $id)->get();
         $findclientofproject = Client::where('id', $editPayment[0]->ClientID)->get();
-        $pmdepartment = Department::where('brand',$findclientofproject[0]->brand)->where(function($query)
-                            {
-                                $query->where('name', 'LIKE', '%Project manager')
-                                ->orWhere('name', 'LIKE', 'Project manager%')
-                                ->orWhere('name', 'LIKE', '%Project manager%');
-                            })->get();
-        $pmemployee = Employee::whereIn('id',json_decode($pmdepartment[0]->users))->get();
-        $saledepartment = Department::where('brand',$findclientofproject[0]->brand)->where(function($query)
-                            {
-                                $query->where('name', 'LIKE', '%sale')
-                                ->orWhere('name', 'LIKE', 'sale%')
-                                ->orWhere('name', 'LIKE', '%sale%');
-                            })->get();
-        $saleemployee = Employee::whereIn('id',json_decode($saledepartment[0]->users))->get();
-        if($editPayment[0]->remainingStatus != 'Unlinked Payments'){
+        $pmdepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
+            $query->where('name', 'LIKE', '%Project manager')
+                ->orWhere('name', 'LIKE', 'Project manager%')
+                ->orWhere('name', 'LIKE', '%Project manager%');
+        })->get();
+        $pmemployee = Employee::whereIn('id', json_decode($pmdepartment[0]->users))->get();
+        $saledepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
+            $query->where('name', 'LIKE', '%sale')
+                ->orWhere('name', 'LIKE', 'sale%')
+                ->orWhere('name', 'LIKE', '%sale%');
+        })->get();
+        $saleemployee = Employee::whereIn('id', json_decode($saledepartment[0]->users))->get();
+        if ($editPayment[0]->remainingStatus != 'Unlinked Payments') {
             $findclient = Client::get();
             $findemployee = Employee::get();
             $allPayments = NewPaymentsClients::where('ClientID', $editPayment[0]->ClientID)
-                            ->where('refundStatus','!=','Pending Payment')
-                            ->where('remainingStatus','!=','Unlinked Payments')
-                            ->get();
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->get();
 
             return view('edit_payment', [
                 'allPayments' => $allPayments,
@@ -4662,27 +4948,27 @@ class BasicController extends Controller
                 'saleemployee' => $saleemployee,
                 'LoginUser' => $loginUser[1],
                 'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2]]);
-
-        }else{
+                'superUser' => $loginUser[2]
+            ]);
+        } else {
 
             $findproject = Project::where('clientID', $editPayment[0]->ClientID)->get();
             $findclientofproject = Client::where('id', $editPayment[0]->ClientID)->get();
             $findclient = Client::get();
             $findemployee = Employee::get();
             $allPayments = NewPaymentsClients::where('ClientID', $editPayment[0]->ClientID)
-                            ->where('refundStatus','!=','Pending Payment')
-                            ->where('remainingStatus','!=','Unlinked Payments')
-                            ->get();
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->get();
             $remainingpayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)
-                            ->where('refundStatus','!=','Pending Payment')
-                            ->where('remainingStatus','Remaining')
-                            ->get();
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('remainingStatus', 'Remaining')
+                ->get();
             $remainingpaymentcount = count($remainingpayments);
             $referencepayment = NewPaymentsClients::where('ClientID', $editPayment[0]->ClientID)
-                            ->where('refundStatus','!=','Pending Payment')
-                            ->where('remainingStatus','!=','Unlinked Payments')
-                            ->get();
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->get();
 
 
             return view('paymentFromunlinked', [
@@ -4700,12 +4986,12 @@ class BasicController extends Controller
                 'referencepayment' => $referencepayment,
                 'LoginUser' => $loginUser[1],
                 'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2]]);
-
-            }
-
+                'superUser' => $loginUser[2]
+            ]);
+        }
     }
-    function payment_edit_amount_process(Request $request, $id){
+    function payment_edit_amount_process(Request $request, $id)
+    {
         $paymentType = $request->input('paymentType');
         $paymentNature = $request->input('paymentNature');
         $allPayments = NewPaymentsClients::where('id', $id)->get();
@@ -4713,31 +4999,31 @@ class BasicController extends Controller
         $findclient = DB::table('clients')->where('id', $allPayments[0]->ClientID)->get();
 
         $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
-        if($remainingamt == 0){
+        if ($remainingamt == 0) {
             $remainingstatus = "Not Remaining";
-        }else{
+        } else {
             $remainingstatus = "Remaining";
         }
 
-        $upsellCount = NewPaymentsClients::where('ClientID',$request->input('clientID'))->where('paymentNature','Upsell')->count();
-        if($request->input('paymentNature') == 'Upsell'){
-            if($upsellCount == 0){
+        $upsellCount = NewPaymentsClients::where('ClientID', $request->input('clientID'))->where('paymentNature', 'Upsell')->count();
+        if ($request->input('paymentNature') == 'Upsell') {
+            if ($upsellCount == 0) {
                 $transactionType = $request->input('paymentNature');
-            }else{
-                $transactionType = $request->input('paymentNature')."(".$upsellCount.")";
+            } else {
+                $transactionType = $request->input('paymentNature') . "(" . $upsellCount . ")";
             }
-        }else{
+        } else {
             $transactionType = $request->input('paymentNature');
         }
 
-        if($request->file('bankWireUpload') != null ){
+        if ($request->file('bankWireUpload') != null) {
             $bookwire = $request->file('bankWireUpload')->store('Payment');
-        }else{
-            $bookwire ="--";
+        } else {
+            $bookwire = "--";
         }
 
         if ($request->hasFile('bankWireUpload')) {
-            if($allPayments[0]->bankWireUpload != "--"){
+            if ($allPayments[0]->bankWireUpload != "--") {
                 $path = storage_path('app/' . $allPayments[0]->bankWireUpload);
                 if (File::exists($path)) {
                     File::delete($path);
@@ -4745,72 +5031,71 @@ class BasicController extends Controller
             }
         };
 
-        if($allPayments[0]->bankWireUpload == $request->input('paymentNature')){
-            if(($allPayments[0]->futureDate == $request->input('nextpaymentdate')) || $request->input('nextpaymentdate') == null){
+        if ($allPayments[0]->bankWireUpload == $request->input('paymentNature')) {
+            if (($allPayments[0]->futureDate == $request->input('nextpaymentdate')) || $request->input('nextpaymentdate') == null) {
                 $Payments = NewPaymentsClients::where('id', $id)
-                ->update([
-                    "ProjectManager"=> $request->input('accountmanager'),
-                    "paymentNature"=> $request->input('paymentNature'),
-                    "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                    "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                    "Platform"=> $request->input('platform'),
-                    "Card_Brand"=> $request->input('cardBrand'),
-                    "Payment_Gateway"=> $request->input('paymentgateway'),
-                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                    "TransactionID"=> $request->input('transactionID'),
-                    "paymentDate"=> $request->input('paymentdate'),
-                    "SalesPerson"=> $request->input('saleperson'),
-                    "TotalAmount"=> $request->input('totalamount'),
-                    "Paid"=> $request->input('clientpaid'),
-                    "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                    "PaymentType"=> $request->input('paymentType'),
-                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                    "Description"=> $request->input('description'),
-                    'updated_at' => date('y-m-d H:m:s'),
-                    "refundStatus"=> 'On Going',
-                    "remainingStatus"=> $remainingstatus,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-                ]);
-
-            }else{
+                    ->update([
+                        "ProjectManager" => $request->input('accountmanager'),
+                        "paymentNature" => $request->input('paymentNature'),
+                        "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                        "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                        "Platform" => $request->input('platform'),
+                        "Card_Brand" => $request->input('cardBrand'),
+                        "Payment_Gateway" => $request->input('paymentgateway'),
+                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                        "TransactionID" => $request->input('transactionID'),
+                        "paymentDate" => $request->input('paymentdate'),
+                        "SalesPerson" => $request->input('saleperson'),
+                        "TotalAmount" => $request->input('totalamount'),
+                        "Paid" => $request->input('clientpaid'),
+                        "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                        "PaymentType" => $request->input('paymentType'),
+                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                        "Description" => $request->input('description'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'On Going',
+                        "remainingStatus" => $remainingstatus,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                    ]);
+            } else {
 
                 $Payments = NewPaymentsClients::where('id', $id)
-                ->update([
-                    "ProjectManager"=> $request->input('accountmanager'),
-                    "paymentNature"=> $request->input('paymentNature'),
-                    "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                    "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                    "Platform"=> $request->input('platform'),
-                    "Card_Brand"=> $request->input('cardBrand'),
-                    "Payment_Gateway"=> $request->input('paymentgateway'),
-                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                    "TransactionID"=> $request->input('transactionID'),
-                    "paymentDate"=> $request->input('paymentdate'),
-                    "futureDate"=> $request->input('nextpaymentdate'),
-                    "SalesPerson"=> $request->input('saleperson'),
-                    "TotalAmount"=> $request->input('totalamount'),
-                    "Paid"=> $request->input('clientpaid'),
-                    "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                    "PaymentType"=> $request->input('paymentType'),
-                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                    "Description"=> $request->input('description'),
-                    'updated_at' => date('y-m-d H:m:s'),
-                    "refundStatus"=> 'On Going',
-                    "remainingStatus"=> $remainingstatus,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-                ]);
+                    ->update([
+                        "ProjectManager" => $request->input('accountmanager'),
+                        "paymentNature" => $request->input('paymentNature'),
+                        "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                        "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                        "Platform" => $request->input('platform'),
+                        "Card_Brand" => $request->input('cardBrand'),
+                        "Payment_Gateway" => $request->input('paymentgateway'),
+                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                        "TransactionID" => $request->input('transactionID'),
+                        "paymentDate" => $request->input('paymentdate'),
+                        "futureDate" => $request->input('nextpaymentdate'),
+                        "SalesPerson" => $request->input('saleperson'),
+                        "TotalAmount" => $request->input('totalamount'),
+                        "Paid" => $request->input('clientpaid'),
+                        "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                        "PaymentType" => $request->input('paymentType'),
+                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                        "Description" => $request->input('description'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'On Going',
+                        "remainingStatus" => $remainingstatus,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                    ]);
                 $deletePendingpayments = NewPaymentsClients::where('transactionType', $allPayments[0]->transactionType)->where('paymentDate', null)->delete();
 
-                if($request->input('nextpaymentdate') != null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
-                    if( $request->input('paymentModes') == 'Renewal' ){
+                if ($request->input('nextpaymentdate') != null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
+                    if ($request->input('paymentModes') == 'Renewal') {
                         $paymentNature = "Renewal Payment";
-                    }else{
+                    } else {
                         $paymentNature = "Recurring Payment";
                     }
 
@@ -4826,26 +5111,25 @@ class BasicController extends Controller
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
                         } elseif ($interval == "3 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                        }
-                        elseif ($interval == "4 Months") {
+                        } elseif ($interval == "4 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
-                        }elseif ($interval == "5 Months") {
+                        } elseif ($interval == "5 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
-                        }elseif ($interval == "6 Months") {
+                        } elseif ($interval == "6 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
-                        }elseif ($interval == "7 Months") {
+                        } elseif ($interval == "7 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
-                        }elseif ($interval == "8 Months") {
+                        } elseif ($interval == "8 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
-                        }elseif ($interval == "9 Months") {
+                        } elseif ($interval == "9 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
-                        }elseif ($interval == "10 Months") {
+                        } elseif ($interval == "10 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
-                        }elseif ($interval == "11 Months") {
+                        } elseif ($interval == "11 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
-                        }elseif ($interval == "12 Months") {
+                        } elseif ($interval == "12 Months") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
-                        }elseif ($interval == "2 Years") {
+                        } elseif ($interval == "2 Years") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
                         } elseif ($interval == "3 Years") {
                             $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
@@ -4856,81 +5140,78 @@ class BasicController extends Controller
 
                         $futurePayment = NewPaymentsClients::create([
                             "BrandID" => $request->input('brandID'),
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=>  $paymentNature,
-                            "ChargingPlan"=> '--',
-                            "ChargingMode"=> '--',
-                            "Platform"=> '--',
-                            "Card_Brand"=> '--',
-                            "Payment_Gateway"=> '--',
+                            "ClientID" => $request->input('clientID'),
+                            "ProjectID" => $request->input('project'),
+                            "ProjectManager" => $request->input('accountmanager'),
+                            "paymentNature" =>  $paymentNature,
+                            "ChargingPlan" => '--',
+                            "ChargingMode" => '--',
+                            "Platform" => '--',
+                            "Card_Brand" => '--',
+                            "Payment_Gateway" => '--',
                             "bankWireUpload" => '--',
-                            "TransactionID"=> '--',
+                            "TransactionID" => '--',
                             // "paymentDate"=> $request->input('paymentdate'),
-                            "futureDate"=> $datefinal,
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> 0,
+                            "futureDate" => $datefinal,
+                            "SalesPerson" => $request->input('saleperson'),
+                            "TotalAmount" => $request->input('totalamount'),
+                            "Paid" => 0,
                             "RemainingAmount" => 0,
-                            "PaymentType"=> '--',
+                            "PaymentType" => '--',
                             "numberOfSplits" => '--',
                             "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
                             "ShareAmount" => json_encode(["-", "-", "-", "-"]),
-                            "Description"=> '--',
+                            "Description" => '--',
                             'created_at' => date('y-m-d H:m:s'),
                             'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'Pending Payment',
-                            "remainingStatus"=> '--',
+                            "refundStatus" => 'Pending Payment',
+                            "remainingStatus" => '--',
                             "transactionType" => $allPayments[0]->transactionType,
                             "transactionfee" => $request->input('transactionfee'),
                             "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                         ]);
                     }
-
-
                 }
             }
-
-        }else{
-            if($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "New Sale"){
-                if($allPayments[0]->paymentNature == "New Lead" || $allPayments[0]->paymentNature == "New Sale" || $allPayments[0]->paymentNature == "New Sale"){
+        } else {
+            if ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "New Sale") {
+                if ($allPayments[0]->paymentNature == "New Lead" || $allPayments[0]->paymentNature == "New Sale" || $allPayments[0]->paymentNature == "New Sale") {
                     $deletePendingpayments = NewPaymentsClients::where('transactionType', $allPayments[0]->transactionType)->where('paymentDate', null)->delete();
-                    if($request->input('nextpaymentdate') != null){
+                    if ($request->input('nextpaymentdate') != null) {
                         $Payments = NewPaymentsClients::where('id', $id)
-                        ->update([
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=> $request->input('paymentNature'),
-                            "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                            "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                            "Platform"=> $request->input('platform'),
-                            "Card_Brand"=> $request->input('cardBrand'),
-                            "Payment_Gateway"=> $request->input('paymentgateway'),
-                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                            "TransactionID"=> $request->input('transactionID'),
-                            "paymentDate"=> $request->input('paymentdate'),
-                            "futureDate"=> $request->input('nextpaymentdate'),
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> $request->input('clientpaid'),
-                            "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                            "PaymentType"=> $request->input('paymentType'),
-                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                            "Description"=> $request->input('description'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingStatus"=> $remainingstatus,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-                        ]);
+                            ->update([
+                                "ProjectManager" => $request->input('accountmanager'),
+                                "paymentNature" => $request->input('paymentNature'),
+                                "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                                "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                                "Platform" => $request->input('platform'),
+                                "Card_Brand" => $request->input('cardBrand'),
+                                "Payment_Gateway" => $request->input('paymentgateway'),
+                                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                                "TransactionID" => $request->input('transactionID'),
+                                "paymentDate" => $request->input('paymentdate'),
+                                "futureDate" => $request->input('nextpaymentdate'),
+                                "SalesPerson" => $request->input('saleperson'),
+                                "TotalAmount" => $request->input('totalamount'),
+                                "Paid" => $request->input('clientpaid'),
+                                "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                                "PaymentType" => $request->input('paymentType'),
+                                "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                                "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                                "Description" => $request->input('description'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                "remainingStatus" => $remainingstatus,
+                                "transactionfee" => $request->input('transactionfee'),
+                                "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                            ]);
 
-                        if($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
-                            if( $request->input('paymentModes') == 'Renewal' ){
+                        if ($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
+                            if ($request->input('paymentModes') == 'Renewal') {
                                 $paymentNature = "Renewal Payment";
-                            }else{
+                            } else {
                                 $paymentNature = "Recurring Payment";
                             }
 
@@ -4946,26 +5227,25 @@ class BasicController extends Controller
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
                                 } elseif ($interval == "3 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                                }
-                                elseif ($interval == "4 Months") {
+                                } elseif ($interval == "4 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
-                                }elseif ($interval == "5 Months") {
+                                } elseif ($interval == "5 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
-                                }elseif ($interval == "6 Months") {
+                                } elseif ($interval == "6 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
-                                }elseif ($interval == "7 Months") {
+                                } elseif ($interval == "7 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
-                                }elseif ($interval == "8 Months") {
+                                } elseif ($interval == "8 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
-                                }elseif ($interval == "9 Months") {
+                                } elseif ($interval == "9 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
-                                }elseif ($interval == "10 Months") {
+                                } elseif ($interval == "10 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
-                                }elseif ($interval == "11 Months") {
+                                } elseif ($interval == "11 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
-                                }elseif ($interval == "12 Months") {
+                                } elseif ($interval == "12 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
-                                }elseif ($interval == "2 Years") {
+                                } elseif ($interval == "2 Years") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
                                 } elseif ($interval == "3 Years") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
@@ -4976,71 +5256,68 @@ class BasicController extends Controller
 
                                 $futurePayment = NewPaymentsClients::create([
                                     "BrandID" => $request->input('brandID'),
-                                    "ClientID"=> $request->input('clientID'),
-                                    "ProjectID"=> $request->input('project'),
-                                    "ProjectManager"=> $request->input('accountmanager'),
-                                    "paymentNature"=>  $paymentNature,
-                                    "ChargingPlan"=> '--',
-                                    "ChargingMode"=> '--',
-                                    "Platform"=> '--',
-                                    "Card_Brand"=> '--',
-                                    "Payment_Gateway"=> '--',
+                                    "ClientID" => $request->input('clientID'),
+                                    "ProjectID" => $request->input('project'),
+                                    "ProjectManager" => $request->input('accountmanager'),
+                                    "paymentNature" =>  $paymentNature,
+                                    "ChargingPlan" => '--',
+                                    "ChargingMode" => '--',
+                                    "Platform" => '--',
+                                    "Card_Brand" => '--',
+                                    "Payment_Gateway" => '--',
                                     "bankWireUpload" => '--',
-                                    "TransactionID"=> '--',
+                                    "TransactionID" => '--',
                                     // "paymentDate"=> $request->input('paymentdate'),
-                                    "futureDate"=> $datefinal,
-                                    "SalesPerson"=> $request->input('saleperson'),
-                                    "TotalAmount"=> $request->input('totalamount'),
-                                    "Paid"=> 0,
+                                    "futureDate" => $datefinal,
+                                    "SalesPerson" => $request->input('saleperson'),
+                                    "TotalAmount" => $request->input('totalamount'),
+                                    "Paid" => 0,
                                     "RemainingAmount" => 0,
-                                    "PaymentType"=> '--',
+                                    "PaymentType" => '--',
                                     "numberOfSplits" => '--',
                                     "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
                                     "ShareAmount" => json_encode(["-", "-", "-", "-"]),
-                                    "Description"=> '--',
+                                    "Description" => '--',
                                     'created_at' => date('y-m-d H:m:s'),
                                     'updated_at' => date('y-m-d H:m:s'),
-                                    "refundStatus"=> 'Pending Payment',
-                                    "remainingStatus"=> '--',
+                                    "refundStatus" => 'Pending Payment',
+                                    "remainingStatus" => '--',
                                     "transactionType" => $allPayments[0]->transactionType,
                                     "transactionfee" => $request->input('transactionfee'),
                                     "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                                 ]);
                             }
-
                         }
-
-
-                    }else{
+                    } else {
                         $today = date('Y-m-d');
                         if ($request->input('ChargingPlan') == "One Time Payment") {
-                            $date = null ;
+                            $date = null;
                         } elseif ($request->input('ChargingPlan') == "Monthly") {
                             $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "2 Months") {
+                        } elseif ($request->input('ChargingPlan') == "2 Months") {
                             $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "3 Months") {
+                        } elseif ($request->input('ChargingPlan') == "3 Months") {
                             $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "4 Months") {
+                        } elseif ($request->input('ChargingPlan') == "4 Months") {
                             $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "5 Months") {
+                        } elseif ($request->input('ChargingPlan') == "5 Months") {
                             $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "6 Months") {
+                        } elseif ($request->input('ChargingPlan') == "6 Months") {
                             $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "7 Months") {
+                        } elseif ($request->input('ChargingPlan') == "7 Months") {
                             $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "8 Months") {
+                        } elseif ($request->input('ChargingPlan') == "8 Months") {
                             $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "9 Months") {
+                        } elseif ($request->input('ChargingPlan') == "9 Months") {
                             $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "10 Months") {
+                        } elseif ($request->input('ChargingPlan') == "10 Months") {
                             $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "11 Months") {
+                        } elseif ($request->input('ChargingPlan') == "11 Months") {
                             $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "12 Months") {
+                        } elseif ($request->input('ChargingPlan') == "12 Months") {
                             $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "2 Years") {
+                        } elseif ($request->input('ChargingPlan') == "2 Years") {
                             $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
                         } elseif ($request->input('ChargingPlan') == "3 Years") {
                             $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
@@ -5048,44 +5325,44 @@ class BasicController extends Controller
 
 
                         $Payments = NewPaymentsClients::where('id', $id)
-                        ->update([
-                            "BrandID" => $request->input('brandID'),
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=> $request->input('paymentNature'),
-                            "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                            "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                            "Platform"=> $request->input('platform'),
-                            "Card_Brand"=> $request->input('cardBrand'),
-                            "Payment_Gateway"=> $request->input('paymentgateway'),
-                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                            "TransactionID"=> $request->input('transactionID'),
-                            "paymentDate"=> $request->input('paymentdate'),
-                            "futureDate"=> $date,
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> $request->input('clientpaid'),
-                            "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                            "PaymentType"=> $request->input('paymentType'),
-                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                            "Description"=> $request->input('description'),
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingStatus"=> $remainingstatus,
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                            ->update([
+                                "BrandID" => $request->input('brandID'),
+                                "ClientID" => $request->input('clientID'),
+                                "ProjectID" => $request->input('project'),
+                                "ProjectManager" => $request->input('accountmanager'),
+                                "paymentNature" => $request->input('paymentNature'),
+                                "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                                "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                                "Platform" => $request->input('platform'),
+                                "Card_Brand" => $request->input('cardBrand'),
+                                "Payment_Gateway" => $request->input('paymentgateway'),
+                                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                                "TransactionID" => $request->input('transactionID'),
+                                "paymentDate" => $request->input('paymentdate'),
+                                "futureDate" => $date,
+                                "SalesPerson" => $request->input('saleperson'),
+                                "TotalAmount" => $request->input('totalamount'),
+                                "Paid" => $request->input('clientpaid'),
+                                "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                                "PaymentType" => $request->input('paymentType'),
+                                "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                                "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                                "Description" => $request->input('description'),
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                "remainingStatus" => $remainingstatus,
+                                "transactionType" => $transactionType,
+                                "transactionfee" => $request->input('transactionfee'),
+                                "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                        ]);
+                            ]);
 
-                        if($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
-                            if( $request->input('paymentModes') == 'Renewal' ){
+                        if ($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
+                            if ($request->input('paymentModes') == 'Renewal') {
                                 $paymentNature = "Renewal Payment";
-                            }else{
+                            } else {
                                 $paymentNature = "Recurring Payment";
                             }
 
@@ -5101,26 +5378,25 @@ class BasicController extends Controller
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
                                 } elseif ($interval == "3 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                                }
-                                elseif ($interval == "4 Months") {
+                                } elseif ($interval == "4 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
-                                }elseif ($interval == "5 Months") {
+                                } elseif ($interval == "5 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
-                                }elseif ($interval == "6 Months") {
+                                } elseif ($interval == "6 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
-                                }elseif ($interval == "7 Months") {
+                                } elseif ($interval == "7 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
-                                }elseif ($interval == "8 Months") {
+                                } elseif ($interval == "8 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
-                                }elseif ($interval == "9 Months") {
+                                } elseif ($interval == "9 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
-                                }elseif ($interval == "10 Months") {
+                                } elseif ($interval == "10 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
-                                }elseif ($interval == "11 Months") {
+                                } elseif ($interval == "11 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
-                                }elseif ($interval == "12 Months") {
+                                } elseif ($interval == "12 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
-                                }elseif ($interval == "2 Years") {
+                                } elseif ($interval == "2 Years") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
                                 } elseif ($interval == "3 Years") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
@@ -5131,80 +5407,75 @@ class BasicController extends Controller
 
                                 $futurePayment = NewPaymentsClients::create([
                                     "BrandID" => $request->input('brandID'),
-                                    "ClientID"=> $request->input('clientID'),
-                                    "ProjectID"=> $request->input('project'),
-                                    "ProjectManager"=> $request->input('accountmanager'),
-                                    "paymentNature"=>  $paymentNature,
-                                    "ChargingPlan"=> '--',
-                                    "ChargingMode"=> '--',
-                                    "Platform"=> '--',
-                                    "Card_Brand"=> '--',
-                                    "Payment_Gateway"=> '--',
+                                    "ClientID" => $request->input('clientID'),
+                                    "ProjectID" => $request->input('project'),
+                                    "ProjectManager" => $request->input('accountmanager'),
+                                    "paymentNature" =>  $paymentNature,
+                                    "ChargingPlan" => '--',
+                                    "ChargingMode" => '--',
+                                    "Platform" => '--',
+                                    "Card_Brand" => '--',
+                                    "Payment_Gateway" => '--',
                                     "bankWireUpload" => '--',
-                                    "TransactionID"=> '--',
+                                    "TransactionID" => '--',
                                     // "paymentDate"=> $request->input('paymentdate'),
-                                    "futureDate"=> $datefinal,
-                                    "SalesPerson"=> $request->input('saleperson'),
-                                    "TotalAmount"=> $request->input('totalamount'),
-                                    "Paid"=> 0,
+                                    "futureDate" => $datefinal,
+                                    "SalesPerson" => $request->input('saleperson'),
+                                    "TotalAmount" => $request->input('totalamount'),
+                                    "Paid" => 0,
                                     "RemainingAmount" => 0,
-                                    "PaymentType"=> '--',
+                                    "PaymentType" => '--',
                                     "numberOfSplits" => '--',
                                     "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
                                     "ShareAmount" => json_encode(["-", "-", "-", "-"]),
-                                    "Description"=> '--',
+                                    "Description" => '--',
                                     'created_at' => date('y-m-d H:m:s'),
                                     'updated_at' => date('y-m-d H:m:s'),
-                                    "refundStatus"=> 'Pending Payment',
-                                    "remainingStatus"=> '--',
+                                    "refundStatus" => 'Pending Payment',
+                                    "remainingStatus" => '--',
                                     "transactionType" => $allPayments[0]->transactionType,
                                     "transactionfee" => $request->input('transactionfee'),
                                     "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                                 ]);
                             }
-
-
                         }
-
-
                     }
-
-                }else{
-                    if($request->input('nextpaymentdate') != null){
+                } else {
+                    if ($request->input('nextpaymentdate') != null) {
                         $Payments = NewPaymentsClients::where('id', $id)
-                        ->update([
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=> $request->input('paymentNature'),
-                            "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                            "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                            "Platform"=> $request->input('platform'),
-                            "Card_Brand"=> $request->input('cardBrand'),
-                            "Payment_Gateway"=> $request->input('paymentgateway'),
-                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                            "TransactionID"=> $request->input('transactionID'),
-                            "paymentDate"=> $request->input('paymentdate'),
-                            "futureDate"=> $request->input('nextpaymentdate'),
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> $request->input('clientpaid'),
-                            "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                            "PaymentType"=> $request->input('paymentType'),
-                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                            "Description"=> $request->input('description'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingStatus"=> $remainingstatus,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-                        ]);
+                            ->update([
+                                "ProjectManager" => $request->input('accountmanager'),
+                                "paymentNature" => $request->input('paymentNature'),
+                                "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                                "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                                "Platform" => $request->input('platform'),
+                                "Card_Brand" => $request->input('cardBrand'),
+                                "Payment_Gateway" => $request->input('paymentgateway'),
+                                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                                "TransactionID" => $request->input('transactionID'),
+                                "paymentDate" => $request->input('paymentdate'),
+                                "futureDate" => $request->input('nextpaymentdate'),
+                                "SalesPerson" => $request->input('saleperson'),
+                                "TotalAmount" => $request->input('totalamount'),
+                                "Paid" => $request->input('clientpaid'),
+                                "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                                "PaymentType" => $request->input('paymentType'),
+                                "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                                "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                                "Description" => $request->input('description'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                "remainingStatus" => $remainingstatus,
+                                "transactionfee" => $request->input('transactionfee'),
+                                "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                            ]);
 
-                        if($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
-                            if( $request->input('paymentModes') == 'Renewal' ){
+                        if ($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
+                            if ($request->input('paymentModes') == 'Renewal') {
                                 $paymentNature = "Renewal Payment";
-                            }else{
+                            } else {
                                 $paymentNature = "Recurring Payment";
                             }
 
@@ -5220,26 +5491,25 @@ class BasicController extends Controller
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
                                 } elseif ($interval == "3 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                                }
-                                elseif ($interval == "4 Months") {
+                                } elseif ($interval == "4 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
-                                }elseif ($interval == "5 Months") {
+                                } elseif ($interval == "5 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
-                                }elseif ($interval == "6 Months") {
+                                } elseif ($interval == "6 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
-                                }elseif ($interval == "7 Months") {
+                                } elseif ($interval == "7 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
-                                }elseif ($interval == "8 Months") {
+                                } elseif ($interval == "8 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
-                                }elseif ($interval == "9 Months") {
+                                } elseif ($interval == "9 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
-                                }elseif ($interval == "10 Months") {
+                                } elseif ($interval == "10 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
-                                }elseif ($interval == "11 Months") {
+                                } elseif ($interval == "11 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
-                                }elseif ($interval == "12 Months") {
+                                } elseif ($interval == "12 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
-                                }elseif ($interval == "2 Years") {
+                                } elseif ($interval == "2 Years") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
                                 } elseif ($interval == "3 Years") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
@@ -5250,71 +5520,68 @@ class BasicController extends Controller
 
                                 $futurePayment = NewPaymentsClients::create([
                                     "BrandID" => $request->input('brandID'),
-                                    "ClientID"=> $request->input('clientID'),
-                                    "ProjectID"=> $request->input('project'),
-                                    "ProjectManager"=> $request->input('accountmanager'),
-                                    "paymentNature"=>  $paymentNature,
-                                    "ChargingPlan"=> '--',
-                                    "ChargingMode"=> '--',
-                                    "Platform"=> '--',
-                                    "Card_Brand"=> '--',
-                                    "Payment_Gateway"=> '--',
+                                    "ClientID" => $request->input('clientID'),
+                                    "ProjectID" => $request->input('project'),
+                                    "ProjectManager" => $request->input('accountmanager'),
+                                    "paymentNature" =>  $paymentNature,
+                                    "ChargingPlan" => '--',
+                                    "ChargingMode" => '--',
+                                    "Platform" => '--',
+                                    "Card_Brand" => '--',
+                                    "Payment_Gateway" => '--',
                                     "bankWireUpload" => '--',
-                                    "TransactionID"=> '--',
+                                    "TransactionID" => '--',
                                     // "paymentDate"=> $request->input('paymentdate'),
-                                    "futureDate"=> $datefinal,
-                                    "SalesPerson"=> $request->input('saleperson'),
-                                    "TotalAmount"=> $request->input('totalamount'),
-                                    "Paid"=> 0,
+                                    "futureDate" => $datefinal,
+                                    "SalesPerson" => $request->input('saleperson'),
+                                    "TotalAmount" => $request->input('totalamount'),
+                                    "Paid" => 0,
                                     "RemainingAmount" => 0,
-                                    "PaymentType"=> '--',
+                                    "PaymentType" => '--',
                                     "numberOfSplits" => '--',
                                     "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
                                     "ShareAmount" => json_encode(["-", "-", "-", "-"]),
-                                    "Description"=> '--',
+                                    "Description" => '--',
                                     'created_at' => date('y-m-d H:m:s'),
                                     'updated_at' => date('y-m-d H:m:s'),
-                                    "refundStatus"=> 'Pending Payment',
-                                    "remainingStatus"=> '--',
+                                    "refundStatus" => 'Pending Payment',
+                                    "remainingStatus" => '--',
                                     "transactionType" => $allPayments[0]->transactionType,
                                     "transactionfee" => $request->input('transactionfee'),
                                     "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                                 ]);
                             }
-
                         }
-
-
-                    }else{
+                    } else {
                         $today = date('Y-m-d');
                         if ($request->input('ChargingPlan') == "One Time Payment") {
-                            $date = null ;
+                            $date = null;
                         } elseif ($request->input('ChargingPlan') == "Monthly") {
                             $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "2 Months") {
+                        } elseif ($request->input('ChargingPlan') == "2 Months") {
                             $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "3 Months") {
+                        } elseif ($request->input('ChargingPlan') == "3 Months") {
                             $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "4 Months") {
+                        } elseif ($request->input('ChargingPlan') == "4 Months") {
                             $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "5 Months") {
+                        } elseif ($request->input('ChargingPlan') == "5 Months") {
                             $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "6 Months") {
+                        } elseif ($request->input('ChargingPlan') == "6 Months") {
                             $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "7 Months") {
+                        } elseif ($request->input('ChargingPlan') == "7 Months") {
                             $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "8 Months") {
+                        } elseif ($request->input('ChargingPlan') == "8 Months") {
                             $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "9 Months") {
+                        } elseif ($request->input('ChargingPlan') == "9 Months") {
                             $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "10 Months") {
+                        } elseif ($request->input('ChargingPlan') == "10 Months") {
                             $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "11 Months") {
+                        } elseif ($request->input('ChargingPlan') == "11 Months") {
                             $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "12 Months") {
+                        } elseif ($request->input('ChargingPlan') == "12 Months") {
                             $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
-                        }elseif ($request->input('ChargingPlan') == "2 Years") {
+                        } elseif ($request->input('ChargingPlan') == "2 Years") {
                             $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
                         } elseif ($request->input('ChargingPlan') == "3 Years") {
                             $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
@@ -5322,44 +5589,44 @@ class BasicController extends Controller
 
 
                         $Payments = NewPaymentsClients::where('id', $id)
-                        ->update([
-                            "BrandID" => $request->input('brandID'),
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=> $request->input('paymentNature'),
-                            "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                            "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                            "Platform"=> $request->input('platform'),
-                            "Card_Brand"=> $request->input('cardBrand'),
-                            "Payment_Gateway"=> $request->input('paymentgateway'),
-                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                            "TransactionID"=> $request->input('transactionID'),
-                            "paymentDate"=> $request->input('paymentdate'),
-                            "futureDate"=> $date,
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> $request->input('clientpaid'),
-                            "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                            "PaymentType"=> $request->input('paymentType'),
-                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                            "Description"=> $request->input('description'),
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingStatus"=> $remainingstatus,
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                            ->update([
+                                "BrandID" => $request->input('brandID'),
+                                "ClientID" => $request->input('clientID'),
+                                "ProjectID" => $request->input('project'),
+                                "ProjectManager" => $request->input('accountmanager'),
+                                "paymentNature" => $request->input('paymentNature'),
+                                "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                                "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                                "Platform" => $request->input('platform'),
+                                "Card_Brand" => $request->input('cardBrand'),
+                                "Payment_Gateway" => $request->input('paymentgateway'),
+                                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                                "TransactionID" => $request->input('transactionID'),
+                                "paymentDate" => $request->input('paymentdate'),
+                                "futureDate" => $date,
+                                "SalesPerson" => $request->input('saleperson'),
+                                "TotalAmount" => $request->input('totalamount'),
+                                "Paid" => $request->input('clientpaid'),
+                                "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                                "PaymentType" => $request->input('paymentType'),
+                                "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                                "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                                "Description" => $request->input('description'),
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                "remainingStatus" => $remainingstatus,
+                                "transactionType" => $transactionType,
+                                "transactionfee" => $request->input('transactionfee'),
+                                "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                        ]);
+                            ]);
 
-                        if($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
-                            if( $request->input('paymentModes') == 'Renewal' ){
+                        if ($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
+                            if ($request->input('paymentModes') == 'Renewal') {
                                 $paymentNature = "Renewal Payment";
-                            }else{
+                            } else {
                                 $paymentNature = "Recurring Payment";
                             }
 
@@ -5375,26 +5642,25 @@ class BasicController extends Controller
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
                                 } elseif ($interval == "3 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                                }
-                                elseif ($interval == "4 Months") {
+                                } elseif ($interval == "4 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
-                                }elseif ($interval == "5 Months") {
+                                } elseif ($interval == "5 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
-                                }elseif ($interval == "6 Months") {
+                                } elseif ($interval == "6 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
-                                }elseif ($interval == "7 Months") {
+                                } elseif ($interval == "7 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
-                                }elseif ($interval == "8 Months") {
+                                } elseif ($interval == "8 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
-                                }elseif ($interval == "9 Months") {
+                                } elseif ($interval == "9 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
-                                }elseif ($interval == "10 Months") {
+                                } elseif ($interval == "10 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
-                                }elseif ($interval == "11 Months") {
+                                } elseif ($interval == "11 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
-                                }elseif ($interval == "12 Months") {
+                                } elseif ($interval == "12 Months") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
-                                }elseif ($interval == "2 Years") {
+                                } elseif ($interval == "2 Years") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
                                 } elseif ($interval == "3 Years") {
                                     $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
@@ -5405,124 +5671,114 @@ class BasicController extends Controller
 
                                 $futurePayment = NewPaymentsClients::create([
                                     "BrandID" => $request->input('brandID'),
-                                    "ClientID"=> $request->input('clientID'),
-                                    "ProjectID"=> $request->input('project'),
-                                    "ProjectManager"=> $request->input('accountmanager'),
-                                    "paymentNature"=>  $paymentNature,
-                                    "ChargingPlan"=> '--',
-                                    "ChargingMode"=> '--',
-                                    "Platform"=> '--',
-                                    "Card_Brand"=> '--',
-                                    "Payment_Gateway"=> '--',
+                                    "ClientID" => $request->input('clientID'),
+                                    "ProjectID" => $request->input('project'),
+                                    "ProjectManager" => $request->input('accountmanager'),
+                                    "paymentNature" =>  $paymentNature,
+                                    "ChargingPlan" => '--',
+                                    "ChargingMode" => '--',
+                                    "Platform" => '--',
+                                    "Card_Brand" => '--',
+                                    "Payment_Gateway" => '--',
                                     "bankWireUpload" => '--',
-                                    "TransactionID"=> '--',
+                                    "TransactionID" => '--',
                                     // "paymentDate"=> $request->input('paymentdate'),
-                                    "futureDate"=> $datefinal,
-                                    "SalesPerson"=> $request->input('saleperson'),
-                                    "TotalAmount"=> $request->input('totalamount'),
-                                    "Paid"=> 0,
+                                    "futureDate" => $datefinal,
+                                    "SalesPerson" => $request->input('saleperson'),
+                                    "TotalAmount" => $request->input('totalamount'),
+                                    "Paid" => 0,
                                     "RemainingAmount" => 0,
-                                    "PaymentType"=> '--',
+                                    "PaymentType" => '--',
                                     "numberOfSplits" => '--',
                                     "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
                                     "ShareAmount" => json_encode(["-", "-", "-", "-"]),
-                                    "Description"=> '--',
+                                    "Description" => '--',
                                     'created_at' => date('y-m-d H:m:s'),
                                     'updated_at' => date('y-m-d H:m:s'),
-                                    "refundStatus"=> 'Pending Payment',
-                                    "remainingStatus"=> '--',
+                                    "refundStatus" => 'Pending Payment',
+                                    "remainingStatus" => '--',
                                     "transactionType" => $allPayments[0]->transactionType,
                                     "transactionfee" => $request->input('transactionfee'),
                                     "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
                                 ]);
                             }
-
-
                         }
-
-
                     }
-
                 }
-
-            }else{
-                if($allPayments[0]->paymentNature == "New Lead" || $allPayments[0]->paymentNature == "New Sale" || $allPayments[0]->paymentNature == "New Sale"){
+            } else {
+                if ($allPayments[0]->paymentNature == "New Lead" || $allPayments[0]->paymentNature == "New Sale" || $allPayments[0]->paymentNature == "New Sale") {
                     $deletePendingpayments = NewPaymentsClients::where('transactionType', $allPayments[0]->transactionType)->where('paymentDate', null)->delete();
                     $Payments = NewPaymentsClients::where('id', $id)
-                    ->update([
-                        "BrandID" => $request->input('brandID'),
-                        "ClientID"=> $request->input('clientID'),
-                        "ProjectID"=> $request->input('project'),
-                        "ProjectManager"=> $request->input('accountmanager'),
-                        "paymentNature"=> $request->input('paymentNature'),
-                        "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                        "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                        "Platform"=> $request->input('platform'),
-                        "Card_Brand"=> $request->input('cardBrand'),
-                        "Payment_Gateway"=> $request->input('paymentgateway'),
-                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                        "TransactionID"=> $request->input('transactionID'),
-                        "paymentDate"=> $request->input('paymentdate'),
-                        "futureDate"=> null,
-                        "SalesPerson"=> $request->input('saleperson'),
-                        "TotalAmount"=> $request->input('totalamount'),
-                        "Paid"=> $request->input('clientpaid'),
-                        "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                        "PaymentType"=> $request->input('paymentType'),
-                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                        "Description"=> $request->input('description'),
-                        'created_at' => date('y-m-d H:m:s'),
-                        'updated_at' => date('y-m-d H:m:s'),
-                        "refundStatus"=> 'On Going',
-                        "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                        ->update([
+                            "BrandID" => $request->input('brandID'),
+                            "ClientID" => $request->input('clientID'),
+                            "ProjectID" => $request->input('project'),
+                            "ProjectManager" => $request->input('accountmanager'),
+                            "paymentNature" => $request->input('paymentNature'),
+                            "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                            "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                            "Platform" => $request->input('platform'),
+                            "Card_Brand" => $request->input('cardBrand'),
+                            "Payment_Gateway" => $request->input('paymentgateway'),
+                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                            "TransactionID" => $request->input('transactionID'),
+                            "paymentDate" => $request->input('paymentdate'),
+                            "futureDate" => null,
+                            "SalesPerson" => $request->input('saleperson'),
+                            "TotalAmount" => $request->input('totalamount'),
+                            "Paid" => $request->input('clientpaid'),
+                            "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                            "PaymentType" => $request->input('paymentType'),
+                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                            "Description" => $request->input('description'),
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'On Going',
+                            "remainingStatus" => $remainingstatus,
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                    ]);
-
-                }else{
+                        ]);
+                } else {
                     $Payments = NewPaymentsClients::where('id', $id)
-                    ->update([
-                        "BrandID" => $request->input('brandID'),
-                        "ClientID"=> $request->input('clientID'),
-                        "ProjectID"=> $request->input('project'),
-                        "ProjectManager"=> $request->input('accountmanager'),
-                        "paymentNature"=> $request->input('paymentNature'),
-                        "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                        "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                        "Platform"=> $request->input('platform'),
-                        "Card_Brand"=> $request->input('cardBrand'),
-                        "Payment_Gateway"=> $request->input('paymentgateway'),
-                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                        "TransactionID"=> $request->input('transactionID'),
-                        "paymentDate"=> $request->input('paymentdate'),
-                        "futureDate"=> null,
-                        "SalesPerson"=> $request->input('saleperson'),
-                        "TotalAmount"=> $request->input('totalamount'),
-                        "Paid"=> $request->input('clientpaid'),
-                        "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                        "PaymentType"=> $request->input('paymentType'),
-                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                        "Description"=> $request->input('description'),
-                        'created_at' => date('y-m-d H:m:s'),
-                        'updated_at' => date('y-m-d H:m:s'),
-                        "refundStatus"=> 'On Going',
-                        "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                        ->update([
+                            "BrandID" => $request->input('brandID'),
+                            "ClientID" => $request->input('clientID'),
+                            "ProjectID" => $request->input('project'),
+                            "ProjectManager" => $request->input('accountmanager'),
+                            "paymentNature" => $request->input('paymentNature'),
+                            "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                            "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                            "Platform" => $request->input('platform'),
+                            "Card_Brand" => $request->input('cardBrand'),
+                            "Payment_Gateway" => $request->input('paymentgateway'),
+                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                            "TransactionID" => $request->input('transactionID'),
+                            "paymentDate" => $request->input('paymentdate'),
+                            "futureDate" => null,
+                            "SalesPerson" => $request->input('saleperson'),
+                            "TotalAmount" => $request->input('totalamount'),
+                            "Paid" => $request->input('clientpaid'),
+                            "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                            "PaymentType" => $request->input('paymentType'),
+                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                            "Description" => $request->input('description'),
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'On Going',
+                            "remainingStatus" => $remainingstatus,
+                            "transactionType" => $transactionType,
+                            "transactionfee" => $request->input('transactionfee'),
+                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                    ]);
-
-
+                        ]);
                 }
-
             }
         }
 
@@ -5537,11 +5793,11 @@ class BasicController extends Controller
             $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
             $createMainEmployeePayment  = EmployeePayment::create([
-                    "paymentID" => $id,
-                    "employeeID" => $request->input('saleperson'),
-                    "paymentDescription" => $paymentDescription ,
-                    "amount" => $amount
-                ]);
+                "paymentID" => $id,
+                "employeeID" => $request->input('saleperson'),
+                "paymentDescription" => $paymentDescription,
+                "amount" => $amount
+            ]);
 
 
 
@@ -5549,18 +5805,18 @@ class BasicController extends Controller
                 $c[$key] = [$value, $amountShare[$key]];
             }
 
-            foreach($c as $SecondProjectManagers){
-                if($SecondProjectManagers[0] != 0){
+            foreach ($c as $SecondProjectManagers) {
+                if ($SecondProjectManagers[0] != 0) {
                     $createSharedPersonEmployeePayment  = EmployeePayment::create(
                         [
                             "paymentID" => $id,
                             "employeeID" => $SecondProjectManagers[0],
                             "paymentDescription" => "Amount Share By " . $request->input('saleperson'),
                             "amount" =>  $SecondProjectManagers[1]
-                        ]);
+                        ]
+                    );
                 }
             }
-
         } else {
 
             $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
@@ -5582,7 +5838,6 @@ class BasicController extends Controller
 
         // return ('check');
         return redirect('/client/project/payment/all');
-
     }
     function clientPayment_Unlinked(Request $request, $id)
     {
@@ -5590,7 +5845,7 @@ class BasicController extends Controller
         // echo("<pre>");
         // print_r($SecondProjectManager);
         // die();
-        $checkforremaining = NewPaymentsClients::where('id',$id)->get();
+        $checkforremaining = NewPaymentsClients::where('id', $id)->get();
         $paymentType = $request->input('paymentType');
         $paymentNature = $request->input('paymentNature');
         $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
@@ -5598,350 +5853,343 @@ class BasicController extends Controller
         $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
         $brandID = $findclient[0]->brand;
 
-        if($paymentNature != "Remaining"){
-            if($checkforremaining[0]->remainingID != null ){
+        if ($paymentNature != "Remaining") {
+            if ($checkforremaining[0]->remainingID != null) {
                 $remainingstatus = "Not Remaining";
-            }elseif($remainingamt == 0){
+            } elseif ($remainingamt == 0) {
                 $remainingstatus = "Not Remaining";
-            }else{
+            } else {
                 $remainingstatus = "Remaining";
             }
 
-            if($request->file('bankWireUpload') != null ){
+            if ($request->file('bankWireUpload') != null) {
                 $bookwire = $request->file('bankWireUpload')->store('Payment');
-            }else{
-                $bookwire ="--";
+            } else {
+                $bookwire = "--";
             }
 
-            $upsellCount = NewPaymentsClients::where('ClientID',$request->input('clientID'))->where('paymentNature','Upsell')->count();
+            $upsellCount = NewPaymentsClients::where('ClientID', $request->input('clientID'))->where('paymentNature', 'Upsell')->count();
             // $transactionType = $request->input('paymentNature');
 
-            if($request->input('paymentNature') == 'Upsell'){
-                if($upsellCount == 0){
+            if ($request->input('paymentNature') == 'Upsell') {
+                if ($upsellCount == 0) {
                     $transactionType = $request->input('paymentNature');
-                }else{
-                    $transactionType = $request->input('paymentNature')."(".$upsellCount.")";
+                } else {
+                    $transactionType = $request->input('paymentNature') . "(" . $upsellCount . ")";
                 }
-            }else{
+            } else {
                 $transactionType = $request->input('paymentNature');
             }
 
 
-                if( $request->input('nextpaymentdate') != null ){
+            if ($request->input('nextpaymentdate') != null) {
 
-                    $createpayment = NewPaymentsClients::where('id',$id)->update([
-                        "BrandID" => $brandID,
-                        "ClientID"=> $request->input('clientID'),
-                        "ProjectID"=> $request->input('project'),
-                        "ProjectManager"=> $request->input('accountmanager'),
-                        "paymentNature"=> $request->input('paymentNature'),
-                        "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                        "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                        "Platform"=> $request->input('platform'),
-                        "Card_Brand"=> $request->input('cardBrand'),
-                        "Payment_Gateway"=> $request->input('paymentgateway'),
-                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                        "TransactionID"=> $request->input('transactionID'),
-                        "paymentDate"=> $request->input('paymentdate'),
-                        "futureDate"=> $request->input('nextpaymentdate'),
-                        "SalesPerson"=> $request->input('saleperson'),
-                        "TotalAmount"=> $request->input('totalamount'),
-                        "Paid"=> $request->input('clientpaid'),
-                        "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                        "PaymentType"=> $request->input('paymentType'),
-                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                        "Description"=> $request->input('description'),
-                        'created_at' => date('y-m-d H:m:s'),
-                        'updated_at' => date('y-m-d H:m:s'),
-                        "refundStatus"=> 'On Going',
-                        "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                $createpayment = NewPaymentsClients::where('id', $id)->update([
+                    "BrandID" => $brandID,
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    "futureDate" => $request->input('nextpaymentdate'),
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingStatus" => $remainingstatus,
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                    ]);
+                ]);
+            } elseif ($request->input('ChargingPlan') != null && $request->input('nextpaymentdate') == null) {
 
-                }elseif( $request->input('ChargingPlan') != null && $request->input('nextpaymentdate') == null){
-
-                    $today = date('Y-m-d');
-                    if ($request->input('ChargingPlan') == "One Time Payment") {
-                        $date = null ;
-                    } elseif ($request->input('ChargingPlan') == "Monthly") {
-                        $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "2 Months") {
-                        $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "3 Months") {
-                        $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "4 Months") {
-                        $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "5 Months") {
-                        $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "6 Months") {
-                        $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "7 Months") {
-                        $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "8 Months") {
-                        $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "9 Months") {
-                        $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "10 Months") {
-                        $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "11 Months") {
-                        $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "12 Months") {
-                        $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
-                    }elseif ($request->input('ChargingPlan') == "2 Years") {
-                        $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
-                    } elseif ($request->input('ChargingPlan') == "3 Years") {
-                        $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
-                    }
-
-
-                    $createpayment = NewPaymentsClients::where('id',$id)->update([
-                        "BrandID" => $brandID,
-                        "ClientID"=> $request->input('clientID'),
-                        "ProjectID"=> $request->input('project'),
-                        "ProjectManager"=> $request->input('accountmanager'),
-                        "paymentNature"=> $request->input('paymentNature'),
-                        "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                        "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                        "Platform"=> $request->input('platform'),
-                        "Card_Brand"=> $request->input('cardBrand'),
-                        "Payment_Gateway"=> $request->input('paymentgateway'),
-                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                        "TransactionID"=> $request->input('transactionID'),
-                        "paymentDate"=> $request->input('paymentdate'),
-                        "futureDate"=> $date,
-                        "SalesPerson"=> $request->input('saleperson'),
-                        "TotalAmount"=> $request->input('totalamount'),
-                        "Paid"=> $request->input('clientpaid'),
-                        "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                        "PaymentType"=> $request->input('paymentType'),
-                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                        "Description"=> $request->input('description'),
-                        'created_at' => date('y-m-d H:m:s'),
-                        'updated_at' => date('y-m-d H:m:s'),
-                        "refundStatus"=> 'On Going',
-                        "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-
-                    ]);
-
-                }else{
-
-                    $createpayment = NewPaymentsClients::where('id',$id)->update([
-                        "BrandID" => $brandID,
-                        "ClientID"=> $request->input('clientID'),
-                        "ProjectID"=> $request->input('project'),
-                        "ProjectManager"=> $request->input('accountmanager'),
-                        "paymentNature"=> $request->input('paymentNature'),
-                        "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                        "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                        "Platform"=> $request->input('platform'),
-                        "Card_Brand"=> $request->input('cardBrand'),
-                        "Payment_Gateway"=> $request->input('paymentgateway'),
-                        "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                        "TransactionID"=> $request->input('transactionID'),
-                        "paymentDate"=> $request->input('paymentdate'),
-                        "futureDate"=> $request->input('nextpaymentdate'),
-                        "SalesPerson"=> $request->input('saleperson'),
-                        "TotalAmount"=> $request->input('totalamount'),
-                        "Paid"=> $request->input('clientpaid'),
-                        "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                        "PaymentType"=> $request->input('paymentType'),
-                        "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                        "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                        "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                        "Description"=> $request->input('description'),
-                        'created_at' => date('y-m-d H:m:s'),
-                        'updated_at' => date('y-m-d H:m:s'),
-                        "refundStatus"=> 'On Going',
-                        "remainingStatus"=> $remainingstatus,
-                        "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-
-                    ]);
-
+                $today = date('Y-m-d');
+                if ($request->input('ChargingPlan') == "One Time Payment") {
+                    $date = null;
+                } elseif ($request->input('ChargingPlan') == "Monthly") {
+                    $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "2 Months") {
+                    $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "3 Months") {
+                    $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "4 Months") {
+                    $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "5 Months") {
+                    $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "6 Months") {
+                    $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "7 Months") {
+                    $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "8 Months") {
+                    $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "9 Months") {
+                    $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "10 Months") {
+                    $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "11 Months") {
+                    $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "12 Months") {
+                    $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "2 Years") {
+                    $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "3 Years") {
+                    $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
                 }
 
-                if( $request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
 
-                    if( $request->input('paymentModes') == 'Renewal' ){
-                        $paymentNature = "Renewal Payment";
-                    }else{
-                        $paymentNature = "Recurring Payment";
-                    }
+                $createpayment = NewPaymentsClients::where('id', $id)->update([
+                    "BrandID" => $brandID,
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    "futureDate" => $date,
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingStatus" => $remainingstatus,
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
+                ]);
+            } else {
 
+                $createpayment = NewPaymentsClients::where('id', $id)->update([
+                    "BrandID" => $brandID,
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    "futureDate" => $request->input('nextpaymentdate'),
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingStatus" => $remainingstatus,
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                    $interval = $request->input('ChargingPlan');
-                    $today = date('Y-m-d');
+                ]);
+            }
 
-                    for ($i = 1; $i <= 10; $i++) {
-                        if ($interval == "One Time Payment") {
-                            $datefinal = null;
-                        } elseif ($interval == "Monthly") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
-                        } elseif ($interval == "2 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
-                        } elseif ($interval == "3 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                        }
-                        elseif ($interval == "4 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
-                        }elseif ($interval == "5 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
-                        }elseif ($interval == "6 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
-                        }elseif ($interval == "7 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
-                        }elseif ($interval == "8 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
-                        }elseif ($interval == "9 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
-                        }elseif ($interval == "10 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
-                        }elseif ($interval == "11 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
-                        }elseif ($interval == "12 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
-                        }elseif ($interval == "2 Years") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
-                        } elseif ($interval == "3 Years") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
-                        }
-                        // echo $datefinal . "<br>";
+            if ($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
 
-
-
-                        $futurePayment = NewPaymentsClients::create([
-                            "BrandID" => $brandID,
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=>  $paymentNature,
-                            "ChargingPlan"=> '--',
-                            "ChargingMode"=> '--',
-                            "Platform"=> '--',
-                            "Card_Brand"=> '--',
-                            "Payment_Gateway"=> '--',
-                            "bankWireUpload" => '--',
-                            "TransactionID"=> '--',
-                            // "paymentDate"=> $request->input('paymentdate'),
-                            "futureDate"=> $datefinal,
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> 0,
-                            "RemainingAmount" => 0,
-                            "PaymentType"=> '--',
-                            "numberOfSplits" => '--',
-                            "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
-                            "ShareAmount" => json_encode(["-", "-", "-", "-"]),
-                            "Description"=> '--',
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'Pending Payment',
-                            "remainingStatus"=> '--',
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-
-                        ]);
-                    }
-
-                }elseif( $request->input('nextpaymentdate') != null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment"){
-
-                    if( $request->input('paymentModes') == 'Renewal' ){
-                        $paymentNature = "Renewal Payment";
-                    }else{
-                        $paymentNature = "Recurring Payment";
-                    }
-
-
-
-                    $interval = $request->input('ChargingPlan');
-                    $today = $request->input('nextpaymentdate');
-
-                    for ($i = 1; $i <= 10; $i++) {
-                        if ($interval == "One Time Payment") {
-                            $datefinal = null;
-                        } elseif ($interval == "Monthly") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
-                        } elseif ($interval == "2 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
-                        } elseif ($interval == "3 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-                        }
-                        elseif ($interval == "4 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
-                        }elseif ($interval == "5 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
-                        }elseif ($interval == "6 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
-                        }elseif ($interval == "7 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
-                        }elseif ($interval == "8 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
-                        }elseif ($interval == "9 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
-                        }elseif ($interval == "10 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
-                        }elseif ($interval == "11 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
-                        }elseif ($interval == "12 Months") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
-                        }elseif ($interval == "2 Years") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
-                        } elseif ($interval == "3 Years") {
-                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
-                        }
-                        // echo $datefinal . "<br>";
-
-
-
-                        $futurePayment = NewPaymentsClients::create([
-                            "BrandID" => $brandID,
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=>  $paymentNature,
-                            "ChargingPlan"=> '--',
-                            "ChargingMode"=> '--',
-                            "Platform"=> '--',
-                            "Card_Brand"=> '--',
-                            "Payment_Gateway"=> '--',
-                            "bankWireUpload" => '--',
-                            "TransactionID"=> '--',
-                            // "paymentDate"=> $request->input('paymentdate'),
-                            "futureDate"=> $datefinal,
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> 0,
-                            "RemainingAmount" => 0,
-                            "PaymentType"=> '--',
-                            "numberOfSplits" => '--',
-                            "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
-                            "ShareAmount" => json_encode(["-", "-", "-", "-"]),
-                            "Description"=> '--',
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'Pending Payment',
-                            "remainingStatus"=> '--',
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-
-                        ]);
-                    }
-
+                if ($request->input('paymentModes') == 'Renewal') {
+                    $paymentNature = "Renewal Payment";
+                } else {
+                    $paymentNature = "Recurring Payment";
                 }
+
+
+
+                $interval = $request->input('ChargingPlan');
+                $today = date('Y-m-d');
+
+                for ($i = 1; $i <= 10; $i++) {
+                    if ($interval == "One Time Payment") {
+                        $datefinal = null;
+                    } elseif ($interval == "Monthly") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
+                    } elseif ($interval == "2 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
+                    } elseif ($interval == "3 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
+                    } elseif ($interval == "4 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
+                    } elseif ($interval == "5 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
+                    } elseif ($interval == "6 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
+                    } elseif ($interval == "7 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
+                    } elseif ($interval == "8 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
+                    } elseif ($interval == "9 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
+                    } elseif ($interval == "10 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
+                    } elseif ($interval == "11 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
+                    } elseif ($interval == "12 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
+                    } elseif ($interval == "2 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
+                    } elseif ($interval == "3 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
+                    }
+                    // echo $datefinal . "<br>";
+
+
+
+                    $futurePayment = NewPaymentsClients::create([
+                        "BrandID" => $brandID,
+                        "ClientID" => $request->input('clientID'),
+                        "ProjectID" => $request->input('project'),
+                        "ProjectManager" => $request->input('accountmanager'),
+                        "paymentNature" =>  $paymentNature,
+                        "ChargingPlan" => '--',
+                        "ChargingMode" => '--',
+                        "Platform" => '--',
+                        "Card_Brand" => '--',
+                        "Payment_Gateway" => '--',
+                        "bankWireUpload" => '--',
+                        "TransactionID" => '--',
+                        // "paymentDate"=> $request->input('paymentdate'),
+                        "futureDate" => $datefinal,
+                        "SalesPerson" => $request->input('saleperson'),
+                        "TotalAmount" => $request->input('totalamount'),
+                        "Paid" => 0,
+                        "RemainingAmount" => 0,
+                        "PaymentType" => '--',
+                        "numberOfSplits" => '--',
+                        "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
+                        "ShareAmount" => json_encode(["-", "-", "-", "-"]),
+                        "Description" => '--',
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'Pending Payment',
+                        "remainingStatus" => '--',
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+
+                    ]);
+                }
+            } elseif ($request->input('nextpaymentdate') != null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
+
+                if ($request->input('paymentModes') == 'Renewal') {
+                    $paymentNature = "Renewal Payment";
+                } else {
+                    $paymentNature = "Recurring Payment";
+                }
+
+
+
+                $interval = $request->input('ChargingPlan');
+                $today = $request->input('nextpaymentdate');
+
+                for ($i = 1; $i <= 10; $i++) {
+                    if ($interval == "One Time Payment") {
+                        $datefinal = null;
+                    } elseif ($interval == "Monthly") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
+                    } elseif ($interval == "2 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
+                    } elseif ($interval == "3 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
+                    } elseif ($interval == "4 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
+                    } elseif ($interval == "5 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
+                    } elseif ($interval == "6 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
+                    } elseif ($interval == "7 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
+                    } elseif ($interval == "8 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
+                    } elseif ($interval == "9 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
+                    } elseif ($interval == "10 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
+                    } elseif ($interval == "11 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
+                    } elseif ($interval == "12 Months") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
+                    } elseif ($interval == "2 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
+                    } elseif ($interval == "3 Years") {
+                        $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
+                    }
+                    // echo $datefinal . "<br>";
+
+
+
+                    $futurePayment = NewPaymentsClients::create([
+                        "BrandID" => $brandID,
+                        "ClientID" => $request->input('clientID'),
+                        "ProjectID" => $request->input('project'),
+                        "ProjectManager" => $request->input('accountmanager'),
+                        "paymentNature" =>  $paymentNature,
+                        "ChargingPlan" => '--',
+                        "ChargingMode" => '--',
+                        "Platform" => '--',
+                        "Card_Brand" => '--',
+                        "Payment_Gateway" => '--',
+                        "bankWireUpload" => '--',
+                        "TransactionID" => '--',
+                        // "paymentDate"=> $request->input('paymentdate'),
+                        "futureDate" => $datefinal,
+                        "SalesPerson" => $request->input('saleperson'),
+                        "TotalAmount" => $request->input('totalamount'),
+                        "Paid" => 0,
+                        "RemainingAmount" => 0,
+                        "PaymentType" => '--',
+                        "numberOfSplits" => '--',
+                        "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
+                        "ShareAmount" => json_encode(["-", "-", "-", "-"]),
+                        "Description" => '--',
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'Pending Payment',
+                        "remainingStatus" => '--',
+                        "transactionType" => $transactionType,
+                        "transactionfee" => $request->input('transactionfee'),
+                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+
+                    ]);
+                }
+            }
 
 
             if ($paymentType == "Split Payment") {
@@ -5954,11 +6202,11 @@ class BasicController extends Controller
                 $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
                 $createMainEmployeePayment  = EmployeePayment::create([
-                        "paymentID" => $id,
-                        "employeeID" => $request->input('saleperson'),
-                        "paymentDescription" => $paymentDescription ,
-                        "amount" => $amount
-                    ]);
+                    "paymentID" => $id,
+                    "employeeID" => $request->input('saleperson'),
+                    "paymentDescription" => $paymentDescription,
+                    "amount" => $amount
+                ]);
 
 
 
@@ -5966,18 +6214,18 @@ class BasicController extends Controller
                     $c[$key] = [$value, $amountShare[$key]];
                 }
 
-                foreach($c as $SecondProjectManagers){
-                    if($SecondProjectManagers[0] != 0){
+                foreach ($c as $SecondProjectManagers) {
+                    if ($SecondProjectManagers[0] != 0) {
                         $createSharedPersonEmployeePayment  = EmployeePayment::create(
                             [
                                 "paymentID" => $id,
                                 "employeeID" => $SecondProjectManagers[0],
                                 "paymentDescription" => "Amount Share By " . $request->input('saleperson'),
                                 "amount" =>  $SecondProjectManagers[1]
-                            ]);
+                            ]
+                        );
                     }
                 }
-
             } else {
 
                 $paymentDescription = $request->input('saleperson') . " Charge Payment For Client " . $request->input('clientID');
@@ -5994,76 +6242,75 @@ class BasicController extends Controller
                     ]
                 );
             }
+        } else {
 
-        }else{
+            $checkremaining = NewPaymentsClients::where('id', $request->input('remainingamountfor'))->get();
 
-            $checkremaining = NewPaymentsClients::where('id',$request->input('remainingamountfor'))->get();
-
-            if(isset($checkremaining[0]->remainingID) && $checkremaining[0]->remainingID != null){
+            if (isset($checkremaining[0]->remainingID) && $checkremaining[0]->remainingID != null) {
 
                 $paymentType = $request->input('paymentType');
                 $paymentNature = $request->input('paymentNature');
                 $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
                 $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
                 $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
-                $gettingpayment = NewPaymentsClients::where('remainingID',$checkremaining[0]->remainingID)->sum("Paid");
+                $gettingpayment = NewPaymentsClients::where('remainingID', $checkremaining[0]->remainingID)->sum("Paid");
                 $checkingtotalremaining = $checkremaining[0]->remaiTotalAmountningID - $gettingpayment - $request->input('clientpaid');
 
-                if($checkingtotalremaining == 0){
+                if ($checkingtotalremaining == 0) {
                     $remainingstatus = "Received Remaining";
-                }else{
+                } else {
                     $remainingstatus = "Remaining";
                 }
 
-                $changeStatus = NewPaymentsClients::where('id',$request->input('remainingamountfor'))->update([
+                $changeStatus = NewPaymentsClients::where('id', $request->input('remainingamountfor'))->update([
                     "remainingStatus"  => $remainingstatus
                 ]);
 
-                if($request->file('bankWireUpload') != null ){
+                if ($request->file('bankWireUpload') != null) {
                     $bookwire = $request->file('bankWireUpload')->store('Payment');
-                }else{
-                    $bookwire ="--";
+                } else {
+                    $bookwire = "--";
                 }
 
                 $transactionType = $request->input('paymentNature');
 
 
-                    // if( $request->input('nextpaymentdate') != null ){
+                // if( $request->input('nextpaymentdate') != null ){
 
-                        $createpayment = NewPaymentsClients::where('id',$id)->update([
-                            "BrandID" => $request->input('brandID'),
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=> $request->input('paymentNature'),
-                            "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                            "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                            "Platform"=> $request->input('platform'),
-                            "Card_Brand"=> $request->input('cardBrand'),
-                            "Payment_Gateway"=> $request->input('paymentgateway'),
-                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                            "TransactionID"=> $request->input('transactionID'),
-                            "paymentDate"=> $request->input('paymentdate'),
-                            // "futureDate"=> $request->input('nextpaymentdate'),
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> $request->input('clientpaid'),
-                            "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                            "PaymentType"=> $request->input('paymentType'),
-                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                            "Description"=> $request->input('description'),
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingID" => $checkremaining[0]->remainingID,
-                            "remainingStatus"=>  "Remaining Payment",
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                $createpayment = NewPaymentsClients::where('id', $id)->update([
+                    "BrandID" => $request->input('brandID'),
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    // "futureDate"=> $request->input('nextpaymentdate'),
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingID" => $checkremaining[0]->remainingID,
+                    "remainingStatus" =>  "Remaining Payment",
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                        ]);
+                ]);
 
 
                 if ($paymentType == "Split Payment") {
@@ -6076,11 +6323,11 @@ class BasicController extends Controller
                     $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
                     $createMainEmployeePayment  = EmployeePayment::create([
-                            "paymentID" => $id,
-                            "employeeID" => $request->input('saleperson'),
-                            "paymentDescription" => $paymentDescription ,
-                            "amount" => $amount
-                        ]);
+                        "paymentID" => $id,
+                        "employeeID" => $request->input('saleperson'),
+                        "paymentDescription" => $paymentDescription,
+                        "amount" => $amount
+                    ]);
 
 
 
@@ -6088,18 +6335,18 @@ class BasicController extends Controller
                         $c[$key] = [$value, $amountShare[$key]];
                     }
 
-                    foreach($c as $SecondProjectManagers){
-                        if($SecondProjectManagers[0] != 0){
+                    foreach ($c as $SecondProjectManagers) {
+                        if ($SecondProjectManagers[0] != 0) {
                             $createSharedPersonEmployeePayment  = EmployeePayment::create(
                                 [
                                     "paymentID" => $id,
                                     "employeeID" => $SecondProjectManagers[0],
                                     "paymentDescription" => "Remaining(Payment) Amount Share By " . $findusername[0]->name,
                                     "amount" =>  $SecondProjectManagers[1]
-                                ]);
+                                ]
+                            );
                         }
                     }
-
                 } else {
 
                     $paymentDescription = $findusername[0]->name . " Charge Remaining Payment For Client " . $findclient[0]->name;
@@ -6116,28 +6363,27 @@ class BasicController extends Controller
                         ]
                     );
                 }
-
-            }else{
+            } else {
                 $paymentType = $request->input('paymentType');
                 $paymentNature = $request->input('paymentNature');
                 $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
                 $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
                 $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
-                $gettingpayment = NewPaymentsClients::where('remainingID',$checkremaining[0]->remainingID)->sum("Paid");
-                $checkingtotalremaining = $checkremaining[0]->remaiTotalAmountningID - $gettingpayment ;
-                if($checkingtotalremaining == 0){
+                $gettingpayment = NewPaymentsClients::where('remainingID', $checkremaining[0]->remainingID)->sum("Paid");
+                $checkingtotalremaining = $checkremaining[0]->remaiTotalAmountningID - $gettingpayment;
+                if ($checkingtotalremaining == 0) {
                     $remainingstatus = "Received Remaining";
-                }else{
+                } else {
                     $remainingstatus = "Remaining";
                 }
 
-                if($request->file('bankWireUpload') != null ){
+                if ($request->file('bankWireUpload') != null) {
                     $bookwire = $request->file('bankWireUpload')->store('Payment');
-                }else{
-                    $bookwire ="--";
+                } else {
+                    $bookwire = "--";
                 }
 
-                $changeStatus = NewPaymentsClients::where('id',$request->input('remainingamountfor'))->update([
+                $changeStatus = NewPaymentsClients::where('id', $request->input('remainingamountfor'))->update([
                     "remainingID"  => $request->input('remainingID'),
                     "remainingStatus"  => $remainingstatus
                 ]);
@@ -6147,42 +6393,42 @@ class BasicController extends Controller
                 $transactionType = $request->input('paymentNature');
 
 
-                    // if( $request->input('nextpaymentdate') != null ){
+                // if( $request->input('nextpaymentdate') != null ){
 
-                        $createpayment = NewPaymentsClients::where('id',$id)->update([
-                            "BrandID" => $request->input('brandID'),
-                            "ClientID"=> $request->input('clientID'),
-                            "ProjectID"=> $request->input('project'),
-                            "ProjectManager"=> $request->input('accountmanager'),
-                            "paymentNature"=> $request->input('paymentNature'),
-                            "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                            "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                            "Platform"=> $request->input('platform'),
-                            "Card_Brand"=> $request->input('cardBrand'),
-                            "Payment_Gateway"=> $request->input('paymentgateway'),
-                            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                            "TransactionID"=> $request->input('transactionID'),
-                            "paymentDate"=> $request->input('paymentdate'),
-                            // "futureDate"=> $request->input('nextpaymentdate'),
-                            "SalesPerson"=> $request->input('saleperson'),
-                            "TotalAmount"=> $request->input('totalamount'),
-                            "Paid"=> $request->input('clientpaid'),
-                            "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                            "PaymentType"=> $request->input('paymentType'),
-                            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
-                            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                            "Description"=> $request->input('description'),
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingID" => $request->input('remainingID'),
-                            "remainingStatus"=> "Remaining Payment",
-                            "transactionType" => $transactionType,
-                            "transactionfee" => $request->input('transactionfee'),
-                            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                $createpayment = NewPaymentsClients::where('id', $id)->update([
+                    "BrandID" => $request->input('brandID'),
+                    "ClientID" => $request->input('clientID'),
+                    "ProjectID" => $request->input('project'),
+                    "ProjectManager" => $request->input('accountmanager'),
+                    "paymentNature" => $request->input('paymentNature'),
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+                    "Platform" => $request->input('platform'),
+                    "Card_Brand" => $request->input('cardBrand'),
+                    "Payment_Gateway" => $request->input('paymentgateway'),
+                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                    "TransactionID" => $request->input('transactionID'),
+                    "paymentDate" => $request->input('paymentdate'),
+                    // "futureDate"=> $request->input('nextpaymentdate'),
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => $request->input('clientpaid'),
+                    "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                    "PaymentType" => $request->input('paymentType'),
+                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                    "Description" => $request->input('description'),
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'On Going',
+                    "remainingID" => $request->input('remainingID'),
+                    "remainingStatus" => "Remaining Payment",
+                    "transactionType" => $transactionType,
+                    "transactionfee" => $request->input('transactionfee'),
+                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                        ]);
+                ]);
 
 
                 if ($paymentType == "Split Payment") {
@@ -6195,11 +6441,11 @@ class BasicController extends Controller
                     $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
                     $createMainEmployeePayment  = EmployeePayment::create([
-                            "paymentID" => $id,
-                            "employeeID" => $request->input('saleperson'),
-                            "paymentDescription" => $paymentDescription ,
-                            "amount" => $amount
-                        ]);
+                        "paymentID" => $id,
+                        "employeeID" => $request->input('saleperson'),
+                        "paymentDescription" => $paymentDescription,
+                        "amount" => $amount
+                    ]);
 
 
 
@@ -6207,18 +6453,18 @@ class BasicController extends Controller
                         $c[$key] = [$value, $amountShare[$key]];
                     }
 
-                    foreach($c as $SecondProjectManagers){
-                        if($SecondProjectManagers[0] != 0){
+                    foreach ($c as $SecondProjectManagers) {
+                        if ($SecondProjectManagers[0] != 0) {
                             $createSharedPersonEmployeePayment  = EmployeePayment::create(
                                 [
                                     "paymentID" => $id,
                                     "employeeID" => $SecondProjectManagers[0],
                                     "paymentDescription" => "Remaining(Payment) Amount Share By " . $findusername[0]->name,
                                     "amount" =>  $SecondProjectManagers[1]
-                                ]);
+                                ]
+                            );
                         }
                     }
-
                 } else {
 
                     $paymentDescription = $findusername[0]->name . " Charge Remaining Payment For Client " . $findclient[0]->name;
@@ -6235,10 +6481,7 @@ class BasicController extends Controller
                         ]
                     );
                 }
-
-
             }
-
         }
 
 
@@ -6246,51 +6489,52 @@ class BasicController extends Controller
 
 
         // return redirect('/forms/payment/' . $request->input('project'));
-         return redirect('/client/details/' . $request->input('clientID'));
+        return redirect('/client/details/' . $request->input('clientID'));
     }
 
 
-    function payment_Refund_stripePayment_Process(Request $request, $id){
+    function payment_Refund_stripePayment_Process(Request $request, $id)
+    {
         $referencepayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->get();
-        if($referencepayment[0]->dispute == null){
+        if ($referencepayment[0]->dispute == null) {
             $originalpayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->update([
                 "refundID" => $request->input('refundID')
             ]);
 
-            if($request->file('bankWireUpload') != null ){
+            if ($request->file('bankWireUpload') != null) {
                 $bookwire = $request->file('bankWireUpload')->store('Payment');
-            }else{
-                $bookwire ="--";
+            } else {
+                $bookwire = "--";
             }
 
             $originalrefund = NewPaymentsClients::insertGetId([
                 "BrandID" => $request->input('brandID'),
-                "ClientID"=> $request->input('clientID'),
-                "ProjectID"=> $request->input('project'),
-                "ProjectManager"=> $request->input('accountmanager'),
-                "paymentNature"=> $referencepayment[0]->paymentNature,
-                "ChargingPlan"=> $referencepayment[0]->ChargingPlan,
-                "ChargingMode"=> $referencepayment[0]->ChargingMode,
-                "Platform"=> $request->input('platform'),
-                "Card_Brand"=> $request->input('cardBrand'),
-                "Payment_Gateway"=> $request->input('paymentgateway'),
+                "ClientID" => $request->input('clientID'),
+                "ProjectID" => $request->input('project'),
+                "ProjectManager" => $request->input('accountmanager'),
+                "paymentNature" => $referencepayment[0]->paymentNature,
+                "ChargingPlan" => $referencepayment[0]->ChargingPlan,
+                "ChargingMode" => $referencepayment[0]->ChargingMode,
+                "Platform" => $request->input('platform'),
+                "Card_Brand" => $request->input('cardBrand'),
+                "Payment_Gateway" => $request->input('paymentgateway'),
                 "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                "TransactionID"=> $request->input('transactionID'),
-                "paymentDate"=> $request->input('paymentdate'),
-                "SalesPerson"=> $request->input('saleperson'),
-                "TotalAmount"=> $request->input('totalamount'),
-                "Paid"=> $request->input('clientpaid'),
-                "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                "PaymentType"=> $referencepayment[0]->PaymentType,
+                "TransactionID" => $request->input('transactionID'),
+                "paymentDate" => $request->input('paymentdate'),
+                "SalesPerson" => $request->input('saleperson'),
+                "TotalAmount" => $request->input('totalamount'),
+                "Paid" => $request->input('clientpaid'),
+                "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                "PaymentType" => $referencepayment[0]->PaymentType,
                 "numberOfSplits" => $referencepayment[0]->numberOfSplits,
                 "SplitProjectManager" => $referencepayment[0]->SplitProjectManager,
                 "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
-                "Description"=> $request->input('description'),
+                "Description" => $request->input('description'),
                 'created_at' => date('y-m-d H:m:s'),
                 'updated_at' => date('y-m-d H:m:s'),
-                "refundStatus"=> 'Refund',
+                "refundStatus" => 'Refund',
                 "refundID" => $request->input('refundID'),
-                "remainingStatus"=> 0,
+                "remainingStatus" => 0,
                 "transactionType" =>  $referencepayment[0]->transactionType,
                 "transactionfee" => 0,
                 "amt_after_transactionfee" => $request->input('clientpaid')
@@ -6300,19 +6544,19 @@ class BasicController extends Controller
             $payment_in_refund_table = RefundPayments::create([
                 "BrandID" =>  $request->input('brandID'),
                 "ClientID" =>  $request->input('clientID'),
-                "ProjectID"=> $request->input('project'),
+                "ProjectID" => $request->input('project'),
                 'ProjectManager' => $request->input('accountmanager'),
                 'PaymentID' => $originalrefund,
                 'basicAmount' =>  $request->input('totalamount'),
-                "refundAmount"=> $request->input('clientpaid'),
+                "refundAmount" => $request->input('clientpaid'),
                 "refundtype" => $request->input('chargebacktype'),
-                "refund_date"=> $request->input('paymentdate'),
+                "refund_date" => $request->input('paymentdate'),
                 "refundReason" =>  $request->input('description'),
                 "clientpaid" =>   $referencepayment[0]->Paid,
                 "paymentType" =>   $referencepayment[0]->PaymentType,
                 "splitmanagers" =>   $referencepayment[0]->SplitProjectManager,
                 "splitamounts" =>  $referencepayment[0]->ShareAmount,
-                "splitRefunds" =>   ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+                "splitRefunds" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
                 "transactionfee" => $request->input('transactionfee'),
                 "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
 
@@ -6328,11 +6572,11 @@ class BasicController extends Controller
                 $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
                 $createMainEmployeePayment  = EmployeePayment::create([
-                        "paymentID" => $originalrefund,
-                        "employeeID" => $request->input('saleperson'),
-                        "paymentDescription" => $paymentDescription ,
-                        "amount" => $amount
-                    ]);
+                    "paymentID" => $originalrefund,
+                    "employeeID" => $request->input('saleperson'),
+                    "paymentDescription" => $paymentDescription,
+                    "amount" => $amount
+                ]);
 
 
 
@@ -6340,18 +6584,18 @@ class BasicController extends Controller
                     $c[$key] = [$value, $amountShare[$key]];
                 }
 
-                foreach($c as $SecondProjectManagers){
-                    if($SecondProjectManagers[0] != 0){
+                foreach ($c as $SecondProjectManagers) {
+                    if ($SecondProjectManagers[0] != 0) {
                         $createSharedPersonEmployeePayment  = EmployeePayment::create(
                             [
                                 "paymentID" => $originalrefund,
                                 "employeeID" => $SecondProjectManagers[0],
                                 "paymentDescription" => "refund Share By " . $request->input('saleperson'),
                                 "amount" =>  $SecondProjectManagers[1]
-                            ]);
+                            ]
+                        );
                     }
                 }
-
             } else {
 
                 $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
@@ -6368,8 +6612,7 @@ class BasicController extends Controller
                     ]
                 );
             }
-
-        }else{
+        } else {
             $referencepayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->get();
             $disputetogetfee = Disputedpayments::where('PaymentID', $request->input('paymentreference'))->get();
             $Disputedpayments = Disputedpayments::where('PaymentID', $request->input('paymentreference'))->update([
@@ -6380,40 +6623,40 @@ class BasicController extends Controller
                 "refundID" => $request->input('refundID')
             ]);
 
-            if($request->file('bankWireUpload') != null ){
+            if ($request->file('bankWireUpload') != null) {
                 $bookwire = $request->file('bankWireUpload')->store('Payment');
-            }else{
-                $bookwire ="--";
+            } else {
+                $bookwire = "--";
             }
 
             $originalrefund = NewPaymentsClients::where('id', $request->input('paymentreference'))->update([
                 "BrandID" => $request->input('brandID'),
-                "ClientID"=> $request->input('clientID'),
-                "ProjectID"=> $request->input('project'),
-                "ProjectManager"=> $request->input('accountmanager'),
-                "paymentNature"=> $referencepayment[0]->paymentNature,
-                "ChargingPlan"=> $referencepayment[0]->ChargingPlan,
-                "ChargingMode"=> $referencepayment[0]->ChargingMode,
-                "Platform"=> $referencepayment[0]->Platform,
-                "Card_Brand"=> $referencepayment[0]->Card_Brand,
-                "Payment_Gateway"=> $referencepayment[0]->Payment_Gateway,
+                "ClientID" => $request->input('clientID'),
+                "ProjectID" => $request->input('project'),
+                "ProjectManager" => $request->input('accountmanager'),
+                "paymentNature" => $referencepayment[0]->paymentNature,
+                "ChargingPlan" => $referencepayment[0]->ChargingPlan,
+                "ChargingMode" => $referencepayment[0]->ChargingMode,
+                "Platform" => $referencepayment[0]->Platform,
+                "Card_Brand" => $referencepayment[0]->Card_Brand,
+                "Payment_Gateway" => $referencepayment[0]->Payment_Gateway,
                 "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                "TransactionID"=> $referencepayment[0]->TransactionID."(Refund)",
-                "paymentDate"=> $request->input('paymentdate'),
-                "SalesPerson"=> $referencepayment[0]->SalesPerson,
-                "TotalAmount"=> $referencepayment[0]->TotalAmount,
-                "Paid"=> $referencepayment[0]->Paid,
-                "RemainingAmount" =>0,
-                "PaymentType"=> $referencepayment[0]->PaymentType,
+                "TransactionID" => $referencepayment[0]->TransactionID . "(Refund)",
+                "paymentDate" => $request->input('paymentdate'),
+                "SalesPerson" => $referencepayment[0]->SalesPerson,
+                "TotalAmount" => $referencepayment[0]->TotalAmount,
+                "Paid" => $referencepayment[0]->Paid,
+                "RemainingAmount" => 0,
+                "PaymentType" => $referencepayment[0]->PaymentType,
                 "numberOfSplits" => $referencepayment[0]->numberOfSplits,
                 "SplitProjectManager" => $referencepayment[0]->SplitProjectManager,
                 "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('refundamount')),
-                "Description"=> $request->input('Description_of_issue'),
+                "Description" => $request->input('Description_of_issue'),
                 'created_at' => date('y-m-d H:m:s'),
                 'updated_at' => date('y-m-d H:m:s'),
-                "refundStatus"=> 'Refund',
+                "refundStatus" => 'Refund',
                 "refundID" => $request->input('refundID'),
-                "remainingStatus"=> "Dispute Lost",
+                "remainingStatus" => "Dispute Lost",
                 "transactionType" =>  $referencepayment[0]->transactionType,
                 "transactionfee" => 0,
                 "amt_after_transactionfee" => $referencepayment[0]->Paid,
@@ -6425,19 +6668,19 @@ class BasicController extends Controller
             $payment_in_refund_table = RefundPayments::create([
                 "BrandID" =>  $request->input('brandID'),
                 "ClientID" =>  $request->input('clientID'),
-                "ProjectID"=> $request->input('project'),
+                "ProjectID" => $request->input('project'),
                 'ProjectManager' => $request->input('accountmanager'),
                 'PaymentID' => $request->input('paymentreference'),
                 'basicAmount' =>  $referencepayment[0]->TotalAmount,
-                "refundAmount"=> $request->input('chagebackAmt'),
+                "refundAmount" => $request->input('chagebackAmt'),
                 "refundtype" => $request->input('chargebacktype'),
-                "refund_date"=> $request->input('chagebackDate'),
+                "refund_date" => $request->input('chagebackDate'),
                 "refundReason" =>  $request->input('Description_of_issue'),
                 "clientpaid" =>   $referencepayment[0]->Paid,
                 "paymentType" =>   $referencepayment[0]->PaymentType,
                 "splitmanagers" =>   $referencepayment[0]->SplitProjectManager,
                 "splitamounts" =>  $referencepayment[0]->ShareAmount,
-                "splitRefunds" =>   ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('refundamount')),
+                "splitRefunds" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('refundamount')),
 
             ]);
 
@@ -6451,11 +6694,11 @@ class BasicController extends Controller
                 $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
                 $createMainEmployeePayment  = EmployeePayment::create([
-                        "paymentID" => $request->input('paymentreference'),
-                        "employeeID" => $request->input('saleperson'),
-                        "paymentDescription" => $paymentDescription ,
-                        "amount" => $amount
-                    ]);
+                    "paymentID" => $request->input('paymentreference'),
+                    "employeeID" => $request->input('saleperson'),
+                    "paymentDescription" => $paymentDescription,
+                    "amount" => $amount
+                ]);
 
 
 
@@ -6463,18 +6706,18 @@ class BasicController extends Controller
                     $c[$key] = [$value, $amountShare[$key]];
                 }
 
-                foreach($c as $SecondProjectManagers){
-                    if($SecondProjectManagers[0] != 0){
+                foreach ($c as $SecondProjectManagers) {
+                    if ($SecondProjectManagers[0] != 0) {
                         $createSharedPersonEmployeePayment  = EmployeePayment::create(
                             [
                                 "paymentID" => $request->input('paymentreference'),
                                 "employeeID" => $SecondProjectManagers[0],
                                 "paymentDescription" => "Refund Share By " . $request->input('saleperson'),
                                 "amount" =>  $SecondProjectManagers[1]
-                            ]);
+                            ]
+                        );
                     }
                 }
-
             } else {
 
                 $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
@@ -6491,12 +6734,9 @@ class BasicController extends Controller
                     ]
                 );
             }
-
-
         }
 
         return redirect('/client/project/payment/all');
-
     }
 
     function payment_remaining_amount(Request $request, $id)
@@ -6508,9 +6748,9 @@ class BasicController extends Controller
         $findclient = Client::get();
         $findemployee = Employee::get();
         $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)
-                                ->where('refundStatus','!=','Pending Payment')
-                                ->where('remainingStatus','!=','Unlinked Payments')
-                                ->get();
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->get();
 
         return view('remainingPayment', [
             'mainPayments' => $mainPayment,
@@ -6521,11 +6761,13 @@ class BasicController extends Controller
             'employee' => $findemployee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
-    function payment_remaining_amount_process(Request $request, $id){
+    function payment_remaining_amount_process(Request $request, $id)
+    {
 
-        $changeStatus = NewPaymentsClients::where('id',$id)->update([
+        $changeStatus = NewPaymentsClients::where('id', $id)->update([
             "remainingID"  => $request->input('remainingID'),
             "remainingStatus"  => "Received Remaining"
         ]);
@@ -6535,57 +6777,57 @@ class BasicController extends Controller
         $findusername = DB::table('employees')->where('id', $request->input('saleperson'))->get();
         $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
         $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
-        if($remainingamt == 0){
+        if ($remainingamt == 0) {
             $remainingstatus = "Received Remaining";
-        }else{
+        } else {
             $remainingstatus = "Remaining";
         }
 
-        if($request->file('bankWireUpload') != null ){
+        if ($request->file('bankWireUpload') != null) {
             $bookwire = $request->file('bankWireUpload')->store('Payment');
-        }else{
-            $bookwire ="--";
+        } else {
+            $bookwire = "--";
         }
 
         $transactionType = $request->input('paymentNature');
 
 
-            // if( $request->input('nextpaymentdate') != null ){
+        // if( $request->input('nextpaymentdate') != null ){
 
-                $createpayment = NewPaymentsClients::insertGetId([
-                    "BrandID" => $request->input('brandID'),
-                    "ClientID"=> $request->input('clientID'),
-                    "ProjectID"=> $request->input('project'),
-                    "ProjectManager"=> $request->input('accountmanager'),
-                    "paymentNature"=> $request->input('paymentNature'),
-                    "ChargingPlan"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
-                    "ChargingMode"=> ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
-                    "Platform"=> $request->input('platform'),
-                    "Card_Brand"=> $request->input('cardBrand'),
-                    "Payment_Gateway"=> $request->input('paymentgateway'),
-                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                    "TransactionID"=> $request->input('transactionID'),
-                    "paymentDate"=> $request->input('paymentdate'),
-                    // "futureDate"=> $request->input('nextpaymentdate'),
-                    "SalesPerson"=> $request->input('saleperson'),
-                    "TotalAmount"=> $request->input('totalamount'),
-                    "Paid"=> $request->input('clientpaid'),
-                    "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                    "PaymentType"=> $request->input('paymentType'),
-                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
-                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
-                    "Description"=> $request->input('description'),
-                    'created_at' => date('y-m-d H:m:s'),
-                    'updated_at' => date('y-m-d H:m:s'),
-                    "refundStatus"=> 'On Going',
-                    "remainingID" => $request->input('remainingID'),
-                    "remainingStatus"=> $remainingstatus,
-                    "transactionType" => $transactionType,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+        $createpayment = NewPaymentsClients::insertGetId([
+            "BrandID" => $request->input('brandID'),
+            "ClientID" => $request->input('clientID'),
+            "ProjectID" => $request->input('project'),
+            "ProjectManager" => $request->input('accountmanager'),
+            "paymentNature" => $request->input('paymentNature'),
+            "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+            "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+            "Platform" => $request->input('platform'),
+            "Card_Brand" => $request->input('cardBrand'),
+            "Payment_Gateway" => $request->input('paymentgateway'),
+            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+            "TransactionID" => $request->input('transactionID'),
+            "paymentDate" => $request->input('paymentdate'),
+            // "futureDate"=> $request->input('nextpaymentdate'),
+            "SalesPerson" => $request->input('saleperson'),
+            "TotalAmount" => $request->input('totalamount'),
+            "Paid" => $request->input('clientpaid'),
+            "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+            "PaymentType" => $request->input('paymentType'),
+            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
+            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
+            "Description" => $request->input('description'),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s'),
+            "refundStatus" => 'On Going',
+            "remainingID" => $request->input('remainingID'),
+            "remainingStatus" => $remainingstatus,
+            "transactionType" => $transactionType,
+            "transactionfee" => $request->input('transactionfee'),
+            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
 
-                ]);
+        ]);
 
 
         if ($paymentType == "Split Payment") {
@@ -6598,11 +6840,11 @@ class BasicController extends Controller
             $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
             $createMainEmployeePayment  = EmployeePayment::create([
-                    "paymentID" => $createpayment,
-                    "employeeID" => $request->input('saleperson'),
-                    "paymentDescription" => $paymentDescription ,
-                    "amount" => $amount
-                ]);
+                "paymentID" => $createpayment,
+                "employeeID" => $request->input('saleperson'),
+                "paymentDescription" => $paymentDescription,
+                "amount" => $amount
+            ]);
 
 
 
@@ -6610,18 +6852,18 @@ class BasicController extends Controller
                 $c[$key] = [$value, $amountShare[$key]];
             }
 
-            foreach($c as $SecondProjectManagers){
-                if($SecondProjectManagers[0] != 0){
+            foreach ($c as $SecondProjectManagers) {
+                if ($SecondProjectManagers[0] != 0) {
                     $createSharedPersonEmployeePayment  = EmployeePayment::create(
                         [
                             "paymentID" => $createpayment,
                             "employeeID" => $SecondProjectManagers[0],
                             "paymentDescription" => "Remaining(Payment) Amount Share By " . $findusername[0]->name,
                             "amount" =>  $SecondProjectManagers[1]
-                        ]);
+                        ]
+                    );
                 }
             }
-
         } else {
 
             $paymentDescription = $findusername[0]->name . " Charge Remaining Payment For Client " . $findclient[0]->name;
@@ -6639,18 +6881,18 @@ class BasicController extends Controller
             );
         }
 
-            // return redirect('/client/details/' . $request->input('clientID'));
-            return redirect('/client/project/payment/all');
-
+        // return redirect('/client/details/' . $request->input('clientID'));
+        return redirect('/client/project/payment/all');
     }
 
 
 
-    function payment_pending_amount(Request $request, $id){
+    function payment_pending_amount(Request $request, $id)
+    {
 
         $loginUser = $this->roleExits($request);
         $mainPayment = NewPaymentsClients::where('id', $id)->get();
-        $stripePayment = NewPaymentsClients::where('ClientID', $mainPayment[0]->ClientID)->where('remainingStatus',"Unlinked Payments")->get();
+        $stripePayment = NewPaymentsClients::where('ClientID', $mainPayment[0]->ClientID)->where('remainingStatus', "Unlinked Payments")->get();
 
         $findproject = Project::where('id', $mainPayment[0]->ProjectID)->get();
         $findclient = Client::get();
@@ -6667,8 +6909,8 @@ class BasicController extends Controller
             'stripePayment' => $stripePayment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
-
+            'superUser' => $loginUser[2]
+        ]);
     }
     public function fetchstripeunlinkeddata(Request $request)
     {
@@ -6694,7 +6936,8 @@ class BasicController extends Controller
 
         return response()->json($return_array);
     }
-    function payment_pending_amount_process(Request $request, $id){
+    function payment_pending_amount_process(Request $request, $id)
+    {
 
         $deleteexistingStripeUnlinked = NewPaymentsClients::where("TransactionID", $request->input('transactionID'))->delete();
 
@@ -6704,114 +6947,112 @@ class BasicController extends Controller
         $findusername = DB::table('employees')->where('id', $request->input('accountmanager'))->get();
         $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
         $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
-        if($remainingamt == 0){
+        if ($remainingamt == 0) {
             $remainingstatus = "Not Remaining";
-        }else{
+        } else {
             $remainingstatus = "Remaining";
         }
 
-        if($request->file('bankWireUpload') != null ){
+        if ($request->file('bankWireUpload') != null) {
             $bookwire = $request->file('bankWireUpload')->store('Payment');
-        }else{
-            $bookwire ="--";
+        } else {
+            $bookwire = "--";
         }
 
         $transactionType = $request->input('paymentNature');
 
 
-            if( $request->input('nextpaymentdate') != null ){
+        if ($request->input('nextpaymentdate') != null) {
 
-                $today = date('Y-m-d');
-                if ($request->input('ChargingPlan') == "One Time Payment") {
-                    $date = null ;
-                } elseif ($request->input('ChargingPlan') == "Monthly") {
-                    $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "2 Months") {
-                    $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "3 Months") {
-                    $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "4 Months") {
-                    $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "5 Months") {
-                    $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "6 Months") {
-                    $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "7 Months") {
-                    $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "8 Months") {
-                    $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "9 Months") {
-                    $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "10 Months") {
-                    $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "11 Months") {
-                    $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "12 Months") {
-                    $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
-                }elseif ($request->input('ChargingPlan') == "2 Years") {
-                    $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "3 Years") {
-                    $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
-                }
-
-                $createpayment = NewPaymentsClients::iwhere('id',$id)->update([
-                    "ProjectManager"=> $request->input('accountmanager'),
-                     "Platform"=> $request->input('platform'),
-                    "Card_Brand"=> $request->input('cardBrand'),
-                    "Payment_Gateway"=> $request->input('paymentgateway'),
-                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                    "TransactionID"=> $request->input('transactionID'),
-                    "paymentDate"=> $request->input('paymentdate'),
-                    "futureDate"=> $request->input('nextpaymentdate'),
-                    "SalesPerson"=> $request->input('saleperson'),
-                    "TotalAmount"=> $request->input('totalamount'),
-                    "Paid"=> $request->input('clientpaid'),
-                    "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                    "PaymentType"=> $request->input('paymentType'),
-                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
-                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
-                    "Description"=> $request->input('description'),
-                    'created_at' => date('y-m-d H:m:s'),
-                    'updated_at' => date('y-m-d H:m:s'),
-                    "refundStatus"=> 'On Going',
-                    "remainingStatus"=> $remainingstatus,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-                    // "transactionType" => $transactionType
-
-                ]);
-
-            }else{
-
-                $createpayment = NewPaymentsClients::where('id',$id)->update([
-                    "ProjectManager"=> $request->input('accountmanager'),
-                    "Platform"=> $request->input('platform'),
-                    "Card_Brand"=> $request->input('cardBrand'),
-                    "Payment_Gateway"=> $request->input('paymentgateway'),
-                    "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
-                    "TransactionID"=> $request->input('transactionID'),
-                    "paymentDate"=> $request->input('paymentdate'),
-                    "SalesPerson"=> $request->input('saleperson'),
-                    "TotalAmount"=> $request->input('totalamount'),
-                    "Paid"=> $request->input('clientpaid'),
-                    "RemainingAmount" =>$request->input('totalamount') - $request->input('clientpaid'),
-                    "PaymentType"=> $request->input('paymentType'),
-                    "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
-                    "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
-                    "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
-                    "Description"=> $request->input('description'),
-                    'created_at' => date('y-m-d H:m:s'),
-                    'updated_at' => date('y-m-d H:m:s'),
-                    "refundStatus"=> 'On Going',
-                    "remainingStatus"=> $remainingstatus,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
-                    // "transactionType" => $transactionType
-
-                ]);
-
+            $today = date('Y-m-d');
+            if ($request->input('ChargingPlan') == "One Time Payment") {
+                $date = null;
+            } elseif ($request->input('ChargingPlan') == "Monthly") {
+                $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "2 Months") {
+                $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "3 Months") {
+                $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "4 Months") {
+                $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "5 Months") {
+                $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "6 Months") {
+                $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "7 Months") {
+                $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "8 Months") {
+                $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "9 Months") {
+                $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "10 Months") {
+                $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "11 Months") {
+                $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "12 Months") {
+                $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "2 Years") {
+                $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "3 Years") {
+                $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
             }
+
+            $createpayment = NewPaymentsClients::iwhere('id', $id)->update([
+                "ProjectManager" => $request->input('accountmanager'),
+                "Platform" => $request->input('platform'),
+                "Card_Brand" => $request->input('cardBrand'),
+                "Payment_Gateway" => $request->input('paymentgateway'),
+                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                "TransactionID" => $request->input('transactionID'),
+                "paymentDate" => $request->input('paymentdate'),
+                "futureDate" => $request->input('nextpaymentdate'),
+                "SalesPerson" => $request->input('saleperson'),
+                "TotalAmount" => $request->input('totalamount'),
+                "Paid" => $request->input('clientpaid'),
+                "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                "PaymentType" => $request->input('paymentType'),
+                "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
+                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
+                "Description" => $request->input('description'),
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s'),
+                "refundStatus" => 'On Going',
+                "remainingStatus" => $remainingstatus,
+                "transactionfee" => $request->input('transactionfee'),
+                "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                // "transactionType" => $transactionType
+
+            ]);
+        } else {
+
+            $createpayment = NewPaymentsClients::where('id', $id)->update([
+                "ProjectManager" => $request->input('accountmanager'),
+                "Platform" => $request->input('platform'),
+                "Card_Brand" => $request->input('cardBrand'),
+                "Payment_Gateway" => $request->input('paymentgateway'),
+                "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+                "TransactionID" => $request->input('transactionID'),
+                "paymentDate" => $request->input('paymentdate'),
+                "SalesPerson" => $request->input('saleperson'),
+                "TotalAmount" => $request->input('totalamount'),
+                "Paid" => $request->input('clientpaid'),
+                "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+                "PaymentType" => $request->input('paymentType'),
+                "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+                "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('shareProjectManager')),
+                "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(['--']) : json_encode($request->input('splitamount')),
+                "Description" => $request->input('description'),
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s'),
+                "refundStatus" => 'On Going',
+                "remainingStatus" => $remainingstatus,
+                "transactionfee" => $request->input('transactionfee'),
+                "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                // "transactionType" => $transactionType
+
+            ]);
+        }
 
         if ($paymentType == "Split Payment") {
 
@@ -6823,11 +7064,11 @@ class BasicController extends Controller
             $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
 
             $createMainEmployeePayment  = EmployeePayment::create([
-                    "paymentID" => $createpayment,
-                    "employeeID" => $request->input('accountmanager'),
-                    "paymentDescription" => $paymentDescription ,
-                    "amount" => $amount
-                ]);
+                "paymentID" => $createpayment,
+                "employeeID" => $request->input('accountmanager'),
+                "paymentDescription" => $paymentDescription,
+                "amount" => $amount
+            ]);
 
 
 
@@ -6835,18 +7076,18 @@ class BasicController extends Controller
                 $c[$key] = [$value, $amountShare[$key]];
             }
 
-            foreach($c as $SecondProjectManagers){
-                if($SecondProjectManagers[0] != 0){
+            foreach ($c as $SecondProjectManagers) {
+                if ($SecondProjectManagers[0] != 0) {
                     $createSharedPersonEmployeePayment  = EmployeePayment::create(
                         [
                             "paymentID" => $id,
                             "employeeID" => $SecondProjectManagers[0],
                             "paymentDescription" => "Amount Share By " . $findusername[0]->name,
                             "amount" =>  $SecondProjectManagers[1]
-                        ]);
+                        ]
+                    );
                 }
             }
-
         } else {
 
             $paymentDescription = $findusername[0]->name . " Charge Payment For Client " . $findclient[0]->name;
@@ -6866,7 +7107,7 @@ class BasicController extends Controller
 
         // $getTransactionstype = NewPaymentsClients::where('id', $id)->get();
         // $checkpendingTransactions = NewPaymentsClients::where('ClientID', $request->input('clientID'))->where('ProjectID', $request->input('project'))->where('refundStatus', "Pending Payment")->where('transactionType', $getTransactionstype[0]->transactionType)->count();
-                // $clientPayment = NewPaymentsClients::where('id', 3)->first();
+        // $clientPayment = NewPaymentsClients::where('id', 3)->first();
 
         // // Parse the dates using Carbon
         // $futureDate = Carbon::parse($clientPayment->futureDate);
@@ -6895,54 +7136,46 @@ class BasicController extends Controller
 
 
         return redirect('/client/details/' . $request->input('clientID'));
-
-
-
     }
 
 
 
-    function delete_payment(Request $request, $id){
+    function delete_payment(Request $request, $id)
+    {
 
         $getpayment = DB::table('newpaymentsclients')->where('id', $id)->get();
         // echo("<pre>");
         // print_r($getpayment[0]->paymentNature);
         // die();
 
-        if($getpayment[0]->paymentNature == "New Lead" || $getpayment[0]->paymentNature == "New Sale" || $getpayment[0]->paymentNature == "Upsell"){
+        if ($getpayment[0]->paymentNature == "New Lead" || $getpayment[0]->paymentNature == "New Sale" || $getpayment[0]->paymentNature == "Upsell") {
 
             $getRefundpayment = DB::table('refundtable')->where('PaymentID', $getpayment[0]->id)->delete();
             $getemployeepayment = DB::table('employeepayment')->where('paymentID', $getpayment[0]->id)->delete();
-            $pendingpayments = DB::table('newpaymentsclients')->where('ClientID', $getpayment[0]->ClientID )->where('ProjectID', $getpayment[0]->ProjectID )->where('transactionType',  $getpayment[0]->transactionType)->where('refundStatus', 'Pending Payment')->delete();
+            $pendingpayments = DB::table('newpaymentsclients')->where('ClientID', $getpayment[0]->ClientID)->where('ProjectID', $getpayment[0]->ProjectID)->where('transactionType',  $getpayment[0]->transactionType)->where('refundStatus', 'Pending Payment')->delete();
 
-            if($getpayment[0]->remainingID != null){
+            if ($getpayment[0]->remainingID != null) {
                 $getpayments = DB::table('newpaymentsclients')->where('id', $id)->delete();
-                $getpayments2 = DB::table('newpaymentsclients')->where('remainingID',$getpayment[0]->remainingID)->delete();
-
-            }else{
+                $getpayments2 = DB::table('newpaymentsclients')->where('remainingID', $getpayment[0]->remainingID)->delete();
+            } else {
                 $getpayments = DB::table('newpaymentsclients')->where('id', $id)->delete();
-
             }
-
-
-        }elseif($getpayment[0]->paymentNature == "Remaining"){
+        } elseif ($getpayment[0]->paymentNature == "Remaining") {
 
             $getRefundpayment = DB::table('refundtable')->where('PaymentID', $getpayment[0]->id)->delete();
             $getemployeepayment = DB::table('employeepayment')->where('paymentID', $getpayment[0]->id)->delete();
 
             $getpayments = DB::table('newpaymentsclients')->where('id', $id)->delete();
 
-            $client_payment = NewPaymentsClients::where('remainingID',$getpayment[0]->remainingID)->update([
-                    'remainingStatus' => "Remaining"
+            $client_payment = NewPaymentsClients::where('remainingID', $getpayment[0]->remainingID)->update([
+                'remainingStatus' => "Remaining"
             ]);
-
-        }else{
+        } else {
 
             $getRefundpayment = DB::table('refundtable')->where('PaymentID', $getpayment[0]->id)->delete();
             $getemployeepayment = DB::table('employeepayment')->where('paymentID', $getpayment[0]->id)->delete();
 
             $getpayments = DB::table('newpaymentsclients')->where('id', $id)->delete();
-
         }
 
         return redirect()->back();
@@ -6950,10 +7183,11 @@ class BasicController extends Controller
 
 
 
-    function all_payments(Request $request){
+    function all_payments(Request $request)
+    {
 
         $loginUser = $this->roleExits($request);
-        $client_payment = NewPaymentsClients::where('refundStatus','!=','Pending Payment')->get();
+        $client_payment = NewPaymentsClients::where('refundStatus', '!=', 'Pending Payment')->get();
 
         return view('allpayments', [
             'clientPayments' => $client_payment,
@@ -6961,9 +7195,9 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
-    function payment_view(Request $request, $id){
+    function payment_view(Request $request, $id)
+    {
         $loginUser = $this->roleExits($request);
         $client_payment = NewPaymentsClients::where('id', $id)->get();
         return view('payment_view', [
@@ -6972,9 +7206,9 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
-    function payment_view1(Request $request, $id){
+    function payment_view1(Request $request, $id)
+    {
         $loginUser = $this->roleExits($request);
         $client_payment = NewPaymentsClients::where('id', $id)->get();
         return view('payment_view1', [
@@ -6983,7 +7217,6 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
 
 
@@ -7087,7 +7320,8 @@ class BasicController extends Controller
     //     return "CHECK";
     // }
 
-    function filledqaformIndv(Request $request){
+    function filledqaformIndv(Request $request)
+    {
         $loginUser = $this->roleExits($request);
         $qa_form = QAFORM::where('qaPerson', $loginUser[1][0]->id)->get();
         return view('filledqaform', [
@@ -7096,7 +7330,6 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
 
     function projectQaReport_view_without_backButton($id, Request $request)
@@ -7105,31 +7338,38 @@ class BasicController extends Controller
         $QA_FORM = QAFORM::where('id', $id)->get();
         $QA_META = QAFORM_METAS::where('formid', $QA_FORM[0]->qaformID)->get();
         $Proj_Prod = ProjectProduction::where('id', $QA_FORM[0]->ProjectProductionID)->get();
-        return view('qa_form_view_without_backButton', ['qa_data' => $QA_FORM, 'qa_meta' => $QA_META, 'Proj_Prod' => $Proj_Prod, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('qa_form_view_without_backButton', [
+            'qa_data' => $QA_FORM,
+            'qa_meta' => $QA_META,
+            'Proj_Prod' => $Proj_Prod,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function qaform(Request $request)
     {
-            $loginUser = $this->roleExits($request);
-            $brand = Brand::get();
-            $department = Department::get();
-            $employee = Employee::get();
-            $project = Project::get();
-            $client = Client::get();
-            $qa_issues = QaIssues::get();
-            $qarole = 0;
-            return view('qaform', [
-                'qarole' => $qarole,
-                'brands' => $brand,
-                'departments' => $department,
-                'projects' => $project,
-                'clients' => $client,
-                'employees' => $employee,
-                'qaissues' => $qa_issues,
-                'LoginUser' => $loginUser[1],
-                'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2]
-            ]);
+        $loginUser = $this->roleExits($request);
+        $brand = Brand::get();
+        $department = Department::get();
+        $employee = Employee::get();
+        $project = Project::get();
+        $client = Client::get();
+        $qa_issues = QaIssues::get();
+        $qarole = 0;
+        return view('qaform', [
+            'qarole' => $qarole,
+            'brands' => $brand,
+            'departments' => $department,
+            'projects' => $project,
+            'clients' => $client,
+            'employees' => $employee,
+            'qaissues' => $qa_issues,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function qaform_getproduction(Request $request)
@@ -7170,15 +7410,15 @@ class BasicController extends Controller
 
             //return redirect('/forms/newqaform/' . $request->input('projectID'));
         } else {
-                $request->validate([
-                    'last_communication_with_client' => 'required',
-                    'Medium_of_communication' => 'required',
-                    'production_name' => 'required',
-                    'status' => 'required',
-                    'issues' => 'required',
-                    'Description_of_issue' => 'required',
-                    'Refund_Request_summery' => 'required'
-                ]);
+            $request->validate([
+                'last_communication_with_client' => 'required',
+                'Medium_of_communication' => 'required',
+                'production_name' => 'required',
+                'status' => 'required',
+                'issues' => 'required',
+                'Description_of_issue' => 'required',
+                'Refund_Request_summery' => 'required'
+            ]);
 
             if ($request->file('Refund_Request_Attachment') != null) {
 
@@ -7240,15 +7480,13 @@ class BasicController extends Controller
                     "evidence" =>   $evidence
                 ]);
 
-                $qaform = QAFORM::where('qaformID',$request->input('qaformID'))->count();
-                $qaform_meta = QAFORM_METAS::where('formid',$request->input('qaformID'))->count();
+                $qaform = QAFORM::where('qaformID', $request->input('qaformID'))->count();
+                $qaform_meta = QAFORM_METAS::where('formid', $request->input('qaformID'))->count();
 
-                if($qaform > 0 && $qaform_meta >0 ){
+                if ($qaform > 0 && $qaform_meta > 0) {
                     return redirect()->back()->with('Success', "ADDED !");
-
-                }else{
+                } else {
                     return redirect()->back()->with('Error', "META NOT ADDED");
-
                 }
             } else {
 
@@ -7263,21 +7501,15 @@ class BasicController extends Controller
                     "evidence" => '--'
                 ]);
 
-                $qaform = QAFORM::where('qaformID',$request->input('qaformID'))->count();
-                $qaform_meta = QAFORM_METAS::where('formid',$request->input('qaformID'))->count();
+                $qaform = QAFORM::where('qaformID', $request->input('qaformID'))->count();
+                $qaform_meta = QAFORM_METAS::where('formid', $request->input('qaformID'))->count();
 
-                if($qaform > 0 && $qaform_meta >0 ){
+                if ($qaform > 0 && $qaform_meta > 0) {
                     return redirect()->back()->with('Success', "ADDED !");
-
-                }elseif($qaform > 0 && $qaform_meta == null){
+                } elseif ($qaform > 0 && $qaform_meta == null) {
                     return redirect()->back()->with('Error', "META NOT ADDED");
-
                 }
             }
-
-
-
-
         }
     }
 
@@ -7331,7 +7563,8 @@ class BasicController extends Controller
             'allissues' => $allissues,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function edit_new_qaform_process(Request $request, $id)
@@ -7547,8 +7780,7 @@ class BasicController extends Controller
         $deleteqaform = DB::table('qaform')->where('id', $id)->delete();
 
 
-        return redirect('/client/project/qareport/'.$deleteqaform1[0]->projectID);
-
+        return redirect('/client/project/qareport/' . $deleteqaform1[0]->projectID);
     }
 
     function qaformclient(Request $request, $clientid)
@@ -7572,7 +7804,8 @@ class BasicController extends Controller
             'qafroms' => $QA,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function projectQaReport_view($id, Request $request)
@@ -7589,7 +7822,13 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
         $department = Department::get();
         $qa_issues = QaIssues::get();
-        return view('qa_issues', ['departments' => $department, "qa_issues" => $qa_issues, 'LoginUser' => $loginUser[1], 'departmentAccess' => $loginUser[0], 'superUser' => $loginUser[2]]);
+        return view('qa_issues', [
+            'departments' => $department,
+            "qa_issues" => $qa_issues,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     function qa_issues_process(Request $request)
@@ -7763,7 +8002,6 @@ class BasicController extends Controller
             $get_remarkss = "--";
             $get_expectedRefunds = "--";
             $get_issuess = "--";
-
         } else {
 
             $role = 1;
@@ -7796,62 +8034,62 @@ class BasicController extends Controller
                 ? $qaform->whereJsonContains('qaform_metas.issues', $get_issues)
                 : null;
             ($get_Production != 0 || $get_employee != 0 || $get_issues != 0)
-            ? $qaform->select('qaform.id as mainID','qaform.*','qaform_metas.*')
-            : $qaform->select('qaform.id as mainID','qaform.*');
+                ? $qaform->select('qaform.id as mainID', 'qaform.*', 'qaform_metas.*')
+                : $qaform->select('qaform.id as mainID', 'qaform.*');
 
             $result = $qaform->get();
 
 
 
-            if($get_brand != 0){
-                $getbrands = Brand::where('id',$get_brand)->get();
+            if ($get_brand != 0) {
+                $getbrands = Brand::where('id', $get_brand)->get();
                 $get_brands = $getbrands[0]->name;
-            }else{
+            } else {
                 $get_brands = "--";
             }
 
-            if($get_projectmanager != 0){
-                $getprojectmanagers = Employee::where('id',$get_projectmanager)->get();
+            if ($get_projectmanager != 0) {
+                $getprojectmanagers = Employee::where('id', $get_projectmanager)->get();
                 $get_projectmanagers = $getprojectmanagers[0]->name;
-            }else{
+            } else {
                 $get_projectmanagers = "--";
             }
 
-            if($get_client != 0){
-                $getclients = Client::where('id',$get_client)->get();
+            if ($get_client != 0) {
+                $getclients = Client::where('id', $get_client)->get();
                 $get_clients = $getclients[0]->name;
-            }else{
+            } else {
                 $get_clients = "--";
             }
 
-            if($get_Production != 0){
-                $getProductions = Department::where('id',$get_Production)->get();
+            if ($get_Production != 0) {
+                $getProductions = Department::where('id', $get_Production)->get();
                 $get_Productions = $getProductions[0]->name;
-            }else{
+            } else {
                 $get_Productions = "--";
             }
 
-            if($get_status != 0){
+            if ($get_status != 0) {
                 $get_statuss = $get_status;
-            }else{
+            } else {
                 $get_statuss = "--";
             }
 
-            if($get_remarks != 0){
+            if ($get_remarks != 0) {
                 $get_remarkss = $get_remarks;
-            }else{
+            } else {
                 $get_remarkss = "--";
             }
 
-            if($get_expectedRefund != 0){
+            if ($get_expectedRefund != 0) {
                 $get_expectedRefunds = $get_expectedRefund;
-            }else{
+            } else {
                 $get_expectedRefunds = "--";
             }
 
-            if($get_issues != 0){
+            if ($get_issues != 0) {
                 $get_issuess = $get_issues;
-            }else{
+            } else {
                 $get_issuess = "--";
             }
 
@@ -7870,21 +8108,22 @@ class BasicController extends Controller
             'brands' => $brand,
             'roles' => $role,
             'qaforms' => $result,
-            'gets_brand' =>$get_brands,
-            'gets_projectmanager' =>$get_projectmanagers,
-            'gets_client' =>$get_clients,
-            'gets_Production' =>$get_Productions,
-            'gets_status' =>$get_statuss,
-            'gets_remarks' =>$get_remarkss,
-            'gets_expectedRefund' =>$get_expectedRefunds,
-            'gets_issues' =>$get_issuess,
+            'gets_brand' => $get_brands,
+            'gets_projectmanager' => $get_projectmanagers,
+            'gets_client' => $get_clients,
+            'gets_Production' => $get_Productions,
+            'gets_status' => $get_statuss,
+            'gets_remarks' => $get_remarkss,
+            'gets_expectedRefund' => $get_expectedRefunds,
+            'gets_issues' => $get_issuess,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
     }
 
-    function newprojectreport(Request $request, $id = null){
+    function newprojectreport(Request $request, $id = null)
+    {
         $loginUser = $this->roleExits($request);
 
         //left panel:
@@ -7915,7 +8154,6 @@ class BasicController extends Controller
         if ($get_startdate == null) {
             $role = 0;
             $result = 0;
-
         } else {
 
             $role = 1;
@@ -7948,12 +8186,10 @@ class BasicController extends Controller
                 ? $qaform->whereJsonContains('qaform_metas.issues', $get_issues)
                 : null;
             ($get_Production != 0 || $get_employee != 0 || $get_issues != 0)
-            ? $qaform->select('qaform.id as mainID','qaform.*','qaform_metas.*')
-            : $qaform->select('qaform.id as mainID','qaform.*');
+                ? $qaform->select('qaform.id as mainID', 'qaform.*', 'qaform_metas.*')
+                : $qaform->select('qaform.id as mainID', 'qaform.*');
 
             $result = $qaform->get();
-
-
         }
 
         return view('new_qaReport', [
@@ -7968,10 +8204,10 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
 
-    function revenuereport(Request $request, $id = null){
+    function revenuereport(Request $request, $id = null)
+    {
         $loginUser = $this->roleExits($request);
 
         //left panel:
@@ -7981,25 +8217,25 @@ class BasicController extends Controller
         $issue = QaIssues::get();
         $brand = Brand::get();
 
-         //BASE;
-         $get_startdate = $request->input('startdate');
-         $get_enddate = $request->input('enddate');
-         //OPTIONAL;
-         $get_type = $request->input('type');
-         $get_brand = $request->input('brand');
-         $get_projectmanager = $request->input('projectmanager');
-         $get_client = $request->input('client');
-         if($request->input('status') == 'Dispute'){
+        //BASE;
+        $get_startdate = $request->input('startdate');
+        $get_enddate = $request->input('enddate');
+        //OPTIONAL;
+        $get_type = $request->input('type');
+        $get_brand = $request->input('brand');
+        $get_projectmanager = $request->input('projectmanager');
+        $get_client = $request->input('client');
+        if ($request->input('status') == 'Dispute') {
             $get_dispute = $request->input('status');
             $get_status = 0;
-         }else{
+        } else {
             $get_status = $request->input('status');
             $get_dispute = 0;
-         }
-         $get_chargingMode = $request->input('chargingMode');
-         $get_paymentNature = $request->input('paymentNature');
+        }
+        $get_chargingMode = $request->input('chargingMode');
+        $get_paymentNature = $request->input('paymentNature');
 
-         if ($get_startdate == null) {
+        if ($get_startdate == null) {
             $role = 0;
             $result = 0;
             $get_types = "--";
@@ -8009,12 +8245,11 @@ class BasicController extends Controller
             $get_statuss = "--";
             $get_chargingModes = "--";
             $get_paymentNatures = "--";
-
         } else {
 
             $role = 1;
-            if($get_type == "Received"){
-                $payment = NewPaymentsClients::whereBetween('created_at', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments');
+            if ($get_type == "Received") {
+                $payment = NewPaymentsClients::whereBetween('created_at', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 ($get_brand != 0)
                     ? $payment->where('BrandID', $get_brand)
                     : null;
@@ -8038,10 +8273,9 @@ class BasicController extends Controller
                     : null;
 
                 $result = $payment->get();
+            } elseif ($get_type == "Upcoming") {
 
-            }elseif($get_type == "Upcoming"){
-
-                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('paymentDate',null);
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('paymentDate', null);
                 ($get_brand != 0)
                     ? $payment->where('brandID', $get_brand)
                     : null;
@@ -8065,8 +8299,7 @@ class BasicController extends Controller
                     : null;
 
                 $result = $payment->get();
-
-            }elseif($get_type == "Missed"){
+            } elseif ($get_type == "Missed") {
 
                 $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('futureDate', '<', $get_enddate)->where('paymentDate', null);
                 ($get_brand != 0)
@@ -8092,58 +8325,57 @@ class BasicController extends Controller
                     : null;
 
                 $result = $payment->get();
-
-            }else{
+            } else {
                 $result = 0;
             }
 
 
-            if($get_type != 0){
+            if ($get_type != 0) {
                 $get_types = $get_type;
-            }else{
+            } else {
                 $get_types = "--";
             }
 
-            if($get_brand != 0){
-                $getbrands = Brand::where('id',$get_brand)->get();
+            if ($get_brand != 0) {
+                $getbrands = Brand::where('id', $get_brand)->get();
                 $get_brands = $getbrands[0]->name;
-            }else{
+            } else {
                 $get_brands = "--";
             }
 
-            if($get_chargingMode != 0){
+            if ($get_chargingMode != 0) {
                 $get_chargingModes = $get_chargingMode;
-            }else{
+            } else {
                 $get_chargingModes = "--";
             }
 
-            if($get_paymentNature != 0){
+            if ($get_paymentNature != 0) {
                 $get_paymentNatures = $get_paymentNature;
-            }else{
+            } else {
                 $get_paymentNatures = "--";
             }
 
-            if($get_projectmanager != 0){
-                $getprojectmanagers = Employee::where('id',$get_projectmanager)->get();
+            if ($get_projectmanager != 0) {
+                $getprojectmanagers = Employee::where('id', $get_projectmanager)->get();
                 $get_projectmanagers = $getprojectmanagers[0]->name;
-            }else{
+            } else {
                 $get_projectmanagers = "--";
             }
 
-            if($get_client != 0){
-                $getclients = Client::where('id',$get_client)->get();
+            if ($get_client != 0) {
+                $getclients = Client::where('id', $get_client)->get();
                 $get_clients = $getclients[0]->name;
-            }else{
+            } else {
                 $get_clients = "--";
             }
 
-            if($get_status != 0 || $get_dispute != 0){
-                if($get_status != 0){
+            if ($get_status != 0 || $get_dispute != 0) {
+                if ($get_status != 0) {
                     $get_statuss = $get_status;
-                }else{
+                } else {
                     $get_statuss = "Dispute";
                 }
-            }else{
+            } else {
                 $get_statuss = "--";
             }
 
@@ -8164,19 +8396,19 @@ class BasicController extends Controller
             'get_paymentNatures' => $get_paymentNatures,
             'roles' => $role,
             'qaforms' => $result,
-            'get_types' =>$get_types,
-            'gets_brand' =>$get_brands,
-            'gets_projectmanager' =>$get_projectmanagers,
-            'gets_client' =>$get_clients,
-            'gets_status' =>$get_statuss,
+            'get_types' => $get_types,
+            'gets_brand' => $get_brands,
+            'gets_projectmanager' => $get_projectmanagers,
+            'gets_client' => $get_clients,
+            'gets_status' => $get_statuss,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
 
-    function new_revenuereport(Request $request, $id = null){
+    function new_revenuereport(Request $request, $id = null)
+    {
 
         $loginUser = $this->roleExits($request);
 
@@ -8187,35 +8419,35 @@ class BasicController extends Controller
         $issue = QaIssues::get();
         $brand = Brand::get();
 
-         //BASE;
-         $get_startdate = $request->input('startdate');
-         $get_enddate = $request->input('enddate');
-         //OPTIONAL;
-         $get_type = $request->input('type');
-         $get_brand = $request->input('brand');
-         $get_projectmanager = $request->input('projectmanager');
-         $get_client = $request->input('client');
-         if($request->input('status') == 'Dispute'){
+        //BASE;
+        $get_startdate = $request->input('startdate');
+        $get_enddate = $request->input('enddate');
+        //OPTIONAL;
+        $get_type = $request->input('type');
+        $get_brand = $request->input('brand');
+        $get_projectmanager = $request->input('projectmanager');
+        $get_client = $request->input('client');
+        if ($request->input('status') == 'Dispute') {
             $get_dispute = $request->input('status');
             $get_status = 0;
-         }else{
+        } else {
             $get_status = $request->input('status');
             $get_dispute = 0;
-         }
-         $get_chargingMode = $request->input('chargingMode');
-         $get_paymentNature = $request->input('paymentNature');
+        }
+        $get_chargingMode = $request->input('chargingMode');
+        $get_paymentNature = $request->input('paymentNature');
 
-         if ($get_startdate == null) {
+        if ($get_startdate == null) {
             $role = 0;
             $result = 0;
             $newtotalamt = 0;
             $newtotalamtpaid = 0;
-         }else{
+        } else {
 
 
             $role = 1;
-            if($get_type == "Received"){
-                $payment = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments');
+            if ($get_type == "Received") {
+                $payment = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 ($get_brand != 0)
                     ? $payment->where('BrandID', $get_brand)
                     : null;
@@ -8243,7 +8475,7 @@ class BasicController extends Controller
                 // $totalamt = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('paymentNature','!=','Remaining')->sum('TotalAmount');
                 // $totalpaid = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->sum('Paid');
 
-                $amt = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments')->where('paymentNature','!=','Remaining');
+                $amt = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments')->where('paymentNature', '!=', 'Remaining');
                 ($get_brand != 0)
                     ? $amt->where('BrandID', $get_brand)
                     : null;
@@ -8268,7 +8500,7 @@ class BasicController extends Controller
 
                 $newtotalamt = $amt->sum('TotalAmount');
 
-                $amtpaid = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments');
+                $amtpaid = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 ($get_brand != 0)
                     ? $amtpaid->where('BrandID', $get_brand)
                     : null;
@@ -8292,8 +8524,7 @@ class BasicController extends Controller
                     : null;
 
                 $newtotalamtpaid = $amtpaid->sum('Paid');
-
-            }elseif($get_type == "Upcoming"){
+            } elseif ($get_type == "Upcoming") {
 
                 $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate]);
                 ($get_brand != 0)
@@ -8323,7 +8554,7 @@ class BasicController extends Controller
                 // $totalamt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('paymentNature','!=','Remaining')->sum('TotalAmount');
                 // $totalpaid = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->sum('Paid');
 
-                $amt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments')->where('paymentNature','!=','Remaining');
+                $amt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments')->where('paymentNature', '!=', 'Remaining');
                 ($get_brand != 0)
                     ? $amt->where('BrandID', $get_brand)
                     : null;
@@ -8348,7 +8579,7 @@ class BasicController extends Controller
 
                 $newtotalamt = $amt->sum('TotalAmount');
 
-                $amtpaid = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments');
+                $amtpaid = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 ($get_brand != 0)
                     ? $amtpaid->where('BrandID', $get_brand)
                     : null;
@@ -8372,8 +8603,7 @@ class BasicController extends Controller
                     : null;
 
                 $newtotalamtpaid = $amtpaid->sum('Paid');
-
-            }elseif($get_type == "Missed"){
+            } elseif ($get_type == "Missed") {
 
                 $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('futureDate', '<', $get_enddate)->where('paymentDate', null);
                 ($get_brand != 0)
@@ -8403,7 +8633,7 @@ class BasicController extends Controller
                 // $totalamt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('futureDate', '<', $get_enddate)->where('paymentDate', null)->where('paymentNature','!=','Remaining')->sum('TotalAmount');
                 // $totalpaid = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('futureDate', '<', $get_enddate)->where('paymentDate', null)->sum('Paid');
 
-                $amt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments')->where('paymentNature','!=','Remaining');
+                $amt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments')->where('paymentNature', '!=', 'Remaining');
                 ($get_brand != 0)
                     ? $amt->where('BrandID', $get_brand)
                     : null;
@@ -8428,7 +8658,7 @@ class BasicController extends Controller
 
                 $newtotalamt = $amt->sum('TotalAmount');
 
-                $amtpaid = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus','!=','Pending Payment')->where('remainingStatus','!=','Unlinked Payments');
+                $amtpaid = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 ($get_brand != 0)
                     ? $amtpaid->where('BrandID', $get_brand)
                     : null;
@@ -8452,8 +8682,7 @@ class BasicController extends Controller
                     : null;
 
                 $newtotalamtpaid = $amtpaid->sum('Paid');
-
-            }else{
+            } else {
                 $result = 0;
                 $newtotalamt = 0;
                 $newtotalamtpaid = 0;
@@ -8474,25 +8703,24 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
 
     function clientReport(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        $client = Client::where('id',$id)->get();
-        $project = Project::where('clientID',$id)->get();
+        $client = Client::where('id', $id)->get();
+        $project = Project::where('clientID', $id)->get();
         $projectcount = count($project);
-        $qaform = QAFORM::where('clientID',$id)->get();
+        $qaform = QAFORM::where('clientID', $id)->get();
         $qaformcount = count($qaform);
-        $qaformlast = QAFORM::where('clientID',$id)->whereMonth('created_at', now())->latest('created_at')->get();
-        $clientpayments = NewPaymentsClients::where('ClientID',$id)->get();
+        $qaformlast = QAFORM::where('clientID', $id)->whereMonth('created_at', now())->latest('created_at')->get();
+        $clientpayments = NewPaymentsClients::where('ClientID', $id)->get();
         $clientpaymentscount = count($clientpayments);
 
-        return view('clientReport',[
-            'clients'=> $client,
-            'projects'=> $project,
-            'qaforms'=> $qaform,
+        return view('clientReport', [
+            'clients' => $client,
+            'projects' => $project,
+            'qaforms' => $qaform,
             'qaformlasts' => $qaformlast,
             'qaformcount' => $qaformcount,
             'projectcount' => $projectcount,
@@ -8502,15 +8730,15 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
 
-    public function fetchRecord(Request $request){
+    public function fetchRecord(Request $request)
+    {
         $stripe = new \Stripe\StripeClient(
             env('STRIPE_SECRET')
         );
         $chargeID = $request['ID'];
-        try{
+        try {
             $details = $stripe->charges->retrieve($chargeID, []);
             $return_array = [
                 "status" => 200,
@@ -8519,8 +8747,7 @@ class BasicController extends Controller
             http_response_code(200);
             $return_str = json_encode($return_array);
             return $return_str;
-        }
-        catch(\Stripe\Exception\ApiErrorException $e) {
+        } catch (\Stripe\Exception\ApiErrorException $e) {
             $return_array = [
                 "status" => $e->getHttpStatus(),
                 "type" => $e->getError()->type,
@@ -8532,11 +8759,10 @@ class BasicController extends Controller
             http_response_code($e->getHttpStatus());
             return $return_str;
         }
-
-
     }
 
-    function new_payments(Request $request){
+    function new_payments(Request $request)
+    {
 
         $loginUser = $this->roleExits($request);
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
@@ -8571,19 +8797,18 @@ class BasicController extends Controller
 
         // print_r($unlinkedpayments);
 
-        return view('newpayments_formStripe',[
-            'allprojects'=> $allprojects,
-            'details'=> $unlinkedpayments,
-            'allpayments'=> $unlinkedpayments,
+        return view('newpayments_formStripe', [
+            'allprojects' => $allprojects,
+            'details' => $unlinkedpayments,
+            'allpayments' => $unlinkedpayments,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
-
     }
 
-    function new_payments_process(Request $request){
+    function new_payments_process(Request $request)
+    {
         $loginUser = $this->roleExits($request);
         $transactionID = $request->input('transactionID');
 
@@ -8609,13 +8834,14 @@ class BasicController extends Controller
             'details' => $details,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]]);
+            'superUser' => $loginUser[2]
+        ]);
     }
 
     public function fetchprojects(Request $request)
     {
         $data['projects'] = Project::where("clientID", $request->country_id)
-                                ->get(["name", "id"]);
+            ->get(["name", "id"]);
 
         return response()->json($data);
     }
@@ -8623,7 +8849,7 @@ class BasicController extends Controller
     public function fetchprojectdata(Request $request)
     {
         $data['projectdata'] = Project::where("id", $request->state_id)
-                                    ->get();
+            ->get();
         $projectmanagername = $data['projectdata'][0]->EmployeeName->name;
         $projectmanagerid = $data['projectdata'][0]->EmployeeName->id;
         $clientname = $data['projectdata'][0]->ClientName->frontsale->name;
@@ -8639,9 +8865,10 @@ class BasicController extends Controller
         return response()->json($return_array);
     }
 
-    public function ajax_username(Request $request){
+    public function ajax_username(Request $request)
+    {
         $data['projectdata'] = Employee::where("id", $request->state_id)
-                                    ->get();
+            ->get();
         $projectmanagername = $data['projectdata'][0]->name;
 
         $return_array = [
@@ -8649,15 +8876,15 @@ class BasicController extends Controller
         ];
 
         return response()->json($return_array);
-
     }
 
-    function csv_stripepayments(Request $request){
+    function csv_stripepayments(Request $request)
+    {
         $loginUser = $this->roleExits($request);
-        return view('paymentUpload',[
+        return view('paymentUpload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-             'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2]
         ]);
     }
 
@@ -8676,231 +8903,112 @@ class BasicController extends Controller
                 for ($i = 0; $i < $keycount; $i++) {
                     $newarray[$headings[$i]] = $extractData[$j][$i];
                 }
-                $checktransactionID = NewPaymentsClients::where('TransactionID',$newarray['id'])->count();
-                if($checktransactionID == 0){
-                        $sql_date = date("Y-m-d", strtotime($newarray['Created date (UTC)']));
-                        $sql_date_dispute = date("Y-m-d", strtotime($newarray['Dispute Date (UTC)']));
-                        if($newarray['Status'] == 'Paid'){
-                            if( $newarray['Dispute Status'] == null ){
-                                $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',($newarray['Customer Email']))->get();
-                                if ($matchclientmeta->isNotEmpty()){
-                                    $findclient = Client::where('email',$matchclientmeta[0]->clientID)->get();
-                                    $count = count($findclient);
-                                    if( $count == 1){
-                                        $createClientPayment = NewPaymentsClients::create([
-                                            "BrandID" => $findclient[0]->brand,
-                                            "ClientID"=> $findclient[0]->id,
-                                            "ProjectID"=> 0,
-                                            "ProjectManager"=> 0,
-                                            "paymentNature"=> "--",
-                                            "ChargingPlan"=> "--",
-                                            "ChargingMode"=> "--",
-                                            "Platform"=> "--",
-                                            "Card_Brand"=> $newarray['Card Brand'],
-                                            "Payment_Gateway"=> "Stripe",
-                                            "bankWireUpload" =>  "--",
-                                            "TransactionID"=>$newarray['id'],
-                                            "paymentDate"=>$sql_date,
-                                            "SalesPerson"=> 0,
-                                            "TotalAmount"=> 0,
-                                            "Paid"=> $newarray['Converted Amount'],
-                                            "RemainingAmount" =>0,
-                                            "PaymentType"=> "--",
-                                            "numberOfSplits" => "--",
-                                            "SplitProjectManager" => json_encode("--"),
-                                            "ShareAmount" => json_encode("--"),
-                                            "Description"=> $newarray['Description'],
-                                            'created_at' => date('y-m-d H:m:s'),
-                                            'updated_at' => date('y-m-d H:m:s'),
-                                            "refundStatus"=> 'On Going',
-                                            "remainingStatus"=> "Unlinked Payments",
-                                            "transactionType" => "--",
-                                            "transactionfee" =>  $newarray['Fee'],
-                                            "amt_after_transactionfee" => $newarray['Converted Amount'] - $newarray['Fee'],
-                                        ]);
-                                    }else{
-                                        $checkinUnmatched = UnmatchedPayments::where('TransactionID',$newarray['id'])->count();
-                                        if($checkinUnmatched > 0){
-                                            continue;
-                                        }else{
-                                            // $stripepaymentsall[]=[$sepratedtoarray];
-                                            $createClientUnmatchedPayment = UnmatchedPayments::create([
-                                                "TransactionID" => $newarray['id'],
-                                                "Clientemail"=> $newarray['Customer Email'],
-                                                "paymentDate"=> $sql_date,
-                                                "Paid"=> $newarray['Converted Amount'],
-                                                "Description"=> $newarray['Description'],
-                                                "cardBrand"=> $newarray['Card Brand'],
-                                                "stripePaymentstatus"=> $newarray['Status'],
-                                                "fee" =>  $newarray['Fee'],
-                                                'created_at' => date('y-m-d H:m:s'),
-                                                'updated_at' => date('y-m-d H:m:s'),
-
-                                            ]);
-
-                                        }
-                                    }
-
-                                }else{
-                                    // continue;
+                $checktransactionID = NewPaymentsClients::where('TransactionID', $newarray['id'])->count();
+                if ($checktransactionID == 0) {
+                    $sql_date = date("Y-m-d", strtotime($newarray['Created date (UTC)']));
+                    $sql_date_dispute = date("Y-m-d", strtotime($newarray['Dispute Date (UTC)']));
+                    if ($newarray['Status'] == 'Paid') {
+                        if ($newarray['Dispute Status'] == null) {
+                            $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($newarray['Customer Email']))->get();
+                            if ($matchclientmeta->isNotEmpty()) {
+                                $findclient = Client::where('id', $matchclientmeta[0]->clientID)->get();
+                                $count = count($findclient);
+                                if ($count == 1) {
+                                    $createClientPayment = NewPaymentsClients::create([
+                                        "BrandID" => $findclient[0]->brand,
+                                        "ClientID" => $findclient[0]->id,
+                                        "ProjectID" => 0,
+                                        "ProjectManager" => 0,
+                                        "paymentNature" => "--",
+                                        "ChargingPlan" => "--",
+                                        "ChargingMode" => "--",
+                                        "Platform" => "--",
+                                        "Card_Brand" => $newarray['Card Brand'],
+                                        "Payment_Gateway" => "Stripe",
+                                        "bankWireUpload" =>  "--",
+                                        "TransactionID" => $newarray['id'],
+                                        "paymentDate" => $sql_date,
+                                        "SalesPerson" => 0,
+                                        "TotalAmount" => 0,
+                                        "Paid" => $newarray['Converted Amount'],
+                                        "RemainingAmount" => 0,
+                                        "PaymentType" => "--",
+                                        "numberOfSplits" => "--",
+                                        "SplitProjectManager" => json_encode("--"),
+                                        "ShareAmount" => json_encode("--"),
+                                        "Description" => $newarray['Description'],
+                                        'created_at' => date('y-m-d H:m:s'),
+                                        'updated_at' => date('y-m-d H:m:s'),
+                                        "refundStatus" => 'On Going',
+                                        "remainingStatus" => "Unlinked Payments",
+                                        "transactionType" => "--",
+                                        "transactionfee" =>  $newarray['Fee'],
+                                        "amt_after_transactionfee" => $newarray['Converted Amount'] - $newarray['Fee'],
+                                    ]);
+                                } else {
                                     $checkinUnmatched = UnmatchedPayments::where('TransactionID', $newarray['id'])->count();
-                                    if($checkinUnmatched > 0){
+                                    if ($checkinUnmatched > 0) {
                                         continue;
-                                    }else{
+                                    } else {
                                         // $stripepaymentsall[]=[$sepratedtoarray];
                                         $createClientUnmatchedPayment = UnmatchedPayments::create([
                                             "TransactionID" => $newarray['id'],
-                                            "Clientemail"=> $newarray['Customer Email'],
-                                            "paymentDate"=> $sql_date,
-                                            "Paid"=> $newarray['Converted Amount'],
-                                            "Description"=> $newarray['Description'],
-                                            "cardBrand"=> $newarray['Card Brand'],
-                                            "stripePaymentstatus"=> $newarray['Status'],
+                                            "Clientemail" => $newarray['Customer Email'],
+                                            "paymentDate" => $sql_date,
+                                            "Paid" => $newarray['Converted Amount'],
+                                            "Description" => $newarray['Description'],
+                                            "cardBrand" => $newarray['Card Brand'],
+                                            "stripePaymentstatus" => $newarray['Status'],
                                             "fee" =>  $newarray['Fee'],
                                             'created_at' => date('y-m-d H:m:s'),
                                             'updated_at' => date('y-m-d H:m:s'),
+
                                         ]);
-
                                     }
                                 }
-
-                            }else{
-                                $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',($newarray['Customer Email']))->get();
-                                if ($matchclientmeta->isNotEmpty()){
-                                    $findclient = Client::where('email',$matchclientmeta[0]->clientID)->get();
-                                    $count = count($findclient);
-                                    if( $count == 1){
-
-                                        $checkstatus = NewPaymentsClients::where('TransactionID',$newarray['id'])->get();
-                                        $checkcount = count($checkstatus);
-                                        if($checkcount == 1){
-                                            if($checkstatus[0]->dispute == null){
-                                                continue;
-                                            }else{
-                                                $createClientPayment = NewPaymentsClients::where('TransactionID',$newarray['id'])->update([
-                                                    "dispute" => "dispute"
-                                                ]);
-                                                $disputePayment = NewPaymentsClients::where('TransactionID',$newarray['id'])->get();
-
-                                                $payment_in_dispute_table = Disputedpayments::create([
-                                                    "BrandID" => $disputePayment[0]->BrandID,
-                                                    "ClientID" => $disputePayment[0]->ClientID,
-                                                    "ProjectID"=> $disputePayment[0]->ProjectID,
-                                                    "ProjectManager" => $disputePayment[0]->ProjectManager,
-                                                    "PaymentID" => $disputePayment[0]->id,
-                                                    "dispute_Date" =>  $sql_date_dispute,
-                                                    "disputedAmount" =>  $newarray['Disputed Amount'],
-                                                    "disputeReason" => $newarray['Dispute Reason'],
-                                                ]);
-                                            }
-
-                                        }else{
-                                            continue;
-                                        }
-
-                                    }
-
-                                }else{
+                            } else {
+                                // continue;
+                                $checkinUnmatched = UnmatchedPayments::where('TransactionID', $newarray['id'])->count();
+                                if ($checkinUnmatched > 0) {
                                     continue;
-                                }
-
-                            }
-
-                        }elseif($newarray['Status'] == 'Refunded'){
-                            $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',($newarray['Customer Email']))->get();
-                            if ($matchclientmeta->isNotEmpty()){
-                                $findclient = Client::where('email',$matchclientmeta[0]->clientID)->get();
-                            $count = count($findclient);
-                            if( $count == 1){
-                                $createClientPayment = NewPaymentsClients::create([
-                                    "BrandID" => $findclient[0]->brand,
-                                    "ClientID"=> $findclient[0]->id,
-                                    "ProjectID"=> 0,
-                                    "ProjectManager"=> 0,
-                                    "paymentNature"=> "--",
-                                    "ChargingPlan"=> "--",
-                                    "ChargingMode"=> "--",
-                                    "Platform"=> "--",
-                                    "Card_Brand"=> $newarray['Card Brand'],
-                                    "Payment_Gateway"=> "Stripe",
-                                    "bankWireUpload" =>  "--",
-                                    "TransactionID"=>$newarray['id'],
-                                    "paymentDate"=>$sql_date,
-                                    "SalesPerson"=> 0,
-                                    "TotalAmount"=> 0,
-                                    "Paid"=> $newarray['Converted Amount'],
-                                    "RemainingAmount" =>0,
-                                    "PaymentType"=> "--",
-                                    "numberOfSplits" => "--",
-                                    "SplitProjectManager" => json_encode("--"),
-                                    "ShareAmount" => json_encode("--"),
-                                    "Description"=> $newarray['Description'],
-                                    'created_at' => date('y-m-d H:m:s'),
-                                    'updated_at' => date('y-m-d H:m:s'),
-                                    "refundStatus"=> 'Refund',
-                                    "remainingStatus"=> "Unlinked Payments",
-                                    "transactionType" => "--",
-                                    "transactionfee"=> 0,
-                                    "amt_after_transactionfee" => $newarray['Converted Amount']
-
-                                ]);
-                            }else{
-                                $checkinUnmatched = UnmatchedPayments::where('TransactionID',$newarray['id'])->count();
-                                if($checkinUnmatched > 0){
-                                    continue;
-                                }else{
+                                } else {
                                     // $stripepaymentsall[]=[$sepratedtoarray];
                                     $createClientUnmatchedPayment = UnmatchedPayments::create([
                                         "TransactionID" => $newarray['id'],
-                                        "Clientemail"=> $newarray['Customer Email'],
-                                        "paymentDate"=> $sql_date,
-                                        "Paid"=> $newarray['Converted Amount'],
-                                        "Description"=> $newarray['Description'],
-                                        "cardBrand"=> $newarray['Card Brand'],
-                                        "stripePaymentstatus"=> $newarray['Status'],
+                                        "Clientemail" => $newarray['Customer Email'],
+                                        "paymentDate" => $sql_date,
+                                        "Paid" => $newarray['Converted Amount'],
+                                        "Description" => $newarray['Description'],
+                                        "cardBrand" => $newarray['Card Brand'],
+                                        "stripePaymentstatus" => $newarray['Status'],
                                         "fee" =>  $newarray['Fee'],
                                         'created_at' => date('y-m-d H:m:s'),
                                         'updated_at' => date('y-m-d H:m:s'),
-
                                     ]);
-
                                 }
                             }
-
-                            }else{
-                                continue;
-                            }
-
-                        }elseif($newarray['Status'] == 'Failed'){
-                            continue;
-                        }
-
-
-
-                }else{
-                        $sql_date = date("Y-m-d", strtotime($newarray['Created date (UTC)']));
-                        $sql_date_dispute = date("Y-m-d", strtotime($newarray['Dispute Date (UTC)']));
-                        if(isset($newarray['Dispute Status']) && $newarray['Dispute Status'] != null){
-                            $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',$newarray['Customer Email'])->get();
-                            if ($matchclientmeta->isNotEmpty()){
-                                $findclient = Client::where('id',$matchclientmeta[0]->clientID)->get();
+                        } else {
+                            $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($newarray['Customer Email']))->get();
+                            if ($matchclientmeta->isNotEmpty()) {
+                                $findclient = Client::where('email', $matchclientmeta[0]->clientID)->get();
                                 $count = count($findclient);
-                                if( $count != 0){
-                                    $checkstatus = NewPaymentsClients::where('TransactionID',$newarray['id'])->get();
+                                if ($count == 1) {
+
+                                    $checkstatus = NewPaymentsClients::where('TransactionID', $newarray['id'])->get();
                                     $checkcount = count($checkstatus);
-                                    if($checkcount != 0){
-                                        if(isset($checkstatus[0]->dispute) && $checkstatus[0]->dispute != null){
+                                    if ($checkcount == 1) {
+                                        if ($checkstatus[0]->dispute == null) {
                                             continue;
-                                        }else{
-                                            $createClientPayment = NewPaymentsClients::where('TransactionID',$newarray['id'])->update([
+                                        } else {
+                                            $createClientPayment = NewPaymentsClients::where('TransactionID', $newarray['id'])->update([
                                                 "dispute" => "dispute"
                                             ]);
-                                            $disputePayment = NewPaymentsClients::where('TransactionID',$newarray['id'])->get();
+                                            $disputePayment = NewPaymentsClients::where('TransactionID', $newarray['id'])->get();
 
                                             $payment_in_dispute_table = Disputedpayments::create([
                                                 "BrandID" => $disputePayment[0]->BrandID,
                                                 "ClientID" => $disputePayment[0]->ClientID,
-                                                "ProjectID"=> $disputePayment[0]->ProjectID,
+                                                "ProjectID" => $disputePayment[0]->ProjectID,
                                                 "ProjectManager" => $disputePayment[0]->ProjectManager,
                                                 "PaymentID" => $disputePayment[0]->id,
                                                 "dispute_Date" =>  $sql_date_dispute,
@@ -8908,109 +9016,204 @@ class BasicController extends Controller
                                                 "disputeReason" => $newarray['Dispute Reason'],
                                             ]);
                                         }
-
-                                    }else{
+                                    } else {
                                         continue;
                                     }
-
-                                }else{
-                                    continue;
                                 }
-
-                            }else{
-
+                            } else {
+                                continue;
                             }
+                        }
+                    } elseif ($newarray['Status'] == 'Refunded') {
+                        $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($newarray['Customer Email']))->get();
+                        if ($matchclientmeta->isNotEmpty()) {
+                            $findclient = Client::where('email', $matchclientmeta[0]->clientID)->get();
+                            $count = count($findclient);
+                            if ($count == 1) {
+                                $createClientPayment = NewPaymentsClients::create([
+                                    "BrandID" => $findclient[0]->brand,
+                                    "ClientID" => $findclient[0]->id,
+                                    "ProjectID" => 0,
+                                    "ProjectManager" => 0,
+                                    "paymentNature" => "--",
+                                    "ChargingPlan" => "--",
+                                    "ChargingMode" => "--",
+                                    "Platform" => "--",
+                                    "Card_Brand" => $newarray['Card Brand'],
+                                    "Payment_Gateway" => "Stripe",
+                                    "bankWireUpload" =>  "--",
+                                    "TransactionID" => $newarray['id'],
+                                    "paymentDate" => $sql_date,
+                                    "SalesPerson" => 0,
+                                    "TotalAmount" => 0,
+                                    "Paid" => $newarray['Converted Amount'],
+                                    "RemainingAmount" => 0,
+                                    "PaymentType" => "--",
+                                    "numberOfSplits" => "--",
+                                    "SplitProjectManager" => json_encode("--"),
+                                    "ShareAmount" => json_encode("--"),
+                                    "Description" => $newarray['Description'],
+                                    'created_at' => date('y-m-d H:m:s'),
+                                    'updated_at' => date('y-m-d H:m:s'),
+                                    "refundStatus" => 'Refund',
+                                    "remainingStatus" => "Unlinked Payments",
+                                    "transactionType" => "--",
+                                    "transactionfee" => 0,
+                                    "amt_after_transactionfee" => $newarray['Converted Amount']
 
+                                ]);
+                            } else {
+                                $checkinUnmatched = UnmatchedPayments::where('TransactionID', $newarray['id'])->count();
+                                if ($checkinUnmatched > 0) {
+                                    continue;
+                                } else {
+                                    // $stripepaymentsall[]=[$sepratedtoarray];
+                                    $createClientUnmatchedPayment = UnmatchedPayments::create([
+                                        "TransactionID" => $newarray['id'],
+                                        "Clientemail" => $newarray['Customer Email'],
+                                        "paymentDate" => $sql_date,
+                                        "Paid" => $newarray['Converted Amount'],
+                                        "Description" => $newarray['Description'],
+                                        "cardBrand" => $newarray['Card Brand'],
+                                        "stripePaymentstatus" => $newarray['Status'],
+                                        "fee" =>  $newarray['Fee'],
+                                        'created_at' => date('y-m-d H:m:s'),
+                                        'updated_at' => date('y-m-d H:m:s'),
 
-                        }else{
+                                    ]);
+                                }
+                            }
+                        } else {
                             continue;
                         }
+                    } elseif ($newarray['Status'] == 'Failed') {
+                        continue;
+                    }
+                } else {
+                    $sql_date = date("Y-m-d", strtotime($newarray['Created date (UTC)']));
+                    $sql_date_dispute = date("Y-m-d", strtotime($newarray['Dispute Date (UTC)']));
+                    if (isset($newarray['Dispute Status']) && $newarray['Dispute Status'] != null) {
+                        $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', $newarray['Customer Email'])->get();
+                        if ($matchclientmeta->isNotEmpty()) {
+                            $findclient = Client::where('id', $matchclientmeta[0]->clientID)->get();
+                            $count = count($findclient);
+                            if ($count != 0) {
+                                $checkstatus = NewPaymentsClients::where('TransactionID', $newarray['id'])->get();
+                                $checkcount = count($checkstatus);
+                                if ($checkcount != 0) {
+                                    if (isset($checkstatus[0]->dispute) && $checkstatus[0]->dispute != null) {
+                                        continue;
+                                    } else {
+                                        $createClientPayment = NewPaymentsClients::where('TransactionID', $newarray['id'])->update([
+                                            "dispute" => "dispute"
+                                        ]);
+                                        $disputePayment = NewPaymentsClients::where('TransactionID', $newarray['id'])->get();
+
+                                        $payment_in_dispute_table = Disputedpayments::create([
+                                            "BrandID" => $disputePayment[0]->BrandID,
+                                            "ClientID" => $disputePayment[0]->ClientID,
+                                            "ProjectID" => $disputePayment[0]->ProjectID,
+                                            "ProjectManager" => $disputePayment[0]->ProjectManager,
+                                            "PaymentID" => $disputePayment[0]->id,
+                                            "dispute_Date" =>  $sql_date_dispute,
+                                            "disputedAmount" =>  $newarray['Disputed Amount'],
+                                            "disputeReason" => $newarray['Dispute Reason'],
+                                        ]);
+                                    }
+                                } else {
+                                    continue;
+                                }
+                            } else {
+                                continue;
+                            }
+                        } else {
+                        }
+                    } else {
+                        continue;
+                    }
                 }
             }
-
         }
 
 
         $getUnmatched = UnmatchedPayments::get();
-        foreach($getUnmatched as $getUnmatcheds){
-                $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',($getUnmatcheds->Clientemail))->get();
-                $count = count($matchclientmeta);
-                if($count > 0){
-                    $matchclient = Client::where('id',($matchclientmeta[0]->clientID))->get();
-                    if($getUnmatcheds->stripePaymentstatus == "Refunded"){
-                        $createClientPayment = NewPaymentsClients::create([
-                            "BrandID" => $matchclient[0]->brand,
-                            "ClientID"=> $matchclient[0]->id,
-                            "ProjectID"=> 0,
-                            "ProjectManager"=> 0,
-                            "paymentNature"=> "--",
-                            "ChargingPlan"=> "--",
-                            "ChargingMode"=> "--",
-                            "Platform"=> "--",
-                            "Card_Brand"=> $getUnmatcheds->cardBrand,
-                            "Payment_Gateway"=> "Stripe",
-                            "bankWireUpload" =>  "--",
-                            "TransactionID"=> $getUnmatcheds->TransactionID,
-                            "paymentDate"=> $getUnmatcheds->paymentDate,
-                            "SalesPerson"=> 0,
-                            "TotalAmount"=> 0,
-                            "Paid"=> $getUnmatcheds->Paid,
-                            "RemainingAmount" =>0,
-                            "PaymentType"=> "--",
-                            "numberOfSplits" => "--",
-                            "SplitProjectManager" => json_encode("--"),
-                            "ShareAmount" => json_encode("--"),
-                            "Description"=> $getUnmatcheds->Description,
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'Refunded',
-                            "remainingStatus"=> "Unlinked Payments",
-                            "transactionType" => "--",
-                            "transactionfee"=> 0,
-                            "amt_after_transactionfee" => $getUnmatcheds->Paid,
+        foreach ($getUnmatched as $getUnmatcheds) {
+            $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($getUnmatcheds->Clientemail))->get();
+            $count = count($matchclientmeta);
+            if ($count > 0) {
+                $matchclient = Client::where('id', ($matchclientmeta[0]->clientID))->get();
+                if ($getUnmatcheds->stripePaymentstatus == "Refunded") {
+                    $createClientPayment = NewPaymentsClients::create([
+                        "BrandID" => $matchclient[0]->brand,
+                        "ClientID" => $matchclient[0]->id,
+                        "ProjectID" => 0,
+                        "ProjectManager" => 0,
+                        "paymentNature" => "--",
+                        "ChargingPlan" => "--",
+                        "ChargingMode" => "--",
+                        "Platform" => "--",
+                        "Card_Brand" => $getUnmatcheds->cardBrand,
+                        "Payment_Gateway" => "Stripe",
+                        "bankWireUpload" =>  "--",
+                        "TransactionID" => $getUnmatcheds->TransactionID,
+                        "paymentDate" => $getUnmatcheds->paymentDate,
+                        "SalesPerson" => 0,
+                        "TotalAmount" => 0,
+                        "Paid" => $getUnmatcheds->Paid,
+                        "RemainingAmount" => 0,
+                        "PaymentType" => "--",
+                        "numberOfSplits" => "--",
+                        "SplitProjectManager" => json_encode("--"),
+                        "ShareAmount" => json_encode("--"),
+                        "Description" => $getUnmatcheds->Description,
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'Refunded',
+                        "remainingStatus" => "Unlinked Payments",
+                        "transactionType" => "--",
+                        "transactionfee" => 0,
+                        "amt_after_transactionfee" => $getUnmatcheds->Paid,
 
-                        ]);
+                    ]);
+                } else {
 
-                    }else{
+                    $createClientPayment = NewPaymentsClients::create([
+                        "BrandID" => $matchclient[0]->brand,
+                        "ClientID" => $matchclient[0]->id,
+                        "ProjectID" => 0,
+                        "ProjectManager" => 0,
+                        "paymentNature" => "--",
+                        "ChargingPlan" => "--",
+                        "ChargingMode" => "--",
+                        "Platform" => "--",
+                        "Card_Brand" => $getUnmatcheds->cardBrand,
+                        "Payment_Gateway" => "Stripe",
+                        "bankWireUpload" =>  "--",
+                        "TransactionID" => $getUnmatcheds->TransactionID,
+                        "paymentDate" => $getUnmatcheds->paymentDate,
+                        "SalesPerson" => 0,
+                        "TotalAmount" => 0,
+                        "Paid" => $getUnmatcheds->Paid,
+                        "RemainingAmount" => 0,
+                        "PaymentType" => "--",
+                        "numberOfSplits" => "--",
+                        "SplitProjectManager" => json_encode("--"),
+                        "ShareAmount" => json_encode("--"),
+                        "Description" => $getUnmatcheds->Description,
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'On Going',
+                        "remainingStatus" => "Unlinked Payments",
+                        "transactionType" => "--",
+                        "transactionfee" => $getUnmatcheds->fee,
+                        "amt_after_transactionfee" => $getUnmatcheds->Paid - $getUnmatcheds->fee,
 
-                        $createClientPayment = NewPaymentsClients::create([
-                            "BrandID" => $matchclient[0]->brand,
-                            "ClientID"=> $matchclient[0]->id,
-                            "ProjectID"=> 0,
-                            "ProjectManager"=> 0,
-                            "paymentNature"=> "--",
-                            "ChargingPlan"=> "--",
-                            "ChargingMode"=> "--",
-                            "Platform"=> "--",
-                            "Card_Brand"=> $getUnmatcheds->cardBrand,
-                            "Payment_Gateway"=> "Stripe",
-                            "bankWireUpload" =>  "--",
-                            "TransactionID"=> $getUnmatcheds->TransactionID,
-                            "paymentDate"=> $getUnmatcheds->paymentDate,
-                            "SalesPerson"=> 0,
-                            "TotalAmount"=> 0,
-                            "Paid"=> $getUnmatcheds->Paid,
-                            "RemainingAmount" =>0,
-                            "PaymentType"=> "--",
-                            "numberOfSplits" => "--",
-                            "SplitProjectManager" => json_encode("--"),
-                            "ShareAmount" => json_encode("--"),
-                            "Description"=> $getUnmatcheds->Description,
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingStatus"=> "Unlinked Payments",
-                            "transactionType" => "--",
-                            "transactionfee"=> $getUnmatcheds->fee,
-                            "amt_after_transactionfee" => $getUnmatcheds->Paid - $getUnmatcheds->fee,
-
-                        ]);
-                    }
-                    $deleteUnmatched = UnmatchedPayments::where('Clientemail',$getUnmatcheds->Clientemail)->delete();
-
-                }else{
-                    continue;
+                    ]);
                 }
+                $deleteUnmatched = UnmatchedPayments::where('Clientemail', $getUnmatcheds->Clientemail)->delete();
+            } else {
+                continue;
+            }
         }
 
         // echo("<pre>");
@@ -9018,89 +9221,749 @@ class BasicController extends Controller
         // die();
 
         return redirect('/payments/unmatched');
-
     }
 
-    function unmatchedPayments(Request $request){
-        $getUnmatched = UnmatchedPayments::get();
-        foreach($getUnmatched as $getUnmatcheds){
-                $matchclientmeta = Clientmeta::wherejsoncontains('otheremail',($getUnmatcheds->Clientemail))->get();
-                $count = count($matchclientmeta);
-                if($count > 0){
-                    $matchclient = Client::where('id',($matchclientmeta[0]->clientID))->get();
-                    if($getUnmatcheds->stripePaymentstatus == "Refunded"){
-                        $createClientPayment = NewPaymentsClients::create([
-                            "BrandID" => $matchclient[0]->brand,
-                            "ClientID"=> $matchclient[0]->id,
-                            "ProjectID"=> 0,
-                            "ProjectManager"=> 0,
-                            "paymentNature"=> "--",
-                            "ChargingPlan"=> "--",
-                            "ChargingMode"=> "--",
-                            "Platform"=> "--",
-                            "Card_Brand"=> $getUnmatcheds->cardBrand,
-                            "Payment_Gateway"=> "Stripe",
-                            "bankWireUpload" =>  "--",
-                            "TransactionID"=> $getUnmatcheds->TransactionID,
-                            "paymentDate"=> $getUnmatcheds->paymentDate,
-                            "SalesPerson"=> 0,
-                            "TotalAmount"=> 0,
-                            "Paid"=> $getUnmatcheds->Paid,
-                            "RemainingAmount" =>0,
-                            "PaymentType"=> "--",
-                            "numberOfSplits" => "--",
-                            "SplitProjectManager" => json_encode("--"),
-                            "ShareAmount" => json_encode("--"),
-                            "Description"=> $getUnmatcheds->Description,
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'Refunded',
-                            "remainingStatus"=> "Unlinked Payments",
-                            "transactionType" => "--"
+    function csv_sheetpayments(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        return view('sheetpaymentUpload', [
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
 
-                        ]);
+    function csv_sheetpayments_process(Request $request)
+    {
+        ini_set('max_execution_time', 300);
 
-                    }else{
+        $data = Excel::toArray([], $request->file('sheetpayments'));
+        $allinvoice = [];
+        foreach ($data as $extractData) {
+            $headings = $extractData[0];
+            $keycount = count($headings);
+            $maincount = count($extractData);
 
-                        $createClientPayment = NewPaymentsClients::create([
-                            "BrandID" => $matchclient[0]->brand,
-                            "ClientID"=> $matchclient[0]->id,
-                            "ProjectID"=> 0,
-                            "ProjectManager"=> 0,
-                            "paymentNature"=> "--",
-                            "ChargingPlan"=> "--",
-                            "ChargingMode"=> "--",
-                            "Platform"=> "--",
-                            "Card_Brand"=> $getUnmatcheds->cardBrand,
-                            "Payment_Gateway"=> "Stripe",
-                            "bankWireUpload" =>  "--",
-                            "TransactionID"=> $getUnmatcheds->TransactionID,
-                            "paymentDate"=> $getUnmatcheds->paymentDate,
-                            "SalesPerson"=> 0,
-                            "TotalAmount"=> 0,
-                            "Paid"=> $getUnmatcheds->Paid,
-                            "RemainingAmount" =>0,
-                            "PaymentType"=> "--",
-                            "numberOfSplits" => "--",
-                            "SplitProjectManager" => json_encode("--"),
-                            "ShareAmount" => json_encode("--"),
-                            "Description"=> $getUnmatcheds->Description,
-                            'created_at' => date('y-m-d H:m:s'),
-                            'updated_at' => date('y-m-d H:m:s'),
-                            "refundStatus"=> 'On Going',
-                            "remainingStatus"=> "Unlinked Payments",
-                            "transactionType" => "--"
+            for ($j = 1; $j < $maincount; $j++) {
+                $newarray = [];
+                for ($i = 0; $i < $keycount; $i++) {
+                    $newarray[$headings[$i]] = $extractData[$j][$i];
+                }
+                $allinvoice[] = [$newarray];
+            }
+        }
 
-                        ]);
-                    }
+        foreach ($allinvoice as $allinvoices) {
+            $checktransactionID = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->count();
+            if ($checktransactionID == 0) {
+                $mainemail = $allinvoices[0]["Email"];
+                $ClientStatus = $allinvoices[0]["Status"];
+                $sql_date = date("Y-m-d", strtotime($allinvoices[0]['Date']));
+                if ($allinvoices[0]['Recurring/Renewal'] != "One Time") {
+                    $sql_futuredate = date("Y-m-d", strtotime($allinvoices[0]['Recurring/Renewal']));
+                }
+                $sql_date_dispute = date("Y-m-d", strtotime($allinvoices[0]['Refund/Dispute Date']));
+                $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($allinvoices[0]['Email']))->get();
 
-                    $deleteUnmatched = UnmatchedPayments::where('Clientemail',$getUnmatcheds->Clientemail)->delete();
+                $sp = Employee::where('name', $allinvoices[0]['Sales Person'])->get();
+                if (isset($sp[0]->id)) {
+                    $salesperson = $sp[0]->id;
+                } else {
+                    $salesperson = 0;
+                }
 
-                }else{
-                    continue;
+                $pm = Employee::where('name', $allinvoices[0]['Account Manager'])->get();
+                if (isset($pm[0]->id)) {
+                    $projectmanager = $pm[0]->id;
+                } else {
+                    $projectmanager = 0;
+                }
+
+                $remamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'];
+                if ($remamt == 0) {
+                    $remainingStatus = "Not Remaining";
+                } elseif ($remamt > 0) {
+                    $remainingStatus = "Remaining";
+                }
+
+                if ($allinvoices[0]['Package Plan'] == 'One Time') {
+                    $chargingplan = "One Time Payment";
+                    $chargingmode = "One Time Payment";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Recurring') {
+                    $chargingplan = "Monthly";
+                    $chargingmode = "Recurring";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal') {
+                    $chargingplan = "Monthly";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal2') {
+                    $chargingplan = "2 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal3') {
+                    $chargingplan = "3 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal4') {
+                    $chargingplan = "4 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal5') {
+                    $chargingplan = "5 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal6') {
+                    $chargingplan = "6 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal7') {
+                    $chargingplan = "7 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal8') {
+                    $chargingplan = "8 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal9') {
+                    $chargingplan = "9 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal10') {
+                    $chargingplan = "10 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal11') {
+                    $chargingplan = "11 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal12') {
+                    $chargingplan = "12 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal24') {
+                    $chargingplan = "2 Years";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal36') {
+                    $chargingplan = "3 Years";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Small Payment') {
+                    $chargingplan = "One Time Payment";
+                    $chargingmode = "One Time Payment";
+                }
+
+                if ($allinvoices[0]['Sales Mode'] == 'New Lead') {
+                    $paymentNature = "New Lead";
+                } elseif ($allinvoices[0]['Sales Mode'] == 'New Sale') {
+                    $paymentNature = "New Sale";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'FSRemaining' || $allinvoices[0]['Sales Mode'] == 'Remaining') {
+                    $paymentNature = "New Sale";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'Recurring') {
+                    $paymentNature = "Recurring Payment";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
+                    $paymentNature = "Renewal Payment";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
+                    $paymentNature = "Small Paymente";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
+                    $paymentNature = "Upsell";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'WON' || $allinvoices[0]['Status'] == 'WON') {
+                    $paymentNature = "Dispute Won";
                 }
 
 
+                if ($matchclientmeta->isNotEmpty()) {
+                    $findclient = Client::where('id', $matchclientmeta[0]->clientID)->get();
+                    $project = Project::where('clientID', $findclient[0]->id)->get();
+                    if (isset($project[0]->id)) {
+                        $findproject = $project[0]->id;
+                    } else {
+                        $findproject = 0;
+                    }
+                    $count = count($findclient);
+                    if ($count == 1) {
+
+                        if($paymentNature != "Dispute Won"){
+                            $createClientPayment = NewPaymentsClients::insertGetId([
+                                "BrandID" => ( $findclient[0]->brand == null) ? 0 :  $findclient[0]->brand,
+                                "ClientID" =>(  $findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" =>(  $findproject == null) ? 0 :   $findproject,
+                                "ProjectManager" => ( $projectmanager == null) ? 0 :  $projectmanager,
+                                "paymentNature" => ( $paymentNature == null) ? 0 :  $paymentNature,
+                                "ChargingPlan" => ( $chargingplan == null) ? 0 :  $chargingplan,
+                                "ChargingMode" =>(  $chargingmode == null) ? 0 :   $chargingmode,
+                                "Platform" => ( $allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                                "Payment_Gateway" => ( $allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => ( $allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                                "paymentDate" => $sql_date,
+                                "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
+                                "SalesPerson" => ( $salesperson == null) ? 0 :  $salesperson,
+                                "TotalAmount" => ( $allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                "Paid" => ( $allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                                "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                "PaymentType" => "Full Payment",
+                                "numberOfSplits" => "--",
+                                "SplitProjectManager" => json_encode("--"),
+                                "ShareAmount" => json_encode("--"),
+                                "Description" =>(  $allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $findclient[0]->id,
+                                'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                "remainingStatus" => $remainingStatus,
+                                "transactionType" => $paymentNature,
+                                "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                                "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                "Sheetdata" => "Invoicing Data"
+                            ]);
+                        }else{
+                            // continue;
+                            echo("<br>");
+                            echo($allinvoices[0]['Transaction ID']);
+                        }
+                    }else{
+                        // continue;
+                        echo("<br>");
+                        echo($allinvoices[0]['Transaction ID']);
+                    }
+                } else {
+                    //to store in payments table with status not found client
+                    $notfoundclient = Payments::create([
+                        "Brand" => $allinvoices[0]['Brand'],
+                        "Email" => $allinvoices[0]['Email'],
+                        "Card_Name" => $allinvoices[0]['Card Name'],
+                        "URL" => $allinvoices[0]['URL'],
+                        "Date" => $sql_date,
+                        "Total_Amount" => ($allinvoices[0]['Total Amount'] != null) ? $allinvoices[0]['Total Amount'] : 0,
+                        "Paid" => ($allinvoices[0]['Paid'] != null) ? $allinvoices[0]['Paid'] : 0,
+                        "Balance_Amount" => ($allinvoices[0]['Balance Amount'] != null) ? $allinvoices[0]['Balance Amount'] : "Blank",
+                        "Sales_Mode" => ($allinvoices[0]['Sales Mode'] != null) ? $allinvoices[0]['Sales Mode'] : "Blank",
+                        "Platform" => ($allinvoices[0]['Platform'] != null) ? $allinvoices[0]['Platform'] : "Blank",
+                        "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] != null) ? $allinvoices[0]['Payment Gateway'] : "Blank",
+                        "Card_Brand" => ($allinvoices[0]['Card Brand'] != null) ? $allinvoices[0]['Card Brand'] : "Blank",
+                        "Description" => ($allinvoices[0]['Description'] != null) ? $allinvoices[0]['Description'] : "Blank",
+                        "Transaction_ID" => ($allinvoices[0]['Transaction ID'] != null) ? $allinvoices[0]['Transaction ID'] : "Blank",
+                        "Sales_Person" => ($allinvoices[0]['Sales Person'] != null) ? $allinvoices[0]['Sales Person'] : "Blank",
+                        "Account_Manager" => ($allinvoices[0]['Account Manager'] != null) ? $allinvoices[0]['Account Manager'] : "Blank",
+                        "Project_Status" => ($allinvoices[0]['Project Status'] != null) ? $allinvoices[0]['Project Status'] : "Blank",
+                        "Package_Plan" => ($allinvoices[0]['Package Plan'] != null) ? $allinvoices[0]['Package Plan'] : "Blank",
+                        "Refund_Dispute_Amount" => ($allinvoices[0]['Refund/Dispute Amount'] != null) ? $allinvoices[0]['Refund/Dispute Amount'] : 0,
+                        "Refund_Dispute_Date" => ($sql_date_dispute != null) ? $sql_date_dispute : $sql_date,
+                        "Refund_Dispute_Reason" => ($allinvoices[0]['Refund/Dispute Reason'] != null) ? $allinvoices[0]['Refund/Dispute Reason'] : "No reason",
+                        "Recurring_Renewal" => ($sql_futuredate != null) ? $sql_futuredate : $sql_date,
+                        "Status" => ($allinvoices[0]['Status'] != null) ? $allinvoices[0]['Status'] : "Blank",
+
+                    ]);
+                }
+            }else{
+                // continue;
+                echo("<br>");
+                echo($allinvoices[0]['Transaction ID']);
+            }
+        }
+
+        //for_refund:
+        foreach ($allinvoice as $allinvoices) {
+            $checktransactionIDget = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->where('refundID','!=',null)->get();
+            $checktransactionID = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->where('refundID','!=',null)->count();
+            if ($checktransactionID == 1) {
+                $mainemail = $allinvoices[0]["Email"];
+                $ClientStatus = $allinvoices[0]["Status"];
+                $sql_date = date("Y-m-d", strtotime($allinvoices[0]['Date']));
+                if ($allinvoices[0]['Recurring/Renewal'] != "One Time") {
+                    $sql_futuredate = date("Y-m-d", strtotime($allinvoices[0]['Recurring/Renewal']));
+                }
+                $sql_date_dispute = date("Y-m-d", strtotime($allinvoices[0]['Refund/Dispute Date']));
+                $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($allinvoices[0]['Email']))->get();
+
+                $sp = Employee::where('name', $allinvoices[0]['Sales Person'])->get();
+                if (isset($sp[0]->id)) {
+                    $salesperson = $sp[0]->id;
+                } else {
+                    $salesperson = 0;
+                }
+
+                $pm = Employee::where('name', $allinvoices[0]['Account Manager'])->get();
+                if (isset($pm[0]->id)) {
+                    $projectmanager = $pm[0]->id;
+                } else {
+                    $projectmanager = 0;
+                }
+
+                $remamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'];
+                if ($remamt == 0) {
+                    $remainingStatus = "Not Remaining";
+                } elseif ($remamt > 0) {
+                    $remainingStatus = "Remaining";
+                }
+
+                if ($allinvoices[0]['Package Plan'] == 'One Time') {
+                    $chargingplan = "One Time Payment";
+                    $chargingmode = "One Time Payment";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Recurring') {
+                    $chargingplan = "Monthly";
+                    $chargingmode = "Recurring";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal') {
+                    $chargingplan = "Monthly";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal2') {
+                    $chargingplan = "2 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal3') {
+                    $chargingplan = "3 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal4') {
+                    $chargingplan = "4 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal5') {
+                    $chargingplan = "5 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal6') {
+                    $chargingplan = "6 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal7') {
+                    $chargingplan = "7 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal8') {
+                    $chargingplan = "8 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal9') {
+                    $chargingplan = "9 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal10') {
+                    $chargingplan = "10 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal11') {
+                    $chargingplan = "11 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal12') {
+                    $chargingplan = "12 Months";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal24') {
+                    $chargingplan = "2 Years";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal36') {
+                    $chargingplan = "3 Years";
+                    $chargingmode = "Renewal";
+                } elseif ($allinvoices[0]['Package Plan'] == 'Small Payment') {
+                    $chargingplan = "One Time Payment";
+                    $chargingmode = "One Time Payment";
+                }
+
+
+                if ($allinvoices[0]['Sales Mode'] == 'New Lead') {
+                    $paymentNature = "New Lead";
+                } elseif ($allinvoices[0]['Sales Mode'] == 'New Sale') {
+                    $paymentNature = "New Sale";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'FSRemaining' || $allinvoices[0]['Sales Mode'] == 'Remaining') {
+                    $paymentNature = "New Sale";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'Recurring') {
+                    $paymentNature = "Recurring Payment";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
+                    $paymentNature = "Renewal Payment";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
+                    $paymentNature = "Small Paymente";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
+                    $paymentNature = "Upsell";
+                }elseif ($allinvoices[0]['Sales Mode'] == 'WON' || $allinvoices[0]['Status'] == 'WON') {
+                    $paymentNature = "Dispute Won";
+                }
+
+                if ($matchclientmeta->isNotEmpty()) {
+                    $findclient = Client::where('id', $matchclientmeta[0]->clientID)->get();
+                    $project = Project::where('clientID', $findclient[0]->id)->get();
+                    if (isset($project[0]->id)) {
+                        $findproject = $project[0]->id;
+                    } else {
+                        $findproject = 0;
+                    }
+                    $count = count($findclient);
+                    if ($count == 1) {
+
+                        if($paymentNature != "Dispute Won"){
+                            if($checktransactionIDget[0]->dispute == null ){
+                                //simple refund
+                                $createClientPaymentrefund = NewPaymentsClients::insertGetId([
+                                    "BrandID" => ( $findclient[0]->brand == null) ? 0 :  $findclient[0]->brand,
+                                "ClientID" =>(  $findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" =>(  $findproject == null) ? 0 :   $findproject,
+                                "ProjectManager" => ( $projectmanager == null) ? 0 :  $projectmanager,
+                                "paymentNature" => ( $paymentNature == null) ? 0 :  $paymentNature,
+                                "ChargingPlan" => ( $chargingplan == null) ? 0 :  $chargingplan,
+                                "ChargingMode" =>(  $chargingmode == null) ? 0 :   $chargingmode,
+                                "Platform" => ( $allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                                "Payment_Gateway" => ( $allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => ( $allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID']."(Refund)",
+                                    "paymentDate" => $sql_date_dispute, //to view this problem
+                                    "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
+                                    "SalesPerson" => $salesperson,
+                                    "TotalAmount" => ( $allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                    "Paid" => ( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                    "PaymentType" => "--",
+                                    "numberOfSplits" => "--",
+                                    "SplitProjectManager" => json_encode("--"),
+                                    "ShareAmount" => json_encode("--"),
+                                    "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    'created_at' => date('y-m-d H:m:s'),
+                                    'updated_at' => date('y-m-d H:m:s'),
+                                    "refundStatus" => 'Refund',
+                                    'refundID' =>  $findclient[0]->id,
+                                    'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                    "remainingStatus" => $remainingStatus,
+                                    "transactionType" => $paymentNature,
+                                    "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                                    "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                    "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                    "Sheetdata" => "Invoicing Data"
+                                ]);
+
+                                $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
+                                if($refundamt == 0){
+                                    $refundtype = 'Refund';
+                                }else{
+                                    $refundtype = 'Partial Refund';
+                                }
+
+                                $refund = RefundPayments::create([
+                                    "BrandID" => $findclient[0]->brand,
+                                    "ClientID" =>$findclient[0]->id,
+                                    "ProjectID" => $findproject,
+                                    "ProjectManager"=> $projectmanager,
+                                    "PaymentID" => $createClientPaymentrefund,
+                                    "basicAmount" => $allinvoices[0]['Total Amount'],
+                                    "refundAmount"=>( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "refundtype" => $refundtype,
+                                    "refund_date" => $sql_date_dispute,
+                                    "refundReason"=> ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    "clientpaid" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+                                    "paymentType" => "Full payment",
+                                    "splitmanagers"=> json_encode("--"),
+                                    "splitamounts"=> json_encode("--"),
+                                    "splitRefunds"=> json_encode("--"),
+                                    "transactionfee" => 0,
+                                    "amt_after_transactionfee" =>  ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+
+                                ]);
+
+                            }else{
+                                //refund due to chargeback lost
+                                $createClientPaymentrefund = NewPaymentsClients::insertGetId([
+                                    "BrandID" => $findclient[0]->brand,
+                                    "ClientID" => $findclient[0]->id,
+                                    "ProjectID" => $findproject,
+                                    "ProjectManager" => $projectmanager,
+                                    "paymentNature" => $paymentNature,
+                                    "ChargingPlan" => $chargingplan,
+                                    "ChargingMode" => $chargingmode,
+                                    "Platform" => $allinvoices[0]['Platform'],
+                                    "Card_Brand" => $allinvoices[0]['Card Brand'],
+                                    "Payment_Gateway" => $allinvoices[0]['Payment Gateway'],
+                                    "bankWireUpload" =>  "--",
+                                    "TransactionID" => $allinvoices[0]['Transaction ID']."(Refund)",
+                                    "paymentDate" => $sql_date_dispute, //to view this problem
+                                    "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
+                                    "SalesPerson" => $salesperson,
+                                    "TotalAmount" => ( $allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                    "Paid" => ( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                    "PaymentType" => "--",
+                                    "numberOfSplits" => "--",
+                                    "SplitProjectManager" => json_encode("--"),
+                                    "ShareAmount" => json_encode("--"),
+                                    "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    'created_at' => date('y-m-d H:m:s'),
+                                    'updated_at' => date('y-m-d H:m:s'),
+                                    "refundStatus" => 'Refund',
+                                    'refundID' =>  $findclient[0]->id,
+                                    'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                    "remainingStatus" => $remainingStatus,
+                                    "transactionType" => $paymentNature,
+                                    "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                                    "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                    "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                    "disputefee" =>  15 ,
+                                    "amt_after_disputefee" => ( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "Sheetdata" => "Invoicing Data"
+                                ]);
+
+                                $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
+                                if($refundamt == 0){
+                                    $refundtype = 'Refund';
+                                }else{
+                                    $refundtype = 'Partial Refund';
+                                }
+
+                                $refund = RefundPayments::create([
+                                    "BrandID" => $findclient[0]->brand,
+                                    "ClientID" =>$findclient[0]->id,
+                                    "ProjectID" => $findproject,
+                                    "ProjectManager"=> $projectmanager,
+                                    "PaymentID" => $createClientPaymentrefund,
+                                    "basicAmount" => $allinvoices[0]['Total Amount'],
+                                    "refundAmount"=>( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "refundtype" => $refundtype,
+                                    "refund_date" => $sql_date_dispute,
+                                    "refundReason"=> ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    "clientpaid" =>  ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+                                    "paymentType" => "Full payment",
+                                    "splitmanagers"=> json_encode("--"),
+                                    "splitamounts"=> json_encode("--"),
+                                    "splitRefunds"=> json_encode("--"),
+                                    "transactionfee" => 0,
+                                    "amt_after_transactionfee" =>  ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+
+                                ]);
+
+                                $lostdispute = Disputedpayments::create([
+                                    "BrandID" => $findclient[0]->brand,
+                                    "ClientID" =>$findclient[0]->id,
+                                    "ProjectID" => $findproject,
+                                    "ProjectManager"=> $projectmanager,
+                                    "PaymentID" => $createClientPaymentrefund,
+                                    "dispute_Date" => $sql_date_dispute,
+                                    "disputedAmount"=>( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "disputeReason"=> ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    "disputeStatus" => "Lost",
+                                    "disputefee"  => 15,
+                                    "amt_after_disputefee" => ( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+
+                                ]);
+
+
+                            }
+
+                        }else{
+                            //chargeback won
+
+                            $createClientPaymentrefund = NewPaymentsClients::insertGetId([
+                                "BrandID" => ( $findclient[0]->brand == null) ? 0 :  $findclient[0]->brand,
+                                "ClientID" =>(  $findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" =>(  $findproject == null) ? 0 :   $findproject,
+                                "ProjectManager" => ( $projectmanager == null) ? 0 :  $projectmanager,
+                                "paymentNature" => ( $paymentNature == null) ? 0 :  $paymentNature,
+                                "ChargingPlan" => ( $chargingplan == null) ? 0 :  $chargingplan,
+                                "ChargingMode" =>(  $chargingmode == null) ? 0 :   $chargingmode,
+                                "Platform" => ( $allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                                "Payment_Gateway" => ( $allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => ( $allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID']."(Won)",
+                                "paymentDate" => $sql_date_dispute, //to view this problem
+                                "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
+                                "SalesPerson" => $salesperson,
+                                "TotalAmount" => $allinvoices[0]['Total Amount'],
+                                "Paid" => ( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                "PaymentType" => "--",
+                                "numberOfSplits" => "--",
+                                "SplitProjectManager" => json_encode("--"),
+                                "ShareAmount" => json_encode("--"),
+                                "Description" =>($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'Refund',
+                                'refundID' =>  $findclient[0]->id,
+                                'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                "remainingStatus" => $remainingStatus,
+                                "transactionType" => $paymentNature,
+                                "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                                "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                "disputefee" =>  15 ,
+                                "amt_after_disputefee" => ( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "Sheetdata" => "Invoicing Data"
+                            ]);
+
+                            $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
+                            if($refundamt == 0){
+                                $refundtype = 'Refund';
+                            }else{
+                                $refundtype = 'Partial Refund';
+                            }
+
+                            $refund = RefundPayments::create([
+                                "BrandID" => $findclient[0]->brand,
+                                "ClientID" =>$findclient[0]->id,
+                                "ProjectID" => $findproject,
+                                "ProjectManager"=> $projectmanager,
+                                "PaymentID" => $createClientPaymentrefund,
+                                "basicAmount" => $allinvoices[0]['Total Amount'],
+                                "refundAmount"=>( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "refundtype" => $refundtype,
+                                "refund_date" => $sql_date_dispute,
+                                "refundReason"=> ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                "clientpaid" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+                                "paymentType" => "Full payment",
+                                "splitmanagers"=> json_encode("--"),
+                                "splitamounts"=> json_encode("--"),
+                                "splitRefunds"=> json_encode("--"),
+                                "transactionfee" => 0,
+                                "amt_after_transactionfee" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+
+                            ]);
+
+                            $lostdispute = Disputedpayments::create([
+                                "BrandID" => $findclient[0]->brand,
+                                "ClientID" =>$findclient[0]->id,
+                                "ProjectID" => $findproject,
+                                "ProjectManager"=> $projectmanager,
+                                "PaymentID" => $createClientPaymentrefund,
+                                "dispute_Date" => $sql_date_dispute,
+                                "disputedAmount"=>( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "disputeReason"=>($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                "disputeStatus" => "Won",
+                                "disputefee"  => 15,
+                                "amt_after_disputefee" => ( $allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount']
+
+                            ]);
+
+                        }
+                    }
+                } else {
+                    continue;
+                }
+            }
+        }
+    }
+
+    function notfoundclient(Request $request){
+
+        $loginUser = $this->roleExits($request);
+        $notfoundclients = Payments::get();
+        return view('sheetsNotfoundClient', [
+            'notfoundclients' => $notfoundclients,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
+
+    function createteam(Request $request){
+
+        $loginUser = $this->roleExits($request);
+        $employees = Employee::get();
+        $brand = Brand::get();
+        return view('createTeam', [
+            'employees' => $employees,
+            'brands' => $brand,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+
+    }
+
+    public function ajax_sales(Request $request)
+    {
+        $data['projectdata'] = Employee::where("id", $request->state_id)->get();
+        $projectmanagername = $data['projectdata'][0]->name;
+
+        $return_array = [
+            "pmname" => $projectmanagername,
+        ];
+
+        return response()->json($return_array);
+    }
+
+    function createteam_process(Request $request)
+    {
+            $results  = explode(",", $request->input('Employeesdd'));
+
+            $department = Salesteam::insertGetId([
+                "teamLead" => $request->input('teamlead'),
+                "members" => json_encode($results),
+                'created_at' => date('y-m-d H:m:s'),
+                'updated_at' => date('y-m-d H:m:s'),
+            ]);
+            return redirect()->back()->with("Success", "Team Created !");
+
+    }
+
+    function salesteam_view(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $salesteam = Salesteam::get();
+
+        return view('allSalesTeam', [
+            "salesteams" => $salesteam,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+
+    function unmatchedPayments(Request $request)
+    {
+        $getUnmatched = UnmatchedPayments::get();
+        foreach ($getUnmatched as $getUnmatcheds) {
+            $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($getUnmatcheds->Clientemail))->get();
+            $count = count($matchclientmeta);
+            if ($count > 0) {
+                $matchclient = Client::where('id', ($matchclientmeta[0]->clientID))->get();
+                if ($getUnmatcheds->stripePaymentstatus == "Refunded") {
+                    $createClientPayment = NewPaymentsClients::create([
+                        "BrandID" => $matchclient[0]->brand,
+                        "ClientID" => $matchclient[0]->id,
+                        "ProjectID" => 0,
+                        "ProjectManager" => 0,
+                        "paymentNature" => "--",
+                        "ChargingPlan" => "--",
+                        "ChargingMode" => "--",
+                        "Platform" => "--",
+                        "Card_Brand" => $getUnmatcheds->cardBrand,
+                        "Payment_Gateway" => "Stripe",
+                        "bankWireUpload" =>  "--",
+                        "TransactionID" => $getUnmatcheds->TransactionID,
+                        "paymentDate" => $getUnmatcheds->paymentDate,
+                        "SalesPerson" => 0,
+                        "TotalAmount" => 0,
+                        "Paid" => $getUnmatcheds->Paid,
+                        "RemainingAmount" => 0,
+                        "PaymentType" => "--",
+                        "numberOfSplits" => "--",
+                        "SplitProjectManager" => json_encode("--"),
+                        "ShareAmount" => json_encode("--"),
+                        "Description" => $getUnmatcheds->Description,
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'Refunded',
+                        "remainingStatus" => "Unlinked Payments",
+                        "transactionType" => "--"
+
+                    ]);
+                } else {
+
+                    $createClientPayment = NewPaymentsClients::create([
+                        "BrandID" => $matchclient[0]->brand,
+                        "ClientID" => $matchclient[0]->id,
+                        "ProjectID" => 0,
+                        "ProjectManager" => 0,
+                        "paymentNature" => "--",
+                        "ChargingPlan" => "--",
+                        "ChargingMode" => "--",
+                        "Platform" => "--",
+                        "Card_Brand" => $getUnmatcheds->cardBrand,
+                        "Payment_Gateway" => "Stripe",
+                        "bankWireUpload" =>  "--",
+                        "TransactionID" => $getUnmatcheds->TransactionID,
+                        "paymentDate" => $getUnmatcheds->paymentDate,
+                        "SalesPerson" => 0,
+                        "TotalAmount" => 0,
+                        "Paid" => $getUnmatcheds->Paid,
+                        "RemainingAmount" => 0,
+                        "PaymentType" => "--",
+                        "numberOfSplits" => "--",
+                        "SplitProjectManager" => json_encode("--"),
+                        "ShareAmount" => json_encode("--"),
+                        "Description" => $getUnmatcheds->Description,
+                        'created_at' => date('y-m-d H:m:s'),
+                        'updated_at' => date('y-m-d H:m:s'),
+                        "refundStatus" => 'On Going',
+                        "remainingStatus" => "Unlinked Payments",
+                        "transactionType" => "--"
+
+                    ]);
+                }
+
+                $deleteUnmatched = UnmatchedPayments::where('Clientemail', $getUnmatcheds->Clientemail)->delete();
+            } else {
+                continue;
+            }
         }
 
 
@@ -9114,7 +9977,8 @@ class BasicController extends Controller
         ]);
     }
 
-    function NewEmailLinkCLient(Request $request, $id){
+    function NewEmailLinkCLient(Request $request, $id)
+    {
         $clients = Client::get();
         $loginUser = $this->roleExits($request);
 
@@ -9125,23 +9989,23 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
-
     }
 
-    function NewEmailLinkCLientprocess(Request $request){
+    function NewEmailLinkCLientprocess(Request $request)
+    {
         $clientID = $request->input('client');
-        $client = Client::where('id', $clientID )->get();
-        $clientmetas = Clientmeta::where('clientID', $clientID )->get();
+        $client = Client::where('id', $clientID)->get();
+        $clientmetas = Clientmeta::where('clientID', $clientID)->get();
         $email = $request->input('email');
-        if( $clientmetas[0]->otheremail == null){
-            $toArray = [$client[0]->email , $email ];
-            $addnewemailInClient = ClientMeta::where('clientID',$clientID)->update([
+        if ($clientmetas[0]->otheremail == null) {
+            $toArray = [$client[0]->email, $email];
+            $addnewemailInClient = ClientMeta::where('clientID', $clientID)->update([
                 'otheremail' => json_encode($toArray)
             ]);
-        }else{
-            $otheremails = json_decode( $clientmetas[0]->otheremail);
-            array_push($otheremails,$email);
-            $addnewemailInClient = ClientMeta::where('clientID',$clientID)->update([
+        } else {
+            $otheremails = json_decode($clientmetas[0]->otheremail);
+            array_push($otheremails, $email);
+            $addnewemailInClient = ClientMeta::where('clientID', $clientID)->update([
                 'otheremail' => json_encode($otheremails)
             ]);
         }
@@ -9158,7 +10022,7 @@ class BasicController extends Controller
         foreach ($allclients as $allclient) {
             $clientmeta = ClientMeta::where('clientID', $allclient->id)->get();
 
-            if ( isset($clientmeta[0]->otheremail) && $clientmeta[0]->otheremail != null) {
+            if (isset($clientmeta[0]->otheremail) && $clientmeta[0]->otheremail != null) {
                 continue;
             } else {
                 $toArray = [$allclient->email];
@@ -9171,17 +10035,55 @@ class BasicController extends Controller
         return redirect('/payments/unmatched');
     }
 
-    function csv_ppc(Request $request){
+    function csv_ppc(Request $request)
+    {
         $loginUser = $this->roleExits($request);
-        return view('ppc_upload',[
+        return view('ppc_upload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-             'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2]
         ]);
     }
 
-    function csv_ppc_process(Request $request){
-        echo("Hello");
-    }
+    function csv_ppc_process(Request $request)
+    {
+        $data = Excel::toArray([], $request->file('ppcpayments'));
+        foreach ($data as $extractData) {
+            $headings = $extractData[2];
+            $keycount = count($headings);
+            $maincount = count($extractData);
 
+            for ($j = 3; $j < $maincount; $j++) {
+                $newarray = [];
+                for ($i = 0; $i < $keycount; $i++) {
+                    $newarray[$headings[$i]] = $extractData[$j][$i];
+                }
+
+                if ($newarray["Campaign"] != null) {
+                    $createClientPayment = PPC::create([
+                        "Campaign_status" => $newarray["Campaign status"],
+                        "Campaign" => $newarray["Campaign"],
+                        "Budget" => (int)$newarray["Budget"],
+                        "Budget_type" => $newarray["Budget type"],
+                        "Optimization_score" => $newarray["Optimization score"],
+                        "Account" => $newarray["Account"],
+                        "Campaign_type" => $newarray["Campaign type"],
+                        "Interactions" => $newarray["Interactions"],
+                        "Cost" => (int)$newarray["Cost"],
+                        "Impr" => (int)$newarray["Impr."],
+                        "Bid_strategy_type" => $newarray["Bid strategy type"],
+                        "CampaignID" => $newarray["Campaign ID"],
+                        "Clicks" => (int)$newarray["Clicks"]
+                    ]);
+                } else {
+                    continue;
+                }
+            }
+
+
+            // die();
+        }
+
+        echo ("done");
+    }
 }
