@@ -8,7 +8,7 @@
             <div class="br-pagetitle">
               <i class="icon ion-ios-home-outline tx-70 lh-0"></i>
               <div>
-                <h4>All Brands</h4>
+                <h4>Brand Analytics</h4>
                 <p class="mg-b-0">Target, Sales, Revenue, Expences.</p>
               </div>
             </div><!-- d-flex -->
@@ -16,7 +16,7 @@
                 <div class="col-2 mt-3">
                 </div>
                 <div class="col-2 mt-3">
-                    <select class="form-control select2" name="brand" id="getyeardata">
+                    <select class="form-control select2" name="year" id="getyeardata">
                         <option value="">Select Year</option>
                         <option value="2024">2024</option>
                         <option value="2025">2025</option>
@@ -28,7 +28,7 @@
                   </select>
                 </div>
                 <div class="col-3 mt-3">
-                    <select class="form-control select2" name="brand" id="getmonth">
+                    <select class="form-control select2" name="month" id="getmonth">
                         <option value="">Select Month</option>
                         <option value="January">January</option>
                         <option value="February">February</option>
@@ -45,8 +45,8 @@
                   </select>
                 </div>
                 <div class="col-3 mt-3">
-                    <select class="form-control select2" name="brand" id="getbranddata">
-                        <option value="">Select Brand</option>
+                    <select class="form-control select2" name="brand[]" id="getbranddata"  multiple="multiple">
+                        {{-- <option value="ALL" >ALL Brands</option> --}}
                     @foreach($brands as $brand)
                         <option value="{{ $brand->id }}">
                           {{ $brand->name }}
@@ -55,132 +55,101 @@
                   </select>
                 </div>
                 <div class="col-2 mt-2">
-                    <button class="btn btn-primary mt-2" id="searchbranddata">Search</button>
+                    <button class="btn btn-primary mt-2" id="searchallbranddata">Search</button>
                 </div>
 
             </div>
 
             <div class="br-pagebody">
-                <!-- hidden on purpose using d-none class to have a different look with the original -->
-                <!-- feel free to unhide by removing the d-none class below -->
 
-                <div class="row row-sm mg-b-20 ">
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-info rounded overflow-hidden">
-                            <div class="pd-x-20 pd-t-20 d-flex align-items-center">
-                            <i class="ion ion-earth tx-60 lh-0 tx-white op-7"></i>
-                            <div class="mg-l-20">
-                                <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Target</p>
-                                <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1" id="brandtarget"></p>
-                                {{-- <span class="tx-11 tx-roboto tx-white-8">24% higher yesterday</span> --}}
-                            </div>
-                            </div>
-                            <div id="ch1" class="ht-50 tr-y-1"></div>
-                        </div>
-                    </div><!-- col-3 -->
-                    <div class="col-sm-6 col-xl-3 mg-t-20 mg-sm-t-0">
-                    <div class="bg-purple rounded overflow-hidden">
-                        <div class="pd-x-20 pd-t-20 d-flex align-items-center">
-                        <i class="ion ion-bag tx-60 lh-0 tx-white op-7"></i>
-                        <div class="mg-l-20">
-                            <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Sales</p>
-                            <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1" id="brandsales"></p>
-                            {{-- <span class="tx-11 tx-roboto tx-white-8">$390,212 before tax</span> --}}
-                        </div>
-                        </div>
-                        <div id="ch3" class="ht-50 tr-y-1"></div>
+                    <div class="row row-sm mg-t-20">
+                        <div class="col-4 mg-b-15">
+                            <h5>Sales:</h5>
+                            <div id="brandswisesales">
+                                <div class="card bd-gray-400 pd-20">
+                                    <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15" id="brandnameSales">--</h6>
+                                    <div class="d-flex mg-b-10">
+                                        <div class="bd-r pd-r-10">
+                                            <label class="tx-12">Target</label>
+                                            <p class="tx-lato tx-inverse tx-bold" id="brandtarget">--</p>
+                                        </div>
+                                        <div class="bd-r pd-x-10">
+                                            <label class="tx-12">Sales</label>
+                                            <p class="tx-lato tx-inverse tx-bold" id="brandsales">--</p>
+                                        </div>
+                                        <div class="bd-r pd-x-10">
+                                            <label class="tx-12">Dispute</label>
+                                            <p class="tx-lato tx-inverse tx-bold" id="branddisputes">--</p>
+                                        </div>
+                                        <div class="pd-l-10">
+                                            <label class="tx-12">Net Revenue</label>
+                                            <p class="tx-lato tx-inverse tx-bold" id="brand_net_revenue">--</p>
+                                        </div>
+                                    </div>
+                                    <div class="progress mg-b-10">
+                                        <div class="progress-bar bg-warning wd-100p" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            {{-- </div> --}}
                     </div>
-                    </div><!-- col-3 -->
-                    <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
-                    <div class="bg-teal rounded overflow-hidden">
-                        <div class="pd-x-20 pd-t-20 d-flex align-items-center">
-                        <i class="ion ion-monitor tx-60 lh-0 tx-white op-7"></i>
-                        <div class="mg-l-20">
-                            <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Disputes</p>
-                            <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1" id="branddisputes"></p>
-                            {{-- <span class="tx-11 tx-roboto tx-white-8">65.45% on average time</span> --}}
-                            {{-- <div class="d-flex mg-b-0">
+
+                        </div><!-- col-4 -->
+
+                    <div class="col-4 mg-b-15">
+                        <h5>Income:</h5>
+                        <div id="brandswiseIncome">
+                            <div class="card bd-gray-400 pd-20">
+                                <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15" id="brandnameincome">--</h6>
+                                <div class="d-flex mg-b-10">
+                                <div class="bd-r pd-r-10">
+                                    <label class="tx-12">Front</label>
+                                    <p class="tx-lato tx-inverse tx-bold" id="front">--</p>
+                                </div>
                                 <div class="bd-r pd-x-10">
-                                    <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">$00</p>
-                                    <span class="tx-11 tx-roboto tx-white-8">Refund</span>
+                                    <label class="tx-12">Back</label>
+                                    <p class="tx-lato tx-inverse tx-bold" id="back">--</p>
                                 </div>
                                 <div class="pd-l-10">
-                                    <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">$00</p>
-                                    <span class="tx-11 tx-roboto tx-white-8">Dispute</span>
+                                    <label class="tx-12">Sub Total</label>
+                                    <p class="tx-lato tx-inverse tx-bold" id="subtotal">--</p>
                                 </div>
-                            </div><!-- d-flex --> --}}
+                                </div><!-- d-flex -->
+                                <div class="progress mg-b-10">
+                                    <div class="progress-bar bg-purple wd-100p" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div><!-- card -->
                         </div>
-                        </div>
-                        <div id="ch2" class="ht-50 tr-y-1"></div>
-                    </div>
-                    </div><!-- col-3 -->
-                    <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
-                    <div class="bg-primary rounded overflow-hidden">
-                        <div class="pd-x-20 pd-t-20 d-flex align-items-center">
-                        <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
-                        <div class="mg-l-20">
-                            <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Net Revenue</p>
-                            <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1" id="brand_net_revenue"></p>
-                            {{-- <span class="tx-11 tx-roboto tx-white-8">65.45% on average time</span> --}}
-
-                        </div>
-                        </div>
-                        <div id="ch4" class="ht-50 tr-y-1"></div>
-                    </div>
-                    </div><!-- col-3 -->
-                </div><!-- row -->
-
-
-                <div class="row row-sm mg-t-20">
-
-                    <div class="col-4 mg-b-15">
-                        <div class="card bd-gray-400 pd-20">
-                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Month:</h6>
-                            <div class="d-flex mg-b-10">
-                            <div class="bd-r pd-r-10">
-                                <label class="tx-12">Front</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="front">--</p>
-                            </div>
-                            <div class="bd-r pd-x-10">
-                                <label class="tx-12">Back</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="back">--</p>
-                            </div>
-                            <div class="pd-l-10">
-                                <label class="tx-12">Sub Total</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="subtotal">--</p>
-                            </div>
-                            </div><!-- d-flex -->
-                            <div class="progress mg-b-10">
-                                <div class="progress-bar bg-purple wd-100p" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div><!-- card -->
                     </div><!-- col-4 -->
 
                     <div class="col-4 mg-b-15">
-                        <div class="card bd-gray-400 pd-20">
-                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Disputes:</h6>
-                            <div class="d-flex mg-b-10">
-                            <div class="bd-r pd-r-10">
-                                <label class="tx-12">Fee:</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="disputefees">--</p>
-                            </div>
-                            <div class="bd-r pd-x-10">
-                                <label class="tx-12">Refund:</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="refund">--</p>
-                            </div>
-                            <div class="pd-l-10">
-                                <label class="tx-12">ChargeBack:</label>
-                                <p class="tx-lato tx-inverse tx-bold" id="dispute">--</p>
-                            </div>
-                            </div><!-- d-flex -->
-                            <div class="progress mg-b-10">
-                                <div class="progress-bar bg-danger wd-100p" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        <h5>Lost:</h5>
+                        <div id="brandswiseloss">
+                            <div class="card bd-gray-400 pd-20">
+                                <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15" id="brandnamelost">--</h6>
+                                <div class="d-flex mg-b-10">
+                                <div class="bd-r pd-r-10">
+                                    <label class="tx-12">Fee:</label>
+                                    <p class="tx-lato tx-inverse tx-bold" id="disputefees">--</p>
+                                </div>
+                                <div class="bd-r pd-x-10">
+                                    <label class="tx-12">Refund:</label>
+                                    <p class="tx-lato tx-inverse tx-bold" id="refund">--</p>
+                                </div>
+                                <div class="pd-l-10">
+                                    <label class="tx-12">ChargeBack:</label>
+                                    <p class="tx-lato tx-inverse tx-bold" id="dispute">--</p>
+                                </div>
+                                </div><!-- d-flex -->
+                                <div class="progress mg-b-10">
+                                    <div class="progress-bar bg-danger wd-100p" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
                             </div>
                         </div><!-- card -->
                     </div><!-- col-4 -->
 
 
                     <div class="col-4 mg-b-15">
+                        <h5>PPC:</h5>
                         <div class="card bd-gray-400 pd-20">
                             <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">PPC:</h6>
 
@@ -198,6 +167,7 @@
                     </div><!-- col-4 -->
 
                     <div class="col-4 mg-b-15">
+                        <h5>Expences:</h5>
                         <div class="card bd-gray-400 pd-20">
                             <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Expences:</h6>
                             <div class="d-flex mg-b-10">
@@ -222,6 +192,7 @@
 
 
                     <div class="col-4 mg-b-15">
+                        <h5>Leads:</h5>
                         <div class="card bd-gray-400 pd-20">
                             <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Lead:</h6>
                             <div class="d-flex mg-b-10">
@@ -246,6 +217,7 @@
 
 
                     <div class="col-4 mg-b-15">
+                        <h5>Revenue:</h5>
                         <div class="card bd-gray-400 pd-20">
                             <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Revenue:</h6>
                             <div class="d-flex mg-b-10">
@@ -435,141 +407,6 @@
                             </table>
 
 
-                            {{-- <div class="row">
-                                <div class="col-4">
-                                    <div class="carousel-item active">
-                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                            <script type="text/javascript">
-
-                                                // Load the Visualization API and the corechart package.
-                                                google.charts.load('current', {'packages':['corechart']});
-
-                                                // Set a callback to run when the Google Visualization API is loaded.
-                                                google.charts.setOnLoadCallback(drawChart);
-
-                                                // Callback that creates and populates a data table,
-                                                // instantiates the pie chart, passes in the data and
-                                                // draws it.
-                                                function drawChart() {
-
-                                                // Create the data table.
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Topping');
-                                                data.addColumn('number', 'Slices');
-                                                data.addRows([
-                                                    ['Revenue', {{$jt1smm_ongoing}}],
-                                                    ['Dispute', {{$jt1smm_chargeback}}],
-                                                    ['Refund', {{$jt1smm_refund}}],
-                                                ]);
-
-                                                // Set chart options
-                                                var options = {'title':'Jumpto1 SMM',is3D: true,
-                                                colors: ['green', 'red', 'purple'],
-                                                                'width':400,
-                                                                'height':300};
-
-                                                // Instantiate and draw our chart, passing in some options.
-                                                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                                                chart.draw(data, options);
-                                                }
-                                            </script>
-
-                                            <div id="chart_div"></div>
-                                        </div><!-- d-flex -->
-                                    </div><!-- card -->
-
-                                </div>
-
-                                <div class="col-4">
-                                    <div class="carousel-item active">
-                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                            <script type="text/javascript">
-
-                                                // Load the Visualization API and the corechart package.
-                                                google.charts.load('current', {'packages':['corechart']});
-
-                                                // Set a callback to run when the Google Visualization API is loaded.
-                                                google.charts.setOnLoadCallback(drawChart);
-
-                                                // Callback that creates and populates a data table,
-                                                // instantiates the pie chart, passes in the data and
-                                                // draws it.
-                                                function drawChart() {
-
-                                                // Create the data table.
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Topping');
-                                                data.addColumn('number', 'Slices');
-                                                data.addRows([
-                                                    ['Revenue', {{$srp_ongoing}}],
-                                                    ['Dispute', {{$srp_chargeback}}],
-                                                    ['Refund', {{$srp_refund}}],
-                                                ]);
-
-                                                // Set chart options
-                                                var options = {'title':'SEO Results Pro',is3D: true,
-                                                colors: ['green', 'red', 'purple'],
-                                                                'width':400,
-                                                                'height':300};
-
-                                                // Instantiate and draw our chart, passing in some options.
-                                                var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
-                                                chart.draw(data, options);
-                                                }
-                                            </script>
-
-                                            <div id="chart_div1"></div>
-                                        </div><!-- d-flex -->
-                                    </div><!-- card -->
-
-                                </div>
-
-                                <div class="col-4">
-                                    <div class="carousel-item active">
-                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                            <script type="text/javascript">
-
-                                                // Load the Visualization API and the corechart package.
-                                                google.charts.load('current', {'packages':['corechart']});
-
-                                                // Set a callback to run when the Google Visualization API is loaded.
-                                                google.charts.setOnLoadCallback(drawChart);
-
-                                                // Callback that creates and populates a data table,
-                                                // instantiates the pie chart, passes in the data and
-                                                // draws it.
-                                                function drawChart() {
-
-                                                // Create the data table.
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Topping');
-                                                data.addColumn('number', 'Slices');
-                                                data.addRows([
-                                                    ['Revenue', {{$jt1_ongoing}}],
-                                                    ['Dispute', {{$jt1_chargeback}}],
-                                                    ['Refund', {{$jt1_refund}}],
-                                                ]);
-
-                                                // Set chart options
-                                                var options = {'title':'Jumpto 1',is3D: true,
-                                                colors: ['green', 'red', 'purple'],
-                                                                'width':400,
-                                                                'height':300};
-
-                                                // Instantiate and draw our chart, passing in some options.
-                                                var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
-                                                chart.draw(data, options);
-                                                }
-                                            </script>
-
-                                            <div id="chart_div2"></div>
-                                        </div><!-- d-flex -->
-                                    </div><!-- card -->
-
-                                </div>
-
-                            </div> --}}
-
 
                         </div><!-- col-4 -->
 
@@ -578,124 +415,95 @@
 
 
                     <div class="col-12 mg-b-15">
-                        <div class="card bd-gray-400 pd-20">
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div id="refundgraph"></div>
+                                <script type="text/javascript">
+
+                                    function displayArray(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
+
+                                        google.charts.load('current', {'packages': ['corechart']});
 
 
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="carousel-item active">
-                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                            <script type="text/javascript">
+                                        google.charts.setOnLoadCallback(function () {
+                                            drawChart(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
+                                        });
 
-                                            function displaysales(brand_renewal , brand_upsell, brand_newlead) {
+                                        function drawChart(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
+                                            console.log(brand_name, brand_ongoing, brand_refund, brand_chargeback);
 
-                                            // Load the Visualization API and the corechart package.
-                                            google.charts.load('current', {'packages':['corechart']});
-
-                                            // Set a callback to run when the Google Visualization API is loaded.
-                                            google.charts.setOnLoadCallback(function() {
-                                                drawChart(brand_renewal , brand_upsell, brand_newlead);
-                                            });
-
-                                            // Callback that creates and populates a data table,
-                                            // instantiates the pie chart, passes in the data and
-                                            // draws it.
-                                            function drawChart(brand_renewal , brand_upsell, brand_newlead) {
-
-                                                console.log(brand_renewal , brand_upsell, brand_newlead);
-
-                                            // Create the data table.
                                             var data = new google.visualization.DataTable();
-                                            data.addColumn('string', 'Topping');
-                                            data.addColumn('number', 'Slices');
+                                            data.addColumn('string', 'Category');
+                                            data.addColumn('number', 'Percentage');
                                             data.addRows([
-                                                // ['Ongoing', brand_ongoing],
-                                                // ['Refund', brand_refund],
-                                                // ['Chargeback', brand_chargeback]
-                                                ['Renewal', parseInt(brand_renewal)],
-                                                ['Upsell', parseInt(brand_upsell)],
-                                                ['NewLead', parseInt(brand_newlead)]
+                                                ['Ongoing', parseInt(brand_ongoing)],
+                                                ['Refund', parseInt(brand_refund)],
+                                                ['Chargeback', parseInt(brand_chargeback)]
                                             ]);
 
-                                            // Set chart options
-                                            var options = {'title':'Dispute & Refund % Chart:',is3D: true,
-                                            colors: ['green', 'red', 'purple'],
-                                                            'width':400,
-                                                            'height':300};
 
-                                            // Instantiate and draw our chart, passing in some options.
-                                            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                                            chart.draw(data, options);
-                                            }
-
-                                            };
-
-                                            </script>
-
-                                            <div id="chart_div"></div>
-                                        </div><!-- d-flex -->
-                                    </div><!-- card -->
-
-                                </div>
-
-                                <div class="col-6">
-                                    <div class="carousel-item active">
-                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                            <script type="text/javascript">
-
-                                                function displayArray(brand_ongoing , brand_refund, brand_chargeback) {
-
-                                                // Load the Visualization API and the corechart package.
-                                                google.charts.load('current', {'packages':['corechart']});
-
-                                                // Set a callback to run when the Google Visualization API is loaded.
-                                                google.charts.setOnLoadCallback(function() {
-                                                    drawChart(brand_ongoing, brand_refund, brand_chargeback);
-                                                });
-
-                                                // Callback that creates and populates a data table,
-                                                // instantiates the pie chart, passes in the data and
-                                                // draws it.
-                                                function drawChart(brand_ongoing , brand_refund, brand_chargeback) {
-
-                                                    console.log(brand_ongoing , brand_refund, brand_chargeback);
-
-                                                // Create the data table.
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Topping');
-                                                data.addColumn('number', 'Slices');
-                                                data.addRows([
-                                                    // ['Ongoing', brand_ongoing],
-                                                    // ['Refund', brand_refund],
-                                                    // ['Chargeback', brand_chargeback]
-                                                    ['Ongoing', parseInt(brand_ongoing)],
-                                                    ['Refund', parseInt(brand_refund)],
-                                                    ['Chargeback', parseInt(brand_chargeback)]
-                                                ]);
-
-                                                // Set chart options
-                                                var options = {'title':'Dispute & Refund % Chart:',is3D: true,
+                                            var options = {
+                                                'title': brand_name + ' Dispute & Refund % Chart:',
+                                                is3D: true,
                                                 colors: ['green', 'red', 'purple'],
-                                                                'width':400,
-                                                                'height':300};
-
-                                                // Instantiate and draw our chart, passing in some options.
-                                                var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
-                                                chart.draw(data, options);
-                                                }
-
+                                                'width': 500,
+                                                'height': 400
                                             };
-                                            </script>
 
-                                            <div id="chart_div1"></div>
-                                        </div><!-- d-flex -->
-                                    </div><!-- card -->
+                                            var chart = new google.visualization.PieChart(document.getElementById(chartId));
+                                            chart.draw(data, options);
+                                        }
+                                    }
 
-                                </div>
+
+                                </script>
                             </div>
+                            <div class="col-6">
+                                <div id="salesgraph"></div>
+                                <script type="text/javascript">
+
+                                    function salesArray(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
+
+                                        google.charts.load('current', {'packages': ['corechart']});
 
 
-                        </div><!-- col-4 -->
+                                        google.charts.setOnLoadCallback(function () {
+                                            drawChart(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
+                                        });
+
+                                        function drawChart(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
+                                            console.log(brand_name,  brand_name, brand_renewal, brand_upsell, brand_newlead);
+
+                                            var data = new google.visualization.DataTable();
+                                            data.addColumn('string', 'Category');
+                                            data.addColumn('number', 'Percentage');
+                                            data.addRows([
+                                                ['Renewal', parseInt(brand_renewal)],
+                                                ['Upsell', parseInt(brand_upsell)],
+                                                ['New Lead', parseInt(brand_newlead)]
+                                            ]);
+
+
+                                            var options = {
+                                                'title': brand_name + ' Sales Distribution Chart:',
+                                                is3D: true,
+                                                colors: ['green', 'red', 'purple'],
+                                                'width': 500,
+                                                'height': 400
+                                            };
+
+                                            var chart = new google.visualization.PieChart(document.getElementById(chartId));
+                                            chart.draw(data, options);
+                                        }
+                                    }
+
+
+                                </script>
+
+                            </div>
+                        </div>
+
 
 
                     </div><!-- row -->
@@ -886,13 +694,13 @@
             $(document).ready(function () {
 
 
-                $("#searchbranddata").click(function(event){
+                $("#searchallbranddata").click(function(event){
                     event.preventDefault();
                     let brandID = $("#getbranddata");
                     let monthID = $("#getmonth");
                     let yearID = $("#getyeardata");
                     $.ajax({
-                            url:"/api/fetch-branddata",
+                            url:"/api/fetch-Allbranddata",
                             type:"get",
                             data:{
                                 "brand_id":brandID.val(),
@@ -903,246 +711,295 @@
                                 brandID.attr('disabled','disabled');
                                 monthID.attr('disabled','disabled');
                                 yearID.attr('disabled','disabled');
-                                $("#searchbranddata").text("wait...");
-                                $("#searchbranddata").attr('disabled','disabled');
+                                $("#searchallbranddata").text("wait...");
+                                $("#searchallbranddata").attr('disabled','disabled');
                             }),
                             success:((Response)=>{
                                 console.log(Response);
-                                if(Response.message == "NO BRAND FOUND !"){
-                                    // alert(Response.message);
 
-                                    let brandtargetofMonth =  "No Target set";
-                                    document.getElementById("brandtarget").innerHTML = brandtargetofMonth;
+                                    let brandrev =  Response.netrevenue;
+                                    let brandswisesales = document.getElementById('brandswisesales');
+                                    brandswisesales.innerHTML = '';
+                                    brandrev.forEach(brandrevenue => {
+                                        // Create a new card div
+                                        let card = document.createElement('div');
+                                        card.className = 'card bd-gray-400 pd-20';
 
-                                    let brandsales =  Response.brandsales;
-                                    document.getElementById("brandsales").innerHTML = brandsales;
+                                        // Create brand name heading
+                                        let brandName = document.createElement('h6');
+                                        brandName.className = 'tx-12 tx-uppercase tx-inverse tx-bold mg-b-15';
+                                        brandName.id = 'brandnameSales';
+                                        brandName.innerHTML = brandrevenue.name;
+                                        card.appendChild(brandName);
 
-                                    let chargeback = Response.chargeback;
-                                    document.getElementById("branddisputes").innerHTML = chargeback;
+                                        // Create the container div for target, sales, disputes, and net revenue
+                                        let dFlex = document.createElement('div');
+                                        dFlex.className = 'd-flex mg-b-10';
 
-                                    let disputefees = Response.disputefees;
-                                    document.getElementById("disputefees").innerHTML = disputefees;
+                                        // Target div
+                                        let targetDiv = document.createElement('div');
+                                        targetDiv.className = 'bd-r pd-r-10';
+                                        let targetLabel = document.createElement('label');
+                                        targetLabel.className = 'tx-12';
+                                        targetLabel.innerHTML = 'Target';
+                                        let targetP = document.createElement('p');
+                                        targetP.className = 'tx-lato tx-inverse tx-bold';
+                                        targetP.id = 'brandtarget';
+                                        targetP.innerHTML = brandrevenue.brandtarget;
+                                        targetDiv.appendChild(targetLabel);
+                                        targetDiv.appendChild(targetP);
 
-                                    let net_revenue = Response.net_revenue;
-                                    document.getElementById("brand_net_revenue").innerHTML = net_revenue;
+                                        // Sales div
+                                        let salesDiv = document.createElement('div');
+                                        salesDiv.className = 'bd-r pd-x-10';
+                                        let salesLabel = document.createElement('label');
+                                        salesLabel.className = 'tx-12';
+                                        salesLabel.innerHTML = 'Sales';
+                                        let salesP = document.createElement('p');
+                                        salesP.className = 'tx-lato tx-inverse tx-bold';
+                                        salesP.id = 'brandsales';
+                                        salesP.innerHTML = brandrevenue.brandsales;
+                                        salesDiv.appendChild(salesLabel);
+                                        salesDiv.appendChild(salesP);
 
-                                    let dispute = Response.dispute;
-                                    document.getElementById("dispute").innerHTML =  dispute;
+                                        // Dispute div
+                                        let disputeDiv = document.createElement('div');
+                                        disputeDiv.className = 'bd-r pd-x-10';
+                                        let disputeLabel = document.createElement('label');
+                                        disputeLabel.className = 'tx-12';
+                                        disputeLabel.innerHTML = 'Dispute';
+                                        let disputeP = document.createElement('p');
+                                        disputeP.className = 'tx-lato tx-inverse tx-bold';
+                                        disputeP.id = 'branddisputes';
+                                        disputeP.innerHTML = brandrevenue.disputes;
+                                        disputeDiv.appendChild(disputeLabel);
+                                        disputeDiv.appendChild(disputeP);
 
-                                    let refund =  Response.refund;
-                                    document.getElementById("refund").innerHTML =  refund;
+                                        // Net revenue div
+                                        let netRevenueDiv = document.createElement('div');
+                                        netRevenueDiv.className = 'pd-l-10';
+                                        let netRevenueLabel = document.createElement('label');
+                                        netRevenueLabel.className = 'tx-12';
+                                        netRevenueLabel.innerHTML = 'Net Revenue';
+                                        let netRevenueP = document.createElement('p');
+                                        netRevenueP.className = 'tx-lato tx-inverse tx-bold';
+                                        netRevenueP.id = 'brand_net_revenue';
+                                        netRevenueP.innerHTML = brandrevenue.net_revenue;
+                                        netRevenueDiv.appendChild(netRevenueLabel);
+                                        netRevenueDiv.appendChild(netRevenueP);
 
-                                    let front =  Response.front;
-                                    document.getElementById("front").innerHTML =  front;
+                                        // Append all the created divs to the d-flex container
+                                        dFlex.appendChild(targetDiv);
+                                        dFlex.appendChild(salesDiv);
+                                        dFlex.appendChild(disputeDiv);
+                                        dFlex.appendChild(netRevenueDiv);
 
-                                    let back =  Response.back;
-                                    document.getElementById("back").innerHTML =  back;
+                                        // Append the d-flex container to the card
+                                        card.appendChild(dFlex);
 
-                                    document.getElementById("subtotal").innerHTML = front + back
+                                        // Create and append the progress bar
+                                        let progress = document.createElement('div');
+                                        progress.className = 'progress mg-b-10';
+                                        let progressBar = document.createElement('div');
+                                        progressBar.className = 'progress-bar bg-warning wd-100p';
+                                        progressBar.setAttribute('role', 'progressbar');
+                                        progressBar.setAttribute('aria-valuenow', '100');
+                                        progressBar.setAttribute('aria-valuemin', '0');
+                                        progressBar.setAttribute('aria-valuemax', '100');
+                                        progress.appendChild(progressBar);
 
-                                    let employees = Response.employees;
+                                        // Append the progress bar to the card
+                                        card.appendChild(progress);
+
+                                        // Append the card to the brandswisesales div
+                                        document.getElementById('brandswisesales').appendChild(card);
+                                    });
+
+
+                                    let brandearning =  Response.earning;
+                                    let brandswiseIncome = document.getElementById('brandswiseIncome');
+                                    brandswiseIncome.innerHTML = '';
+                                    brandearning.forEach(brandearnings => {
+
+                                        // Create a new card div
+                                        let card = document.createElement('div');
+                                        card.className = 'card bd-gray-400 pd-20';
+
+                                        // Create brand name heading
+                                        let brandName = document.createElement('h6');
+                                        brandName.className = 'tx-12 tx-uppercase tx-inverse tx-bold mg-b-15';
+                                        brandName.id = 'brandnameSales';
+                                        brandName.innerHTML = brandearnings.name;
+                                        card.appendChild(brandName);
+
+                                        // Create the container div for target, sales, disputes, and net revenue
+                                        let dFlex = document.createElement('div');
+                                        dFlex.className = 'd-flex mg-b-10';
+
+                                        // Target div
+                                        let targetDiv = document.createElement('div');
+                                        targetDiv.className = 'bd-r pd-r-10';
+                                        let targetLabel = document.createElement('label');
+                                        targetLabel.className = 'tx-12';
+                                        targetLabel.innerHTML = 'Front';
+                                        let targetP = document.createElement('p');
+                                        targetP.className = 'tx-lato tx-inverse tx-bold';
+                                        targetP.id = 'front';
+                                        targetP.innerHTML = brandearnings.totalfront;
+                                        targetDiv.appendChild(targetLabel);
+                                        targetDiv.appendChild(targetP);
+
+                                        // Sales div
+                                        let salesDiv = document.createElement('div');
+                                        salesDiv.className = 'bd-r pd-x-10';
+                                        let salesLabel = document.createElement('label');
+                                        salesLabel.className = 'tx-12';
+                                        salesLabel.innerHTML = 'Back';
+                                        let salesP = document.createElement('p');
+                                        salesP.className = 'tx-lato tx-inverse tx-bold';
+                                        salesP.id = 'back';
+                                        salesP.innerHTML = brandearnings.totalback;
+                                        salesDiv.appendChild(salesLabel);
+                                        salesDiv.appendChild(salesP);
+
+                                        // Dispute div
+                                        let disputeDiv = document.createElement('div');
+                                        disputeDiv.className = 'bd-r pd-x-10';
+                                        let disputeLabel = document.createElement('label');
+                                        disputeLabel.className = 'tx-12';
+                                        disputeLabel.innerHTML = 'Sub Total';
+                                        let disputeP = document.createElement('p');
+                                        disputeP.className = 'tx-lato tx-inverse tx-bold';
+                                        disputeP.id = 'subtotal';
+                                        disputeP.innerHTML = brandearnings.frontBacksum;
+                                        disputeDiv.appendChild(disputeLabel);
+                                        disputeDiv.appendChild(disputeP);
+
+
+                                        // Append all the created divs to the d-flex container
+                                        dFlex.appendChild(targetDiv);
+                                        dFlex.appendChild(salesDiv);
+                                        dFlex.appendChild(disputeDiv);
+
+                                        // Append the d-flex container to the card
+                                        card.appendChild(dFlex);
+
+                                        // Create and append the progress bar
+                                        let progress = document.createElement('div');
+                                        progress.className = 'progress mg-b-10';
+                                        let progressBar = document.createElement('div');
+                                        progressBar.className = 'progress-bar bg-purple wd-100p';
+                                        progressBar.setAttribute('role', 'progressbar');
+                                        progressBar.setAttribute('aria-valuenow', '100');
+                                        progressBar.setAttribute('aria-valuemin', '0');
+                                        progressBar.setAttribute('aria-valuemax', '100');
+                                        progress.appendChild(progressBar);
+
+                                        // Append the progress bar to the card
+                                        card.appendChild(progress);
+
+                                        // Append the card to the brandswisesales div
+                                        document.getElementById('brandswiseIncome').appendChild(card);
+                                    });
+
+
+
+                                    let branddisputes =  Response.loss;
+                                    let brandswiseloss = document.getElementById('brandswiseloss');
+                                    brandswiseloss.innerHTML = '';
+                                    branddisputes.forEach(branddispute => {
+
+                                        // Create a new card div
+                                        let card = document.createElement('div');
+                                        card.className = 'card bd-gray-400 pd-20';
+
+                                        // Create brand name heading
+                                        let brandName = document.createElement('h6');
+                                        brandName.className = 'tx-12 tx-uppercase tx-inverse tx-bold mg-b-15';
+                                        brandName.id = 'brandnamelost';
+                                        brandName.innerHTML = branddispute.name;
+                                        card.appendChild(brandName);
+
+                                        // Create the container div for target, sales, disputes, and net revenue
+                                        let dFlex = document.createElement('div');
+                                        dFlex.className = 'd-flex mg-b-10';
+
+                                        // Target div
+                                        let targetDiv = document.createElement('div');
+                                        targetDiv.className = 'bd-r pd-r-10';
+                                        let targetLabel = document.createElement('label');
+                                        targetLabel.className = 'tx-12';
+                                        targetLabel.innerHTML = 'Fee';
+                                        let targetP = document.createElement('p');
+                                        targetP.className = 'tx-lato tx-inverse tx-bold';
+                                        targetP.id = 'disputefees';
+                                        targetP.innerHTML = branddispute.disputefees;
+                                        targetDiv.appendChild(targetLabel);
+                                        targetDiv.appendChild(targetP);
+
+                                        // Sales div
+                                        let salesDiv = document.createElement('div');
+                                        salesDiv.className = 'bd-r pd-x-10';
+                                        let salesLabel = document.createElement('label');
+                                        salesLabel.className = 'tx-12';
+                                        salesLabel.innerHTML = 'Refund';
+                                        let salesP = document.createElement('p');
+                                        salesP.className = 'tx-lato tx-inverse tx-bold';
+                                        salesP.id = 'refund';
+                                        salesP.innerHTML = branddispute.refund;
+                                        salesDiv.appendChild(salesLabel);
+                                        salesDiv.appendChild(salesP);
+
+                                        // Dispute div
+                                        let disputeDiv = document.createElement('div');
+                                        disputeDiv.className = 'bd-r pd-x-10';
+                                        let disputeLabel = document.createElement('label');
+                                        disputeLabel.className = 'tx-12';
+                                        disputeLabel.innerHTML = 'Chargeback';
+                                        let disputeP = document.createElement('p');
+                                        disputeP.className = 'tx-lato tx-inverse tx-bold';
+                                        disputeP.id = 'dispute';
+                                        disputeP.innerHTML = branddispute.dispute;
+                                        disputeDiv.appendChild(disputeLabel);
+                                        disputeDiv.appendChild(disputeP);
+
+
+                                        // Append all the created divs to the d-flex container
+                                        dFlex.appendChild(targetDiv);
+                                        dFlex.appendChild(salesDiv);
+                                        dFlex.appendChild(disputeDiv);
+
+                                        // Append the d-flex container to the card
+                                        card.appendChild(dFlex);
+
+                                        // Create and append the progress bar
+                                        let progress = document.createElement('div');
+                                        progress.className = 'progress mg-b-10';
+                                        let progressBar = document.createElement('div');
+                                        progressBar.className = 'progress-bar bg-danger wd-100p';
+                                        progressBar.setAttribute('role', 'progressbar');
+                                        progressBar.setAttribute('aria-valuenow', '100');
+                                        progressBar.setAttribute('aria-valuemin', '0');
+                                        progressBar.setAttribute('aria-valuemax', '100');
+                                        progress.appendChild(progressBar);
+
+                                        // Append the progress bar to the card
+                                        card.appendChild(progress);
+
+                                        // Append the card to the brandswisesales div
+                                        document.getElementById('brandswiseloss').appendChild(card);
+                                    });
+
+
+
+                                    let employees = Response.emppaymentarray;
                                     let tableBody = document.getElementById('employeeTableBody');
                                     tableBody.innerHTML = '';
 
                                     employees.forEach(employee => {
-                                        let row = document.createElement('tr');
 
-                                        let agentname = document.createElement('td');
-                                        agentname.textContent = employee.name;
-                                        row.appendChild(agentname);
-
-                                        let target = document.createElement('td');
-                                        target.textContent = employee.target;  // Assuming employee has a 'target' property
-                                        row.appendChild(target);
-
-                                        let revenue = document.createElement('td');
-                                        revenue.textContent = employee.totalcomplete;  // Assuming employee has a 'revenue' property
-                                        row.appendChild(revenue);
-
-                                        let front = document.createElement('td');
-                                        front.textContent = employee.totalfront;  // Assuming employee has a 'front' property
-                                        row.appendChild(front);
-
-                                        let back = document.createElement('td');
-                                        back.textContent = employee.totalback;  // Assuming employee has a 'back' property
-                                        row.appendChild(back);
-
-                                        let refund = document.createElement('td');
-                                        refund.textContent = employee.refund;  // Assuming employee has a 'refund' property
-                                        row.appendChild(refund);
-
-                                        let chargeback = document.createElement('td');
-                                        chargeback.textContent = employee.dispute;  // Assuming employee has a 'chargeback' property
-                                        row.appendChild(chargeback);
-
-                                        let ntotal = document.createElement('td');
-                                        ntotal.textContent = employee.id;  // Assuming employee has a 'ntotal' property
-                                        row.appendChild(ntotal);
-
-                                        let exp = document.createElement('td');
-                                        exp.textContent = employee.id;  // Assuming employee has a 'exp' property
-                                        row.appendChild(exp);
-
-                                        let nettotal = document.createElement('td');
-                                        nettotal.textContent = employee.id;  // Assuming employee has a 'nettotal' property
-                                        row.appendChild(nettotal);
-
-                                        // Append the row to the table body
-                                        tableBody.appendChild(row);
-                                    });
-
-                                    let selectedbrandname = Response.selectedbrandname[0].name;
-                                    let brandfronttodaypayment = Response.brandfronttodaypayment;
-                                    let brandbacktodaypayment = Response.brandbacktodaypayment;
-                                    let brandalltodaypayment = Response.brandalltodaypayment;
-                                    let brndtodaypayment = document.getElementById('brandtodaypayment');
-                                    brndtodaypayment.innerHTML = '';
-
-                                        let row1 = document.createElement('tr');
-
-                                        let brandname = document.createElement('td');
-                                        brandname.textContent = selectedbrandname;
-                                        row1.appendChild(brandname);
-
-                                        let fronttoday = document.createElement('td');
-                                        fronttoday.textContent = brandfronttodaypayment;
-                                        row1.appendChild(fronttoday);
-
-                                        let backtoday = document.createElement('td');
-                                        backtoday.textContent = brandbacktodaypayment;
-                                        row1.appendChild(backtoday);
-
-                                        let totaltoday = document.createElement('td');
-                                        totaltoday.textContent = brandalltodaypayment;
-                                        row1.appendChild(totaltoday);
-
-                                        brndtodaypayment.appendChild(row1);
-
-
-                                        let emptodaysdata = Response.employeetodayspayment;
-                                        let emptodaypayment = document.getElementById('empdailypayment');
-                                        emptodaypayment.innerHTML = '';
-
-                                    emptodaysdata.forEach(emptodaysdatas => {
-                                        let row2 = document.createElement('tr');
-
-                                        let empname = document.createElement('td');
-                                        empname.textContent = emptodaysdatas.name;
-                                        row2.appendChild(empname);
-
-                                        let emptoday = document.createElement('td');
-                                        emptoday.textContent = emptodaysdatas.allrevenue;
-                                        row2.appendChild(emptoday);
-
-                                        let emptotal = document.createElement('td');
-                                        emptotal.textContent = emptodaysdatas.allrevenue;
-                                        row2.appendChild(emptotal);
-
-                                        emptodaypayment.appendChild(row2);
-                                    });
-
-                                    let disputerefunddata = Response.disputerefund;
-                                        let disputetable = document.getElementById('dispreftable');
-                                        disputetable.innerHTML = '';
-
-                                    disputerefunddata.forEach(disputerefunddatas => {
-                                        let row3 = document.createElement('tr');
-
-                                        let disputedate = document.createElement('td');
-                                        disputedate.textContent = disputerefunddatas.date;
-                                        row3.appendChild(disputedate);
-
-                                        let disputebrand = document.createElement('td');
-                                        disputebrand.textContent = disputerefunddatas.brand;
-                                        row3.appendChild(disputebrand);
-
-                                        let disputeclient = document.createElement('td');
-                                        disputeclient.textContent = disputerefunddatas.client;
-                                        row3.appendChild(disputeclient);
-
-                                        let disputeamount = document.createElement('td');
-                                        disputeamount.textContent = disputerefunddatas.amount;
-                                        row3.appendChild(disputeamount);
-
-                                        let disputeservices = document.createElement('td');
-                                        disputeservices.textContent = disputerefunddatas.services;
-                                        row3.appendChild(disputeservices);
-
-                                        let disputeupseller = document.createElement('td');
-                                        disputeupseller.textContent = disputerefunddatas.upseller;
-                                        row3.appendChild(disputeupseller);
-
-                                        let disputesupport = document.createElement('td');
-                                        disputesupport.textContent = disputerefunddatas.support;
-                                        row3.appendChild(disputesupport);
-
-                                        let disputetype = document.createElement('td');
-                                        disputetype.textContent = disputerefunddatas.type;
-                                        row3.appendChild(disputetype);
-
-                                        let disputefrontperson = document.createElement('td');
-                                        disputefrontperson.textContent = disputerefunddatas.frontperson;
-                                        row3.appendChild(disputefrontperson);
-
-                                        disputetable.appendChild(row3);
-                                    });
-
-                                    let brand_ongoing = Response.brand_ongoing;
-                                    let brand_refund = Response.brand_refund;
-                                    let brand_chargeback = Response.brand_chargeback;
-
-                                    let brand_renewal = Response.brand_renewal;
-                                    let brand_upsell = Response.brand_upsell;
-                                    let brand_newlead = Response.brand_newlead;
-
-                                    displayArray(brand_ongoing , brand_refund, brand_chargeback);
-                                    displaysales(brand_renewal , brand_upsell, brand_newlead);
-
-
-                                    brandID.removeAttr('disabled');
-                                    monthID.removeAttr('disabled');
-                                    yearID.removeAttr('disabled');
-                                    $("#searchbranddata").text("Search");
-                                    $("#searchbranddata").removeAttr('disabled');
-
-                                    return;
-                                }
-                                    let brandtargetofMonth =  Response.brandtargetofMonth;
-                                    document.getElementById("brandtarget").innerHTML = brandtargetofMonth;
-
-                                    let brandsales =  Response.brandsales;
-                                    document.getElementById("brandsales").innerHTML = brandsales;
-
-                                    let chargeback = Response.chargeback;
-                                    document.getElementById("branddisputes").innerHTML = chargeback;
-
-                                    let disputefees = Response.disputefees;
-                                    document.getElementById("disputefees").innerHTML = disputefees;
-
-                                    let net_revenue = Response.net_revenue;
-                                    document.getElementById("brand_net_revenue").innerHTML = net_revenue;
-
-                                    let dispute = Response.dispute;
-                                    document.getElementById("dispute").innerHTML =  dispute;
-
-                                    let refund =  Response.refund;
-                                    document.getElementById("refund").innerHTML =  refund;
-
-                                    let front =  Response.front;
-                                    document.getElementById("front").innerHTML =  front;
-
-                                    let back =  Response.back;
-                                    document.getElementById("back").innerHTML =  back;
-
-                                    // document.getElementById("subtotal").innerHTML = '';
-                                    document.getElementById("subtotal").innerHTML = front + back
-
-                                    let employees = Response.employees;
-                                    let tableBody = document.getElementById('employeeTableBody');
-                                    tableBody.innerHTML = '';
-
-                                    employees.forEach(employee => {
-                                        let row = document.createElement('tr');
+                                        if(employee){
+                                            let row = document.createElement('tr');
 
                                         let agentname = document.createElement('td');
                                         agentname.textContent = employee.name;
@@ -1185,127 +1042,182 @@
                                         row.appendChild(nettotal);
 
                                         tableBody.appendChild(row);
+
+                                        }
+
                                     });
 
 
-                                    let selectedbrandname = Response.selectedbrandname[0].name;
-                                    let brandfronttodaypayment = Response.brandfronttodaypayment;
-                                    let brandbacktodaypayment = Response.brandbacktodaypayment;
-                                    let brandalltodaypayment = Response.brandalltodaypayment;
-                                    let brndtodaypayment = document.getElementById('brandtodaypayment');
-                                    brndtodaypayment.innerHTML = '';
+                                    let branddata = Response.brandtoday;
+                                    let brandtodaypayment = document.getElementById('brandtodaypayment');
+                                    brandtodaypayment.innerHTML = ''; // Clear existing table content
 
-                                        let row1 = document.createElement('tr');
+                                    // Populate brand data into the table
+                                    branddata.forEach(branddatas => {
+                                        if(branddatas){
+                                            let row1 = document.createElement('tr');
 
+                                        // Create and append brand name cell
                                         let brandname = document.createElement('td');
-                                        brandname.textContent = selectedbrandname;
+                                        brandname.textContent = branddatas.name;
                                         row1.appendChild(brandname);
 
-                                        let fronttoday = document.createElement('td');
-                                        fronttoday.textContent = brandfronttodaypayment;
-                                        row1.appendChild(fronttoday);
+                                        // Create and append today's front payment cell
+                                        let brandtodayfront = document.createElement('td');
+                                        brandtodayfront.textContent = branddatas.front;
+                                        row1.appendChild(brandtodayfront);
 
-                                        let backtoday = document.createElement('td');
-                                        backtoday.textContent = brandbacktodaypayment;
-                                        row1.appendChild(backtoday);
+                                        // Create and append today's back payment cell
+                                        let brandtodayback = document.createElement('td');
+                                        brandtodayback.textContent = branddatas.back;
+                                        row1.appendChild(brandtodayback);
 
-                                        let totaltoday = document.createElement('td');
-                                        totaltoday.textContent = brandalltodaypayment;
-                                        row1.appendChild(totaltoday);
+                                        // Create and append total payment cell
+                                        let brandtotal = document.createElement('td');
+                                        brandtotal.textContent = branddatas.all;
+                                        row1.appendChild(brandtotal);
 
-                                        brndtodaypayment.appendChild(row1);
+                                        // Append the row to the table
+                                        brandtodaypayment.appendChild(row1);
+
+                                        }
+
+                                    });
 
 
-                                        let emptodaysdata = Response.employeetodayspayment;
+                                        let emptodaysdata = Response.emptodayspayment;
                                         let emptodaypayment = document.getElementById('empdailypayment');
                                         emptodaypayment.innerHTML = '';
 
                                     emptodaysdata.forEach(emptodaysdatas => {
-                                        let row2 = document.createElement('tr');
+                                        if(emptodaysdatas){
+                                            let row2 = document.createElement('tr');
 
-                                        let empname = document.createElement('td');
-                                        empname.textContent = emptodaysdatas.name;
-                                        row2.appendChild(empname);
+                                            let empname = document.createElement('td');
+                                            empname.textContent = emptodaysdatas.name;
+                                            row2.appendChild(empname);
 
-                                        let emptoday = document.createElement('td');
-                                        emptoday.textContent = emptodaysdatas.allrevenue;
-                                        row2.appendChild(emptoday);
+                                            let emptoday = document.createElement('td');
+                                            emptoday.textContent = emptodaysdatas.allrevenue;
+                                            row2.appendChild(emptoday);
 
-                                        let emptotal = document.createElement('td');
-                                        emptotal.textContent = emptodaysdatas.allrevenue;
-                                        row2.appendChild(emptotal);
+                                            let emptotal = document.createElement('td');
+                                            emptotal.textContent = emptodaysdatas.allrevenue;
+                                            row2.appendChild(emptotal);
 
-                                        emptodaypayment.appendChild(row2);
+                                            emptodaypayment.appendChild(row2);
+
+                                        }
+
                                     });
 
 
-                                    let disputerefunddata = Response.disputerefund;
+                                    let disputerefunddata = Response.chargebacks;
                                         let disputetable = document.getElementById('dispreftable');
                                         disputetable.innerHTML = '';
 
                                     disputerefunddata.forEach(disputerefunddatas => {
-                                        let row3 = document.createElement('tr');
+
+                                        if(disputerefunddatas){
+                                            let row3 = document.createElement('tr');
 
                                         let disputedate = document.createElement('td');
-                                        disputedate.textContent = disputerefunddatas.date;
+                                        disputedate.textContent = disputerefunddatas['chargebacks'][0].date;
                                         row3.appendChild(disputedate);
 
                                         let disputebrand = document.createElement('td');
-                                        disputebrand.textContent = disputerefunddatas.brand;
+                                        disputebrand.textContent = disputerefunddatas['chargebacks'][0].brand;
                                         row3.appendChild(disputebrand);
 
                                         let disputeclient = document.createElement('td');
-                                        disputeclient.textContent = disputerefunddatas.client;
+                                        disputeclient.textContent = disputerefunddatas['chargebacks'][0].client;
                                         row3.appendChild(disputeclient);
 
                                         let disputeamount = document.createElement('td');
-                                        disputeamount.textContent = disputerefunddatas.amount;
+                                        disputeamount.textContent = disputerefunddatas['chargebacks'][0].amount;
                                         row3.appendChild(disputeamount);
 
                                         let disputeservices = document.createElement('td');
-                                        disputeservices.textContent = disputerefunddatas.services;
+                                        disputeservices.textContent = disputerefunddatas['chargebacks'][0].services;
                                         row3.appendChild(disputeservices);
 
                                         let disputeupseller = document.createElement('td');
-                                        disputeupseller.textContent = disputerefunddatas.upseller;
+                                        disputeupseller.textContent = disputerefunddatas['chargebacks'][0].upseller;
                                         row3.appendChild(disputeupseller);
 
                                         let disputesupport = document.createElement('td');
-                                        disputesupport.textContent = disputerefunddatas.support;
+                                        disputesupport.textContent = disputerefunddatas['chargebacks'][0].support;
                                         row3.appendChild(disputesupport);
 
                                         let disputetype = document.createElement('td');
-                                        disputetype.textContent = disputerefunddatas.type;
+                                        disputetype.textContent = disputerefunddatas['chargebacks'][0].type;
                                         row3.appendChild(disputetype);
 
                                         let disputefrontperson = document.createElement('td');
-                                        disputefrontperson.textContent = disputerefunddatas.frontperson;
+                                        disputefrontperson.textContent = disputerefunddatas['chargebacks'][0].frontperson;
                                         row3.appendChild(disputefrontperson);
 
                                         disputetable.appendChild(row3);
+                                        }
+
                                     });
 
-                                    let brand_ongoing = Response.brand_ongoing;
-                                    let brand_refund = Response.brand_refund;
-                                    let brand_chargeback = Response.brand_chargeback;
 
-                                    let brand_renewal = Response.brand_renewal;
-                                    let brand_upsell = Response.brand_upsell;
-                                    let brand_newlead = Response.brand_newlead;
 
-                                    displayArray(brand_ongoing , brand_refund, brand_chargeback);
-                                    displaysales(brand_renewal , brand_upsell, brand_newlead);
+
+                                    let refundgraph = Response.disputegraph;
+                                    let refunddisputegraph = document.getElementById('refundgraph');
+                                    refunddisputegraph.innerHTML = '';
+
+                                    refundgraph.forEach((refundgraphs, index) => {
+                                        let brand_name = refundgraphs.name;
+                                        let brand_ongoing = refundgraphs.brand_ongoing;
+                                        let brand_refund = refundgraphs.brand_refund;
+                                        let brand_chargeback = refundgraphs.brand_chargeback;
+
+                                        let chartId = 'chart_div' + index;
+                                        let chartDiv = document.createElement('div');
+                                        chartDiv.id = chartId;
+                                        chartDiv.style.marginBottom = '30px';
+                                        refunddisputegraph.appendChild(chartDiv);
+
+                                        displayArray(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
+                                    });
+
+
+                                    let salesdistribution = Response.salesgraph;
+                                    let salesgraph = document.getElementById('salesgraph');
+                                    salesgraph.innerHTML = '';
+
+                                    salesdistribution.forEach((salesdistributions, index) => {
+                                        let brand_name = salesdistributions.name;
+                                        let brand_renewal = salesdistributions.brand_renewal;
+                                        let brand_upsell = salesdistributions.brand_upsell;
+                                        let brand_newlead = salesdistributions.brand_newlead;
+
+                                        let chartId = 'chart_div1' + index;
+                                        let chartDiv = document.createElement('div');
+                                        chartDiv.id = chartId;
+                                        chartDiv.style.marginBottom = '30px';
+                                        salesgraph.appendChild(chartDiv);
+
+                                        salesArray(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
+                                    });
+
+
+
 
 
 
                                     brandID.removeAttr('disabled');
                                     monthID.removeAttr('disabled');
                                     yearID.removeAttr('disabled');
-                                    $("#searchbranddata").text("Search");
-                                    $("#searchbranddata").removeAttr('disabled');
+                                    $("#searchallbranddata").text("Search");
+                                    $("#searchallbranddata").removeAttr('disabled');
 
 
-                            }),
+                            }
+                        ),
                             error:((error)=>{
                                 console.log(error);
                                 alert("Error Found Please Referesh Window And Try Again !")
@@ -1313,112 +1225,117 @@
                                 brandID.removeAttr('disabled');
                                 monthID.removeAttr('disabled');
                                 yearID.removeAttr('disabled');
-                                $("#searchbranddata").text("Search");
-                                $("#searchbranddata").removeAttr('disabled');
+                                $("#searchallbranddata").text("Search");
+                                $("#searchallbranddata").removeAttr('disabled');
                             })
 
                     });
                 });
 
-                $("#getdateagentsandbrand").click(function(event){
-                    event.preventDefault();
-                    let Date = $("#dateforagent");
-                    $.ajax({
-                            url:"/api/fetch-datewisedata",
-                            type:"get",
-                            data:{
-                                "date_id":Date.val(),
-                            },
-                            beforeSend:(()=>{
-                                Date.attr('disabled','disabled');
-                                $("#getdateagentsandbrand").text("wait...");
-                                $("#getdateagentsandbrand").attr('disabled','disabled');
-                            }),
-                            success:((Response)=>{
-                                console.log(Response);
+                // $("#getdateagentsandbrand").click(function(event){
+                //     event.preventDefault();
+                //     let Date = $("#dateforagent");
+                //     $.ajax({
+                //             url:"/api/fetch-datewisedata",
+                //             type:"get",
+                //             data:{
+                //                 "date_id":Date.val(),
+                //             },
+                //             beforeSend:(()=>{
+                //                 Date.attr('disabled','disabled');
+                //                 $("#getdateagentsandbrand").text("wait...");
+                //                 $("#getdateagentsandbrand").attr('disabled','disabled');
+                //             }),
+                //             success:((Response)=>{
+                //                 console.log(Response);
 
-                               // Retrieve brand data and table element
-                                let branddata = Response.branddata;
-                                let brandtodaypayment = document.getElementById('brandtodaypayment');
-                                brandtodaypayment.innerHTML = ''; // Clear existing table content
+                //                // Retrieve brand data and table element
+                //                 let branddata = Response.branddata;
+                //                 let brandtodaypayment = document.getElementById('brandtodaypayment');
+                //                 brandtodaypayment.innerHTML = ''; // Clear existing table content
 
-                                // Populate brand data into the table
-                                branddata.forEach(branddatas => {
-                                    let row1 = document.createElement('tr');
+                //                 // Populate brand data into the table
+                //                 branddata.forEach(branddatas => {
+                //                     let row1 = document.createElement('tr');
 
-                                    // Create and append brand name cell
-                                    let brandname = document.createElement('td');
-                                    brandname.textContent = branddatas.name;
-                                    row1.appendChild(brandname);
+                //                     // Create and append brand name cell
+                //                     let brandname = document.createElement('td');
+                //                     brandname.textContent = branddatas.name;
+                //                     row1.appendChild(brandname);
 
-                                    // Create and append today's front payment cell
-                                    let brandtodayfront = document.createElement('td');
-                                    brandtodayfront.textContent = branddatas.front;
-                                    row1.appendChild(brandtodayfront);
+                //                     // Create and append today's front payment cell
+                //                     let brandtodayfront = document.createElement('td');
+                //                     brandtodayfront.textContent = branddatas.front;
+                //                     row1.appendChild(brandtodayfront);
 
-                                    // Create and append today's back payment cell
-                                    let brandtodayback = document.createElement('td');
-                                    brandtodayback.textContent = branddatas.back;
-                                    row1.appendChild(brandtodayback);
+                //                     // Create and append today's back payment cell
+                //                     let brandtodayback = document.createElement('td');
+                //                     brandtodayback.textContent = branddatas.back;
+                //                     row1.appendChild(brandtodayback);
 
-                                    // Create and append total payment cell
-                                    let brandtotal = document.createElement('td');
-                                    brandtotal.textContent = branddatas.all;
-                                    row1.appendChild(brandtotal);
+                //                     // Create and append total payment cell
+                //                     let brandtotal = document.createElement('td');
+                //                     brandtotal.textContent = branddatas.all;
+                //                     row1.appendChild(brandtotal);
 
-                                    // Append the row to the table
-                                    brandtodaypayment.appendChild(row1);
-                                });
+                //                     // Append the row to the table
+                //                     brandtodaypayment.appendChild(row1);
+                //                 });
 
-                                // Retrieve employee data and table element
-                                let emptodaysdata = Response.employees;
-                                let emptodaypayment = document.getElementById('empdailypayment');
-                                emptodaypayment.innerHTML = ''; // Clear existing table content
+                //                 // Retrieve employee data and table element
+                //                 let emptodaysdata = Response.employees;
+                //                 let emptodaypayment = document.getElementById('empdailypayment');
+                //                 emptodaypayment.innerHTML = ''; // Clear existing table content
 
-                                // Populate employee data into the table
-                                emptodaysdata.forEach(emptodaysdatas => {
-                                    let row2 = document.createElement('tr');
+                //                 // Populate employee data into the table
+                //                 emptodaysdata.forEach(emptodaysdatas => {
+                //                     let row2 = document.createElement('tr');
 
-                                    // Create and append employee name cell
-                                    let empname = document.createElement('td');
-                                    empname.textContent = emptodaysdatas.name;
-                                    row2.appendChild(empname);
+                //                     // Create and append employee name cell
+                //                     let empname = document.createElement('td');
+                //                     empname.textContent = emptodaysdatas.name;
+                //                     row2.appendChild(empname);
 
-                                    // Create and append today's revenue cell
-                                    let emptoday = document.createElement('td');
-                                    emptoday.textContent = emptodaysdatas.allrevenue;
-                                    row2.appendChild(emptoday);
+                //                     // Create and append today's revenue cell
+                //                     let emptoday = document.createElement('td');
+                //                     emptoday.textContent = emptodaysdatas.allrevenue;
+                //                     row2.appendChild(emptoday);
 
-                                    // Create and append total revenue cell
-                                    let emptotal = document.createElement('td');
-                                    emptotal.textContent = emptodaysdatas.allrevenue;
-                                    row2.appendChild(emptotal);
+                //                     // Create and append total revenue cell
+                //                     let emptotal = document.createElement('td');
+                //                     emptotal.textContent = emptodaysdatas.allrevenue;
+                //                     row2.appendChild(emptotal);
 
-                                    // Append the row to the table
-                                    emptodaypayment.appendChild(row2);
-                                });
-
-
-
-                                Date.removeAttr('disabled');
-                                $("#getdateagentsandbrand").text("Search");
-                                $("#getdateagentsandbrand").removeAttr('disabled');
+                //                     // Append the row to the table
+                //                     emptodaypayment.appendChild(row2);
+                //                 });
 
 
-                            }),
-                            error:((error)=>{
-                                console.log(error);
-                                alert("Error Found Please Referesh Window And Try Again !")
 
-                                Date.removeAttr('disabled');
-                                $("#getdateagentsandbrand").text("Search");
-                                $("#getdateagentsandbrand").removeAttr('disabled');
-                            })
+                //                 Date.removeAttr('disabled');
+                //                 $("#getdateagentsandbrand").text("Search");
+                //                 $("#getdateagentsandbrand").removeAttr('disabled');
 
-                    });
-                });
+
+                //             }),
+                //             error:((error)=>{
+                //                 console.log(error);
+                //                 alert("Error Found Please Referesh Window And Try Again !")
+
+                //                 Date.removeAttr('disabled');
+                //                 $("#getdateagentsandbrand").text("Search");
+                //                 $("#getdateagentsandbrand").removeAttr('disabled');
+                //             })
+
+                //     });
+                // });
 
 
             });
         </script>
 @endsection
+
+
+
+
+

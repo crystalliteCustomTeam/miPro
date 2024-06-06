@@ -16,7 +16,7 @@
                 <div class="col-2 mt-3">
                 </div>
                 <div class="col-2 mt-3">
-                    <select class="form-control select2" name="brand" id="getyeardata">
+                    <select class="form-control select2" name="year" id="getyeardata">
                         <option value="">Select Year</option>
                         <option value="2024">2024</option>
                         <option value="2025">2025</option>
@@ -28,7 +28,7 @@
                   </select>
                 </div>
                 <div class="col-3 mt-3">
-                    <select class="form-control select2" name="brand" id="getmonth">
+                    <select class="form-control select2" name="month" id="getmonth">
                         <option value="">Select Month</option>
                         <option value="January">January</option>
                         <option value="February">February</option>
@@ -435,142 +435,6 @@
                             </table>
 
 
-                            {{-- <div class="row">
-                                <div class="col-4">
-                                    <div class="carousel-item active">
-                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                            <script type="text/javascript">
-
-                                                // Load the Visualization API and the corechart package.
-                                                google.charts.load('current', {'packages':['corechart']});
-
-                                                // Set a callback to run when the Google Visualization API is loaded.
-                                                google.charts.setOnLoadCallback(drawChart);
-
-                                                // Callback that creates and populates a data table,
-                                                // instantiates the pie chart, passes in the data and
-                                                // draws it.
-                                                function drawChart() {
-
-                                                // Create the data table.
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Topping');
-                                                data.addColumn('number', 'Slices');
-                                                data.addRows([
-                                                    ['Revenue', {{$jt1smm_ongoing}}],
-                                                    ['Dispute', {{$jt1smm_chargeback}}],
-                                                    ['Refund', {{$jt1smm_refund}}],
-                                                ]);
-
-                                                // Set chart options
-                                                var options = {'title':'Jumpto1 SMM',is3D: true,
-                                                colors: ['green', 'red', 'purple'],
-                                                                'width':400,
-                                                                'height':300};
-
-                                                // Instantiate and draw our chart, passing in some options.
-                                                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                                                chart.draw(data, options);
-                                                }
-                                            </script>
-
-                                            <div id="chart_div"></div>
-                                        </div><!-- d-flex -->
-                                    </div><!-- card -->
-
-                                </div>
-
-                                <div class="col-4">
-                                    <div class="carousel-item active">
-                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                            <script type="text/javascript">
-
-                                                // Load the Visualization API and the corechart package.
-                                                google.charts.load('current', {'packages':['corechart']});
-
-                                                // Set a callback to run when the Google Visualization API is loaded.
-                                                google.charts.setOnLoadCallback(drawChart);
-
-                                                // Callback that creates and populates a data table,
-                                                // instantiates the pie chart, passes in the data and
-                                                // draws it.
-                                                function drawChart() {
-
-                                                // Create the data table.
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Topping');
-                                                data.addColumn('number', 'Slices');
-                                                data.addRows([
-                                                    ['Revenue', {{$srp_ongoing}}],
-                                                    ['Dispute', {{$srp_chargeback}}],
-                                                    ['Refund', {{$srp_refund}}],
-                                                ]);
-
-                                                // Set chart options
-                                                var options = {'title':'SEO Results Pro',is3D: true,
-                                                colors: ['green', 'red', 'purple'],
-                                                                'width':400,
-                                                                'height':300};
-
-                                                // Instantiate and draw our chart, passing in some options.
-                                                var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
-                                                chart.draw(data, options);
-                                                }
-                                            </script>
-
-                                            <div id="chart_div1"></div>
-                                        </div><!-- d-flex -->
-                                    </div><!-- card -->
-
-                                </div>
-
-                                <div class="col-4">
-                                    <div class="carousel-item active">
-                                        <div class="bg-white pd-30 ht-300 pos-relative d-flex align-items-center rounded">
-                                            <script type="text/javascript">
-
-                                                // Load the Visualization API and the corechart package.
-                                                google.charts.load('current', {'packages':['corechart']});
-
-                                                // Set a callback to run when the Google Visualization API is loaded.
-                                                google.charts.setOnLoadCallback(drawChart);
-
-                                                // Callback that creates and populates a data table,
-                                                // instantiates the pie chart, passes in the data and
-                                                // draws it.
-                                                function drawChart() {
-
-                                                // Create the data table.
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Topping');
-                                                data.addColumn('number', 'Slices');
-                                                data.addRows([
-                                                    ['Revenue', {{$jt1_ongoing}}],
-                                                    ['Dispute', {{$jt1_chargeback}}],
-                                                    ['Refund', {{$jt1_refund}}],
-                                                ]);
-
-                                                // Set chart options
-                                                var options = {'title':'Jumpto 1',is3D: true,
-                                                colors: ['green', 'red', 'purple'],
-                                                                'width':400,
-                                                                'height':300};
-
-                                                // Instantiate and draw our chart, passing in some options.
-                                                var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
-                                                chart.draw(data, options);
-                                                }
-                                            </script>
-
-                                            <div id="chart_div2"></div>
-                                        </div><!-- d-flex -->
-                                    </div><!-- card -->
-
-                                </div>
-
-                            </div> --}}
-
-
                         </div><!-- col-4 -->
 
 
@@ -618,7 +482,7 @@
                                             ]);
 
                                             // Set chart options
-                                            var options = {'title':'Dispute & Refund % Chart:',is3D: true,
+                                            var options = {'title':'Sales Distribution Graph',is3D: true,
                                             colors: ['green', 'red', 'purple'],
                                                             'width':400,
                                                             'height':300};
