@@ -439,8 +439,21 @@
                     @if ($roles == 1)
                         @foreach ($qaforms as $qaform)
                             <tr role="row" class="odd">
-                                <td tabindex="0" class="sorting_1"><a href="/client/details/{{$qaform->ClientID}}">{{$qaform->paymentclientName->name}}</a></td>
-                                <td>{{$qaform->paymentprojectName->name}}</td>
+                                <td tabindex="0" class="sorting_1">
+
+                                    @if (isset($qaform->paymentclientName->name) && $qaform->paymentclientName->name != null)
+                                    <a href="/client/details/{{$qaform->ClientID}}">{{$qaform->paymentclientName->name}}</a>
+                                    @else
+                                        undefined
+                                    @endif
+                                </td>
+                                <td>
+                                    @if (isset($qaform->paymentprojectName->name) && $qaform->paymentprojectName->name != null)
+                                        {{$qaform->paymentprojectName->name}}
+                                    @else
+                                        undefined
+                                    @endif
+                                </td>
                                 <td>
 
                                    @if($qaform->refundStatus == "Refund")

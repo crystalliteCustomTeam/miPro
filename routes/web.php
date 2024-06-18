@@ -245,6 +245,8 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/paymentdashboard/{id?}','paymentdashboard');
         //allpayment dashboard:
          Route::get('/allpaymentdashboard/{id?}','allpaymentdashboard');
+
+         Route::get('/finalallpaymentdashboard/{id?}','finalpaymentdashboard');
         //brandTarget
         Route::get('/settarget','brandtarget');
         Route::post('/settarget/process','brandtargetprocess');
@@ -257,10 +259,19 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/setagenttarget/edit/{id}','agenttargetedit');
         Route::post('/setagenttarget/edit/process/{id}','agenttargetprocesseditprocess');
 
-         //csv_paymentsFromstripeUpload:
+         //csv_ppc:
          Route::get('/forms/csv_uploads_ppc','csv_ppc');
          Route::post('/forms/csv_uploads_ppc/process','csv_ppc_process');
-         Route::get('/agenttarget','viewagenttarget');
+         Route::get('/viewppc','viewppc');
+
+
+
+          //csv_leads:
+          Route::get('/forms/csv_uploads_leads','csv_leads');
+          Route::post('/forms/csv_uploads_leads/process','csv_leads_process');
+          Route::get('/viewleads','viewleads');
+
+
 
     });
 

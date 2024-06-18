@@ -119,6 +119,16 @@
       <li class="br-menu-item">
         <a href="#" class="br-menu-link with-sub">
           <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+          <span class="menu-item-label">Leads</span>
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub">
+          <li class="sub-item"><a href="/forms/csv_uploads_leads" class="sub-link">Leads Upload(CSV)</a></li>
+          <li class="sub-item"><a href="#" class="sub-link">Leads</a></li>
+        </ul>
+      </li><!-- br-menu-item -->
+      <li class="br-menu-item">
+        <a href="#" class="br-menu-link with-sub">
+          <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
           <span class="menu-item-label">Set Targets</span>
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
@@ -151,6 +161,7 @@
           <li class="sub-item"><a href="/allclient/revenue" class="sub-link">Revenue Report</a></li>
           <li class="sub-item"><a href="/paymentdashboard" class="sub-link">Payment Dashboard</a></li>
           <li class="sub-item"><a href="/allpaymentdashboard" class="sub-link">All Brand Payment Dashboard</a></li>
+          <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">--</a></li>
         </ul>
       </li><!-- br-menu-item -->
 

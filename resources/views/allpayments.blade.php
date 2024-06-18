@@ -51,7 +51,11 @@
                             <td tabindex="0" class="sorting_1">
                                 <strong> {{$item->paymentclientName->name}}</strong>
                                 --
+                                @if ( isset($item->paymentprojectName->name) && $item->paymentprojectName->name != null )
                                 {{$item->paymentprojectName->name}}
+                                @else
+                                Link Project
+                                @endif
                             </td>
                             <td>
                                 @if ( $item->paymentNature == "New Lead" || $item->paymentNature == "New Sale" || $item->paymentNature == "Upsell" )
