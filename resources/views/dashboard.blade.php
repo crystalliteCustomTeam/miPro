@@ -639,8 +639,21 @@
 
                             @foreach ($Refund_Month as $Refund_Months)
                                 <div class="alert alert-warning mg-t-20" role="alert">
+                                    @if (isset($Refund_Months->paymentclientName->name))
                                     <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Refund_Months->paymentclientName->name}}</strong></p>
-                                    <p><span class="tx-primary">Date:{{$Refund_Months->futureDate}}| PM:{{$Refund_Months->pmEmployeesName->name}}| Payment Nature:{{$Refund_Months->paymentNature}}| Amt:{{$Refund_Months->TotalAmount}} | <a href="/client/project/payment/view/{{$Refund_Months->id}}">view</a></span></p>
+                                    <p><span class="tx-primary">Date:{{$Refund_Months->futureDate}}|
+                                    PM:
+                                    @if (isset($Refund_Months->pmEmployeesName->name))
+                                    {{$Refund_Months->pmEmployeesName->name}}
+                                    @else
+                                    Undefied
+                                    @endif|
+                                    Payment Nature:{{$Refund_Months->paymentNature}}| Amt:{{$Refund_Months->TotalAmount}} | <a href="/client/project/payment/view/{{$Refund_Months->id}}">view</a></span></p>
+                                    @else
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>Undefined</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Refund_Months->futureDate}}| PM: --| Payment Nature:{{$Refund_Months->paymentNature}}| Amt:{{$Refund_Months->TotalAmount}} | <a href="/client/project/payment/view/{{$Refund_Months->id}}">view</a></span></p>
+                                    @endif
+
                                 </div>
                             @endforeach
                             </div><!-- pd-x-25 -->
@@ -677,8 +690,21 @@
 
                             @foreach ($Dispute_Month as $Dispute_Months)
                                 <div class="alert alert-danger mg-b-5" role="alert">
-                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Dispute_Months->paymentclientName->name}}</strong></p>
-                                    <p><span class="tx-primary">Date:{{$Dispute_Months->futureDate}}| PM:{{$Dispute_Months->pmEmployeesName->name}}| Payment Nature:{{$Dispute_Months->paymentNature}}| Amt:{{$Dispute_Months->TotalAmount}}  | <a href="/client/project/payment/view/{{$Dispute_Months->id}}">view</a></span></p>
+                                    @if (isset($Refund_Months->paymentclientName->name))
+                                    <p><span class="tx-primary">Date:{{$Refund_Months->futureDate}}|
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Refund_Months->paymentclientName->name}}</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Dispute_Months->futureDate}}| Payment Nature:{{$Dispute_Months->paymentNature}}| Amt:{{$Dispute_Months->TotalAmount}}  | <a href="/client/project/payment/view/{{$Dispute_Months->id}}">view</a></span></p>
+                                    PM:
+                                    @if (isset($Refund_Months->pmEmployeesName->name))
+                                    {{$Refund_Months->pmEmployeesName->name}}
+                                    @else
+                                    Undefined
+                                    @endif|
+                                    Payment Nature:{{$Dispute_Months->paymentNature}}| Amt:{{$Dispute_Months->TotalAmount}}  | <a href="/client/project/payment/view/{{$Dispute_Months->id}}">view</a></span></p>
+                                    @else
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>Undefined</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Dispute_Months->futureDate}}| PM: --| Payment Nature:{{$Dispute_Months->paymentNature}}| Amt:{{$Dispute_Months->TotalAmount}}  | <a href="/client/project/payment/view/{{$Dispute_Months->id}}">view</a></span></p>
+                                    @endif
                                 </div>
                             @endforeach
                             </div><!-- pd-x-25 -->

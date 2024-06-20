@@ -44,7 +44,9 @@ class NewPaymentsClients extends Model
         "amt_after_transactionfee",
         "disputefee",
         "amt_after_disputefee",
-        "Sheetdata"
+        "Sheetdata",
+        "disputeattack",
+        "disputeattackamount"
 
     ];
 

@@ -709,7 +709,7 @@
                                         totalfrontback1.push(parseFloat(brandrevs.frontBacksum));
                                         totalfrontfee1.push(parseFloat(brandrevs.disputefees));
                                         totalrefund1.push(parseFloat(brandrevs.refund));
-                                        totalcb1.push(parseFloat(brandrevs.disputes));
+                                        totalcb1.push(parseFloat(brandrevs.dispute));
                                         totalnetrevenue1.push(parseFloat(brandrevs.net_revenue));
 
                                         mytableBody.appendChild(rowbrand);

@@ -1975,14 +1975,14 @@ class BasicController extends Controller
 
                 $getdispute = DB::table('newpaymentsclients')
                     ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
-                    ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
+                    ->whereIn(DB::raw('MONTH(disputeattack)'), $months)
                     ->where('BrandID', $allbrandarrays)
                     ->where('SalesPerson', $employee->id)
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
                     ->where('refundStatus',  '!=','Refund')
                     ->where('dispute', '!=', null)
-                    ->SUM('Paid');
+                    ->SUM('disputeattackamount');
 
                 $getrefund = DB::table('newpaymentsclients')
                     ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
@@ -2205,13 +2205,13 @@ class BasicController extends Controller
 
             $dispute = DB::table('newpaymentsclients')
                         ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
-                        ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
+                        ->whereIn(DB::raw('MONTH(disputeattack)'), $months)
                         ->where('BrandID', $allbrandarrays)
                         ->where('remainingStatus', '!=', 'Unlinked Payments')
                         ->where('refundStatus', '!=', 'Pending Payment')
                         ->where('refundStatus',  '!=','Refund')
                         ->where('dispute', '!=', null)
-                        ->SUM('Paid');
+                        ->SUM('disputeattackamount');
 
             $refund = DB::table('newpaymentsclients')
                 ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
@@ -2325,14 +2325,13 @@ class BasicController extends Controller
 
             $brand_chargeback = DB::table('newpaymentsclients')
                 ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
-                ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
+                ->whereIn(DB::raw('MONTH(disputeattack)'), $months)
                 ->where('BrandID', $allbrandarrays)
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('refundStatus',  '!=','Refund')
                 ->where('dispute', '!=', null)
-                ->SUM('Paid');
-
+                ->SUM('disputeattackamount');
 
 
 
@@ -10528,7 +10527,9 @@ class BasicController extends Controller
                                     "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
                                     "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
                                     "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
-                                    "Sheetdata" => "Invoicing Data"
+                                    "Sheetdata" => "Invoicing Data",
+                                    "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                                    "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
                                 ]);
 
                             }else{
@@ -10566,7 +10567,9 @@ class BasicController extends Controller
                                     "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
                                     "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
                                     "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
-                                    "Sheetdata" => "Invoicing Data"
+                                    "Sheetdata" => "Invoicing Data",
+                                    "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                                    "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
                                 ]);
 
                             }
@@ -10643,7 +10646,9 @@ class BasicController extends Controller
                                 "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
                                 "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
                                 "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
-                                "Sheetdata" => "Invoicing Data"
+                                "Sheetdata" => "Invoicing Data",
+                                "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                                "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
                             ]);
 
                         }else{
@@ -10681,7 +10686,9 @@ class BasicController extends Controller
                                 "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
                                 "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
                                 "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
-                                "Sheetdata" => "Invoicing Data"
+                                "Sheetdata" => "Invoicing Data",
+                                "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                                "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
                             ]);
 
                         }
@@ -10692,7 +10699,7 @@ class BasicController extends Controller
         // for_refund:
         foreach ($allinvoice as $allinvoices) {
             $findbrand = Brand::where('name', $allinvoices[0]['Brand'])->get();
-             $checktypeofremaining = $allinvoices[0]['Sales Mode'];
+            $checktypeofremaining = $allinvoices[0]['Sales Mode'];
             $checktransactionIDget = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->where('refundID', '!=', null)->get();
             $checktransactionID = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->where('refundID', '!=', null)->count();
             if ($checktransactionID == 1) {
@@ -11107,8 +11114,7 @@ class BasicController extends Controller
                                 "Payment_Gateway" => $allinvoices[0]['Payment Gateway'],
                                 "bankWireUpload" =>  "--",
                                 "TransactionID" => $allinvoices[0]['Transaction ID'] . "(Refund)",
-                                "paymentDate" => $s1ql_date_dispute, //to view this problem
-                                "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
+                                "paymentDate" => $s1ql_date_dispute, //to view this problems
                                 "SalesPerson" => $salesperson,
                                 "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
                                 "Paid" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
@@ -11192,11 +11198,11 @@ class BasicController extends Controller
                             "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
                             "bankWireUpload" =>  "--",
                             "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'] . "(Won)",
-                            "paymentDate" => $s1ql_date_dispute, //to view this problem
+                            "paymentDate" => $sql_date, //to view this problem
                             "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
                             "SalesPerson" => $salesperson,
                             "TotalAmount" => $allinvoices[0]['Total Amount'],
-                            "Paid" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                            "Paid" => ( $allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
                             "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                             "PaymentType" => "--",
                             "numberOfSplits" => "--",
@@ -11215,7 +11221,9 @@ class BasicController extends Controller
                             "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
                             "disputefee" =>  15,
                             "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
-                            "Sheetdata" => "Invoicing Data"
+                            "Sheetdata" => "Invoicing Data",
+                            "disputeattack"  => $s1ql_date_dispute, //date
+                            "disputeattackamount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
                         ]);
 
                         $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
@@ -11231,7 +11239,7 @@ class BasicController extends Controller
                             "ProjectID" => 0,
                             "ProjectManager" => $projectmanager,
                             "PaymentID" => $createClientPaymentrefund,
-                            "dispute_Date" => $s1ql_date_dispute,
+                            "dispute_Date" => $sql_date,
                             "disputedAmount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
                             "disputeReason" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
                             "disputeStatus" => "Won",
