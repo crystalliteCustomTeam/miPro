@@ -46,7 +46,8 @@ class NewPaymentsClients extends Model
         "amt_after_disputefee",
         "Sheetdata",
         "disputeattack",
-        "disputeattackamount"
+        "disputeattackamount",
+        "notfoundemail"
 
     ];
 

@@ -119,6 +119,12 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/assigned/clients','assignedclients');
 
         //payment
+
+        // (New Payment Direct payment:)
+        Route::get('/newclient/payment','newClientPayment');
+        Route::post('/newclient/payment/process','newClientPaymentprocess');
+
+
         Route::get('/forms/payment/{id}','payment');
         Route::get('/client/add/payment','addPayment');
         Route::post('/client/add/payment/process','addPaymentProcess');

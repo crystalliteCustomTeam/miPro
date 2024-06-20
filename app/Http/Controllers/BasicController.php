@@ -3546,12 +3546,25 @@ class BasicController extends Controller
 
     function kycclientprocess(Request $request)
     {
+
+        $firstemails = $request->input('email');
+        $findclient = 0;
+
+        foreach($firstemails as $email) {
+            $findclient += Clientmeta::whereJsonContains('otheremail', $email)->count();
+        }
+
+        if ($findclient > 0) {
+            return redirect()->back()->with('Error', 'Client Email Found. Please use a new email.');
+        }
+
         $firstemail = $request->input('email');
 
-        $findclient = Client::where('email', $request->input('email'))->get();
-        if (count($findclient) > 0) {
-            return redirect()->back()->with('Error', 'Client Email Found Please Used New Email');
-        }
+        // $findclient = Client::where('email', $request->input('email'))->get();
+        // if (count($findclient) > 0) {
+        //     return redirect()->back()->with('Error', 'Client Email Found Please Used New Email');
+        // }
+
         $createClient = Client::insertGetId([
             'name' => $request->input('name'),
             'phone' => $request->input('phone'),
@@ -4126,6 +4139,9 @@ class BasicController extends Controller
     {
         $domain = $request->input('serviceType');
         $client = $request->input('clientID');
+        $findclient = Client::where('id', $client)->get();
+        $a =  json_encode([$findclient[0]->email]);
+
 
         if ($domain == 'seo') {
 
@@ -4147,6 +4163,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($SEO_ARRAY),
+                'otheremail' =>  $a,
                 'updated_at' => date('y-m-d H:m:s')
             ]);
         } elseif ($domain == 'book') {
@@ -4172,6 +4189,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($BOOK_ARRAY),
+                'otheremail' =>  $a,
                 'updated_at' => date('y-m-d H:m:s')
             ]);
         } elseif ($domain == 'website') {
@@ -4192,6 +4210,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($WEBSITE_ARRAY),
+                'otheremail' =>  $a,
                 'updated_at' => date('y-m-d H:m:s')
             ]);
         } else {
@@ -4211,6 +4230,7 @@ class BasicController extends Controller
                 'nextPayment' =>  $request->input('nextamount'),
                 'paymentRecuring' => $request->input('ChargingPlan'),
                 'orderDetails' => json_encode($CLD_ARRAY),
+                'otheremail' =>  $a,
                 'updated_at' => date('y-m-d H:m:s')
             ]);
         }
@@ -4761,6 +4781,148 @@ class BasicController extends Controller
         } else {
             return redirect('/client/project/payment/Refund/' . $request->input('projectname'));
         }
+    }
+
+
+    function newClientPayment(Request $request)
+    {
+
+        $loginUser = $this->roleExits($request);
+        $findemployee = Employee::get();
+        $brand = Brand::get();
+        return view('newclientpayment', [
+            'employee' => $findemployee,
+            'brands' => $brand,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function newClientPaymentprocess(Request $request)
+    {
+        $firstemails = $request->input('email');
+        $findclient = 0;
+
+        foreach($firstemails as $email) {
+            $findclient += Clientmeta::whereJsonContains('otheremail', $email)->count();
+        }
+
+        if ($findclient > 0) {
+            return redirect()->back()->with('Error', 'Client Email Found. Please use a new email.');
+        }
+
+
+        $createClient = Client::insertGetId([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $firstemails[0],
+            'brand' => $request->input('brand'),
+            'frontSeler' => $request->input('saleperson'),
+            'website' => $request->input('website'),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s')
+        ]);
+
+        $paymentType = $request->input('paymentType');
+        $paymentNature = $request->input('paymentNature');
+        $findusername = DB::table('employees')->where('id', $request->input('saleperson'))->get();
+        $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
+        $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
+        $brandID =$request->input('brand');
+
+        if ($remainingamt == 0) {
+            $remainingstatus = "Not Remaining";
+        } else {
+            $remainingstatus = "Remaining";
+        }
+
+        if ($request->file('bankWireUpload') != null) {
+            $bookwire = $request->file('bankWireUpload')->store('Payment');
+        } else {
+            $bookwire = "--";
+        }
+
+        $transactionType = $request->input('paymentNature');
+
+        if ($request->input('nextpaymentdate') != null) {
+            $date =  $request->input('nextpaymentdate');
+        } elseif ($request->input('ChargingPlan') != null && $request->input('nextpaymentdate') == null) {
+            $today = date('Y-m-d');
+                if ($request->input('ChargingPlan') == "One Time Payment") {
+                    $date = null;
+                } elseif ($request->input('ChargingPlan') == "Monthly") {
+                    $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "2 Months") {
+                    $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "3 Months") {
+                    $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "4 Months") {
+                    $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "5 Months") {
+                    $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "6 Months") {
+                    $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "7 Months") {
+                    $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "8 Months") {
+                    $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "9 Months") {
+                    $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "10 Months") {
+                    $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "11 Months") {
+                    $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "12 Months") {
+                    $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "2 Years") {
+                    $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
+                } elseif ($request->input('ChargingPlan') == "3 Years") {
+                    $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
+                }
+
+        } else {
+             $date = $request->input('nextpaymentdate');
+
+        }
+
+        $createpayment = NewPaymentsClients::insertGetId([
+            "BrandID" => $brandID,
+            "ClientID" => $createClient,
+            "ProjectID" => 0,
+            "ProjectManager" => 0,
+            "paymentNature" => $request->input('paymentNature'),
+            "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+            "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
+            "Platform" => $request->input('platform'),
+            "Card_Brand" => $request->input('cardBrand'),
+            "Payment_Gateway" => $request->input('paymentgateway'),
+            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+            "TransactionID" => $request->input('transactionID'),
+            "paymentDate" => $request->input('paymentdate'),
+            "futureDate" => $date,
+            "SalesPerson" => $request->input('saleperson'),
+            "TotalAmount" => $request->input('totalamount'),
+            "Paid" => $request->input('clientpaid'),
+            "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+            "PaymentType" => $request->input('paymentType'),
+            "numberOfSplits" => ($request->input('paymentType') == "Full Payment") ? '--' : $request->input('numOfSplit'),
+            "SplitProjectManager" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('shareProjectManager')),
+            "ShareAmount" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
+            "Description" => $request->input('description'),
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s'),
+            "refundStatus" => 'On Going',
+            "remainingStatus" => $remainingstatus,
+            "transactionType" => $transactionType,
+            "transactionfee" => $request->input('transactionfee'),
+            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+
+        ]);
+
+        return redirect('/client/project/payment/all');
+
+
     }
 
 
@@ -8296,6 +8458,30 @@ class BasicController extends Controller
     function all_payments(Request $request)
     {
 
+        $getUnmatched = NewPaymentsClients::where('ClientID', 0)->get();
+
+        foreach ($getUnmatched as $unmatched) {
+
+            $matchclientmetas = Clientmeta::whereJsonContains('otheremail', $unmatched->notfoundemail)->count();
+            $matchclientmeta = Clientmeta::whereJsonContains('otheremail', $unmatched->notfoundemail)->get();
+            if ($matchclientmetas > 0 ) {
+                $findprojects = Project::where('clientID', $matchclientmeta[0]->clientID)->count();
+                if($findprojects > 0){
+                    $findproject = Project::where('clientID', $matchclientmeta[0]->clientID)->get();
+                    $projectid = $findproject[0]->id;
+                }else{
+                    $projectid = 0;
+                }
+                    NewPaymentsClients::where('id', $unmatched->id)->update([
+                        'ClientID' => $matchclientmeta[0]->clientID,
+                        'ProjectID' => $projectid
+                    ]);
+            }else{
+                continue;
+            }
+        }
+
+
         $loginUser = $this->roleExits($request);
         $client_payment = NewPaymentsClients::where('refundStatus', '!=', 'Pending Payment')->get();
 
@@ -10354,6 +10540,8 @@ class BasicController extends Controller
     {
         ini_set('max_execution_time', 300);
 
+        $a =  json_encode(["--"]);
+
         $data = Excel::toArray([], $request->file('sheetpayments'));
         $allinvoice = [];
         foreach ($data as $extractData) {
@@ -10514,8 +10702,8 @@ class BasicController extends Controller
                                     "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                                     "PaymentType" => "Full Payment",
                                     "numberOfSplits" => "--",
-                                    "SplitProjectManager" => json_encode("--"),
-                                    "ShareAmount" => json_encode("--"),
+                                    "SplitProjectManager" => $a,
+                                    "ShareAmount" => $a,
                                     "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
                                     'created_at' => date('y-m-d H:m:s'),
                                     'updated_at' => date('y-m-d H:m:s'),
@@ -10530,6 +10718,7 @@ class BasicController extends Controller
                                     "Sheetdata" => "Invoicing Data",
                                     "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
                                     "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                    "notfoundemail" => $allinvoices[0]['Email'] ,
                                 ]);
 
                             }else{
@@ -10553,9 +10742,9 @@ class BasicController extends Controller
                                     "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
                                     "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                                     "PaymentType" => "Full Payment",
-                                    "numberOfSplits" => "--",
-                                    "SplitProjectManager" => json_encode("--"),
-                                    "ShareAmount" => json_encode("--"),
+                                    "numberOfSplits" =>  "--",
+                                    "SplitProjectManager" => $a,
+                                    "ShareAmount" => $a,
                                     "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
                                     'created_at' => date('y-m-d H:m:s'),
                                     'updated_at' => date('y-m-d H:m:s'),
@@ -10570,6 +10759,7 @@ class BasicController extends Controller
                                     "Sheetdata" => "Invoicing Data",
                                     "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
                                     "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                    "notfoundemail" => $allinvoices[0]['Email'] ,
                                 ]);
 
                             }
@@ -10633,8 +10823,8 @@ class BasicController extends Controller
                                 "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                                 "PaymentType" => "Full Payment",
                                 "numberOfSplits" => "--",
-                                "SplitProjectManager" => json_encode("--"),
-                                "ShareAmount" => json_encode("--"),
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
                                 "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
                                 'created_at' => date('y-m-d H:m:s'),
                                 'updated_at' => date('y-m-d H:m:s'),
@@ -10649,6 +10839,7 @@ class BasicController extends Controller
                                 "Sheetdata" => "Invoicing Data",
                                 "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
                                 "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                "notfoundemail" => $allinvoices[0]['Email'] ,
                             ]);
 
                         }else{
@@ -10673,8 +10864,8 @@ class BasicController extends Controller
                                 "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                                 "PaymentType" => "Full Payment",
                                 "numberOfSplits" => "--",
-                                "SplitProjectManager" => json_encode("--"),
-                                "ShareAmount" => json_encode("--"),
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
                                 "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
                                 'created_at' => date('y-m-d H:m:s'),
                                 'updated_at' => date('y-m-d H:m:s'),
@@ -10689,6 +10880,7 @@ class BasicController extends Controller
                                 "Sheetdata" => "Invoicing Data",
                                 "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
                                 "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                "notfoundemail" => $allinvoices[0]['Email'] ,
                             ]);
 
                         }
@@ -11056,8 +11248,8 @@ class BasicController extends Controller
                                 "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                                 "PaymentType" => "--",
                                 "numberOfSplits" => "--",
-                                "SplitProjectManager" => json_encode("--"),
-                                "ShareAmount" => json_encode("--"),
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
                                 "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
                                 'created_at' => date('y-m-d H:m:s'),
                                 'updated_at' => date('y-m-d H:m:s'),
@@ -11069,7 +11261,8 @@ class BasicController extends Controller
                                 "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
                                 "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
                                 "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
-                                "Sheetdata" => "Invoicing Data"
+                                "Sheetdata" => "Invoicing Data",
+                                "notfoundemail" => $allinvoices[0]['Email'] ,
                             ]);
 
                             $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
@@ -11121,8 +11314,8 @@ class BasicController extends Controller
                                 "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                                 "PaymentType" => "--",
                                 "numberOfSplits" => "--",
-                                "SplitProjectManager" => json_encode("--"),
-                                "ShareAmount" => json_encode("--"),
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
                                 "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
                                 'created_at' => date('y-m-d H:m:s'),
                                 'updated_at' => date('y-m-d H:m:s'),
@@ -11136,7 +11329,8 @@ class BasicController extends Controller
                                 "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
                                 "disputefee" =>  15,
                                 "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
-                                "Sheetdata" => "Invoicing Data"
+                                "Sheetdata" => "Invoicing Data",
+                                "notfoundemail" => $allinvoices[0]['Email'] ,
                             ]);
 
                             $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
@@ -11206,8 +11400,8 @@ class BasicController extends Controller
                             "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                             "PaymentType" => "--",
                             "numberOfSplits" => "--",
-                            "SplitProjectManager" => json_encode("--"),
-                            "ShareAmount" => json_encode("--"),
+                            "SplitProjectManager" => $a,
+                            "ShareAmount" => $a,
                             "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
                             'created_at' => date('y-m-d H:m:s'),
                             'updated_at' => date('y-m-d H:m:s'),
@@ -11224,6 +11418,7 @@ class BasicController extends Controller
                             "Sheetdata" => "Invoicing Data",
                             "disputeattack"  => $s1ql_date_dispute, //date
                             "disputeattackamount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                            "notfoundemail" => $allinvoices[0]['Email'] ,
                         ]);
 
                         $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
@@ -11445,8 +11640,8 @@ class BasicController extends Controller
         // print_r($otheremails);
 
         // die();
-
-        return redirect('/payments/unmatched');
+        // return redirect('/payments/unmatched');
+        return redirect('/client/project/payment/all');
     }
 
     function pushEmailtometa(Request $request)

@@ -49,12 +49,16 @@
                     <tr role="row" class="odd">
                         @if ($item->remainingStatus != 'Unlinked Payments')
                             <td tabindex="0" class="sorting_1">
-                                <strong> {{$item->paymentclientName->name}}</strong>
-                                --
-                                @if ( isset($item->paymentprojectName->name) && $item->paymentprojectName->name != null )
-                                {{$item->paymentprojectName->name}}
+                                @if (isset($item->paymentclientName->name))
+                                    <strong> {{$item->paymentclientName->name}}</strong>
+                                    --
+                                    @if ( isset($item->paymentprojectName->name) && $item->paymentprojectName->name != null )
+                                    {{$item->paymentprojectName->name}}
+                                    @else
+                                    Link Project
+                                    @endif
                                 @else
-                                Link Project
+                                    <strong>{{ $item->notfoundemail}}</strong>
                                 @endif
                             </td>
                             <td>
@@ -93,12 +97,17 @@
                                 </div>
                                 @else
                                 <div class="btn-group">
+                                    @if (!isset($item->paymentclientName->name))
+                                    <a href="/client/newemail/{{$item->notfoundemail}}" class="btn btn-success">Link Client</a>
+                                    @else
                                     <a href="/client/project/payment/report/view/{{$item->id}}" class="btn btn-success">View</a>
                                     @if ($item->dispute == null and $item->paymentNature != "Dispute Won" and $item->paymentNature != "Dispute Lost")
                                     <a href="/client/project/payment/edit/{{$item->id}}" class="btn btn-primary">Edit</a>
                                     <a href="#" onclick="myConfirm('{{ $item->id }}')" class="btn btn-danger">Delete</a>
                                     <a href="/client/project/payment/Dispute/{{$item->id}}" class="btn btn-warning">Submit Dispute</a>
                                     @endif
+                                    @endif
+
                                     {{-- @if ($item->remainingStatus == "Remaining")
                                     <a href="/client/project/payment/remaining/{{$item->id}}" class="btn btn-info">Add Remaining</a>
                                     @endif --}}

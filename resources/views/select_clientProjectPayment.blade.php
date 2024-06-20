@@ -22,13 +22,25 @@
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-            <h3 style="color:black" class="mb-5">Select Project:</h3>
+
+            <div class="row">
+                <div class="col-4">
+                    <h3 style="color:black" class="mb-5">Select Project:</h3>
+                </div>
+                <div class="col-4">
+
+                </div>
+                <div class="col-4">
+                    <a href="/newclient/payment">New Client</a>
+                </div>
+            </div>
            <form action="/client/add/payment/process" method="POST">
             @csrf
 
             <div class="row">
             <div class="col-12 mt-3">
-                <label for="" style="font-weight:bold;">Select Project:</label>
+                    <label for="" style="font-weight:bold;">Select Project:</label>
+
                     <select class="form-control select2"  required name="projectname">
                         @foreach($projects as $project)
                             <option value="{{ $project->id }}">
