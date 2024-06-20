@@ -10658,7 +10658,7 @@ class BasicController extends Controller
                     $paymentNature = "Small Paymente";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
-                } elseif ($allinvoices[0]['Sales Mode'] == 'WON' || $allinvoices[0]['Status'] == 'WON') {
+                } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
                     $paymentNature = "Dispute Won";
                 } elseif (  $allinvoices[0]['Sales Mode'] == 'Remaining' || $allinvoices[0]['Sales Mode'] == 'FSRemaining'){
                     $paymentNature = "Remaining";
@@ -10993,7 +10993,7 @@ class BasicController extends Controller
                     $paymentNature = "Small Paymente";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
-                } elseif ($allinvoices[0]['Sales Mode'] == 'WON' || $allinvoices[0]['Status'] == 'WON') {
+                } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
                     $paymentNature = "Dispute Won";
                 }
 
@@ -11446,6 +11446,8 @@ class BasicController extends Controller
                 }
             }
         }
+
+        return redirect('/client/project/payment/all');
     }
 
     function notfoundclient(Request $request)
