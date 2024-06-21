@@ -264,6 +264,7 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/setagenttarget/process','agent_targetprocess');
         Route::get('/setagenttarget/edit/{id}','agenttargetedit');
         Route::post('/setagenttarget/edit/process/{id}','agenttargetprocesseditprocess');
+        Route::get('/allagenttarget','viewagenttarget');
 
          //csv_ppc:
          Route::get('/forms/csv_uploads_ppc','csv_ppc');

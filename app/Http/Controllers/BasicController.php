@@ -2881,7 +2881,7 @@ class BasicController extends Controller
             "updated_at" => date('y-m-d H:m:s')
         ]);
 
-        return redirect('/agenttarget');
+        return redirect('/allagenttarget');
     }
 
     function viewagenttarget(Request $request)
@@ -2935,7 +2935,7 @@ class BasicController extends Controller
             "updated_at" => date('y-m-d H:m:s')
         ]);
 
-        return redirect('/agenttarget');
+        return redirect('/allagenttarget');
     }
 
     function registration(Request $request)

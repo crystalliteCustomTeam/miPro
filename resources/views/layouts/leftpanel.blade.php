@@ -135,7 +135,7 @@
             <li class="sub-item"><a href="/settarget" class="sub-link">Set Brand Target</a></li>
             <li class="sub-item"><a href="/brandtarget" class="sub-link">Targets</a></li>
             <li class="sub-item"><a href="/setagenttarget" class="sub-link">Set Agent Target</a></li>
-            <li class="sub-item"><a href="agenttarget" class="sub-link">Agents</a></li>
+            <li class="sub-item"><a href="/allagenttarget" class="sub-link">Agents</a></li>
             <li class="sub-item"><a href="/forms/create/team" class="sub-link">Ceate Sales Team</a></li>
             <li class="sub-item"><a href="/sales/teams" class="sub-link">Sales Teams</a></li>
         </ul>
