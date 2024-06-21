@@ -817,7 +817,11 @@
                                     // Populate brand data into the table
                                     branddata.forEach(branddatas => {
                                         if(branddatas){
+                                            if(branddatas.front != 0 ||  branddatas.back != 0){
                                             let row1 = document.createElement('tr');
+
+
+
 
                                         // Create and append brand name cell
                                         let brandname = document.createElement('td');
@@ -846,7 +850,7 @@
                                         // Append the row to the table
                                         brandtodaypayment.appendChild(row1);
 
-                                        }
+                                        }}
 
                                     });
 
@@ -871,6 +875,7 @@
 
                                     emptodaysdata.forEach(emptodaysdatas => {
                                         if(emptodaysdatas){
+                                            if(emptodaysdatas.allrevenue != 0 ||  emptodaysdatas.allrevenue != 0){
                                             let row2 = document.createElement('tr');
 
                                             let empname = document.createElement('td');
@@ -889,7 +894,7 @@
 
                                             emptodaypayment.appendChild(row2);
 
-                                        }
+                                        }}
 
                                     });
 
