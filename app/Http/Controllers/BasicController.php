@@ -2253,7 +2253,7 @@ class BasicController extends Controller
                 ->whereDate('paymentDate', '=', now()->toDateString())
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                // ->where('paymentNature', 'New Lead')
+                ->where('refundStatus', '!=','Refund')
                 ->where('transactionType', 'New Lead')
                 ->sum('Paid');
 
@@ -2269,6 +2269,7 @@ class BasicController extends Controller
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('transactionType', '!=', 'New Lead')
+                ->where('refundStatus', '!=','Refund')
                 // ->where('paymentNature', 'New Lead')
                 ->sum('Paid');
 
@@ -2282,6 +2283,7 @@ class BasicController extends Controller
                 ->whereDate('paymentDate', '=', now()->toDateString())
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus', '!=', 'Refund')
                 ->sum('Paid');
 
             if (isset($brandalls) && $brandalls != null) {
@@ -2652,36 +2654,30 @@ class BasicController extends Controller
         $branddata = [];
         $allbrand = Brand::get();
         foreach ($allbrand as $allbrands) {
+
+
+
             $brandfront = NewPaymentsClients::where('BrandID', $allbrands->id)
                 ->whereDate('paymentDate', $requireddate)
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where('paymentNature', 'New Lead')
-                ->where(function ($query) {
-                    $query->where('refundStatus', '!=', 'Refund')
-                        ->orWhere('dispute', null);
-                })
+                ->where('refundStatus', '!=','Refund')
+                ->where('transactionType', 'New Lead')
                 ->sum('Paid');
 
             $brandback = NewPaymentsClients::where('BrandID', $allbrands->id)
                 ->whereDate('paymentDate', $requireddate)
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where('paymentNature', '!=', 'New Lead')
-                ->where(function ($query) {
-                    $query->where('refundStatus', '!=', 'Refund')
-                        ->orWhere('dispute', null);
-                })
+                ->where('transactionType', '!=', 'New Lead')
+                ->where('refundStatus', '!=','Refund')
                 ->sum('Paid');
 
             $brandall = NewPaymentsClients::where('BrandID', $allbrands->id)
                 ->whereDate('paymentDate', $requireddate)
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where(function ($query) {
-                    $query->where('refundStatus', '!=', 'Refund')
-                        ->orWhere('dispute', null);
-                })
+                ->where('refundStatus', '!=', 'Refund')
                 ->sum('Paid');
 
 
