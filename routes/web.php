@@ -266,17 +266,19 @@ Route::controller(BasicController::class)->group(function (){
         Route::post('/setagenttarget/edit/process/{id}','agenttargetprocesseditprocess');
         Route::get('/allagenttarget','viewagenttarget');
 
-         //csv_ppc:
+        //csv_ppc:
          Route::get('/forms/csv_uploads_ppc','csv_ppc');
          Route::post('/forms/csv_uploads_ppc/process','csv_ppc_process');
          Route::get('/viewppc','viewppc');
 
-
-
-          //csv_leads:
+        //csv_leads:
           Route::get('/forms/csv_uploads_leads','csv_leads');
           Route::post('/forms/csv_uploads_leads/process','csv_leads_process');
           Route::get('/viewleads','viewleads');
+
+        //csv_target:
+         Route::get('/forms/csv_uploads_target','target_csv');
+         Route::post('/forms/csv_uploads_target/process','csv_target_process');
 
 
 

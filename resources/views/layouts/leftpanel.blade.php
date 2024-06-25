@@ -132,10 +132,11 @@
           <span class="menu-item-label">Set Targets</span>
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
+            <li class="sub-item"><a href="/forms/csv_uploads_target" class="sub-link">Upload Target (CSV)</a></li>
             <li class="sub-item"><a href="/settarget" class="sub-link">Set Brand Target</a></li>
-            <li class="sub-item"><a href="/brandtarget" class="sub-link">Targets</a></li>
+            <li class="sub-item"><a href="/brandtarget" class="sub-link">Brand Targets</a></li>
             <li class="sub-item"><a href="/setagenttarget" class="sub-link">Set Agent Target</a></li>
-            <li class="sub-item"><a href="/allagenttarget" class="sub-link">Agents</a></li>
+            <li class="sub-item"><a href="/allagenttarget" class="sub-link">Agent Targets</a></li>
             <li class="sub-item"><a href="/forms/create/team" class="sub-link">Ceate Sales Team</a></li>
             <li class="sub-item"><a href="/sales/teams" class="sub-link">Sales Teams</a></li>
         </ul>
