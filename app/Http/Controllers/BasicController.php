@@ -2982,7 +2982,6 @@ class BasicController extends Controller
                 'data' => $brandname5,
             ];
         }
-
         foreach ($brandname6 as $brandtarget) {
             $findbrand1 = Employee::where("name", $brandtarget['brand'])->get();
             $a1 = $brandtarget['data'];
