@@ -1534,22 +1534,19 @@ class BasicController extends Controller
         $checkmonth = $request->month_id;
         $checkyear = $request->year_id;
 
-        if($checkbrand != null &&  $checkmonth != null && $checkyear != null){
+        if ($checkbrand != null &&  $checkmonth != null && $checkyear != null) {
             $allbrandarray = $request->brand_id;
             $months = $request->month_id;
             $years = $request->year_id;
-
-        }elseif($checkbrand == null &&  $checkmonth != null && $checkyear != null){
+        } elseif ($checkbrand == null &&  $checkmonth != null && $checkyear != null) {
             $allbrandarray = Brand::pluck('id')->toArray();
             $months = $request->month_id;
             $years = $request->year_id;
-
-        }elseif($checkbrand != null &&  $checkmonth == null && $checkyear != null){
+        } elseif ($checkbrand != null &&  $checkmonth == null && $checkyear != null) {
             $allbrandarray = $request->brand_id;
-            $months = [1,2,3,4,5,6,7,8,9,10,11,12];
+            $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
             $years = $request->year_id;
-
-        }elseif($checkbrand != null &&  $checkmonth != null && $checkyear == null){
+        } elseif ($checkbrand != null &&  $checkmonth != null && $checkyear == null) {
             $allbrandarray = $request->brand_id;
             $months =  $request->month_id;
             $currentYear = date("Y");
@@ -1569,16 +1566,13 @@ class BasicController extends Controller
             }
 
             $years = array_reverse($years);
-
-
-        }elseif($checkbrand == null &&  $checkmonth == null && $checkyear != null){
+        } elseif ($checkbrand == null &&  $checkmonth == null && $checkyear != null) {
             $allbrandarray = Brand::pluck('id')->toArray();
-            $months = [1,2,3,4,5,6,7,8,9,10,11,12];
+            $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
             $years = $request->year_id;
-
-        }elseif($checkbrand != null &&  $checkmonth == null && $checkyear == null){
+        } elseif ($checkbrand != null &&  $checkmonth == null && $checkyear == null) {
             $allbrandarray =  $request->brand_id;
-            $months = [1,2,3,4,5,6,7,8,9,10,11,12];
+            $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
             $currentYear = date("Y");
             $years = [];
 
@@ -1596,8 +1590,7 @@ class BasicController extends Controller
             }
 
             $years = array_reverse($years);
-
-        }elseif($checkbrand == null &&  $checkmonth != null && $checkyear == null){
+        } elseif ($checkbrand == null &&  $checkmonth != null && $checkyear == null) {
             $allbrandarray = Brand::pluck('id')->toArray();
             $months = $request->month_id;
             $currentYear = date("Y");
@@ -1617,11 +1610,10 @@ class BasicController extends Controller
             }
 
             $years = array_reverse($years);
-
-        }else{
+        } else {
             // $checkbrand == null &&  $checkmonth == null && $checkyear == null
             $allbrandarray = Brand::pluck('id')->toArray();
-            $months = [1,2,3,4,5,6,7,8,9,10,11,12];
+            $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
             $currentYear = date("Y");
             $years = [];
 
@@ -1662,7 +1654,7 @@ class BasicController extends Controller
 
 
 
-        if($checkmonth != null && $checkyear != null && !isset($checkyear[1]) && !isset($checkmonth[1])){
+        if ($checkmonth != null && $checkyear != null && !isset($checkyear[1]) && !isset($checkmonth[1])) {
 
             $currentMonth = $checkmonth[0];
             $currentYear = $checkyear[0];
@@ -1687,7 +1679,6 @@ class BasicController extends Controller
                         'number' => $date->dayOfWeek,
                     ];
                 }
-
             }
 
             // print_r($allbrandarray);
@@ -1723,7 +1714,7 @@ class BasicController extends Controller
             $blankarrayall = [];
             $targetchasingraph = [];
 
-            foreach($workingDayfinal as $index =>$day){
+            foreach ($workingDayfinal as $index => $day) {
                 $blankarray = [];
                 $targetdata = [];
 
@@ -1736,78 +1727,78 @@ class BasicController extends Controller
                         ->where('paymentNature', '!=', 'Remaining')
                         ->where(function ($query) {
                             $query->where('paymentNature', 'New Lead')
-                            ->orWhere('paymentNature', 'Upsell')
-                            ->orWhere('paymentNature', 'Renewal Payment');
-                            })
+                                ->orWhere('paymentNature', 'Upsell')
+                                ->orWhere('paymentNature', 'Renewal Payment');
+                        })
                         ->where(function ($query) {
-                                $query->where('refundStatus', '!=', 'Refund')
-                                    ->orWhere('dispute', null);
-                            })
+                            $query->where('refundStatus', '!=', 'Refund')
+                                ->orWhere('dispute', null);
+                        })
                         ->sum('Paid');
                     $brand = Brand::find($brandID);
 
 
-                        $datefrontpay = NewPaymentsClients::whereDate('paymentDate', $day['date'])
-                            ->where('BrandID', $brandID)
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('paymentNature', 'New Lead')
-                            ->where('paymentNature', '!=', 'Remaining')
-                            ->where(function ($query) {
-                                $query->where('refundStatus', '!=', 'Refund')
-                                    ->orWhere('dispute', null);
-                            })
-                            ->sum('Paid');
+                    $datefrontpay = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+                        ->where('BrandID', $brandID)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('paymentNature', 'New Lead')
+                        ->where('paymentNature', '!=', 'Remaining')
+                        ->where(function ($query) {
+                            $query->where('refundStatus', '!=', 'Refund')
+                                ->orWhere('dispute', null);
+                        })
+                        ->sum('Paid');
 
-                        $dateUpsellpay = NewPaymentsClients::whereDate('paymentDate', $day['date'])
-                            ->where('BrandID', $brandID)
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('paymentNature', 'Upsell')
-                            ->where('paymentNature', '!=', 'Remaining')
-                            ->where(function ($query) {
-                                $query->where('refundStatus', '!=', 'Refund')
-                                    ->orWhere('dispute', null);
-                            })
-                            ->sum('Paid');
+                    $dateUpsellpay = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+                        ->where('BrandID', $brandID)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('paymentNature', 'Upsell')
+                        ->where('paymentNature', '!=', 'Remaining')
+                        ->where(function ($query) {
+                            $query->where('refundStatus', '!=', 'Refund')
+                                ->orWhere('dispute', null);
+                        })
+                        ->sum('Paid');
 
-                        $dateRenewalpay = NewPaymentsClients::whereDate('paymentDate', $day['date'])
-                            ->where('BrandID', $brandID)
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('paymentNature', 'Renewal Payment')
-                            ->where('paymentNature', '!=', 'Remaining')
-                            ->where(function ($query) {
-                                $query->where('refundStatus', '!=', 'Refund')
-                                    ->orWhere('dispute', null);
-                            })
-                            ->sum('Paid');
+                    $dateRenewalpay = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+                        ->where('BrandID', $brandID)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('paymentNature', 'Renewal Payment')
+                        ->where('paymentNature', '!=', 'Remaining')
+                        ->where(function ($query) {
+                            $query->where('refundStatus', '!=', 'Refund')
+                                ->orWhere('dispute', null);
+                        })
+                        ->sum('Paid');
 
-                        $monthbrandtarget = brandtarget::where('BrandID',$brandID)->where('Year',date('Y'))->sum(date('F'));
-                        $perdaytarget = $monthbrandtarget / $totalworkingdays;
+                    $monthbrandtarget = brandtarget::where('BrandID', $brandID)->where('Year', date('Y'))->sum(date('F'));
+                    $perdaytarget = $monthbrandtarget / $totalworkingdays;
 
-                        $remainingdayss = $workingdayscount - ($index + 1);
-                        if($remainingdayss == 0){
-                            $remainingdays = 1;
-                        }else{
-                            $remainingdays = $workingdayscount - ($index);
-                        }
+                    $remainingdayss = $workingdayscount - ($index + 1);
+                    if ($remainingdayss == 0) {
+                        $remainingdays = 1;
+                    } else {
+                        $remainingdays = $workingdayscount - ($index);
+                    }
 
-                        $outcome = ($monthbrandtarget - ($datefrontpay + $dateUpsellpay + $dateRenewalpay + $getpreviouspayment)) / $remainingdays;
-                        $formattedOutcome = number_format($outcome, 0);
+                    $outcome = ($monthbrandtarget - ($datefrontpay + $dateUpsellpay + $dateRenewalpay + $getpreviouspayment)) / $remainingdays;
+                    $formattedOutcome = number_format($outcome, 0);
 
 
-                        $blankarray[] = [
-                            "brand" => $brand->name,
-                            "front" => $datefrontpay,
-                            "upsell" => $dateUpsellpay,
-                            "renewal" => $dateRenewalpay,
-                            "Aggregated_Sales" => $datefrontpay + $dateUpsellpay + $dateRenewalpay + $getpreviouspayment,
-                            "Target" =>  $perdaytarget * ($index + 1),
-                            "Daily_Target" => $formattedOutcome,
-                        ];
+                    $blankarray[] = [
+                        "brand" => $brand->name,
+                        "front" => $datefrontpay,
+                        "upsell" => $dateUpsellpay,
+                        "renewal" => $dateRenewalpay,
+                        "Aggregated_Sales" => $datefrontpay + $dateUpsellpay + $dateRenewalpay + $getpreviouspayment,
+                        "Target" =>  $perdaytarget * ($index + 1),
+                        "Daily_Target" => $formattedOutcome,
+                    ];
 
-                        $dailyrevenues = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+                    $dailyrevenues = NewPaymentsClients::whereDate('paymentDate', $day['date'])
                         ->where('BrandID', $brandID)
                         ->where('remainingStatus', '!=', 'Unlinked Payments')
                         ->where('refundStatus', '!=', 'Pending Payment')
@@ -1817,24 +1808,23 @@ class BasicController extends Controller
                         })
                         ->sum('Paid');
 
-                        $dailyrevenue = (int)$dailyrevenues;
+                    $dailyrevenue = (int)$dailyrevenues;
 
-                        $perdaytargetbrands = $perdaytarget * ($index + 1);
-                        if($perdaytargetbrands == 0){
-                            $perdaytargetbrand = 1;
-                        }else{
-                            $perdaytargetbrand = $perdaytargetbrands;
-                        }
+                    $perdaytargetbrands = $perdaytarget * ($index + 1);
+                    if ($perdaytargetbrands == 0) {
+                        $perdaytargetbrand = 1;
+                    } else {
+                        $perdaytargetbrand = $perdaytargetbrands;
+                    }
 
-                        $targetforecast =   $dailyrevenue / $perdaytargetbrand;
+                    $targetforecast =   $dailyrevenue / $perdaytargetbrand;
 
-                        $targetdata[] = [
-                            "brand" => $brand->name,
-                            "revenue" => $dailyrevenue,
-                            "revenueforeast" => $targetforecast,
-                            "Target" =>  $perdaytarget * ($index + 1),
-                        ];
-
+                    $targetdata[] = [
+                        "brand" => $brand->name,
+                        "revenue" => $dailyrevenue,
+                        "revenueforeast" => $targetforecast,
+                        "Target" =>  $perdaytarget * ($index + 1),
+                    ];
                 }
 
                 $blankarrayall[] = [
@@ -1857,15 +1847,13 @@ class BasicController extends Controller
                     $separatedData[$brand][$date] = $brandData;
                 }
             }
-
-        }else{
+        } else {
             $remainingWeekdays = 0;
             $separatedData = ['no data'];
             $blankarrayall[] = [
                 "date" => 'nothing',
                 "data" => 'nothing'
             ];
-
         }
 
         // print_r($separatedData);
@@ -1936,7 +1924,7 @@ class BasicController extends Controller
                     // ->where('paymentNature', 'New Lead')
                     ->where(function ($query) {
                         $query->where('refundStatus', '!=', 'Refund');
-                            // ->orWhere('dispute', null);
+                        // ->orWhere('dispute', null);
                     })
                     ->get();
 
@@ -1970,7 +1958,7 @@ class BasicController extends Controller
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
                     ->where('refundStatus', '!=', 'Refund')
-                    ->where('transactionType','!=','New Lead')
+                    ->where('transactionType', '!=', 'New Lead')
                     ->sum("Paid");
 
                 $getdispute = DB::table('newpaymentsclients')
@@ -1980,7 +1968,7 @@ class BasicController extends Controller
                     ->where('SalesPerson', $employee->id)
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('refundStatus',  '!=','Refund')
+                    ->where('refundStatus',  '!=', 'Refund')
                     ->where('dispute', '!=', null)
                     ->SUM('disputeattackamount');
 
@@ -2001,7 +1989,7 @@ class BasicController extends Controller
                 $monthsum = [];
                 if ($countuserexist > 0) {
 
-                    foreach($months as $month){
+                    foreach ($months as $month) {
 
                         if ($month == 1) {
                             $montha = "January";
@@ -2029,8 +2017,8 @@ class BasicController extends Controller
                             $montha = "December";
                         }
                         $agenttargets =  AgentTarget::where('AgentID', $employee->id)
-                        ->whereIn('Year', $years)
-                        ->sum($montha);
+                            ->whereIn('Year', $years)
+                            ->sum($montha);
 
                         $monthsum[] = [$agenttargets];
                     }
@@ -2107,50 +2095,50 @@ class BasicController extends Controller
 
             $monthsumbrand = [];
 
-            foreach($months as $month){
+            foreach ($months as $month) {
 
-                    if ($month == 1) {
-                        $montha = "January";
-                    } elseif ($month == 2) {
-                        $montha = "February";
-                    } elseif ($month == 3) {
-                        $montha = "March";
-                    } elseif ($month == 4) {
-                        $montha = "April";
-                    } elseif ($month == 5) {
-                        $montha = "May";
-                    } elseif ($month == 6) {
-                        $montha = "June";
-                    } elseif ($month == 7) {
-                        $montha = "July";
-                    } elseif ($month == 8) {
-                        $montha = "August";
-                    } elseif ($month == 9) {
-                        $montha = "September";
-                    } elseif ($month == 10) {
-                        $montha = "October";
-                    } elseif ($month == 11) {
-                        $montha = "November";
-                    } elseif ($month == 12) {
-                        $montha = "December";
-                    }
+                if ($month == 1) {
+                    $montha = "January";
+                } elseif ($month == 2) {
+                    $montha = "February";
+                } elseif ($month == 3) {
+                    $montha = "March";
+                } elseif ($month == 4) {
+                    $montha = "April";
+                } elseif ($month == 5) {
+                    $montha = "May";
+                } elseif ($month == 6) {
+                    $montha = "June";
+                } elseif ($month == 7) {
+                    $montha = "July";
+                } elseif ($month == 8) {
+                    $montha = "August";
+                } elseif ($month == 9) {
+                    $montha = "September";
+                } elseif ($month == 10) {
+                    $montha = "October";
+                } elseif ($month == 11) {
+                    $montha = "November";
+                } elseif ($month == 12) {
+                    $montha = "December";
+                }
 
-            $brandtargets =  BrandTarget::where("BrandID", $allbrandarrays)
+                $brandtargets =  BrandTarget::where("BrandID", $allbrandarrays)
                     ->whereIn('Year', $years)
                     ->sum($montha);
 
-                    $monthsumbrand[] = [$brandtargets];
-                }
+                $monthsumbrand[] = [$brandtargets];
+            }
 
-                $brandtarget = 0;
+            $brandtarget = 0;
 
-                foreach ($monthsumbrand as $innerArray) {
-                    // Sum the values of the inner arrays
-                    $brandtarget += $innerArray[0];
-                }
+            foreach ($monthsumbrand as $innerArray) {
+                // Sum the values of the inner arrays
+                $brandtarget += $innerArray[0];
+            }
 
 
-                $brandsales = DB::table('newpaymentsclients')
+            $brandsales = DB::table('newpaymentsclients')
                 ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
                 ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
                 ->where('BrandID', $allbrandarrays)
@@ -2176,14 +2164,14 @@ class BasicController extends Controller
             $net_revenue = $brandsales - $chargeback;
 
             $frontsum = DB::table('newpaymentsclients')
-            ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
-            ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
-            ->where('BrandID', $allbrandarrays)
-            ->where('remainingStatus', '!=', 'Unlinked Payments')
-            ->where('refundStatus', '!=', 'Pending Payment')
-            ->where('refundStatus', '!=', 'Refund')
-            ->where('transactionType', 'New Lead')
-            ->sum("Paid");
+                ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
+                ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
+                ->where('BrandID', $allbrandarrays)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus', '!=', 'Refund')
+                ->where('transactionType', 'New Lead')
+                ->sum("Paid");
 
             $totalfront = $frontsum;
 
@@ -2194,24 +2182,24 @@ class BasicController extends Controller
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('refundStatus', '!=', 'Refund')
-                ->where('transactionType', '!=','New Lead')
+                ->where('transactionType', '!=', 'New Lead')
                 ->sum("Paid");
 
-             $totalback =  $backsum;
+            $totalback =  $backsum;
 
             $frontBacksum = $totalfront + $totalback;
 
             //disputes:
 
             $dispute = DB::table('newpaymentsclients')
-                        ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
-                        ->whereIn(DB::raw('MONTH(disputeattack)'), $months)
-                        ->where('BrandID', $allbrandarrays)
-                        ->where('remainingStatus', '!=', 'Unlinked Payments')
-                        ->where('refundStatus', '!=', 'Pending Payment')
-                        ->where('refundStatus',  '!=','Refund')
-                        ->where('dispute', '!=', null)
-                        ->SUM('disputeattackamount');
+                ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
+                ->whereIn(DB::raw('MONTH(disputeattack)'), $months)
+                ->where('BrandID', $allbrandarrays)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus',  '!=', 'Refund')
+                ->where('dispute', '!=', null)
+                ->SUM('disputeattackamount');
 
             $refund = DB::table('newpaymentsclients')
                 ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
@@ -2235,25 +2223,25 @@ class BasicController extends Controller
                 ->sum('disputefee');
 
             $allbrandsrev[] = [
-                    "name" => $selectedbrandname[0]->name,
-                    "brandtarget" => $brandtarget,
-                    "brandsales" => $brandsales,
-                    "disputes" => $chargeback,
-                    "net_revenue" => $net_revenue,
-                    "totalfront" => $totalfront,
-                    "totalback" => $totalback,
-                    "frontBacksum" => $frontBacksum,
-                    "dispute" => $dispute,
-                    "refund" => $refund,
-                    "disputefees" => $disputefees
-                ];
+                "name" => $selectedbrandname[0]->name,
+                "brandtarget" => $brandtarget,
+                "brandsales" => $brandsales,
+                "disputes" => $chargeback,
+                "net_revenue" => $net_revenue,
+                "totalfront" => $totalfront,
+                "totalback" => $totalback,
+                "frontBacksum" => $frontBacksum,
+                "dispute" => $dispute,
+                "refund" => $refund,
+                "disputefees" => $disputefees
+            ];
 
             //brands today payment ;
             $brandfronts = NewPaymentsClients::where('BrandID', $allbrandarrays)
                 ->whereDate('paymentDate', '=', now()->toDateString())
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where('refundStatus', '!=','Refund')
+                ->where('refundStatus', '!=', 'Refund')
                 ->where('transactionType', 'New Lead')
                 ->sum('Paid');
 
@@ -2269,7 +2257,7 @@ class BasicController extends Controller
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('transactionType', '!=', 'New Lead')
-                ->where('refundStatus', '!=','Refund')
+                ->where('refundStatus', '!=', 'Refund')
                 // ->where('paymentNature', 'New Lead')
                 ->sum('Paid');
 
@@ -2309,7 +2297,7 @@ class BasicController extends Controller
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('refundStatus', 'On Going')
-                ->where('refundStatus', '!=','Refund')
+                ->where('refundStatus', '!=', 'Refund')
                 ->where('dispute', null)
                 ->SUM('Paid');
 
@@ -2331,7 +2319,7 @@ class BasicController extends Controller
                 ->where('BrandID', $allbrandarrays)
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where('refundStatus',  '!=','Refund')
+                ->where('refundStatus',  '!=', 'Refund')
                 ->where('dispute', '!=', null)
                 ->SUM('disputeattackamount');
 
@@ -2346,13 +2334,13 @@ class BasicController extends Controller
 
 
             $brand_renewal = DB::table('newpaymentsclients')
-            ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
-            ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
-            ->where('BrandID', $allbrandarrays)
-            ->where('remainingStatus', '!=', 'Unlinked Payments')
-            ->where('refundStatus', '!=', 'Pending Payment')
-            ->whereIn('paymentNature', ['Renewal Payment', 'Recurring Payment'])
-            ->sum('Paid');
+                ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
+                ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
+                ->where('BrandID', $allbrandarrays)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->whereIn('paymentNature', ['Renewal Payment', 'Recurring Payment'])
+                ->sum('Paid');
 
 
             $brand_upsell = DB::table('newpaymentsclients')
@@ -2638,14 +2626,14 @@ class BasicController extends Controller
         }
 
 
-        return view('finalreport' ,[
-                'brands' => $brands,
-                'LoginUser' => $loginUser[1],
-                'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2],
-                'salesteams' => $salesteams,
-                'mainsalesTeam' => $mainsalesTeam,
-            ]);
+        return view('finalreport', [
+            'brands' => $brands,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2],
+            'salesteams' => $salesteams,
+            'mainsalesTeam' => $mainsalesTeam,
+        ]);
     }
 
     public function datewisedata(Request $request)
@@ -2661,7 +2649,7 @@ class BasicController extends Controller
                 ->whereDate('paymentDate', $requireddate)
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where('refundStatus', '!=','Refund')
+                ->where('refundStatus', '!=', 'Refund')
                 ->where('transactionType', 'New Lead')
                 ->sum('Paid');
 
@@ -2670,7 +2658,7 @@ class BasicController extends Controller
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('transactionType', '!=', 'New Lead')
-                ->where('refundStatus', '!=','Refund')
+                ->where('refundStatus', '!=', 'Refund')
                 ->sum('Paid');
 
             $brandall = NewPaymentsClients::where('BrandID', $allbrands->id)
@@ -2829,6 +2817,213 @@ class BasicController extends Controller
             "December" => $request->input('dec'),
             "updated_at" => date('y-m-d H:m:s')
         ]);
+
+        return redirect('/brandtarget');
+    }
+
+    function target_csv(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        return view('targetUpload', [
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function csv_target_process(Request $request)
+    {
+        $data = Excel::toArray([], $request->file('targetfile'));
+        $allinvoice = [];
+        foreach ($data as $extractData) {
+            $headings = $extractData[0];
+            $keycount = count($headings);
+            $maincount = count($extractData);
+
+            for ($j = 1; $j < $maincount; $j++) {
+                $newarray = [];
+                for ($i = 0; $i < $keycount; $i++) {
+                    $newarray[$headings[$i]] = $extractData[$j][$i];
+                }
+                $allinvoice[] = [$newarray];
+            }
+        }
+        //brand:
+        $filteredData = [];
+        foreach ($allinvoice as $entry) {
+            $brand = $entry[0]["Brand"];
+            $monthYear = date("Y-m", strtotime($entry[0]["Month"])); // Convert to "YYYY-MM" format
+            list($year, $month) = explode("-", $monthYear);
+
+            if (!isset($filteredData[$brand])) {
+                $filteredData[$brand] = [];
+            }
+
+            if (!isset($filteredData[$brand][$year])) {
+                $filteredData[$brand][$year] = [];
+            }
+
+            if (!isset($filteredData[$brand][$year][$month])) {
+                $filteredData[$brand][$year][$month] = [];
+            }
+
+            $filteredData[$brand][$year][$month][] = $entry[0]["Target"];
+        }
+
+
+        $brandname3 = [];
+        foreach ($filteredData as $brand => $years) {
+            $brandname2 = [];
+            foreach ($years as $year => $months) {
+                $brandname1 = [];
+                foreach ($months as $month => $data1) {
+                    $monthName = date("F", mktime(0, 0, 0, $month, 10));
+                    $sum = array_sum($data1);
+                    $brandname1[] = [
+                        'month' => $monthName,
+                        'target' => $sum,
+                    ];
+                }
+
+                $brandname2[] = [
+                    'year' => $year,
+                    'target' => $brandname1,
+                ];
+            }
+            $brandname3[] = [
+                'brand' => $brand,
+                'data' => $brandname2,
+            ];
+        }
+
+        foreach ($brandname3 as $brandtarget) {
+            $findbrand = Brand::where("name", $brandtarget['brand'])->get();
+            $a = $brandtarget['data'];
+            if (isset($findbrand[0]->id) && $findbrand[0]->id != null) {
+                foreach ($a as $b) {
+                    $targets = array_fill(0, 12, 0); // Initialize an array with 12 zeroes
+                    foreach ($b['target'] as $monthData) {
+                        $monthIndex = date('n', strtotime($monthData['month'])) - 1; // Get zero-based month index
+                        $targets[$monthIndex] = $monthData['target'];
+                    }
+                    $countbrandtarget = BrandTarget::where('BrandID',$findbrand[0]->id)->where('Year',$b['year'])->count();
+                    if( $countbrandtarget == 0){
+                    $brandtarget = BrandTarget::create([
+                        "BrandID" => $findbrand[0]->id,
+                        "Year" => $b['year'],
+                        "January" => $targets[0],
+                        "February" => $targets[1],
+                        "March" => $targets[2],
+                        "April" => $targets[3],
+                        "May" => $targets[4],
+                        "June" => $targets[5],
+                        "July" => $targets[6],
+                        "August" => $targets[7],
+                        "September" => $targets[8],
+                        "October" => $targets[9],
+                        "November" => $targets[10],
+                        "December" => $targets[11],
+                        "created_at" => date('Y-m-d H:i:s'),
+                        "updated_at" => date('Y-m-d H:i:s')
+                    ]);
+                    }else{
+                        continue;
+                    }
+                }
+            } else {
+                continue;
+            }
+        }
+
+
+        //for agents:
+        $filteredData1 = [];
+        foreach ($allinvoice as $entry) {
+            $Agent = $entry[0]["Agent"];
+            $monthYear = date("Y-m", strtotime($entry[0]["Month"])); // Convert to "YYYY-MM" format
+            list($year, $month) = explode("-", $monthYear);
+
+            if (!isset($filteredData1[$Agent])) {
+                $filteredData1[$Agent] = [];
+            }
+
+            if (!isset($filteredData1[$Agent][$year])) {
+                $filteredData1[$Agent][$year] = [];
+            }
+
+            if (!isset($filteredData1[$Agent][$year][$month])) {
+                $filteredData1[$Agent][$year][$month] = [];
+            }
+
+            $filteredData1[$Agent][$year][$month][] = $entry[0]["Target"];
+        }
+
+        $brandname6 = [];
+        foreach ($filteredData1 as $brand1 => $years1) {
+            $brandname5 = [];
+            foreach ($years1 as $year1 => $months1) {
+                $brandname4 = [];
+                foreach ($months1 as $month1 => $data11) {
+                    $monthName1 = date("F", mktime(0, 0, 0, $month1, 10));
+                    $sum1 = array_sum($data11);
+                    $brandname4[] = [
+                        'month' => $monthName1,
+                        'target' => $sum1,
+                    ];
+                }
+
+                $brandname5[] = [
+                    'year' => $year1,
+                    'target' => $brandname4,
+                ];
+            }
+            $brandname6[] = [
+                'brand' => $brand1,
+                'data' => $brandname5,
+            ];
+        }
+
+        foreach ($brandname6 as $brandtarget) {
+            $findbrand1 = Employee::where("name", $brandtarget['brand'])->get();
+            $a1 = $brandtarget['data'];
+            if (isset($findbrand1[0]->id) && $findbrand1[0]->id != null) {
+                foreach ($a1 as $b1) {
+                    $targets1 = array_fill(0, 12, 0); // Initialize an array with 12 zeroes
+                    foreach ($b1['target'] as $monthData1) {
+                        $monthIndex1 = date('n', strtotime($monthData1['month'])) - 1; // Get zero-based month index
+                        $targets1[$monthIndex1] = $monthData1['target'];
+                    }
+                    $countagenttarget = AgentTarget::where('AgentID',$findbrand1[0]->id)->where('Year',$b1['year'])->count();
+                    if( $countagenttarget == 0){
+                        $agenttarget = AgentTarget::create([
+                            "AgentID" => $findbrand1[0]->id,
+                            "Year" => $b1['year'],
+                            "January" => $targets1[0],
+                            "February" => $targets1[1],
+                            "March" => $targets1[2],
+                            "April" => $targets1[3],
+                            "May" => $targets1[4],
+                            "June" => $targets1[5],
+                            "July" => $targets1[6],
+                            "August" => $targets1[7],
+                            "September" => $targets1[8],
+                            "October" => $targets1[9],
+                            "November" => $targets1[10],
+                            "December" => $targets1[11],
+                            "created_at" => date('Y-m-d H:i:s'),
+                            "updated_at" => date('Y-m-d H:i:s')
+                        ]);
+
+                    }else{
+                        continue;
+                    }
+
+                }
+            } else {
+                continue;
+            }
+        }
+
 
         return redirect('/brandtarget');
     }
@@ -3090,7 +3285,6 @@ class BasicController extends Controller
         return redirect('/companies');
     }
 
-
     function companies(Request $request)
     {
         $companies = Company::all();
@@ -3228,7 +3422,6 @@ class BasicController extends Controller
         ]);
     }
 
-
     function setupdepartmentsProcess(Request $request)
     {
         $departmentName = $request->input('name');
@@ -3279,7 +3472,6 @@ class BasicController extends Controller
 
         return redirect('/departmentlist');
     }
-
 
     function departmentlist(Request $request)
     {
@@ -3546,7 +3738,7 @@ class BasicController extends Controller
         $firstemails = $request->input('email');
         $findclient = 0;
 
-        foreach($firstemails as $email) {
+        foreach ($firstemails as $email) {
             $findclient += Clientmeta::whereJsonContains('otheremail', $email)->count();
         }
 
@@ -4800,7 +4992,7 @@ class BasicController extends Controller
         $firstemails = $request->input('email');
         $findclient = 0;
 
-        foreach($firstemails as $email) {
+        foreach ($firstemails as $email) {
             $findclient += Clientmeta::whereJsonContains('otheremail', $email)->count();
         }
 
@@ -4825,7 +5017,7 @@ class BasicController extends Controller
         $findusername = DB::table('employees')->where('id', $request->input('saleperson'))->get();
         $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
         $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
-        $brandID =$request->input('brand');
+        $brandID = $request->input('brand');
 
         if ($remainingamt == 0) {
             $remainingstatus = "Not Remaining";
@@ -4845,41 +5037,39 @@ class BasicController extends Controller
             $date =  $request->input('nextpaymentdate');
         } elseif ($request->input('ChargingPlan') != null && $request->input('nextpaymentdate') == null) {
             $today = date('Y-m-d');
-                if ($request->input('ChargingPlan') == "One Time Payment") {
-                    $date = null;
-                } elseif ($request->input('ChargingPlan') == "Monthly") {
-                    $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "2 Months") {
-                    $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "3 Months") {
-                    $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "4 Months") {
-                    $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "5 Months") {
-                    $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "6 Months") {
-                    $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "7 Months") {
-                    $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "8 Months") {
-                    $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "9 Months") {
-                    $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "10 Months") {
-                    $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "11 Months") {
-                    $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "12 Months") {
-                    $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "2 Years") {
-                    $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
-                } elseif ($request->input('ChargingPlan') == "3 Years") {
-                    $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
-                }
-
+            if ($request->input('ChargingPlan') == "One Time Payment") {
+                $date = null;
+            } elseif ($request->input('ChargingPlan') == "Monthly") {
+                $date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "2 Months") {
+                $date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "3 Months") {
+                $date = date('Y-m-d', strtotime('+3 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "4 Months") {
+                $date = date('Y-m-d', strtotime('+4 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "5 Months") {
+                $date = date('Y-m-d', strtotime('+5 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "6 Months") {
+                $date = date('Y-m-d', strtotime('+6 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "7 Months") {
+                $date = date('Y-m-d', strtotime('+7 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "8 Months") {
+                $date = date('Y-m-d', strtotime('+8 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "9 Months") {
+                $date = date('Y-m-d', strtotime('+9 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "10 Months") {
+                $date = date('Y-m-d', strtotime('+10 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "11 Months") {
+                $date = date('Y-m-d', strtotime('+11 month', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "12 Months") {
+                $date = date('Y-m-d', strtotime('+1 Year', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "2 Years") {
+                $date = date('Y-m-d', strtotime('+2 Year', strtotime($today)));
+            } elseif ($request->input('ChargingPlan') == "3 Years") {
+                $date = date('Y-m-d', strtotime('+3 Year', strtotime($today)));
+            }
         } else {
-             $date = $request->input('nextpaymentdate');
-
+            $date = $request->input('nextpaymentdate');
         }
 
         $createpayment = NewPaymentsClients::insertGetId([
@@ -4917,8 +5107,6 @@ class BasicController extends Controller
         ]);
 
         return redirect('/client/project/payment/all');
-
-
     }
 
 
@@ -8460,19 +8648,19 @@ class BasicController extends Controller
 
             $matchclientmetas = Clientmeta::whereJsonContains('otheremail', $unmatched->notfoundemail)->count();
             $matchclientmeta = Clientmeta::whereJsonContains('otheremail', $unmatched->notfoundemail)->get();
-            if ($matchclientmetas > 0 ) {
+            if ($matchclientmetas > 0) {
                 $findprojects = Project::where('clientID', $matchclientmeta[0]->clientID)->count();
-                if($findprojects > 0){
+                if ($findprojects > 0) {
                     $findproject = Project::where('clientID', $matchclientmeta[0]->clientID)->get();
                     $projectid = $findproject[0]->id;
-                }else{
+                } else {
                     $projectid = 0;
                 }
-                    NewPaymentsClients::where('id', $unmatched->id)->update([
-                        'ClientID' => $matchclientmeta[0]->clientID,
-                        'ProjectID' => $projectid
-                    ]);
-            }else{
+                NewPaymentsClients::where('id', $unmatched->id)->update([
+                    'ClientID' => $matchclientmeta[0]->clientID,
+                    'ProjectID' => $projectid
+                ]);
+            } else {
                 continue;
             }
         }
@@ -10557,251 +10745,130 @@ class BasicController extends Controller
 
         foreach ($allinvoice as $allinvoices) {
             $checktransactionID = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->count();
-                $mainemail =  strtolower($allinvoices[0]["Email"]);
-                $ClientStatus = $allinvoices[0]["Status"];
-                $sql_date = date("Y-m-d", strtotime($allinvoices[0]['Date']));
-                if ($allinvoices[0]['Recurring/Renewal'] != "One Time") {
-                    $sql_futuredate = date("Y-m-d", strtotime($allinvoices[0]['Recurring/Renewal']));
-                }
-                $sql_date_dispute = date("Y-m-d", strtotime($allinvoices[0]['Refund/Dispute Date']));
-                $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($allinvoices[0]['Email']))->get();
+            $mainemail =  strtolower($allinvoices[0]["Email"]);
+            $ClientStatus = $allinvoices[0]["Status"];
+            $sql_date = date("Y-m-d", strtotime($allinvoices[0]['Date']));
+            if ($allinvoices[0]['Recurring/Renewal'] != "One Time") {
+                $sql_futuredate = date("Y-m-d", strtotime($allinvoices[0]['Recurring/Renewal']));
+            }
+            $sql_date_dispute = date("Y-m-d", strtotime($allinvoices[0]['Refund/Dispute Date']));
+            $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($allinvoices[0]['Email']))->get();
 
-                $sp = Employee::where('name', $allinvoices[0]['Sales Person'])->get();
-                if (isset($sp[0]->id)) {
-                    $salesperson = $sp[0]->id;
+            $sp = Employee::where('name', $allinvoices[0]['Sales Person'])->get();
+            if (isset($sp[0]->id)) {
+                $salesperson = $sp[0]->id;
+            } else {
+                $salesperson = 0;
+            }
+
+            $pm = Employee::where('name', $allinvoices[0]['Account Manager'])->get();
+            if (isset($pm[0]->id)) {
+                $projectmanager = $pm[0]->id;
+            } else {
+                $projectmanager = 0;
+            }
+
+            $remamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'];
+            if ($remamt == 0) {
+                $remainingStatus = "Not Remaining";
+            } elseif ($remamt > 0) {
+                $remainingStatus = "Remaining";
+            }
+
+            $findbrand = Brand::where('name', $allinvoices[0]['Brand'])->get();
+
+            if ($allinvoices[0]['Package Plan'] == 'One Time') {
+                $chargingplan = "One Time Payment";
+                $chargingmode = "One Time Payment";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Recurring') {
+                $chargingplan = "Monthly";
+                $chargingmode = "Recurring";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal') {
+                $chargingplan = "Monthly";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal2') {
+                $chargingplan = "2 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal3') {
+                $chargingplan = "3 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal4') {
+                $chargingplan = "4 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal5') {
+                $chargingplan = "5 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal6') {
+                $chargingplan = "6 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal7') {
+                $chargingplan = "7 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal8') {
+                $chargingplan = "8 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal9') {
+                $chargingplan = "9 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal10') {
+                $chargingplan = "10 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal11') {
+                $chargingplan = "11 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal12') {
+                $chargingplan = "12 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal24') {
+                $chargingplan = "2 Years";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal36') {
+                $chargingplan = "3 Years";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Small Payment') {
+                $chargingplan = "One Time Payment";
+                $chargingmode = "One Time Payment";
+            }
+
+            if ($allinvoices[0]['Sales Mode'] == 'New Lead') {
+                $paymentNature = "New Lead";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'New Sale') {
+                $paymentNature = "New Sale";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Recurring') {
+                $paymentNature = "Recurring Payment";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
+                $paymentNature = "Renewal Payment";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
+                $paymentNature = "Small Paymente";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
+                $paymentNature = "Upsell";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
+                $paymentNature = "Dispute Won";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Remaining' || $allinvoices[0]['Sales Mode'] == 'FSRemaining') {
+                $paymentNature = "Remaining";
+            }
+
+            $checktypeofremaining = $allinvoices[0]['Sales Mode'];
+
+
+
+            if ($matchclientmeta->isNotEmpty()) {
+                $findclient = Client::where('id', $matchclientmeta[0]->clientID)->get();
+                $project = Project::where('clientID', $findclient[0]->id)->get();
+                if (isset($project[0]->id)) {
+                    $findproject = $project[0]->id;
                 } else {
-                    $salesperson = 0;
+                    $findproject = 0;
                 }
-
-                $pm = Employee::where('name', $allinvoices[0]['Account Manager'])->get();
-                if (isset($pm[0]->id)) {
-                    $projectmanager = $pm[0]->id;
-                } else {
-                    $projectmanager = 0;
-                }
-
-                $remamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'];
-                if ($remamt == 0) {
-                    $remainingStatus = "Not Remaining";
-                } elseif ($remamt > 0) {
-                    $remainingStatus = "Remaining";
-                }
-
-                $findbrand = Brand::where('name', $allinvoices[0]['Brand'])->get();
-
-                if ($allinvoices[0]['Package Plan'] == 'One Time') {
-                    $chargingplan = "One Time Payment";
-                    $chargingmode = "One Time Payment";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Recurring') {
-                    $chargingplan = "Monthly";
-                    $chargingmode = "Recurring";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal') {
-                    $chargingplan = "Monthly";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal2') {
-                    $chargingplan = "2 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal3') {
-                    $chargingplan = "3 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal4') {
-                    $chargingplan = "4 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal5') {
-                    $chargingplan = "5 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal6') {
-                    $chargingplan = "6 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal7') {
-                    $chargingplan = "7 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal8') {
-                    $chargingplan = "8 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal9') {
-                    $chargingplan = "9 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal10') {
-                    $chargingplan = "10 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal11') {
-                    $chargingplan = "11 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal12') {
-                    $chargingplan = "12 Months";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal24') {
-                    $chargingplan = "2 Years";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Renewal36') {
-                    $chargingplan = "3 Years";
-                    $chargingmode = "Renewal";
-                } elseif ($allinvoices[0]['Package Plan'] == 'Small Payment') {
-                    $chargingplan = "One Time Payment";
-                    $chargingmode = "One Time Payment";
-                }
-
-                if ($allinvoices[0]['Sales Mode'] == 'New Lead') {
-                    $paymentNature = "New Lead";
-                } elseif ($allinvoices[0]['Sales Mode'] == 'New Sale') {
-                    $paymentNature = "New Sale";
-                }  elseif ($allinvoices[0]['Sales Mode'] == 'Recurring') {
-                    $paymentNature = "Recurring Payment";
-                } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
-                    $paymentNature = "Renewal Payment";
-                } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
-                } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
-                    $paymentNature = "Upsell";
-                } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
-                    $paymentNature = "Dispute Won";
-                } elseif (  $allinvoices[0]['Sales Mode'] == 'Remaining' || $allinvoices[0]['Sales Mode'] == 'FSRemaining'){
-                    $paymentNature = "Remaining";
-                }
-
-                $checktypeofremaining = $allinvoices[0]['Sales Mode'];
-
-
-
-                if ($matchclientmeta->isNotEmpty()) {
-                    $findclient = Client::where('id', $matchclientmeta[0]->clientID)->get();
-                    $project = Project::where('clientID', $findclient[0]->id)->get();
-                    if (isset($project[0]->id)) {
-                        $findproject = $project[0]->id;
-                    } else {
-                        $findproject = 0;
-                    }
-                    $count = count($findclient);
-                    if ($count == 1) {
-
-                        if ($paymentNature != "Dispute Won") {
-                            if($checktypeofremaining == 'FSRemaining'){
-                                $createClientPayment = NewPaymentsClients::insertGetId([
-                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
-                                    "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
-                                    "ProjectID" => ($findproject == null) ? 0 :   $findproject,
-                                    "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
-                                    "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
-                                    "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
-                                    "ChargingMode" => ($chargingmode == null) ? 0 :   $chargingmode,
-                                    "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
-                                    "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
-                                    "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
-                                    "bankWireUpload" =>  "--",
-                                    "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
-                                    "paymentDate" => $sql_date,
-                                    "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
-                                    "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
-                                    "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
-                                    "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
-                                    "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
-                                    "PaymentType" => "Full Payment",
-                                    "numberOfSplits" => "--",
-                                    "SplitProjectManager" => $a,
-                                    "ShareAmount" => $a,
-                                    "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
-                                    'created_at' => date('y-m-d H:m:s'),
-                                    'updated_at' => date('y-m-d H:m:s'),
-                                    "refundStatus" => 'On Going',
-                                    'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $findclient[0]->id,
-                                    'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
-                                    "remainingStatus" => $remainingStatus,
-                                    "transactionType" => "New Lead",
-                                    "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
-                                    "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
-                                    "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
-                                    "Sheetdata" => "Invoicing Data",
-                                    "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
-                                    "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
-                                    "notfoundemail" => $allinvoices[0]['Email'] ,
-                                ]);
-
-                            }else{
-                                $createClientPayment = NewPaymentsClients::insertGetId([
-                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
-                                    "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
-                                    "ProjectID" => ($findproject == null) ? 0 :   $findproject,
-                                    "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
-                                    "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
-                                    "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
-                                    "ChargingMode" => ($chargingmode == null) ? 0 :   $chargingmode,
-                                    "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
-                                    "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
-                                    "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
-                                    "bankWireUpload" =>  "--",
-                                    "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
-                                    "paymentDate" => $sql_date,
-                                    "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
-                                    "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
-                                    "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
-                                    "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
-                                    "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
-                                    "PaymentType" => "Full Payment",
-                                    "numberOfSplits" =>  "--",
-                                    "SplitProjectManager" => $a,
-                                    "ShareAmount" => $a,
-                                    "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
-                                    'created_at' => date('y-m-d H:m:s'),
-                                    'updated_at' => date('y-m-d H:m:s'),
-                                    "refundStatus" => 'On Going',
-                                    "refundID" => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $findclient[0]->id,
-                                    "remainingID" => ($remamt == 0) ? null : $findclient[0]->id,
-                                    "remainingStatus" => $remainingStatus,
-                                    "transactionType" => $paymentNature,
-                                    "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
-                                    "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
-                                    "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
-                                    "Sheetdata" => "Invoicing Data",
-                                    "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
-                                    "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
-                                    "notfoundemail" => $allinvoices[0]['Email'] ,
-                                ]);
-
-                            }
-
-                        } else {
-                            continue;
-                            // echo ("<br>");
-                            // echo ($allinvoices[0]['Transaction ID']);
-                        }
-                    } else {
-                        continue;
-                    }
-                } else {
-                    //to store in payments table with status not found client
-                    $notfoundclient = Payments::create([
-                        "Brand" => $allinvoices[0]['Brand'],
-                        "Email" => $allinvoices[0]['Email'],
-                        "Card_Name" => $allinvoices[0]['Card Name'],
-                        "URL" => $allinvoices[0]['URL'],
-                        "Date" => $sql_date,
-                        "Total_Amount" => ($allinvoices[0]['Total Amount'] != null) ? $allinvoices[0]['Total Amount'] : 0,
-                        "Paid" => ($allinvoices[0]['Paid'] != null) ? $allinvoices[0]['Paid'] : 0,
-                        "Balance_Amount" => ($allinvoices[0]['Balance Amount'] != null) ? $allinvoices[0]['Balance Amount'] : "Blank",
-                        "Sales_Mode" => ($allinvoices[0]['Sales Mode'] != null) ? $allinvoices[0]['Sales Mode'] : "Blank",
-                        "Platform" => ($allinvoices[0]['Platform'] != null) ? $allinvoices[0]['Platform'] : "Blank",
-                        "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] != null) ? $allinvoices[0]['Payment Gateway'] : "Blank",
-                        "Card_Brand" => ($allinvoices[0]['Card Brand'] != null) ? $allinvoices[0]['Card Brand'] : "Blank",
-                        "Description" => ($allinvoices[0]['Description'] != null) ? $allinvoices[0]['Description'] : "Blank",
-                        "Transaction_ID" => ($allinvoices[0]['Transaction ID'] != null) ? $allinvoices[0]['Transaction ID'] : "Blank",
-                        "Sales_Person" => ($allinvoices[0]['Sales Person'] != null) ? $allinvoices[0]['Sales Person'] : "Blank",
-                        "Account_Manager" => ($allinvoices[0]['Account Manager'] != null) ? $allinvoices[0]['Account Manager'] : "Blank",
-                        "Project_Status" => ($allinvoices[0]['Project Status'] != null) ? $allinvoices[0]['Project Status'] : "Blank",
-                        "Package_Plan" => ($allinvoices[0]['Package Plan'] != null) ? $allinvoices[0]['Package Plan'] : "Blank",
-                        "Refund_Dispute_Amount" => ($allinvoices[0]['Refund/Dispute Amount'] != null) ? $allinvoices[0]['Refund/Dispute Amount'] : 0,
-                        "Refund_Dispute_Date" => ($sql_date_dispute != null) ? $sql_date_dispute : $sql_date,
-                        "Refund_Dispute_Reason" => ($allinvoices[0]['Refund/Dispute Reason'] != null) ? $allinvoices[0]['Refund/Dispute Reason'] : "No reason",
-                        "Recurring_Renewal" => ($sql_futuredate != null) ? $sql_futuredate : $sql_date,
-                        "Status" => ($allinvoices[0]['Status'] != null) ? $allinvoices[0]['Status'] : "Blank"
-                    ]);
+                $count = count($findclient);
+                if ($count == 1) {
 
                     if ($paymentNature != "Dispute Won") {
-                        if($checktypeofremaining == 'FSRemaining'){
+                        if ($checktypeofremaining == 'FSRemaining') {
                             $createClientPayment = NewPaymentsClients::insertGetId([
                                 "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
-                                "ClientID" =>  0,
-                                "ProjectID" => 0,
+                                "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" => ($findproject == null) ? 0 :   $findproject,
                                 "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
                                 "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
                                 "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
@@ -10825,24 +10892,23 @@ class BasicController extends Controller
                                 'created_at' => date('y-m-d H:m:s'),
                                 'updated_at' => date('y-m-d H:m:s'),
                                 "refundStatus" => 'On Going',
-                                'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $allinvoices[0]['Transaction ID'],
-                                'remainingID' => ($remamt == 0) ? null : $allinvoices[0]['Transaction ID'],
+                                'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $findclient[0]->id,
+                                'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
                                 "remainingStatus" => $remainingStatus,
                                 "transactionType" => "New Lead",
                                 "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
                                 "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
                                 "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
                                 "Sheetdata" => "Invoicing Data",
-                                "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
-                                "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
-                                "notfoundemail" => $allinvoices[0]['Email'] ,
+                                "disputeattack" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                                "disputeattackamount" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                "notfoundemail" => $allinvoices[0]['Email'],
                             ]);
-
-                        }else{
+                        } else {
                             $createClientPayment = NewPaymentsClients::insertGetId([
                                 "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
-                                "ClientID" =>  0,
-                                "ProjectID" => 0,
+                                "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" => ($findproject == null) ? 0 :   $findproject,
                                 "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
                                 "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
                                 "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
@@ -10859,29 +10925,146 @@ class BasicController extends Controller
                                 "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
                                 "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                                 "PaymentType" => "Full Payment",
-                                "numberOfSplits" => "--",
+                                "numberOfSplits" =>  "--",
                                 "SplitProjectManager" => $a,
                                 "ShareAmount" => $a,
                                 "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
                                 'created_at' => date('y-m-d H:m:s'),
                                 'updated_at' => date('y-m-d H:m:s'),
                                 "refundStatus" => 'On Going',
-                                'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $allinvoices[0]['Transaction ID'],
-                                'remainingID' => ($remamt == 0) ? null : $allinvoices[0]['Transaction ID'],
+                                "refundID" => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $findclient[0]->id,
+                                "remainingID" => ($remamt == 0) ? null : $findclient[0]->id,
                                 "remainingStatus" => $remainingStatus,
                                 "transactionType" => $paymentNature,
                                 "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
                                 "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
                                 "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
                                 "Sheetdata" => "Invoicing Data",
-                                "disputeattack" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
-                                "disputeattackamount" =>  ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
-                                "notfoundemail" => $allinvoices[0]['Email'] ,
+                                "disputeattack" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                                "disputeattackamount" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                "notfoundemail" => $allinvoices[0]['Email'],
                             ]);
-
                         }
+                    } else {
+                        continue;
+                        // echo ("<br>");
+                        // echo ($allinvoices[0]['Transaction ID']);
+                    }
+                } else {
+                    continue;
+                }
+            } else {
+                //to store in payments table with status not found client
+                $notfoundclient = Payments::create([
+                    "Brand" => $allinvoices[0]['Brand'],
+                    "Email" => $allinvoices[0]['Email'],
+                    "Card_Name" => $allinvoices[0]['Card Name'],
+                    "URL" => $allinvoices[0]['URL'],
+                    "Date" => $sql_date,
+                    "Total_Amount" => ($allinvoices[0]['Total Amount'] != null) ? $allinvoices[0]['Total Amount'] : 0,
+                    "Paid" => ($allinvoices[0]['Paid'] != null) ? $allinvoices[0]['Paid'] : 0,
+                    "Balance_Amount" => ($allinvoices[0]['Balance Amount'] != null) ? $allinvoices[0]['Balance Amount'] : "Blank",
+                    "Sales_Mode" => ($allinvoices[0]['Sales Mode'] != null) ? $allinvoices[0]['Sales Mode'] : "Blank",
+                    "Platform" => ($allinvoices[0]['Platform'] != null) ? $allinvoices[0]['Platform'] : "Blank",
+                    "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] != null) ? $allinvoices[0]['Payment Gateway'] : "Blank",
+                    "Card_Brand" => ($allinvoices[0]['Card Brand'] != null) ? $allinvoices[0]['Card Brand'] : "Blank",
+                    "Description" => ($allinvoices[0]['Description'] != null) ? $allinvoices[0]['Description'] : "Blank",
+                    "Transaction_ID" => ($allinvoices[0]['Transaction ID'] != null) ? $allinvoices[0]['Transaction ID'] : "Blank",
+                    "Sales_Person" => ($allinvoices[0]['Sales Person'] != null) ? $allinvoices[0]['Sales Person'] : "Blank",
+                    "Account_Manager" => ($allinvoices[0]['Account Manager'] != null) ? $allinvoices[0]['Account Manager'] : "Blank",
+                    "Project_Status" => ($allinvoices[0]['Project Status'] != null) ? $allinvoices[0]['Project Status'] : "Blank",
+                    "Package_Plan" => ($allinvoices[0]['Package Plan'] != null) ? $allinvoices[0]['Package Plan'] : "Blank",
+                    "Refund_Dispute_Amount" => ($allinvoices[0]['Refund/Dispute Amount'] != null) ? $allinvoices[0]['Refund/Dispute Amount'] : 0,
+                    "Refund_Dispute_Date" => ($sql_date_dispute != null) ? $sql_date_dispute : $sql_date,
+                    "Refund_Dispute_Reason" => ($allinvoices[0]['Refund/Dispute Reason'] != null) ? $allinvoices[0]['Refund/Dispute Reason'] : "No reason",
+                    "Recurring_Renewal" => ($sql_futuredate != null) ? $sql_futuredate : $sql_date,
+                    "Status" => ($allinvoices[0]['Status'] != null) ? $allinvoices[0]['Status'] : "Blank"
+                ]);
+
+                if ($paymentNature != "Dispute Won") {
+                    if ($checktypeofremaining == 'FSRemaining') {
+                        $createClientPayment = NewPaymentsClients::insertGetId([
+                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "ClientID" =>  0,
+                            "ProjectID" => 0,
+                            "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                            "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                            "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
+                            "ChargingMode" => ($chargingmode == null) ? 0 :   $chargingmode,
+                            "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                            "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                            "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                            "bankWireUpload" =>  "--",
+                            "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                            "paymentDate" => $sql_date,
+                            "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
+                            "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                            "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                            "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                            "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                            "PaymentType" => "Full Payment",
+                            "numberOfSplits" => "--",
+                            "SplitProjectManager" => $a,
+                            "ShareAmount" => $a,
+                            "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'On Going',
+                            'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $allinvoices[0]['Transaction ID'],
+                            'remainingID' => ($remamt == 0) ? null : $allinvoices[0]['Transaction ID'],
+                            "remainingStatus" => $remainingStatus,
+                            "transactionType" => "New Lead",
+                            "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                            "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                            "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                            "Sheetdata" => "Invoicing Data",
+                            "disputeattack" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                            "disputeattackamount" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                            "notfoundemail" => $allinvoices[0]['Email'],
+                        ]);
+                    } else {
+                        $createClientPayment = NewPaymentsClients::insertGetId([
+                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "ClientID" =>  0,
+                            "ProjectID" => 0,
+                            "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                            "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                            "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
+                            "ChargingMode" => ($chargingmode == null) ? 0 :   $chargingmode,
+                            "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                            "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                            "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                            "bankWireUpload" =>  "--",
+                            "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                            "paymentDate" => $sql_date,
+                            "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
+                            "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                            "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                            "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                            "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                            "PaymentType" => "Full Payment",
+                            "numberOfSplits" => "--",
+                            "SplitProjectManager" => $a,
+                            "ShareAmount" => $a,
+                            "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'On Going',
+                            'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $allinvoices[0]['Transaction ID'],
+                            'remainingID' => ($remamt == 0) ? null : $allinvoices[0]['Transaction ID'],
+                            "remainingStatus" => $remainingStatus,
+                            "transactionType" => $paymentNature,
+                            "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                            "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                            "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                            "Sheetdata" => "Invoicing Data",
+                            "disputeattack" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                            "disputeattackamount" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                            "notfoundemail" => $allinvoices[0]['Email'],
+                        ]);
                     }
                 }
+            }
         }
 
         // for_refund:
@@ -11258,7 +11441,7 @@ class BasicController extends Controller
                                 "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
                                 "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
                                 "Sheetdata" => "Invoicing Data",
-                                "notfoundemail" => $allinvoices[0]['Email'] ,
+                                "notfoundemail" => $allinvoices[0]['Email'],
                             ]);
 
                             $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
@@ -11326,7 +11509,7 @@ class BasicController extends Controller
                                 "disputefee" =>  15,
                                 "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
                                 "Sheetdata" => "Invoicing Data",
-                                "notfoundemail" => $allinvoices[0]['Email'] ,
+                                "notfoundemail" => $allinvoices[0]['Email'],
                             ]);
 
                             $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
@@ -11392,7 +11575,7 @@ class BasicController extends Controller
                             "futuredate" => ($allinvoices[0]['Recurring/Renewal'] == "One Time") ? null : $sql_futuredate, //to view this problem
                             "SalesPerson" => $salesperson,
                             "TotalAmount" => $allinvoices[0]['Total Amount'],
-                            "Paid" => ( $allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+                            "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
                             "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
                             "PaymentType" => "--",
                             "numberOfSplits" => "--",
@@ -11414,7 +11597,7 @@ class BasicController extends Controller
                             "Sheetdata" => "Invoicing Data",
                             "disputeattack"  => $s1ql_date_dispute, //date
                             "disputeattackamount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
-                            "notfoundemail" => $allinvoices[0]['Email'] ,
+                            "notfoundemail" => $allinvoices[0]['Email'],
                         ]);
 
                         $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
@@ -11737,32 +11920,29 @@ class BasicController extends Controller
                     $newarray[$headings[$i]] = $extractData[$j][$i];
                 }
 
-                 $sql_date = date("Y-m-d", strtotime($newarray['Date']));
+                $sql_date = date("Y-m-d", strtotime($newarray['Date']));
 
 
-                    $createClientPayment = Leads::create([
-                        "Brand" => $newarray["Brand"],
-                        "Date" =>  $sql_date,
-                        "LeadSource" => $newarray["Lead Source"],
-                        "LeadType"=> $newarray["Lead Type"],
-                        "ClientName"=> $newarray["Name of client"],
-                        "phone"=> $newarray["Contact Number"],
-                        "Email"=> $newarray["Email Address"],
-                        "Service"=> $newarray["Service"],
-                        "Attempt_1_agent"=> $newarray["Attempt 1 Agent"],
-                        "Attempt_2_agent"=> $newarray["Attempt 2 Agent"],
-                        "comments"=> $newarray["Comments"],
-                        "Amount"=>  (int)$newarray["Amount"],
-                        "keywords"=> $newarray["Keyword"],
-                        "status"=> $newarray["Status"],
-                        "GCLID"=> $newarray["GCLID"],
-                        "Locations"=> $newarray["Location"],
-                        "MonthofConversion"=> $newarray["Month of Conversion"]
-                    ]);
+                $createClientPayment = Leads::create([
+                    "Brand" => $newarray["Brand"],
+                    "Date" =>  $sql_date,
+                    "LeadSource" => $newarray["Lead Source"],
+                    "LeadType" => $newarray["Lead Type"],
+                    "ClientName" => $newarray["Name of client"],
+                    "phone" => $newarray["Contact Number"],
+                    "Email" => $newarray["Email Address"],
+                    "Service" => $newarray["Service"],
+                    "Attempt_1_agent" => $newarray["Attempt 1 Agent"],
+                    "Attempt_2_agent" => $newarray["Attempt 2 Agent"],
+                    "comments" => $newarray["Comments"],
+                    "Amount" =>  (int)$newarray["Amount"],
+                    "keywords" => $newarray["Keyword"],
+                    "status" => $newarray["Status"],
+                    "GCLID" => $newarray["GCLID"],
+                    "Locations" => $newarray["Location"],
+                    "MonthofConversion" => $newarray["Month of Conversion"]
+                ]);
             }
-
-
-
         }
 
         return redirect('/viewleads');
