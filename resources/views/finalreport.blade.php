@@ -1062,7 +1062,7 @@
 
                                                 let dailytargetCell = document.createElement('td');
                                                 let aa1 = dailytargets.data[i].Daily_Target;
-                                                let aa2 = (parseInt(aa1) !== 0) ? aa1 : "-";
+                                                let aa2 = (parseInt(aa1) !== 0) ? aa1 : "";
                                                 dailytargetCell.textContent = aa2;
                                                 rowsales.appendChild(dailytargetCell);
 
