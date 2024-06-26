@@ -15,20 +15,20 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>SEO--Sheet Payments(CSV)</h4>
+            <h4>BOOK -- Sheet Payments(CSV)</h4>
             <p class="mg-b-0">Payments</p>
           </div>
         </div><!-- d-flex -->
 
         <div class="br-pagebody">
           <div class="br-section-wrapper">
-           <form action="/forms/csv_uploads_sheetinvoicing/process" method="POST" enctype="multipart/form-data">
+           <form action="/forms/csv_uploads_sheetinvoicingbook/process" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
 
                 <div class="col-6  mt-3">
                     <label for="">Upload</label>
-                    <input type="file" name="sheetpayments" class="form-control" required>
+                    <input type="file" name="booksheetpayments" class="form-control" required>
                 </div>
 
 

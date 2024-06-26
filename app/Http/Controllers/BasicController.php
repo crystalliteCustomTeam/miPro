@@ -2192,7 +2192,7 @@ class BasicController extends Controller
             //disputes:
 
             $dispute = DB::table('newpaymentsclients')
-                ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
+                ->whereIn(DB::raw('YEAR(disputeattack)'), $years)
                 ->whereIn(DB::raw('MONTH(disputeattack)'), $months)
                 ->where('BrandID', $allbrandarrays)
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
@@ -11589,6 +11589,776 @@ class BasicController extends Controller
                             "remainingStatus" => $remainingStatus,
                             "transactionType" => $paymentNature,
                             "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                            "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                            "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                            "disputefee" =>  15,
+                            "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                            "Sheetdata" => "Invoicing Data",
+                            "disputeattack"  => $s1ql_date_dispute, //date
+                            "disputeattackamount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                            "notfoundemail" => $allinvoices[0]['Email'],
+                        ]);
+
+                        $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
+                        if ($refundamt == 0) {
+                            $refundtype = 'Refund';
+                        } else {
+                            $refundtype = 'Partial Refund';
+                        }
+
+                        $lostdispute = Disputedpayments::create([
+                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "ClientID" => 0,
+                            "ProjectID" => 0,
+                            "ProjectManager" => $projectmanager,
+                            "PaymentID" => $createClientPaymentrefund,
+                            "dispute_Date" => $sql_date,
+                            "disputedAmount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                            "disputeReason" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                            "disputeStatus" => "Won",
+                            "disputefee"  => 15,
+                            "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount']
+
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return redirect('/client/project/payment/all');
+    }
+
+    function csv_sheetpaymentsBook(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        return view('sheetpaymentUploadbook', [
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function csv_sheetpayments_processBook(Request $request)
+    {
+        ini_set('max_execution_time', 300);
+
+        $a =  json_encode(["--"]);
+
+        $data = Excel::toArray([], $request->file('booksheetpayments'));
+        $allinvoice = [];
+        foreach ($data as $extractData) {
+            $headings = $extractData[0];
+            $keycount = count($headings);
+            $maincount = count($extractData);
+
+            for ($j = 1; $j < $maincount; $j++) {
+                $newarray = [];
+                for ($i = 0; $i < $keycount; $i++) {
+                    $newarray[$headings[$i]] = $extractData[$j][$i];
+                }
+                $allinvoice[] = [$newarray];
+            }
+        }
+
+        foreach ($allinvoice as $allinvoices) {
+            $checktransactionID = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->count();
+            $mainemail =  strtolower($allinvoices[0]["Email"]);
+            $sql_date = date("Y-m-d", strtotime($allinvoices[0]['Date']));
+            $sql_date_dispute = date("Y-m-d", strtotime($allinvoices[0]['Refund/Dispute Date']));
+            $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($allinvoices[0]['Email']))->get();
+
+            $sp = Employee::where('name', $allinvoices[0]['Sales Person'])->get();
+            if (isset($sp[0]->id)) {
+                $salesperson = $sp[0]->id;
+            } else {
+                $salesperson = 0;
+            }
+
+            $pm = Employee::where('name', $allinvoices[0]['Account Manager'])->get();
+            if (isset($pm[0]->id)) {
+                $projectmanager = $pm[0]->id;
+            } else {
+                $projectmanager = 0;
+            }
+
+            $remamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'];
+            if ($remamt == 0) {
+                $remainingStatus = "Not Remaining";
+            } elseif ($remamt > 0) {
+                $remainingStatus = "Remaining";
+            }
+
+            $findbrand = Brand::where('name', $allinvoices[0]['Brand'])->get();
+
+            if ($allinvoices[0]['Sales Mode'] == 'New Lead') {
+                $paymentNature = "New Lead";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'New Sale') {
+                $paymentNature = "New Sale";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Recurring') {
+                $paymentNature = "Recurring Payment";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
+                $paymentNature = "Renewal Payment";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
+                $paymentNature = "Small Paymente";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
+                $paymentNature = "Upsell";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Remaining' || $allinvoices[0]['Sales Mode'] == 'FSRemaining') {
+                $paymentNature = "Remaining";
+            }
+
+            $checktypeofremaining = $allinvoices[0]['Sales Mode'];
+
+
+
+            if ($matchclientmeta->isNotEmpty()) {
+                $findclient = Client::where('id', $matchclientmeta[0]->clientID)->get();
+                $project = Project::where('clientID', $findclient[0]->id)->get();
+                if (isset($project[0]->id)) {
+                    $findproject = $project[0]->id;
+                } else {
+                    $findproject = 0;
+                }
+                $count = count($findclient);
+                if ($count == 1) {
+
+                    if ( $allinvoices[0]['Balance Amount'] != "WON") {
+                        if ($checktypeofremaining == 'FSRemaining') {
+                            $createClientPayment = NewPaymentsClients::insertGetId([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" => ($findproject == null) ? 0 :   $findproject,
+                                "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                                "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                                "ChargingPlan" =>  '--',
+                                "ChargingMode" =>  '--',
+                                "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                                "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                                "paymentDate" => $sql_date,
+                                "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                                "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                                "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                "PaymentType" => "Full Payment",
+                                "numberOfSplits" => "--",
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
+                                "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $findclient[0]->id,
+                                'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                "remainingStatus" => $remainingStatus,
+                                "transactionType" => "New Lead",
+                                "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
+                                "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                "Sheetdata" => "Invoicing Data",
+                                "disputeattack" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : $sql_date_dispute,
+                                "disputeattackamount" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                "notfoundemail" => $allinvoices[0]['Email'],
+                            ]);
+                        } else {
+                            $createClientPayment = NewPaymentsClients::insertGetId([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" => ($findproject == null) ? 0 :   $findproject,
+                                "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                                "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                                "ChargingPlan" =>  '--',
+                                "ChargingMode" =>  '--',
+                                "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                                "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                                "paymentDate" => $sql_date,
+                                "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                                "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                                "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                "PaymentType" => "Full Payment",
+                                "numberOfSplits" =>  "--",
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
+                                "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                "refundID" => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $findclient[0]->id,
+                                "remainingID" => ($remamt == 0) ? null : $findclient[0]->id,
+                                "remainingStatus" => $remainingStatus,
+                                "transactionType" => $paymentNature,
+                                "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
+                                "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                "Sheetdata" => "Invoicing Data",
+                                "disputeattack" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : $sql_date_dispute,
+                                "disputeattackamount" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                "notfoundemail" => $allinvoices[0]['Email'],
+                            ]);
+                        }
+                    } else {
+                        continue;
+                        // echo ("<br>");
+                        // echo ($allinvoices[0]['Transaction ID']);
+                    }
+                } else {
+                    continue;
+                }
+            } else {
+                //to store in payments table with status not found client
+
+                if ( $allinvoices[0]['Balance Amount'] != "WON") {
+                    if ($checktypeofremaining == 'FSRemaining') {
+                        $createClientPayment = NewPaymentsClients::insertGetId([
+                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "ClientID" =>  0,
+                            "ProjectID" => 0,
+                            "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                            "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                            "ChargingPlan" =>  '--',
+                            "ChargingMode" =>  '--',
+                            "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                            "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                            "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                            "bankWireUpload" =>  "--",
+                            "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                            "paymentDate" => $sql_date,
+                            "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                            "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                            "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                            "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                            "PaymentType" => "Full Payment",
+                            "numberOfSplits" => "--",
+                            "SplitProjectManager" => $a,
+                            "ShareAmount" => $a,
+                            "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'On Going',
+                            'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $allinvoices[0]['Transaction ID'],
+                            'remainingID' => ($remamt == 0) ? null : $allinvoices[0]['Transaction ID'],
+                            "remainingStatus" => $remainingStatus,
+                            "transactionType" => "New Lead",
+                            "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
+                            "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                            "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                            "Sheetdata" => "Invoicing Data",
+                            "disputeattack" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : $sql_date_dispute,
+                            "disputeattackamount" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                            "notfoundemail" => $allinvoices[0]['Email'],
+                        ]);
+                    } else {
+                        $createClientPayment = NewPaymentsClients::insertGetId([
+                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "ClientID" =>  0,
+                            "ProjectID" => 0,
+                            "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                            "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                            "ChargingPlan" =>  '--',
+                            "ChargingMode" =>  '--',
+                            "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                            "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                            "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                            "bankWireUpload" =>  "--",
+                            "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                            "paymentDate" => $sql_date,
+                            "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                            "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                            "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                            "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                            "PaymentType" => "Full Payment",
+                            "numberOfSplits" => "--",
+                            "SplitProjectManager" => $a,
+                            "ShareAmount" => $a,
+                            "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'On Going',
+                            'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $allinvoices[0]['Transaction ID'],
+                            'remainingID' => ($remamt == 0) ? null : $allinvoices[0]['Transaction ID'],
+                            "remainingStatus" => $remainingStatus,
+                            "transactionType" => $paymentNature,
+                            "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
+                            "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                            "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                            "Sheetdata" => "Invoicing Data",
+                            "disputeattack" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : $sql_date_dispute,
+                            "disputeattackamount" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                            "notfoundemail" => $allinvoices[0]['Email'],
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // for_refund:
+        foreach ($allinvoice as $allinvoices) {
+            $findbrand = Brand::where('name', $allinvoices[0]['Brand'])->get();
+            $checktypeofremaining = $allinvoices[0]['Sales Mode'];
+            $checktransactionIDget = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->where('refundID', '!=', null)->get();
+            $checktransactionID = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->where('refundID', '!=', null)->count();
+            if ($checktransactionID == 1) {
+                $mainemail = $allinvoices[0]["Email"];
+                $sql_date = date("Y-m-d", strtotime($allinvoices[0]['Date']));
+                $s1ql_date_dispute = date("Y-m-d", strtotime($allinvoices[0]['Refund/Dispute Date']));
+                $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($allinvoices[0]['Email']))->get();
+
+                $sp = Employee::where('name', $allinvoices[0]['Sales Person'])->get();
+                if (isset($sp[0]->id)) {
+                    $salesperson = $sp[0]->id;
+                } else {
+                    $salesperson = 0;
+                }
+
+                $pm = Employee::where('name', $allinvoices[0]['Account Manager'])->get();
+                if (isset($pm[0]->id)) {
+                    $projectmanager = $pm[0]->id;
+                } else {
+                    $projectmanager = 0;
+                }
+
+                $remamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'];
+                if ($remamt == 0) {
+                    $remainingStatus = "Not Remaining";
+                } elseif ($remamt > 0) {
+                    $remainingStatus = "Remaining";
+                }
+
+
+                if ($allinvoices[0]['Sales Mode'] == 'New Lead') {
+                    $paymentNature = "New Lead";
+                } elseif ($allinvoices[0]['Sales Mode'] == 'New Sale') {
+                    $paymentNature = "New Sale";
+                } elseif ($allinvoices[0]['Sales Mode'] == 'FSRemaining' || $allinvoices[0]['Sales Mode'] == 'Remaining') {
+                    $paymentNature = "New Sale";
+                } elseif ($allinvoices[0]['Sales Mode'] == 'Recurring') {
+                    $paymentNature = "Recurring Payment";
+                } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
+                    $paymentNature = "Renewal Payment";
+                } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
+                    $paymentNature = "Small Paymente";
+                } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
+                    $paymentNature = "Upsell";
+                } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
+                    $paymentNature = "Dispute Won";
+                }
+
+                if ($matchclientmeta->isNotEmpty()) {
+                    $findclient = Client::where('id', $matchclientmeta[0]->clientID)->get();
+                    $project = Project::where('clientID', $findclient[0]->id)->get();
+                    if (isset($project[0]->id)) {
+                        $findproject = $project[0]->id;
+                    } else {
+                        $findproject = 0;
+                    }
+                    $count = count($findclient);
+                    if ($count == 1) {
+
+                        if ($allinvoices[0]['Balance Amount'] != "WON") {
+                            if ($checktransactionIDget[0]->dispute == null) {
+                                //simple refund
+                                $createClientPaymentrefund = NewPaymentsClients::insertGetId([
+                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                    "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                    "ProjectID" => ($findproject == null) ? 0 :   $findproject,
+                                    "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                                    "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                                    "ChargingPlan" =>  '--',
+                                    "ChargingMode" =>  '--',
+                                    "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                    "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                                    "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                                    "bankWireUpload" =>  "--",
+                                    "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'] . "(Refund)",
+                                    "paymentDate" => $s1ql_date_dispute, //to view this problem
+                                    "SalesPerson" => $salesperson,
+                                    "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                    "Paid" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                    "PaymentType" => "--",
+                                    "numberOfSplits" => "--",
+                                    "SplitProjectManager" => json_encode("--"),
+                                    "ShareAmount" => json_encode("--"),
+                                    "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    'created_at' => date('y-m-d H:m:s'),
+                                    'updated_at' => date('y-m-d H:m:s'),
+                                    "refundStatus" => 'Refund',
+                                    'refundID' =>  $findclient[0]->id,
+                                    'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                    "remainingStatus" => $remainingStatus,
+                                    "transactionType" => $paymentNature,
+                                    "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
+                                    "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                    "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                    "Sheetdata" => "Invoicing Data"
+                                ]);
+
+                                $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
+                                if ($refundamt == 0) {
+                                    $refundtype = 'Refund';
+                                } else {
+                                    $refundtype = 'Partial Refund';
+                                }
+
+                                $refund = RefundPayments::create([
+                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                    "ClientID" => $findclient[0]->id,
+                                    "ProjectID" => $findproject,
+                                    "ProjectManager" => $projectmanager,
+                                    "PaymentID" => $createClientPaymentrefund,
+                                    "basicAmount" => $allinvoices[0]['Total Amount'],
+                                    "refundAmount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "refundtype" => $refundtype,
+                                    "refund_date" => $s1ql_date_dispute,
+                                    "refundReason" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    "clientpaid" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+                                    "paymentType" => "Full payment",
+                                    "splitmanagers" => json_encode("--"),
+                                    "splitamounts" => json_encode("--"),
+                                    "splitRefunds" => json_encode("--"),
+                                    "transactionfee" => 0,
+                                    "amt_after_transactionfee" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+
+                                ]);
+                            } else {
+                                //refund due to chargeback lost
+                                $createClientPaymentrefund = NewPaymentsClients::insertGetId([
+                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                    "ClientID" => $findclient[0]->id,
+                                    "ProjectID" => $findproject,
+                                    "ProjectManager" => $projectmanager,
+                                    "paymentNature" => $paymentNature,
+                                    "ChargingPlan" =>  '--',
+                                    "ChargingMode" =>  '--',
+                                    "Platform" => $allinvoices[0]['Platform'],
+                                    "Card_Brand" => $allinvoices[0]['Card Brand'],
+                                    "Payment_Gateway" => $allinvoices[0]['Payment Gateway'],
+                                    "bankWireUpload" =>  "--",
+                                    "TransactionID" => $allinvoices[0]['Transaction ID'] . "(Refund)",
+                                    "paymentDate" => $s1ql_date_dispute, //to view this problem
+                                    "SalesPerson" => $salesperson,
+                                    "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                    "Paid" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                    "PaymentType" => "--",
+                                    "numberOfSplits" => "--",
+                                    "SplitProjectManager" => json_encode("--"),
+                                    "ShareAmount" => json_encode("--"),
+                                    "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    'created_at' => date('y-m-d H:m:s'),
+                                    'updated_at' => date('y-m-d H:m:s'),
+                                    "refundStatus" => 'Refund',
+                                    'refundID' =>  $findclient[0]->id,
+                                    'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                    "remainingStatus" => $remainingStatus,
+                                    "transactionType" => $paymentNature,
+                                    "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
+                                    "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                    "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                    "disputefee" =>  15,
+                                    "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "Sheetdata" => "Invoicing Data"
+                                ]);
+
+                                $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
+                                if ($refundamt == 0) {
+                                    $refundtype = 'Refund';
+                                } else {
+                                    $refundtype = 'Partial Refund';
+                                }
+
+                                $refund = RefundPayments::create([
+                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                    "ClientID" => $findclient[0]->id,
+                                    "ProjectID" => $findproject,
+                                    "ProjectManager" => $projectmanager,
+                                    "PaymentID" => $createClientPaymentrefund,
+                                    "basicAmount" => $allinvoices[0]['Total Amount'],
+                                    "refundAmount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "refundtype" => $refundtype,
+                                    "refund_date" => $s1ql_date_dispute,
+                                    "refundReason" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    "clientpaid" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+                                    "paymentType" => "Full payment",
+                                    "splitmanagers" => json_encode("--"),
+                                    "splitamounts" => json_encode("--"),
+                                    "splitRefunds" => json_encode("--"),
+                                    "transactionfee" => 0,
+                                    "amt_after_transactionfee" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+
+                                ]);
+
+                                $lostdispute = Disputedpayments::create([
+                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                    "ClientID" => $findclient[0]->id,
+                                    "ProjectID" => $findproject,
+                                    "ProjectManager" => $projectmanager,
+                                    "PaymentID" => $createClientPaymentrefund,
+                                    "dispute_Date" => $s1ql_date_dispute,
+                                    "disputedAmount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                    "disputeReason" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                    "disputeStatus" => "Lost",
+                                    "disputefee"  => 15,
+                                    "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+
+                                ]);
+                            }
+                        } else {
+                            //chargeback won
+
+                            $createClientPaymentrefund = NewPaymentsClients::insertGetId([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" => ($findproject == null) ? 0 :   $findproject,
+                                "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                                "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                                "ChargingPlan" =>  '--',
+                                "ChargingMode" =>  '--',
+                                "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                                "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'] . "(Won)",
+                                "paymentDate" => $s1ql_date_dispute, //to view this problem
+                                "SalesPerson" => $salesperson,
+                                "TotalAmount" => $allinvoices[0]['Total Amount'],
+                                "Paid" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                "PaymentType" => "--",
+                                "numberOfSplits" => "--",
+                                "SplitProjectManager" => json_encode("--"),
+                                "ShareAmount" => json_encode("--"),
+                                "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                'refundID' =>  $findclient[0]->id,
+                                'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                "remainingStatus" => $remainingStatus,
+                                "transactionType" => $paymentNature,
+                                "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
+                                "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                "disputefee" =>  15,
+                                "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "Sheetdata" => "Invoicing Data"
+                            ]);
+
+                            $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
+                            if ($refundamt == 0) {
+                                $refundtype = 'Refund';
+                            } else {
+                                $refundtype = 'Partial Refund';
+                            }
+
+
+                            $lostdispute = Disputedpayments::create([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => $findclient[0]->id,
+                                "ProjectID" => $findproject,
+                                "ProjectManager" => $projectmanager,
+                                "PaymentID" => $createClientPaymentrefund,
+                                "dispute_Date" => $s1ql_date_dispute,
+                                "disputedAmount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "disputeReason" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                "disputeStatus" => "Won",
+                                "disputefee"  => 15,
+                                "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount']
+
+                            ]);
+                        }
+                    }
+                } else {
+                    if ( $allinvoices[0]['Balance Amount'] != "WON") {
+                        if ($checktransactionIDget[0]->dispute == null) {
+                            //simple refund
+                            $createClientPaymentrefund = NewPaymentsClients::insertGetId([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => 0,
+                                "ProjectID" => 0,
+                                "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                                "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                                "ChargingPlan" =>  '--',
+                                "ChargingMode" =>  '--',
+                                "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                                "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'] . "(Refund)",
+                                "paymentDate" => $s1ql_date_dispute, //to view this problem
+                                "SalesPerson" => $salesperson,
+                                "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                "Paid" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                "PaymentType" => "--",
+                                "numberOfSplits" => "--",
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
+                                "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'Refund',
+                                'refundID' =>   $allinvoices[0]['Transaction ID'],
+                                'remainingID' => ($remamt == 0) ? null :  $allinvoices[0]['Transaction ID'],
+                                "remainingStatus" => $remainingStatus,
+                                "transactionType" => $paymentNature,
+                                "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
+                                "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                "Sheetdata" => "Invoicing Data",
+                                "notfoundemail" => $allinvoices[0]['Email'],
+                            ]);
+
+                            $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
+                            if ($refundamt == 0) {
+                                $refundtype = 'Refund';
+                            } else {
+                                $refundtype = 'Partial Refund';
+                            }
+
+                            $refund = RefundPayments::create([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => 0,
+                                "ProjectID" => $findproject,
+                                "ProjectManager" => $projectmanager,
+                                "PaymentID" => $createClientPaymentrefund,
+                                "basicAmount" => $allinvoices[0]['Total Amount'],
+                                "refundAmount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "refundtype" => $refundtype,
+                                "refund_date" => $s1ql_date_dispute,
+                                "refundReason" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                "clientpaid" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+                                "paymentType" => "Full payment",
+                                "splitmanagers" => json_encode("--"),
+                                "splitamounts" => json_encode("--"),
+                                "splitRefunds" => json_encode("--"),
+                                "transactionfee" => 0,
+                                "amt_after_transactionfee" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+
+                            ]);
+                        } else {
+                            //refund due to chargeback lost
+                            $createClientPaymentrefund = NewPaymentsClients::insertGetId([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => 0,
+                                "ProjectID" => $findproject,
+                                "ProjectManager" => $projectmanager,
+                                "paymentNature" => $paymentNature,
+                                "ChargingPlan" =>  '--',
+                                "ChargingMode" =>  '--',
+                                "Platform" => $allinvoices[0]['Platform'],
+                                "Card_Brand" => $allinvoices[0]['Card Brand'],
+                                "Payment_Gateway" => $allinvoices[0]['Payment Gateway'],
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => $allinvoices[0]['Transaction ID'] . "(Refund)",
+                                "paymentDate" => $s1ql_date_dispute, //to view this problems
+                                "SalesPerson" => $salesperson,
+                                "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                "Paid" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                "PaymentType" => "--",
+                                "numberOfSplits" => "--",
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
+                                "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'Refund',
+                                'refundID' =>  $findclient[0]->id,
+                                'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                "remainingStatus" => $remainingStatus,
+                                "transactionType" => $paymentNature,
+                                "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
+                                "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                "disputefee" =>  15,
+                                "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "Sheetdata" => "Invoicing Data",
+                                "notfoundemail" => $allinvoices[0]['Email'],
+                            ]);
+
+                            $refundamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Refund/Dispute Amount'];
+                            if ($refundamt == 0) {
+                                $refundtype = 'Refund';
+                            } else {
+                                $refundtype = 'Partial Refund';
+                            }
+
+                            $refund = RefundPayments::create([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => 0,
+                                "ProjectID" => $findproject,
+                                "ProjectManager" => $projectmanager,
+                                "PaymentID" => $createClientPaymentrefund,
+                                "basicAmount" => $allinvoices[0]['Total Amount'],
+                                "refundAmount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "refundtype" => $refundtype,
+                                "refund_date" => $s1ql_date_dispute,
+                                "refundReason" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                "clientpaid" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+                                "paymentType" => "Full payment",
+                                "splitmanagers" => json_encode("--"),
+                                "splitamounts" => json_encode("--"),
+                                "splitRefunds" => json_encode("--"),
+                                "transactionfee" => 0,
+                                "amt_after_transactionfee" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+
+                            ]);
+
+                            $lostdispute = Disputedpayments::create([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => 0,
+                                "ProjectID" => $findproject,
+                                "ProjectManager" => $projectmanager,
+                                "PaymentID" => $createClientPaymentrefund,
+                                "dispute_Date" => $s1ql_date_dispute,
+                                "disputedAmount" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+                                "disputeReason" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                                "disputeStatus" => "Lost",
+                                "disputefee"  => 15,
+                                "amt_after_disputefee" => ($allinvoices[0]['Refund/Dispute Amount'] == null) ? 0 :  $allinvoices[0]['Refund/Dispute Amount'],
+
+                            ]);
+                        }
+                    } else {
+                        //chargeback won
+
+                        $createClientPaymentrefund = NewPaymentsClients::insertGetId([
+                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "ClientID" => 0,
+                            "ProjectID" => ($findproject == null) ? 0 :   $findproject,
+                            "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                            "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                            "ChargingPlan" =>  '--',
+                            "ChargingMode" =>  '--',
+                            "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                            "Card_Brand" => ($allinvoices[0]['Card Brand'] == null) ? 0 :  $allinvoices[0]['Card Brand'],
+                            "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] == null) ? 0 :  $allinvoices[0]['Payment Gateway'],
+                            "bankWireUpload" =>  "--",
+                            "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'] . "(Won)",
+                            "paymentDate" => $sql_date, //to view this problem
+                            "SalesPerson" => $salesperson,
+                            "TotalAmount" => $allinvoices[0]['Total Amount'],
+                            "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :   $allinvoices[0]['Paid'],
+                            "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                            "PaymentType" => "--",
+                            "numberOfSplits" => "--",
+                            "SplitProjectManager" => $a,
+                            "ShareAmount" => $a,
+                            "Description" => ($allinvoices[0]['Refund/Dispute Reason'] == null) ? "0" :   $allinvoices[0]['Refund/Dispute Reason'],
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'On Going',
+                            'refundID' =>  $allinvoices[0]['Transaction ID'],
+                            'remainingID' => ($remamt == 0) ? null : $allinvoices[0]['Transaction ID'],
+                            "remainingStatus" => $remainingStatus,
+                            "transactionType" => $paymentNature,
+                            "dispute" => ($allinvoices[0]['Balance Amount'] != "Chargeback") ? null : "dispute",
                             "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
                             "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
                             "disputefee" =>  15,

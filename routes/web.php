@@ -167,9 +167,13 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/csv_uploads_stripePayments','csv_stripepayments');
         Route::post('/forms/csv_uploads_stripePayments/process','csv_stripepayments_process');
 
-         //csv_paymentsFromSheet(previous data upload):
-         Route::get('/forms/csv_uploads_sheetinvoicing','csv_sheetpayments');
-         Route::post('/forms/csv_uploads_sheetinvoicing/process','csv_sheetpayments_process');
+        //csv_paymentsFromSheet_SEO(previous data upload):
+        Route::get('/forms/csv_uploads_sheetinvoicing','csv_sheetpayments');
+        Route::post('/forms/csv_uploads_sheetinvoicing/process','csv_sheetpayments_process');
+
+        //csv_paymentsFromSheet_SEO(previous data upload):
+        Route::get('/forms/csv_uploads_sheetinvoicingbook','csv_sheetpaymentsBook');
+        Route::post('/forms/csv_uploads_sheetinvoicingbook/process','csv_sheetpayments_processBook');
 
         //Unmatched Payments:
         Route::get('/payments/unmatched','unmatchedPayments');
