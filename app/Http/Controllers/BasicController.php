@@ -10954,31 +10954,31 @@ class BasicController extends Controller
                 }
             } else {
                 //to store in payments table with status not found client
-                $notfoundclient = Payments::create([
-                    "Brand" => $allinvoices[0]['Brand'],
-                    "Email" => $allinvoices[0]['Email'],
-                    "Card_Name" => $allinvoices[0]['Card Name'],
-                    "URL" => $allinvoices[0]['URL'],
-                    "Date" => $sql_date,
-                    "Total_Amount" => ($allinvoices[0]['Total Amount'] != null) ? $allinvoices[0]['Total Amount'] : 0,
-                    "Paid" => ($allinvoices[0]['Paid'] != null) ? $allinvoices[0]['Paid'] : 0,
-                    "Balance_Amount" => ($allinvoices[0]['Balance Amount'] != null) ? $allinvoices[0]['Balance Amount'] : "Blank",
-                    "Sales_Mode" => ($allinvoices[0]['Sales Mode'] != null) ? $allinvoices[0]['Sales Mode'] : "Blank",
-                    "Platform" => ($allinvoices[0]['Platform'] != null) ? $allinvoices[0]['Platform'] : "Blank",
-                    "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] != null) ? $allinvoices[0]['Payment Gateway'] : "Blank",
-                    "Card_Brand" => ($allinvoices[0]['Card Brand'] != null) ? $allinvoices[0]['Card Brand'] : "Blank",
-                    "Description" => ($allinvoices[0]['Description'] != null) ? $allinvoices[0]['Description'] : "Blank",
-                    "Transaction_ID" => ($allinvoices[0]['Transaction ID'] != null) ? $allinvoices[0]['Transaction ID'] : "Blank",
-                    "Sales_Person" => ($allinvoices[0]['Sales Person'] != null) ? $allinvoices[0]['Sales Person'] : "Blank",
-                    "Account_Manager" => ($allinvoices[0]['Account Manager'] != null) ? $allinvoices[0]['Account Manager'] : "Blank",
-                    "Project_Status" => ($allinvoices[0]['Project Status'] != null) ? $allinvoices[0]['Project Status'] : "Blank",
-                    "Package_Plan" => ($allinvoices[0]['Package Plan'] != null) ? $allinvoices[0]['Package Plan'] : "Blank",
-                    "Refund_Dispute_Amount" => ($allinvoices[0]['Refund/Dispute Amount'] != null) ? $allinvoices[0]['Refund/Dispute Amount'] : 0,
-                    "Refund_Dispute_Date" => ($sql_date_dispute != null) ? $sql_date_dispute : $sql_date,
-                    "Refund_Dispute_Reason" => ($allinvoices[0]['Refund/Dispute Reason'] != null) ? $allinvoices[0]['Refund/Dispute Reason'] : "No reason",
-                    "Recurring_Renewal" => ($sql_futuredate != null) ? $sql_futuredate : $sql_date,
-                    "Status" => ($allinvoices[0]['Status'] != null) ? $allinvoices[0]['Status'] : "Blank"
-                ]);
+                // $notfoundclient = Payments::create([
+                //     "Brand" => $allinvoices[0]['Brand'],
+                //     "Email" => $allinvoices[0]['Email'],
+                //     "Card_Name" => $allinvoices[0]['Card Name'],
+                //     "URL" => $allinvoices[0]['URL'],
+                //     "Date" => $sql_date,
+                //     "Total_Amount" => ($allinvoices[0]['Total Amount'] != null) ? $allinvoices[0]['Total Amount'] : 0,
+                //     "Paid" => ($allinvoices[0]['Paid'] != null) ? $allinvoices[0]['Paid'] : 0,
+                //     "Balance_Amount" => ($allinvoices[0]['Balance Amount'] != null) ? $allinvoices[0]['Balance Amount'] : "Blank",
+                //     "Sales_Mode" => ($allinvoices[0]['Sales Mode'] != null) ? $allinvoices[0]['Sales Mode'] : "Blank",
+                //     "Platform" => ($allinvoices[0]['Platform'] != null) ? $allinvoices[0]['Platform'] : "Blank",
+                //     "Payment_Gateway" => ($allinvoices[0]['Payment Gateway'] != null) ? $allinvoices[0]['Payment Gateway'] : "Blank",
+                //     "Card_Brand" => ($allinvoices[0]['Card Brand'] != null) ? $allinvoices[0]['Card Brand'] : "Blank",
+                //     "Description" => ($allinvoices[0]['Description'] != null) ? $allinvoices[0]['Description'] : "Blank",
+                //     "Transaction_ID" => ($allinvoices[0]['Transaction ID'] != null) ? $allinvoices[0]['Transaction ID'] : "Blank",
+                //     "Sales_Person" => ($allinvoices[0]['Sales Person'] != null) ? $allinvoices[0]['Sales Person'] : "Blank",
+                //     "Account_Manager" => ($allinvoices[0]['Account Manager'] != null) ? $allinvoices[0]['Account Manager'] : "Blank",
+                //     "Project_Status" => ($allinvoices[0]['Project Status'] != null) ? $allinvoices[0]['Project Status'] : "Blank",
+                //     "Package_Plan" => ($allinvoices[0]['Package Plan'] != null) ? $allinvoices[0]['Package Plan'] : "Blank",
+                //     "Refund_Dispute_Amount" => ($allinvoices[0]['Refund/Dispute Amount'] != null) ? $allinvoices[0]['Refund/Dispute Amount'] : 0,
+                //     "Refund_Dispute_Date" => ($sql_date_dispute != null) ? $sql_date_dispute : $sql_date,
+                //     "Refund_Dispute_Reason" => ($allinvoices[0]['Refund/Dispute Reason'] != null) ? $allinvoices[0]['Refund/Dispute Reason'] : "No reason",
+                //     "Recurring_Renewal" => ($sql_futuredate != null) ? $sql_futuredate : $sql_date,
+                //     "Status" => ($allinvoices[0]['Status'] != null) ? $allinvoices[0]['Status'] : "Blank"
+                // ]);
 
                 if ($paymentNature != "Dispute Won") {
                     if ($checktypeofremaining == 'FSRemaining') {
@@ -12246,7 +12246,7 @@ class BasicController extends Controller
                             $createClientPaymentrefund = NewPaymentsClients::insertGetId([
                                 "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => 0,
-                                "ProjectID" => $findproject,
+                                "ProjectID" => 11111,
                                 "ProjectManager" => $projectmanager,
                                 "paymentNature" => $paymentNature,
                                 "ChargingPlan" =>  '--',
@@ -12269,7 +12269,7 @@ class BasicController extends Controller
                                 'created_at' => date('y-m-d H:m:s'),
                                 'updated_at' => date('y-m-d H:m:s'),
                                 "refundStatus" => 'Refund',
-                                'refundID' =>  $findclient[0]->id,
+                                'refundID' =>  11111,
                                 'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
                                 "remainingStatus" => $remainingStatus,
                                 "transactionType" => $paymentNature,
