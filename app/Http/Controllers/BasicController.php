@@ -12372,6 +12372,340 @@ class BasicController extends Controller
         return redirect('/client/project/payment/all');
     }
 
+    function csv_sheetpaymentsbitswits(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        return view('sheetpaymentUploadbitswits', [
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function csv_sheetpayments_processbitswits(Request $request)
+    {
+        ini_set('max_execution_time', 300);
+
+        $a =  json_encode(["--"]);
+
+        $data = Excel::toArray([], $request->file('bitswitsheetpayments'));
+        $allinvoice = [];
+        foreach ($data as $extractData) {
+            $headings = $extractData[0];
+            $keycount = count($headings);
+            $maincount = count($extractData);
+
+            for ($j = 1; $j < $maincount; $j++) {
+                $newarray = [];
+                for ($i = 0; $i < $keycount; $i++) {
+                    $newarray[$headings[$i]] = $extractData[$j][$i];
+                }
+                $allinvoice[] = [$newarray];
+            }
+        }
+
+        // echo("<pre>");
+        // print_r($allinvoice);
+        foreach ($allinvoice as $allinvoices) {
+            $checktransactionID = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->count();
+            $mainemail =  strtolower($allinvoices[0]["Email"]);
+            $sql_date = date("Y-m-d", strtotime($allinvoices[0]['Date']));
+            if ($allinvoices[0]['Package Plan'] != "One Time" || $allinvoices[0]['Package Plan'] != null) {
+                $sql_futuredate = date("Y-m-d", strtotime($allinvoices[0]['Recurring/Renewal']));
+            }
+            $matchclientmeta = Clientmeta::wherejsoncontains('otheremail', ($allinvoices[0]['Email']))->get();
+
+            $sp = Employee::where('name', $allinvoices[0]['Sales Person'])->get();
+            if (isset($sp[0]->id)) {
+                $salesperson = $sp[0]->id;
+            } else {
+                $salesperson = 0;
+            }
+
+            $pm = Employee::where('name', $allinvoices[0]['Account Manager'])->get();
+            if (isset($pm[0]->id)) {
+                $projectmanager = $pm[0]->id;
+            } else {
+                $projectmanager = 0;
+            }
+
+            $remamt = $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'];
+            if ($remamt == 0) {
+                $remainingStatus = "Not Remaining";
+            } elseif ($remamt > 0) {
+                $remainingStatus = "Remaining";
+            }
+
+            $findbrand = Brand::where('name', $allinvoices[0]['Brand'])->get();
+
+            if ($allinvoices[0]['Package Plan'] == 'One Time') {
+                $chargingplan = "One Time Payment";
+                $chargingmode = "One Time Payment";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Recurring') {
+                $chargingplan = "Monthly";
+                $chargingmode = "Recurring";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal') {
+                $chargingplan = "Monthly";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal2') {
+                $chargingplan = "2 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal3') {
+                $chargingplan = "3 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal4') {
+                $chargingplan = "4 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal5') {
+                $chargingplan = "5 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal6') {
+                $chargingplan = "6 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal7') {
+                $chargingplan = "7 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal8') {
+                $chargingplan = "8 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal9') {
+                $chargingplan = "9 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal10') {
+                $chargingplan = "10 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal11') {
+                $chargingplan = "11 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal12') {
+                $chargingplan = "12 Months";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal24') {
+                $chargingplan = "2 Years";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Renewal36') {
+                $chargingplan = "3 Years";
+                $chargingmode = "Renewal";
+            } elseif ($allinvoices[0]['Package Plan'] == 'Small Payment') {
+                $chargingplan = "One Time Payment";
+                $chargingmode = "One Time Payment";
+            }
+
+            if ($allinvoices[0]['Sales Mode'] == 'New Lead') {
+                $paymentNature = "New Lead";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'New Sale') {
+                $paymentNature = "New Sale";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Recurring') {
+                $paymentNature = "Recurring Payment";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
+                $paymentNature = "Renewal Payment";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
+                $paymentNature = "Small Paymente";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
+                $paymentNature = "Upsell";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
+                $paymentNature = "Dispute Won";
+            } elseif ($allinvoices[0]['Sales Mode'] == 'Remaining' || $allinvoices[0]['Sales Mode'] == 'FSRemaining') {
+                $paymentNature = "Remaining";
+            }
+
+            $checktypeofremaining = $allinvoices[0]['Sales Mode'];
+
+
+
+            if ($matchclientmeta->isNotEmpty()) {
+                $findclient = Client::where('id', $matchclientmeta[0]->clientID)->get();
+                $project = Project::where('clientID', $findclient[0]->id)->get();
+                if (isset($project[0]->id)) {
+                    $findproject = $project[0]->id;
+                } else {
+                    $findproject = 0;
+                }
+                $count = count($findclient);
+                if ($count == 1) {
+
+                    if ($paymentNature != "Dispute Won") {
+                        if ($checktypeofremaining == 'FSRemaining') {
+                            $createClientPayment = NewPaymentsClients::insertGetId([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" => ($findproject == null) ? 0 :   $findproject,
+                                "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                                "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                                "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
+                                "ChargingMode" => ($chargingmode == null) ? 0 :   $chargingmode,
+                                "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                "Card_Brand" => "--",
+                                "Payment_Gateway" => "--",
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                                "paymentDate" => $sql_date,
+                                "futuredate" => ($allinvoices[0]['Package Plan'] == "One Time" || $allinvoices[0]['Package Plan'] == null) ? null : $sql_futuredate, //to view this problem
+                                "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                                "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                                "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                "PaymentType" => "Full Payment",
+                                "numberOfSplits" => "--",
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
+                                "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                // 'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $findclient[0]->id,
+                                'remainingID' => ($remamt == 0) ? null : $findclient[0]->id,
+                                "remainingStatus" => $remainingStatus,
+                                "transactionType" => "New Lead",
+                                // "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                                "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                "Sheetdata" => "Invoicing Data",
+                                // "disputeattack" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                                // "disputeattackamount" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                "notfoundemail" => $allinvoices[0]['Email'],
+                            ]);
+                        } else {
+                            $createClientPayment = NewPaymentsClients::insertGetId([
+                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
+                                "ProjectID" => ($findproject == null) ? 0 :   $findproject,
+                                "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                                "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                                "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
+                                "ChargingMode" => ($chargingmode == null) ? 0 :   $chargingmode,
+                                "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                                "Card_Brand" => "--",
+                                "Payment_Gateway" => "--",
+                                "bankWireUpload" =>  "--",
+                                "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                                "paymentDate" => $sql_date,
+                                "futuredate" => ($allinvoices[0]['Package Plan'] == "One Time" || $allinvoices[0]['Package Plan'] == null) ? null : $sql_futuredate, //to view this problem
+                                "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                                "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                                "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                                "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                                "PaymentType" => "Full Payment",
+                                "numberOfSplits" =>  "--",
+                                "SplitProjectManager" => $a,
+                                "ShareAmount" => $a,
+                                // "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                                'created_at' => date('y-m-d H:m:s'),
+                                'updated_at' => date('y-m-d H:m:s'),
+                                "refundStatus" => 'On Going',
+                                // "refundID" => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $findclient[0]->id,
+                                "remainingID" => ($remamt == 0) ? null : $findclient[0]->id,
+                                "remainingStatus" => $remainingStatus,
+                                "transactionType" => $paymentNature,
+                                // "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                                "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                                "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                                "Sheetdata" => "Invoicing Data",
+                                // "disputeattack" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                                // "disputeattackamount" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                                "notfoundemail" => $allinvoices[0]['Email'],
+                            ]);
+                        }
+                    } else {
+                        continue;
+                        // echo ("<br>");
+                        // echo ($allinvoices[0]['Transaction ID']);
+                    }
+                } else {
+                    continue;
+                }
+            } else {
+
+                if ($paymentNature != "Dispute Won") {
+                    if ($checktypeofremaining == 'FSRemaining') {
+                        $createClientPayment = NewPaymentsClients::insertGetId([
+                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "ClientID" =>  0,
+                            "ProjectID" => 0,
+                            "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                            "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                            "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
+                            "ChargingMode" => ($chargingmode == null) ? 0 :   $chargingmode,
+                            "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                            "Card_Brand" => "--",
+                            "Payment_Gateway" => "--",
+                            "bankWireUpload" =>  "--",
+                            "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                            "paymentDate" => $sql_date,
+                            "futuredate" => ($allinvoices[0]['Package Plan'] == "One Time" || $allinvoices[0]['Package Plan'] == null) ? null : $sql_futuredate, //to view this problem
+                            "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                            "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                            "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                            "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                            "PaymentType" => "Full Payment",
+                            "numberOfSplits" => "--",
+                            "SplitProjectManager" => $a,
+                            "ShareAmount" => $a,
+                            "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'On Going',
+                            // 'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $allinvoices[0]['Transaction ID'],
+                            'remainingID' => ($remamt == 0) ? null : $allinvoices[0]['Transaction ID'],
+                            "remainingStatus" => $remainingStatus,
+                            "transactionType" => "New Lead",
+                            // "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                            "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                            "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                            "Sheetdata" => "Invoicing Data",
+                            // "disputeattack" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                            // "disputeattackamount" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                            "notfoundemail" => $allinvoices[0]['Email'],
+                        ]);
+                    } else {
+                        $createClientPayment = NewPaymentsClients::insertGetId([
+                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "ClientID" =>  0,
+                            "ProjectID" => 0,
+                            "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
+                            "paymentNature" => ($paymentNature == null) ? 0 :  $paymentNature,
+                            "ChargingPlan" => ($chargingplan == null) ? 0 :  $chargingplan,
+                            "ChargingMode" => ($chargingmode == null) ? 0 :   $chargingmode,
+                            "Platform" => ($allinvoices[0]['Platform'] == null) ? 0 :  $allinvoices[0]['Platform'],
+                            "Card_Brand" => "--",
+                            "Payment_Gateway" => "--",
+                            "bankWireUpload" =>  "--",
+                            "TransactionID" => ($allinvoices[0]['Transaction ID'] == null) ? 0 :  $allinvoices[0]['Transaction ID'],
+                            "paymentDate" => $sql_date,
+                            "futuredate" => ($allinvoices[0]['Package Plan'] == "One Time" || $allinvoices[0]['Package Plan'] == null) ? null : $sql_futuredate, //to view this problem
+                            "SalesPerson" => ($salesperson == null) ? 0 :  $salesperson,
+                            "TotalAmount" => ($allinvoices[0]['Total Amount'] == null) ? 0 :  $allinvoices[0]['Total Amount'],
+                            "Paid" => ($allinvoices[0]['Paid'] == null) ? 0 :  $allinvoices[0]['Paid'],
+                            "RemainingAmount" => $allinvoices[0]['Total Amount'] - $allinvoices[0]['Paid'],
+                            "PaymentType" => "Full Payment",
+                            "numberOfSplits" => "--",
+                            "SplitProjectManager" => $a,
+                            "ShareAmount" => $a,
+                            "Description" => ($allinvoices[0]['Description'] == null) ? 0 :   $allinvoices[0]['Description'],
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'On Going',
+                            // 'refundID' => ($allinvoices[0]['Refund/Dispute Date'] == null) ? null :  $allinvoices[0]['Transaction ID'],
+                            'remainingID' => ($remamt == 0) ? null : $allinvoices[0]['Transaction ID'],
+                            "remainingStatus" => $remainingStatus,
+                            "transactionType" => $paymentNature,
+                            // "dispute" => ($allinvoices[0]['Status'] != "Chargeback") ? null : "dispute",
+                            "transactionfee" => $allinvoices[0]['Paid'] * 0.03, //check
+                            "amt_after_transactionfee" => $allinvoices[0]['Paid'] - ($allinvoices[0]['Paid'] * 0.03), //check
+                            "Sheetdata" => "Invoicing Data",
+                            // "disputeattack" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $sql_date_dispute,
+                            // "disputeattackamount" => ($allinvoices[0]['Status'] != "Chargeback") ? null : $allinvoices[0]['Refund/Dispute Amount'],
+                            "notfoundemail" => $allinvoices[0]['Email'],
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return redirect('/client/project/payment/all');
+    }
+
+
     function notfoundclient(Request $request)
     {
 

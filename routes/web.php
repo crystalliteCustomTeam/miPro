@@ -171,9 +171,13 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/csv_uploads_sheetinvoicing','csv_sheetpayments');
         Route::post('/forms/csv_uploads_sheetinvoicing/process','csv_sheetpayments_process');
 
-        //csv_paymentsFromSheet_SEO(previous data upload):
+        //csv_paymentsFromSheet_book(previous data upload):
         Route::get('/forms/csv_uploads_sheetinvoicingbook','csv_sheetpaymentsBook');
         Route::post('/forms/csv_uploads_sheetinvoicingbook/process','csv_sheetpayments_processBook');
+
+         //csv_paymentsFromSheet_bitswits(previous data upload):
+         Route::get('/forms/csv_uploads_sheetinvoicingbitswits','csv_sheetpaymentsbitswits');
+         Route::post('/forms/csv_uploads_sheetinvoicingbitswits/process','csv_sheetpayments_processbitswits');
 
         //Unmatched Payments:
         Route::get('/payments/unmatched','unmatchedPayments');

@@ -101,6 +101,7 @@
           <li class="sub-item"><a href="/forms/csv_uploads_stripePayments" class="sub-link">Stripe Payments(CSV)</a></li>
           <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicing" class="sub-link">SEO --Sheet Invoicing (CSV)</a></li>
           <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingbook" class="sub-link">BOOK --Sheet Invoicing (CSV)</a></li>
+          <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingbitswits" class="sub-link">Bitswits --Sheet Invoicing (CSV)</a></li>
           <li class="sub-item"><a href="/payments/invoicing/notfoundclient" class="sub-link">Not Found Clients</a></li>
           <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">All Payments</a></li>
           <li class="sub-item"><a href="/payments/unmatched" class="sub-link">Unmatched Payments</a></li>
