@@ -671,35 +671,51 @@
                                         rowbrand.appendChild(brandname);
 
                                         let brandtarget = document.createElement('td');
-                                        brandtarget.textContent = brandrevs.brandtarget;
+                                        let o = brandrevs.brandtarget;
+                                        let p = (o !== 0) ? o : "";
+                                        brandtarget.textContent = p;
                                         rowbrand.appendChild(brandtarget);
 
                                         let totalfront = document.createElement('td');
-                                        totalfront.textContent = brandrevs.totalfront;
+                                        let a = brandrevs.totalfront;
+                                        let b = (a !== 0) ? a : "";
+                                        totalfront.textContent = b;
                                         rowbrand.appendChild(totalfront);
 
                                         let totalback = document.createElement('td');
-                                        totalback.textContent = brandrevs.totalback;
+                                        let c = brandrevs.totalback;
+                                        let d = (c !== 0) ? c : "";
+                                        totalback.textContent = d;
                                         rowbrand.appendChild(totalback);
 
                                         let frontBacksum = document.createElement('td');
-                                        frontBacksum.textContent = brandrevs.brandsales;
+                                        let e = brandrevs.brandsales;
+                                        let f = (e !== 0) ? e : "";
+                                        frontBacksum.textContent = f;
                                         rowbrand.appendChild(frontBacksum);
 
                                         let disputefees = document.createElement('td');
-                                        disputefees.textContent = brandrevs.disputefees;
+                                        let g = brandrevs.disputefees;
+                                        let h = (g !== 0) ? g : "";
+                                        disputefees.textContent = h;
                                         rowbrand.appendChild(disputefees);
 
                                         let refund = document.createElement('td');
-                                        refund.textContent = brandrevs.refund;
+                                        let i = brandrevs.refund;
+                                        let j = (i !== 0) ? i : "";
+                                        refund.textContent = j;
                                         rowbrand.appendChild(refund);
 
                                         let dispute = document.createElement('td');
-                                        dispute.textContent = brandrevs.dispute;
+                                        let k = brandrevs.dispute;
+                                        let l = (k !== 0) ? k : "";
+                                        dispute.textContent = l;
                                         rowbrand.appendChild(dispute);
 
                                         let net_revenue = document.createElement('td');
-                                        net_revenue.textContent = brandrevs.net_revenue;
+                                        let m = brandrevs.net_revenue;
+                                        let n = (m !== 0) ? m : "";
+                                        net_revenue.textContent = n;
                                         rowbrand.appendChild(net_revenue);
 
 
@@ -717,35 +733,43 @@
                                     });
 
                                     let sumBrandtarget = totaltarget.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("totaltargte").innerHTML = sumBrandtarget;
+                                    let q = (sumBrandtarget !== 0) ? sumBrandtarget : "";
+                                    document.getElementById("totaltargte").innerHTML = q;
                                     //----------------------------------------------------------------
 
                                     let sumBrandfront = totalfront1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("totalfront").innerHTML = sumBrandfront;
+                                    let r = (sumBrandfront !== 0) ? sumBrandfront : "";
+                                    document.getElementById("totalfront").innerHTML = r;
                                     //----------------------------------------------------------------
 
                                     let sumBrandback = totalback1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("totalback").innerHTML = sumBrandback;
+                                    let s = (sumBrandback !== 0) ? sumBrandback : "";
+                                    document.getElementById("totalback").innerHTML = s;
                                     //----------------------------------------------------------------
 
                                     let sumBrandfrontback = totalfrontback1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("totalsubtotal").innerHTML = sumBrandfrontback;
+                                    let t = (sumBrandfrontback !== 0) ? sumBrandfrontback : "";
+                                    document.getElementById("totalsubtotal").innerHTML = t;
                                     //----------------------------------------------------------------
 
                                     let sumBrandfees = totalfrontfee1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("totalfee").innerHTML = sumBrandfees;
+                                    let u = (sumBrandfees !== 0) ? sumBrandfees : "";
+                                    document.getElementById("totalfee").innerHTML = u;
                                     //----------------------------------------------------------------
 
                                     let sumBrandrefund = totalrefund1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("totalrefund").innerHTML = sumBrandrefund;
+                                    let v = (sumBrandrefund !== 0) ? sumBrandrefund : "";
+                                    document.getElementById("totalrefund").innerHTML = v;
                                     //----------------------------------------------------------------
 
                                     let sumBrandcb = totalcb1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("totalchargeback").innerHTML = sumBrandcb;
+                                    let w = (sumBrandcb !== 0) ? sumBrandcb : "";
+                                    document.getElementById("totalchargeback").innerHTML = w;
                                     //----------------------------------------------------------------
 
                                     let sumBrandnetrevenue = totalnetrevenue1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("totalnetrevenue").innerHTML = sumBrandnetrevenue;
+                                    let x = (sumBrandnetrevenue !== 0) ? sumBrandnetrevenue : "";
+                                    document.getElementById("totalnetrevenue").innerHTML = x;
                                     //----------------------------------------------------------------
 
 
@@ -767,31 +791,45 @@
                                         row.appendChild(agentname);
 
                                         let target = document.createElement('td');
-                                        target.textContent = employee.agenttarget;
+                                        let aa = employee.agenttarget;
+                                        let bb = (aa !== 0) ? aa : "";
+                                        target.textContent = bb;
                                         row.appendChild(target);
 
                                         let revenue = document.createElement('td');
-                                        revenue.textContent = employee.getcompletesum;
+                                        let cc = employee.getcompletesum;
+                                        let dd = (cc !== 0) ? cc : "";
+                                        revenue.textContent = dd;
                                         row.appendChild(revenue);
 
                                         let front = document.createElement('td');
-                                        front.textContent = employee.getfrontsum;
+                                        let ee = employee.getfrontsum;
+                                        let ff = (ee !== 0) ? ee : "";
+                                        front.textContent = ff;
                                         row.appendChild(front);
 
                                         let back = document.createElement('td');
-                                        back.textContent = employee.getbacksum;
+                                        let gg = employee.getbacksum;
+                                        let hh = (gg !== 0) ? gg : "";
+                                        back.textContent = hh;
                                         row.appendChild(back);
 
                                         let refund = document.createElement('td');
-                                        refund.textContent = employee.refund;
+                                        let ii = employee.refund;
+                                        let jj = (ii !== 0) ? ii : "";
+                                        refund.textContent = jj;
                                         row.appendChild(refund);
 
                                         let chargeback = document.createElement('td');
-                                        chargeback.textContent = employee.dispute;
+                                        let kk = employee.dispute;
+                                        let ll = (kk !==0) ? kk : "";
+                                        chargeback.textContent = ll;
                                         row.appendChild(chargeback);
 
                                         let ntotal = document.createElement('td');
-                                        ntotal.textContent = employee.getcompletesum - employee.refund;
+                                        let mm = employee.getcompletesum - employee.refund;
+                                        let nn = (mm !==0) ? mm : "";
+                                        ntotal.textContent = nn;
                                         row.appendChild(ntotal);
 
                                         agentsnettotal1.push(parseFloat(employee.getcompletesum - employee.refund));
@@ -803,7 +841,8 @@
                                     });
 
                                     let sumagentstotal = agentsnettotal1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("agentsnettotal").innerHTML = sumagentstotal;
+                                    let y = (sumagentstotal !== 0) ? sumagentstotal : "";
+                                    document.getElementById("agentsnettotal").innerHTML = y;
                                     //----------------------------------------------------------------
 
 
@@ -820,9 +859,6 @@
                                             if(branddatas.front != 0 ||  branddatas.back != 0){
                                             let row1 = document.createElement('tr');
 
-
-
-
                                         // Create and append brand name cell
                                         let brandname = document.createElement('td');
                                         brandname.textContent = branddatas.name;
@@ -830,17 +866,23 @@
 
                                         // Create and append today's front payment cell
                                         let brandtodayfront = document.createElement('td');
-                                        brandtodayfront.textContent = branddatas.front;
+                                        let oo = branddatas.front;
+                                        let pp = (oo !==0) ? oo : "";
+                                        brandtodayfront.textContent = pp;
                                         row1.appendChild(brandtodayfront);
 
                                         // Create and append today's back payment cell
                                         let brandtodayback = document.createElement('td');
-                                        brandtodayback.textContent = branddatas.back;
+                                        let qq = branddatas.back;
+                                        let rr = (qq !==0) ? qq : "";
+                                        brandtodayback.textContent = rr;
                                         row1.appendChild(brandtodayback);
 
                                         // Create and append total payment cell
                                         let brandtotal = document.createElement('td');
-                                        brandtotal.textContent = branddatas.all;
+                                        let ss = branddatas.all;
+                                        let tt = (ss !==0) ? ss : "";
+                                        brandtotal.textContent = tt;
                                         row1.appendChild(brandtotal);
 
                                         brandtodayfront1.push(parseFloat(branddatas.front));
@@ -855,15 +897,18 @@
                                     });
 
                                     let sumBrandtodayfront = brandtodayfront1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("brandtodayfront").innerHTML = sumBrandtodayfront;
+                                    let uu = (sumBrandtodayfront !== 0) ? sumBrandtodayfront : "";
+                                    document.getElementById("brandtodayfront").innerHTML = uu;
                                     //----------------------------------------------------------------
 
                                     let sumBrandtodayback = brandtodayback1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("brandtodayback").innerHTML = sumBrandtodayback;
+                                    let vv = (sumBrandtodayback !== 0) ? sumBrandtodayback : "";
+                                    document.getElementById("brandtodayback").innerHTML = vv;
                                     //----------------------------------------------------------------
 
                                     let sumBrandtodayallofall = brandtodaytotaloftotal1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("brandtodaytotal").innerHTML = sumBrandtodayallofall;
+                                    let ww = (sumBrandtodayallofall !== 0) ? sumBrandtodayallofall : "";
+                                    document.getElementById("brandtodaytotal").innerHTML = ww;
                                     //----------------------------------------------------------------
 
 
@@ -883,11 +928,15 @@
                                             row2.appendChild(empname);
 
                                             let emptoday = document.createElement('td');
-                                            emptoday.textContent = emptodaysdatas.allrevenue;
+                                            let a1 = emptodaysdatas.allrevenue;
+                                            let a2 = (a1 !==0) ? a1 : "";
+                                            emptoday.textContent = a2;
                                             row2.appendChild(emptoday);
 
                                             let emptotal = document.createElement('td');
-                                            emptotal.textContent = emptodaysdatas.allrevenue;
+                                            let a3 =  emptodaysdatas.allrevenue;
+                                            let a4 = (a3 !==0) ? a3 : "";
+                                            emptotal.textContent = a4;
                                             row2.appendChild(emptotal);
 
                                             emptodaytotaloftotal1.push(parseFloat(emptodaysdatas.allrevenue));
@@ -899,7 +948,8 @@
                                     });
 
                                     let sumemptodayallofall = emptodaytotaloftotal1.reduce((acc, curr) => acc + curr, 0);
-                                    document.getElementById("emptodaytotal").innerHTML = sumemptodayallofall;
+                                    let xx = (sumemptodayallofall !== 0) ? sumemptodayallofall : "";
+                                    document.getElementById("emptodaytotal").innerHTML = xx;
                                     //----------------------------------------------------------------
 
 
@@ -981,27 +1031,39 @@
                                                 rowsales.appendChild(brand);
 
                                                 let front = document.createElement('td');
-                                                front.textContent = dailytargets.data[i].front;
+                                                let a4 =  dailytargets.data[i].front;
+                                                let a5 = (a4 !==0) ? a4 : "";
+                                                front.textContent = a5;
                                                 rowsales.appendChild(front);
 
                                                 let upsell = document.createElement('td');
-                                                upsell.textContent = dailytargets.data[i].upsell;
+                                                let a6 =  dailytargets.data[i].upsell;
+                                                let a7 = (a6 !==0) ? a6 : "";
+                                                upsell.textContent = a7;
                                                 rowsales.appendChild(upsell);
 
                                                 let renewal = document.createElement('td');
-                                                renewal.textContent = dailytargets.data[i].renewal;
+                                                let a8 =  dailytargets.data[i].renewal;
+                                                let a9 = (a8 !==0) ? a8 : "";
+                                                renewal.textContent = a9;
                                                 rowsales.appendChild(renewal);
 
                                                 let agregatesales = document.createElement('td');
-                                                agregatesales.textContent = dailytargets.data[i].Aggregated_Sales;
+                                                let a10 =  dailytargets.data[i].Aggregated_Sales;
+                                                let a11 = (a10 !==0) ? a10 : "";
+                                                agregatesales.textContent = a11;
                                                 rowsales.appendChild(agregatesales);
 
                                                 let target = document.createElement('td');
-                                                target.textContent = dailytargets.data[i].Target;
+                                                let a12 =  dailytargets.data[i].Target;
+                                                let a13 = (a12 !==0) ? a12 : "";
+                                                target.textContent = a13;
                                                 rowsales.appendChild(target);
 
                                                 let dailytargetCell = document.createElement('td');
-                                                dailytargetCell.textContent = dailytargets.data[i].Daily_Target;
+                                                let aa1 = dailytargets.data[i].Daily_Target;
+                                                let aa2 = (parseInt(aa1) !== 0) ? aa1 : "-";
+                                                dailytargetCell.textContent = aa2;
                                                 rowsales.appendChild(dailytargetCell);
 
                                                 dailytargtesales.appendChild(rowsales);

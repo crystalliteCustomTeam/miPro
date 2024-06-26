@@ -1917,22 +1917,16 @@ class BasicController extends Controller
                 $getcomplete = DB::table('newpaymentsclients')
                     ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
                     ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
-                    ->where('BrandID', $allbrandarrays)
                     ->where('SalesPerson', $employee->id)
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
-                    // ->where('paymentNature', 'New Lead')
-                    ->where(function ($query) {
-                        $query->where('refundStatus', '!=', 'Refund');
-                        // ->orWhere('dispute', null);
-                    })
+                    ->where('refundStatus', '!=', 'Refund')
                     ->get();
 
 
                 $getcompletesum = DB::table('newpaymentsclients')
                     ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
                     ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
-                    ->where('BrandID', $allbrandarrays)
                     ->where('SalesPerson', $employee->id)
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
@@ -1942,7 +1936,6 @@ class BasicController extends Controller
                 $getfrontsum = DB::table('newpaymentsclients')
                     ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
                     ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
-                    ->where('BrandID', $allbrandarrays)
                     ->where('SalesPerson', $employee->id)
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
@@ -1953,7 +1946,6 @@ class BasicController extends Controller
                 $getbacksum = DB::table('newpaymentsclients')
                     ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
                     ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
-                    ->where('BrandID', $allbrandarrays)
                     ->where('SalesPerson', $employee->id)
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
@@ -1962,9 +1954,8 @@ class BasicController extends Controller
                     ->sum("Paid");
 
                 $getdispute = DB::table('newpaymentsclients')
-                    ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
+                    ->whereIn(DB::raw('YEAR(disputeattack)'), $years)
                     ->whereIn(DB::raw('MONTH(disputeattack)'), $months)
-                    ->where('BrandID', $allbrandarrays)
                     ->where('SalesPerson', $employee->id)
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
@@ -1975,7 +1966,6 @@ class BasicController extends Controller
                 $getrefund = DB::table('newpaymentsclients')
                     ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
                     ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
-                    ->where('BrandID', $allbrandarrays)
                     ->where('SalesPerson', $employee->id)
                     ->where('refundStatus', 'Refund')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
@@ -2522,6 +2512,8 @@ class BasicController extends Controller
                 ->whereMonth('paymentDate', now())
                 ->where('paymentNature', 'New Lead')
                 ->where('refundStatus', 'On Going')
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('dispute', null)
                 ->SUM('Paid');
 
@@ -2529,6 +2521,8 @@ class BasicController extends Controller
                 ->whereMonth('paymentDate', now())
                 ->where('refundStatus', 'On Going')
                 ->where('paymentNature', '!=', 'New Lead')
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('dispute', null)
                 ->SUM('Paid');
 
@@ -2557,6 +2551,8 @@ class BasicController extends Controller
                     ->whereMonth('paymentDate', now())
                     ->where('paymentNature', 'New Lead')
                     ->where('refundStatus', 'On Going')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
                     ->where('dispute', null)
                     ->SUM('Paid');
 
@@ -2564,6 +2560,8 @@ class BasicController extends Controller
                     ->whereMonth('paymentDate', now())
                     ->where('refundStatus', 'On Going')
                     ->where('paymentNature', '!=', 'New Lead')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
                     ->where('dispute', null)
                     ->SUM('Paid');
 
@@ -2571,6 +2569,8 @@ class BasicController extends Controller
                     ->whereMonth('paymentDate', now())
                     ->where('refundStatus', 'Refund')
                     ->where('dispute', null)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
                     ->SUM('Paid');
 
                 $membertarget = AgentTarget::where('AgentID', $member)
