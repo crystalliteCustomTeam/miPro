@@ -784,6 +784,7 @@
                                     employees.forEach(employee => {
 
                                         if(employee){
+                                            // if(employee.agenttarget !== 0){
                                             let row = document.createElement('tr');
 
                                         let agentname = document.createElement('td');
@@ -837,6 +838,7 @@
                                         tableBody.appendChild(row);
 
                                         }
+                                    // }
 
                                     });
 

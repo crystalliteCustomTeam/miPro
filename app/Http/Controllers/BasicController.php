@@ -1856,15 +1856,11 @@ class BasicController extends Controller
             ];
         }
 
-        // print_r($separatedData);
-        // print_r($blankarrayall);
-
-        // die();
-
 
 
         // agentswise:
         $allbranddepart = [];
+        // echo("<pre>");
         foreach ($allbrandarray  as $allbrandarrays) {
             $getdepartment = Department::where('brand', $allbrandarrays)
                 ->where(function ($query) {
@@ -1874,13 +1870,16 @@ class BasicController extends Controller
                         ->orwhere('name', 'LIKE', '%sale')
                         ->orWhere('name', 'LIKE', 'sale%')
                         ->orWhere('name', 'LIKE', '%sale%');
-                })->get();
-            if (isset($getdepartment[0]->users) && $getdepartment[0]->users != null) {
-                $allbranddepart[] = [$getdepartment[0]->users];
-            } else {
-                // continue;
-                $allbranddepart[] = ['No Department Exist'];
-            }
+                })
+                ->get();
+                foreach($getdepartment as $getdepartments){
+                    if (isset($getdepartments->users) && $getdepartments->users != null) {
+                        $allbranddepart[] = [$getdepartments->users];
+                    } else {
+                        // continue;
+                        $allbranddepart[] = ['No Department Exist'];
+                    }
+                }
         }
 
 
@@ -1908,6 +1907,9 @@ class BasicController extends Controller
         // // Optionally, remove duplicates
         $mergedArray = array_unique($mergedArray);
         $employees = Employee::whereIn('id', $mergedArray)->get();
+        // print_r($employees);
+        // die();
+
         $employeetodayspayment = [];
         $employeepayment = [];
 
@@ -1956,7 +1958,7 @@ class BasicController extends Controller
                 $getdispute = DB::table('newpaymentsclients')
                     ->whereIn(DB::raw('YEAR(disputeattack)'), $years)
                     ->whereIn(DB::raw('MONTH(disputeattack)'), $months)
-                    ->where('SalesPerson', $employee->id)
+                    ->where('ProjectManager', $employee->id)
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
                     ->where('refundStatus',  '!=', 'Refund')
@@ -1966,7 +1968,7 @@ class BasicController extends Controller
                 $getrefund = DB::table('newpaymentsclients')
                     ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
                     ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
-                    ->where('SalesPerson', $employee->id)
+                    ->where('ProjectManager', $employee->id)
                     ->where('refundStatus', 'Refund')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
@@ -2906,27 +2908,27 @@ class BasicController extends Controller
                         $monthIndex = date('n', strtotime($monthData['month'])) - 1; // Get zero-based month index
                         $targets[$monthIndex] = $monthData['target'];
                     }
-                    $countbrandtarget = BrandTarget::where('BrandID',$findbrand[0]->id)->where('Year',$b['year'])->count();
-                    if( $countbrandtarget == 0){
-                    $brandtarget = BrandTarget::create([
-                        "BrandID" => $findbrand[0]->id,
-                        "Year" => $b['year'],
-                        "January" => $targets[0],
-                        "February" => $targets[1],
-                        "March" => $targets[2],
-                        "April" => $targets[3],
-                        "May" => $targets[4],
-                        "June" => $targets[5],
-                        "July" => $targets[6],
-                        "August" => $targets[7],
-                        "September" => $targets[8],
-                        "October" => $targets[9],
-                        "November" => $targets[10],
-                        "December" => $targets[11],
-                        "created_at" => date('Y-m-d H:i:s'),
-                        "updated_at" => date('Y-m-d H:i:s')
-                    ]);
-                    }else{
+                    $countbrandtarget = BrandTarget::where('BrandID', $findbrand[0]->id)->where('Year', $b['year'])->count();
+                    if ($countbrandtarget == 0) {
+                        $brandtarget = BrandTarget::create([
+                            "BrandID" => $findbrand[0]->id,
+                            "Year" => $b['year'],
+                            "January" => $targets[0],
+                            "February" => $targets[1],
+                            "March" => $targets[2],
+                            "April" => $targets[3],
+                            "May" => $targets[4],
+                            "June" => $targets[5],
+                            "July" => $targets[6],
+                            "August" => $targets[7],
+                            "September" => $targets[8],
+                            "October" => $targets[9],
+                            "November" => $targets[10],
+                            "December" => $targets[11],
+                            "created_at" => date('Y-m-d H:i:s'),
+                            "updated_at" => date('Y-m-d H:i:s')
+                        ]);
+                    } else {
                         continue;
                     }
                 }
@@ -2992,8 +2994,8 @@ class BasicController extends Controller
                         $monthIndex1 = date('n', strtotime($monthData1['month'])) - 1; // Get zero-based month index
                         $targets1[$monthIndex1] = $monthData1['target'];
                     }
-                    $countagenttarget = AgentTarget::where('AgentID',$findbrand1[0]->id)->where('Year',$b1['year'])->count();
-                    if( $countagenttarget == 0){
+                    $countagenttarget = AgentTarget::where('AgentID', $findbrand1[0]->id)->where('Year', $b1['year'])->count();
+                    if ($countagenttarget == 0) {
                         $agenttarget = AgentTarget::create([
                             "AgentID" => $findbrand1[0]->id,
                             "Year" => $b1['year'],
@@ -3012,11 +3014,9 @@ class BasicController extends Controller
                             "created_at" => date('Y-m-d H:i:s'),
                             "updated_at" => date('Y-m-d H:i:s')
                         ]);
-
-                    }else{
+                    } else {
                         continue;
                     }
-
                 }
             } else {
                 continue;
@@ -11695,7 +11695,7 @@ class BasicController extends Controller
                 $count = count($findclient);
                 if ($count == 1) {
 
-                    if ( $allinvoices[0]['Balance Amount'] != "WON") {
+                    if ($allinvoices[0]['Balance Amount'] != "WON") {
                         if ($checktypeofremaining == 'FSRemaining') {
                             $createClientPayment = NewPaymentsClients::insertGetId([
                                 "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
@@ -11786,7 +11786,7 @@ class BasicController extends Controller
             } else {
                 //to store in payments table with status not found client
 
-                if ( $allinvoices[0]['Balance Amount'] != "WON") {
+                if ($allinvoices[0]['Balance Amount'] != "WON") {
                     if ($checktypeofremaining == 'FSRemaining') {
                         $createClientPayment = NewPaymentsClients::insertGetId([
                             "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
@@ -12148,7 +12148,7 @@ class BasicController extends Controller
                         }
                     }
                 } else {
-                    if ( $allinvoices[0]['Balance Amount'] != "WON") {
+                    if ($allinvoices[0]['Balance Amount'] != "WON") {
                         if ($checktransactionIDget[0]->dispute == null) {
                             //simple refund
                             $createClientPaymentrefund = NewPaymentsClients::insertGetId([
