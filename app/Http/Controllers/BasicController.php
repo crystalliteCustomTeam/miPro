@@ -6049,6 +6049,8 @@ class BasicController extends Controller
 
         $originalpayment = NewPaymentsClients::where('id', $request->input('paymentID'))->update([
             "dispute" => "dispute",
+            "disputeattack" => $request->input('disputedate'),
+            "disputeattackamount" => $request->input('clientpaid'),
         ]);
 
 
