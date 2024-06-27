@@ -828,12 +828,12 @@
                                         row.appendChild(chargeback);
 
                                         let ntotal = document.createElement('td');
-                                        let mm = employee.getcompletesum - employee.refund;
+                                        let mm = employee.getcompletesum - employee.refund - employee.dispute;
                                         let nn = (mm !==0) ? mm : "";
                                         ntotal.textContent = nn;
                                         row.appendChild(ntotal);
 
-                                        agentsnettotal1.push(parseFloat(employee.getcompletesum - employee.refund));
+                                        agentsnettotal1.push(parseFloat(employee.getcompletesum - employee.refund - employee.dispute));
 
                                         tableBody.appendChild(row);
 

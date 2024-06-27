@@ -193,6 +193,10 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/create/team','createteam');
         Route::post('/forms/create/team/process','createteam_process');
 
+        //delete salesteam:
+        // Route::get('/deletecompany/{id}','deletecompany');
+        // Route::get('/deletesalesteam/{id}','deleteSalesteam');
+
           //sales team view:
           Route::get('/sales/teams','salesteam_view');
 

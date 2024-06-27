@@ -2153,7 +2153,7 @@ class BasicController extends Controller
                 ->sum('Paid');
 
 
-            $net_revenue = $brandsales - $chargeback;
+
 
             $frontsum = DB::table('newpaymentsclients')
                 ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
@@ -2202,6 +2202,8 @@ class BasicController extends Controller
                 ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('dispute', null)
                 ->sum('Paid');
+
+            $net_revenue = $brandsales - $dispute -  $refund;
 
             $disputefees = DB::table('newpaymentsclients')
                 ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
@@ -4825,7 +4827,12 @@ class BasicController extends Controller
 
         foreach ($storeremianingpayment as $paymentArray) {
             foreach ($paymentArray as $paymentObject) {
-                $totalSum += $paymentObject[0]->TotalAmount;
+                if(isset( $paymentObject[0]->TotalAmount) &&  $paymentObject[0]->TotalAmount != null){
+                    $a = $paymentObject[0]->TotalAmount;
+                }else{
+                    $a = 0;
+                }
+                $totalSum += $a;
             }
         }
 
