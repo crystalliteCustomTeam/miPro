@@ -67,6 +67,7 @@
                         <option value="Small Payment">Small Payment</option>
                         <option value="Upsell">Upsell</option>
                         <option value="Remaining">Remaining</option>
+                        <option value="FSRemaining">FSRemaining</option>
                         <option value="One Time Payment">One Time Payment</option>
                         {{-- <option value="ChargeBack Won">Dispute Won</option> --}}
                   </select>
@@ -131,7 +132,7 @@
                         chargingpackage.style.display = 'block';
                         paymentMode.style.display = 'block';
                         remainingamtfor.style.display = 'none';
-                    }else if(paymentNature === "Remaining"){
+                    }else if(paymentNature === "Remaining" || paymentNature === "FSRemaining" ){
                         chargingpackage.style.display = 'none';
                         paymentMode.style.display = 'none';
                         remainingamtfor.style.display = 'block';

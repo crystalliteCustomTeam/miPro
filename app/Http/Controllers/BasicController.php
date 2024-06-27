@@ -2374,6 +2374,10 @@ class BasicController extends Controller
                     $query->where('refundStatus', 'Refund')
                         ->orWhere('dispute', '!=', null);
                 })
+                // ->where(function ($query1) {
+                //     $query1->where('refundStatus', 'Refund')
+                //         ->orWhere('dispute', '!=', null);
+                // })
                 ->get();
 
             $disputerefund = [];
@@ -6402,7 +6406,7 @@ class BasicController extends Controller
                 'clients' => $findclient,
                 'employee' => $findemployee,
                 'pmemployee' => $pmemployee,
-                'saleemployee' => $saleemployee,
+                'saleemployee' => $findemployee,
                 'LoginUser' => $loginUser[1],
                 'departmentAccess' => $loginUser[0],
                 'superUser' => $loginUser[2]
