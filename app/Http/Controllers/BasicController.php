@@ -2139,7 +2139,7 @@ class BasicController extends Controller
                 ->where('refundStatus', '!=', 'Refund')
                 ->sum('Paid');
 
-
+//ok
             $chargeback = DB::table('newpaymentsclients')
                 ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
                 ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
