@@ -14652,13 +14652,16 @@ class BasicController extends Controller
                 $findprojects = Project::where('clientID', $matchclientmeta[0]->clientID)->count();
                 if ($findprojects > 0) {
                     $findproject = Project::where('clientID', $matchclientmeta[0]->clientID)->get();
+                    $projectmanager = $findproject[0]->projectManager;
                     $projectid = $findproject[0]->id;
                 } else {
                     $projectid = 0;
+                    $projectmanager = 0;
                 }
                 NewPaymentsClients::where('id', $unmatched->id)->update([
                     'ClientID' => $matchclientmeta[0]->clientID,
-                    'ProjectID' => $projectid
+                    'ProjectID' => $projectid,
+                    'ProjectManager' => $projectmanager
                 ]);
             } else {
                 continue;
@@ -14675,11 +14678,14 @@ class BasicController extends Controller
             $matchclientmeta1 = Project::where('clientID', $unmatched1->ClientID)->get();
             if ($matchclientmetas1 > 0) {
                 $projectid1 = $matchclientmeta1[0]->id;
+                $projectmanager1 = $matchclientmeta1[0]->projectManager;
             } else {
                 $projectid1 = 0;
+                $projectmanager1 = 0;
             }
             NewPaymentsClients::where('id', $unmatched1->id)->update([
-                'ProjectID' => $projectid1
+                'ProjectID' => $projectid1,
+                'ProjectManager' => $projectmanager1
             ]);
         }
 
