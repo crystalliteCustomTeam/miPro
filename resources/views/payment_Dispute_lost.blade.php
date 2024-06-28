@@ -49,7 +49,13 @@
                         <label for="" style="font-weight:bold;">Reference Payment:</label>
                         <select class="form-control select2" required name="paymentreference"  id="paymentreference" disabled>
                             @foreach ($referencepayment as $referencepayments)
-                            <option value="{{ $referencepayments->id }}"{{ $referencepayments->id == $dispute[0]->PaymentID ? 'selected' : ''}}>{{ $referencepayments->paymentprojectName->name }}
+                            <option value="{{ $referencepayments->id }}"{{ $referencepayments->id == $dispute[0]->PaymentID ? 'selected' : ''}}>
+                                @if (isset($referencepayments->paymentprojectName->name) && $referencepayments->paymentprojectName->name != null)
+                                {{ $referencepayments->paymentprojectName->name }}
+                                @else
+                                    undefined
+                                @endif
+
                                 --
                                 {{ $referencepayments->paymentNature }}
                                 --

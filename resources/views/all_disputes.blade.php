@@ -45,7 +45,15 @@
                     @foreach ($clientPayments as $item)
                     <tr role="row" class="odd">
                             <td tabindex="0" class="sorting_1">
-                                <strong> {{$item->disputeclientName->name}}</strong>
+                                <strong>
+                                    @if (isset($item->disputeclientName->name) && $item->disputeclientName->name != null)
+                                    {{$item->disputeclientName->name}}
+                                    @else
+                                        undefied
+                                    @endif
+
+
+                                </strong>
                             </td>
                             <td>{{$item->disputebrandName->name}}</td>
                             <td>{{$item->dispute_Date}}</td>
