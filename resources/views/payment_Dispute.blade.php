@@ -38,7 +38,13 @@
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;font-size:150%;">Project Name:</label>
-                            <label for="" style="font-size:150%;">{{$client_payment[0]->paymentprojectName->name }}</label>
+                            <label for="" style="font-size:150%;">
+                                @if (isset($client_payment[0]->paymentprojectName->name) && $client_payment[0]->paymentprojectName->name != null)
+                                {{$client_payment[0]->paymentprojectName->name }}
+                                @else
+                                    undefined
+                                @endif
+                            </label>
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;font-size:150%;">Project Manager:</label>
