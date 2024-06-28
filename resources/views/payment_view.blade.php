@@ -23,7 +23,13 @@
         <div class="br-pagebody">
           <div class="br-section-wrapper">
             <button class="btn btn-outline-primary">Client Name: {{$client_payment[0]->paymentclientName->name}}</button>
-              <button class="btn btn-outline-primary">Project Name:  {{$client_payment[0]->paymentprojectName->name}} </button>
+              <button class="btn btn-outline-primary">Project Name:
+                @if (isset($client_payment[0]->paymentprojectName->name) and $client_payment[0]->paymentprojectName->name !== null)
+                {{$client_payment[0]->paymentprojectName->name}}
+                @else
+                User Deleted
+                @endif
+              </button>
               @if (isset($client_payment[0]->paymentprojectName->EmployeeName->name) and $client_payment[0]->paymentprojectName->EmployeeName->name !== null)
               <button class="btn btn-outline-primary">Project Manager: {{$client_payment[0]->paymentprojectName->EmployeeName->name}}</button>
               @else

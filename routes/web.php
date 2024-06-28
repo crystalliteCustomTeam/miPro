@@ -175,12 +175,14 @@ Route::controller(BasicController::class)->group(function (){
         Route::get('/forms/csv_uploads_sheetinvoicingbook','csv_sheetpaymentsBook');
         Route::post('/forms/csv_uploads_sheetinvoicingbook/process','csv_sheetpayments_processBook');
 
-         //csv_paymentsFromSheet_bitswits(previous data upload):
-         Route::get('/forms/csv_uploads_sheetinvoicingbitswits','csv_sheetpaymentsbitswits');
-         Route::post('/forms/csv_uploads_sheetinvoicingbitswits/process','csv_sheetpayments_processbitswits');
+        //csv_paymentsFromSheet_bitswits(previous data upload):
+        Route::get('/forms/csv_uploads_sheetinvoicingbitswits','csv_sheetpaymentsbitswits');
+        Route::post('/forms/csv_uploads_sheetinvoicingbitswits/process','csv_sheetpayments_processbitswits');
 
         //Unmatched Payments:
         Route::get('/payments/unmatched','unmatchedPayments');
+        //unlinked payments sheet:
+        Route::get('/payments/unmatched/sheet','unmatchedPaymentsSheet');
 
          //not found clients fron invoicing:
          Route::get('/payments/invoicing/notfoundclient','notfoundclient');
@@ -188,6 +190,10 @@ Route::controller(BasicController::class)->group(function (){
         //Link New Payment Email With Client:
         Route::get('/client/newemail/{id}','NewEmailLinkCLient');
         Route::post('/client/newemail/process','NewEmailLinkCLientprocess');
+
+        //Edit New Payment Email With Client:
+        // Route::get('/client/editnewemail/{id}','NewEmail_unlinkededit');
+        // Route::post('/client/editnewemail/process/{id}','NewEmail_unlinkededit_process');
 
         //create_salesTeam:
         Route::get('/forms/create/team','createteam');

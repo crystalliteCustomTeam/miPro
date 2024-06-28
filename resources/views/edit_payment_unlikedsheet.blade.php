@@ -15,7 +15,7 @@
         <div class="br-pagetitle">
           <i class="icon ion-ios-gear-outline"></i>
           <div>
-            <h4>Client Payment</h4>
+            <h4>Edit Unlinked Payment</h4>
             <p class="mg-b-0">Client</p>
           </div>
         </div><!-- d-flex -->
@@ -23,11 +23,11 @@
         <div class="br-pagebody">
           <div class="br-section-wrapper">
             @foreach ($editPayments as $editPayment)
-            <form action="/client/project/payment/edit/{{$editPayment->id}}/process" method="POST" enctype="multipart/form-data">
+            <form action="/client/editnewemail/process/{{$editPayment->id}}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="brandID" value="{{$editPayment->BrandID}}">
+                {{-- <input type="hidden" name="brandID" value="{{$editPayment->BrandID}}">
                 <input type="hidden" name="clientID" value="{{$editPayment->ClientID}}">
-                <input type="hidden" name="project" value="{{$editPayment->ProjectID}}">
+                <input type="hidden" name="project" value="{{$editPayment->ProjectID}}"> --}}
 
 
                 <div class="row">
@@ -35,17 +35,11 @@
 
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;font-size:150%;">Client Name:</label>
-                        <label for="" style="font-size:150%;">{{$editPayment->paymentclientName->name }}</label>
+                        <label for="" style="font-size:150%;">{{$editPayment->notfoundemail }}</label>
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;font-size:150%;">Project Name:</label>
-                        <label for="" style="font-size:150%;">
-                            @if (isset($editPayment->paymentprojectName->name) and $editPayment->paymentprojectName->name !== null)
-                            {{$editPayment->paymentprojectName->name }}
-                            @else
-                            User Deleted
-                            @endif
-                        </label>
+                        <label for="" style="font-size:150%;">Undefined</label>
                       </div>
                      <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;font-size:150%;">Project Manager:</label>
@@ -54,6 +48,15 @@
                         @else
                         <label for="" style="font-size:150%;"><p style="color: red">User Deleted</p></label>
                         @endif
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;" >Brand:</label>
+                        <select class="form-control select2" required name="brand">
+                          @foreach ($brand as $brands)
+                                <option value="{{ $brands->id }}"{{ $brands->id == $editPayment->BrandID ? 'selected' : '' }}>{{ $brands->name }}
+                            </option>
+                          @endforeach
+                        </select>
                     </div>
                     <div class="col-4 mt-3">
                       <label for="" style="font-weight:bold;">Payment Nature:</label>

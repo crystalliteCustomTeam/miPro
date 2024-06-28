@@ -93,7 +93,7 @@
     <li class="br-menu-item">
         <a href="#" class="br-menu-link with-sub">
           <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
-          <span class="menu-item-label">Payments</span>
+          <span class="menu-item-label">Add Payments</span>
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub">
           <li class="sub-item"><a href="/client/add/payment" class="sub-link">Add Payment</a></li>
@@ -102,9 +102,18 @@
           <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicing" class="sub-link">SEO --Sheet Invoicing (CSV)</a></li>
           <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingbook" class="sub-link">BOOK --Sheet Invoicing (CSV)</a></li>
           <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingbitswits" class="sub-link">Bitswits --Sheet Invoicing (CSV)</a></li>
-          <li class="sub-item"><a href="/payments/invoicing/notfoundclient" class="sub-link">Not Found Clients</a></li>
+          {{-- <li class="sub-item"><a href="/payments/invoicing/notfoundclient" class="sub-link">Not Found Clients</a></li> --}}
+        </ul>
+      </li><!-- br-menu-item -->
+      <li class="br-menu-item">
+        <a href="#" class="br-menu-link with-sub">
+          <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+          <span class="menu-item-label">Payments</span>
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub">
+          <li class="sub-item"><a href="/payments/unmatched" class="sub-link">Unmatched Payments (Stripe)</a></li>
+          <li class="sub-item"><a href="/payments/unmatched/sheet" class="sub-link">Unmatched Payments (Sheet)</a></li>
           <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">All Payments</a></li>
-          <li class="sub-item"><a href="/payments/unmatched" class="sub-link">Unmatched Payments</a></li>
           <li class="sub-item"><a href="/client/project/payment/disputes" class="sub-link">Disputes</a></li>
         </ul>
       </li><!-- br-menu-item -->

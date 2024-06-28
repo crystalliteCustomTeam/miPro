@@ -500,7 +500,13 @@
 
                         @elseif ( ($item->refundStatus == 'Refunded' || $item->refundStatus == 'Refund') and $item->paymentNature != 'Dispute Won' and $item->paymentNature != 'Dispute Lost'  )
 
-                        <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
+                        <td tabindex="0" class="sorting_1">
+                            @if (isset($item->paymentprojectName->name) && $item->paymentprojectName->name != null)
+                            {{$item->paymentprojectName->name}}
+                            @else
+                               undefined
+                            @endif
+                        </td>
                         <td>{{$item->paymentNature}}</td>
                         <td>{{$item->ChargingMode}}</td>
                         {{-- <td>{{$item->ChargingPlan}}</td> --}}
