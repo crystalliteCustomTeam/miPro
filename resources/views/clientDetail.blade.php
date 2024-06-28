@@ -319,7 +319,13 @@
                     <div class="media align-items-center pd-b-10">
                         <img src="https://cdn-icons-png.flaticon.com/512/1077/1077874.png" class="wd-45 rounded-circle" alt="">
                         <div class="media-body mg-x-15 mg-xs-x-20">
-                        <h6 class="mg-b-2 tx-inverse tx-14">{{$item->paymentprojectName->name}}</h6>
+                        <h6 class="mg-b-2 tx-inverse tx-14">
+                            @if (isset($item->paymentprojectName->name) && $item->paymentprojectName->name != null)
+                            {{$item->paymentprojectName->name}}</h6>
+                            @else
+                                undefined
+                            @endif
+
                         <p class="mg-b-0 tx-12"> {{$item->transactionType}} | {{$item->paymentNature}} |{{$item->TotalAmount}}</p>
                         </div><!-- media-body -->
                             <a href="{{ url('/client/project/payment/pending/'.$item->id) }}" class="btn btn-outline-secondary btn-icon rounded-circle mg-r-5">
@@ -446,7 +452,13 @@
                 @foreach ($cashflows as $item)
                 <tr role="row" class="odd">
                     @if(isset($item->dispute) and $item->dispute != null )
-                        <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}}</td>
+                        <td tabindex="0" class="sorting_1">
+                            @if (isset($item->paymentprojectName->name) && $item->paymentprojectName->name != null)
+                            {{$item->paymentprojectName->name}}</td>
+                            @else
+                                undefied
+                            @endif
+
                         <td>{{$item->paymentNature}}</td>
                         <td>{{$item->ChargingMode}}</td>
                         {{-- <td>{{$item->ChargingPlan}}</td> --}}
@@ -526,7 +538,14 @@
 
                         @elseif ( $item->paymentNature == 'Dispute Won' )
 
-                        <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
+                        <td tabindex="0" class="sorting_1">
+                            @if (isset($item->paymentprojectName->name) && $item->paymentprojectName->name != null)
+                            {{$item->paymentprojectName->name}}
+                            @else
+                                undefied
+                            @endif
+
+                        </td>
                         <td>{{$item->paymentNature}}</td>
                         <td>{{$item->ChargingMode}}</td>
                         {{-- <td>{{$item->ChargingPlan}}</td> --}}
@@ -546,7 +565,13 @@
 
                         @elseif ( $item->paymentNature == 'Dispute Lost' )
 
-                        <td tabindex="0" class="sorting_1">{{$item->paymentprojectName->name}} </td>
+                        <td tabindex="0" class="sorting_1">
+                            @if (isset($item->paymentprojectName->name) && $item->paymentprojectName->name != null)
+                            {{$item->paymentprojectName->name}}
+                            @else
+                                undefied
+                            @endif
+                        </td>
                         <td>{{$item->paymentNature}}</td>
                         <td>{{$item->ChargingMode}}</td>
                         {{-- <td>{{$item->ChargingPlan}}</td> --}}
