@@ -27,7 +27,7 @@
                 <form action="/client/payment/unlinked/{{$item->id}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="clientID" value=" {{$projectmanager[0]->ClientName->id}} ">
-                    <input type="hidden" name="brandID" value=" {{$projectmanager[0]->ClientName->projectbrand->id}} ">
+                    {{-- <input type="hidden" name="brandID" value=" {{$projectmanager[0]->ClientName->projectbrand->id}} "> --}}
 
                     <div class="row">
                         <div class="col-12 mt-3">
@@ -41,6 +41,15 @@
                                 <option value="{{ $client->id }}">{{ $client->name }}</option>
                             @endforeach
                             </select>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label for="" style="font-weight:bold;" >Brand:</label>
+                                <select class="form-control select2" required name="brandID">
+                                    @foreach ($brand as $brands)
+                                        <option value="{{ $brands->id }}"{{ $brands->id == $editPayment->BrandID ? 'selected' : '' }}>{{ $brands->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
                         </div>
                         <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Nature:</label>

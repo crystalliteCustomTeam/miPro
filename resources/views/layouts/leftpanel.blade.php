@@ -102,6 +102,8 @@
           <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicing" class="sub-link">SEO --Sheet Invoicing (CSV)</a></li>
           <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingbook" class="sub-link">BOOK --Sheet Invoicing (CSV)</a></li>
           <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingbitswits" class="sub-link">Bitswits --Sheet Invoicing (CSV)</a></li>
+          <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingClientFirstSMM" class="sub-link">Clieck First SMM --Sheet Invoicing (CSV)</a></li>
+          <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingcreative" class="sub-link">Creative --Sheet Invoicing (CSV)</a></li>
           {{-- <li class="sub-item"><a href="/payments/invoicing/notfoundclient" class="sub-link">Not Found Clients</a></li> --}}
         </ul>
       </li><!-- br-menu-item -->

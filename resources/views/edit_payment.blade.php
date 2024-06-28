@@ -25,7 +25,7 @@
             @foreach ($editPayments as $editPayment)
             <form action="/client/project/payment/edit/{{$editPayment->id}}/process" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="brandID" value="{{$editPayment->BrandID}}">
+                {{-- <input type="hidden" name="brandID" value="{{$editPayment->BrandID}}"> --}}
                 <input type="hidden" name="clientID" value="{{$editPayment->ClientID}}">
                 <input type="hidden" name="project" value="{{$editPayment->ProjectID}}">
 
@@ -54,6 +54,15 @@
                         @else
                         <label for="" style="font-size:150%;"><p style="color: red">User Deleted</p></label>
                         @endif
+                    </div>
+                    <div class="col-4 mt-3">
+                        <label for="" style="font-weight:bold;" >Brand:</label>
+                            <select class="form-control select2" required name="brandID">
+                                @foreach ($brand as $brands)
+                                    <option value="{{ $brands->id }}"{{ $brands->id == $editPayment->BrandID ? 'selected' : '' }}>{{ $brands->name }}
+                                </option>
+                                @endforeach
+                            </select>
                     </div>
                     <div class="col-4 mt-3">
                       <label for="" style="font-weight:bold;">Payment Nature:</label>

@@ -57,6 +57,15 @@
                     @endif
                 </div>
                 <div class="col-4 mt-3">
+                    <label for="" style="font-weight:bold;" >Brand:</label>
+                        <select class="form-control select2" required name="brand">
+                            @foreach ($brand as $brands)
+                                <option value="{{ $brands->id }}">{{ $brands->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                </div>
+                <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Payment Nature:</label>
                   <select class="form-control select2" required name="paymentNature"  id="paymentNaturetype" onchange="paymentnature()">
                         <option value="Select">Select</option>
