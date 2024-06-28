@@ -2367,20 +2367,19 @@ class BasicController extends Controller
 
             //brand dispute and refund:
             $brandrefundDispute = DB::table('newpaymentsclients')
-                ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
-                ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
-                ->where('BrandID', $allbrandarrays)
-                ->where('remainingStatus', '!=', 'Unlinked Payments')
-                ->where('refundStatus', '!=', 'Pending Payment')
-                ->where(function ($query) {
-                    $query->where('refundStatus', 'Refund')
-                        ->orWhere('dispute', '!=', null);
-                })
-                // ->where(function ($query1) {
-                //     $query1->where('refundStatus', 'Refund')
-                //         ->orWhere('dispute', '!=', null);
-                // })
-                ->get();
+            ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
+            ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
+            ->where('BrandID', $allbrandarrays)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('refundStatus', 'Refund')
+            ->where(function ($query) use ($years, $months) {
+                $query->whereIn(DB::raw('YEAR(disputeattack)'), $years)
+                      ->orWhere('dispute', '!=', null)
+                      ->orWhere(DB::raw('MONTH(disputeattack)'), $months);
+            })
+            ->get();
+
 
             $disputerefund = [];
             if (isset($brandrefundDispute[0]->SalesPerson) && $brandrefundDispute[0]->SalesPerson != null) {
