@@ -377,14 +377,14 @@
                         </div>
 
                         <script type="text/javascript">
-                            function displayArray(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
+                            function displayArrayDispute(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
                                 google.charts.load('current', {'packages': ['corechart']});
 
                                 google.charts.setOnLoadCallback(function () {
-                                    drawChart(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
+                                    drawChartDispute(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
                                 });
 
-                                function drawChart(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
+                                function drawChartDispute(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
                                     var data = new google.visualization.DataTable();
                                     data.addColumn('string', 'Category');
                                     data.addColumn('number', 'Percentage');
@@ -435,7 +435,7 @@
                             <tbody id="dailytargtesales"></tbody>
                         </table>
                         <br><br>
-                        <div class="col-12">
+                        {{-- <div class="col-12">
                             <div class="row">
                                 <div class="col-10"><h4>Target Chasing Graph:</h4></div>
                                 <div class="col-2">
@@ -482,63 +482,94 @@
                                 </div>
                             </div>
 
+                        </div> --}}
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-10"><h4>Target Chasing Graph:</h4></div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row" id="linechart_container"></div>
                         </div>
+
+                        <script type="text/javascript">
+                            function displayForecast(chartId, brandData, brandName) {
+                            google.charts.load('current', {'packages': ['line']});
+
+                            google.charts.setOnLoadCallback(function () {
+                                drawChartForecast(chartId, brandData, brandName);
+                            });
+
+                            function drawChartForecast(chartId, brandData, brandName) {
+                                var data = new google.visualization.DataTable();
+                                data.addColumn('string', 'Date');
+                                data.addColumn('number', 'Revenue');
+                                data.addColumn('number', 'Forecast');
+                                data.addColumn('number', 'Target');
+
+                                // Convert brand data to rows
+                                let rows = [];
+                                Object.keys(brandData).forEach(date => {
+                                    let rowData = brandData[date];
+                                    rows.push([date, rowData.revenue, rowData.revenueforeast, rowData.Target]);
+                                });
+                                data.addRows(rows);
+
+                                var options = {
+                                    'title': brandName + ' Target Chasing Graph:',
+                                    width: 500,
+                                    height: 300
+                                };
+
+                                var chart = new google.charts.Line(document.getElementById(chartId));
+                                chart.draw(data, google.charts.Line.convertOptions(options));
+                            }
+                        }
+                        </script>
+
                     </div>
 
-                    {{-- <div class="col-12">
+                    <div class="col-12">
                         <br><br>
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-10"><h4>Sales Distribution Chart:</h4></div>
-                                <div class="col-2">
-                                </div>
+                                <div class="col-2"></div>
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div id="salesgraph"></div>
-                                    <script type="text/javascript">
-
-                                        function salesArray(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
-
-                                            google.charts.load('current', {'packages': ['corechart']});
-
-
-                                            google.charts.setOnLoadCallback(function () {
-                                                drawChart(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
-                                            });
-
-                                            function drawChart(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
-                                                // console.log(brand_name,  brand_name, brand_renewal, brand_upsell, brand_newlead);
-
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Category');
-                                                data.addColumn('number', 'Percentage');
-                                                data.addRows([
-                                                    ['Renewal', parseInt(brand_renewal)],
-                                                    ['Upsell', parseInt(brand_upsell)],
-                                                    ['New Lead', parseInt(brand_newlead)]
-                                                ]);
-
-
-                                                var options = {
-                                                    'title': brand_name + ' Sales Distribution Chart:',
-                                                    is3D: true,
-                                                    colors: ['green', 'red', 'purple'],
-                                                    'width': 500,
-                                                    'height': 400
-                                                };
-
-                                                var chart = new google.visualization.PieChart(document.getElementById(chartId));
-                                                chart.draw(data, options);
-                                            }
-                                        }
-
-
-                                    </script>
-                                </div>
-                            </div>
+                            <div class="row" id="salesgraph"></div>
                         </div>
-                    </div> --}}
+                    </div>
+
+                    <script type="text/javascript">
+                             function displayArraySales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
+                                google.charts.load('current', {'packages': ['corechart']});
+
+                                google.charts.setOnLoadCallback(function () {
+                                    drawChartSales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
+                                });
+
+                                function drawChartSales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
+                                    var data = new google.visualization.DataTable();
+                                    data.addColumn('string', 'Category');
+                                    data.addColumn('number', 'Percentage');
+                                    data.addRows([
+                                        ['Renewal', parseInt(brand_renewal)],
+                                        ['Upsell', parseInt(brand_upsell)],
+                                        ['New Lead', parseInt(brand_newlead)]
+                                    ]);
+
+                                    var options = {
+                                        'title': brand_name + ' Sales Distribution Chart:',
+                                        is3D: true,
+                                        colors: ['green', 'red', 'purple'],
+                                        'width': 500,
+                                        'height': 400
+                                    };
+
+                                    var chart = new google.visualization.PieChart(document.getElementById(chartId));
+                                    chart.draw(data, options);
+                                }
+                            }
+                    </script>
 
                     <div class="col-12 mg-b-15">
                         <br><br>
@@ -1118,76 +1149,95 @@
                                             });
                                         }
 
-                                    let refundgraph = Response.disputegraph;
-                                    let refunddisputegraph = document.getElementById('refundgraph');
-                                    refunddisputegraph.innerHTML = '';
+                                        let refundGraphData = Response.disputegraph;
+                                        let refundGraphContainer = document.getElementById('refundgraph');
+                                        refundGraphContainer.innerHTML = '';
 
-                                    let rowDiv = null;
+                                        let rowDivDispute = null;
 
-                                    refundgraph.forEach((refundgraphs, index) => {
+                                        refundGraphData.forEach((refundGraphs, index) => {
+                                            if (index % 3 === 0) {
+                                                rowDivDispute = document.createElement('div');
+                                                rowDivDispute.className = 'row';
+                                                refundGraphContainer.appendChild(rowDivDispute);
+                                            }
+
+                                            let colDivDispute = document.createElement('div');
+                                            colDivDispute.className = 'col-4';
+
+                                            let brand_name = refundGraphs.name;
+                                            let brand_ongoing = refundGraphs.brand_ongoing;
+                                            let brand_refund = refundGraphs.brand_refund;
+                                            let brand_chargeback = refundGraphs.brand_chargeback;
+
+                                            let chartId = 'chart_div_dispute' + index;
+                                            let chartDiv = document.createElement('div');
+                                            chartDiv.id = chartId;
+                                            chartDiv.style.marginBottom = '30px';
+                                            colDivDispute.appendChild(chartDiv);
+                                            rowDivDispute.appendChild(colDivDispute);
+
+                                            displayArrayDispute(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
+                                        });
+
+
+                                    let salesGraphData = Response.salesgraph;
+                                    let salesGraphContainer = document.getElementById('salesgraph');
+                                    salesGraphContainer.innerHTML = '';
+
+                                    let rowDivSales = null;
+
+                                    salesGraphData.forEach((salesDistributions, index) => {
                                         if (index % 3 === 0) {
-                                            rowDiv = document.createElement('div');
-                                            rowDiv.className = 'row';
-                                            refunddisputegraph.appendChild(rowDiv);
+                                            rowDivSales = document.createElement('div');
+                                            rowDivSales.className = 'row';
+                                            salesGraphContainer.appendChild(rowDivSales);
                                         }
 
-                                        let colDiv = document.createElement('div');
-                                        colDiv.className = 'col-4';
+                                        let colDivSales = document.createElement('div');
+                                        colDivSales.className = 'col-4';
 
-                                        let brand_name = refundgraphs.name;
-                                        let brand_ongoing = refundgraphs.brand_ongoing;
-                                        let brand_refund = refundgraphs.brand_refund;
-                                        let brand_chargeback = refundgraphs.brand_chargeback;
+                                        let brand_name = salesDistributions.name;
+                                        let brand_renewal = salesDistributions.brand_renewal;
+                                        let brand_upsell = salesDistributions.brand_upsell;
+                                        let brand_newlead = salesDistributions.brand_newlead;
 
-                                        let chartId = 'chart_div' + index;
+                                        let chartId = 'chart_div_sales' + index;
                                         let chartDiv = document.createElement('div');
                                         chartDiv.id = chartId;
                                         chartDiv.style.marginBottom = '30px';
-                                        colDiv.appendChild(chartDiv);
-                                        rowDiv.appendChild(colDiv);
+                                        colDivSales.appendChild(chartDiv);
+                                        rowDivSales.appendChild(colDivSales);
 
-                                        displayArray(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
+                                        displayArraySales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
                                     });
 
+                                    let salesTargetGraphData = Response.targetchasingraph;
+                                    let linechartContainer = document.getElementById('linechart_container');
+                                    linechartContainer.innerHTML = '';
 
-                                    // let salesdistribution = Response.salesgraph;
-                                    // let salesgraph = document.getElementById('salesgraph');
-                                    // salesgraph.innerHTML = '';
+                                    let rowDivForecast = null;
 
-                                    // salesdistribution.forEach((salesdistributions, index) => {
-                                    //     let brand_name = salesdistributions.name;
-                                    //     let brand_renewal = salesdistributions.brand_renewal;
-                                    //     let brand_upsell = salesdistributions.brand_upsell;
-                                    //     let brand_newlead = salesdistributions.brand_newlead;
+                                    Object.keys(salesTargetGraphData).forEach((brandName, index) => {
+                                        if (index % 3 === 0) {
+                                            rowDivForecast = document.createElement('div');
+                                            rowDivForecast.className = 'row';
+                                            linechartContainer.appendChild(rowDivForecast);
+                                        }
 
-                                    //     let chartId = 'chart_div1' + index;
-                                    //     let chartDiv = document.createElement('div');
-                                    //     chartDiv.id = chartId;
-                                    //     chartDiv.style.marginBottom = '30px';
-                                    //     salesgraph.appendChild(chartDiv);
+                                        let colDivForecast = document.createElement('div');
+                                        colDivForecast.className = 'col-4';
 
-                                    //     salesArray(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
-                                    // });
+                                        let brandData = salesTargetGraphData[brandName];
+                                        let chartId = 'chart_div_forecast_' + brandName.replace(/\s/g, "_");
+                                        let chartDiv = document.createElement('div');
+                                        chartDiv.id = chartId;
+                                        chartDiv.style.marginBottom = '30px';
+                                        colDivForecast.appendChild(chartDiv);
+                                        rowDivForecast.appendChild(colDivForecast);
 
-                                    let salestargetgraph = Response.targetchasingraph;
-
-                                            let linechart_material = document.getElementById('linechart_material');
-                                            linechart_material.innerHTML = '';
-
-                                            // Loop through each brand's data
-                                            Object.keys(salestargetgraph).forEach(brandName => {
-                                                let brandData = salestargetgraph[brandName];
-
-                                                // Create a chart div for each brand
-                                                let chartDiv = document.createElement('div');
-                                                let chartId = 'chart_div_' + brandName.replace(/\s/g, "_");
-                                                chartDiv.id = chartId;
-                                                chartDiv.style.marginBottom = '30px';
-                                                linechart_material.appendChild(chartDiv);
-
-                                                // Call displayforeast function for each brand's data
-                                                displayforeast(chartId, brandData, brandName);
-                                            });
+                                        displayForecast(chartId, brandData, brandName);
+                                    });
 
 
                                     let remainingdys =  Response.remainingworkingdays;
