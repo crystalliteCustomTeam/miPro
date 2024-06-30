@@ -322,7 +322,7 @@
                         <br><br>
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4>Dispute & Refund Report:</h4></div>
+                                <div class="col-10"><h4>Refund Report:</h4></div>
                                 <div class="col-2">
                                 </div>
                             </div>
@@ -346,55 +346,68 @@
                         <br><br>
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4>Dispute & Refund % Chart:</h4></div>
+                                <div class="col-10"><h4>Chargebacks Report:</h4></div>
                                 <div class="col-2">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div id="refundgraph"></div>
-                                    <script type="text/javascript">
-
-                                        function displayArray(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
-
-                                            google.charts.load('current', {'packages': ['corechart']});
-
-
-                                            google.charts.setOnLoadCallback(function () {
-                                                drawChart(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
-                                            });
-
-                                            function drawChart(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
-                                                // console.log(brand_name, brand_ongoing, brand_refund, brand_chargeback);
-
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Category');
-                                                data.addColumn('number', 'Percentage');
-                                                data.addRows([
-                                                    ['Ongoing', parseInt(brand_ongoing)],
-                                                    ['Refund', parseInt(brand_refund)],
-                                                    ['Chargeback', parseInt(brand_chargeback)]
-                                                ]);
-
-
-                                                var options = {
-                                                    'title': brand_name + ' Dispute & Refund % Chart:',
-                                                    is3D: true,
-                                                    colors: ['green', 'red', 'purple'],
-                                                    'width': 500,
-                                                    'height': 400
-                                                };
-
-                                                var chart = new google.visualization.PieChart(document.getElementById(chartId));
-                                                chart.draw(data, options);
-                                            }
-                                        }
-
-
-                                    </script>
-                                </div>
-                            </div>
                         </div>
+                        <table id="" class="table-dark table-hover">
+                            <thead>
+                                <tr role="row">
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Brand</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Client Name</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Amount</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Service</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Upseller</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Support</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Type</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front Person</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dispreftable1"></tbody>
+                        </table>
+                        <br><br>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-10"><h4>Dispute & Refund % Chart:</h4></div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row" id="refundgraph"></div>
+                        </div>
+
+                        <script type="text/javascript">
+                            function displayArray(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
+                                google.charts.load('current', {'packages': ['corechart']});
+
+                                google.charts.setOnLoadCallback(function () {
+                                    drawChart(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
+                                });
+
+                                function drawChart(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback) {
+                                    var data = new google.visualization.DataTable();
+                                    data.addColumn('string', 'Category');
+                                    data.addColumn('number', 'Percentage');
+                                    data.addRows([
+                                        ['Ongoing', parseInt(brand_ongoing)],
+                                        ['Refund', parseInt(brand_refund)],
+                                        ['Chargeback', parseInt(brand_chargeback)]
+                                    ]);
+
+                                    var options = {
+                                        'title': brand_name + ' Dispute & Refund % Chart:',
+                                        is3D: true,
+                                        colors: ['green', 'red', 'purple'],
+                                        'width': 500,
+                                        'height': 400
+                                    };
+
+                                    var chart = new google.visualization.PieChart(document.getElementById(chartId));
+                                    chart.draw(data, options);
+                                }
+                            }
+                        </script>
+
                     </div>
 
                     <div class="col-12">
@@ -420,27 +433,6 @@
                                 </tr>
                             </thead>
                             <tbody id="dailytargtesales"></tbody>
-                            {{-- <tbody>
-                                <tr role="row" class="odd">
-                                    <td tabindex="0" class="sorting_1">abc</td>
-                                    <td>00</td>
-                                    <td>00</td>
-                                    <td>00</td>
-                                    <td>00</td>
-                                    <td>00</td>
-                                    <td>00</td>
-
-                                </tr>
-                                <tr>
-                                    <td>Total</td>
-                                    <td>00</td>
-                                    <td>00</td>
-                                    <td>00</td>
-                                    <td>00</td>
-                                    <td>00</td>
-                                    <td>00</td>
-                                </tr>
-                            </tbody> --}}
                         </table>
                         <br><br>
                         <div class="col-12">
@@ -493,7 +485,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    {{-- <div class="col-12">
                         <br><br>
                         <div class="col-12">
                             <div class="row">
@@ -546,7 +538,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-12 mg-b-15">
                         <br><br>
@@ -956,59 +948,108 @@
 
 
                                     let disputerefunddata = Response.chargebacks;
-                                        let disputetable = document.getElementById('dispreftable');
-                                        disputetable.innerHTML = '';
-                                        let branddispref1 = [];
+                                    let disputetable = document.getElementById('dispreftable');
+                                    disputetable.innerHTML = '';
+                                    let branddispref1 = [];
 
                                     let totalAmount = 0;
 
                                     disputerefunddata.forEach(disputerefunddatas => {
 
-                                    if(disputerefunddatas['chargebacks'][0].date != '--'){
-
                                         let row3 = document.createElement('tr');
 
                                         let disputedate = document.createElement('td');
-                                        disputedate.textContent = disputerefunddatas['chargebacks'][0].date;
+                                        disputedate.textContent = disputerefunddatas[0].date;
                                         row3.appendChild(disputedate);
 
                                         let disputebrand = document.createElement('td');
-                                        disputebrand.textContent = disputerefunddatas['chargebacks'][0].brand;
+                                        disputebrand.textContent = disputerefunddatas[0].brand;
                                         row3.appendChild(disputebrand);
 
                                         let disputeclient = document.createElement('td');
-                                        disputeclient.textContent = disputerefunddatas['chargebacks'][0].client;
+                                        disputeclient.textContent = disputerefunddatas[0].client;
                                         row3.appendChild(disputeclient);
 
                                         let disputeamount = document.createElement('td');
-                                        disputeamount.textContent = disputerefunddatas['chargebacks'][0].amount;
+                                        disputeamount.textContent = disputerefunddatas[0].amount;
                                         row3.appendChild(disputeamount);
 
                                         let disputeservices = document.createElement('td');
-                                        disputeservices.textContent = disputerefunddatas['chargebacks'][0].services;
+                                        disputeservices.textContent = disputerefunddatas[0].services;
                                         row3.appendChild(disputeservices);
 
                                         let disputeupseller = document.createElement('td');
-                                        disputeupseller.textContent = disputerefunddatas['chargebacks'][0].upseller;
+                                        disputeupseller.textContent = disputerefunddatas[0].upseller;
                                         row3.appendChild(disputeupseller);
 
                                         let disputesupport = document.createElement('td');
-                                        disputesupport.textContent = disputerefunddatas['chargebacks'][0].support;
+                                        disputesupport.textContent = disputerefunddatas[0].support;
                                         row3.appendChild(disputesupport);
 
                                         let disputetype = document.createElement('td');
-                                        disputetype.textContent = disputerefunddatas['chargebacks'][0].type;
+                                        disputetype.textContent = disputerefunddatas[0].type;
                                         row3.appendChild(disputetype);
 
                                         let disputefrontperson = document.createElement('td');
-                                        disputefrontperson.textContent = disputerefunddatas['chargebacks'][0].frontperson;
+                                        disputefrontperson.textContent = disputerefunddatas[0].frontperson;
                                         row3.appendChild(disputefrontperson);
 
                                         disputetable.appendChild(row3);
 
-                                    }else{
 
-                                    }
+
+                                    });
+
+
+
+
+                                    let disputerefunddata1 = Response.chargebacks1;
+                                    let disputetable1 = document.getElementById('dispreftable1');
+                                    disputetable1.innerHTML = '';
+
+                                    disputerefunddata1.forEach(disputerefunddatass => {
+
+                                        let row3 = document.createElement('tr');
+
+                                        let disputedate = document.createElement('td');
+                                        disputedate.textContent = disputerefunddatass[0].date;
+                                        row3.appendChild(disputedate);
+
+                                        let disputebrand = document.createElement('td');
+                                        disputebrand.textContent = disputerefunddatass[0].brand;
+                                        row3.appendChild(disputebrand);
+
+                                        let disputeclient = document.createElement('td');
+                                        disputeclient.textContent = disputerefunddatass[0].client;
+                                        row3.appendChild(disputeclient);
+
+                                        let disputeamount = document.createElement('td');
+                                        disputeamount.textContent = disputerefunddatass[0].amount;
+                                        row3.appendChild(disputeamount);
+
+                                        let disputeservices = document.createElement('td');
+                                        disputeservices.textContent = disputerefunddatass[0].services;
+                                        row3.appendChild(disputeservices);
+
+                                        let disputeupseller = document.createElement('td');
+                                        disputeupseller.textContent = disputerefunddatass[0].upseller;
+                                        row3.appendChild(disputeupseller);
+
+                                        let disputesupport = document.createElement('td');
+                                        disputesupport.textContent = disputerefunddatass[0].support;
+                                        row3.appendChild(disputesupport);
+
+                                        let disputetype = document.createElement('td');
+                                        disputetype.textContent = disputerefunddatass[0].type;
+                                        row3.appendChild(disputetype);
+
+                                        let disputefrontperson = document.createElement('td');
+                                        disputefrontperson.textContent = disputerefunddatass[0].frontperson;
+                                        row3.appendChild(disputefrontperson);
+
+                                        disputetable1.appendChild(row3);
+
+
 
                                     });
 
@@ -1075,30 +1116,24 @@
 
 
                                             });
-
-                                        //     dailytarget.forEach(dailytargets => {
-                                        //     if( dailytargets.date != 'nothing'){
-                                        //     let emptyRow = document.createElement('tr');
-                                        //     let emptyCell = document.createElement('td');
-                                        //     emptyCell.setAttribute('colspan', '8');
-                                        //     emptyCell.innerHTML = '&nbsp;';
-                                        //     emptyRow.appendChild(emptyCell);
-                                        //     dailytargtesales.appendChild(emptyRow);
-                                        // }
-
-                                        // });
                                         }
-
-
-
-
-
 
                                     let refundgraph = Response.disputegraph;
                                     let refunddisputegraph = document.getElementById('refundgraph');
                                     refunddisputegraph.innerHTML = '';
 
+                                    let rowDiv = null;
+
                                     refundgraph.forEach((refundgraphs, index) => {
+                                        if (index % 3 === 0) {
+                                            rowDiv = document.createElement('div');
+                                            rowDiv.className = 'row';
+                                            refunddisputegraph.appendChild(rowDiv);
+                                        }
+
+                                        let colDiv = document.createElement('div');
+                                        colDiv.className = 'col-4';
+
                                         let brand_name = refundgraphs.name;
                                         let brand_ongoing = refundgraphs.brand_ongoing;
                                         let brand_refund = refundgraphs.brand_refund;
@@ -1108,32 +1143,33 @@
                                         let chartDiv = document.createElement('div');
                                         chartDiv.id = chartId;
                                         chartDiv.style.marginBottom = '30px';
-                                        refunddisputegraph.appendChild(chartDiv);
+                                        colDiv.appendChild(chartDiv);
+                                        rowDiv.appendChild(colDiv);
 
                                         displayArray(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
                                     });
 
 
-                                    let salesdistribution = Response.salesgraph;
-                                    let salesgraph = document.getElementById('salesgraph');
-                                    salesgraph.innerHTML = '';
+                                    // let salesdistribution = Response.salesgraph;
+                                    // let salesgraph = document.getElementById('salesgraph');
+                                    // salesgraph.innerHTML = '';
 
-                                    salesdistribution.forEach((salesdistributions, index) => {
-                                        let brand_name = salesdistributions.name;
-                                        let brand_renewal = salesdistributions.brand_renewal;
-                                        let brand_upsell = salesdistributions.brand_upsell;
-                                        let brand_newlead = salesdistributions.brand_newlead;
+                                    // salesdistribution.forEach((salesdistributions, index) => {
+                                    //     let brand_name = salesdistributions.name;
+                                    //     let brand_renewal = salesdistributions.brand_renewal;
+                                    //     let brand_upsell = salesdistributions.brand_upsell;
+                                    //     let brand_newlead = salesdistributions.brand_newlead;
 
-                                        let chartId = 'chart_div1' + index;
-                                        let chartDiv = document.createElement('div');
-                                        chartDiv.id = chartId;
-                                        chartDiv.style.marginBottom = '30px';
-                                        salesgraph.appendChild(chartDiv);
+                                    //     let chartId = 'chart_div1' + index;
+                                    //     let chartDiv = document.createElement('div');
+                                    //     chartDiv.id = chartId;
+                                    //     chartDiv.style.marginBottom = '30px';
+                                    //     salesgraph.appendChild(chartDiv);
 
-                                        salesArray(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
-                                    });
+                                    //     salesArray(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
+                                    // });
 
-                                        let salestargetgraph = Response.targetchasingraph;
+                                    let salestargetgraph = Response.targetchasingraph;
 
                                             let linechart_material = document.getElementById('linechart_material');
                                             linechart_material.innerHTML = '';
@@ -1207,6 +1243,7 @@
 
                                 // Populate brand data into the table
                                 branddata.forEach(branddatas => {
+                                    if(branddatas.front != 0 ||  branddatas.back != 0){
                                     let row1 = document.createElement('tr');
 
                                     // Create and append brand name cell
@@ -1214,27 +1251,49 @@
                                     brandname.textContent = branddatas.name;
                                     row1.appendChild(brandname);
 
+                                    // // Create and append today's front payment cell
+                                    // let brandtodayfront = document.createElement('td');
+                                    // brandtodayfront.textContent = branddatas.front;
+                                    // row1.appendChild(brandtodayfront);
+
+                                    // // Create and append today's back payment cell
+                                    // let brandtodayback = document.createElement('td');
+                                    // brandtodayback.textContent = branddatas.back;
+                                    // row1.appendChild(brandtodayback);
+
+                                    // // Create and append total payment cell
+                                    // let brandtotal = document.createElement('td');
+                                    // brandtotal.textContent = branddatas.all;
+                                    // row1.appendChild(brandtotal);
+
                                     // Create and append today's front payment cell
                                     let brandtodayfront = document.createElement('td');
-                                    brandtodayfront.textContent = branddatas.front;
+                                    let oo = branddatas.front;
+                                    let pp = (oo !==0) ? oo : "";
+                                    brandtodayfront.textContent = pp;
                                     row1.appendChild(brandtodayfront);
 
                                     // Create and append today's back payment cell
                                     let brandtodayback = document.createElement('td');
-                                    brandtodayback.textContent = branddatas.back;
+                                    let qq = branddatas.back;
+                                    let rr = (qq !==0) ? qq : "";
+                                    brandtodayback.textContent = rr;
                                     row1.appendChild(brandtodayback);
 
                                     // Create and append total payment cell
                                     let brandtotal = document.createElement('td');
-                                    brandtotal.textContent = branddatas.all;
+                                    let ss = branddatas.all;
+                                    let tt = (ss !==0) ? ss : "";
+                                    brandtotal.textContent = tt;
                                     row1.appendChild(brandtotal);
 
                                     brandtodayfront1.push(parseFloat(branddatas.front));
-                                        brandtodayback1.push(parseFloat(branddatas.back));
-                                        brandtodaytotaloftotal1.push(parseFloat(branddatas.all));
+                                    brandtodayback1.push(parseFloat(branddatas.back));
+                                    brandtodaytotaloftotal1.push(parseFloat(branddatas.all));
 
                                     // Append the row to the table
                                     brandtodaypayment.appendChild(row1);
+                                    }
                                 });
 
                                 let sumBrandtodayfront = brandtodayfront1.reduce((acc, curr) => acc + curr, 0);
@@ -1257,6 +1316,9 @@
 
                                 // Populate employee data into the table
                                 emptodaysdata.forEach(emptodaysdatas => {
+
+                                    if(emptodaysdatas.allrevenue != 0 ||  emptodaysdatas.allrevenue != 0){
+
                                     let row2 = document.createElement('tr');
 
                                     // Create and append employee name cell
@@ -1264,20 +1326,35 @@
                                     empname.textContent = emptodaysdatas.name;
                                     row2.appendChild(empname);
 
-                                    // Create and append today's revenue cell
+                                    // // Create and append today's revenue cell
+                                    // let emptoday = document.createElement('td');
+                                    // emptoday.textContent = emptodaysdatas.allrevenue;
+                                    // row2.appendChild(emptoday);
+
+                                    // // Create and append total revenue cell
+                                    // let emptotal = document.createElement('td');
+                                    // emptotal.textContent = emptodaysdatas.allrevenue;
+                                    // row2.appendChild(emptotal);
+
                                     let emptoday = document.createElement('td');
-                                    emptoday.textContent = emptodaysdatas.allrevenue;
+                                    let a1 = emptodaysdatas.allrevenue;
+                                    let a2 = (a1 !==0) ? a1 : "";
+                                    emptoday.textContent = a2;
                                     row2.appendChild(emptoday);
 
-                                    // Create and append total revenue cell
                                     let emptotal = document.createElement('td');
-                                    emptotal.textContent = emptodaysdatas.allrevenue;
+                                    let a3 =  emptodaysdatas.allrevenue;
+                                    let a4 = (a3 !==0) ? a3 : "";
+                                    emptotal.textContent = a4;
                                     row2.appendChild(emptotal);
+
+
 
                                     emptodaytotaloftotal1.push(parseFloat(emptodaysdatas.allrevenue));
 
                                     // Append the row to the table
                                     emptodaypayment.appendChild(row2);
+                                    }
                                 });
 
                                 let sumemptodayallofall = emptodaytotaloftotal1.reduce((acc, curr) => acc + curr, 0);
@@ -1390,3 +1467,4 @@
 
   </body>
 </html>
+

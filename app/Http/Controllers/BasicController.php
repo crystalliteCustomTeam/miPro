@@ -1640,19 +1640,16 @@ class BasicController extends Controller
         $allbrandsalesdistributiongraph = [];
         $allbrandrefunddisputegraph = [];
         $allbrandschargebacks = [];
+        $allbrandschargebacks1 = [];
 
         $days = [];
         // $currentMonth = Carbon::now()->month;
         // $currentYear = Carbon::now()->year;
-
         // $daysInMonth = Carbon::now()->daysInMonth;
 
         $currentMonth = 0;
         $currentYear = 0;
-
         $daysInMonth = 0;
-
-
 
         if ($checkmonth != null && $checkyear != null && !isset($checkyear[1]) && !isset($checkmonth[1])) {
 
@@ -1907,8 +1904,6 @@ class BasicController extends Controller
         // // Optionally, remove duplicates
         $mergedArray = array_unique($mergedArray);
         $employees = Employee::whereIn('id', $mergedArray)->get();
-        // print_r($employees);
-        // die();
 
         $employeetodayspayment = [];
         $employeepayment = [];
@@ -2363,23 +2358,16 @@ class BasicController extends Controller
                 "brand_newlead" => $brand_newlead
             ];
 
-
-
             //brand dispute and refund:
             $brandrefundDispute = DB::table('newpaymentsclients')
                 ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
                 ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
                 ->where('BrandID', $allbrandarrays)
+                ->where('refundStatus', 'Refund')
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where('refundStatus', 'Refund')
-                ->where(function ($query) use ($years, $months) {
-                    $query->whereIn(DB::raw('YEAR(disputeattack)'), $years)
-                        ->orWhere('dispute', '!=', null)
-                        ->orWhere(DB::raw('MONTH(disputeattack)'), $months);
-                })
+                ->where('dispute', null)
                 ->get();
-
 
             $disputerefund = [];
             if (isset($brandrefundDispute[0]->SalesPerson) && $brandrefundDispute[0]->SalesPerson != null) {
@@ -2388,12 +2376,6 @@ class BasicController extends Controller
                     $supportpersonname = Employee::where('id', $brandrefundDisputes->ProjectManager)->get();
                     $clientname = Client::where('id', $brandrefundDisputes->ClientID)->get();
                     $brandname = Brand::where('id', $brandrefundDisputes->BrandID)->get();
-
-                    if ($brandrefundDisputes->dispute == null) {
-                        $type = "Dispute";
-                    } else {
-                        $type = "Refund";
-                    }
 
                     if (isset($supportpersonname[0]->name)) {
                         $sname = $supportpersonname[0]->name;
@@ -2423,11 +2405,11 @@ class BasicController extends Controller
                         "date" => $brandrefundDisputes->paymentDate,
                         "brand" => $bname,
                         "client" => $cname,
-                        "amount" => $brandrefundDisputes->TotalAmount,
+                        "amount" => $brandrefundDisputes->Paid,
                         "services" => $brandrefundDisputes->Description,
                         "upseller" => 0,
                         "support" => $sname,
-                        "type" => $type,
+                        "type" => "Refund",
                         "frontperson" => $selname,
 
                     ];
@@ -2448,18 +2430,124 @@ class BasicController extends Controller
                 ];
             }
 
-
             $allbrandschargebacks[] = [
                 "chargebacks" => $disputerefund
             ];
+
+            $brandrefundDispute1 = DB::table('newpaymentsclients')
+                ->whereIn(DB::raw('YEAR(disputeattack)'), $years)
+                ->whereIn(DB::raw('MONTH(disputeattack)'), $months)
+                ->where('BrandID', $allbrandarrays)
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus',  '!=', 'Refund')
+                ->where('dispute', '!=', null)
+                ->get();
+
+        $disputerefund1 = [];
+        if (isset($brandrefundDispute1[0]->SalesPerson) && $brandrefundDispute1[0]->SalesPerson != null) {
+            foreach ($brandrefundDispute1 as $brandrefundDisputes) {
+                $salespersonname = Employee::where('id', $brandrefundDisputes->SalesPerson)->get();
+                $supportpersonname = Employee::where('id', $brandrefundDisputes->ProjectManager)->get();
+                $clientname = Client::where('id', $brandrefundDisputes->ClientID)->get();
+                $brandname = Brand::where('id', $brandrefundDisputes->BrandID)->get();
+
+                if (isset($supportpersonname[0]->name)) {
+                    $sname = $supportpersonname[0]->name;
+                } else {
+                    $sname = "Undefined";
+                }
+
+                if (isset($salespersonname[0]->name)) {
+                    $selname = $salespersonname[0]->name;
+                } else {
+                    $selname = "Undefined";
+                }
+
+                if (isset($brandname[0]->name)) {
+                    $bname = $brandname[0]->name;
+                } else {
+                    $bname = "Undefined";
+                }
+
+                if (isset($clientname[0]->name)) {
+                    $cname = $clientname[0]->name;
+                } else {
+                    $cname = "Undefined";
+                }
+
+                $disputerefund1[] = [
+                    "date" => $brandrefundDisputes->paymentDate,
+                    "brand" => $bname,
+                    "client" => $cname,
+                    "amount" => $brandrefundDisputes->disputeattackamount,
+                    "services" => $brandrefundDisputes->Description,
+                    "upseller" => 0,
+                    "support" => $sname,
+                    "type" => "Dispute",
+                    "frontperson" => $selname,
+
+                ];
+            }
+        } else {
+            $disputerefund1[] = [
+
+                "date" => '--',
+                "brand" => '--',
+                "client" => '--',
+                "amount" => '--',
+                "services" => '--',
+                "upseller" => '--',
+                "support" => '--',
+                "type" => '--',
+                "frontperson" => '--'
+
+            ];
         }
+
+
+        $allbrandschargebacks1[] = [
+            "chargebacks" => $disputerefund1
+        ];
+        }
+
+
+        $onlyrefunds = [];
+        foreach($allbrandschargebacks as $allbrandschargebackss){
+            if($allbrandschargebackss['chargebacks'][0]['date'] != "--"){
+                $abc = $allbrandschargebackss['chargebacks'];
+                foreach($abc as $abcs){
+                    $onlyrefunds[] = [$abcs];
+                }
+
+            }else{
+                continue;
+            }
+        }
+
+        $onlydisputes = [];
+        foreach($allbrandschargebacks1 as $allbrandschargebacksss){
+            if($allbrandschargebacksss['chargebacks'][0]['date'] != "--"){
+                $abc1 = $allbrandschargebacksss['chargebacks'];
+                foreach($abc1 as $abcss){
+                    $onlydisputes[] = [$abcss];
+                }
+
+            }else{
+                continue;
+            }
+        }
+
+        // print_r($onlydisputes);
+        // die();
 
         $return_array = [
             "netrevenue" => $allbrandsrev,
             "brandtoday" => $allbrandtodayspayments,
             "salesgraph" => $allbrandsalesdistributiongraph,
             "disputegraph" => $allbrandrefunddisputegraph,
-            "chargebacks" => $allbrandschargebacks,
+            "chargebacks" => $onlyrefunds,
+            "chargebacks1" => $onlydisputes,
             "emppaymentarray" => $employeepayment,
             "emptodayspayment" => $employeetodayspayment,
             "days" => $blankarrayall,
@@ -5202,7 +5290,7 @@ class BasicController extends Controller
         $findusername = DB::table('employees')->where('id', $request->input('saleperson'))->get();
         $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
         $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
-        $brandID =$request->input('brand');
+        $brandID = $request->input('brand');
 
         if ($request->input('paymentNature') != "Remaining") {
 
@@ -6167,6 +6255,7 @@ class BasicController extends Controller
             "transactionfee" => $referencepayment[0]->transactionfee,
             "amt_after_transactionfee" => $referencepayment[0]->Paid,
             "disputefee" => $disputetogetfee[0]->disputefee,
+            "dispute" => "dispute",
             "amt_after_disputefee" => $referencepayment[0]->Paid + $disputetogetfee[0]->disputefee,
 
         ]);
@@ -9929,6 +10018,11 @@ class BasicController extends Controller
 
             $role = 1;
             if ($get_type == "Received") {
+                // if($request->input('status') == 'Dispute'){
+                //     $payment = NewPaymentsClients::whereBetween('disputeattack', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
+                // }else{
+                //     $payment = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
+                // }
                 $payment = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 ($get_brand != 0)
                     ? $payment->where('BrandID', $get_brand)

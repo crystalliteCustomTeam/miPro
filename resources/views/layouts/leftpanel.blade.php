@@ -173,9 +173,9 @@
           <li class="sub-item"><a href="/project/report" class="sub-link">Quality Assurance Report</a></li>
           {{-- <li class="sub-item"><a href="/client/revenue" class="sub-link">Report</a></li> --}}
           <li class="sub-item"><a href="/allclient/revenue" class="sub-link">Revenue Report</a></li>
-          <li class="sub-item"><a href="/paymentdashboard" class="sub-link">Payment Dashboard</a></li>
+          {{-- <li class="sub-item"><a href="/paymentdashboard" class="sub-link">Payment Dashboard</a></li> --}}
           {{-- <li class="sub-item"><a href="/allpaymentdashboard" class="sub-link">All Brand Payment Dashboard</a></li> --}}
-          <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">All Brand Payment Dashboard</a></li>
+          <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">Payment Dashboard</a></li>
           {{-- <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">--</a></li> --}}
         </ul>
       </li><!-- br-menu-item -->

@@ -747,7 +747,13 @@
             <tbody>
                 @foreach ($disputepayment as $item)
                 <tr role="row" class="odd">
-                    <td tabindex="0" class="sorting_1">{{$item->disputeprojectName->name}} </td>
+                    <td tabindex="0" class="sorting_1">
+                        @if (isset($item->disputeprojectName->name) && $item->disputeprojectName->name != null)
+                        {{$item->disputeprojectName->name}}
+                        @else
+                            undefied
+                        @endif
+                    </td>
                     <td>{{$item->dispute_Date}}</td>
                     <td>${{$item->disputedAmount}}</td>
                     <td>{{$item->disputeReason}}</td>
