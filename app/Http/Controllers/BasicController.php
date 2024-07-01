@@ -2573,7 +2573,6 @@ class BasicController extends Controller
 
     function finalpaymentdashboard(Request $request, $id = null)
     {
-        // echo("<pre>");
         $loginUser = $this->roleExits($request);
         $brands = Brand::get();
         $salesteams = Salesteam::get();
@@ -2761,8 +2760,6 @@ class BasicController extends Controller
             $mainsalesTeams['totalteamnet'] = $eachteamnetsales;
         }
 
-
-        // die();
 
 
         return view('finalreport', [

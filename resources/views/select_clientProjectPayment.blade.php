@@ -49,6 +49,8 @@
                             {{ $project->ClientName->name }}
                             --
                             {{ $project->ClientName->projectbrand->name }}
+                            --
+                            {{ $project->domainOrwebsite }}
 
                             </option>
                         @endforeach
