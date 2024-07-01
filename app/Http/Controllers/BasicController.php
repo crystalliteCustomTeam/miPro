@@ -13674,9 +13674,6 @@ class BasicController extends Controller
             }
         }
 
-        echo ("<pre>");
-        print_r($allinvoice);
-        die();
         foreach ($allinvoice as $allinvoices) {
             $checktransactionID = NewPaymentsClients::where('TransactionID', $allinvoices[0]['Transaction ID'])->count();
             $mainemail =  strtolower($allinvoices[0]["Email"]);
@@ -13802,7 +13799,7 @@ class BasicController extends Controller
                     if ($allinvoices[0]['Balance Amount'] != "WON") {
                         if ($checktypeofremaining == 'FSRemaining') {
                             $createClientPayment = NewPaymentsClients::insertGetId([
-                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "BrandID" => (!isset($findbrand[0]->id)) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
                                 "ProjectID" => ($findproject == null) ? 0 :   $findproject,
                                 "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
@@ -13842,7 +13839,7 @@ class BasicController extends Controller
                             ]);
                         } else {
                             $createClientPayment = NewPaymentsClients::insertGetId([
-                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "BrandID" => (!isset($findbrand[0]->id)) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
                                 "ProjectID" => ($findproject == null) ? 0 :   $findproject,
                                 "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
@@ -13892,7 +13889,7 @@ class BasicController extends Controller
                 if ($allinvoices[0]['Balance Amount'] != "WON") {
                     if ($checktypeofremaining == 'FSRemaining') {
                         $createClientPayment = NewPaymentsClients::insertGetId([
-                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "BrandID" => (!isset($findbrand[0]->id)) ? 0 :  $findbrand[0]->id,
                             "ClientID" =>  0,
                             "ProjectID" => 0,
                             "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
@@ -13932,7 +13929,7 @@ class BasicController extends Controller
                         ]);
                     } else {
                         $createClientPayment = NewPaymentsClients::insertGetId([
-                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "BrandID" => (!isset($findbrand[0]->id)) ? 0 :  $findbrand[0]->id,
                             "ClientID" =>  0,
                             "ProjectID" => 0,
                             "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
@@ -14046,7 +14043,7 @@ class BasicController extends Controller
                             if ($checktransactionIDget[0]->dispute == null) {
                                 //simple refund
                                 $createClientPaymentrefund = NewPaymentsClients::insertGetId([
-                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                    "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                     "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
                                     "ProjectID" => ($findproject == null) ? 0 :   $findproject,
                                     "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
@@ -14089,7 +14086,7 @@ class BasicController extends Controller
                                 }
 
                                 $refund = RefundPayments::create([
-                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                   "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                     "ClientID" => $findclient[0]->id,
                                     "ProjectID" => $findproject,
                                     "ProjectManager" => $projectmanager,
@@ -14111,7 +14108,7 @@ class BasicController extends Controller
                             } else {
                                 //refund due to chargeback lost
                                 $createClientPaymentrefund = NewPaymentsClients::insertGetId([
-                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                    "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                     "ClientID" => $findclient[0]->id,
                                     "ProjectID" => $findproject,
                                     "ProjectManager" => $projectmanager,
@@ -14156,7 +14153,7 @@ class BasicController extends Controller
                                 }
 
                                 $refund = RefundPayments::create([
-                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                    "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                     "ClientID" => $findclient[0]->id,
                                     "ProjectID" => $findproject,
                                     "ProjectManager" => $projectmanager,
@@ -14177,7 +14174,7 @@ class BasicController extends Controller
                                 ]);
 
                                 $lostdispute = Disputedpayments::create([
-                                    "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                    "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                     "ClientID" => $findclient[0]->id,
                                     "ProjectID" => $findproject,
                                     "ProjectManager" => $projectmanager,
@@ -14195,7 +14192,7 @@ class BasicController extends Controller
                             //chargeback won
 
                             $createClientPaymentrefund = NewPaymentsClients::insertGetId([
-                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => ($findclient[0]->id == null) ? 0 :   $findclient[0]->id,
                                 "ProjectID" => ($findproject == null) ? 0 :   $findproject,
                                 "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
@@ -14241,7 +14238,7 @@ class BasicController extends Controller
 
 
                             $lostdispute = Disputedpayments::create([
-                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => $findclient[0]->id,
                                 "ProjectID" => $findproject,
                                 "ProjectManager" => $projectmanager,
@@ -14261,7 +14258,7 @@ class BasicController extends Controller
                         if ($checktransactionIDget[0]->dispute == null) {
                             //simple refund
                             $createClientPaymentrefund = NewPaymentsClients::insertGetId([
-                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => 0,
                                 "ProjectID" => 0,
                                 "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
@@ -14305,7 +14302,7 @@ class BasicController extends Controller
                             }
 
                             $refund = RefundPayments::create([
-                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => 0,
                                 "ProjectID" => 0,
                                 "ProjectManager" => $projectmanager,
@@ -14327,7 +14324,7 @@ class BasicController extends Controller
                         } else {
                             //refund due to chargeback lost
                             $createClientPaymentrefund = NewPaymentsClients::insertGetId([
-                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                               "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => 0,
                                 "ProjectID" => 0,
                                 "ProjectManager" => $projectmanager,
@@ -14373,7 +14370,7 @@ class BasicController extends Controller
                             }
 
                             $refund = RefundPayments::create([
-                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => 0,
                                 "ProjectID" => 0,
                                 "ProjectManager" => $projectmanager,
@@ -14394,7 +14391,7 @@ class BasicController extends Controller
                             ]);
 
                             $lostdispute = Disputedpayments::create([
-                                "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                                "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                                 "ClientID" => 0,
                                 "ProjectID" => 0,
                                 "ProjectManager" => $projectmanager,
@@ -14412,7 +14409,7 @@ class BasicController extends Controller
                         //chargeback won
 
                         $createClientPaymentrefund = NewPaymentsClients::insertGetId([
-                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                            "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                             "ClientID" => 0,
                             "ProjectID" => 0,
                             "ProjectManager" => ($projectmanager == null) ? 0 :  $projectmanager,
@@ -14460,7 +14457,7 @@ class BasicController extends Controller
                         }
 
                         $lostdispute = Disputedpayments::create([
-                            "BrandID" => ($findbrand == null) ? 0 :  $findbrand[0]->id,
+                           "BrandID" => (!isset($findbrand[0]->id) && $findbrand[0]->id == null) ? 0 :  $findbrand[0]->id,
                             "ClientID" => 0,
                             "ProjectID" => 0,
                             "ProjectManager" => $projectmanager,
