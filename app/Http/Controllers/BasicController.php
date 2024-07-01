@@ -2573,6 +2573,7 @@ class BasicController extends Controller
 
     function finalpaymentdashboard(Request $request, $id = null)
     {
+        // echo("<pre>");
         $loginUser = $this->roleExits($request);
         $brands = Brand::get();
         $salesteams = Salesteam::get();
@@ -2612,7 +2613,6 @@ class BasicController extends Controller
         // die();
 
         $mainsalesTeam = [];
-        $membersstatus = [];
 
         foreach ($Allsalesteams as $Allsalesteam) {
             //for lead;
@@ -2666,9 +2666,10 @@ class BasicController extends Controller
 
             $members = json_decode($Allsalesteam->members);
 
+            $membersstatus = [];
             foreach ($members as $member) {
 
-                $emploeename = Employee::where('id', $member)->get();
+            $emploeename = Employee::where('id', $member)->get();
 
             $memberfront = NewPaymentsClients::where('SalesPerson', $member)
                 ->whereYear('paymentDate',  now())
@@ -2759,6 +2760,9 @@ class BasicController extends Controller
             $mainsalesTeams['totalteamtarget'] = $eachteamtarget;
             $mainsalesTeams['totalteamnet'] = $eachteamnetsales;
         }
+
+
+        // die();
 
 
         return view('finalreport', [
