@@ -5173,6 +5173,8 @@ class BasicController extends Controller
             $date = $request->input('nextpaymentdate');
         }
 
+        $transactionfee = $request->input('clientpaid') * 0.03;
+
         $createpayment = NewPaymentsClients::insertGetId([
             "BrandID" => $brandID,
             "ClientID" => $createClient,
@@ -5202,8 +5204,8 @@ class BasicController extends Controller
             "refundStatus" => 'On Going',
             "remainingStatus" => $remainingstatus,
             "transactionType" => $transactionType,
-            "transactionfee" => $request->input('transactionfee'),
-            "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+            "transactionfee" => $transactionfee,
+            "amt_after_transactionfee" => $request->input('clientpaid') - $transactionfee
 
         ]);
 
@@ -5295,6 +5297,7 @@ class BasicController extends Controller
         $findclient = DB::table('clients')->where('id', $request->input('clientID'))->get();
         $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
         $brandID = $request->input('brand');
+        $transactionfee = $request->input('clientpaid') * 0.03;
 
         if ($request->input('paymentNature') != "Remaining") {
 
@@ -5355,8 +5358,8 @@ class BasicController extends Controller
                     "refundStatus" => 'On Going',
                     "remainingStatus" => $remainingstatus,
                     "transactionType" => $transactionType,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                    "transactionfee" =>  $transactionfee,
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
 
                 ]);
             } elseif ($request->input('ChargingPlan') != null && $request->input('nextpaymentdate') == null) {
@@ -5424,8 +5427,8 @@ class BasicController extends Controller
                     "refundStatus" => 'On Going',
                     "remainingStatus" => $remainingstatus,
                     "transactionType" => $transactionType,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                    "transactionfee" =>  $transactionfee,
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
 
                 ]);
             } else {
@@ -5459,8 +5462,8 @@ class BasicController extends Controller
                     "refundStatus" => 'On Going',
                     "remainingStatus" => $remainingstatus,
                     "transactionType" => $transactionType,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                    "transactionfee" =>  $transactionfee,
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
 
                 ]);
             }
@@ -5543,8 +5546,8 @@ class BasicController extends Controller
                         "refundStatus" => 'Pending Payment',
                         "remainingStatus" => '--',
                         "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                        "transactionfee" =>  $transactionfee,
+                        "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
 
                     ]);
                 }
@@ -5626,8 +5629,8 @@ class BasicController extends Controller
                         "refundStatus" => 'Pending Payment',
                         "remainingStatus" => '--',
                         "transactionType" => $transactionType,
-                        "transactionfee" => $request->input('transactionfee'),
-                        "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                        "transactionfee" =>  $transactionfee,
+                        "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
 
                     ]);
                 }
@@ -5750,8 +5753,8 @@ class BasicController extends Controller
                     "remainingID" => $checkremaining[0]->remainingID,
                     "remainingStatus" =>  "Remaining Payment",
                     "transactionType" => $transactionType,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                    "transactionfee" =>  $transactionfee,
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
 
                 ]);
 
@@ -5868,8 +5871,8 @@ class BasicController extends Controller
                     "remainingID" => $request->input('remainingID'),
                     "remainingStatus" => "Remaining Payment",
                     "transactionType" => $transactionType,
-                    "transactionfee" => $request->input('transactionfee'),
-                    "amt_after_transactionfee" => $request->input('clientpaid') - $request->input('transactionfee')
+                    "transactionfee" =>  $transactionfee,
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
 
                 ]);
 
