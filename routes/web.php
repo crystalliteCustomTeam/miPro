@@ -208,11 +208,14 @@ Route::controller(BasicController::class)->group(function () {
         Route::post('/forms/create/team/process', 'createteam_process');
 
         //delete salesteam:
-        // Route::get('/deletecompany/{id}','deletecompany');
-        // Route::get('/deletesalesteam/{id}','deleteSalesteam');
+        Route::get('/deletesalesteam/{id}','deleteSalesteam');
 
         //sales team view:
         Route::get('/sales/teams', 'salesteam_view');
+
+        //Edit Sales Team:
+        Route::get('/editsalesteam/{id}', 'editsalesteam');
+        Route::post('/editsalesteam/{id}/process', 'editsalesteamprocess');
 
 
         //PROCESSES

@@ -1409,12 +1409,21 @@ class BasicController extends Controller
 
         foreach ($Allsalesteams as $Allsalesteam) {
             //for lead;
+            // $leadfront = NewPaymentsClients::where('SalesPerson', $Allsalesteam->teamLead)
+            //     ->whereMonth('paymentDate', now())
+            //     ->where('paymentNature', 'New Lead')
+            //     ->where('refundStatus', 'On Going')
+            //     ->where('dispute', null)
+            //     ->SUM('Paid');
+
             $leadfront = NewPaymentsClients::where('SalesPerson', $Allsalesteam->teamLead)
+                ->whereYear('paymentDate', now())
                 ->whereMonth('paymentDate', now())
-                ->where('paymentNature', 'New Lead')
-                ->where('refundStatus', 'On Going')
-                ->where('dispute', null)
-                ->SUM('Paid');
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus', '!=', 'Refund')
+                ->where('transactionType', 'New Lead')
+                ->sum("Paid");
 
             $leadback = NewPaymentsClients::where('SalesPerson', $Allsalesteam->teamLead)
                 ->whereMonth('paymentDate', now())
@@ -2209,10 +2218,10 @@ class BasicController extends Controller
                 ->whereIn(DB::raw('MONTH(paymentDate)'), $months)
                 ->where('BrandID', $allbrandarrays)
                 ->where('refundStatus', 'Refund')
-                ->where('paymentNature', 'Dispute Lost')
+                // ->where('paymentNature', 'Dispute Lost')
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where('dispute', null)
+                ->where('dispute','!=' ,null)
                 ->sum('disputefee');
 
             $allbrandsrev[] = [
@@ -2607,29 +2616,44 @@ class BasicController extends Controller
 
         foreach ($Allsalesteams as $Allsalesteam) {
             //for lead;
+
             $leadfront = NewPaymentsClients::where('SalesPerson', $Allsalesteam->teamLead)
-                ->whereMonth('paymentDate', now())
-                ->where('paymentNature', 'New Lead')
-                ->where('refundStatus', 'On Going')
+                ->whereYear('paymentDate',  now())
+                ->whereMonth('paymentDate',  now())
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where('dispute', null)
-                ->SUM('Paid');
+                ->where('refundStatus', '!=', 'Refund')
+                ->where('transactionType', 'New Lead')
+                ->sum("Paid");
 
             $leadback = NewPaymentsClients::where('SalesPerson', $Allsalesteam->teamLead)
-                ->whereMonth('paymentDate', now())
-                ->where('refundStatus', 'On Going')
-                ->where('paymentNature', '!=', 'New Lead')
+                ->whereYear('paymentDate',  now())
+                ->whereMonth('paymentDate',  now())
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus', '!=', 'Refund')
+                ->where('transactionType','!=','New Lead')
+                ->sum("Paid");
+
+            $dispute = NewPaymentsClients::where('SalesPerson', $Allsalesteam->teamLead)
+                ->whereYear('disputeattack',  now())
+                ->whereMonth('disputeattack',  now())
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus',  '!=', 'Refund')
+                ->where('dispute', '!=', null)
+                ->SUM('disputeattackamount');
+
+            $refund = NewPaymentsClients::where('SalesPerson', $Allsalesteam->teamLead)
+                ->whereYear('paymentDate',  now())
+                ->whereMonth('paymentDate',  now())
+                ->where('refundStatus', 'Refund')
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
                 ->where('dispute', null)
-                ->SUM('Paid');
+                ->sum('Paid');
 
-            $leadrefund = NewPaymentsClients::where('SalesPerson', $Allsalesteam->teamLead)
-                ->whereMonth('paymentDate', now())
-                ->where('refundStatus', 'Refund')
-                ->where('dispute', null)
-                ->SUM('Paid');
+            $leadrefund = $dispute + $refund ;
 
             $leadtarget = AgentTarget::where('AgentID', $Allsalesteam->teamLead)
                 ->where('Year', $year)
@@ -2646,31 +2670,43 @@ class BasicController extends Controller
 
                 $emploeename = Employee::where('id', $member)->get();
 
-                $memberfront = NewPaymentsClients::where('SalesPerson', $member)
-                    ->whereMonth('paymentDate', now())
-                    ->where('paymentNature', 'New Lead')
-                    ->where('refundStatus', 'On Going')
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('dispute', null)
-                    ->SUM('Paid');
+            $memberfront = NewPaymentsClients::where('SalesPerson', $member)
+                ->whereYear('paymentDate',  now())
+                ->whereMonth('paymentDate', now())
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus', '!=', 'Refund')
+                ->where('transactionType', 'New Lead')
+                ->sum("Paid");
 
-                $memberback = NewPaymentsClients::where('SalesPerson', $member)
-                    ->whereMonth('paymentDate', now())
-                    ->where('refundStatus', 'On Going')
-                    ->where('paymentNature', '!=', 'New Lead')
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('dispute', null)
-                    ->SUM('Paid');
+            $memberback = NewPaymentsClients::where('SalesPerson', $member)
+                ->whereYear('paymentDate', now())
+                ->whereMonth('paymentDate', now())
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus', '!=', 'Refund')
+                ->where('transactionType','!=','New Lead')
+                ->sum("Paid");
 
-                $memberrefund = NewPaymentsClients::where('SalesPerson', $member)
-                    ->whereMonth('paymentDate', now())
-                    ->where('refundStatus', 'Refund')
-                    ->where('dispute', null)
-                    ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->where('refundStatus', '!=', 'Pending Payment')
-                    ->SUM('Paid');
+            $dispute1 = NewPaymentsClients::where('SalesPerson', $member)
+                ->whereYear('disputeattack', now())
+                ->whereMonth('disputeattack',  now())
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('refundStatus',  '!=', 'Refund')
+                ->where('dispute', '!=', null)
+                ->SUM('disputeattackamount');
+
+            $refund1 = NewPaymentsClients::where('SalesPerson', $member)
+                ->whereYear('paymentDate', now())
+                ->whereMonth('paymentDate', now())
+                ->where('refundStatus', 'Refund')
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->where('refundStatus', '!=', 'Pending Payment')
+                ->where('dispute', null)
+                ->sum('Paid');
+
+            $memberrefund = $dispute1 + $refund1 ;
 
                 $membertarget = AgentTarget::where('AgentID', $member)
                     ->where('Year', $year)
@@ -14546,6 +14582,44 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
+    }
+
+    function editsalesteam(Request $request, $id)
+    {
+        $loginUser = $this->roleExits($request);
+        $companydata = db::table("salesteam")
+        ->where('id', $id)
+        ->get();
+        $employees = Employee::get();
+        $brand = Brand::get();
+        return view('editsalesteam', [
+            "companydata" => $companydata,
+            'employees' => $employees,
+            'brands' => $brand,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function editsalesteamprocess(Request $request, $id)
+    {
+        $results  = $request->input('users');
+
+        $department = Salesteam::where('id',$id)->Update([
+            "teamLead" => $request->input('teamlead'),
+            "members" => json_encode($results),
+            'updated_at' => date('y-m-d H:m:s'),
+        ]);
+        return redirect('/sales/teams');
+    }
+
+    function deleteSalesteam(Request $request, $id)
+    {
+
+        $companydeleted = DB::table('salesteam')->where('id', $id)->delete();
+
+        return redirect('/sales/teams');
     }
 
 

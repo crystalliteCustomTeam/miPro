@@ -233,9 +233,9 @@
                             @endforeach
                         </select>
                 </div>
-                {{-- <div class="col-4 mt-3">
+                <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;" >Account Manager:</label>
-                    <select class="form-control select2" required name="accountmanager1" disabled>
+                    <select class="form-control select2" required name="accountmanager">
                       @foreach ($pmemployee as $client)
                             @if (isset($projectmanager[0]->EmployeeName->id) and $projectmanager[0]->EmployeeName->id !== null)
                             <option value="{{ $client->id }}"{{ $client->id == $projectmanager[0]->EmployeeName->id ? 'selected' : '' }}>{{ $client->name }}
@@ -250,8 +250,8 @@
                         </option>
                       @endforeach
                     </select>
-                </div> --}}
-                <input type="hidden" name="accountmanager" value="{{$projectmanager[0]->EmployeeName->id}}">
+                </div>
+                {{-- <input type="hidden" name="accountmanager" value="{{$projectmanager[0]->EmployeeName->id}}"> --}}
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Amount:</label>
                     <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="totalamount">
