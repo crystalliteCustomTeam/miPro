@@ -5280,18 +5280,18 @@ class BasicController extends Controller
         $brand = Brand::get();
         $findclientofproject = Client::where('id', $findproject[0]->clientID)->get();
         $findclient = Client::get();
-        $pmdepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
-            $query->where('name', 'LIKE', '%Project manager')
-                ->orWhere('name', 'LIKE', 'Project manager%')
-                ->orWhere('name', 'LIKE', '%Project manager%');
-        })->get();
-        $pmemployee = Employee::whereIn('id', json_decode($pmdepartment[0]->users))->get();
-        $saledepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
-            $query->where('name', 'LIKE', '%sale')
-                ->orWhere('name', 'LIKE', 'sale%')
-                ->orWhere('name', 'LIKE', '%sale%');
-        })->get();
-        $saleemployee = Employee::whereIn('id', json_decode($saledepartment[0]->users))->get();
+        // $pmdepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
+        //     $query->where('name', 'LIKE', '%Project manager')
+        //         ->orWhere('name', 'LIKE', 'Project manager%')
+        //         ->orWhere('name', 'LIKE', '%Project manager%');
+        // })->get();
+        // $pmemployee = Employee::whereIn('id', json_decode($pmdepartment[0]->users))->get();
+        // $saledepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
+        //     $query->where('name', 'LIKE', '%sale')
+        //         ->orWhere('name', 'LIKE', 'sale%')
+        //         ->orWhere('name', 'LIKE', '%sale%');
+        // })->get();
+        // $saleemployee = Employee::whereIn('id', json_decode($saledepartment[0]->users))->get();
         $findemployee = Employee::get();
         $get_projectCount = Project::where('clientID', $findproject[0]->ClientName->id)->count();
         $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)
@@ -6522,18 +6522,18 @@ class BasicController extends Controller
         $brand = Brand::get();
         $editPayment = NewPaymentsClients::where('id', $id)->get();
         $findclientofproject = Client::where('id', $editPayment[0]->ClientID)->get();
-        $pmdepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
-            $query->where('name', 'LIKE', '%Project manager')
-                ->orWhere('name', 'LIKE', 'Project manager%')
-                ->orWhere('name', 'LIKE', '%Project manager%');
-        })->get();
-        $pmemployee = Employee::whereIn('id', json_decode($pmdepartment[0]->users))->get();
-        $saledepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
-            $query->where('name', 'LIKE', '%sale')
-                ->orWhere('name', 'LIKE', 'sale%')
-                ->orWhere('name', 'LIKE', '%sale%');
-        })->get();
-        $saleemployee = Employee::whereIn('id', json_decode($saledepartment[0]->users))->get();
+        // $pmdepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
+        //     $query->where('name', 'LIKE', '%Project manager')
+        //         ->orWhere('name', 'LIKE', 'Project manager%')
+        //         ->orWhere('name', 'LIKE', '%Project manager%');
+        // })->get();
+        // $pmemployee = Employee::whereIn('id', json_decode($pmdepartment[0]->users))->get();
+        // $saledepartment = Department::where('brand', $findclientofproject[0]->brand)->where(function ($query) {
+        //     $query->where('name', 'LIKE', '%sale')
+        //         ->orWhere('name', 'LIKE', 'sale%')
+        //         ->orWhere('name', 'LIKE', '%sale%');
+        // })->get();
+        // $saleemployee = Employee::whereIn('id', json_decode($saledepartment[0]->users))->get();
         if ($editPayment[0]->remainingStatus != 'Unlinked Payments') {
             $findclient = Client::get();
             $findemployee = Employee::get();
