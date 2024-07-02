@@ -5251,27 +5251,6 @@ class BasicController extends Controller
 
     function payment(Request $request, $id)
     {
-        // $interval = "3 Months";
-        // $today = date('Y-m-d');
-
-        // for ($i = 0; $i <= 10; $i++) {
-        //     if ($interval == "One Time Payment") {
-        //         $datefinal = null;
-        //     } elseif ($interval == "Monthly") {
-        //         $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
-        //     } elseif ($interval == "2 Months") {
-        //         $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
-        //     } elseif ($interval == "3 Months") {
-        //         $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
-        //     }
-        //     echo $datefinal . "<br>";
-        // }
-
-        // echo("<pre>");
-        // print_r($a[0]);
-        // echo(gettype($a[0]));
-        //  die();
-
         $loginUser = $this->roleExits($request);
 
         $findproject = Project::where('id', $id)->get();
@@ -10341,9 +10320,6 @@ class BasicController extends Controller
 
                 $result = $payment->get();
 
-                // $totalamt = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('paymentNature','!=','Remaining')->sum('TotalAmount');
-                // $totalpaid = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->sum('Paid');
-
                 $amt = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments')->where('paymentNature', '!=', 'Remaining');
                 ($get_brand != 0)
                     ? $amt->where('BrandID', $get_brand)
@@ -10392,6 +10368,11 @@ class BasicController extends Controller
                     ? $amtpaid->where('dispute', $get_dispute)
                     : null;
 
+                // if($request->input('status') == 'Dispute'){
+                //     $newtotalamtpaid = $amtpaid->sum('disputeattackamount');
+                // }else{
+                //     $newtotalamtpaid = $amtpaid->sum('Paid');
+                // }
                 $newtotalamtpaid = $amtpaid->sum('Paid');
             } elseif ($get_type == "Upcoming") {
 
@@ -10419,9 +10400,6 @@ class BasicController extends Controller
                     : null;
 
                 $result = $payment->get();
-
-                // $totalamt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('paymentNature','!=','Remaining')->sum('TotalAmount');
-                // $totalpaid = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->sum('Paid');
 
                 $amt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments')->where('paymentNature', '!=', 'Remaining');
                 ($get_brand != 0)
