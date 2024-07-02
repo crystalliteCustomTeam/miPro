@@ -148,63 +148,56 @@
 
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4>Brands:</h4></div>
+                                <div class="col-10">
+                                    {{-- <h4 style="background-color: white; color: Black; font-weight: bold; border: 1px solid white; text-align: left; font-size: 20px;">Brands:</h4> --}}
+                                </div>
                                 <div class="col-2">
-                                    <label>Number of Days Left:</label><label id="remainingdays">--</label>
+                                    <label style="background-color: white; color: black; font-weight: bold; border: 1px solid white; text-align: center; font-size: 20px;">Number of Days Left:</label>
+                                    <label id="remainingdays" style="background-color: #FF9933; color: black; font-weight: bold; border: 1px solid white; text-align: center; font-size: 20px;">--</label>
+
                                 </div>
                             </div>
                         </div>
-                            <style>
-                                .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
-                                    background-color: #ffffff !important;
-                                    color: #060708;
-                                    border: 0.5px solid #ecececcc !important;
-                                }
-                            </style>
                             <table id="" class="table-dark table-hover">
                                 <thead>
                                     <tr role="row">
-                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Target</th>
-                                        {{-- second table --}}
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Back</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Subtoal</th>
-                                        {{-- third table --}}
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Fee</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Refund</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Chargeback</th>
-                                        {{-- 4 table --}}
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Net Rev</th>
-                                        {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Require/Day</th> --}}
-                                        {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Remaining</th> --}}
-                                        {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Percentage</th>
-                                         --}}
+                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Subtotal</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF0000; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Fee</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF0000; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF0000; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Chargeback</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Rev</th>
                                     </tr>
                                 </thead>
                                 <tbody id="startingtable">
                                 </tbody>
-                                <tbody >
+                                <tbody>
                                     <tr>
-                                        <td>Total</td>
-                                        <td><label id="totaltargte"></label></td>
-                                        <td><label id="totalfront"></label></td>
-                                        <td><label id="totalback"></label></td>
-                                        <td><label id="totalsubtotal"></label></td>
-                                        <td><label id="totalfee"></label></td>
-                                        <td><label id="totalrefund"></label></td>
-                                        <td><label id="totalchargeback"></label></td>
-                                        <td><label id="totalnetrevenue"></label></td>
+                                        <td style="background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;">Total</td>
+                                        <td style="background-color: #808080; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totaltargte"></label></td>
+                                        <td style="background-color: #66B2FF; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalfront"></label></td>
+                                        <td style="background-color: #66B2FF; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalback"></label></td>
+                                        <td style="background-color: #66B2FF; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalsubtotal"></label></td>
+                                        <td style="background-color: #FF9999; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalfee"></label></td>
+                                        <td style="background-color: #FF9999; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalrefund"></label></td>
+                                        <td style="background-color: #FF9999; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalchargeback"></label></td>
+                                        <td style="background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalnetrevenue"></label></td>
                                     </tr>
                                 </tbody>
                             </table>
+
                     </div>
                     {{-- end set 1 --}}
                     <div class="col-12">
                         <br><br>
                             <div class="col-12">
                                 <div class="row">
-                                    <div class="col-10"><h4>Agents:</h4></div>
+                                    <div class="col-10">
+                                        {{-- <h4>Agents:</h4> --}}
+                                    </div>
                                     <div class="col-2">
                                     </div>
                                 </div>
@@ -212,14 +205,14 @@
                             <table id="" class="table-dark table-hover">
                                 <thead>
                                     <tr role="row">
-                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Target</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Revenue</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Back</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Refund</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Chargeback</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">N. Total</th>
+                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Revenue</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Chargeback</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">N. Total</th>
                                         {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Exp</th> --}}
                                         {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Net Total</th> --}}
                                     </tr>
@@ -227,14 +220,14 @@
                                 <tbody id="employeeTableBody"></tbody>
                                 <tbody >
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>Total</td>
-                                        <td><label id="agentsnettotal"></label></td>
+                                        <td style="background-color: black;"></td>
+                                        <td style="background-color: black;"></td>
+                                        <td style="background-color: black;"></td>
+                                        <td style="background-color: black;"></td>
+                                        <td style="background-color: black;"></td>
+                                        <td style="background-color: black;"></td>
+                                        <td style="background-color: black; color: white; font-weight: bold; text-align: center;">Total</td>
+                                        <td style="background-color: #66B2FF; color: white; font-weight: bold; text-align: center; border:  3px double white;"><label id="agentsnettotal"></label></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -261,27 +254,27 @@
                             <div class="col-6">
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-10"><h4>Brand Wise Daily Payment:</h4></div>
-                                        <div class="col-2">
-                                        </div>
+                                        <div class="col-12"><h4 style="background-color: white ; color: black; font-weight: bold;">Brand Wise Daily Payment:</h4></div>
+                                        {{-- <div class="col-2">
+                                        </div> --}}
                                     </div>
                                 </div>
                                 <table id="" class="table-dark table-hover">
                                     <thead>
                                         <tr role="row">
-                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
-                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Back</th>
-                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Total</th>
+                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody id="brandtodaypayment"></tbody>
                                     <tbody >
                                         <tr>
-                                            <td>Total</td>
-                                            <td><label id="brandtodayfront"></label></td>
-                                            <td><label id="brandtodayback"></label></td>
-                                            <td><label id="brandtodaytotal"></label></td>
+                                            <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;">Total</td>
+                                            <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="brandtodayfront"></label></td>
+                                            <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="brandtodayback"></label></td>
+                                            <td style="background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="brandtodaytotal"></label></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -290,7 +283,7 @@
                             <div class="col-6">
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-10"><h4>Daily Individual Stats:</h4></div>
+                                        <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Daily Individual Stats:</h4></div>
                                         <div class="col-2">
                                         </div>
                                     </div>
@@ -298,17 +291,17 @@
                                 <table id="" class="table-dark table-hover">
                                     <thead>
                                         <tr role="row">
-                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
-                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Revenue</th>
-                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Total</th>
+                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: #B0C4DE; color: black; font-weight: bold; border: 1px solid white; text-align: center;"  aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Revenue</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody id="empdailypayment"></tbody>
                                     <tbody >
                                         <tr>
-                                            <td></td>
-                                            <td>Total</td>
-                                            <td><label id="emptodaytotal"></label></td>
+                                            <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"></td>
+                                            <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;">Total</td>
+                                            <td style="background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="emptodaytotal"></label></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -318,11 +311,11 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-12" >
                         <br><br>
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4>Refund Report:</h4></div>
+                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Refund Report:</h4></div>
                                 <div class="col-2">
                                 </div>
                             </div>
@@ -330,23 +323,23 @@
                         <table id="" class="table-dark table-hover">
                             <thead>
                                 <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Brand</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Client Name</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Amount</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Service</th>
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Brand</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Client Name</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Amount</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Service</th>
                                     {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Upseller</th> --}}
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Support</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Type</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front Person</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Support</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Type</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front Person</th>
                                 </tr>
                             </thead>
                             <tbody id="dispreftable"></tbody>
                         </table>
                         <br><br>
-                        <div class="col-12">
+                        <div class="col-12" >
                             <div class="row">
-                                <div class="col-10"><h4>Chargebacks Report:</h4></div>
+                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Chargebacks Report:</h4></div>
                                 <div class="col-2">
                                 </div>
                             </div>
@@ -354,15 +347,15 @@
                         <table id="" class="table-dark table-hover">
                             <thead>
                                 <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Brand</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Client Name</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Amount</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Service</th>
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Brand</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Client Name</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Amount</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Service</th>
                                     {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Upseller</th> --}}
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Support</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Type</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front Person</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Support</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Type</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front Person</th>
                                 </tr>
                             </thead>
                             <tbody id="dispreftable1"></tbody>
@@ -370,7 +363,7 @@
                         <br><br>
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4>Dispute & Refund % Chart:</h4></div>
+                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Dispute & Refund % Chart:</h4></div>
                                 <div class="col-2"></div>
                             </div>
                             <div class="row" id="refundgraph"></div>
@@ -397,7 +390,7 @@
                                     var options = {
                                         'title': brand_name + ' Dispute & Refund % Chart:',
                                         is3D: true,
-                                        colors: ['green', 'red', 'purple'],
+                                        colors: ['green', 'red', '#FF8C00'],
                                         'width': 500,
                                         'height': 400
                                     };
@@ -414,7 +407,7 @@
                         <br><br>
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4>Daily Target Tracking:</h4></div>
+                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Daily Target Tracking:</h4></div>
                                 <div class="col-2">
                                 </div>
                             </div>
@@ -422,14 +415,14 @@
                         <table id="" class="table-dark table-hover">
                             <thead>
                                 <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Brand</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Upsell</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Renewal</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Aggregated Sales</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Target</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Daily Target</th>
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Brand</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Upsell</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Renewal</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Aggregated Sales</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Daily Target</th>
                                 </tr>
                             </thead>
                             <tbody id="dailytargtesales"></tbody>
@@ -485,7 +478,7 @@
                         </div> --}}
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4>Target Chasing Graph:</h4></div>
+                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Target Chasing Graph:</h4></div>
                                 <div class="col-2"></div>
                             </div>
                             <div class="row" id="linechart_container"></div>
@@ -516,6 +509,7 @@
 
                                 var options = {
                                     'title': brandName + ' Target Chasing Graph:',
+                                    colors: ['green', '#1E90FF', 'yellow'],
                                     width: 500,
                                     height: 300
                                 };
@@ -532,7 +526,7 @@
                         <br><br>
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4>Sales Distribution Chart:</h4></div>
+                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Sales Distribution Chart:</h4></div>
                                 <div class="col-2"></div>
                             </div>
                             <div class="row" id="salesgraph"></div>
@@ -560,7 +554,7 @@
                                     var options = {
                                         'title': brand_name + ' Sales Distribution Chart:',
                                         is3D: true,
-                                        colors: ['green', 'red', 'purple'],
+                                        colors: ['#008080', '#800080', 'green'],
                                         'width': 500,
                                         'height': 400
                                     };
@@ -573,27 +567,20 @@
 
                     <div class="col-12 mg-b-15">
                         <br><br>
-                        <div class="card bd-gray-400 pd-20">
-                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Sales Team Target Monitoring:</h6>
-                            {{-- <style>
-                                .table-dark > tbody > tr > th, .table-dark > tbody > tr > td {
-                                    background-color: #ffffff !important;
-                                    color: #060708;
-                                    border: 0.5px solid #ecececcc !important;
-                                }
-                            </style> --}}
+                        <div >
+                            <h4 style="background-color: white ; color: black; font-weight: bold; "> Team Target Monitoring:</h4>
                             <table id="" class=" ">
                                 <thead>
                                   <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Team</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Target</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Back</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Refund</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Net</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Team Net</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Team Target</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Achieved</th>
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending" style=" background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;">Team</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Front</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Back</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Refund</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Net</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Team Net</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Team Target</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Achieved</th>
                                   </tr>
                                 </thead>
                                 <tbody id="#">
@@ -603,16 +590,25 @@
                                     $b = $mainsalesTeams['totalteamnet'];
                                     $c = $mainsalesTeams['totalteamtarget'] - $mainsalesTeams['totalteamnet'];
                                     @endphp
-                                    <tr role="row" class="table-success">
-                                        <td tabindex="0" class="sorting_1">{{$mainsalesTeams['leadID']}}</td>
-                                        <td>${{$mainsalesTeams['leadtarget']}}</td>
-                                        <td>${{$mainsalesTeams['leadfront']}}</td>
-                                        <td>${{$mainsalesTeams['leadback']}}</td>
-                                        <td>${{$mainsalesTeams['leadrefund']}}</td>
-                                        <td>${{$mainsalesTeams['leadnet']}}</td>
-                                        <td>${{$mainsalesTeams['totalteamtarget']}}</td>
-                                        <td>${{$mainsalesTeams['totalteamnet']}}</td>
-                                        <td>${{$c}}</td>
+                                    {{-- <tr role="row" class="table-danger"> --}}
+                                    <tr role="row">
+                                        <td tabindex="0" class="sorting_1" style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">{{$mainsalesTeams['leadID']}}</td>
+                                        <td style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['leadtarget']}}</td>
+                                        <td style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['leadfront']}}</td>
+                                        <td style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['leadback']}}</td>
+                                        <td style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['leadrefund']}}</td>
+                                        @if ($mainsalesTeams['leadnet'] > 0)
+                                        <td style="background-color: black; color: #FFC680; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['leadnet']}}</td>
+                                        @else
+                                        <td style="background-color: #A9A9A9; color: red; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['leadnet']}}</td>
+                                        @endif
+                                        <td style="background-color: black; color: #FFC680; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['totalteamtarget']}}</td>
+                                        <td style="background-color: black; color: #FFC680; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['totalteamnet']}}</td>
+                                        @if ($c > 0)
+                                        <td style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center; font-weight: bold;">${{$c}}</td>
+                                        @else
+                                        <td style="background-color: red; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center; font-weight: bold;">${{$c}}</td>
+                                        @endif
                                     </tr>
                                     @php
                                         $member = $mainsalesTeams['membersdata'];
@@ -620,15 +616,23 @@
 
                                     @foreach($member  as $dm)
                                     <tr role="row" >
-                                        <td tabindex="0" class="sorting_1">{{$dm['memberID']}}</td>
-                                        <td>${{$dm['membertarget']}}</td>
-                                        <td>${{$dm['memberfront']}}</td>
-                                        <td>${{$dm['memberback']}}</td>
-                                        <td>${{$dm['memberrefund']}}</td>
-                                        <td>${{$dm['membernet']}}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td tabindex="0" class="sorting_1" style=" background-color: #E0E0E0; color: black; text-align: center;">{{$dm['memberID']}}</td>
+                                        <td style=" background-color: #E0E0E0; color: black; border-left: none ; border-right: none; border-top: none; border-bottom: 3px dotted white;  text-align: center;">${{$dm['membertarget']}}</td>
+                                        <td style=" background-color: #E0E0E0; color: black; border-left: none ; border-right: none; border-top: none; border-bottom: 3px dotted white; text-align: center;">${{$dm['memberfront']}}</td>
+                                        <td style=" background-color: #E0E0E0; color: black; border-left: none ; border-right: none; border-top: none; border-bottom: 3px dotted white; text-align: center;">${{$dm['memberback']}}</td>
+                                        <td style=" background-color: #E0E0E0; color: black; border-left: none ; border-right: none; border-top: none; border-bottom: 3px dotted white; text-align: center;">${{$dm['memberrefund']}}</td>
+                                        @if ($dm['membernet'] > 0)
+                                        <td style="background-color: black; color: #FFC680; border-left: none; border-right: none; border-top: none; border-bottom: 3px dotted white; text-align: center;">${{$dm['membernet']}}</td>
+                                        @else
+                                        <td style=" background-color: #E0E0E0; color: red; border-left: none ; border-right: none; border-top: none; border-bottom: 3px dotted white; text-align: center;">${{$dm['membernet']}}</td>
+                                        @endif
+                                        <td style=" background-color: black; color: black; border-left: none ; border-right: none; border-top: none; border-bottom: none; text-align: center;"></td>
+                                        <td style=" background-color: black; color: black; border-left: none ; border-right: none; border-top: none; border-bottom: none; text-align: center;"></td>
+                                        @if ($c > 0)
+                                        <td style=" background-color: #A9A9A9;"></td>
+                                        @else
+                                        <td style=" background-color: red; "></td>
+                                        @endif
                                     </tr>
                                     @endforeach
 
@@ -687,58 +691,97 @@
 
                                     brandrev.forEach(brandrevs => {
 
+                                        if(brandrevs.totalfront != 0 ||  brandrevs.totalback != 0 ||  brandrevs.brandsales != 0 || brandrevs.refund  != 0 || brandrevs.dispute != 0 ||  brandrevs.net_revenue  != 0  ){
+
                                         let rowbrand = document.createElement('tr');
 
                                         let brandname = document.createElement('td');
                                         brandname.textContent = brandrevs.name;
+                                        brandname.style.backgroundColor = 'white';
+                                        brandname.style.fontWeight = 'bold';
+                                        brandname.style.color = 'black';
+                                        brandname.style.border = '1px solid #B8860B';
+                                        brandname.style.textAlign = 'center';
                                         rowbrand.appendChild(brandname);
 
                                         let brandtarget = document.createElement('td');
                                         let o = brandrevs.brandtarget;
                                         let p = (o !== 0) ?   "$" + o : "";
                                         brandtarget.textContent =  p;
+                                        brandtarget.style.backgroundColor = 'white';
+                                        brandtarget.style.color = 'black';
+                                        brandtarget.style.border = '1px solid #B8860B';
+                                        brandtarget.style.textAlign = 'center';
                                         rowbrand.appendChild(brandtarget);
 
                                         let totalfront = document.createElement('td');
                                         let a = brandrevs.totalfront;
                                         let b = (a !== 0) ?   "$" + a : "";
                                         totalfront.textContent = b;
+                                        totalfront.style.backgroundColor = '#CCE6FF';
+                                        totalfront.style.color = 'black';
+                                        totalfront.style.border = '1px solid white';
+                                        totalfront.style.textAlign = 'center';
                                         rowbrand.appendChild(totalfront);
 
                                         let totalback = document.createElement('td');
                                         let c = brandrevs.totalback;
                                         let d = (c !== 0) ?  "$" + c : "";
                                         totalback.textContent = d;
+                                        totalback.style.backgroundColor = '#CCE6FF';
+                                        totalback.style.color = 'black';
+                                        totalback.style.border = '1px solid white';
+                                        totalback.style.textAlign = 'center';
                                         rowbrand.appendChild(totalback);
 
                                         let frontBacksum = document.createElement('td');
                                         let e = brandrevs.brandsales;
                                         let f = (e !== 0) ?  "$" + e : "";
                                         frontBacksum.textContent = f;
+                                        frontBacksum.style.backgroundColor = '#CCE6FF';
+                                        frontBacksum.style.color = 'black';
+                                        frontBacksum.style.border = '1px solid white';
+                                        frontBacksum.style.textAlign = 'center';
                                         rowbrand.appendChild(frontBacksum);
 
                                         let disputefees = document.createElement('td');
                                         let g = brandrevs.disputefees;
                                         let h = (g !== 0) ?  "$" + g : "";
                                         disputefees.textContent = h;
+                                        disputefees.style.backgroundColor = '#FFCCCC';
+                                        disputefees.style.color = 'black';
+                                        disputefees.style.border = '1px solid white';
+                                        disputefees.style.textAlign = 'center';
                                         rowbrand.appendChild(disputefees);
 
                                         let refund = document.createElement('td');
                                         let i = brandrevs.refund;
                                         let j = (i !== 0) ?  "$" + i : "";
                                         refund.textContent = j;
+                                        refund.style.backgroundColor = '#FFCCCC';
+                                        refund.style.color = 'black';
+                                        refund.style.border = '1px solid white';
+                                        refund.style.textAlign = 'center';
                                         rowbrand.appendChild(refund);
 
                                         let dispute = document.createElement('td');
                                         let k = brandrevs.dispute;
                                         let l = (k !== 0) ?  "$" + k : "";
                                         dispute.textContent = l;
+                                        dispute.style.backgroundColor = '#FFCCCC';
+                                        dispute.style.color = 'black';
+                                        dispute.style.border = '1px solid white';
+                                        dispute.style.textAlign = 'center';
                                         rowbrand.appendChild(dispute);
 
                                         let net_revenue = document.createElement('td');
                                         let m = brandrevs.net_revenue;
                                         let n = (m !== 0) ?  "$" + m : "";
                                         net_revenue.textContent = n;
+                                        net_revenue.style.backgroundColor = 'white';
+                                        net_revenue.style.color = 'black';
+                                        net_revenue.style.border = '1px solid #B8860B';
+                                        net_revenue.style.textAlign = 'center';
                                         rowbrand.appendChild(net_revenue);
 
 
@@ -752,6 +795,7 @@
                                         totalnetrevenue1.push(parseFloat(brandrevs.net_revenue));
 
                                         mytableBody.appendChild(rowbrand);
+                                        };
 
                                     });
 
@@ -807,61 +851,116 @@
                                     employees.forEach(employee => {
 
                                         if(employee){
-                                            // if(employee.agenttarget !== 0){
+
+                                            if(employee.getcompletesum != 0 ||  employee.getfrontsum != 0 ||  employee.getbacksum != 0 || employee.refund  != 0 || employee.dispute != 0 ){
+
                                             let row = document.createElement('tr');
 
                                         let agentname = document.createElement('td');
                                         agentname.textContent = employee.name;
+                                        agentname.style.backgroundColor = 'black';
+                                        agentname.style.color = 'white';
+                                        agentname.style.borderTop = 'none';
+                                        agentname.style.borderRight = 'none';
+                                        agentname.style.borderLeft = 'none';
+                                        agentname.style.borderBottom = '1px dotted white';
+                                        agentname.style.textAlign = 'center';
                                         row.appendChild(agentname);
 
                                         let target = document.createElement('td');
                                         let aa = employee.agenttarget;
                                         let bb = (aa !== 0) ?  "$" + aa : "";
                                         target.textContent = bb;
+                                        target.style.backgroundColor = 'black';
+                                        target.style.color = 'white';
+                                        target.style.textAlign = 'center';
                                         row.appendChild(target);
 
                                         let revenue = document.createElement('td');
                                         let cc = employee.getcompletesum;
                                         let dd = (cc !== 0) ?  "$" + cc : "";
                                         revenue.textContent = dd;
+                                        revenue.style.backgroundColor = 'black';
+                                        revenue.style.color = 'white';
+                                        revenue.style.borderTop = 'none';
+                                        revenue.style.borderRight = 'none';
+                                        revenue.style.borderLeft = 'none';
+                                        revenue.style.borderBottom = '1px dotted white';
+                                        revenue.style.textAlign = 'center';
                                         row.appendChild(revenue);
 
                                         let front = document.createElement('td');
                                         let ee = employee.getfrontsum;
                                         let ff = (ee !== 0) ?  "$" + ee : "";
                                         front.textContent = ff;
+                                        front.style.backgroundColor = 'black';
+                                        front.style.color = 'white';
+                                        front.style.borderTop = 'none';
+                                        front.style.borderRight = 'none';
+                                        front.style.borderLeft = 'none';
+                                        front.style.borderBottom = '1px dotted white';
+                                        front.style.textAlign = 'center';
                                         row.appendChild(front);
 
                                         let back = document.createElement('td');
                                         let gg = employee.getbacksum;
                                         let hh = (gg !== 0) ?  "$" + gg : "";
                                         back.textContent = hh;
+                                        back.style.backgroundColor = 'black';
+                                        back.style.color = 'white';
+                                        back.style.borderTop = 'none';
+                                        back.style.borderRight = 'none';
+                                        back.style.borderLeft = 'none';
+                                        back.style.borderBottom = '1px dotted white';
+                                        back.style.textAlign = 'center';
                                         row.appendChild(back);
 
                                         let refund = document.createElement('td');
                                         let ii = employee.refund;
                                         let jj = (ii !== 0) ?  "$" + ii : "";
                                         refund.textContent = jj;
+                                        refund.style.backgroundColor = 'black';
+                                        refund.style.color = 'white';
+                                        refund.style.borderTop = 'none';
+                                        refund.style.borderRight = 'none';
+                                        refund.style.borderLeft = 'none';
+                                        refund.style.borderBottom = '1px dotted white';
+                                        refund.style.textAlign = 'center';
                                         row.appendChild(refund);
 
                                         let chargeback = document.createElement('td');
                                         let kk = employee.dispute;
                                         let ll = (kk !==0) ?  "$" + kk : "";
                                         chargeback.textContent = ll;
+                                        chargeback.style.backgroundColor = 'black';
+                                        chargeback.style.color = 'white';
+                                        chargeback.style.borderTop = 'none';
+                                        chargeback.style.borderRight = 'none';
+                                        chargeback.style.borderLeft = 'none';
+                                        chargeback.style.borderBottom = '1px dotted white';
+                                        chargeback.style.textAlign = 'center';
                                         row.appendChild(chargeback);
 
                                         let ntotal = document.createElement('td');
                                         let mm = employee.getcompletesum - employee.refund - employee.dispute;
                                         let nn = (mm !==0) ?  "$" + mm : "";
                                         ntotal.textContent = nn;
+                                        ntotal.textContent = ll;
+                                        ntotal.style.backgroundColor = '#00FF00';
+                                        ntotal.style.color = 'black';
+                                        ntotal.style.borderTop = 'none';
+                                        ntotal.style.borderRight = '1px solid #00FF00';
+                                        ntotal.style.borderLeft = 'none';
+                                        ntotal.style.borderBottom = '1px dotted white';
+                                        ntotal.style.textAlign = 'center';
                                         row.appendChild(ntotal);
 
                                         agentsnettotal1.push(parseFloat(employee.getcompletesum - employee.refund - employee.dispute));
 
                                         tableBody.appendChild(row);
 
-                                        }
-                                    // }
+                                        }};
+
 
                                     });
 
@@ -887,6 +986,14 @@
                                         // Create and append brand name cell
                                         let brandname = document.createElement('td');
                                         brandname.textContent = branddatas.name;
+                                        brandname.style.backgroundColor = 'white';
+                                        brandname.style.color = 'black';
+                                        brandname.style.fontWeight = 'bold';
+                                        brandname.style.borderTop = 'none';
+                                        brandname.style.borderRight = 'none';
+                                        brandname.style.borderLeft = '1px solid white';
+                                        brandname.style.borderBottom = '1px dotted #4169E1';
+                                        brandname.style.textAlign = 'center';
                                         row1.appendChild(brandname);
 
                                         // Create and append today's front payment cell
@@ -894,6 +1001,13 @@
                                         let oo = branddatas.front;
                                         let pp = (oo !==0) ?  "$" + oo : "";
                                         brandtodayfront.textContent = pp;
+                                        brandtodayfront.style.backgroundColor = 'white';
+                                        brandtodayfront.style.color = 'black';
+                                        brandtodayfront.style.borderTop = 'none';
+                                        brandtodayfront.style.borderRight = 'none';
+                                        brandtodayfront.style.borderLeft = 'none';
+                                        brandtodayfront.style.borderBottom = '1px dotted #4169E1';
+                                        brandtodayfront.style.textAlign = 'center';
                                         row1.appendChild(brandtodayfront);
 
                                         // Create and append today's back payment cell
@@ -901,6 +1015,13 @@
                                         let qq = branddatas.back;
                                         let rr = (qq !==0) ?  "$" + qq : "";
                                         brandtodayback.textContent = rr;
+                                        brandtodayback.style.backgroundColor = 'white';
+                                        brandtodayback.style.color = 'black';
+                                        brandtodayback.style.borderTop = 'none';
+                                        brandtodayback.style.borderRight = 'none';
+                                        brandtodayback.style.borderLeft = 'none';
+                                        brandtodayback.style.borderBottom = '1px dotted #4169E1';
+                                        brandtodayback.style.textAlign = 'center';
                                         row1.appendChild(brandtodayback);
 
                                         // Create and append total payment cell
@@ -908,6 +1029,14 @@
                                         let ss = branddatas.all;
                                         let tt = (ss !==0) ?  "$" + ss : "";
                                         brandtotal.textContent = tt;
+                                        brandtotal.textContent = tt;
+                                        brandtotal.style.backgroundColor = 'white';
+                                        brandtotal.style.color = 'black';
+                                        brandtotal.style.borderTop = 'none';
+                                        brandtotal.style.borderRight = '1px solid white';
+                                        brandtotal.style.borderLeft = 'none';
+                                        brandtotal.style.borderBottom = '1px dotted #4169E1';
+                                        brandtotal.style.textAlign = 'center';
                                         row1.appendChild(brandtotal);
 
                                         brandtodayfront1.push(parseFloat(branddatas.front));
@@ -950,18 +1079,40 @@
 
                                             let empname = document.createElement('td');
                                             empname.textContent = emptodaysdatas.name;
+                                            empname.style.backgroundColor = 'white';
+                                            empname.style.color = 'black';
+                                            empname.style.fontWeight = 'bold';
+                                            empname.style.borderTop = 'none';
+                                            empname.style.borderRight = 'none';
+                                            empname.style.borderLeft = '1px solid white';
+                                            empname.style.borderBottom = '1px dotted #FF9933';
+                                            empname.style.textAlign = 'center';
                                             row2.appendChild(empname);
 
                                             let emptoday = document.createElement('td');
                                             let a1 = emptodaysdatas.allrevenue;
                                             let a2 = (a1 !==0) ?  "$" + a1 : "";
                                             emptoday.textContent = a2;
+                                            emptoday.style.backgroundColor = 'white';
+                                            emptoday.style.color = 'black';
+                                            emptoday.style.borderTop = 'none';
+                                            emptoday.style.borderRight = 'none';
+                                            emptoday.style.borderLeft = 'none';
+                                            emptoday.style.borderBottom = '1px dotted #FF9933';
+                                            emptoday.style.textAlign = 'center';
                                             row2.appendChild(emptoday);
 
                                             let emptotal = document.createElement('td');
                                             let a3 =  emptodaysdatas.allrevenue;
                                             let a4 = (a3 !==0) ?  "$" + a3 : "";
                                             emptotal.textContent = a4;
+                                            emptotal.style.backgroundColor = 'white';
+                                            emptotal.style.color = 'black';
+                                            emptotal.style.borderTop = 'none';
+                                            emptotal.style.borderRight = '1px solid white';
+                                            emptotal.style.borderLeft = 'none';
+                                            emptotal.style.borderBottom = '1px dotted #FF9933';
+                                            emptotal.style.textAlign = 'center';
                                             row2.appendChild(emptotal);
 
                                             emptodaytotaloftotal1.push(parseFloat(emptodaysdatas.allrevenue));
@@ -991,22 +1142,47 @@
 
                                         let disputedate = document.createElement('td');
                                         disputedate.textContent = disputerefunddatas[0].date;
+                                        disputedate.style.backgroundColor = 'white';
+                                        // disputedate.style.fontWeight = 'bold';
+                                        disputedate.style.color = 'black';
+                                        disputedate.style.border = '1px solid black';
+                                        disputedate.style.textAlign = 'center';
                                         row3.appendChild(disputedate);
 
                                         let disputebrand = document.createElement('td');
                                         disputebrand.textContent = disputerefunddatas[0].brand;
+                                        disputebrand.style.backgroundColor = 'white';
+                                        // disputebrand.style.fontWeight = 'bold';
+                                        disputebrand.style.color = 'black';
+                                        disputebrand.style.border = '1px solid black';
+                                        disputebrand.style.textAlign = 'center';
                                         row3.appendChild(disputebrand);
 
                                         let disputeclient = document.createElement('td');
                                         disputeclient.textContent = disputerefunddatas[0].client;
+                                        disputeclient.style.backgroundColor = 'white';
+                                        disputeclient.style.fontWeight = 'bold';
+                                        disputeclient.style.color = 'black';
+                                        disputeclient.style.border = '1px solid black';
+                                        disputeclient.style.textAlign = 'center';
                                         row3.appendChild(disputeclient);
 
                                         let disputeamount = document.createElement('td');
                                         disputeamount.textContent =  "$" + disputerefunddatas[0].amount;
+                                        disputeamount.style.backgroundColor = 'white';
+                                        // disputeamount.style.fontWeight = 'bold';
+                                        disputeamount.style.color = 'black';
+                                        disputeamount.style.border = '1px solid black';
+                                        disputeamount.style.textAlign = 'center';
                                         row3.appendChild(disputeamount);
 
                                         let disputeservices = document.createElement('td');
                                         disputeservices.textContent = disputerefunddatas[0].services;
+                                        disputeservices.style.backgroundColor = 'white';
+                                        // disputeservices.style.fontWeight = 'bold';
+                                        disputeservices.style.color = 'black';
+                                        disputeservices.style.border = '1px solid black';
+                                        disputeservices.style.textAlign = 'center';
                                         row3.appendChild(disputeservices);
 
                                         // let disputeupseller = document.createElement('td');
@@ -1015,14 +1191,29 @@
 
                                         let disputesupport = document.createElement('td');
                                         disputesupport.textContent = disputerefunddatas[0].support;
+                                        disputesupport.style.backgroundColor = 'white';
+                                        // disputesupport.style.fontWeight = 'bold';
+                                        disputesupport.style.color = 'black';
+                                        disputesupport.style.border = '1px solid black';
+                                        disputesupport.style.textAlign = 'center';
                                         row3.appendChild(disputesupport);
 
                                         let disputetype = document.createElement('td');
                                         disputetype.textContent = disputerefunddatas[0].type;
+                                        disputetype.style.backgroundColor = 'white';
+                                        // disputetype.style.fontWeight = 'bold';
+                                        disputetype.style.color = 'black';
+                                        disputetype.style.border = '1px solid black';
+                                        disputetype.style.textAlign = 'center';
                                         row3.appendChild(disputetype);
 
                                         let disputefrontperson = document.createElement('td');
                                         disputefrontperson.textContent = disputerefunddatas[0].frontperson;
+                                        disputefrontperson.style.backgroundColor = 'white';
+                                        // disputefrontperson.style.fontWeight = 'bold';
+                                        disputefrontperson.style.color = 'black';
+                                        disputefrontperson.style.border = '1px solid black';
+                                        disputefrontperson.style.textAlign = 'center';
                                         row3.appendChild(disputefrontperson);
 
                                         disputetable.appendChild(row3);
@@ -1044,22 +1235,47 @@
 
                                         let disputedate = document.createElement('td');
                                         disputedate.textContent = disputerefunddatass[0].date;
+                                        disputedate.style.backgroundColor = 'white';
+                                        // disputedate.style.fontWeight = 'bold';
+                                        disputedate.style.color = 'black';
+                                        disputedate.style.border = '1px solid black';
+                                        disputedate.style.textAlign = 'center';
                                         row3.appendChild(disputedate);
 
                                         let disputebrand = document.createElement('td');
                                         disputebrand.textContent = disputerefunddatass[0].brand;
+                                        disputebrand.style.backgroundColor = 'white';
+                                        // disputebrand.style.fontWeight = 'bold';
+                                        disputebrand.style.color = 'black';
+                                        disputebrand.style.border = '1px solid black';
+                                        disputebrand.style.textAlign = 'center';
                                         row3.appendChild(disputebrand);
 
                                         let disputeclient = document.createElement('td');
                                         disputeclient.textContent = disputerefunddatass[0].client;
+                                        disputeclient.style.backgroundColor = 'white';
+                                        disputeclient.style.fontWeight = 'bold';
+                                        disputeclient.style.color = 'black';
+                                        disputeclient.style.border = '1px solid black';
+                                        disputeclient.style.textAlign = 'center';
                                         row3.appendChild(disputeclient);
 
                                         let disputeamount = document.createElement('td');
                                         disputeamount.textContent =  "$" + disputerefunddatass[0].amount;
+                                        disputeamount.style.backgroundColor = 'white';
+                                        // disputeamount.style.fontWeight = 'bold';
+                                        disputeamount.style.color = 'black';
+                                        disputeamount.style.border = '1px solid black';
+                                        disputeamount.style.textAlign = 'center';
                                         row3.appendChild(disputeamount);
 
                                         let disputeservices = document.createElement('td');
                                         disputeservices.textContent = disputerefunddatass[0].services;
+                                        disputeservices.style.backgroundColor = 'white';
+                                        // disputeservices.style.fontWeight = 'bold';
+                                        disputeservices.style.color = 'black';
+                                        disputeservices.style.border = '1px solid black';
+                                        disputeservices.style.textAlign = 'center';
                                         row3.appendChild(disputeservices);
 
                                         // let disputeupseller = document.createElement('td');
@@ -1068,14 +1284,29 @@
 
                                         let disputesupport = document.createElement('td');
                                         disputesupport.textContent = disputerefunddatass[0].support;
+                                        disputesupport.style.backgroundColor = 'white';
+                                        // disputesupport.style.fontWeight = 'bold';
+                                        disputesupport.style.color = 'black';
+                                        disputesupport.style.border = '1px solid black';
+                                        disputesupport.style.textAlign = 'center';
                                         row3.appendChild(disputesupport);
 
                                         let disputetype = document.createElement('td');
                                         disputetype.textContent = disputerefunddatass[0].type;
+                                        disputetype.style.backgroundColor = 'white';
+                                        // disputetype.style.fontWeight = 'bold';
+                                        disputetype.style.color = 'black';
+                                        disputetype.style.border = '1px solid black';
+                                        disputetype.style.textAlign = 'center';
                                         row3.appendChild(disputetype);
 
                                         let disputefrontperson = document.createElement('td');
                                         disputefrontperson.textContent = disputerefunddatass[0].frontperson;
+                                        disputefrontperson.style.backgroundColor = 'white';
+                                        // disputefrontperson.style.fontWeight = 'bold';
+                                        disputefrontperson.style.color = 'black';
+                                        disputefrontperson.style.border = '1px solid black';
+                                        disputefrontperson.style.textAlign = 'center';
                                         row3.appendChild(disputefrontperson);
 
                                         disputetable1.appendChild(row3);
@@ -1098,46 +1329,78 @@
 
                                                 let date = document.createElement('td');
                                                 date.textContent = dailytargets.date;
+                                                date.style.backgroundColor = '#FCFBFF';
+                                                date.style.color = 'black';
+                                                date.style.border = '1px solid #E6CCFF';
+                                                date.style.textAlign = 'center';
                                                 rowsales.appendChild(date);
 
                                                 let brand = document.createElement('td');
                                                 brand.textContent = dailytargets.data[i].brand;
+                                                brand.style.backgroundColor = '#FCFBFF';
+                                                brand.style.color = 'black';
+                                                brand.style.border = '1px solid #E6CCFF';
+                                                brand.style.textAlign = 'center';
                                                 rowsales.appendChild(brand);
 
                                                 let front = document.createElement('td');
                                                 let a4 =  dailytargets.data[i].front;
                                                 let a5 = (a4 !==0) ?  "$" + a4 : "";
                                                 front.textContent = a5;
+                                                front.style.backgroundColor = '#FCFBFF';
+                                                front.style.color = 'black';
+                                                front.style.border = '1px solid #E6CCFF';
+                                                front.style.textAlign = 'center';
                                                 rowsales.appendChild(front);
 
                                                 let upsell = document.createElement('td');
                                                 let a6 =  dailytargets.data[i].upsell;
                                                 let a7 = (a6 !==0) ?  "$" + a6 : "";
                                                 upsell.textContent = a7;
+                                                upsell.style.backgroundColor = '#FCFBFF';
+                                                upsell.style.color = 'black';
+                                                upsell.style.border = '1px solid #E6CCFF';
+                                                upsell.style.textAlign = 'center';
                                                 rowsales.appendChild(upsell);
 
                                                 let renewal = document.createElement('td');
                                                 let a8 =  dailytargets.data[i].renewal;
                                                 let a9 = (a8 !==0) ?  "$" + a8 : "";
                                                 renewal.textContent = a9;
+                                                renewal.style.backgroundColor = '#FCFBFF';
+                                                renewal.style.color = 'black';
+                                                renewal.style.border = '1px solid #E6CCFF';
+                                                renewal.style.textAlign = 'center';
                                                 rowsales.appendChild(renewal);
 
                                                 let agregatesales = document.createElement('td');
                                                 let a10 =  dailytargets.data[i].Aggregated_Sales;
                                                 let a11 = (a10 !==0) ?  "$" + a10 : "";
                                                 agregatesales.textContent = a11;
+                                                agregatesales.style.backgroundColor = '#FCFBFF';
+                                                agregatesales.style.color = 'black';
+                                                agregatesales.style.border = '1px solid #E6CCFF';
+                                                agregatesales.style.textAlign = 'center';
                                                 rowsales.appendChild(agregatesales);
 
                                                 let target = document.createElement('td');
                                                 let a12 =  dailytargets.data[i].Target;
                                                 let a13 = (a12 !==0) ?  "$" + a12 : "";
                                                 target.textContent = a13;
+                                                target.style.backgroundColor = '#FCFBFF';
+                                                target.style.color = 'black';
+                                                target.style.border = '1px solid #E6CCFF';
+                                                target.style.textAlign = 'center';
                                                 rowsales.appendChild(target);
 
                                                 let dailytargetCell = document.createElement('td');
                                                 let aa1 = dailytargets.data[i].Daily_Target;
                                                 let aa2 = (parseInt(aa1) !== 0) ?  "$" + aa1 : "";
                                                 dailytargetCell.textContent = aa2;
+                                                dailytargetCell.style.backgroundColor = '#FCFBFF';
+                                                dailytargetCell.style.color = 'black';
+                                                dailytargetCell.style.border = '1px solid #E6CCFF';
+                                                dailytargetCell.style.textAlign = 'center';
                                                 rowsales.appendChild(dailytargetCell);
 
                                                 dailytargtesales.appendChild(rowsales);
@@ -1299,6 +1562,14 @@
                                     // Create and append brand name cell
                                     let brandname = document.createElement('td');
                                     brandname.textContent = branddatas.name;
+                                    brandname.style.backgroundColor = 'white';
+                                    brandname.style.color = 'black';
+                                    brandname.style.fontWeight = 'bold';
+                                    brandname.style.borderTop = 'none';
+                                    brandname.style.borderRight = 'none';
+                                    brandname.style.borderLeft = '1px solid white';
+                                    brandname.style.borderBottom = '1px dotted #4169E1';
+                                    brandname.style.textAlign = 'center';
                                     row1.appendChild(brandname);
 
                                     // // Create and append today's front payment cell
@@ -1321,6 +1592,13 @@
                                     let oo = branddatas.front;
                                     let pp = (oo !==0) ?  "$" + oo : "";
                                     brandtodayfront.textContent = pp;
+                                    brandtodayfront.style.backgroundColor = 'white';
+                                    brandtodayfront.style.color = 'black';
+                                    brandtodayfront.style.borderTop = 'none';
+                                    brandtodayfront.style.borderRight = 'none';
+                                    brandtodayfront.style.borderLeft = 'none';
+                                    brandtodayfront.style.borderBottom = '1px dotted #4169E1';
+                                    brandtodayfront.style.textAlign = 'center';
                                     row1.appendChild(brandtodayfront);
 
                                     // Create and append today's back payment cell
@@ -1328,6 +1606,13 @@
                                     let qq = branddatas.back;
                                     let rr = (qq !==0) ?  "$" + qq : "";
                                     brandtodayback.textContent = rr;
+                                    brandtodayback.style.backgroundColor = 'white';
+                                    brandtodayback.style.color = 'black';
+                                    brandtodayback.style.borderTop = 'none';
+                                    brandtodayback.style.borderRight = 'none';
+                                    brandtodayback.style.borderLeft = 'none';
+                                    brandtodayback.style.borderBottom = '1px dotted #4169E1';
+                                    brandtodayback.style.textAlign = 'center';
                                     row1.appendChild(brandtodayback);
 
                                     // Create and append total payment cell
@@ -1335,6 +1620,13 @@
                                     let ss = branddatas.all;
                                     let tt = (ss !==0) ?  "$" + ss : "";
                                     brandtotal.textContent = tt;
+                                    brandtotal.style.backgroundColor = 'white';
+                                    brandtotal.style.color = 'black';
+                                    brandtotal.style.borderTop = 'none';
+                                    brandtotal.style.borderRight = '1px solid white';
+                                    brandtotal.style.borderLeft = 'none';
+                                    brandtotal.style.borderBottom = '1px dotted #4169E1';
+                                    brandtotal.style.textAlign = 'center';
                                     row1.appendChild(brandtotal);
 
                                     brandtodayfront1.push(parseFloat(branddatas.front));
@@ -1374,6 +1666,14 @@
                                     // Create and append employee name cell
                                     let empname = document.createElement('td');
                                     empname.textContent = emptodaysdatas.name;
+                                    empname.style.backgroundColor = 'white';
+                                    empname.style.color = 'black';
+                                    empname.style.fontWeight = 'bold';
+                                    empname.style.borderTop = 'none';
+                                    empname.style.borderRight = 'none';
+                                    empname.style.borderLeft = '1px solid white';
+                                    empname.style.borderBottom = '1px dotted #FF9933';
+                                    empname.style.textAlign = 'center';
                                     row2.appendChild(empname);
 
                                     // // Create and append today's revenue cell
@@ -1390,12 +1690,26 @@
                                     let a1 = emptodaysdatas.allrevenue;
                                     let a2 = (a1 !==0) ?  "$" + a1 : "";
                                     emptoday.textContent = a2;
+                                    emptoday.style.backgroundColor = 'white';
+                                    emptoday.style.color = 'black';
+                                    emptoday.style.borderTop = 'none';
+                                    emptoday.style.borderRight = 'none';
+                                    emptoday.style.borderLeft = 'none';
+                                    emptoday.style.borderBottom = '1px dotted #FF9933';
+                                    emptoday.style.textAlign = 'center';
                                     row2.appendChild(emptoday);
 
                                     let emptotal = document.createElement('td');
                                     let a3 =  emptodaysdatas.allrevenue;
                                     let a4 = (a3 !==0) ?  "$" + a3 : "";
                                     emptotal.textContent = a4;
+                                    emptotal.style.backgroundColor = 'white';
+                                    emptotal.style.color = 'black';
+                                    emptotal.style.borderTop = 'none';
+                                    emptotal.style.borderRight = '1px solid white';
+                                    emptotal.style.borderLeft = 'none';
+                                    emptotal.style.borderBottom = '1px dotted #FF9933';
+                                    emptotal.style.textAlign = 'center';
                                     row2.appendChild(emptotal);
 
 
