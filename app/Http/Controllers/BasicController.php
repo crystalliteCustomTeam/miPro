@@ -2774,6 +2774,13 @@ class BasicController extends Controller
     function monthStats(Request $request, $id = null)
     {
         $loginUser = $this->roleExits($request);
+        $brands = Brand::get();
+
+        // like Jumpto1 SEO, SRP and
+        // Jumpto1 SMM is one department,
+        // BWE  (support ) and BWC are one department,
+        // BSP is one Department,
+        // Bitswits is one department,
 
         $month = date('m');
 
@@ -2809,7 +2816,12 @@ class BasicController extends Controller
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2],
+            'brands' => $brands,
         ]);
+    }
+
+    public function fetchstats(Request $request){
+        echo("check");
     }
 
     public function datewisedata(Request $request)
@@ -3246,7 +3258,8 @@ class BasicController extends Controller
             "November" => $request->input('nov'),
             "December" => $request->input('dec'),
             "created_at" => date('y-m-d H:m:s'),
-            "updated_at" => date('y-m-d H:m:s')
+            "updated_at" => date('y-m-d H:m:s'),
+            "salesrole" => $request->input('role'),
         ]);
 
         return redirect('/allagenttarget');
@@ -3300,7 +3313,8 @@ class BasicController extends Controller
             "October" => $request->input('oct'),
             "November" => $request->input('nov'),
             "December" => $request->input('dec'),
-            "updated_at" => date('y-m-d H:m:s')
+            "updated_at" => date('y-m-d H:m:s'),
+            "salesrole" => $request->input('role'),
         ]);
 
         return redirect('/allagenttarget');

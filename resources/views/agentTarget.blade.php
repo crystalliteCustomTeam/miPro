@@ -28,7 +28,7 @@
             <div class="row">
                 {{-- <div class="col-3 mt-3">
                 </div> --}}
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
                         <label for="">Select Agent</label>
                         <select class="form-control select2" required name="agent">
                         @foreach($brands as $brand)
@@ -38,7 +38,14 @@
                         @endforeach
                       </select>
                 </div>
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
+                    <label for="">Select Role</label>
+                    <select class="form-control select2" required name="role">
+                        <option value="Front">Front</option>
+                        <option value="Support">Support</option>
+                  </select>
+                </div>
+                <div class="col-4 mt-3">
                     <label for="">Select Year</label>
                     <select class="form-control select2" required name="year">
                         <option value="2023">2023</option>

@@ -25,7 +25,8 @@ class AgentTarget extends Model
     "September",
     "October",
     "November",
-    "December"
+    "December",
+    "salesrole"
 ];
 
 public function agentoftarget():HasOne

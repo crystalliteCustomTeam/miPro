@@ -28,7 +28,7 @@
             <div class="row">
                 {{-- <div class="col-3 mt-3">
                 </div> --}}
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
                         <label for="">Select Agent</label>
                         <select class="form-control select2" required name="brands" disabled>
                         @foreach($brands as $brand)
@@ -39,7 +39,15 @@
                       </select>
                       <input type="hidden" name="brand" value="{{$brandeditdata->AgentID}}">
                 </div>
-                <div class="col-6 mt-3">
+                <div class="col-4 mt-3">
+                    <label for="">Select Role</label>
+                    <select class="form-control select2" required name="role">
+                        <option value="{{ $brandeditdata->salesrole }}" selected>{{ $brandeditdata->salesrole }}</option>
+                        <option value="Front">Front</option>
+                        <option value="Support">Support</option>
+                  </select>
+                </div>
+                <div class="col-4 mt-3">
                     <label for="">Select Year</label>
                     <select class="form-control select2" required name="years" disabled>
                         <option value="{{ $brandeditdata->Year }}" selected>{{ $brandeditdata->Year }}</option>

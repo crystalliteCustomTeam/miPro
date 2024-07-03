@@ -27,6 +27,7 @@
               <thead>
                 <tr role="row">
                   <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agent</th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Role</th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Year</th>
                   <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">January</th>
                   <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 278px;" aria-label="Position: activate to sort column ascending">February</th>
@@ -48,6 +49,7 @@
                 @foreach($brands as $brand)
                 <tr role="row" class="odd">
                   <td tabindex="0" class="sorting_1">{{ $brand->agentoftarget->name }}</td>
+                  <td>{{ $brand->salesrole }}</td>
                   <td>{{ $brand->Year }}</td>
                   <td>{{ $brand->January }}</td>
                   <td>{{ $brand->February }}</td>

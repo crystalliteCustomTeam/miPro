@@ -38,3 +38,5 @@ Route::get('/fetch-datewisedata', [BasicController::class, 'datewisedata']);
 Route::get('/fetch-sales', [BasicController::class, 'ajax_sales']);
 
 Route::get('/fetch-Allbranddata', [BasicController::class, 'fetchALLbranddata']);
+
+Route::get('/fetch-stats', [BasicController::class, 'fetchstats']);
