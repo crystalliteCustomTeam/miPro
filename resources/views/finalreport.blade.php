@@ -945,7 +945,7 @@
                                         let mm = employee.getcompletesum - employee.refund - employee.dispute;
                                         let nn = (mm !==0) ?  "$" + mm : "";
                                         ntotal.textContent = nn;
-                                        ntotal.textContent = ll;
+                                        // ntotal.textContent = ll;
                                         ntotal.style.backgroundColor = '#00FF00';
                                         ntotal.style.color = 'black';
                                         ntotal.style.borderTop = 'none';
