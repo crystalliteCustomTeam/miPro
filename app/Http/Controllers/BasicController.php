@@ -2056,7 +2056,7 @@ class BasicController extends Controller
                     ->whereDate('paymentDate', '=', now()->toDateString())
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
-                    ->where('refundStatus', 'Refund')
+                    ->where('refundStatus', '!=','Refund')
                     ->sum('Paid');
 
                 $employeetodayspayment[] = [
