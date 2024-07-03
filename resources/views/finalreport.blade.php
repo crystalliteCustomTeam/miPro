@@ -946,8 +946,14 @@
                                         let nn = (mm !==0) ?  "$" + mm : "";
                                         ntotal.textContent = nn;
                                         // ntotal.textContent = ll;
-                                        ntotal.style.backgroundColor = '#00FF00';
-                                        ntotal.style.color = 'black';
+                                        if (employee.agenttarget == mm || employee.agenttarget < mm) {
+                                            ntotal.style.backgroundColor = '#00FF00';
+                                            ntotal.style.color = 'black';
+                                        } else {
+                                            ntotal.style.backgroundColor = 'black';
+                                            ntotal.style.color = 'white';
+                                        }
+
                                         ntotal.style.borderTop = 'none';
                                         ntotal.style.borderRight = '1px solid #00FF00';
                                         ntotal.style.borderLeft = 'none';

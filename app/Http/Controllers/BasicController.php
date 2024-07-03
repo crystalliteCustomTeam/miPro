@@ -2771,6 +2771,47 @@ class BasicController extends Controller
         ]);
     }
 
+    function monthStats(Request $request, $id = null)
+    {
+        $loginUser = $this->roleExits($request);
+
+        $month = date('m');
+
+        if ($month == 1) {
+            $target = "January";
+        } elseif ($month == 2) {
+            $target = "February";
+        } elseif ($month == 3) {
+            $target = "March";
+        } elseif ($month == 4) {
+            $target = "April";
+        } elseif ($month == 5) {
+            $target = "May";
+        } elseif ($month == 6) {
+            $target = "June";
+        } elseif ($month == 7) {
+            $target = "July";
+        } elseif ($month == 8) {
+            $target = "August";
+        } elseif ($month == 9) {
+            $target = "September";
+        } elseif ($month == 10) {
+            $target = "October";
+        } elseif ($month == 11) {
+            $target = "November";
+        } elseif ($month == 12) {
+            $target = "December";
+        }
+
+        $year = date('Y');
+
+        return view('monthStats', [
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2],
+        ]);
+    }
+
     public function datewisedata(Request $request)
     {
         $requireddate = $request->date_id;

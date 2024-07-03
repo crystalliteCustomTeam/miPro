@@ -282,6 +282,10 @@ Route::controller(BasicController::class)->group(function () {
         Route::get('/allpaymentdashboard/{id?}', 'allpaymentdashboard');
 
         Route::get('/finalallpaymentdashboard/{id?}', 'finalpaymentdashboard');
+
+        //month stats dashboard:
+        Route::get('/stats/{id?}', 'monthStats');
+
         //brandTarget
         Route::get('/settarget', 'brandtarget');
         Route::post('/settarget/process', 'brandtargetprocess');
