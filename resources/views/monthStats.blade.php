@@ -84,98 +84,180 @@
 <div class="br-logo"><a href=""><span>[</span>Crystal <i>pro</i><span>]</span></a></div>
 <!-- ########## END: HEAD PANEL ########## -->
 
-
-
-        <div class="br-pagebody">
-            <div class="row pd-20">
-                <div class="col-2 mt-3">
-                    <label for="" style="font-weight:bold;">Select Year</label>
-                    <select class="form-control select2" name="year[]" id="year" multiple="multiple">
-                        <option value="">Select Year</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
-                        <option value="2023">2023</option>
-                        <option value="2024">2024</option>
-                        <option value="2025">2025</option>
-                        <option value="2026">2026</option>
-                        <option value="2027">2027</option>
-                        <option value="2028">2028</option>
-                        <option value="2029">2029</option>
-                        <option value="2030">2030</option>
-                  </select>
-                </div>
-                <div class="col-3 mt-3">
-                    <label for="" style="font-weight:bold;">Select Month</label>
-                    <select class="form-control select2" name="month[]" id="month" multiple="multiple">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                  </select>
-                </div>
-                <div class="col-6 mt-3">
-                    <label for="" style="font-weight:bold;">Select Department</label>
-                    <select class="form-control select2" name="brand[]" id="depart"  multiple="multiple">
-                    @foreach($brands as $brand)
-                        <option value="{{ $brand->id }}">
-                          {{ $brand->name }}
-                        </option>
-                    @endforeach
-                  </select>
-                </div>
-                <div class="col-1 mt-2">
-                    <button class="btn btn-primary mt-4" id="searchstats">Search</button>
-                </div>
-                <br><br>
-
-            </div>
-        </div><!-- br-pagebody -->
+        <div class="row pd-20"></div>
 
         <div class="br-pagebody">
-            <div class="br-section-wrapper">
                 <div class="row">
                     <div class="col-12">
-                        <h4 style="background-color: white ; color: black; font-weight: bold;">Book Hamid 3 Months Stats:</h4>
+                    <form action="/stats/{id?}" method="get">
+                        <div class="row">
+                            <div class="col-2 mt-3">
+                                <label for="" style="font-weight:bold;">Select Year</label><br>
+                                <select class="form-control select2" name="year[]" id="year" multiple="multiple" onchange="createURL1(this.value)">
+                                    <option value="">Select Year</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                </select>
+                            </div>
+                            <div class="col-3 mt-3">
+                                <label for="" style="font-weight:bold;">Select Month</label>
+                                <select class="form-control select2" name="month[]" id="month" multiple="multiple" onchange="createURL2(this.value)">
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                            </select>
+                            </div>
+                            <div class="col-6 mt-3">
+                                <label for="" style="font-weight:bold;">Select Department</label>
+                                <select class="form-control select2" name="depart" id="depart" onchange="createURL3(this.value)">
+                                    <option value="Department-1 (Jumpto1 SEO, SRP )">Department-1 (Jumpto1 SEO, SRP )</option>
+                                    <option value="Department-2 (Jumpto1 SMM )">Department-2 (Jumpto1 SMM )</option>
+                                    <option value="Department-3 ( BWE  (support ) and BWC)">Department-3 ( BWE  (support ) and BWC )</option>
+                                    <option value="Department-4 (BSP)">Department-4 (BSP)</option>
+                                    <option value="Department-4 (Bitswits)">Department-4 (Bitswits)</option>
+                            </select>
+                            </div>
+                            <div class="col-1 mt-2">
+                                <input type="submit" value="Search" onsubmit="url()" class="btn btn-primary mt-4">
+                            </div>
+                        </div>
+                    </form>
+                    <script>
+                        var baseURL = {
+                                    "year": 0,
+                                    "month" : 0,
+                                    "depart" : 0,
+                                };
+
+
+                        function createURL1(value) {
+                            if (baseURL.hasOwnProperty("year")) {
+                                baseURL["year"] = value;
+                            } else {
+                                baseURL["year"] = value;
+                            }
+                            console.log(baseURL);
+                        }
+
+                        function createURL2(value) {
+                            if (baseURL.hasOwnProperty("month")) {
+                                baseURL["month"] = value;
+                            } else {
+                                baseURL["month"] = value;
+                            }
+                            console.log(baseURL);
+                        }
+
+                        function createURL3(value) {
+                            if (baseURL.hasOwnProperty("depart")) {
+                                baseURL["depart"] = value;
+                            } else {
+                                baseURL["v"] = value;
+                            }
+                            console.log(baseURL);
+                        }
+
+                        var out = [];
+
+                        function url(){
+                            for (var key in baseURL) {
+                                if (baseURL.hasOwnProperty(key)) {
+                                    out.push(key + '=' + encodeURIComponent(baseURL[key]));
+                                }
+                            }
+
+                            out.join('&');
+                            document.getElementById("data").value = out
+
+                        }
+
+
+                    </script>
+                </div>
+
+                    <div class="col-12">
+                        <br><br>
+                        <h4 style="color: black; font-weight: bold;">Book Hamid 3 Months Stats:</h4>
                     </div>
                     <div class="col-12">
                         <table id="" class="table-dark table-hover">
                             <thead>
                                 <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Front Sales SEO</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Apr24</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">FrontSales</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Apr24</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom: none; text-align: center;" aria-label="Last name: activate to sort column ascending"> AVG </th>
                                 </tr>
                                 <tr role="row">
                                     <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: #A52A2A;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #A52A2A;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom:3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending"> </th>
+                                </tr>
                                 </tr>
                             </thead>
                             <tbody id="brandtodaypayment"></tbody>
                         </table>
                     </div>
-
-
                 </div>
-            </div>
+
+                <br><br>
+
+                <div class="row">
+                    <div class="col-12">
+                        <table id="" class="table-dark table-hover">
+                            <thead>
+                                <tr role="row">
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Support</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Apr24</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom: none; text-align: center;" aria-label="Last name: activate to sort column ascending"> AVG </th>
+                                </tr>
+                                <tr role="row">
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending"></th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #A52A2A;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom:3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending"> </th>
+                                </tr>
+                                </tr>
+                            </thead>
+                            <tbody id="brandtodaypayment"></tbody>
+                        </table>
+                    </div>
+                </div>
         </div>
 
-        <script>
+        {{-- <script>
             $(document).ready(function () {
 
 
@@ -228,7 +310,7 @@
 
 
             });
-        </script>
+        </script> --}}
 
 
 
@@ -309,6 +391,6 @@
 
 
 
+
   </body>
 </html>
-

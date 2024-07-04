@@ -286,6 +286,16 @@ Route::controller(BasicController::class)->group(function () {
         //month stats dashboard:
         Route::get('/stats/{id?}', 'monthStats');
 
+        //Sales Original role
+        Route::get('/sales/originalroles', 'originalroles');
+        Route::post('/sales/originalroles/process', 'originalrolesProcess');
+        Route::get('/sales/originalroles/view', 'originalrolesProcess_View');
+
+        Route::get('/sales/originalroles/edit/{id}', 'originalrolesedit');
+        Route::post('/sales/originalroles/process/edit/{id}', 'originalrolesProcessedit');
+
+        Route::get('/originalrolesdelete/{id}','originalrolesdelete');
+
         //brandTarget
         Route::get('/settarget', 'brandtarget');
         Route::post('/settarget/process', 'brandtargetprocess');

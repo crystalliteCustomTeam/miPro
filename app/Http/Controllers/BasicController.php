@@ -30,6 +30,7 @@ use App\Models\PPC;
 use App\Models\Leads;
 use App\Models\Payments;
 use App\Models\Salesteam;
+use App\Models\BrandSalesRole;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -2776,41 +2777,45 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
         $brands = Brand::get();
 
-        // like Jumpto1 SEO, SRP and
-        // Jumpto1 SMM is one department,
-        // BWE  (support ) and BWC are one department,
-        // BSP is one Department,
-        // Bitswits is one department,
+        //GET;
+        $get_year = $request->input('year');
+        $get_month = $request->input('month');
+        $get_depart = $request->input('depart');
 
-        $month = date('m');
+        if( $get_year != 0){
+            $years = $request->input('year');
+        }else{
+            $currentYear = date("Y");
+            $years = [];
 
-        if ($month == 1) {
-            $target = "January";
-        } elseif ($month == 2) {
-            $target = "February";
-        } elseif ($month == 3) {
-            $target = "March";
-        } elseif ($month == 4) {
-            $target = "April";
-        } elseif ($month == 5) {
-            $target = "May";
-        } elseif ($month == 6) {
-            $target = "June";
-        } elseif ($month == 7) {
-            $target = "July";
-        } elseif ($month == 8) {
-            $target = "August";
-        } elseif ($month == 9) {
-            $target = "September";
-        } elseif ($month == 10) {
-            $target = "October";
-        } elseif ($month == 11) {
-            $target = "November";
-        } elseif ($month == 12) {
-            $target = "December";
+            for ($i = 0; $i < 5; $i++) {
+                $years[] = $currentYear - $i;
+            }
+
+            $years = array_reverse($years);
+
+            $currentYear = date("Y");
+            $years = [];
+
+            for ($i = 0; $i < 5; $i++) {
+                $years[] = $currentYear - $i;
+            }
+
+            $years = array_reverse($years);
         }
 
-        $year = date('Y');
+        if( $get_month != 0){
+            $months = $request->input('month');
+        }else{
+            $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        }
+
+        echo("<pre>");
+        print_r($years);
+        print_r($months);
+        print_r($get_depart);
+
+        // die();
 
         return view('monthStats', [
             'LoginUser' => $loginUser[1],
@@ -2821,7 +2826,17 @@ class BasicController extends Controller
     }
 
     public function fetchstats(Request $request){
+
+        $depart = $request->depart;
+        $month = $request->month;
+        $year = $request->year;
+
         echo("check");
+        $chechrmt  = AgentTarget::get();
+        // print_r($chechrmt);
+        print_r($depart);
+        print_r($month);
+        print_r($year);
     }
 
     public function datewisedata(Request $request)
@@ -15145,6 +15160,14 @@ class BasicController extends Controller
             ]);
         }
 
+        $agentrole = AgentTarget::where('salesrole', '!=', null)->get();
+        foreach($agentrole as $agentroles){
+            $agentroleupdate = AgentTarget::where('AgentID', $agentroles->AgentID)->Update([
+                'salesrole' => $agentroles->salesrole,
+            ]);
+
+        }
+
         return redirect('/client/project/payment/all');
     }
 
@@ -15262,5 +15285,90 @@ class BasicController extends Controller
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
         ]);
+    }
+
+    function originalroles(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $brands = Brand::get();
+        $employees = Employee::get();
+        return view('originalRoles', [
+            'brand' => $brands,
+            'employees' => $employees,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function originalrolesProcess(Request $request)
+    {
+        $name = $request->input('name');
+        $brand = $request->input('brand');
+        $front = $request->input('front');
+        $Support = $request->input('Support');
+
+        $addbrandtarget = BrandSalesRole::create([
+            "Name" => $request->input('name'),
+            "Brand" => $request->input('brand'),
+            "Front" => json_encode($front),
+            "Support" => json_encode($Support),
+            "created_at" => date('y-m-d H:m:s'),
+            "updated_at" => date('y-m-d H:m:s')
+        ]);
+
+        return redirect('/sales/originalroles/view');
+    }
+
+    function originalrolesedit(Request $request, $id)
+    {
+        $loginUser = $this->roleExits($request);
+        $brands = Brand::get();
+        $employees = Employee::get();
+        $allleads = BrandSalesRole::where('id',$id)->get();
+        return view('originalRolesEdit', [
+            'brand' => $brands,
+            'employees' => $employees,
+            'allleads' => $allleads,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function originalrolesProcessedit(Request $request,$id)
+    {
+        $name = $request->input('name');
+        $brand = $request->input('brand');
+        $front = $request->input('front');
+        $Support = $request->input('Support');
+
+        $addbrandtarget = BrandSalesRole::where('id',$id)->Update([
+            "Name" => $request->input('name'),
+            "Brand" => $request->input('brand'),
+            "Front" => json_encode($front),
+            "Support" => json_encode($Support),
+            "updated_at" => date('y-m-d H:m:s')
+        ]);
+
+        return redirect('/sales/originalroles/view');
+    }
+
+    function originalrolesProcess_View(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $allleads = BrandSalesRole::get();
+        return view('BrandSalesRole', [
+            'allleads' => $allleads,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function originalrolesdelete(Request $request, $id){
+        $companydeleted = DB::table('brand_sales_roles')->where('id', $id)->delete();
+
+        return redirect('/sales/originalroles/view');
     }
 }

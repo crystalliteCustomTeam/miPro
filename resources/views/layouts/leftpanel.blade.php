@@ -43,6 +43,8 @@
       <ul class="br-menu-sub">
         <li class="sub-item"><a href="/departmentlist" class="sub-link">Departments</a></li>
         <li class="sub-item"><a href="/setupdepartments" class="sub-link">Set Up a Department</a></li>
+        <li class="sub-item"><a href="/sales/originalroles/view" class="sub-link">Brand Sales Team</a></li>
+        <li class="sub-item"><a href="/sales/originalroles" class="sub-link">Set Up a Brand Sales Team</a></li>
 
       </ul>
     </li>
