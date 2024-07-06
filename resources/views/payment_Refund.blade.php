@@ -99,6 +99,7 @@
                                     <option value="VISA">VISA</option>
                                     <option value="WIRE">WIRE</option>
                                     <option value="PayPall">PayPall</option>
+                                    <option value="Klarna">Klarna</option>
                             </select>
                         </div>
                         <div class="col-4 mt-3">

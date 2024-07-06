@@ -123,6 +123,7 @@
                               <option value="Thumbtack">Thumbtack</option>
                               <option value="UpWork Lead">UpWork Lead</option>
                               <option value="PayPall">PayPall</option>
+                              <option value="Klarna">Klarna</option>
                         </select>
                       </div>
                     <div class="col-4 mt-3">

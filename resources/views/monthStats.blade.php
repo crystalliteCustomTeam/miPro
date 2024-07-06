@@ -89,228 +89,453 @@
         <div class="br-pagebody">
                 <div class="row">
                     <div class="col-12">
-                    <form action="/stats/{id?}" method="get">
-                        <div class="row">
-                            <div class="col-2 mt-3">
-                                <label for="" style="font-weight:bold;">Select Year</label><br>
-                                <select class="form-control select2" name="year[]" id="year" multiple="multiple" onchange="createURL1(this.value)">
-                                    <option value="">Select Year</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2027">2027</option>
-                                    <option value="2028">2028</option>
-                                    <option value="2029">2029</option>
-                                    <option value="2030">2030</option>
-                                </select>
+                        <form action="/stats/{id?}" method="get">
+                            <div class="row">
+                                <input type="hidden" id="data1" name="datas">
+                                <div class="col-2 mt-3">
+                                    <label for="" style="font-weight:bold;">Select Year</label><br>
+                                    @if(isset($_GET['year']))
+                                    <select class="form-control select2" name="year[]"  multiple="multiple" onchange="createURL1(this.value)">
+                                        {{-- <option value="0" selected >Select Year</option> --}}
+                                        @foreach ($_GET['year'] as $item)
+                                        <option value="{{ $item }}" selected>{{ $item }}</option>
+                                        @endforeach
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                        <option value="2030">2030</option>
+                                    </select>
+                                    @else
+                                    <select class="form-control select2" name="year[]" multiple="multiple" onchange="createURL1(this.value)">
+                                        {{-- <option value="0" selected >Select Year</option> --}}
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                        <option value="2030">2030</option>
+                                    </select>
+                                    @endif
+                                </div>
+                                <div class="col-3 mt-3">
+                                    <label for="" style="font-weight:bold;">Select Month</label>
+                                    @if(isset($_GET['month']))
+                                        <select class="form-control select2" name="month[]" multiple="multiple" onchange="createURL2(this.value)">
+                                            @foreach ($_GET['month'] as $item1)
+                                            @php
+                                            if ($item1 == 1) {
+                                                $target = "January";
+                                            } elseif ($item1 == 2) {
+                                                $target = "February";
+                                            } elseif ($item1 == 3) {
+                                                $target = "March";
+                                            } elseif ($item1 == 4) {
+                                                $target = "April";
+                                            } elseif ($item1 == 5) {
+                                                $target = "May";
+                                            } elseif ($item1 == 6) {
+                                                $target = "June";
+                                            } elseif ($item1 == 7) {
+                                                $target = "July";
+                                            } elseif ($item1 == 8) {
+                                                $target = "August";
+                                            } elseif ($item1 == 9) {
+                                                $target = "September";
+                                            } elseif ($item1 == 10) {
+                                                $target = "October";
+                                            } elseif ($item1 == 11) {
+                                                $target = "November";
+                                            } elseif ($item1 == 12) {
+                                                $target = "December";
+                                            }
+                                        @endphp
+                                            <option value="{{ $item1 }}" selected>{{ $target }}</option>
+                                            @endforeach
+                                            {{-- <option value="0" selected >Select</option> --}}
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    @else
+                                    <select class="form-control select2" name="month[]" multiple="multiple" onchange="createURL2(this.value)">
+                                        {{-- <option value="0" selected >Select</option> --}}
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                    @endif
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="" style="font-weight:bold;">Select Department</label>
+                                    @if(isset($_GET['depart']))
+                                        <select class="form-control select2" name="depart[]"  multiple="multiple" onchange="createURL3(this.value)">
+                                            {{-- <option value="0" selected >Select</option> --}}
+                                            @foreach ($_GET['depart'] as $item2)
+                                                @foreach($brands as $brand)
+                                                @if ($item2 == $brand->id)
+                                                <option value="{{ $brand->id }}" selected>{{ $brand->name }}</option>
+                                                @endif
+                                                @endforeach
+                                            @endforeach
+
+                                            @foreach($brands as $brand)
+                                            <option value="{{ $brand->id }}">
+                                            {{ $brand->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    @else
+                                        <select class="form-control select2" name="depart[]"  multiple="multiple" onchange="createURL3(this.value)">
+                                            {{-- <option value="0" selected >Select</option> --}}
+                                            @foreach($brands as $brand)
+                                            <option value="{{ $brand->id }}">
+                                            {{ $brand->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                </div>
+                                <div class="col-1 mt-2">
+                                    <input type="submit" value="Search" onsubmit="url1()" class="btn btn-primary mt-4">
+                                </div>
                             </div>
-                            <div class="col-3 mt-3">
-                                <label for="" style="font-weight:bold;">Select Month</label>
-                                <select class="form-control select2" name="month[]" id="month" multiple="multiple" onchange="createURL2(this.value)">
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                            </select>
-                            </div>
-                            <div class="col-6 mt-3">
-                                <label for="" style="font-weight:bold;">Select Department</label>
-                                <select class="form-control select2" name="depart" id="depart" onchange="createURL3(this.value)">
-                                    <option value="Department-1 (Jumpto1 SEO, SRP )">Department-1 (Jumpto1 SEO, SRP )</option>
-                                    <option value="Department-2 (Jumpto1 SMM )">Department-2 (Jumpto1 SMM )</option>
-                                    <option value="Department-3 ( BWE  (support ) and BWC)">Department-3 ( BWE  (support ) and BWC )</option>
-                                    <option value="Department-4 (BSP)">Department-4 (BSP)</option>
-                                    <option value="Department-4 (Bitswits)">Department-4 (Bitswits)</option>
-                            </select>
-                            </div>
-                            <div class="col-1 mt-2">
-                                <input type="submit" value="Search" onsubmit="url()" class="btn btn-primary mt-4">
-                            </div>
-                        </div>
-                    </form>
-                    <script>
-                        var baseURL = {
-                                    "year": 0,
-                                    "month" : 0,
-                                    "depart" : 0,
-                                };
+                        </form>
+                        <script>
+                            var baseURL1 = {
+                                        "year": 0,
+                                        "month" : 0,
+                                        "depart" : 0,
+                                    };
 
 
-                        function createURL1(value) {
-                            if (baseURL.hasOwnProperty("year")) {
-                                baseURL["year"] = value;
-                            } else {
-                                baseURL["year"] = value;
-                            }
-                            console.log(baseURL);
-                        }
-
-                        function createURL2(value) {
-                            if (baseURL.hasOwnProperty("month")) {
-                                baseURL["month"] = value;
-                            } else {
-                                baseURL["month"] = value;
-                            }
-                            console.log(baseURL);
-                        }
-
-                        function createURL3(value) {
-                            if (baseURL.hasOwnProperty("depart")) {
-                                baseURL["depart"] = value;
-                            } else {
-                                baseURL["v"] = value;
-                            }
-                            console.log(baseURL);
-                        }
-
-                        var out = [];
-
-                        function url(){
-                            for (var key in baseURL) {
-                                if (baseURL.hasOwnProperty(key)) {
-                                    out.push(key + '=' + encodeURIComponent(baseURL[key]));
+                            function createURL1(value) {
+                                if (baseURL1.hasOwnProperty("year")) {
+                                    baseURL1["year"] = value;
+                                } else {
+                                    baseURL1["year"] = value;
                                 }
+                                console.log(baseURL1);
                             }
 
-                            out.join('&');
-                            document.getElementById("data").value = out
+                            function createURL2(value) {
+                                if (baseURL1.hasOwnProperty("month")) {
+                                    baseURL1["month"] = value;
+                                } else {
+                                    baseURL1["month"] = value;
+                                }
+                                console.log(baseURL1);
+                            }
 
-                        }
+                            function createURL3(value) {
+                                if (baseURL1.hasOwnProperty("depart")) {
+                                    baseURL1["depart"] = value;
+                                } else {
+                                    baseURL1["v"] = value;
+                                }
+                                console.log(baseURL1);
+                            }
+
+                            var out1 = [];
+
+                            function url1(){
+                                for (var key in baseURL1) {
+                                    if (baseURL1.hasOwnProperty(key)) {
+                                        out1.push(key + '=' + encodeURIComponent(baseURL1[key]));
+                                    }
+                                }
+
+                                out1.join('&');
+                                document.getElementById("data1").value = out1
+
+                            }
 
 
-                    </script>
-                </div>
-
-                    <div class="col-12">
-                        <br><br>
-                        <h4 style="color: black; font-weight: bold;">Book Hamid 3 Months Stats:</h4>
+                        </script>
                     </div>
-                    <div class="col-12">
-                        <table id="" class="table-dark table-hover">
-                            <thead>
-                                <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">FrontSales</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Apr24</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom: none; text-align: center;" aria-label="Last name: activate to sort column ascending"> AVG </th>
-                                </tr>
-                                <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #A52A2A;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom:3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending"> </th>
-                                </tr>
-                                </tr>
-                            </thead>
-                            <tbody id="brandtodaypayment"></tbody>
-                        </table>
-                    </div>
+
+
+                    @if ($role == 0)
+                        <div class="col-12">
+                            <br><br>
+                            <table id="" class="table-dark table-hover">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">FrontSales</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Apr24</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom: none; text-align: center;" aria-label="Last name: activate to sort column ascending"> AVG </th>
+                                    </tr>
+                                    <tr role="row">
+                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #B36F33;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom:3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending"> </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="brandtodaypayment"></tbody>
+                            </table>
+                        </div>
+                    @else
+                        <div class="col-12">
+                            <br><br>
+                            <table style="table-layout: fixed; width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;">FrontSales</th>
+                                        @foreach ($finalfront as $finalfronts)
+                                            @php
+                                                $monthwise = $finalfronts['alldata'];
+                                            @endphp
+                                            @foreach ($monthwise as $monthwises)
+                                            @php
+                                                $monthnumber = $monthwises['month'];
+                                                if ($monthnumber == 1) {
+                                                $monthtext = "January";
+                                                } elseif ($monthnumber == 2) {
+                                                    $monthtext = "February";
+                                                } elseif ($monthnumber == 3) {
+                                                    $monthtext = "March";
+                                                } elseif ($monthnumber == 4) {
+                                                    $monthtext = "April";
+                                                } elseif ($monthnumber == 5) {
+                                                    $monthtext = "May";
+                                                } elseif ($monthnumber == 6) {
+                                                    $monthtext = "June";
+                                                } elseif ($monthnumber == 7) {
+                                                    $monthtext = "July";
+                                                } elseif ($monthnumber == 8) {
+                                                    $monthtext = "August";
+                                                } elseif ($monthnumber == 9) {
+                                                    $monthtext = "September";
+                                                } elseif ($monthnumber == 10) {
+                                                    $monthtext = "October";
+                                                } elseif ($monthnumber == 11) {
+                                                    $monthtext = "November";
+                                                } elseif ($monthnumber == 12) {
+                                                    $monthtext = "December";
+                                                }
+                                            @endphp
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;">{{$monthtext}}{{$monthwises['year']}}</th>
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+                                            @endforeach
+                                        @endforeach
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
+                                    </tr>
+                                    <tr role="row">
+                                        <th style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
+                                        @foreach ($finalfront as $finalfronts)
+                                            @php
+                                                $monthwise = $finalfronts['alldata'];
+                                            @endphp
+                                            @foreach ($monthwise as $monthwises)
+                                                <th style="width: 100px; background-color: black; color: white; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Target</th>
+                                                <th style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Front</th>
+                                                <th style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Back</th>
+                                                <th style="width: 100px; background-color: black; color: #C88555; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Refund</th>
+                                                <th style="width: 100px; background-color: #808080; color: white; border-left: none; border-right: 3px double white; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Net Revenue</th>
+                                            @endforeach
+                                        @endforeach
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($collectedData as $personData)
+                                        <tr>
+                                            @foreach ($personData as $person)
+                                                @if ($personData[0] == $person)
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">{{$person["name"]}}</td>
+                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">${{$person["target"]}}</td>
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["front"]}}</td>
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["back"]}}</td>
+                                                    <td style="width: 100px; background-color: black; color: #C88555;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["refund"]}}</td>
+                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["net"]}}</td>
+                                                @else
+                                                <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">${{$person["target"]}}</td>
+                                                <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["front"]}}</td>
+                                                <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["back"]}}</td>
+                                                <td style="width: 100px; background-color: black; color: #C88555;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["refund"]}}</td>
+                                                <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["net"]}}</td>
+                                                @endif
+                                            @endforeach
+                                            <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;"></td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    @endif
+
                 </div>
 
                 <br><br>
 
                 <div class="row">
-                    <div class="col-12">
-                        <table id="" class="table-dark table-hover">
-                            <thead>
-                                <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Support</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Apr24</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom: none; text-align: center;" aria-label="Last name: activate to sort column ascending"> AVG </th>
-                                </tr>
-                                <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending"></th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #A52A2A;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom:3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending"> </th>
-                                </tr>
-                                </tr>
-                            </thead>
-                            <tbody id="brandtodaypayment"></tbody>
-                        </table>
-                    </div>
+                    @if ($role == 0)
+                        <div class="col-12">
+                            <table id="" class="table-dark table-hover">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Support</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Apr24</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom: none; text-align: center;" aria-label="Last name: activate to sort column ascending"> AVG </th>
+                                    </tr>
+                                    <tr role="row">
+                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #B36F33;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom:3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending"> </th>
+                                    </tr>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                    @else
+                        <div class="col-12">
+                            <table style="table-layout: fixed; width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;">FrontSales</th>
+                                        @foreach ($finalsupport as $finalsupports)
+                                            @php
+                                                $monthwise1 = $finalsupports['alldata'];
+                                            @endphp
+                                            @foreach ($monthwise1 as $monthwisesb)
+                                            @php
+                                                $monthnumberb = $monthwisesb['month'];
+                                                if ($monthnumberb == 1) {
+                                                    $monthtextb = "January";
+                                                } elseif ($monthnumberb == 2) {
+                                                    $monthtextb = "February";
+                                                } elseif ($monthnumberb == 3) {
+                                                    $monthtextb = "March";
+                                                } elseif ($monthnumberb == 4) {
+                                                    $monthtextb = "April";
+                                                } elseif ($monthnumberb == 5) {
+                                                    $monthtextb = "May";
+                                                } elseif ($monthnumberb == 6) {
+                                                    $monthtextb = "June";
+                                                } elseif ($monthnumberb == 7) {
+                                                    $monthtextb = "July";
+                                                } elseif ($monthnumberb == 8) {
+                                                    $monthtextb = "August";
+                                                } elseif ($monthnumberb == 9) {
+                                                    $monthtextb = "September";
+                                                } elseif ($monthnumberb == 10) {
+                                                    $monthtextb = "October";
+                                                } elseif ($monthnumberb == 11) {
+                                                    $monthtextb = "November";
+                                                } elseif ($monthnumberb == 12) {
+                                                    $monthtextb = "December";
+                                                }
+                                            @endphp
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;">{{$monthtextb}}{{$monthwisesb['year']}}</th>
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+                                                <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+                                            @endforeach
+                                        @endforeach
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
+                                    </tr>
+                                    <tr role="row">
+                                        <th style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
+                                        @foreach ($finalsupport as $finalsupports)
+                                            @php
+                                                $monthwise11 = $finalsupports['alldata'];
+                                            @endphp
+                                            @foreach ($monthwise11 as $monthwise111)
+                                                <th style="width: 100px; background-color: black; color: white; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Target</th>
+                                                <th style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Front</th>
+                                                <th style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Back</th>
+                                                <th style="width: 100px; background-color: black; color: #B36F33; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Refund</th>
+                                                <th style="width: 100px; background-color: #666666; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Net Revenue</th>
+                                            @endforeach
+                                        @endforeach
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($collectedDatasupport as $personData1)
+                                        <tr>
+                                            @foreach ($personData1 as $person1)
+                                                @if ($personData1[0] == $person1)
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">{{$person1["name"]}}</td>
+                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">${{$person1["target"]}}</td>
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person1["front"]}}</td>
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person1["back"]}}</td>
+                                                    <td style="width: 100px; background-color: black; color: #C88555;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person1["refund"]}}</td>
+                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person1["net"]}}</td>
+                                                @else
+                                                <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">${{$person1["target"]}}</td>
+                                                <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person1["front"]}}</td>
+                                                <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person1["back"]}}</td>
+                                                <td style="width: 100px; background-color: black; color: #C88555;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person1["refund"]}}</td>
+                                                <td style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person1["net"]}}</td>
+                                                @endif
+                                            @endforeach
+                                            <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;"></td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    @endif
+
                 </div>
         </div>
-
-        {{-- <script>
-            $(document).ready(function () {
-
-
-                $("#searchstats").click(function(event){
-                    event.preventDefault();
-                    let depart = $("#depart");
-                    let month = $("#month");
-                    let year = $("#year");
-                    $.ajax({
-                            url:"/api/fetch-stats",
-                            type:"get",
-                            data:{
-                                "depart":depart.val(),
-                                "month":month.val(),
-                                "year":year.val()
-                            },
-                            beforeSend:(()=>{
-                                depart.attr('disabled','disabled');
-                                month.attr('disabled','disabled');
-                                year.attr('disabled','disabled');
-                                $("#searchstats").text("wait...");
-                                $("#searchstats").attr('disabled','disabled');
-                            }),
-                            success:((Response)=>{
-                                console.log(Response);
-
-
-
-
-                                depart.removeAttr('disabled');
-                                month.removeAttr('disabled');
-                                year.removeAttr('disabled');
-                                $("#searchstats").text("Search");
-                                $("#searchstats").removeAttr('disabled');
-                            }
-                        ),
-                            error:((error)=>{
-                                console.log(error);
-                                alert("Error Found Please Referesh Page And Try Again !")
-
-                                depart.removeAttr('disabled');
-                                month.removeAttr('disabled');
-                                year.removeAttr('disabled');
-                                $("#searchstats").text("Search");
-                                $("#searchstats").removeAttr('disabled');
-                            })
-
-                    });
-                });
-
-
-            });
-        </script> --}}
 
 
 
