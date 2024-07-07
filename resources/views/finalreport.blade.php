@@ -193,15 +193,6 @@
                     {{-- end set 1 --}}
                     <div class="col-12">
                         <br><br>
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-10">
-                                        {{-- <h4>Agents:</h4> --}}
-                                    </div>
-                                    <div class="col-2">
-                                    </div>
-                                </div>
-                            </div>
                             <table id="" class="table-dark table-hover">
                                 <thead>
                                     <tr role="row">
