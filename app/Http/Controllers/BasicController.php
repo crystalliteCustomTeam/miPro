@@ -2810,16 +2810,19 @@ class BasicController extends Controller
             $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         }
 
+
         if ($get_depart != 0) {
             $brands1 = $request->input('depart');
         } else {
             $brands1 = Brand::pluck('id')->toArray();
         }
 
-        if ($get_year == null || $get_month == null || $get_depart == null) {
+        if ($get_year == null && $get_month == null && $get_depart == null) {
             $role = 0;
             $finalfront = 0;
             $finalsupport = 0;
+            $collectedData = 0;
+            $collectedDatasupport = 0;
         } else {
             $role = 1;
             $frontpersons = [];
@@ -3060,28 +3063,35 @@ class BasicController extends Controller
                     "alldata" =>  $monthdataB
                 ];
             }
-        }
 
-        $collectedData = [];
+            $collectedData = [];
 
-        foreach ($finalfront as $yearData) {
-            foreach ($yearData["alldata"] as $monthData) {
-                foreach ($monthData["front"] as $person) {
-                    $collectedData[$person["name"]][] = $person;
+            foreach ($finalfront as $yearData) {
+                foreach ($yearData["alldata"] as $monthData) {
+                    foreach ($monthData["front"] as $person) {
+                        $collectedData[$person["name"]][] = $person;
+                    }
+                }
+            }
+
+
+            $collectedDatasupport = [];
+
+            foreach ($finalsupport as $yearData1) {
+                foreach ($yearData1["alldata"] as $monthData1) {
+                    foreach ($monthData1["back"] as $person1) {
+                        $collectedDatasupport[$person1["name"]][] = $person1;
+                    }
                 }
             }
         }
 
 
-        $collectedDatasupport = [];
+        // echo("<pre>");
+        // print_r($collectedDatasupport);
+        // die();
 
-        foreach ($finalsupport as $yearData1) {
-            foreach ($yearData1["alldata"] as $monthData1) {
-                foreach ($monthData1["back"] as $person1) {
-                    $collectedDatasupport[$person1["name"]][] = $person1;
-                }
-            }
-        }
+
 
         return view('monthStats', [
             'LoginUser' => $loginUser[1],
