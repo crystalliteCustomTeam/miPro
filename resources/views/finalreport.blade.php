@@ -191,7 +191,7 @@
 
                     </div>
                     {{-- end set 1 --}}
-                    <div class="col-12">
+                    {{-- <div class="col-12">
                         <br><br>
                             <table id="" class="table-dark table-hover">
                                 <thead>
@@ -204,8 +204,6 @@
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Refund</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Chargeback</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">N. Total</th>
-                                        {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Exp</th> --}}
-                                        {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Net Total</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody id="employeeTableBody"></tbody>
@@ -222,8 +220,10 @@
                                     </tr>
                                 </tbody>
                             </table>
-                    </div>
+                    </div> --}}
 
+                    <div class="col-12" id="alltables">
+                    </div>
 
                     <div class="col-12">
                         <br><br>
@@ -831,139 +831,365 @@
                                     //----------------------------------------------------------------
 
 
+                                    let employees11 = Response.employeepayment;
+                                    let allTablesDiv = document.getElementById('alltables');
+                                    allTablesDiv.innerHTML = '';
+
+                                    employees11.forEach(employee121 => {
+
+                                        let headingContainer = document.createElement('div');
+                                        headingContainer.className = 'col-12';
+
+                                        let rowDiv = document.createElement('div');
+                                        rowDiv.className = 'row';
+
+                                        let col10Div = document.createElement('div');
+                                        col10Div.className = 'col-10';
+
+                                        let col2Div = document.createElement('div');
+                                        col2Div.className = 'col-2';
+
+                                        let heading = document.createElement('h4');
+                                        heading.style = 'background-color: white; color: black; font-weight: bold;';
+                                        heading.textContent = 'Brand: ' + employee121.brandname;
+
+                                        let lineBreak1 = document.createElement('br');
+                                        let lineBreak2 = document.createElement('br');
+                                        col10Div.appendChild(lineBreak1);
+                                        col10Div.appendChild(lineBreak2);
+
+                                        col10Div.appendChild(heading);
+                                        rowDiv.appendChild(col10Div);
+                                        rowDiv.appendChild(col2Div);
+                                        headingContainer.appendChild(rowDiv);
+                                        allTablesDiv.appendChild(headingContainer);
 
 
 
-                                    let employees = Response.emppaymentarray;
-                                    let tableBody = document.getElementById('employeeTableBody');
-                                    tableBody.innerHTML = '';
-                                    let agentsnettotal1 = [];
+                                        let table = document.createElement('table');
+                                        table.className = 'table-dark table-hover';
 
-                                    employees.forEach(employee => {
+                                        let thead = document.createElement('thead');
+                                        let headerRow = document.createElement('tr');
 
-                                        if(employee){
+                                        let headers = [
+                                            { text: 'Agents Name', style: 'width: 203px; background-color: black; color: white; font-weight: bold; text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
+                                            { text: 'Target', style: 'width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
+                                            { text: 'Revenue', style: 'width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
+                                            { text: 'Front', style: 'width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
+                                            { text: 'Back', style: 'width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
+                                            { text: 'Refund', style: 'width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
+                                            { text: 'Chargeback', style: 'width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
+                                            { text: 'N. Total', style: 'width: 203px; background-color: #5F9B6B; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' }
+                                        ];
 
-                                            if(employee.getcompletesum != 0 ||  employee.getfrontsum != 0 ||  employee.getbacksum != 0 || employee.refund  != 0 || employee.dispute != 0 ){
+                                        headers.forEach(header => {
+                                            let th = document.createElement('th');
+                                            th.textContent = header.text;
+                                            th.setAttribute('style', header.style);
+                                            th.classList.add('wd-15p', 'sorting');
+                                            th.setAttribute('tabindex', '0');
+                                            th.setAttribute('rowspan', '1');
+                                            th.setAttribute('colspan', '1');
+                                            headerRow.appendChild(th);
+                                        });
+
+                                        thead.appendChild(headerRow);
+                                        table.appendChild(thead);
+
+                                        let tbody = document.createElement('tbody');
+                                        let eachbrandwisedata = employee121.data;
+                                        let agentsnettotal1 = [];
+
+                                        eachbrandwisedata.forEach(data => {
+
+                                            if(data.getcompletesum != 0 ||  data.getfrontsum != 0 ||  data.getbacksum != 0 || data.refund  != 0 || data.dispute != 0 ){
 
                                             let row = document.createElement('tr');
 
-                                        let agentname = document.createElement('td');
-                                        agentname.textContent = employee.name;
-                                        agentname.style.backgroundColor = 'black';
-                                        agentname.style.color = 'white';
-                                        agentname.style.borderTop = 'none';
-                                        agentname.style.borderRight = 'none';
-                                        agentname.style.borderLeft = 'none';
-                                        agentname.style.borderBottom = '1px dotted white';
-                                        agentname.style.textAlign = 'center';
-                                        row.appendChild(agentname);
+                                            let agentname = document.createElement('td');
+                                            agentname.textContent = data.name;
+                                            // agentname.setAttribute('style', 'background-color: black; color: white; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted white; text-align: center;');
+                                            agentname.style.backgroundColor = 'black';
+                                            agentname.style.color = 'white';
+                                            agentname.style.borderTop = 'none';
+                                            agentname.style.borderRight = 'none';
+                                            agentname.style.borderLeft = 'none';
+                                            agentname.style.borderBottom = '1px dotted white';
+                                            agentname.style.textAlign = 'center';
+                                            row.appendChild(agentname);
 
-                                        let target = document.createElement('td');
-                                        let aa = employee.agenttarget;
-                                        let bb = (aa !== 0) ?  "$" + aa : "";
-                                        target.textContent = bb;
-                                        target.style.backgroundColor = 'black';
-                                        target.style.color = 'white';
-                                        target.style.textAlign = 'center';
-                                        row.appendChild(target);
+                                            let target = document.createElement('td');
+                                            target.textContent = data.agenttarget !== 0 ? "$" + data.agenttarget : "";
+                                            // target.setAttribute('style', 'background-color: black; color: white; text-align: center;');
+                                            target.style.backgroundColor = 'black';
+                                            target.style.color = 'white';
+                                            target.style.textAlign = 'center';
+                                            row.appendChild(target);
 
-                                        let revenue = document.createElement('td');
-                                        let cc = employee.getcompletesum;
-                                        let dd = (cc !== 0) ?  "$" + cc : "";
-                                        revenue.textContent = dd;
-                                        revenue.style.backgroundColor = 'black';
-                                        revenue.style.color = 'white';
-                                        revenue.style.borderTop = 'none';
-                                        revenue.style.borderRight = 'none';
-                                        revenue.style.borderLeft = 'none';
-                                        revenue.style.borderBottom = '1px dotted white';
-                                        revenue.style.textAlign = 'center';
-                                        row.appendChild(revenue);
+                                            let revenue = document.createElement('td');
+                                            revenue.textContent = data.getcompletesum !== 0 ? "$" + data.getcompletesum : "";
+                                            // revenue.setAttribute('style', 'background-color: black; color: white; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted white; text-align: center;');
+                                            revenue.style.backgroundColor = 'black';
+                                            revenue.style.color = 'white';
+                                            revenue.style.borderTop = 'none';
+                                            revenue.style.borderRight = 'none';
+                                            revenue.style.borderLeft = 'none';
+                                            revenue.style.borderBottom = '1px dotted white';
+                                            revenue.style.textAlign = 'center';
+                                            row.appendChild(revenue);
 
-                                        let front = document.createElement('td');
-                                        let ee = employee.getfrontsum;
-                                        let ff = (ee !== 0) ?  "$" + ee : "";
-                                        front.textContent = ff;
-                                        front.style.backgroundColor = 'black';
-                                        front.style.color = 'white';
-                                        front.style.borderTop = 'none';
-                                        front.style.borderRight = 'none';
-                                        front.style.borderLeft = 'none';
-                                        front.style.borderBottom = '1px dotted white';
-                                        front.style.textAlign = 'center';
-                                        row.appendChild(front);
+                                            let front = document.createElement('td');
+                                            front.textContent = data.getfrontsum !== 0 ? "$" + data.getfrontsum : "";
+                                            // front.setAttribute('style', 'background-color: black; color: white; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted white; text-align: center;');
+                                            front.style.backgroundColor = 'black';
+                                            front.style.color = 'white';
+                                            front.style.borderTop = 'none';
+                                            front.style.borderRight = 'none';
+                                            front.style.borderLeft = 'none';
+                                            front.style.borderBottom = '1px dotted white';
+                                            front.style.textAlign = 'center';
+                                            row.appendChild(front);
 
-                                        let back = document.createElement('td');
-                                        let gg = employee.getbacksum;
-                                        let hh = (gg !== 0) ?  "$" + gg : "";
-                                        back.textContent = hh;
-                                        back.style.backgroundColor = 'black';
-                                        back.style.color = 'white';
-                                        back.style.borderTop = 'none';
-                                        back.style.borderRight = 'none';
-                                        back.style.borderLeft = 'none';
-                                        back.style.borderBottom = '1px dotted white';
-                                        back.style.textAlign = 'center';
-                                        row.appendChild(back);
+                                            let back = document.createElement('td');
+                                            back.textContent = data.getbacksum !== 0 ? "$" + data.getbacksum : "";
+                                            // back.setAttribute('style', 'background-color: black; color: white; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted white; text-align: center;');
+                                            back.style.backgroundColor = 'black';
+                                            back.style.color = 'white';
+                                            back.style.borderTop = 'none';
+                                            back.style.borderRight = 'none';
+                                            back.style.borderLeft = 'none';
+                                            back.style.borderBottom = '1px dotted white';
+                                            back.style.textAlign = 'center';
+                                            row.appendChild(back);
 
-                                        let refund = document.createElement('td');
-                                        let ii = employee.refund;
-                                        let jj = (ii !== 0) ?  "$" + ii : "";
-                                        refund.textContent = jj;
-                                        refund.style.backgroundColor = 'black';
-                                        refund.style.color = 'white';
-                                        refund.style.borderTop = 'none';
-                                        refund.style.borderRight = 'none';
-                                        refund.style.borderLeft = 'none';
-                                        refund.style.borderBottom = '1px dotted white';
-                                        refund.style.textAlign = 'center';
-                                        row.appendChild(refund);
+                                            let refund = document.createElement('td');
+                                            refund.textContent = data.refund !== 0 ? "$" + data.refund : "";
+                                            // refund.setAttribute('style', 'background-color: black; color: white; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted white; text-align: center;');
+                                            refund.style.backgroundColor = 'black';
+                                            refund.style.color = 'white';
+                                            refund.style.borderTop = 'none';
+                                            refund.style.borderRight = 'none';
+                                            refund.style.borderLeft = 'none';
+                                            refund.style.borderBottom = '1px dotted white';
+                                            refund.style.textAlign = 'center';
+                                            row.appendChild(refund);
 
-                                        let chargeback = document.createElement('td');
-                                        let kk = employee.dispute;
-                                        let ll = (kk !==0) ?  "$" + kk : "";
-                                        chargeback.textContent = ll;
-                                        chargeback.style.backgroundColor = 'black';
-                                        chargeback.style.color = 'white';
-                                        chargeback.style.borderTop = 'none';
-                                        chargeback.style.borderRight = 'none';
-                                        chargeback.style.borderLeft = 'none';
-                                        chargeback.style.borderBottom = '1px dotted white';
-                                        chargeback.style.textAlign = 'center';
-                                        row.appendChild(chargeback);
+                                            let chargeback = document.createElement('td');
+                                            chargeback.textContent = data.dispute !== 0 ? "$" + data.dispute : "";
+                                            // chargeback.setAttribute('style', 'background-color: black; color: white; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted white; text-align: center;');
+                                            chargeback.style.backgroundColor = 'black';
+                                            chargeback.style.color = 'white';
+                                            chargeback.style.borderTop = 'none';
+                                            chargeback.style.borderRight = 'none';
+                                            chargeback.style.borderLeft = 'none';
+                                            chargeback.style.borderBottom = '1px dotted white';
+                                            chargeback.style.textAlign = 'center';
+                                            row.appendChild(chargeback);
 
-                                        let ntotal = document.createElement('td');
-                                        let mm = employee.getcompletesum - employee.refund - employee.dispute;
-                                        let nn = (mm !==0) ?  "$" + mm : "";
-                                        ntotal.textContent = nn;
-                                        // ntotal.textContent = ll;
-                                        if (employee.agenttarget == mm || employee.agenttarget < mm) {
-                                            ntotal.style.backgroundColor = '#00FF00';
-                                            ntotal.style.color = 'black';
-                                        } else {
-                                            ntotal.style.backgroundColor = 'black';
-                                            ntotal.style.color = 'white';
+                                            let ntotal = document.createElement('td');
+                                            let netTotal = data.getcompletesum - data.refund - data.dispute;
+                                            ntotal.textContent = netTotal !== 0 ? "$" + netTotal : "";
+                                            if (data.agenttarget <= netTotal) {
+                                                ntotal.setAttribute('style', 'background-color: #00FF00; color: black; border-top: none; border-right: 1px solid #00FF00; border-left: none; border-bottom: 1px dotted white; text-align: center;');
+                                            } else if (data.agenttarget > netTotal) {
+                                                ntotal.setAttribute('style', 'background-color: #FF0000; color: black; border-top: none; border-right: 1px solid #00FF00; border-left: none; border-bottom: 1px dotted white; text-align: center;');
+                                            } else {
+                                                ntotal.setAttribute('style', 'background-color: black; color: white; border-top: none; border-right: 1px solid #00FF00; border-left: none; border-bottom: 1px dotted white; text-align: center;');
+                                            }
+
+                                            row.appendChild(ntotal);
+
+                                            agentsnettotal1.push(parseFloat(netTotal));
+
+                                            tbody.appendChild(row);
+
                                         }
+                                        });
 
-                                        ntotal.style.borderTop = 'none';
-                                        ntotal.style.borderRight = '1px solid #00FF00';
-                                        ntotal.style.borderLeft = 'none';
-                                        ntotal.style.borderBottom = '1px dotted white';
-                                        ntotal.style.textAlign = 'center';
-                                        row.appendChild(ntotal);
+                                        let sumagentstotal = agentsnettotal1.reduce((acc, curr) => acc + curr, 0);
+                                        let y = (sumagentstotal !== 0) ? "$" + sumagentstotal : "";
 
-                                        agentsnettotal1.push(parseFloat(employee.getcompletesum - employee.refund - employee.dispute));
+                                        let row1 = document.createElement('tr');
 
-                                        tableBody.appendChild(row);
+                                        let blank1 = document.createElement('td');
+                                        blank1.textContent = "";
+                                        blank1.setAttribute('style', 'background-color: black;');
+                                        row1.appendChild(blank1);
 
-                                        }};
+                                        let blank2 = document.createElement('td');
+                                        blank2.textContent = "";
+                                        blank2.setAttribute('style', 'background-color: black;');
+                                        row1.appendChild(blank2);
 
+                                        let blank3 = document.createElement('td');
+                                        blank3.textContent = "";
+                                        blank3.setAttribute('style', 'background-color: black;');
+                                        row1.appendChild(blank3);
+
+                                        let blank4 = document.createElement('td');
+                                        blank4.textContent = "";
+                                        blank4.setAttribute('style', 'background-color: black;');
+                                        row1.appendChild(blank4);
+
+                                        let blank5 = document.createElement('td');
+                                        blank5.textContent = "";
+                                        blank5.setAttribute('style', 'background-color: black;');
+                                        row1.appendChild(blank5);
+
+                                        let blank6 = document.createElement('td');
+                                        blank6.textContent = "";
+                                        blank6.setAttribute('style', 'background-color: black;');
+                                        row1.appendChild(blank6);
+
+                                        let blank7 = document.createElement('td');
+                                        blank7.textContent = "Total";
+                                        blank7.setAttribute('style', 'background-color: black; color: white; font-weight: bold; text-align: center;');
+                                        row1.appendChild(blank7);
+
+                                        let blank8 = document.createElement('td');
+                                        blank8.textContent = y;
+                                        blank8.setAttribute('style', 'background-color: #66B2FF; color: white; font-weight: bold; text-align: center; border:  3px double white;');
+                                        row1.appendChild(blank8);
+
+                                        tbody.appendChild(row1);
+
+
+                                        table.appendChild(tbody);
+                                        allTablesDiv.appendChild(table);
 
                                     });
 
-                                    let sumagentstotal = agentsnettotal1.reduce((acc, curr) => acc + curr, 0);
-                                    let y = (sumagentstotal !== 0) ?  "$" + sumagentstotal : "";
-                                    document.getElementById("agentsnettotal").innerHTML = y;
+
+
+                                    // let employees = Response.emppaymentarray1;
+                                    // let tableBody = document.getElementById('employeeTableBody');
+                                    // tableBody.innerHTML = '';
+
+                                    // employees.forEach(employee => {
+
+                                    //     if(employee){
+
+                                    //         if(employee.getcompletesum != 0 ||  employee.getfrontsum != 0 ||  employee.getbacksum != 0 || employee.refund  != 0 || employee.dispute != 0 ){
+
+                                    //             let row = document.createElement('tr');
+                                    //             let agentname = document.createElement('td');
+                                    //             agentname.textContent = employee.name;
+                                    //             agentname.style.backgroundColor = 'black';
+                                    //             agentname.style.color = 'white';
+                                    //             agentname.style.borderTop = 'none';
+                                    //             agentname.style.borderRight = 'none';
+                                    //             agentname.style.borderLeft = 'none';
+                                    //             agentname.style.borderBottom = '1px dotted white';
+                                    //             agentname.style.textAlign = 'center';
+                                    //             row.appendChild(agentname);
+
+                                    //             let target = document.createElement('td');
+                                    //             let aa = employee.agenttarget;
+                                    //             let bb = (aa !== 0) ?  "$" + aa : "";
+                                    //             target.textContent = bb;
+                                    //             target.style.backgroundColor = 'black';
+                                    //             target.style.color = 'white';
+                                    //             target.style.textAlign = 'center';
+                                    //             row.appendChild(target);
+
+                                    //             let revenue = document.createElement('td');
+                                    //             let cc = employee.getcompletesum;
+                                    //             let dd = (cc !== 0) ?  "$" + cc : "";
+                                    //             revenue.textContent = dd;
+                                    //             revenue.style.backgroundColor = 'black';
+                                    //             revenue.style.color = 'white';
+                                    //             revenue.style.borderTop = 'none';
+                                    //             revenue.style.borderRight = 'none';
+                                    //             revenue.style.borderLeft = 'none';
+                                    //             revenue.style.borderBottom = '1px dotted white';
+                                    //             revenue.style.textAlign = 'center';
+                                    //             row.appendChild(revenue);
+
+                                    //             let front = document.createElement('td');
+                                    //             let ee = employee.getfrontsum;
+                                    //             let ff = (ee !== 0) ?  "$" + ee : "";
+                                    //             front.textContent = ff;
+                                    //             front.style.backgroundColor = 'black';
+                                    //             front.style.color = 'white';
+                                    //             front.style.borderTop = 'none';
+                                    //             front.style.borderRight = 'none';
+                                    //             front.style.borderLeft = 'none';
+                                    //             front.style.borderBottom = '1px dotted white';
+                                    //             front.style.textAlign = 'center';
+                                    //             row.appendChild(front);
+
+                                    //             let back = document.createElement('td');
+                                    //             let gg = employee.getbacksum;
+                                    //             let hh = (gg !== 0) ?  "$" + gg : "";
+                                    //             back.textContent = hh;
+                                    //             back.style.backgroundColor = 'black';
+                                    //             back.style.color = 'white';
+                                    //             back.style.borderTop = 'none';
+                                    //             back.style.borderRight = 'none';
+                                    //             back.style.borderLeft = 'none';
+                                    //             back.style.borderBottom = '1px dotted white';
+                                    //             back.style.textAlign = 'center';
+                                    //             row.appendChild(back);
+
+                                    //             let refund = document.createElement('td');
+                                    //             let ii = employee.refund;
+                                    //             let jj = (ii !== 0) ?  "$" + ii : "";
+                                    //             refund.textContent = jj;
+                                    //             refund.style.backgroundColor = 'black';
+                                    //             refund.style.color = 'white';
+                                    //             refund.style.borderTop = 'none';
+                                    //             refund.style.borderRight = 'none';
+                                    //             refund.style.borderLeft = 'none';
+                                    //             refund.style.borderBottom = '1px dotted white';
+                                    //             refund.style.textAlign = 'center';
+                                    //             row.appendChild(refund);
+
+                                    //             let chargeback = document.createElement('td');
+                                    //             let kk = employee.dispute;
+                                    //             let ll = (kk !==0) ?  "$" + kk : "";
+                                    //             chargeback.textContent = ll;
+                                    //             chargeback.style.backgroundColor = 'black';
+                                    //             chargeback.style.color = 'white';
+                                    //             chargeback.style.borderTop = 'none';
+                                    //             chargeback.style.borderRight = 'none';
+                                    //             chargeback.style.borderLeft = 'none';
+                                    //             chargeback.style.borderBottom = '1px dotted white';
+                                    //             chargeback.style.textAlign = 'center';
+                                    //             row.appendChild(chargeback);
+
+                                    //             let ntotal = document.createElement('td');
+                                    //             let mm = employee.getcompletesum - employee.refund - employee.dispute;
+                                    //             let nn = (mm !==0) ?  "$" + mm : "";
+                                    //             ntotal.textContent = nn;
+                                    //             // ntotal.textContent = ll;
+                                    //             if (employee.agenttarget == mm || employee.agenttarget < mm) {
+                                    //                 ntotal.style.backgroundColor = '#00FF00';
+                                    //                 ntotal.style.color = 'black';
+                                    //             } else {
+                                    //                 ntotal.style.backgroundColor = 'black';
+                                    //                 ntotal.style.color = 'white';
+                                    //             }
+
+                                    //             ntotal.style.borderTop = 'none';
+                                    //             ntotal.style.borderRight = '1px solid #00FF00';
+                                    //             ntotal.style.borderLeft = 'none';
+                                    //             ntotal.style.borderBottom = '1px dotted white';
+                                    //             ntotal.style.textAlign = 'center';
+                                    //             row.appendChild(ntotal);
+
+                                    //             agentsnettotal1.push(parseFloat(employee.getcompletesum - employee.refund - employee.dispute));
+
+                                    //             tableBody.appendChild(row);
+
+                                    //         }
+                                    //     };
+
+                                    // });
+
+                                    // let sumagentstotal = agentsnettotal1.reduce((acc, curr) => acc + curr, 0);
+                                    // let y = (sumagentstotal !== 0) ?  "$" + sumagentstotal : "";
+                                    // document.getElementById("agentsnettotal").innerHTML = y;
                                     //----------------------------------------------------------------
 
 
