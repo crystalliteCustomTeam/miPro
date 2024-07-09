@@ -402,12 +402,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($collectedData as $personData)
+                                    @foreach ($collectedData as $index => $personData)
                                         <tr>
-                                            @foreach ($personData as $person)
                                             @php
                                                 $z = 0;
                                             @endphp
+                                            @foreach ($personData as $person)
                                                 @if ($personData[0] == $person)
                                                     <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">{{$person["name"]}}</td>
                                                     <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">${{$person["target"]}}</td>
@@ -424,7 +424,7 @@
                                                 @endif
                                                 @php
                                                 $z += $person["net"];
-                                            @endphp
+                                                @endphp
                                             @endforeach
                                             @php
                                             $indexCount1 = count($personData);
