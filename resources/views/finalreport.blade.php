@@ -424,7 +424,7 @@
 
                     <div class="col-12">
                         <br><br>
-                        <div class="col-12">
+                        {{-- <div class="col-12">
                             <div class="row">
                                 <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Daily Target Tracking:</h4></div>
                                 <div class="col-2">
@@ -446,55 +446,7 @@
                             </thead>
                             <tbody id="dailytargtesales"></tbody>
                         </table>
-                        <br><br>
-                        {{-- <div class="col-12">
-                            <div class="row">
-                                <div class="col-10"><h4>Target Chasing Graph:</h4></div>
-                                <div class="col-2">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div id="linechart_material"></div>
-                                    <script type="text/javascript">
-                                        function displayforeast(chartId, brandData, brandName) {
-                                            google.charts.load('current', {'packages':['line']});
-
-                                            google.charts.setOnLoadCallback(function () {
-                                                drawChart(chartId, brandData, brandName);
-                                            });
-
-                                            function drawChart(chartId, brandData, brandName) {
-                                                var data = new google.visualization.DataTable();
-                                                data.addColumn('string', 'Date');
-                                                data.addColumn('number', 'Revenue');
-                                                data.addColumn('number', 'Forecast');
-                                                data.addColumn('number', 'Target');
-
-                                                // Convert brand data to rows
-                                                let rows = [];
-                                                Object.keys(brandData).forEach(date => {
-                                                    let rowData = brandData[date];
-                                                    rows.push([date, rowData.revenue, rowData.revenueforeast, rowData.Target]);
-                                                });
-                                                data.addRows(rows);
-
-                                                var options = {
-                                                    'title': brandName + ' Target Chasing Graph:',
-                                                    // colors: ['green', 'red', 'purple'],
-                                                    width: 900,
-                                                    height: 500
-                                                };
-
-                                                var chart = new google.charts.Line(document.getElementById(chartId));
-                                                chart.draw(data, google.charts.Line.convertOptions(options));
-                                            }
-                                        }
-                                    </script>
-                                </div>
-                            </div>
-
-                        </div> --}}
+                        <br><br> --}}
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Target Chasing Graph:</h4></div>
@@ -865,6 +817,8 @@
 
                                     employees11.forEach(employee121 => {
 
+                                        if(employee121.check == "True"){
+
                                         let headingContainer = document.createElement('div');
                                         headingContainer.className = 'col-12';
 
@@ -1085,6 +1039,7 @@
 
                                         table.appendChild(tbody);
                                         allTablesDiv.appendChild(table);
+                                    }
 
                                     });
 
@@ -1566,102 +1521,102 @@
 
                                     });
 
-                                    let dailytarget = Response.days;
+                                    // let dailytarget = Response.days;
 
 
-                                        let dailytargtesales = document.getElementById('dailytargtesales');
-                                        dailytargtesales.innerHTML = '';
+                                    //     let dailytargtesales = document.getElementById('dailytargtesales');
+                                    //     dailytargtesales.innerHTML = '';
 
-                                        for (let i = 0; i < dailytarget[0].data.length; i++) {
-                                            dailytarget.forEach(dailytargets => {
+                                    //     for (let i = 0; i < dailytarget[0].data.length; i++) {
+                                    //         dailytarget.forEach(dailytargets => {
 
-                                                if( dailytargets.date != 'nothing'){
-                                                let rowsales = document.createElement('tr');
+                                    //             if( dailytargets.date != 'nothing'){
+                                    //             let rowsales = document.createElement('tr');
 
-                                                let date = document.createElement('td');
-                                                date.textContent = dailytargets.date;
-                                                date.style.backgroundColor = '#FCFBFF';
-                                                date.style.color = 'black';
-                                                date.style.border = '1px solid #E6CCFF';
-                                                date.style.textAlign = 'center';
-                                                rowsales.appendChild(date);
+                                    //             let date = document.createElement('td');
+                                    //             date.textContent = dailytargets.date;
+                                    //             date.style.backgroundColor = '#FCFBFF';
+                                    //             date.style.color = 'black';
+                                    //             date.style.border = '1px solid #E6CCFF';
+                                    //             date.style.textAlign = 'center';
+                                    //             rowsales.appendChild(date);
 
-                                                let brand = document.createElement('td');
-                                                brand.textContent = dailytargets.data[i].brand;
-                                                brand.style.backgroundColor = '#FCFBFF';
-                                                brand.style.color = 'black';
-                                                brand.style.border = '1px solid #E6CCFF';
-                                                brand.style.textAlign = 'center';
-                                                rowsales.appendChild(brand);
+                                    //             let brand = document.createElement('td');
+                                    //             brand.textContent = dailytargets.data[i].brand;
+                                    //             brand.style.backgroundColor = '#FCFBFF';
+                                    //             brand.style.color = 'black';
+                                    //             brand.style.border = '1px solid #E6CCFF';
+                                    //             brand.style.textAlign = 'center';
+                                    //             rowsales.appendChild(brand);
 
-                                                let front = document.createElement('td');
-                                                let a4 =  dailytargets.data[i].front;
-                                                let a5 = (a4 !==0) ?  "$" + a4 : "";
-                                                front.textContent = a5;
-                                                front.style.backgroundColor = '#FCFBFF';
-                                                front.style.color = 'black';
-                                                front.style.border = '1px solid #E6CCFF';
-                                                front.style.textAlign = 'center';
-                                                rowsales.appendChild(front);
+                                    //             let front = document.createElement('td');
+                                    //             let a4 =  dailytargets.data[i].front;
+                                    //             let a5 = (a4 !==0) ?  "$" + a4 : "";
+                                    //             front.textContent = a5;
+                                    //             front.style.backgroundColor = '#FCFBFF';
+                                    //             front.style.color = 'black';
+                                    //             front.style.border = '1px solid #E6CCFF';
+                                    //             front.style.textAlign = 'center';
+                                    //             rowsales.appendChild(front);
 
-                                                let upsell = document.createElement('td');
-                                                let a6 =  dailytargets.data[i].upsell;
-                                                let a7 = (a6 !==0) ?  "$" + a6 : "";
-                                                upsell.textContent = a7;
-                                                upsell.style.backgroundColor = '#FCFBFF';
-                                                upsell.style.color = 'black';
-                                                upsell.style.border = '1px solid #E6CCFF';
-                                                upsell.style.textAlign = 'center';
-                                                rowsales.appendChild(upsell);
+                                    //             let upsell = document.createElement('td');
+                                    //             let a6 =  dailytargets.data[i].upsell;
+                                    //             let a7 = (a6 !==0) ?  "$" + a6 : "";
+                                    //             upsell.textContent = a7;
+                                    //             upsell.style.backgroundColor = '#FCFBFF';
+                                    //             upsell.style.color = 'black';
+                                    //             upsell.style.border = '1px solid #E6CCFF';
+                                    //             upsell.style.textAlign = 'center';
+                                    //             rowsales.appendChild(upsell);
 
-                                                let renewal = document.createElement('td');
-                                                let a8 =  dailytargets.data[i].renewal;
-                                                let a9 = (a8 !==0) ?  "$" + a8 : "";
-                                                renewal.textContent = a9;
-                                                renewal.style.backgroundColor = '#FCFBFF';
-                                                renewal.style.color = 'black';
-                                                renewal.style.border = '1px solid #E6CCFF';
-                                                renewal.style.textAlign = 'center';
-                                                rowsales.appendChild(renewal);
+                                    //             let renewal = document.createElement('td');
+                                    //             let a8 =  dailytargets.data[i].renewal;
+                                    //             let a9 = (a8 !==0) ?  "$" + a8 : "";
+                                    //             renewal.textContent = a9;
+                                    //             renewal.style.backgroundColor = '#FCFBFF';
+                                    //             renewal.style.color = 'black';
+                                    //             renewal.style.border = '1px solid #E6CCFF';
+                                    //             renewal.style.textAlign = 'center';
+                                    //             rowsales.appendChild(renewal);
 
-                                                let agregatesales = document.createElement('td');
-                                                let a10 =  dailytargets.data[i].Aggregated_Sales;
-                                                let a11 = (a10 !==0) ?  "$" + a10 : "";
-                                                agregatesales.textContent = a11;
-                                                agregatesales.style.backgroundColor = '#FCFBFF';
-                                                agregatesales.style.color = 'black';
-                                                agregatesales.style.border = '1px solid #E6CCFF';
-                                                agregatesales.style.textAlign = 'center';
-                                                rowsales.appendChild(agregatesales);
+                                    //             let agregatesales = document.createElement('td');
+                                    //             let a10 =  dailytargets.data[i].Aggregated_Sales;
+                                    //             let a11 = (a10 !==0) ?  "$" + a10 : "";
+                                    //             agregatesales.textContent = a11;
+                                    //             agregatesales.style.backgroundColor = '#FCFBFF';
+                                    //             agregatesales.style.color = 'black';
+                                    //             agregatesales.style.border = '1px solid #E6CCFF';
+                                    //             agregatesales.style.textAlign = 'center';
+                                    //             rowsales.appendChild(agregatesales);
 
-                                                let target = document.createElement('td');
-                                                let a12 =  dailytargets.data[i].Target;
-                                                let a13 = (a12 !==0) ?  "$" + a12 : "";
-                                                target.textContent = a13;
-                                                target.style.backgroundColor = '#FCFBFF';
-                                                target.style.color = 'black';
-                                                target.style.border = '1px solid #E6CCFF';
-                                                target.style.textAlign = 'center';
-                                                rowsales.appendChild(target);
+                                    //             let target = document.createElement('td');
+                                    //             let a12 =  dailytargets.data[i].Target;
+                                    //             let a13 = (a12 !==0) ?  "$" + a12 : "";
+                                    //             target.textContent = a13;
+                                    //             target.style.backgroundColor = '#FCFBFF';
+                                    //             target.style.color = 'black';
+                                    //             target.style.border = '1px solid #E6CCFF';
+                                    //             target.style.textAlign = 'center';
+                                    //             rowsales.appendChild(target);
 
-                                                let dailytargetCell = document.createElement('td');
-                                                let aa1 = dailytargets.data[i].Daily_Target;
-                                                let aa2 = (parseInt(aa1) !== 0) ?  "$" + aa1 : "";
-                                                dailytargetCell.textContent = aa2;
-                                                dailytargetCell.style.backgroundColor = '#FCFBFF';
-                                                dailytargetCell.style.color = 'black';
-                                                dailytargetCell.style.border = '1px solid #E6CCFF';
-                                                dailytargetCell.style.textAlign = 'center';
-                                                rowsales.appendChild(dailytargetCell);
+                                    //             let dailytargetCell = document.createElement('td');
+                                    //             let aa1 = dailytargets.data[i].Daily_Target;
+                                    //             let aa2 = (parseInt(aa1) !== 0) ?  "$" + aa1 : "";
+                                    //             dailytargetCell.textContent = aa2;
+                                    //             dailytargetCell.style.backgroundColor = '#FCFBFF';
+                                    //             dailytargetCell.style.color = 'black';
+                                    //             dailytargetCell.style.border = '1px solid #E6CCFF';
+                                    //             dailytargetCell.style.textAlign = 'center';
+                                    //             rowsales.appendChild(dailytargetCell);
 
-                                                dailytargtesales.appendChild(rowsales);
-
-
-                                                }
+                                    //             dailytargtesales.appendChild(rowsales);
 
 
-                                            });
-                                        }
+                                    //             }
+
+
+                                    //         });
+                                    //     }
 
                                         let refundGraphData = Response.disputegraph;
                                         let refundGraphContainer = document.getElementById('refundgraph');

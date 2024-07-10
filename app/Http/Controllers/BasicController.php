@@ -2043,7 +2043,7 @@ class BasicController extends Controller
         if (isset($employees[0]->id) && $employees[0]->id != null) {
             foreach ($allbrandarray as $allbrandarrays) {
                 $brandwise = [];
-                $eachbrandname = Brand::where('id',$allbrandarrays)->get();
+                $eachbrandname = Brand::where('id', $allbrandarrays)->get();
                 foreach ($employees as $employee) {
                     $getcomplete = DB::table('newpaymentsclients')
                         ->whereIn(DB::raw('YEAR(paymentDate)'), $years)
@@ -2174,11 +2174,40 @@ class BasicController extends Controller
                     ];
                 }
 
+                $checkcomplesum = 0;
+                $checkrefundsum = 0;
+                $checkdisputesum = 0;
+
+                foreach ($brandwise as $brandwises) {
+                    // Sum the values of the inner arrays
+                    $checkcomplesum += $brandwises["getcompletesum"];
+                    $checkrefundsum += $brandwises["refund"];
+                    $checkdisputesum += $brandwises["dispute"];
+                }
+
+                if ($checkcomplesum != 0 && $checkrefundsum == 0 && $checkdisputesum == 0) {
+                    $check = "True";
+                } elseif ($checkcomplesum == 0 && $checkrefundsum != 0 && $checkdisputesum == 0) {
+                    $check = "True";
+                } elseif ($checkcomplesum == 0 && $checkrefundsum == 0 && $checkdisputesum != 0) {
+                    $check = "True";
+                } elseif ($checkcomplesum != 0 && $checkrefundsum != 0 && $checkdisputesum == 0) {
+                    $check = "True";
+                } elseif ($checkcomplesum == 0 && $checkrefundsum != 0 && $checkdisputesum != 0) {
+                    $check = "True";
+                } elseif ($checkcomplesum != 0 && $checkrefundsum == 0 && $checkdisputesum != 0) {
+                    $check = "True";
+                } elseif ($checkcomplesum != 0 && $checkrefundsum != 0 && $checkdisputesum != 0) {
+                    $check = "True";
+                } else {
+                    $check = "False";
+                }
+
                 $employeepayment[] = [
                     'brandname' => $eachbrandname[0]->name,
-                    'data' => $brandwise
+                    'data' => $brandwise,
+                    'check' => $check
                 ];
-
             }
             //employees todays payment:
             $employeetodayspayment = [];
@@ -2210,7 +2239,8 @@ class BasicController extends Controller
                 // 'refund' => 0,
                 // 'agenttarget' => 0
                 'brandname' => 0,
-                'data' => 0
+                'data' => 0,
+                'check' => "False"
             ];
 
             $employeetodayspayment[] = [
@@ -2219,11 +2249,6 @@ class BasicController extends Controller
                 'allrevenue' => 0
             ];
         }
-
-        // print_r($employeepayment);
-        // die();
-
-
 
         foreach ($allbrandarray as $allbrandarrays) {
 
@@ -2688,9 +2713,6 @@ class BasicController extends Controller
             }
         }
 
-        // print_r($onlydisputes);
-        // die();
-
         $return_array = [
             "netrevenue" => $allbrandsrev,
             "brandtoday" => $allbrandtodayspayments,
@@ -2931,15 +2953,6 @@ class BasicController extends Controller
             }
 
             $years = array_reverse($years);
-
-            $currentYear = date("Y");
-            $years = [];
-
-            for ($i = 0; $i < 5; $i++) {
-                $years[] = $currentYear - $i;
-            }
-
-            $years = array_reverse($years);
         }
 
         if ($get_month != 0) {
@@ -2947,7 +2960,6 @@ class BasicController extends Controller
         } else {
             $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         }
-
 
         if ($get_depart != 0) {
             $brands1 = $request->input('depart');
@@ -3057,12 +3069,40 @@ class BasicController extends Controller
 
                         $allcbsF = $getdisputeF + $getrefundF;
 
+                        if ($month == 1) {
+                            $montha = "January";
+                        } elseif ($month == 2) {
+                            $montha = "February";
+                        } elseif ($month == 3) {
+                            $montha = "March";
+                        } elseif ($month == 4) {
+                            $montha = "April";
+                        } elseif ($month == 5) {
+                            $montha = "May";
+                        } elseif ($month == 6) {
+                            $montha = "June";
+                        } elseif ($month == 7) {
+                            $montha = "July";
+                        } elseif ($month == 8) {
+                            $montha = "August";
+                        } elseif ($month == 9) {
+                            $montha = "September";
+                        } elseif ($month == 10) {
+                            $montha = "October";
+                        } elseif ($month == 11) {
+                            $montha = "November";
+                        } elseif ($month == 12) {
+                            $montha = "December";
+                        }
+                        $agenttargets1 =  AgentTarget::where('AgentID', $employeefront)
+                            ->whereIn('Year', $years)
+                            ->sum($montha);
 
                         $dataF[] = [
                             "year" => $year,
                             "month" => $month,
                             "name" => $frontpersonname[0]->name,
-                            "target" => 0,
+                            "target" => $agenttargets1,
                             "front" => $getfrontsumF,
                             "back" => $getbacksumF,
                             "refund" => $allcbsF,
@@ -3121,11 +3161,40 @@ class BasicController extends Controller
 
                         $allcbsB = $getdisputeB + $getrefundB;
 
+                        if ($month == 1) {
+                            $montha = "January";
+                        } elseif ($month == 2) {
+                            $montha = "February";
+                        } elseif ($month == 3) {
+                            $montha = "March";
+                        } elseif ($month == 4) {
+                            $montha = "April";
+                        } elseif ($month == 5) {
+                            $montha = "May";
+                        } elseif ($month == 6) {
+                            $montha = "June";
+                        } elseif ($month == 7) {
+                            $montha = "July";
+                        } elseif ($month == 8) {
+                            $montha = "August";
+                        } elseif ($month == 9) {
+                            $montha = "September";
+                        } elseif ($month == 10) {
+                            $montha = "October";
+                        } elseif ($month == 11) {
+                            $montha = "November";
+                        } elseif ($month == 12) {
+                            $montha = "December";
+                        }
+                        $agenttargets2 =  AgentTarget::where('AgentID', $employeeback)
+                            ->whereIn('Year', $years)
+                            ->sum($montha);
+
                         $dataB[] = [
                             "year" => $year,
                             "month" => $month,
                             "name" => $supportpersonname[0]->name,
-                            "target" => 0,
+                            "target" => $agenttargets2,
                             "front" => $getfrontsumB,
                             "back" => $getbacksumB,
                             "refund" => $allcbsB,
@@ -3138,58 +3207,6 @@ class BasicController extends Controller
                         "month" => $month,
                         "back" => $dataB
                     ];
-
-                    //         $countuserexist = AgentTarget::where('AgentID', $employee->id)
-                    //         ->whereIn('Year', $years)
-                    //         ->count();
-                    //     $monthsum = [];
-                    //     if ($countuserexist > 0) {
-
-                    //         foreach ($months as $month) {
-
-                    //             if ($month == 1) {
-                    //                 $montha = "January";
-                    //             } elseif ($month == 2) {
-                    //                 $montha = "February";
-                    //             } elseif ($month == 3) {
-                    //                 $montha = "March";
-                    //             } elseif ($month == 4) {
-                    //                 $montha = "April";
-                    //             } elseif ($month == 5) {
-                    //                 $montha = "May";
-                    //             } elseif ($month == 6) {
-                    //                 $montha = "June";
-                    //             } elseif ($month == 7) {
-                    //                 $montha = "July";
-                    //             } elseif ($month == 8) {
-                    //                 $montha = "August";
-                    //             } elseif ($month == 9) {
-                    //                 $montha = "September";
-                    //             } elseif ($month == 10) {
-                    //                 $montha = "October";
-                    //             } elseif ($month == 11) {
-                    //                 $montha = "November";
-                    //             } elseif ($month == 12) {
-                    //                 $montha = "December";
-                    //             }
-                    //             $agenttargets =  AgentTarget::where('AgentID', $employee->id)
-                    //                 ->whereIn('Year', $years)
-                    //                 ->sum($montha);
-
-                    //             $monthsum[] = [$agenttargets];
-                    //         }
-
-                    //         $agenttarget = 0;
-
-                    //         foreach ($monthsum as $innerArray) {
-                    //             // Sum the values of the inner arrays
-                    //             $agenttarget += $innerArray[0];
-                    //         }
-
-
-
-                    // }
-
                 }
                 $finalfront[] = [
                     "year" => $year,
@@ -3212,7 +3229,6 @@ class BasicController extends Controller
                 }
             }
 
-
             $collectedDatasupport = [];
 
             foreach ($finalsupport as $yearData1) {
@@ -3223,13 +3239,6 @@ class BasicController extends Controller
                 }
             }
         }
-
-
-        // echo("<pre>");
-        // print_r($collectedDatasupport);
-        // die();
-
-
 
         return view('monthStats', [
             'LoginUser' => $loginUser[1],
@@ -3243,6 +3252,7 @@ class BasicController extends Controller
             'role' => $role,
         ]);
     }
+
 
     public function datewisedata(Request $request)
     {
