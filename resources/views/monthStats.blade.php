@@ -383,6 +383,7 @@
                                             @endforeach
                                         @endforeach
                                         <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> Short Fall </th>
                                     </tr>
                                     <tr role="row">
                                         <th style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
@@ -399,6 +400,7 @@
                                             @endforeach
                                         @endforeach
                                         <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -406,6 +408,7 @@
                                         <tr>
                                             @php
                                                 $z = 0;
+                                                $z1 = 0;
                                             @endphp
                                             @foreach ($personData as $person)
                                                 @if ($personData[0] == $person)
@@ -424,6 +427,7 @@
                                                 @endif
                                                 @php
                                                 $z += $person["net"];
+                                                $z1 += $person["target"];
                                                 @endphp
                                             @endforeach
                                             @php
@@ -431,8 +435,10 @@
                                             $y = (int)$indexCount1;
                                             $currentAvgNet1 = $z / $y;
                                             $roundedAvgNet1 = round($currentAvgNet1, 2);
+                                            $shortfall = $z1 - $z;
                                             @endphp
                                             <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{ $roundedAvgNet1}}</td>
+                                            <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{ $shortfall}}</td>
                                         </tr>
                                     @endforeach
 
@@ -523,6 +529,7 @@
                                             @endforeach
                                         @endforeach
                                         <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> Short Fall </th>
                                     </tr>
                                     <tr role="row">
                                         <th style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
@@ -539,6 +546,7 @@
                                             @endforeach
                                         @endforeach
                                         <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -546,6 +554,7 @@
                                         <tr>
                                             @php
                                                 $a = 0;
+                                                $a1 = 0;
                                             @endphp
                                             @foreach ($personData1 as $person1)
                                                 @if ($personData1[0] == $person1)
@@ -565,6 +574,7 @@
 
                                                 @php
                                                     $a += $person1["net"];
+                                                    $a1 += $person1["target"];
                                                 @endphp
                                             @endforeach
                                             @php
@@ -572,8 +582,10 @@
                                             $b = (int)$indexCount;
                                             $currentAvgNet = $a / $b;
                                             $roundedAvgNet = round($currentAvgNet, 2);
+                                            $shortfall1 = $a1 - $a;
                                             @endphp
                                             <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{ $roundedAvgNet}}</td>
+                                            <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{ $shortfall1}}</td>
                                         </tr>
                                     @endforeach
 
