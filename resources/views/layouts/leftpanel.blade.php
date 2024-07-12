@@ -179,6 +179,7 @@
           {{-- <li class="sub-item"><a href="/allpaymentdashboard" class="sub-link">All Brand Payment Dashboard</a></li> --}}
           <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">Payment Dashboard</a></li>
           <li class="sub-item"><a href="/stats/{id?}" class="sub-link">Quarterly Sales Report</a></li>
+          <li class="sub-item"><a href="/yearly/brand/stats/{id?}" class="sub-link">Yearly Brand Report</a></li>
           {{-- <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">--</a></li> --}}
         </ul>
       </li><!-- br-menu-item -->

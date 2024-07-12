@@ -472,10 +472,16 @@
 
                                 // Convert brand data to rows
                                 let rows = [];
-                                Object.keys(brandData).forEach(date => {
-                                    let rowData = brandData[date];
-                                    rows.push([date, rowData.revenue, rowData.revenueforeast, rowData.Target]);
+                                // Object.keys(brandData).forEach(date => {
+                                //     let rowData = brandData[date];
+                                //     rows.push([date, rowData.revenue, rowData.revenueforeast, rowData.Target]);
+                                // });
+                                brandData.forEach(entry => {
+                                    let date = entry.date;
+                                    let rowData = entry;
+                                    rows.push([date, rowData.revenue, rowData.revenueforecast, rowData.Target]);
                                 });
+
                                 data.addRows(rows);
 
                                 var options = {
@@ -1707,6 +1713,7 @@
 
                                         displayForecast(chartId, brandData, brandName);
                                     });
+
 
 
                                     let remainingdys =  Response.remainingworkingdays;

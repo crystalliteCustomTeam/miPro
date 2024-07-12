@@ -258,6 +258,9 @@ Route::controller(BasicController::class)->group(function () {
         Route::get('/client/revenue/{id?}', 'revenuereport');
         Route::get('/allclient/revenue/{id?}', 'new_revenuereport');
 
+        //yearly brand ststs
+        Route::get('/yearly/brand/stats/{id?}', 'yearlybrandStats');
+
 
         //settings:
         //QA ISSUES:

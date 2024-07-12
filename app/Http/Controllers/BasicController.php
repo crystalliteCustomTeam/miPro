@@ -1539,6 +1539,7 @@ class BasicController extends Controller
 
     function fetchALLbranddata(Request $request)
     {
+        ini_set('max_execution_time', 300);
 
         $checkbrand = $request->brand_id;
         $checkmonth = $request->month_id;
@@ -1660,6 +1661,31 @@ class BasicController extends Controller
         if ($checkmonth != null && $checkyear != null && !isset($checkyear[1]) && !isset($checkmonth[1])) {
 
             $currentMonth = $checkmonth[0];
+            if ($currentMonth == 1) {
+                $monthinAlphabetic = "January";
+            } elseif ($currentMonth == 2) {
+                $monthinAlphabetic = "February";
+            } elseif ($currentMonth == 3) {
+                $monthinAlphabetic = "March";
+            } elseif ($currentMonth == 4) {
+                $monthinAlphabetic = "April";
+            } elseif ($currentMonth == 5) {
+                $monthinAlphabetic = "May";
+            } elseif ($currentMonth == 6) {
+                $monthinAlphabetic = "June";
+            } elseif ($currentMonth == 7) {
+                $monthinAlphabetic = "July";
+            } elseif ($currentMonth == 8) {
+                $monthinAlphabetic = "August";
+            } elseif ($currentMonth == 9) {
+                $monthinAlphabetic = "September";
+            } elseif ($currentMonth == 10) {
+                $monthinAlphabetic = "October";
+            } elseif ($currentMonth == 11) {
+                $monthinAlphabetic = "November";
+            } elseif ($currentMonth == 12) {
+                $monthinAlphabetic = "December";
+            }
             $currentYear = $checkyear[0];
             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
             $workingDays = [];
@@ -1702,10 +1728,14 @@ class BasicController extends Controller
                 }
             }
 
-            $remainingWeekdays = count($days) - $counts['Saturday'] - $counts['Sunday'] - ($todaysindex + 1);
+            $currentMonthcheck = $today->month;
+            $currentYearcheck = $today->year;
 
-
-
+            if($currentMonth == $currentMonthcheck && $currentYear == $currentYearcheck) {
+                $remainingWeekdays = count($days) - $counts['Saturday'] - $counts['Sunday'] - ($todaysindex + 1);
+            } else {
+                $remainingWeekdays = 0;
+            }
 
             $workingdayscount = count($workingDays);
 
@@ -1817,11 +1847,15 @@ class BasicController extends Controller
 
                     $targetforecast =   $dailyrevenue / $perdaytargetbrand;
 
+                    $monthbrandtarget1 = brandtarget::where('BrandID', $brandID)->where('Year', $currentYear)->sum($monthinAlphabetic);
+
+                    $perdaytargetforgraph = $monthbrandtarget1 / $totalworkingdays;
+
                     $targetdata[] = [
                         "brand" => $brand->name,
                         "revenue" => $dailyrevenue,
-                        "revenueforeast" => $targetforecast,
-                        "Target" =>  $perdaytarget * ($index + 1),
+                        // "revenueforeast" => 0,
+                        "Target" =>  $perdaytargetforgraph * ($index + 1),
                     ];
                 }
 
@@ -1830,6 +1864,9 @@ class BasicController extends Controller
                     "data" => $blankarray
                 ];
 
+
+
+
                 $targetchasingraph[] = [
                     "date" => $day['date'],
                     "data" => $targetdata
@@ -1837,14 +1874,81 @@ class BasicController extends Controller
             }
 
             // Separate data for each brand by date
+            // $separatedData = [];
+            // foreach ($targetchasingraph as $entry) {
+            //     $date = $entry['date'];
+            //     foreach ($entry['data'] as $brandData) {
+            //         $brand = $brandData['brand'];
+            //         $separatedData[$brand][$date] = $brandData;
+            //     }
+            // }
+
             $separatedData = [];
             foreach ($targetchasingraph as $entry) {
                 $date = $entry['date'];
                 foreach ($entry['data'] as $brandData) {
+                    $brandData['date'] = $date;  // Add date to brandData
                     $brand = $brandData['brand'];
-                    $separatedData[$brand][$date] = $brandData;
+                    $separatedData[$brand][] = $brandData;  // Append brandData to the brand array
                 }
             }
+
+
+
+            foreach ($separatedData as &$separatedDatas) {
+                foreach ($separatedDatas as $key => &$separatedDatass) {
+                    if ($key >= 2) {
+                        $currectrevenue = $separatedDatass['revenue'];
+                        $oneindexpreviousrevenue1 = $separatedDatas[$key - 1]['revenue'];
+
+                        if($oneindexpreviousrevenue1 != 0){
+                            $oneindexpreviousrevenue = $separatedDatas[$key - 1]['revenue'];
+                        }elseif($oneindexpreviousrevenue1 == 0){
+                            if(isset($separatedDatas[$key - 1]['revenueforecast']) && $separatedDatas[$key - 1]['revenueforecast'] != null){
+                                $oneindexpreviousrevenue = $separatedDatas[$key - 1]['revenueforecast'];
+                            }else{
+                                $oneindexpreviousrevenue = $separatedDatas[$key - 1]['revenue'];
+                            }
+
+                        }else{
+                            $oneindexpreviousrevenue = $separatedDatas[$key - 1]['revenue'];
+                        }
+
+                        $twoindexpreviousrevenue1 = $separatedDatas[$key - 2]['revenue'];
+
+                        if($twoindexpreviousrevenue1 != 0){
+                            $twoindexpreviousrevenue = $separatedDatas[$key - 1]['revenue'];
+                        }elseif($twoindexpreviousrevenue1 == 0){
+                            if(isset($separatedDatas[$key - 1]['revenueforecast']) && $separatedDatas[$key - 1]['revenueforecast'] != null){
+                                $twoindexpreviousrevenue = $separatedDatas[$key - 1]['revenueforecast'];
+                            }else{
+                                $twoindexpreviousrevenue = $separatedDatas[$key - 1]['revenue'];
+                            }
+
+                        }else{
+                            $twoindexpreviousrevenue = $separatedDatas[$key - 1]['revenue'];
+                        }
+                        $sumofrevenue = $currectrevenue + $oneindexpreviousrevenue + $twoindexpreviousrevenue;
+                        $finalforecast = $sumofrevenue / 3;
+                    } else {
+                        $finalforecast = 0;
+                    }
+
+                    $separatedDatass['revenueforecast'] = $finalforecast;
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
         } else {
             $remainingWeekdays = 0;
             $separatedData = ['no data'];
@@ -1854,11 +1958,207 @@ class BasicController extends Controller
             ];
         }
 
+        // if ($checkmonth != null && $checkyear != null && !isset($checkyear[1]) && !isset($checkmonth[1])) {
+
+        //     $currentMonth = $checkmonth[0];
+        //     $currentYear = $checkyear[0];
+        //     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
+        //     $workingDays = [];
+        //     $workingDayfinal = [];
+        //     for ($day = 1; $day <= $daysInMonth; $day++) {
+        //         $date = Carbon::create($currentYear, $currentMonth, $day);
+        //         $days[] = [
+        //             'date' => $date->toDateString(),
+        //             'name' => $date->format('l'),
+        //             'number' => $date->dayOfWeek,
+        //         ];
+
+        //         $dayOfWeek = $date->dayOfWeek;
+        //         // Exclude weekends (Saturday and Sunday)
+        //         if ($dayOfWeek != Carbon::SATURDAY && $dayOfWeek != Carbon::SUNDAY) {
+        //             $workingDays[] = $date;
+        //             $workingDayfinal[] = [
+        //                 'date' => $date->toDateString(),
+        //                 'name' => $date->format('l'),
+        //                 'number' => $date->dayOfWeek,
+        //             ];
+        //         }
+        //     }
+
+        //     $dayNames = array_column($days, 'name');
+
+        //     $counts = array_count_values($dayNames);
+
+        //     $totalworkingdays =  count($days) - $counts['Saturday'] -  $counts['Sunday'];
+
+        //     $today = Carbon::today();
+
+
+        //     $todaysindex = null;
+
+        //     foreach ($workingDayfinal as $index => $day) {
+        //         if ($day['date'] == $today->toDateString()) {
+        //             $todaysindex = $index;
+        //             break;
+        //         }
+        //     }
+
+        //     $remainingWeekdays = count($days) - $counts['Saturday'] - $counts['Sunday'] - ($todaysindex + 1);
+
+
+
+
+        //     $workingdayscount = count($workingDays);
+
+        //     $blankarrayall = [];
+        //     $targetchasingraph = [];
+
+        //     foreach ($workingDayfinal as $index => $day) {
+        //         $blankarray = [];
+        //         $targetdata = [];
+
+        //         foreach ($allbrandarray as $brandID) {
+        //             $getpreviouspayment = NewPaymentsClients::whereMonth('paymentDate', now())
+        //                 ->whereDate('paymentDate', '<', $day['date'])
+        //                 ->where('BrandID', $brandID)
+        //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
+        //                 ->where('refundStatus', '!=', 'Pending Payment')
+        //                 ->where('paymentNature', '!=', 'Remaining')
+        //                 ->where(function ($query) {
+        //                     $query->where('paymentNature', 'New Lead')
+        //                         ->orWhere('paymentNature', 'Upsell')
+        //                         ->orWhere('paymentNature', 'Renewal Payment');
+        //                 })
+        //                 ->where(function ($query) {
+        //                     $query->where('refundStatus', '!=', 'Refund')
+        //                         ->orWhere('dispute', null);
+        //                 })
+        //                 ->sum('Paid');
+        //             $brand = Brand::find($brandID);
+
+
+        //             $datefrontpay = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+        //                 ->where('BrandID', $brandID)
+        //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
+        //                 ->where('refundStatus', '!=', 'Pending Payment')
+        //                 ->where('paymentNature', 'New Lead')
+        //                 ->where('paymentNature', '!=', 'Remaining')
+        //                 ->where(function ($query) {
+        //                     $query->where('refundStatus', '!=', 'Refund')
+        //                         ->orWhere('dispute', null);
+        //                 })
+        //                 ->sum('Paid');
+
+        //             $dateUpsellpay = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+        //                 ->where('BrandID', $brandID)
+        //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
+        //                 ->where('refundStatus', '!=', 'Pending Payment')
+        //                 ->where('paymentNature', 'Upsell')
+        //                 ->where('paymentNature', '!=', 'Remaining')
+        //                 ->where(function ($query) {
+        //                     $query->where('refundStatus', '!=', 'Refund')
+        //                         ->orWhere('dispute', null);
+        //                 })
+        //                 ->sum('Paid');
+
+        //             $dateRenewalpay = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+        //                 ->where('BrandID', $brandID)
+        //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
+        //                 ->where('refundStatus', '!=', 'Pending Payment')
+        //                 ->where('paymentNature', 'Renewal Payment')
+        //                 ->where('paymentNature', '!=', 'Remaining')
+        //                 ->where(function ($query) {
+        //                     $query->where('refundStatus', '!=', 'Refund')
+        //                         ->orWhere('dispute', null);
+        //                 })
+        //                 ->sum('Paid');
+
+        //             $monthbrandtarget = brandtarget::where('BrandID', $brandID)->where('Year', date('Y'))->sum(date('F'));
+        //             $perdaytarget = $monthbrandtarget / $totalworkingdays;
+
+        //             $remainingdayss = $workingdayscount - ($index + 1);
+        //             if ($remainingdayss == 0) {
+        //                 $remainingdays = 1;
+        //             } else {
+        //                 $remainingdays = $workingdayscount - ($index);
+        //             }
+
+        //             $outcome = ($monthbrandtarget - ($datefrontpay + $dateUpsellpay + $dateRenewalpay + $getpreviouspayment)) / $remainingdays;
+        //             $formattedOutcome = number_format($outcome, 0);
+
+
+        //             $blankarray[] = [
+        //                 "brand" => $brand->name,
+        //                 "front" => $datefrontpay,
+        //                 "upsell" => $dateUpsellpay,
+        //                 "renewal" => $dateRenewalpay,
+        //                 "Aggregated_Sales" => $datefrontpay + $dateUpsellpay + $dateRenewalpay + $getpreviouspayment,
+        //                 "Target" =>  $perdaytarget * ($index + 1),
+        //                 "Daily_Target" => $formattedOutcome,
+        //             ];
+
+        //             $dailyrevenues = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+        //                 ->where('BrandID', $brandID)
+        //                 ->where('remainingStatus', '!=', 'Unlinked Payments')
+        //                 ->where('refundStatus', '!=', 'Pending Payment')
+        //                 ->where(function ($query) {
+        //                     $query->where('refundStatus', '!=', 'Refund')
+        //                         ->orWhere('dispute', null);
+        //                 })
+        //                 ->sum('Paid');
+
+        //             $dailyrevenue = (int)$dailyrevenues;
+
+        //             $perdaytargetbrands = $perdaytarget * ($index + 1);
+        //             if ($perdaytargetbrands == 0) {
+        //                 $perdaytargetbrand = 1;
+        //             } else {
+        //                 $perdaytargetbrand = $perdaytargetbrands;
+        //             }
+
+        //             $targetforecast =   $dailyrevenue / $perdaytargetbrand;
+
+        //             $targetdata[] = [
+        //                 "brand" => $brand->name,
+        //                 "revenue" => $dailyrevenue,
+        //                 "revenueforeast" => $targetforecast,
+        //                 "Target" =>  $perdaytarget * ($index + 1),
+        //             ];
+        //         }
+
+        //         $blankarrayall[] = [
+        //             "date" => $day['date'],
+        //             "data" => $blankarray
+        //         ];
+
+        //         $targetchasingraph[] = [
+        //             "date" => $day['date'],
+        //             "data" => $targetdata
+        //         ];
+        //     }
+
+        //     // Separate data for each brand by date
+        //     $separatedData = [];
+        //     foreach ($targetchasingraph as $entry) {
+        //         $date = $entry['date'];
+        //         foreach ($entry['data'] as $brandData) {
+        //             $brand = $brandData['brand'];
+        //             $separatedData[$brand][$date] = $brandData;
+        //         }
+        //     }
+        // } else {
+        //     $remainingWeekdays = 0;
+        //     $separatedData = ['no data'];
+        //     $blankarrayall[] = [
+        //         "date" => 'nothing',
+        //         "data" => 'nothing'
+        //     ];
+        // }
+
 
 
         // agentswise:
         $allbranddepart = [];
-        // echo("<pre>");
         foreach ($allbrandarray  as $allbrandarrays) {
             $getdepartment = Department::where('brand', $allbrandarrays)
                 ->where(function ($query) {
@@ -2944,6 +3244,8 @@ class BasicController extends Controller
 
         if ($get_year != 0) {
             $years = $request->input('year');
+            $years = array_unique($years);
+            sort($years);
         } else {
             $currentYear = date("Y");
             $years = [];
@@ -2957,12 +3259,15 @@ class BasicController extends Controller
 
         if ($get_month != 0) {
             $months = $request->input('month');
+            $months = array_unique($months);
+            sort($months);
         } else {
             $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         }
 
         if ($get_depart != 0) {
             $brands1 = $request->input('depart');
+            $brands1 = array_unique($brands1);
         } else {
             $brands1 = Brand::pluck('id')->toArray();
         }
@@ -3239,7 +3544,6 @@ class BasicController extends Controller
                 }
             }
         }
-
         return view('monthStats', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -3251,6 +3555,140 @@ class BasicController extends Controller
             'collectedDatasupport' => $collectedDatasupport,
             'role' => $role,
         ]);
+    }
+
+    function yearlybrandStats(Request $request, $id = null){
+
+        $loginUser = $this->roleExits($request);
+        $brands = Brand::get();
+
+        //GET;
+        $get_year = $request->input('year');
+        $get_depart = $request->input('depart');
+
+        if ($get_year != 0) {
+            $years = $request->input('year');
+            $years = array_unique($years);
+            sort($years);
+        } else {
+            $currentYear = date("Y");
+            $years = [];
+
+            for ($i = 0; $i < 2; $i++) {
+                $years[] = $currentYear - $i;
+            }
+
+            $years = array_reverse($years);
+        }
+
+        if ($get_depart != 0) {
+            $brands1 = $request->input('depart');
+        } else {
+            $brands1 = Brand::pluck('id')->toArray();
+        }
+
+        if ($get_year == null && $get_depart == null) {
+            $role = 0;
+            $brandwise = 0;
+        }else{
+            $role = 1;
+            $brandwise = [];
+            foreach($brands1 as $brands){
+                $brandname = Brand::where("id", $brands)->get();
+                $yearwise = [];
+                foreach($years as $year){
+
+                    $monthwise = [];
+                    for($i = 1; $i < 13; $i++){
+                        $brandsales = NewPaymentsClients::whereYear('paymentDate', $year)
+                            ->whereMonth('paymentDate', $i)
+                            ->where('BrandID', $brands)
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('refundStatus', '!=', 'Refund')
+                            ->sum('Paid');
+
+                        $dispute = NewPaymentsClients::whereYear('paymentDate', $year)
+                            ->whereMonth('paymentDate', $i)
+                            ->where('BrandID', $brands)
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('refundStatus',  '!=', 'Refund')
+                            ->where('dispute', '!=', null)
+                            ->SUM('disputeattackamount');
+
+                        $refund = NewPaymentsClients::whereYear('paymentDate', $year)
+                            ->whereMonth('paymentDate', $i)
+                            ->where('BrandID', $brands)
+                            ->where('refundStatus', 'Refund')
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('dispute', null)
+                            ->sum('Paid');
+
+                        $net_revenue = $brandsales - $dispute -  $refund;
+
+                        if ($i == 1) {
+                            $target = "January";
+                        } elseif ($i == 2) {
+                            $target = "February";
+                        } elseif ($i == 3) {
+                            $target = "March";
+                        } elseif ($i == 4) {
+                            $target = "April";
+                        } elseif ($i == 5) {
+                            $target = "May";
+                        } elseif ($i == 6) {
+                            $target = "June";
+                        } elseif ($i == 7) {
+                            $target = "July";
+                        } elseif ($i == 8) {
+                            $target = "August";
+                        } elseif ($i == 9) {
+                            $target = "September";
+                        } elseif ($i == 10) {
+                            $target = "October";
+                        } elseif ($i == 11) {
+                            $target = "November";
+                        } elseif ($i == 12) {
+                            $target = "December";
+                        }
+
+                        $monthwise[] = [
+                            "month" => $target,
+                            "net" => $net_revenue
+                        ];
+
+                    }
+
+                    $yearwise[] = [
+                        "year" => $year,
+                        "yeardata" => $monthwise
+                    ];
+
+                }
+
+                $brandwise[] = [
+                    "name" => $brandname[0]->name,
+                    "year" => $yearwise
+                ];
+            }
+
+
+            echo("<pre>");
+            print_r($brandwise);
+            die();
+        }
+
+
+        return view('yearlystats', [
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2],
+            'brands' => $brands,
+            'role' => $role,
+        ]);
+
     }
 
 
@@ -15513,6 +15951,8 @@ class BasicController extends Controller
 
     function pushEmailtometa(Request $request)
     {
+        ini_set('max_execution_time', 300);
+
         $allclients = Client::get();
         foreach ($allclients as $allclient) {
             $clientmeta = ClientMeta::where('clientID', $allclient->id)->get();
