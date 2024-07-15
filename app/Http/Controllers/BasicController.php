@@ -3560,16 +3560,25 @@ class BasicController extends Controller
     function yearlybrandStats(Request $request, $id = null){
 
         $loginUser = $this->roleExits($request);
-        $brands = Brand::get();
+        $brandnames = Brand::get();
 
         //GET;
         $get_year = $request->input('year');
         $get_depart = $request->input('depart');
 
         if ($get_year != 0) {
-            $years = $request->input('year');
-            $years = array_unique($years);
-            sort($years);
+            if(isset($get_year[1])){
+                $years = $request->input('year');
+                $years = array_unique($years);
+                sort($years);
+            }else{
+                $years1 = $request->input('year');
+                $currentYear = $years1[0];
+                $years = array($currentYear, $currentYear - 1);
+                // $years = $request->input('year');
+                $years = array_unique($years);
+                sort($years);
+            }
         } else {
             $currentYear = date("Y");
             $years = [];
@@ -3596,9 +3605,15 @@ class BasicController extends Controller
             foreach($brands1 as $brands){
                 $brandname = Brand::where("id", $brands)->get();
                 $yearwise = [];
+                $yearwiserefund = [];
+                $frontyearwise = [];
+                $backyearwise = [];
                 foreach($years as $year){
 
                     $monthwise = [];
+                    $disputes = [];
+                    $front = [];
+                    $back = [];
                     for($i = 1; $i < 13; $i++){
                         $brandsales = NewPaymentsClients::whereYear('paymentDate', $year)
                             ->whereMonth('paymentDate', $i)
@@ -3615,7 +3630,7 @@ class BasicController extends Controller
                             ->where('refundStatus', '!=', 'Pending Payment')
                             ->where('refundStatus',  '!=', 'Refund')
                             ->where('dispute', '!=', null)
-                            ->SUM('disputeattackamount');
+                            ->sum('disputeattackamount');
 
                         $refund = NewPaymentsClients::whereYear('paymentDate', $year)
                             ->whereMonth('paymentDate', $i)
@@ -3627,6 +3642,26 @@ class BasicController extends Controller
                             ->sum('Paid');
 
                         $net_revenue = $brandsales - $dispute -  $refund;
+
+
+
+                        $frontsum = NewPaymentsClients::whereYear('paymentDate', $year)
+                            ->whereMonth('paymentDate', $i)
+                            ->where('BrandID', $brands)
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('refundStatus', '!=', 'Refund')
+                            ->where('transactionType', 'New Lead')
+                            ->sum("Paid");
+
+                        $backsum = NewPaymentsClients::whereYear('paymentDate', $year)
+                            ->whereMonth('paymentDate', $i)
+                            ->where('BrandID', $brands)
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('refundStatus', '!=', 'Refund')
+                            ->where('transactionType', '!=', 'New Lead')
+                            ->sum("Paid");
 
                         if ($i == 1) {
                             $target = "January";
@@ -3659,6 +3694,23 @@ class BasicController extends Controller
                             "net" => $net_revenue
                         ];
 
+                        $totalrefund = (int)$dispute +  (int)$refund;
+
+                        $disputes[] = [
+                            "month" => $target,
+                            "net" => $totalrefund
+                        ];
+
+                        $front[] = [
+                            "month" => $target,
+                            "net" => (int)$frontsum
+                        ];
+
+                        $back[] = [
+                            "month" => $target,
+                            "net" => (int)$backsum
+                        ];
+
                     }
 
                     $yearwise[] = [
@@ -3666,18 +3718,129 @@ class BasicController extends Controller
                         "yeardata" => $monthwise
                     ];
 
+                    $yearwiserefund[] = [
+                        "year" => $year,
+                        "yeardata" => $disputes
+                    ];
+
+                    $frontyearwise[] = [
+                        "year" => $year,
+                        "yeardata" => $front
+                    ];
+
+                    $backyearwise[] = [
+                        "year" => $year,
+                        "yeardata" => $back
+                    ];
+
                 }
+
+                $years00 = array_map(function($data) {
+                    return '"' . $data['year'] . '"';
+                }, $yearwise);
+
+                $data = [];
+                $data[] = array_merge(["Month"], $years00);
+
+                $months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                foreach ($months as $month) {
+                    $row = [$month];
+                    foreach ($yearwise as $yearData) {
+                        $monthData = array_filter($yearData['yeardata'], function ($m) use ($month) {
+                            return $m['month'] == $month;
+                        });
+                        $monthData = array_values($monthData);
+                        $row[] = !empty($monthData) ? $monthData[0]['net'] : (int)0;
+                    }
+                    $data[] = $row;
+                }
+
+
+                // ---------------------------------------------------------------------------
+                $years1 = array_map(function($data1) {
+                    return '"' . $data1['year'] . '"';
+                }, $yearwiserefund);
+
+                $data1 = [];
+                $data1[] = array_merge(["Month"], $years1);
+
+                $months1 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                foreach ($months1 as $month) {
+                    $row1 = [$month];
+                    foreach ($yearwiserefund as $yearData1) {
+                        $monthData1 = array_filter($yearData1['yeardata'], function ($m) use ($month) {
+                            return $m['month'] == $month;
+                        });
+                        $monthData1 = array_values($monthData1);
+                        $row1[] = !empty($monthData1) ? $monthData1[0]['net'] : (int)0;
+                    }
+                    $data1[] = $row1;
+                }
+
+
+                // ---------------------------------------------------------------------------
+                 $years2 = array_map(function($data2) {
+                    return '"' . $data2['year'] . '"';
+                }, $frontyearwise);
+
+                $data2 = [];
+                $data2[] = array_merge(["Month"], $years2);
+
+                $months2 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                foreach ($months2 as $month) {
+                    $row2 = [$month];
+                    foreach ($frontyearwise as $yearData2) {
+                        $monthData2 = array_filter($yearData2['yeardata'], function ($m) use ($month) {
+                            return $m['month'] == $month;
+                        });
+                        $monthData2 = array_values($monthData2);
+                        $row2[] = !empty($monthData2) ? $monthData2[0]['net'] : (int)0;
+                    }
+                    $data2[] = $row2;
+                }
+
+
+                // ---------------------------------------------------------------------------
+                $years3 = array_map(function($data3) {
+                    return '"' . $data3['year'] . '"';
+                }, $backyearwise);
+
+                $data3 = [];
+                $data3[] = array_merge(["Month"], $years3);
+
+                $months3 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                foreach ($months3 as $month) {
+                    $row3 = [$month];
+                    foreach ($backyearwise as $yearData3) {
+                        $monthData3 = array_filter($yearData3['yeardata'], function ($m) use ($month) {
+                            return $m['month'] == $month;
+                        });
+                        $monthData3 = array_values($monthData3);
+                        $row3[] = !empty($monthData3) ? $monthData3[0]['net'] : (int)0;
+                    }
+                    $data3[] = $row3;
+                }
+
+
 
                 $brandwise[] = [
                     "name" => $brandname[0]->name,
-                    "year" => $yearwise
+                    "year" => $yearwise,
+                    "yeargraph" => $data,
+                    "refund" => $yearwiserefund,
+                    "refundyeargraph" => $data1,
+                    "front" => $frontyearwise,
+                    "frontyeargraph" => $data2,
+                    "back" => $backyearwise,
+                    "backyeargraph" => $data3,
                 ];
+
             }
 
-
-            echo("<pre>");
-            print_r($brandwise);
-            die();
         }
 
 
@@ -3685,8 +3848,9 @@ class BasicController extends Controller
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2],
-            'brands' => $brands,
+            'brands' => $brandnames,
             'role' => $role,
+            'brandwise' => $brandwise,
         ]);
 
     }

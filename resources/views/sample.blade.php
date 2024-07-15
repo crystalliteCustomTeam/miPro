@@ -320,7 +320,7 @@
 
 
                     @else
-                        @foreach ($brandwise as $differ => $item)
+                        @foreach ($brandwise as $item)
 
                             <div class="col-12" style="background-color: #00FFFF; color: black; text-align: center; font-weight: bold;">
                                     {{$item['name']}}
@@ -409,11 +409,16 @@
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
+
+
+
+
+
                                                 </table>
                                         @endif
                                     </div>
                                     <div class="col-8">
-                                        <div id="chart_div_{{$differ}}" style="width: 1000px; height: 380px;"></div>
+                                        <div id="chart_div" style="width: 1000px; height: 380px;"></div>
                                         {{-- <div id="chart_div"></div> --}}
                                         @php
                                             $brandyeargraph  = $item['yeargraph'];
@@ -424,12 +429,12 @@
                                         @endphp
                                         <script type="text/javascript">
                                             google.charts.load('current', {'packages':['corechart']});
-                                            google.charts.setOnLoadCallback(drawVisualization{{$differ}});
+                                            google.charts.setOnLoadCallback(drawVisualization);
 
-                                            function drawVisualization{{$differ}}() {
+                                            function drawVisualization() {
                                             // Some raw data (not necessarily accurate)
-                                            var data{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check; ?>);
-                                            var options{{$differ}} = {
+                                            var data = google.visualization.arrayToDataTable(<?php echo $check; ?>);
+                                            var options = {
                                                 title : 'Gross Revenue',
                                                 vAxis: {title: 'Revenue'},
                                                 hAxis: {title: 'Month'},
@@ -437,8 +442,8 @@
                                                 series: {5: {type: 'line'}}
                                             };
 
-                                            var chart{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div_{{$differ}}'));
-                                            chart{{$differ}}.draw(data{{$differ}}, options{{$differ}});
+                                            var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+                                            chart.draw(data, options);
                                             }
                                         </script>
                                     </div>
@@ -527,7 +532,7 @@
                                         @endif
                                     </div>
                                     <div class="col-8">
-                                        <div id="chart_div1_{{$differ}}" style="width: 1000px; height: 380px;"></div>
+                                        <div id="chart_div1" style="width: 1000px; height: 380px;"></div>
                                             {{-- <div id="chart_div"></div> --}}
                                             @php
                                                 $brandyeargraph1  = $item['refundyeargraph'];
@@ -538,12 +543,12 @@
                                             @endphp
                                             <script type="text/javascript">
                                                 google.charts.load('current', {'packages':['corechart']});
-                                                google.charts.setOnLoadCallback(drawVisualization1{{$differ}});
+                                                google.charts.setOnLoadCallback(drawVisualization1);
 
-                                                function drawVisualization1{{$differ}}() {
+                                                function drawVisualization1() {
                                                 // Some raw data (not necessarily accurate)
-                                                var data1{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check1; ?>);
-                                                var options1{{$differ}} = {
+                                                var data1 = google.visualization.arrayToDataTable(<?php echo $check1; ?>);
+                                                var options1 = {
                                                     title : 'Refund/Dispute',
                                                     vAxis: {title: 'Revenue'},
                                                     hAxis: {title: 'Month'},
@@ -551,8 +556,8 @@
                                                     series: {5: {type: 'line'}}
                                                 };
 
-                                                var chart1{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div1_{{$differ}}'));
-                                                chart1{{$differ}}.draw(data1{{$differ}}, options1{{$differ}});
+                                                var chart1 = new google.visualization.ComboChart(document.getElementById('chart_div1'));
+                                                chart1.draw(data1, options1);
                                                 }
                                             </script>
                                     </div>
@@ -653,7 +658,7 @@
                                         @endif
                                     </div>
                                     <div class="col-8">
-                                        <div id="chart_div2_{{$differ}}" style="width: 1000px; height: 380px;"></div>
+                                        <div id="chart_div2" style="width: 1000px; height: 380px;"></div>
                                             {{-- <div id="chart_div"></div> --}}
                                             @php
                                                 $brandyeargraph2  = $item['frontyeargraph'];
@@ -664,12 +669,12 @@
                                             @endphp
                                             <script type="text/javascript">
                                                 google.charts.load('current', {'packages':['corechart']});
-                                                google.charts.setOnLoadCallback(drawVisualization2{{$differ}});
+                                                google.charts.setOnLoadCallback(drawVisualization2);
 
-                                                function drawVisualization2{{$differ}}() {
+                                                function drawVisualization2() {
                                                 // Some raw data (not necessarily accurate)
-                                                var data2{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check2; ?>);
-                                                var options2{{$differ}} = {
+                                                var data2 = google.visualization.arrayToDataTable(<?php echo $check2; ?>);
+                                                var options2 = {
                                                     title : 'Front Sale',
                                                     vAxis: {title: 'Revenue'},
                                                     hAxis: {title: 'Month'},
@@ -677,8 +682,8 @@
                                                     series: {5: {type: 'line'}}
                                                 };
 
-                                                var chart2{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div2_{{$differ}}'));
-                                                chart2{{$differ}}.draw(data2{{$differ}}, options2{{$differ}});
+                                                var chart2 = new google.visualization.ComboChart(document.getElementById('chart_div2'));
+                                                chart2.draw(data2, options2);
                                                 }
                                             </script>
                                     </div>
@@ -771,7 +776,7 @@
                                         @endif
                                     </div>
                                     <div class="col-8">
-                                        <div id="chart_div3_{{$differ}}" style="width: 1000px; height: 380px;"></div>
+                                        <div id="chart_div3" style="width: 1000px; height: 380px;"></div>
                                             {{-- <div id="chart_div"></div> --}}
                                             @php
                                                 $brandyeargraph3  = $item['backyeargraph'];
@@ -782,12 +787,12 @@
                                             @endphp
                                             <script type="text/javascript">
                                                 google.charts.load('current', {'packages':['corechart']});
-                                                google.charts.setOnLoadCallback(drawVisualization3{{$differ}});
+                                                google.charts.setOnLoadCallback(drawVisualization3);
 
-                                                function drawVisualization3{{$differ}}() {
+                                                function drawVisualization3() {
                                                 // Some raw data (not necessarily accurate)
-                                                var data3{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check3; ?>);
-                                                var options3{{$differ}} = {
+                                                var data3 = google.visualization.arrayToDataTable(<?php echo $check3; ?>);
+                                                var options3 = {
                                                     title : 'Back Sale',
                                                     vAxis: {title: 'Revenue'},
                                                     hAxis: {title: 'Month'},
@@ -795,8 +800,8 @@
                                                     series: {5: {type: 'line'}}
                                                 };
 
-                                                var chart3{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div3_{{$differ}}'));
-                                                chart3{{$differ}}.draw(data3{{$differ}}, options3{{$differ}});
+                                                var chart3 = new google.visualization.ComboChart(document.getElementById('chart_div3'));
+                                                chart3.draw(data3, options3);
                                                 }
                                             </script>
                                     </div>
