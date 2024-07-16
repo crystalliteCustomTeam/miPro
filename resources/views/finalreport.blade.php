@@ -486,7 +486,7 @@
 
                                 var options = {
                                     'title': brandName + ' Target Chasing Graph:',
-                                    colors: ['green', '#1E90FF', 'yellow'],
+                                    colors: ['green', '#1E90FF', '#EF8923'],
                                     width: 500,
                                     height: 300
                                 };

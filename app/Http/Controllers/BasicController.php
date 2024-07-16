@@ -1826,15 +1826,37 @@ class BasicController extends Controller
                         "Daily_Target" => $formattedOutcome,
                     ];
 
-                    $dailyrevenues = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+                    // $dailyrevenues = NewPaymentsClients::whereDate('paymentDate', $day['date'])
+                    //     ->where('BrandID', $brandID)
+                    //     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    //     ->where('refundStatus', '!=', 'Pending Payment')
+                    //     ->where(function ($query) {
+                    //         $query->where('refundStatus', '!=', 'Refund')
+                    //             ->orWhere('dispute', null);
+                    //     })
+                    //     ->sum('Paid');
+
+                    // $dailyrevenues = NewPaymentsClients::whereYear('paymentDate', date('Y', strtotime($day['date'])))
+                    //     ->whereMonth('paymentDate', date('m', strtotime($day['date'])))
+                    //     ->whereDate('paymentDate', '<=', $day['date'])
+                    //     ->where('BrandID', $brandID)
+                    //     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    //     ->where('refundStatus', '!=', 'Pending Payment')
+                    //     ->where(function ($query) {
+                    //         $query->where('refundStatus', '!=', 'Refund')
+                    //             ->orWhereNull('dispute');
+                    //     })
+                    //     ->sum('Paid');
+
+                    $dailyrevenues =NewPaymentsClients::whereYear('paymentDate', date('Y', strtotime($day['date'])))
+                        ->whereMonth('paymentDate', date('m', strtotime($day['date'])))
+                        ->whereDate('paymentDate', '<=', $day['date'])
                         ->where('BrandID', $brandID)
                         ->where('remainingStatus', '!=', 'Unlinked Payments')
                         ->where('refundStatus', '!=', 'Pending Payment')
-                        ->where(function ($query) {
-                            $query->where('refundStatus', '!=', 'Refund')
-                                ->orWhere('dispute', null);
-                        })
+                        ->where('refundStatus', '!=', 'Refund')
                         ->sum('Paid');
+
 
                     $dailyrevenue = (int)$dailyrevenues;
 
@@ -3068,8 +3090,6 @@ class BasicController extends Controller
         }
 
         $year = date('Y');
-        // echo($year);
-        // die();
 
         $mainsalesTeam = [];
 
@@ -3599,15 +3619,18 @@ class BasicController extends Controller
         if ($get_year == null && $get_depart == null) {
             $role = 0;
             $brandwise = 0;
+            $brandwisetotal = 0;
         }else{
             $role = 1;
             $brandwise = [];
+            $brandwisetotal = [];
             foreach($brands1 as $brands){
                 $brandname = Brand::where("id", $brands)->get();
                 $yearwise = [];
                 $yearwiserefund = [];
                 $frontyearwise = [];
                 $backyearwise = [];
+                $yearwisetotal = [];
                 foreach($years as $year){
 
                     $monthwise = [];
@@ -3733,6 +3756,58 @@ class BasicController extends Controller
                         "yeardata" => $back
                     ];
 
+                $brandsalestotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                    ->where('BrandID', $brands)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus', '!=', 'Refund')
+                    ->sum('Paid');
+
+                $disputetotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                    ->where('BrandID', $brands)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus',  '!=', 'Refund')
+                    ->where('dispute', '!=', null)
+                    ->sum('disputeattackamount');
+
+                $refundtotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                    ->where('BrandID', $brands)
+                    ->where('refundStatus', 'Refund')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('dispute', null)
+                    ->sum('Paid');
+
+                $net_revenuetotal = $brandsalestotal - $disputetotal -  $refundtotal;
+
+                $frontsumtotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                    ->where('BrandID', $brands)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus', '!=', 'Refund')
+                    ->where('transactionType', 'New Lead')
+                    ->sum("Paid");
+
+                $backsumtotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                    ->where('BrandID', $brands)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus', '!=', 'Refund')
+                    ->where('transactionType', '!=', 'New Lead')
+                    ->sum("Paid");
+
+                $totalrefundtotal = (int)$disputetotal +  (int)$refundtotal;
+
+                $yearwisetotal[] = [
+                    "year" => $year,
+                    "gross" => $net_revenuetotal,
+                    "front" => $frontsumtotal,
+                    "back" => $backsumtotal,
+                    "refunddispute" => $totalrefundtotal
+                ];
+
+
                 }
 
                 $years00 = array_map(function($data) {
@@ -3745,7 +3820,32 @@ class BasicController extends Controller
                 $months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
                 foreach ($months as $month) {
-                    $row = [$month];
+                    if ($month == "January") {
+                        $montha = "Jan";
+                    } elseif ($month == "February") {
+                        $montha = "Feb";
+                    } elseif ($month == "March") {
+                        $montha = "Mar";
+                    } elseif ($month == "April") {
+                        $montha = "Apr";
+                    } elseif ($month == "May") {
+                        $montha = "May";
+                    } elseif ($month == "June") {
+                        $montha = "Jun";
+                    } elseif ($month == "July") {
+                        $montha = "Jul";
+                    } elseif ($month == "August") {
+                        $montha = "Aug";
+                    } elseif ($month == "September") {
+                        $montha = "Sep";
+                    } elseif ($month == "October") {
+                        $montha = "Oct";
+                    } elseif ($month == "November") {
+                        $montha = "Nov";
+                    } elseif ($month == "December") {
+                        $montha = "Dec";
+                    }
+                    $row = [$montha];
                     foreach ($yearwise as $yearData) {
                         $monthData = array_filter($yearData['yeardata'], function ($m) use ($month) {
                             return $m['month'] == $month;
@@ -3768,7 +3868,32 @@ class BasicController extends Controller
                 $months1 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
                 foreach ($months1 as $month) {
-                    $row1 = [$month];
+                    if ($month == "January") {
+                        $montha = "Jan";
+                    } elseif ($month == "February") {
+                        $montha = "Feb";
+                    } elseif ($month == "March") {
+                        $montha = "Mar";
+                    } elseif ($month == "April") {
+                        $montha = "Apr";
+                    } elseif ($month == "May") {
+                        $montha = "May";
+                    } elseif ($month == "June") {
+                        $montha = "Jun";
+                    } elseif ($month == "July") {
+                        $montha = "Jul";
+                    } elseif ($month == "August") {
+                        $montha = "Aug";
+                    } elseif ($month == "September") {
+                        $montha = "Sep";
+                    } elseif ($month == "October") {
+                        $montha = "Oct";
+                    } elseif ($month == "November") {
+                        $montha = "Nov";
+                    } elseif ($month == "December") {
+                        $montha = "Dec";
+                    }
+                    $row1 = [$montha];
                     foreach ($yearwiserefund as $yearData1) {
                         $monthData1 = array_filter($yearData1['yeardata'], function ($m) use ($month) {
                             return $m['month'] == $month;
@@ -3791,7 +3916,32 @@ class BasicController extends Controller
                 $months2 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
                 foreach ($months2 as $month) {
-                    $row2 = [$month];
+                    if ($month == "January") {
+                        $montha = "Jan";
+                    } elseif ($month == "February") {
+                        $montha = "Feb";
+                    } elseif ($month == "March") {
+                        $montha = "Mar";
+                    } elseif ($month == "April") {
+                        $montha = "Apr";
+                    } elseif ($month == "May") {
+                        $montha = "May";
+                    } elseif ($month == "June") {
+                        $montha = "Jun";
+                    } elseif ($month == "July") {
+                        $montha = "Jul";
+                    } elseif ($month == "August") {
+                        $montha = "Aug";
+                    } elseif ($month == "September") {
+                        $montha = "Sep";
+                    } elseif ($month == "October") {
+                        $montha = "Oct";
+                    } elseif ($month == "November") {
+                        $montha = "Nov";
+                    } elseif ($month == "December") {
+                        $montha = "Dec";
+                    }
+                    $row2 = [$montha];
                     foreach ($frontyearwise as $yearData2) {
                         $monthData2 = array_filter($yearData2['yeardata'], function ($m) use ($month) {
                             return $m['month'] == $month;
@@ -3814,7 +3964,32 @@ class BasicController extends Controller
                 $months3 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
                 foreach ($months3 as $month) {
-                    $row3 = [$month];
+                    if ($month == "January") {
+                        $montha = "Jan";
+                    } elseif ($month == "February") {
+                        $montha = "Feb";
+                    } elseif ($month == "March") {
+                        $montha = "Mar";
+                    } elseif ($month == "April") {
+                        $montha = "Apr";
+                    } elseif ($month == "May") {
+                        $montha = "May";
+                    } elseif ($month == "June") {
+                        $montha = "Jun";
+                    } elseif ($month == "July") {
+                        $montha = "Jul";
+                    } elseif ($month == "August") {
+                        $montha = "Aug";
+                    } elseif ($month == "September") {
+                        $montha = "Sep";
+                    } elseif ($month == "October") {
+                        $montha = "Oct";
+                    } elseif ($month == "November") {
+                        $montha = "Nov";
+                    } elseif ($month == "December") {
+                        $montha = "Dec";
+                    }
+                    $row3 = [$montha];
                     foreach ($backyearwise as $yearData3) {
                         $monthData3 = array_filter($yearData3['yeardata'], function ($m) use ($month) {
                             return $m['month'] == $month;
@@ -3839,8 +4014,12 @@ class BasicController extends Controller
                     "backyeargraph" => $data3,
                 ];
 
-            }
+                $brandwisetotal[] = [
+                    "name" => $brandname[0]->name,
+                    "yeartotal" => $yearwisetotal,
+                ];
 
+            }
         }
 
 
@@ -3851,6 +4030,7 @@ class BasicController extends Controller
             'brands' => $brandnames,
             'role' => $role,
             'brandwise' => $brandwise,
+            'brandwisetotal' => $brandwisetotal,
         ]);
 
     }

@@ -320,11 +320,63 @@
 
 
                     @else
+                    <div class="col-12">
+                        <div style="background-color: #4A785D; color: white; text-align: center;  border: 1px solid white; font-weight: bold;">
+                            Summery
+                        </div>
+                        <table id="" >
+                            <thead>
+                              <tr>
+                                <th style="width: 510px; background-color: black; color: white;  border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">Year</th>
+                                <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Gross Revenue</th>
+                                <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Front Sales</th>
+                                <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Back Sales</th>
+                                <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Refund/Dispute</th>
+                              </tr>
+                            </thead>
+                            <tbody id="summery">
+                                @foreach ($brandwisetotal as $brandwisetotals)
+                                <tr>
+                                    <td style="width: 510px; background-color: #E0E0E0;  color: black; font-weight: bold; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">{{$brandwisetotals['name']}}</td>
+                                    <td style="width: 115px; background-color: #E0E0E0 ; color: black; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                    <td style="width: 115px; background-color: #E0E0E0;  color: black; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                    <td style="width: 115px; background-color: #E0E0E0 ; color: black; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                    <td style="width: 115px; background-color: #E0E0E0;  color: white; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                </tr>
+                                @php
+                                    $totalsums = $brandwisetotals['yeartotal'];
+                                @endphp
+                                @foreach ($totalsums as $totalsum)
+                                <tr>
+                                    <td style="width: 510px; background-color: #C0C0C0;  color: black;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['year']}}</td>
+                                    <td style="width: 115px; background-color: #C1D7CC ; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['gross']}}</td>
+                                    <td style="width: 115px; background-color: #4A785D;  color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['front']}}</td>
+                                    <td style="width: 115px; background-color: #C1D7CC ; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['back']}}</td>
+                                    <td style="width: 115px; background-color: #4A785D;  color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['refunddispute']}}</td>
+                                </tr>
+
+                                @endforeach
+
+                                @endforeach
+                            </tbody>
+                          </table>
+                    </div>
+
+                    <div class="col-12">
+                        <br><br>
+                    </div>
                         @foreach ($brandwise as $differ => $item)
 
-                            <div class="col-12" style="background-color: #00FFFF; color: black; text-align: center; font-weight: bold;">
-                                    {{$item['name']}}
+                        <div class="col-12">
+                            <div style="background-color: #00FFFF; color: black; text-align: center;  border: 1px solid white; font-weight: bold;">
+                                {{$item['name']}}
                             </div>
+
+                        </div>
+
+                            {{-- <div class="col-12" style="background-color: #00FFFF; color: black; text-align: center; font-weight: bold;">
+                                    {{$item['name']}}
+                            </div> --}}
 
                             <div class="col-12">
                                 <div class="row">
@@ -332,26 +384,6 @@
                                         <div style="background-color: #EF8923; color: white; text-align: center;  border: 1px solid white;">
                                             Gross Revenue Comparision
                                         </div>
-                                        @if ($role == 0)
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                        <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">20--</th>
-                                                        <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">20--</th>
-                                                        <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
-                                                    </tr>
-                                                </thead>
-                                                {{-- <tbody>
-                                                    <tr>
-                                                        <td style="width: 160px; background-color: #C0C0C0; color: black;  font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">jan</td>
-                                                        <td style="width: 115px; background-color: #EFC0AD; color: black;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">$200</td>
-                                                        <td style="width: 115px; background-color: #EF8923; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">$200</td>
-                                                        <td style="width: 130px; background-color: #E0E0E0; color: black;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">25%</td>
-                                                    </tr>
-                                                </tbody> --}}
-                                            </table>
-                                        @else
                                             @php
                                                 $brandyear  = $item['year'];
                                             @endphp
@@ -410,7 +442,6 @@
                                                         @endforeach
                                                     </tbody>
                                                 </table>
-                                        @endif
                                     </div>
                                     <div class="col-8">
                                         <div id="chart_div_{{$differ}}" style="width: 1000px; height: 380px;"></div>
@@ -434,12 +465,28 @@
                                                 vAxis: {title: 'Revenue'},
                                                 hAxis: {title: 'Month'},
                                                 seriesType: 'bars',
-                                                series: {5: {type: 'line'}}
+                                                series: {5: {type: 'line'}},
+                                                // colors: generateShadesOfOrange(),
+                                                // colors: ['#FFA500', '#FF8C00', '#FF7F50', '#FF6347', '#FF4500'] // Shades of orange
                                             };
 
                                             var chart{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div_{{$differ}}'));
                                             chart{{$differ}}.draw(data{{$differ}}, options{{$differ}});
                                             }
+
+                                            // function generateShadesOfOrange(numShades) {
+                                            //     const shades = [];
+                                            //     const increment = Math.floor(255 / (numShades - 1)); // Adjust based on the number of shades
+
+                                            //     for (let i = 0; i < numShades; i++) {
+                                            //         const r = 255; // Fixed red value
+                                            //         const g = 165 + (increment * i); // Adjust green value for shades
+                                            //         const b = 0; // Fixed blue value
+                                            //         shades.push(`rgba(${r}, ${g}, ${b}, 1)`); // Push each shade to the array
+                                            //     }
+
+                                            //     return shades;
+                                            // }
                                         </script>
                                     </div>
                                 </div>
@@ -454,18 +501,6 @@
                                         <div style="background-color: #B31B1B; color: white; text-align: center;  border: 1px solid white;">
                                             Refund/ Dispute Comparision
                                         </div>
-                                        @if ($role == 0)
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                        <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">20--</th>
-                                                        <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">20--</th>
-                                                        <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        @else
                                             @php
                                                 $brandyear  = $item['refund'];
                                             @endphp
@@ -524,7 +559,6 @@
                                                         @endforeach
                                                     </tbody>
                                                 </table>
-                                        @endif
                                     </div>
                                     <div class="col-8">
                                         <div id="chart_div1_{{$differ}}" style="width: 1000px; height: 380px;"></div>
@@ -567,26 +601,6 @@
                                         <div style="background-color: #EF8923; color: white; text-align: center;  border: 1px solid white;">
                                             Front Sale Comparision
                                         </div>
-                                        @if ($role == 0)
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                        <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">20--</th>
-                                                        <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">20--</th>
-                                                        <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
-                                                    </tr>
-                                                </thead>
-                                                {{-- <tbody>
-                                                    <tr>
-                                                        <td style="width: 160px; background-color: #C0C0C0; color: black;  font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">jan</td>
-                                                        <td style="width: 115px; background-color: #EFC0AD; color: black;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">$200</td>
-                                                        <td style="width: 115px; background-color: #EF8923; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">$200</td>
-                                                        <td style="width: 130px; background-color: #E0E0E0; color: black;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">25%</td>
-                                                    </tr>
-                                                </tbody> --}}
-                                            </table>
-                                        @else
                                             @php
                                                 $brandyear  = $item['front'];
                                             @endphp
@@ -644,13 +658,7 @@
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
-
-
-
-
-
                                                 </table>
-                                        @endif
                                     </div>
                                     <div class="col-8">
                                         <div id="chart_div2_{{$differ}}" style="width: 1000px; height: 380px;"></div>
@@ -693,18 +701,6 @@
                                         <div style="background-color: #4D78C3; color: white; text-align: center;  border: 1px solid white;">
                                             Back Sale Comparision
                                         </div>
-                                        @if ($role == 0)
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                        <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">20--</th>
-                                                        <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">20--</th>
-                                                        <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        @else
                                             @php
                                                 $brandyear  = $item['back'];
                                             @endphp
@@ -762,13 +758,7 @@
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
-
-
-
-
-
                                                 </table>
-                                        @endif
                                     </div>
                                     <div class="col-8">
                                         <div id="chart_div3_{{$differ}}" style="width: 1000px; height: 380px;"></div>
