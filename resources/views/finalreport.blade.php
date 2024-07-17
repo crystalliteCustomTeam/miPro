@@ -149,7 +149,6 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-10">
-                                    {{-- <h4 style="background-color: white; color: Black; font-weight: bold; border: 1px solid white; text-align: left; font-size: 20px;">Brands:</h4> --}}
                                 </div>
                                 <div class="col-2">
                                     <label style="background-color: white; color: black; font-weight: bold; border: 1px solid white; text-align: center; font-size: 20px;">Number of Days Left:</label>
@@ -191,36 +190,6 @@
 
                     </div>
                     {{-- end set 1 --}}
-                    {{-- <div class="col-12">
-                        <br><br>
-                            <table id="" class="table-dark table-hover">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Target</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Revenue</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Back</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Refund</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Chargeback</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">N. Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="employeeTableBody"></tbody>
-                                <tbody >
-                                    <tr>
-                                        <td style="background-color: black;"></td>
-                                        <td style="background-color: black;"></td>
-                                        <td style="background-color: black;"></td>
-                                        <td style="background-color: black;"></td>
-                                        <td style="background-color: black;"></td>
-                                        <td style="background-color: black;"></td>
-                                        <td style="background-color: black; color: white; font-weight: bold; text-align: center;">Total</td>
-                                        <td style="background-color: #66B2FF; color: white; font-weight: bold; text-align: center; border:  3px double white;"><label id="agentsnettotal"></label></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                    </div> --}}
 
                     <div class="col-12" id="alltables">
                         <br><br>
@@ -330,15 +299,18 @@
                         </div>
                     </div>
 
-                    <div class="col-12" >
+                    <div class="col-12">
                         <br><br>
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Refund Report:</h4></div>
-                                <div class="col-2">
-                                </div>
+                        <div class="row">
+                            <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Refund & Disputes Report:</h4></div>
+                            <div class="col-2">
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-12" id="allrefundsandcbs">
+
+
                         <table id="" class="table-dark table-hover">
                             <thead>
                                 <tr role="row">
@@ -347,38 +319,16 @@
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Client Name</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Amount</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Service</th>
-                                    {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Upseller</th> --}}
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Support</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Type</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front Person</th>
                                 </tr>
                             </thead>
-                            <tbody id="dispreftable"></tbody>
                         </table>
-                        <br><br>
-                        <div class="col-12" >
-                            <div class="row">
-                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Chargebacks Report:</h4></div>
-                                <div class="col-2">
-                                </div>
-                            </div>
-                        </div>
-                        <table id="" class="table-dark table-hover">
-                            <thead>
-                                <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Brand</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Client Name</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Amount</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Service</th>
-                                    {{-- <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px;" aria-label="Last name: activate to sort column ascending">Upseller</th> --}}
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Support</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Type</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front Person</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dispreftable1"></tbody>
-                        </table>
+                    </div>
+
+
+                    <div class="col-4" >
                         <br><br>
                         <div class="col-12">
                             <div class="row">
@@ -422,84 +372,7 @@
 
                     </div>
 
-                    <div class="col-12">
-                        <br><br>
-                        {{-- <div class="col-12">
-                            <div class="row">
-                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Daily Target Tracking:</h4></div>
-                                <div class="col-2">
-                                </div>
-                            </div>
-                        </div>
-                        <table id="" class="table-dark table-hover">
-                            <thead>
-                                <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Date</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Brand</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Upsell</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Renewal</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Aggregated Sales</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Daily Target</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dailytargtesales"></tbody>
-                        </table>
-                        <br><br> --}}
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Target Chasing Graph:</h4></div>
-                                <div class="col-2"></div>
-                            </div>
-                            <div class="row" id="linechart_container"></div>
-                        </div>
-
-                        <script type="text/javascript">
-                            function displayForecast(chartId, brandData, brandName) {
-                            google.charts.load('current', {'packages': ['line']});
-
-                            google.charts.setOnLoadCallback(function () {
-                                drawChartForecast(chartId, brandData, brandName);
-                            });
-
-                            function drawChartForecast(chartId, brandData, brandName) {
-                                var data = new google.visualization.DataTable();
-                                data.addColumn('string', 'Date');
-                                data.addColumn('number', 'Revenue');
-                                data.addColumn('number', 'Forecast');
-                                data.addColumn('number', 'Target');
-
-                                // Convert brand data to rows
-                                let rows = [];
-                                // Object.keys(brandData).forEach(date => {
-                                //     let rowData = brandData[date];
-                                //     rows.push([date, rowData.revenue, rowData.revenueforeast, rowData.Target]);
-                                // });
-                                brandData.forEach(entry => {
-                                    let date = entry.date;
-                                    let rowData = entry;
-                                    rows.push([date, rowData.revenue, rowData.revenueforecast, rowData.Target]);
-                                });
-
-                                data.addRows(rows);
-
-                                var options = {
-                                    'title': brandName + ' Target Chasing Graph:',
-                                    colors: ['green', '#1E90FF', '#EF8923'],
-                                    width: 500,
-                                    height: 300
-                                };
-
-                                var chart = new google.charts.Line(document.getElementById(chartId));
-                                chart.draw(data, google.charts.Line.convertOptions(options));
-                            }
-                        }
-                        </script>
-
-                    </div>
-
-                    <div class="col-12">
+                    <div class="col-4">
                         <br><br>
                         <div class="col-12">
                             <div class="row">
@@ -541,6 +414,57 @@
                                 }
                             }
                     </script>
+
+
+                    <div class="col-4">
+                        <br><br>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Target Chasing Graph:</h4></div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row" id="linechart_container"></div>
+                        </div>
+
+                        <script type="text/javascript">
+                            function displayForecast(chartId, brandData, brandName) {
+                            google.charts.load('current', {'packages': ['line']});
+
+                            google.charts.setOnLoadCallback(function () {
+                                drawChartForecast(chartId, brandData, brandName);
+                            });
+
+                            function drawChartForecast(chartId, brandData, brandName) {
+                                var data = new google.visualization.DataTable();
+                                data.addColumn('string', 'Date');
+                                data.addColumn('number', 'Revenue');
+                                data.addColumn('number', 'Forecast');
+                                data.addColumn('number', 'Target');
+
+                                // Convert brand data to rows
+                                let rows = [];
+                                brandData.forEach(entry => {
+                                    let date = entry.date;
+                                    let rowData = entry;
+                                    rows.push([date, rowData.revenue, rowData.revenueforecast, rowData.Target]);
+                                });
+
+                                data.addRows(rows);
+
+                                var options = {
+                                    'title': brandName + ' Target Chasing Graph:',
+                                    colors: ['green', '#1E90FF', '#EF8923'],
+                                    width: 500,
+                                    height: 300
+                                };
+
+                                var chart = new google.charts.Line(document.getElementById(chartId));
+                                chart.draw(data, google.charts.Line.convertOptions(options));
+                            }
+                        }
+                        </script>
+
+                    </div>
 
                     <div class="col-12 mg-b-15">
                         <br><br>
@@ -1049,136 +973,6 @@
 
                                     });
 
-
-
-                                    // let employees = Response.emppaymentarray1;
-                                    // let tableBody = document.getElementById('employeeTableBody');
-                                    // tableBody.innerHTML = '';
-
-                                    // employees.forEach(employee => {
-
-                                    //     if(employee){
-
-                                    //         if(employee.getcompletesum != 0 ||  employee.getfrontsum != 0 ||  employee.getbacksum != 0 || employee.refund  != 0 || employee.dispute != 0 ){
-
-                                    //             let row = document.createElement('tr');
-                                    //             let agentname = document.createElement('td');
-                                    //             agentname.textContent = employee.name;
-                                    //             agentname.style.backgroundColor = 'black';
-                                    //             agentname.style.color = 'white';
-                                    //             agentname.style.borderTop = 'none';
-                                    //             agentname.style.borderRight = 'none';
-                                    //             agentname.style.borderLeft = 'none';
-                                    //             agentname.style.borderBottom = '1px dotted white';
-                                    //             agentname.style.textAlign = 'center';
-                                    //             row.appendChild(agentname);
-
-                                    //             let target = document.createElement('td');
-                                    //             let aa = employee.agenttarget;
-                                    //             let bb = (aa !== 0) ?  "$" + aa : "";
-                                    //             target.textContent = bb;
-                                    //             target.style.backgroundColor = 'black';
-                                    //             target.style.color = 'white';
-                                    //             target.style.textAlign = 'center';
-                                    //             row.appendChild(target);
-
-                                    //             let revenue = document.createElement('td');
-                                    //             let cc = employee.getcompletesum;
-                                    //             let dd = (cc !== 0) ?  "$" + cc : "";
-                                    //             revenue.textContent = dd;
-                                    //             revenue.style.backgroundColor = 'black';
-                                    //             revenue.style.color = 'white';
-                                    //             revenue.style.borderTop = 'none';
-                                    //             revenue.style.borderRight = 'none';
-                                    //             revenue.style.borderLeft = 'none';
-                                    //             revenue.style.borderBottom = '1px dotted white';
-                                    //             revenue.style.textAlign = 'center';
-                                    //             row.appendChild(revenue);
-
-                                    //             let front = document.createElement('td');
-                                    //             let ee = employee.getfrontsum;
-                                    //             let ff = (ee !== 0) ?  "$" + ee : "";
-                                    //             front.textContent = ff;
-                                    //             front.style.backgroundColor = 'black';
-                                    //             front.style.color = 'white';
-                                    //             front.style.borderTop = 'none';
-                                    //             front.style.borderRight = 'none';
-                                    //             front.style.borderLeft = 'none';
-                                    //             front.style.borderBottom = '1px dotted white';
-                                    //             front.style.textAlign = 'center';
-                                    //             row.appendChild(front);
-
-                                    //             let back = document.createElement('td');
-                                    //             let gg = employee.getbacksum;
-                                    //             let hh = (gg !== 0) ?  "$" + gg : "";
-                                    //             back.textContent = hh;
-                                    //             back.style.backgroundColor = 'black';
-                                    //             back.style.color = 'white';
-                                    //             back.style.borderTop = 'none';
-                                    //             back.style.borderRight = 'none';
-                                    //             back.style.borderLeft = 'none';
-                                    //             back.style.borderBottom = '1px dotted white';
-                                    //             back.style.textAlign = 'center';
-                                    //             row.appendChild(back);
-
-                                    //             let refund = document.createElement('td');
-                                    //             let ii = employee.refund;
-                                    //             let jj = (ii !== 0) ?  "$" + ii : "";
-                                    //             refund.textContent = jj;
-                                    //             refund.style.backgroundColor = 'black';
-                                    //             refund.style.color = 'white';
-                                    //             refund.style.borderTop = 'none';
-                                    //             refund.style.borderRight = 'none';
-                                    //             refund.style.borderLeft = 'none';
-                                    //             refund.style.borderBottom = '1px dotted white';
-                                    //             refund.style.textAlign = 'center';
-                                    //             row.appendChild(refund);
-
-                                    //             let chargeback = document.createElement('td');
-                                    //             let kk = employee.dispute;
-                                    //             let ll = (kk !==0) ?  "$" + kk : "";
-                                    //             chargeback.textContent = ll;
-                                    //             chargeback.style.backgroundColor = 'black';
-                                    //             chargeback.style.color = 'white';
-                                    //             chargeback.style.borderTop = 'none';
-                                    //             chargeback.style.borderRight = 'none';
-                                    //             chargeback.style.borderLeft = 'none';
-                                    //             chargeback.style.borderBottom = '1px dotted white';
-                                    //             chargeback.style.textAlign = 'center';
-                                    //             row.appendChild(chargeback);
-
-                                    //             let ntotal = document.createElement('td');
-                                    //             let mm = employee.getcompletesum - employee.refund - employee.dispute;
-                                    //             let nn = (mm !==0) ?  "$" + mm : "";
-                                    //             ntotal.textContent = nn;
-                                    //             // ntotal.textContent = ll;
-                                    //             if (employee.agenttarget == mm || employee.agenttarget < mm) {
-                                    //                 ntotal.style.backgroundColor = '#00FF00';
-                                    //                 ntotal.style.color = 'black';
-                                    //             } else {
-                                    //                 ntotal.style.backgroundColor = 'black';
-                                    //                 ntotal.style.color = 'white';
-                                    //             }
-
-                                    //             ntotal.style.borderTop = 'none';
-                                    //             ntotal.style.borderRight = '1px solid #00FF00';
-                                    //             ntotal.style.borderLeft = 'none';
-                                    //             ntotal.style.borderBottom = '1px dotted white';
-                                    //             ntotal.style.textAlign = 'center';
-                                    //             row.appendChild(ntotal);
-
-                                    //             agentsnettotal1.push(parseFloat(employee.getcompletesum - employee.refund - employee.dispute));
-
-                                    //             tableBody.appendChild(row);
-
-                                    //         }
-                                    //     };
-
-                                    // });
-
-                                    // let sumagentstotal = agentsnettotal1.reduce((acc, curr) => acc + curr, 0);
-                                    // let y = (sumagentstotal !== 0) ?  "$" + sumagentstotal : "";
-                                    // document.getElementById("agentsnettotal").innerHTML = y;
                                     //----------------------------------------------------------------
 
 
@@ -1341,296 +1135,164 @@
                                     //----------------------------------------------------------------
 
 
-                                    let disputerefunddata = Response.chargebacks;
-                                    let disputetable = document.getElementById('dispreftable');
-                                    disputetable.innerHTML = '';
-                                    let branddispref1 = [];
+                                    let refund = Response.combinebrandwiserefdis;
+                                    let allTablesDiv1 = document.getElementById('allrefundsandcbs');
+                                    allTablesDiv1.innerHTML = '';
 
+                                    // Iterate through each brand in the refund object
+                                    Object.keys(refund).forEach((brand, indexrefund) => {
+                                        let refunds = refund[brand];
+
+                                        let headingContainer = document.createElement('div');
+                                        headingContainer.className = 'col-12';
+
+                                        let rowDiv = document.createElement('div');
+                                        rowDiv.className = 'row';
+
+                                        let col10Div = document.createElement('div');
+                                        col10Div.className = 'col-10';
+
+                                        let col2Div = document.createElement('div');
+                                        col2Div.className = 'col-2';
+
+                                        let heading = document.createElement('h4');
+                                        heading.style = 'background-color: white; color: black; font-weight: bold;';
+                                        heading.textContent = 'Brand: ' + brand;
+
+                                        let lineBreak1 = document.createElement('br');
+                                        let lineBreak2 = document.createElement('br');
+                                        col10Div.appendChild(lineBreak1);
+                                        col10Div.appendChild(lineBreak2);
+
+                                        col10Div.appendChild(heading);
+                                        rowDiv.appendChild(col10Div);
+                                        rowDiv.appendChild(col2Div);
+                                        headingContainer.appendChild(rowDiv);
+                                        allTablesDiv1.appendChild(headingContainer);
+
+                                        let table = document.createElement('table');
+                                        table.className = 'table-dark table-hover';
+
+                                        let thead = document.createElement('thead');
+                                        let headerRow = document.createElement('tr');
+
+                                        let headers = [
+                                            { text: 'Date', style: 'width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;' },
+                                            { text: 'Brand', style: 'width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;' },
+                                            { text: 'Client Name', style: 'width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;' },
+                                            { text: 'Amount', style: 'width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;' },
+                                            { text: 'Services', style: 'width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;' },
+                                            { text: 'Support', style: 'width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;' },
+                                            { text: 'Type', style: 'width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;' },
+                                            { text: 'Front Person', style: 'width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;' }
+                                        ];
+
+                                        headers.forEach(header => {
+                                            let th = document.createElement('th');
+                                            th.textContent = header.text;
+                                            th.setAttribute('style', header.style);
+                                            th.classList.add('wd-15p', 'sorting');
+                                            th.setAttribute('tabindex', '0');
+                                            th.setAttribute('rowspan', '1');
+                                            th.setAttribute('colspan', '1');
+                                            headerRow.appendChild(th);
+                                        });
+
+                                        thead.appendChild(headerRow);
+                                        table.appendChild(thead);
+
+                                        let tbody = document.createElement('tbody');
+
+                                        refunds.forEach(data => {
+                                            let row = document.createElement('tr');
+
+                                            let agentname = document.createElement('td');
+                                            agentname.textContent = data.date;
+                                            agentname.style.backgroundColor = 'white';
+                                            agentname.style.color = 'black';
+                                            agentname.style.border = '1px solid black';
+                                            agentname.style.textAlign = 'center';
+
+                                            row.appendChild(agentname);
+
+                                            let target = document.createElement('td');
+                                            target.textContent = data.brand !== 0 ?  data.brand : "";
+                                            target.style.backgroundColor = 'white';
+                                            target.style.color = 'black';
+                                            target.style.border = '1px solid black';
+                                            target.style.textAlign = 'center';
+
+                                            row.appendChild(target);
+
+                                            let revenue = document.createElement('td');
+                                            revenue.textContent = data.client !== 0 ?  data.client : "";
+                                            revenue.style.backgroundColor = 'white';
+                                            revenue.style.fontWeight = 'bold';
+                                            revenue.style.color = 'black';
+                                            revenue.style.border = '1px solid black';
+                                            revenue.style.textAlign = 'center';
+                                            row.appendChild(revenue);
+
+                                            let front = document.createElement('td');
+                                            front.textContent = data.amount !== 0 ? "$" + data.amount : "";
+                                            front.style.backgroundColor = 'white';
+                                            front.style.color = 'black';
+                                            front.style.border = '1px solid black';
+                                            front.style.textAlign = 'center';
+                                            row.appendChild(front);
+
+                                            let back = document.createElement('td');
+                                            back.textContent = data.services !== 0 ?  data.services : "";
+                                            back.style.backgroundColor = 'white';
+                                            back.style.color = 'black';
+                                            back.style.border = '1px solid black';
+                                            back.style.textAlign = 'center';
+                                            row.appendChild(back);
+
+                                            let refund = document.createElement('td');
+                                            refund.textContent = data.support !== 0 ?  data.support : "";
+                                            refund.style.backgroundColor = 'white';
+                                            refund.style.color = 'black';
+                                            refund.style.border = '1px solid black';
+                                            refund.style.textAlign = 'center';
+                                            row.appendChild(refund);
+
+                                            let chargeback = document.createElement('td');
+                                            chargeback.textContent = data.type !== 0 ?  data.type : "";
+                                            chargeback.style.backgroundColor = 'white';
+                                            chargeback.style.color = 'black';
+                                            chargeback.style.border = '1px solid black';
+                                            chargeback.style.textAlign = 'center';
+                                            row.appendChild(chargeback);
+
+                                            let ntotal = document.createElement('td');
+                                            let netTotal = data.frontperson;
+                                            ntotal.textContent = netTotal !== 0 ?  netTotal : "";
+                                            ntotal.style.backgroundColor = 'white';
+                                            ntotal.style.color = 'black';
+                                            ntotal.style.border = '1px solid black';
+                                            ntotal.style.textAlign = 'center';
+
+                                            row.appendChild(ntotal);
+
+                                            tbody.appendChild(row);
+                                        });
+
+                                        table.appendChild(tbody);
+                                        allTablesDiv1.appendChild(table);
+                                    });
+
+                                    // -------------------------------------------------------------------------------------------------------------
                                     let totalAmount = 0;
+                                    // -------------------------------------------------------------------------------------
 
-                                    disputerefunddata.forEach(disputerefunddatas => {
+                                    let refundGraphData = Response.disputegraph;
+                                    let refundGraphContainer = document.getElementById('refundgraph');
+                                       refundGraphContainer.innerHTML = '';
 
-                                        let row3 = document.createElement('tr');
+                                    let rowDivDispute = null;
 
-                                        let disputedate = document.createElement('td');
-                                        disputedate.textContent = disputerefunddatas[0].date;
-                                        disputedate.style.backgroundColor = 'white';
-                                        // disputedate.style.fontWeight = 'bold';
-                                        disputedate.style.color = 'black';
-                                        disputedate.style.border = '1px solid black';
-                                        disputedate.style.textAlign = 'center';
-                                        row3.appendChild(disputedate);
-
-                                        let disputebrand = document.createElement('td');
-                                        disputebrand.textContent = disputerefunddatas[0].brand;
-                                        disputebrand.style.backgroundColor = 'white';
-                                        // disputebrand.style.fontWeight = 'bold';
-                                        disputebrand.style.color = 'black';
-                                        disputebrand.style.border = '1px solid black';
-                                        disputebrand.style.textAlign = 'center';
-                                        row3.appendChild(disputebrand);
-
-                                        let disputeclient = document.createElement('td');
-                                        disputeclient.textContent = disputerefunddatas[0].client;
-                                        disputeclient.style.backgroundColor = 'white';
-                                        disputeclient.style.fontWeight = 'bold';
-                                        disputeclient.style.color = 'black';
-                                        disputeclient.style.border = '1px solid black';
-                                        disputeclient.style.textAlign = 'center';
-                                        row3.appendChild(disputeclient);
-
-                                        let disputeamount = document.createElement('td');
-                                        disputeamount.textContent =  "$" + disputerefunddatas[0].amount;
-                                        disputeamount.style.backgroundColor = 'white';
-                                        // disputeamount.style.fontWeight = 'bold';
-                                        disputeamount.style.color = 'black';
-                                        disputeamount.style.border = '1px solid black';
-                                        disputeamount.style.textAlign = 'center';
-                                        row3.appendChild(disputeamount);
-
-                                        let disputeservices = document.createElement('td');
-                                        disputeservices.textContent = disputerefunddatas[0].services;
-                                        disputeservices.style.backgroundColor = 'white';
-                                        // disputeservices.style.fontWeight = 'bold';
-                                        disputeservices.style.color = 'black';
-                                        disputeservices.style.border = '1px solid black';
-                                        disputeservices.style.textAlign = 'center';
-                                        row3.appendChild(disputeservices);
-
-                                        // let disputeupseller = document.createElement('td');
-                                        // disputeupseller.textContent = disputerefunddatas[0].upseller;
-                                        // row3.appendChild(disputeupseller);
-
-                                        let disputesupport = document.createElement('td');
-                                        disputesupport.textContent = disputerefunddatas[0].support;
-                                        disputesupport.style.backgroundColor = 'white';
-                                        // disputesupport.style.fontWeight = 'bold';
-                                        disputesupport.style.color = 'black';
-                                        disputesupport.style.border = '1px solid black';
-                                        disputesupport.style.textAlign = 'center';
-                                        row3.appendChild(disputesupport);
-
-                                        let disputetype = document.createElement('td');
-                                        disputetype.textContent = disputerefunddatas[0].type;
-                                        disputetype.style.backgroundColor = 'white';
-                                        // disputetype.style.fontWeight = 'bold';
-                                        disputetype.style.color = 'black';
-                                        disputetype.style.border = '1px solid black';
-                                        disputetype.style.textAlign = 'center';
-                                        row3.appendChild(disputetype);
-
-                                        let disputefrontperson = document.createElement('td');
-                                        disputefrontperson.textContent = disputerefunddatas[0].frontperson;
-                                        disputefrontperson.style.backgroundColor = 'white';
-                                        // disputefrontperson.style.fontWeight = 'bold';
-                                        disputefrontperson.style.color = 'black';
-                                        disputefrontperson.style.border = '1px solid black';
-                                        disputefrontperson.style.textAlign = 'center';
-                                        row3.appendChild(disputefrontperson);
-
-                                        disputetable.appendChild(row3);
-
-
-
-                                    });
-
-
-
-
-                                    let disputerefunddata1 = Response.chargebacks1;
-                                    let disputetable1 = document.getElementById('dispreftable1');
-                                    disputetable1.innerHTML = '';
-
-                                    disputerefunddata1.forEach(disputerefunddatass => {
-
-                                        let row3 = document.createElement('tr');
-
-                                        let disputedate = document.createElement('td');
-                                        disputedate.textContent = disputerefunddatass[0].date;
-                                        disputedate.style.backgroundColor = 'white';
-                                        // disputedate.style.fontWeight = 'bold';
-                                        disputedate.style.color = 'black';
-                                        disputedate.style.border = '1px solid black';
-                                        disputedate.style.textAlign = 'center';
-                                        row3.appendChild(disputedate);
-
-                                        let disputebrand = document.createElement('td');
-                                        disputebrand.textContent = disputerefunddatass[0].brand;
-                                        disputebrand.style.backgroundColor = 'white';
-                                        // disputebrand.style.fontWeight = 'bold';
-                                        disputebrand.style.color = 'black';
-                                        disputebrand.style.border = '1px solid black';
-                                        disputebrand.style.textAlign = 'center';
-                                        row3.appendChild(disputebrand);
-
-                                        let disputeclient = document.createElement('td');
-                                        disputeclient.textContent = disputerefunddatass[0].client;
-                                        disputeclient.style.backgroundColor = 'white';
-                                        disputeclient.style.fontWeight = 'bold';
-                                        disputeclient.style.color = 'black';
-                                        disputeclient.style.border = '1px solid black';
-                                        disputeclient.style.textAlign = 'center';
-                                        row3.appendChild(disputeclient);
-
-                                        let disputeamount = document.createElement('td');
-                                        disputeamount.textContent =  "$" + disputerefunddatass[0].amount;
-                                        disputeamount.style.backgroundColor = 'white';
-                                        // disputeamount.style.fontWeight = 'bold';
-                                        disputeamount.style.color = 'black';
-                                        disputeamount.style.border = '1px solid black';
-                                        disputeamount.style.textAlign = 'center';
-                                        row3.appendChild(disputeamount);
-
-                                        let disputeservices = document.createElement('td');
-                                        disputeservices.textContent = disputerefunddatass[0].services;
-                                        disputeservices.style.backgroundColor = 'white';
-                                        // disputeservices.style.fontWeight = 'bold';
-                                        disputeservices.style.color = 'black';
-                                        disputeservices.style.border = '1px solid black';
-                                        disputeservices.style.textAlign = 'center';
-                                        row3.appendChild(disputeservices);
-
-                                        // let disputeupseller = document.createElement('td');
-                                        // disputeupseller.textContent = disputerefunddatass[0].upseller;
-                                        // row3.appendChild(disputeupseller);
-
-                                        let disputesupport = document.createElement('td');
-                                        disputesupport.textContent = disputerefunddatass[0].support;
-                                        disputesupport.style.backgroundColor = 'white';
-                                        // disputesupport.style.fontWeight = 'bold';
-                                        disputesupport.style.color = 'black';
-                                        disputesupport.style.border = '1px solid black';
-                                        disputesupport.style.textAlign = 'center';
-                                        row3.appendChild(disputesupport);
-
-                                        let disputetype = document.createElement('td');
-                                        disputetype.textContent = disputerefunddatass[0].type;
-                                        disputetype.style.backgroundColor = 'white';
-                                        // disputetype.style.fontWeight = 'bold';
-                                        disputetype.style.color = 'black';
-                                        disputetype.style.border = '1px solid black';
-                                        disputetype.style.textAlign = 'center';
-                                        row3.appendChild(disputetype);
-
-                                        let disputefrontperson = document.createElement('td');
-                                        disputefrontperson.textContent = disputerefunddatass[0].frontperson;
-                                        disputefrontperson.style.backgroundColor = 'white';
-                                        // disputefrontperson.style.fontWeight = 'bold';
-                                        disputefrontperson.style.color = 'black';
-                                        disputefrontperson.style.border = '1px solid black';
-                                        disputefrontperson.style.textAlign = 'center';
-                                        row3.appendChild(disputefrontperson);
-
-                                        disputetable1.appendChild(row3);
-
-
-
-                                    });
-
-                                    // let dailytarget = Response.days;
-
-
-                                    //     let dailytargtesales = document.getElementById('dailytargtesales');
-                                    //     dailytargtesales.innerHTML = '';
-
-                                    //     for (let i = 0; i < dailytarget[0].data.length; i++) {
-                                    //         dailytarget.forEach(dailytargets => {
-
-                                    //             if( dailytargets.date != 'nothing'){
-                                    //             let rowsales = document.createElement('tr');
-
-                                    //             let date = document.createElement('td');
-                                    //             date.textContent = dailytargets.date;
-                                    //             date.style.backgroundColor = '#FCFBFF';
-                                    //             date.style.color = 'black';
-                                    //             date.style.border = '1px solid #E6CCFF';
-                                    //             date.style.textAlign = 'center';
-                                    //             rowsales.appendChild(date);
-
-                                    //             let brand = document.createElement('td');
-                                    //             brand.textContent = dailytargets.data[i].brand;
-                                    //             brand.style.backgroundColor = '#FCFBFF';
-                                    //             brand.style.color = 'black';
-                                    //             brand.style.border = '1px solid #E6CCFF';
-                                    //             brand.style.textAlign = 'center';
-                                    //             rowsales.appendChild(brand);
-
-                                    //             let front = document.createElement('td');
-                                    //             let a4 =  dailytargets.data[i].front;
-                                    //             let a5 = (a4 !==0) ?  "$" + a4 : "";
-                                    //             front.textContent = a5;
-                                    //             front.style.backgroundColor = '#FCFBFF';
-                                    //             front.style.color = 'black';
-                                    //             front.style.border = '1px solid #E6CCFF';
-                                    //             front.style.textAlign = 'center';
-                                    //             rowsales.appendChild(front);
-
-                                    //             let upsell = document.createElement('td');
-                                    //             let a6 =  dailytargets.data[i].upsell;
-                                    //             let a7 = (a6 !==0) ?  "$" + a6 : "";
-                                    //             upsell.textContent = a7;
-                                    //             upsell.style.backgroundColor = '#FCFBFF';
-                                    //             upsell.style.color = 'black';
-                                    //             upsell.style.border = '1px solid #E6CCFF';
-                                    //             upsell.style.textAlign = 'center';
-                                    //             rowsales.appendChild(upsell);
-
-                                    //             let renewal = document.createElement('td');
-                                    //             let a8 =  dailytargets.data[i].renewal;
-                                    //             let a9 = (a8 !==0) ?  "$" + a8 : "";
-                                    //             renewal.textContent = a9;
-                                    //             renewal.style.backgroundColor = '#FCFBFF';
-                                    //             renewal.style.color = 'black';
-                                    //             renewal.style.border = '1px solid #E6CCFF';
-                                    //             renewal.style.textAlign = 'center';
-                                    //             rowsales.appendChild(renewal);
-
-                                    //             let agregatesales = document.createElement('td');
-                                    //             let a10 =  dailytargets.data[i].Aggregated_Sales;
-                                    //             let a11 = (a10 !==0) ?  "$" + a10 : "";
-                                    //             agregatesales.textContent = a11;
-                                    //             agregatesales.style.backgroundColor = '#FCFBFF';
-                                    //             agregatesales.style.color = 'black';
-                                    //             agregatesales.style.border = '1px solid #E6CCFF';
-                                    //             agregatesales.style.textAlign = 'center';
-                                    //             rowsales.appendChild(agregatesales);
-
-                                    //             let target = document.createElement('td');
-                                    //             let a12 =  dailytargets.data[i].Target;
-                                    //             let a13 = (a12 !==0) ?  "$" + a12 : "";
-                                    //             target.textContent = a13;
-                                    //             target.style.backgroundColor = '#FCFBFF';
-                                    //             target.style.color = 'black';
-                                    //             target.style.border = '1px solid #E6CCFF';
-                                    //             target.style.textAlign = 'center';
-                                    //             rowsales.appendChild(target);
-
-                                    //             let dailytargetCell = document.createElement('td');
-                                    //             let aa1 = dailytargets.data[i].Daily_Target;
-                                    //             let aa2 = (parseInt(aa1) !== 0) ?  "$" + aa1 : "";
-                                    //             dailytargetCell.textContent = aa2;
-                                    //             dailytargetCell.style.backgroundColor = '#FCFBFF';
-                                    //             dailytargetCell.style.color = 'black';
-                                    //             dailytargetCell.style.border = '1px solid #E6CCFF';
-                                    //             dailytargetCell.style.textAlign = 'center';
-                                    //             rowsales.appendChild(dailytargetCell);
-
-                                    //             dailytargtesales.appendChild(rowsales);
-
-
-                                    //             }
-
-
-                                    //         });
-                                    //     }
-
-                                        let refundGraphData = Response.disputegraph;
-                                        let refundGraphContainer = document.getElementById('refundgraph');
-                                        refundGraphContainer.innerHTML = '';
-
-                                        let rowDivDispute = null;
-
-                                        refundGraphData.forEach((refundGraphs, index) => {
+                                    refundGraphData.forEach((refundGraphs, index) => {
                                             if (index % 3 === 0) {
                                                 rowDivDispute = document.createElement('div');
                                                 rowDivDispute.className = 'row';
@@ -1638,7 +1300,8 @@
                                             }
 
                                             let colDivDispute = document.createElement('div');
-                                            colDivDispute.className = 'col-4';
+                                            colDivDispute.className = 'col-12';
+                                            colDivDispute.style.height = '450px';
 
                                             let brand_name = refundGraphs.name;
                                             let brand_ongoing = refundGraphs.brand_ongoing;
@@ -1653,7 +1316,7 @@
                                             rowDivDispute.appendChild(colDivDispute);
 
                                             displayArrayDispute(chartId, brand_name, brand_ongoing, brand_refund, brand_chargeback);
-                                        });
+                                    });
 
 
                                     let salesGraphData = Response.salesgraph;
@@ -1670,7 +1333,8 @@
                                         }
 
                                         let colDivSales = document.createElement('div');
-                                        colDivSales.className = 'col-4';
+                                        colDivSales.className = 'col-12';
+                                        colDivSales.style.height = '450px';
 
                                         let brand_name = salesDistributions.name;
                                         let brand_renewal = salesDistributions.brand_renewal;
@@ -1687,6 +1351,7 @@
                                         displayArraySales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
                                     });
 
+
                                     let salesTargetGraphData = Response.targetchasingraph;
                                     let linechartContainer = document.getElementById('linechart_container');
                                     linechartContainer.innerHTML = '';
@@ -1701,7 +1366,14 @@
                                         }
 
                                         let colDivForecast = document.createElement('div');
-                                        colDivForecast.className = 'col-4';
+                                        colDivForecast.className = 'col-12';
+                                        // colDivForecast.style.width = '600px';
+                                        colDivForecast.style.height = '450px';
+
+                                        let lineBreak1 = document.createElement('br');
+                                        let lineBreak2 = document.createElement('br');
+                                        colDivForecast.appendChild(lineBreak1);
+                                        colDivForecast.appendChild(lineBreak2);
 
                                         let brandData = salesTargetGraphData[brandName];
                                         let chartId = 'chart_div_forecast_' + brandName.replace(/\s/g, "_");
