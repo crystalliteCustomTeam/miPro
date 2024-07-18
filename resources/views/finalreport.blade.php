@@ -420,7 +420,7 @@
                         <br><br>
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Target Chasing Graph:</h4></div>
+                                <div class="col-10" id="hideornot"><h4 style="background-color: white ; color: black; font-weight: bold; ">Target Chasing Graph:</h4></div>
                                 <div class="col-2"></div>
                             </div>
                             <div class="row" id="linechart_container"></div>
@@ -455,7 +455,11 @@
                                     'title': brandName + ' Target Chasing Graph:',
                                     colors: ['green', '#1E90FF', '#EF8923'],
                                     width: 500,
-                                    height: 300
+                                    height: 300,
+                                    titleTextStyle: {
+                                    // fontSize: 18, // Adjust the font size if needed
+                                    bold: true
+                                    }
                                 };
 
                                 var chart = new google.charts.Line(document.getElementById(chartId));
@@ -1355,6 +1359,13 @@
                                     let salesTargetGraphData = Response.targetchasingraph;
                                     let linechartContainer = document.getElementById('linechart_container');
                                     linechartContainer.innerHTML = '';
+
+                                    var numberofsplits = document.getElementById("hideornot");
+                                    if (salesTargetGraphData[0] !== "no data") {
+                                        numberofsplits.style.display = 'block';
+                                    } else {
+                                        numberofsplits.style.display = 'none';
+                                    }
 
                                     let rowDivForecast = null;
 
