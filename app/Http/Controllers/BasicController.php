@@ -3086,205 +3086,417 @@ class BasicController extends Controller
 
             $finalfront = [];
             $finalsupport = [];
-            foreach ($years as $year) {
+            foreach($years as $year) {
                 $monthdataF = [];
                 $monthdataB = [];
-                foreach ($months as $month) {
-                    $dataF = [];
-                    $dataB = [];
-                    foreach ($mergedArrayfront as $employeefront) {
-                        $frontpersonname = Employee::where('id', $employeefront)->get();
+                $currentYear = Carbon::now()->year;
+                    if($year == $currentYear){
+                        $currentMonth = Carbon::now()->month;
 
-                        $getfrontsumF = NewPaymentsClients::whereYear('paymentDate', $year)
-                            ->whereMonth('paymentDate', $month)
-                            ->whereIn('BrandID', $brands1)
-                            ->where('SalesPerson', $employeefront)
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('refundStatus', '!=', 'Refund')
-                            ->where('transactionType', 'New Lead')
-                            ->sum("Paid");
+                        foreach($months as $month) {
+                            if($month == $currentMonth || $month < $currentMonth){
+                                $dataF = [];
+                                $dataB = [];
+                                foreach ($mergedArrayfront as $employeefront) {
+                                    $frontpersonname = Employee::where('id', $employeefront)->get();
 
-                        $getbacksumF = NewPaymentsClients::whereYear('paymentDate', $year)
-                            ->whereMonth('paymentDate', $month)
-                            ->whereIn('BrandID', $brands1)
-                            ->where('SalesPerson', $employeefront)
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('refundStatus', '!=', 'Refund')
-                            ->where('transactionType', '!=', 'New Lead')
-                            ->sum("Paid");
+                                    $getfrontsumF = NewPaymentsClients::whereYear('paymentDate', $year)
+                                        ->whereMonth('paymentDate', $month)
+                                        ->whereIn('BrandID', $brands1)
+                                        ->where('SalesPerson', $employeefront)
+                                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                        ->where('refundStatus', '!=', 'Pending Payment')
+                                        ->where('refundStatus', '!=', 'Refund')
+                                        ->where('transactionType', 'New Lead')
+                                        ->sum("Paid");
 
-                        $getdisputeF = NewPaymentsClients::whereYear('disputeattack', $year)
-                            ->whereMonth('disputeattack', $month)
-                            ->whereIn('BrandID', $brands1)
-                            ->where('SalesPerson', $employeefront)
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('refundStatus',  '!=', 'Refund')
-                            ->where('dispute', '!=', null)
-                            ->SUM('disputeattackamount');
+                                    $getbacksumF = NewPaymentsClients::whereYear('paymentDate', $year)
+                                        ->whereMonth('paymentDate', $month)
+                                        ->whereIn('BrandID', $brands1)
+                                        ->where('SalesPerson', $employeefront)
+                                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                        ->where('refundStatus', '!=', 'Pending Payment')
+                                        ->where('refundStatus', '!=', 'Refund')
+                                        ->where('transactionType', '!=', 'New Lead')
+                                        ->sum("Paid");
 
-                        $getrefundF = NewPaymentsClients::whereYear('paymentDate', $year)
-                            ->whereMonth('paymentDate', $month)
-                            ->whereIn('BrandID', $brands1)
-                            ->where('SalesPerson', $employeefront)
-                            ->where('refundStatus', 'Refund')
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('dispute', null)
-                            ->sum('Paid');
+                                    $getdisputeF = NewPaymentsClients::whereYear('disputeattack', $year)
+                                        ->whereMonth('disputeattack', $month)
+                                        ->whereIn('BrandID', $brands1)
+                                        ->where('SalesPerson', $employeefront)
+                                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                        ->where('refundStatus', '!=', 'Pending Payment')
+                                        ->where('refundStatus',  '!=', 'Refund')
+                                        ->where('dispute', '!=', null)
+                                        ->SUM('disputeattackamount');
 
-                        $allcbsF = $getdisputeF + $getrefundF;
+                                    $getrefundF = NewPaymentsClients::whereYear('paymentDate', $year)
+                                        ->whereMonth('paymentDate', $month)
+                                        ->whereIn('BrandID', $brands1)
+                                        ->where('SalesPerson', $employeefront)
+                                        ->where('refundStatus', 'Refund')
+                                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                        ->where('refundStatus', '!=', 'Pending Payment')
+                                        ->where('dispute', null)
+                                        ->sum('Paid');
 
-                        if ($month == 1) {
-                            $montha = "January";
-                        } elseif ($month == 2) {
-                            $montha = "February";
-                        } elseif ($month == 3) {
-                            $montha = "March";
-                        } elseif ($month == 4) {
-                            $montha = "April";
-                        } elseif ($month == 5) {
-                            $montha = "May";
-                        } elseif ($month == 6) {
-                            $montha = "June";
-                        } elseif ($month == 7) {
-                            $montha = "July";
-                        } elseif ($month == 8) {
-                            $montha = "August";
-                        } elseif ($month == 9) {
-                            $montha = "September";
-                        } elseif ($month == 10) {
-                            $montha = "October";
-                        } elseif ($month == 11) {
-                            $montha = "November";
-                        } elseif ($month == 12) {
-                            $montha = "December";
+                                    $allcbsF = $getdisputeF + $getrefundF;
+
+                                    if ($month == 1) {
+                                        $montha = "January";
+                                    } elseif ($month == 2) {
+                                        $montha = "February";
+                                    } elseif ($month == 3) {
+                                        $montha = "March";
+                                    } elseif ($month == 4) {
+                                        $montha = "April";
+                                    } elseif ($month == 5) {
+                                        $montha = "May";
+                                    } elseif ($month == 6) {
+                                        $montha = "June";
+                                    } elseif ($month == 7) {
+                                        $montha = "July";
+                                    } elseif ($month == 8) {
+                                        $montha = "August";
+                                    } elseif ($month == 9) {
+                                        $montha = "September";
+                                    } elseif ($month == 10) {
+                                        $montha = "October";
+                                    } elseif ($month == 11) {
+                                        $montha = "November";
+                                    } elseif ($month == 12) {
+                                        $montha = "December";
+                                    }
+                                    $agenttargets1 =  AgentTarget::where('AgentID', $employeefront)
+                                        ->whereIn('Year', $years)
+                                        ->sum($montha);
+
+                                    $dataF[] = [
+                                        "year" => $year,
+                                        "month" => $month,
+                                        "name" => $frontpersonname[0]->name,
+                                        "target" => $agenttargets1,
+                                        "front" => $getfrontsumF,
+                                        "back" => $getbacksumF,
+                                        "refund" => $allcbsF,
+                                        "net" => $getfrontsumF + $getbacksumF - $allcbsF,
+                                    ];
+                                }
+                                $monthdataF[] = [
+                                    "year" => $year,
+                                    "month" => $month,
+                                    "front" => $dataF
+                                ];
+
+                                foreach ($mergedArrayback as $employeeback) {
+
+                                    $supportpersonname = Employee::where('id', $employeeback)->get();
+
+                                    $getfrontsumB = NewPaymentsClients::whereYear('paymentDate', $year)
+                                        ->whereMonth('paymentDate', $month)
+                                        ->whereIn('BrandID', $brands1)
+                                        ->where('SalesPerson', $employeeback)
+                                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                        ->where('refundStatus', '!=', 'Pending Payment')
+                                        ->where('refundStatus', '!=', 'Refund')
+                                        ->where('transactionType', 'New Lead')
+                                        ->sum("Paid");
+
+                                    $getbacksumB = NewPaymentsClients::whereYear('paymentDate', $year)
+                                        ->whereMonth('paymentDate', $month)
+                                        ->whereIn('BrandID', $brands1)
+                                        ->where('SalesPerson', $employeeback)
+                                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                        ->where('refundStatus', '!=', 'Pending Payment')
+                                        ->where('refundStatus', '!=', 'Refund')
+                                        ->where('transactionType', '!=', 'New Lead')
+                                        ->sum("Paid");
+
+                                    $getdisputeB = NewPaymentsClients::whereYear('disputeattack', $year)
+                                        ->whereMonth('disputeattack', $month)
+                                        ->whereIn('BrandID', $brands1)
+                                        ->where('SalesPerson', $employeeback)
+                                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                        ->where('refundStatus', '!=', 'Pending Payment')
+                                        ->where('refundStatus',  '!=', 'Refund')
+                                        ->where('dispute', '!=', null)
+                                        ->SUM('disputeattackamount');
+
+                                    $getrefundB = NewPaymentsClients::whereYear('paymentDate', $year)
+                                        ->whereMonth('paymentDate', $month)
+                                        ->whereIn('BrandID', $brands1)
+                                        ->where('SalesPerson', $employeeback)
+                                        ->where('refundStatus', 'Refund')
+                                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                        ->where('refundStatus', '!=', 'Pending Payment')
+                                        ->where('dispute', null)
+                                        ->sum('Paid');
+
+                                    $allcbsB = $getdisputeB + $getrefundB;
+
+                                    if ($month == 1) {
+                                        $montha = "January";
+                                    } elseif ($month == 2) {
+                                        $montha = "February";
+                                    } elseif ($month == 3) {
+                                        $montha = "March";
+                                    } elseif ($month == 4) {
+                                        $montha = "April";
+                                    } elseif ($month == 5) {
+                                        $montha = "May";
+                                    } elseif ($month == 6) {
+                                        $montha = "June";
+                                    } elseif ($month == 7) {
+                                        $montha = "July";
+                                    } elseif ($month == 8) {
+                                        $montha = "August";
+                                    } elseif ($month == 9) {
+                                        $montha = "September";
+                                    } elseif ($month == 10) {
+                                        $montha = "October";
+                                    } elseif ($month == 11) {
+                                        $montha = "November";
+                                    } elseif ($month == 12) {
+                                        $montha = "December";
+                                    }
+                                    $agenttargets2 =  AgentTarget::where('AgentID', $employeeback)
+                                        ->whereIn('Year', $years)
+                                        ->sum($montha);
+
+                                    $dataB[] = [
+                                        "year" => $year,
+                                        "month" => $month,
+                                        "name" => $supportpersonname[0]->name,
+                                        "target" => $agenttargets2,
+                                        "front" => $getfrontsumB,
+                                        "back" => $getbacksumB,
+                                        "refund" => $allcbsB,
+                                        "net" => $getfrontsumB + $getbacksumB - $allcbsB,
+                                    ];
+                                }
+
+                                $monthdataB[] = [
+                                    "year" => $year,
+                                    "month" => $month,
+                                    "back" => $dataB
+                                ];
+
+                            }else{
+                                continue;
+                            }
                         }
-                        $agenttargets1 =  AgentTarget::where('AgentID', $employeefront)
-                            ->whereIn('Year', $years)
-                            ->sum($montha);
-
-                        $dataF[] = [
+                        $finalfront[] = [
                             "year" => $year,
-                            "month" => $month,
-                            "name" => $frontpersonname[0]->name,
-                            "target" => $agenttargets1,
-                            "front" => $getfrontsumF,
-                            "back" => $getbacksumF,
-                            "refund" => $allcbsF,
-                            "net" => $getfrontsumF + $getbacksumF - $allcbsF,
+                            "alldata" =>  $monthdataF
                         ];
-                    }
-                    $monthdataF[] = [
-                        "year" => $year,
-                        "month" => $month,
-                        "front" => $dataF
-                    ];
 
-                    foreach ($mergedArrayback as $employeeback) {
+                        $finalsupport[] = [
+                            "year" => $year,
+                            "alldata" =>  $monthdataB
+                        ];
 
-                        $supportpersonname = Employee::where('id', $employeeback)->get();
 
-                        $getfrontsumB = NewPaymentsClients::whereYear('paymentDate', $year)
-                            ->whereMonth('paymentDate', $month)
-                            ->whereIn('BrandID', $brands1)
-                            ->where('SalesPerson', $employeeback)
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('refundStatus', '!=', 'Refund')
-                            ->where('transactionType', 'New Lead')
-                            ->sum("Paid");
 
-                        $getbacksumB = NewPaymentsClients::whereYear('paymentDate', $year)
-                            ->whereMonth('paymentDate', $month)
-                            ->whereIn('BrandID', $brands1)
-                            ->where('SalesPerson', $employeeback)
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('refundStatus', '!=', 'Refund')
-                            ->where('transactionType', '!=', 'New Lead')
-                            ->sum("Paid");
+                    }else{
 
-                        $getdisputeB = NewPaymentsClients::whereYear('disputeattack', $year)
-                            ->whereMonth('disputeattack', $month)
-                            ->whereIn('BrandID', $brands1)
-                            ->where('SalesPerson', $employeeback)
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('refundStatus',  '!=', 'Refund')
-                            ->where('dispute', '!=', null)
-                            ->SUM('disputeattackamount');
+                        foreach($months as $month) {
+                            $dataF = [];
+                            $dataB = [];
+                            foreach ($mergedArrayfront as $employeefront) {
+                                $frontpersonname = Employee::where('id', $employeefront)->get();
 
-                        $getrefundB = NewPaymentsClients::whereYear('paymentDate', $year)
-                            ->whereMonth('paymentDate', $month)
-                            ->whereIn('BrandID', $brands1)
-                            ->where('SalesPerson', $employeeback)
-                            ->where('refundStatus', 'Refund')
-                            ->where('remainingStatus', '!=', 'Unlinked Payments')
-                            ->where('refundStatus', '!=', 'Pending Payment')
-                            ->where('dispute', null)
-                            ->sum('Paid');
+                                $getfrontsumF = NewPaymentsClients::whereYear('paymentDate', $year)
+                                    ->whereMonth('paymentDate', $month)
+                                    ->whereIn('BrandID', $brands1)
+                                    ->where('SalesPerson', $employeefront)
+                                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                    ->where('refundStatus', '!=', 'Pending Payment')
+                                    ->where('refundStatus', '!=', 'Refund')
+                                    ->where('transactionType', 'New Lead')
+                                    ->sum("Paid");
 
-                        $allcbsB = $getdisputeB + $getrefundB;
+                                $getbacksumF = NewPaymentsClients::whereYear('paymentDate', $year)
+                                    ->whereMonth('paymentDate', $month)
+                                    ->whereIn('BrandID', $brands1)
+                                    ->where('SalesPerson', $employeefront)
+                                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                    ->where('refundStatus', '!=', 'Pending Payment')
+                                    ->where('refundStatus', '!=', 'Refund')
+                                    ->where('transactionType', '!=', 'New Lead')
+                                    ->sum("Paid");
 
-                        if ($month == 1) {
-                            $montha = "January";
-                        } elseif ($month == 2) {
-                            $montha = "February";
-                        } elseif ($month == 3) {
-                            $montha = "March";
-                        } elseif ($month == 4) {
-                            $montha = "April";
-                        } elseif ($month == 5) {
-                            $montha = "May";
-                        } elseif ($month == 6) {
-                            $montha = "June";
-                        } elseif ($month == 7) {
-                            $montha = "July";
-                        } elseif ($month == 8) {
-                            $montha = "August";
-                        } elseif ($month == 9) {
-                            $montha = "September";
-                        } elseif ($month == 10) {
-                            $montha = "October";
-                        } elseif ($month == 11) {
-                            $montha = "November";
-                        } elseif ($month == 12) {
-                            $montha = "December";
+                                $getdisputeF = NewPaymentsClients::whereYear('disputeattack', $year)
+                                    ->whereMonth('disputeattack', $month)
+                                    ->whereIn('BrandID', $brands1)
+                                    ->where('SalesPerson', $employeefront)
+                                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                    ->where('refundStatus', '!=', 'Pending Payment')
+                                    ->where('refundStatus',  '!=', 'Refund')
+                                    ->where('dispute', '!=', null)
+                                    ->SUM('disputeattackamount');
+
+                                $getrefundF = NewPaymentsClients::whereYear('paymentDate', $year)
+                                    ->whereMonth('paymentDate', $month)
+                                    ->whereIn('BrandID', $brands1)
+                                    ->where('SalesPerson', $employeefront)
+                                    ->where('refundStatus', 'Refund')
+                                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                    ->where('refundStatus', '!=', 'Pending Payment')
+                                    ->where('dispute', null)
+                                    ->sum('Paid');
+
+                                $allcbsF = $getdisputeF + $getrefundF;
+
+                                if ($month == 1) {
+                                    $montha = "January";
+                                } elseif ($month == 2) {
+                                    $montha = "February";
+                                } elseif ($month == 3) {
+                                    $montha = "March";
+                                } elseif ($month == 4) {
+                                    $montha = "April";
+                                } elseif ($month == 5) {
+                                    $montha = "May";
+                                } elseif ($month == 6) {
+                                    $montha = "June";
+                                } elseif ($month == 7) {
+                                    $montha = "July";
+                                } elseif ($month == 8) {
+                                    $montha = "August";
+                                } elseif ($month == 9) {
+                                    $montha = "September";
+                                } elseif ($month == 10) {
+                                    $montha = "October";
+                                } elseif ($month == 11) {
+                                    $montha = "November";
+                                } elseif ($month == 12) {
+                                    $montha = "December";
+                                }
+                                $agenttargets1 =  AgentTarget::where('AgentID', $employeefront)
+                                    ->whereIn('Year', $years)
+                                    ->sum($montha);
+
+                                $dataF[] = [
+                                    "year" => $year,
+                                    "month" => $month,
+                                    "name" => $frontpersonname[0]->name,
+                                    "target" => $agenttargets1,
+                                    "front" => $getfrontsumF,
+                                    "back" => $getbacksumF,
+                                    "refund" => $allcbsF,
+                                    "net" => $getfrontsumF + $getbacksumF - $allcbsF,
+                                ];
+                            }
+                            $monthdataF[] = [
+                                "year" => $year,
+                                "month" => $month,
+                                "front" => $dataF
+                            ];
+
+                            foreach ($mergedArrayback as $employeeback) {
+
+                                $supportpersonname = Employee::where('id', $employeeback)->get();
+
+                                $getfrontsumB = NewPaymentsClients::whereYear('paymentDate', $year)
+                                    ->whereMonth('paymentDate', $month)
+                                    ->whereIn('BrandID', $brands1)
+                                    ->where('SalesPerson', $employeeback)
+                                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                    ->where('refundStatus', '!=', 'Pending Payment')
+                                    ->where('refundStatus', '!=', 'Refund')
+                                    ->where('transactionType', 'New Lead')
+                                    ->sum("Paid");
+
+                                $getbacksumB = NewPaymentsClients::whereYear('paymentDate', $year)
+                                    ->whereMonth('paymentDate', $month)
+                                    ->whereIn('BrandID', $brands1)
+                                    ->where('SalesPerson', $employeeback)
+                                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                    ->where('refundStatus', '!=', 'Pending Payment')
+                                    ->where('refundStatus', '!=', 'Refund')
+                                    ->where('transactionType', '!=', 'New Lead')
+                                    ->sum("Paid");
+
+                                $getdisputeB = NewPaymentsClients::whereYear('disputeattack', $year)
+                                    ->whereMonth('disputeattack', $month)
+                                    ->whereIn('BrandID', $brands1)
+                                    ->where('SalesPerson', $employeeback)
+                                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                    ->where('refundStatus', '!=', 'Pending Payment')
+                                    ->where('refundStatus',  '!=', 'Refund')
+                                    ->where('dispute', '!=', null)
+                                    ->SUM('disputeattackamount');
+
+                                $getrefundB = NewPaymentsClients::whereYear('paymentDate', $year)
+                                    ->whereMonth('paymentDate', $month)
+                                    ->whereIn('BrandID', $brands1)
+                                    ->where('SalesPerson', $employeeback)
+                                    ->where('refundStatus', 'Refund')
+                                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                                    ->where('refundStatus', '!=', 'Pending Payment')
+                                    ->where('dispute', null)
+                                    ->sum('Paid');
+
+                                $allcbsB = $getdisputeB + $getrefundB;
+
+                                if ($month == 1) {
+                                    $montha = "January";
+                                } elseif ($month == 2) {
+                                    $montha = "February";
+                                } elseif ($month == 3) {
+                                    $montha = "March";
+                                } elseif ($month == 4) {
+                                    $montha = "April";
+                                } elseif ($month == 5) {
+                                    $montha = "May";
+                                } elseif ($month == 6) {
+                                    $montha = "June";
+                                } elseif ($month == 7) {
+                                    $montha = "July";
+                                } elseif ($month == 8) {
+                                    $montha = "August";
+                                } elseif ($month == 9) {
+                                    $montha = "September";
+                                } elseif ($month == 10) {
+                                    $montha = "October";
+                                } elseif ($month == 11) {
+                                    $montha = "November";
+                                } elseif ($month == 12) {
+                                    $montha = "December";
+                                }
+                                $agenttargets2 =  AgentTarget::where('AgentID', $employeeback)
+                                    ->whereIn('Year', $years)
+                                    ->sum($montha);
+
+                                $dataB[] = [
+                                    "year" => $year,
+                                    "month" => $month,
+                                    "name" => $supportpersonname[0]->name,
+                                    "target" => $agenttargets2,
+                                    "front" => $getfrontsumB,
+                                    "back" => $getbacksumB,
+                                    "refund" => $allcbsB,
+                                    "net" => $getfrontsumB + $getbacksumB - $allcbsB,
+                                ];
+                            }
+
+                            $monthdataB[] = [
+                                "year" => $year,
+                                "month" => $month,
+                                "back" => $dataB
+                            ];
                         }
-                        $agenttargets2 =  AgentTarget::where('AgentID', $employeeback)
-                            ->whereIn('Year', $years)
-                            ->sum($montha);
-
-                        $dataB[] = [
+                        $finalfront[] = [
                             "year" => $year,
-                            "month" => $month,
-                            "name" => $supportpersonname[0]->name,
-                            "target" => $agenttargets2,
-                            "front" => $getfrontsumB,
-                            "back" => $getbacksumB,
-                            "refund" => $allcbsB,
-                            "net" => $getfrontsumB + $getbacksumB - $allcbsB,
+                            "alldata" =>  $monthdataF
                         ];
+
+                        $finalsupport[] = [
+                            "year" => $year,
+                            "alldata" =>  $monthdataB
+                        ];
+
                     }
-
-                    $monthdataB[] = [
-                        "year" => $year,
-                        "month" => $month,
-                        "back" => $dataB
-                    ];
-                }
-                $finalfront[] = [
-                    "year" => $year,
-                    "alldata" =>  $monthdataF
-                ];
-
-                $finalsupport[] = [
-                    "year" => $year,
-                    "alldata" =>  $monthdataB
-                ];
             }
 
             $collectedData = [];
@@ -3307,6 +3519,11 @@ class BasicController extends Controller
                 }
             }
         }
+
+        // echo("<pre>");
+        // print_r($collectedData);
+        // die();
+
         return view('monthStats', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],

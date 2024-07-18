@@ -43,7 +43,26 @@
                         @foreach($clients as $department)
                         <tr role="row" class="odd">
                         <td tabindex="0" class="sorting_1">{{ $department['name'] }}</td>
-                        <td>{{ $department->email }}</td>
+                        @if (isset($department->clientMetas->otheremail) && $department->clientMetas->otheremail != null)
+                            <td>
+                                @php
+                                    $aa = json_decode($department->clientMetas->otheremail);
+                                @endphp
+                                <ul>
+                                    @foreach($aa as $dm)
+                                    <li><strong>{{ $dm }}</strong></li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        @else
+                            {{-- <td>{{ $department->email }}</td> --}}
+                            <td>
+                                <ul>
+                                    <li><strong>{{ $department->email }}</strong></li>
+                                    <li>undefined</li>
+                                </ul>
+                            </td>
+                        @endif
                         <td>{{ $department->phone }}</td>
                         <td>{{ $department->projectbrand->name }}</td>
                         <td>{{ $department->created_at }}</td>
@@ -62,7 +81,17 @@
                         @foreach($clients as $department)
                         <tr role="row" class="odd">
                         <td tabindex="0" class="sorting_1">{{ $department->clientname->name }}</td>
-                        <td>{{ $department->clientname->email }}</td>
+                        {{-- <td>{{ $department->clientname->email }}</td> --}}
+                        <td>
+                            @php
+                                $aa = json_decode($department->clientMetas->otheremail);
+                            @endphp
+                            <ul>
+                                @foreach($aa as $dm)
+                                <li><strong>{{ $dm }}</strong></li>
+                                @endforeach
+                            </ul>
+                        </td>
                         <td>{{ $department->clientname->phone }}</td>
                         <td>{{ $department->clientname->projectbrand->name }}</td>
                         <td>{{ $department->clientname->created_at }}</td>

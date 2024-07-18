@@ -212,6 +212,26 @@
                     </div>
 
                     @if ($role == 0)
+                        <div class="col-12">
+                            <div style="background-color: #4A785D; color: white; text-align: center;  border: 1px solid white; font-weight: bold;">
+                                Summery
+                            </div>
+                            <table id="" >
+                                <thead>
+                                <tr>
+                                    <th style="width: 510px; background-color: black; color: white;  border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">Year</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Gross Revenue</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Front Sales</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Back Sales</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Refund/Dispute</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <div class="col-12">
+                            <br><br>
+                        </div>
 
                         <div class="col-12">
                             <div class="row">
@@ -367,16 +387,11 @@
                     </div>
                         @foreach ($brandwise as $differ => $item)
 
-                        <div class="col-12">
-                            <div style="background-color: #00FFFF; color: black; text-align: center;  border: 1px solid white; font-weight: bold;">
-                                {{$item['name']}}
-                            </div>
-
-                        </div>
-
-                            {{-- <div class="col-12" style="background-color: #00FFFF; color: black; text-align: center; font-weight: bold;">
+                            <div class="col-12">
+                                <div style="background-color: #00FFFF; color: black; text-align: center;  border: 1px solid white; font-weight: bold;">
                                     {{$item['name']}}
-                            </div> --}}
+                                </div>
+                            </div>
 
                             <div class="col-12">
                                 <div class="row">

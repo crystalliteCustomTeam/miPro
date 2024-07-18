@@ -290,116 +290,133 @@
                             <table id="" class="table-dark table-hover">
                                 <thead>
                                     <tr role="row">
+                                        <th style="width: 100px; background-color: #458254; color: white; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
                                         <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">FrontSales</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Apr24</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Month-Year</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom: none; text-align: center;" aria-label="Last name: activate to sort column ascending"> AVG </th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Month-Year</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Month-Year</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> Short Fall </th>
                                     </tr>
                                     <tr role="row">
+                                        <th style="width: 100px; background-color: #458254; color: white; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                         <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending"></th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom:3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending"> </th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                     </tr>
                                 </thead>
-                                <tbody id="brandtodaypayment"></tbody>
                             </table>
                         </div>
                     @else
-                    <style>
-                        .table-container {
-                            overflow-x: auto;
-                            white-space: nowrap;
-                        }
-                        table {
-                            table-layout: fixed;
-                            width: 100%;
-                            border-collapse: collapse;
-                        }
-                        th, td {
-                            text-align: center;
-                        }
-                        th:first-child, td:first-child {
-                            position: sticky;
-                            left: 0;
-                            background-color: inherit; /* Ensure the background color matches */
-                            z-index: 1;
-                        }
-                        th:first-child {
-                            z-index: 2; /* Ensure the header is above the body */
-                        }
-                    </style>
-                        {{-- <div class="col-12 table-container"> --}}
-                            <div class="col-12">
+                        <style>
+                            .table-container {
+                                overflow-x: auto;
+                                white-space: nowrap;
+                            }
+                            table {
+                                table-layout: fixed;
+                                width: 100%;
+                                border-collapse: collapse;
+                            }
+                            th, td {
+                                text-align: center;
+                            }
+                            th:first-child, td:first-child,
+                            th:nth-child(2), td:nth-child(2) {
+                                position: sticky;
+                                background-color: inherit; /* Ensure the background color matches */
+                                z-index: 1;
+                            }
+                            th:first-child, td:first-child {
+                                left: 0;
+                                z-index: 2; /* Ensure the first column is above the second column */
+                            }
+                            th:nth-child(2), td:nth-child(2) {
+                                left: 100px; /* Adjust according to the width of the first column */
+                                z-index: 1;
+                            }
+                            th:first-child {
+                                z-index: 3; /* Ensure the header is above the body */
+                            }
+                        </style>
+                        <div class="col-12">
                             <br><br>
-                            <table style="table-layout: fixed; width: 100%; border-collapse: collapse;">
+                            <table>
                                 <thead>
                                     <tr>
+                                        <th style="width: 100px; background-color: #458254; color: white; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
                                         <th style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;">FrontSales</th>
                                         @foreach ($finalfront as $finalfronts)
                                             @php
                                                 $monthwise = $finalfronts['alldata'];
                                             @endphp
-                                            @foreach ($monthwise as $monthwises)
-                                            @php
-                                                $monthnumber = $monthwises['month'];
-                                                if ($monthnumber == 1) {
-                                                $monthtext = "January";
-                                                } elseif ($monthnumber == 2) {
-                                                    $monthtext = "February";
-                                                } elseif ($monthnumber == 3) {
-                                                    $monthtext = "March";
-                                                } elseif ($monthnumber == 4) {
-                                                    $monthtext = "April";
-                                                } elseif ($monthnumber == 5) {
-                                                    $monthtext = "May";
-                                                } elseif ($monthnumber == 6) {
-                                                    $monthtext = "June";
-                                                } elseif ($monthnumber == 7) {
-                                                    $monthtext = "July";
-                                                } elseif ($monthnumber == 8) {
-                                                    $monthtext = "August";
-                                                } elseif ($monthnumber == 9) {
-                                                    $monthtext = "September";
-                                                } elseif ($monthnumber == 10) {
-                                                    $monthtext = "October";
-                                                } elseif ($monthnumber == 11) {
-                                                    $monthtext = "November";
-                                                } elseif ($monthnumber == 12) {
-                                                    $monthtext = "December";
-                                                }
-                                            @endphp
+                                            @foreach ($monthwise as $MonthIndex => $monthwises)
+                                                @php
+                                                    $monthnumber = $monthwises['month'];
+                                                    $monthtext = DateTime::createFromFormat('!m', $monthnumber)->format('F');
+                                                @endphp
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;">{{$monthtext}}{{$monthwises['year']}}</th>
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+
+                                                @if ($MonthIndex == 2 || $MonthIndex == 5 || $MonthIndex == 8 || $MonthIndex == 11)
+                                                <th style="width: 100px; background-color: red; color: black; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 3px double white; border-bottom: 7px solid white; text-align: center;">Quarter</th>
+                                                <th style="width: 100px; background-color: red; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 3px double white; border-bottom: 7px solid white; text-align: center;"></th>
+                                                @else
+                                                @endif
                                             @endforeach
                                         @endforeach
-                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
                                         <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> Short Fall </th>
                                     </tr>
                                     <tr role="row">
+                                        <th style="width: 100px; background-color: #458254; color: white; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                         <th style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                         @foreach ($finalfront as $finalfronts)
                                             @php
                                                 $monthwise = $finalfronts['alldata'];
                                             @endphp
-                                            @foreach ($monthwise as $monthwises)
+                                            @foreach ($monthwise as  $MonthIndex => $monthwises)
                                                 <th style="width: 100px; background-color: black; color: white; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Target</th>
                                                 <th style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Front</th>
                                                 <th style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Back</th>
                                                 <th style="width: 100px; background-color: black; color: #FF9933; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Refund</th>
                                                 <th style="width: 100px; background-color: #808080; color: white; border-left: none; border-right: 3px double white; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Net Revenue</th>
+
+                                                @if ($MonthIndex == 2 || $MonthIndex == 5 || $MonthIndex == 8 || $MonthIndex == 11)
+                                                <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Qtr Shortfall</th>
+                                                <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Qtr Avg</th>
+                                                @else
+
+                                                @endif
                                             @endforeach
                                         @endforeach
-                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                         <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                     </tr>
                                 </thead>
@@ -409,24 +426,30 @@
                                             @php
                                                 $z = 0;
                                                 $z1 = 0;
+                                                $z3 = 0;
+                                                $z4 = 0;
                                             @endphp
                                             @foreach ($personData as $person)
-                                                {{-- @if ($personData[0] == $person)
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">{{$person["name"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">${{$person["target"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["front"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["back"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["refund"]}}</td>
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["net"]}}</td>
-                                                @else
-                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">${{$person["target"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["front"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["back"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["refund"]}}</td>
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">${{$person["net"]}}</td>
-                                                @endif --}}
+                                                @php
+                                                    $z += $person["net"];
+                                                    $z1 += $person["target"];
+                                                @endphp
+                                            @endforeach
+                                            @php
+                                                $indexCount1 = count($personData);
+                                                $y = (int)$indexCount1;
+                                                $currentAvgNet1 = $z / $y;
+                                                $roundedAvgNet1 = round($currentAvgNet1, 0);
+                                            @endphp
+
+                                            <td style="width: 100px; background-color: #B3C2B7; color: black; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($roundedAvgNet1 != 0) ${{$roundedAvgNet1}} @else  @endif</td>
+                                            @php
+                                                $quaterly = 0;
+                                                $quaterlytarget = 0;
+                                            @endphp
+                                            @foreach ($personData as $indexqtr => $person)
                                                 @if ($personData[0] == $person)
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top:  1px dotted white; border-bottom: 1px dotted white; text-align: center;">{{$person["name"]}}</td>
+                                                    <td style="width: 203px; background-color: black; color: white;  border-left: none; border-right: none; border-top:  1px dotted white; border-bottom: 1px dotted white; text-align: center;">{{$person["name"]}}</td>
                                                     <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person["target"] != 0) ${{$person["target"]}} @else  @endif</td>
                                                     <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["front"] != 0) ${{$person["front"]}} @else  @endif</td>
                                                     <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["back"] != 0) ${{$person["back"]}} @else  @endif</td>
@@ -440,28 +463,40 @@
                                                     <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["net"] != 0) ${{$person["net"]}} @else  @endif</td>
                                                 @endif
                                                 @php
-                                                $z += $person["net"];
-                                                $z1 += $person["target"];
+                                                    $quaterly += $person["net"];
+                                                    $quaterlytarget += $person["target"];
+                                                @endphp
+
+                                                @if ((int)$indexqtr % 3 == 2)
+                                                    @php
+                                                        $divingvalue = 3;
+                                                        $quaterlyavg = $quaterly / $divingvalue;
+                                                        $finalquaterlyavg = round($quaterlyavg, 0);
+                                                        $finalquaterlytarget = $quaterlytarget - $quaterly
+                                                    @endphp
+                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlytarget != 0) ${{$finalquaterlytarget}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlyavg != 0) ${{$finalquaterlyavg}} @else  @endif</td>
+                                                    @php
+                                                        $quaterly = 0;
+                                                        $quaterlytarget = 0;
+                                                    @endphp
+                                                @else
+                                                @endif
+                                                @php
+                                                    $z3 += $person["net"];
+                                                    $z4 += $person["target"];
                                                 @endphp
                                             @endforeach
                                             @php
-                                            $indexCount1 = count($personData);
-                                            $y = (int)$indexCount1;
-                                            $currentAvgNet1 = $z / $y;
-                                            $roundedAvgNet1 = round($currentAvgNet1, 2);
-                                            $shortfall = $z1 - $z;
+                                            $shortfall = $z4 - $z3;
                                             @endphp
-                                            <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($roundedAvgNet1 != 0) ${{$roundedAvgNet1}} @else  @endif</td>
                                             <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($shortfall != 0) ${{$shortfall}} @else  @endif</td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
-
-
-
                         </div>
+
                     @endif
 
                 </div>
@@ -474,23 +509,44 @@
                             <table id="" class="table-dark table-hover">
                                 <thead>
                                     <tr role="row">
+                                        <th style="width: 100px; background-color: #458254; color: white; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
                                         <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Support</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Apr24</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Month-Year</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom: none; text-align: center;" aria-label="Last name: activate to sort column ascending"> AVG </th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Month-Year</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Month-Year</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #FF9933; color: white; font-weight: bold; border-left: none; border-right: 1px solid white;  border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending"></th>
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> Short Fall </th>
                                     </tr>
                                     <tr role="row">
+                                        <th style="width: 100px; background-color: #458254; color: white; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                         <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending"></th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
-                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none;  border-top: none; border-bottom:3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending"> </th>
-                                    </tr>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white;  border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;" aria-label="Last name: activate to sort column ascending">Net Revenue</th>
+                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                     </tr>
                                 </thead>
                             </table>
@@ -498,68 +554,59 @@
 
                     @else
                         <div class="col-12">
-                            <table style="table-layout: fixed; width: 100%; border-collapse: collapse;">
+                            <table>
                                 <thead>
                                     <tr>
+                                        <th style="width: 100px; background-color: #458254; color: white; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
                                         <th style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: none; text-align: center;">Support</th>
                                         @foreach ($finalsupport as $finalsupports)
                                             @php
                                                 $monthwise1 = $finalsupports['alldata'];
                                             @endphp
-                                            @foreach ($monthwise1 as $monthwisesb)
-                                            @php
-                                                $monthnumberb = $monthwisesb['month'];
-                                                if ($monthnumberb == 1) {
-                                                    $monthtextb = "January";
-                                                } elseif ($monthnumberb == 2) {
-                                                    $monthtextb = "February";
-                                                } elseif ($monthnumberb == 3) {
-                                                    $monthtextb = "March";
-                                                } elseif ($monthnumberb == 4) {
-                                                    $monthtextb = "April";
-                                                } elseif ($monthnumberb == 5) {
-                                                    $monthtextb = "May";
-                                                } elseif ($monthnumberb == 6) {
-                                                    $monthtextb = "June";
-                                                } elseif ($monthnumberb == 7) {
-                                                    $monthtextb = "July";
-                                                } elseif ($monthnumberb == 8) {
-                                                    $monthtextb = "August";
-                                                } elseif ($monthnumberb == 9) {
-                                                    $monthtextb = "September";
-                                                } elseif ($monthnumberb == 10) {
-                                                    $monthtextb = "October";
-                                                } elseif ($monthnumberb == 11) {
-                                                    $monthtextb = "November";
-                                                } elseif ($monthnumberb == 12) {
-                                                    $monthtextb = "December";
-                                                }
-                                            @endphp
+                                            @foreach ($monthwise1 as $MonthIndexb => $monthwisesb)
+                                                @php
+                                                    $monthnumberb = $monthwisesb['month'];
+                                                    $monthtextb = DateTime::createFromFormat('!m', $monthnumberb)->format('F');
+                                                @endphp
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;">{{$monthtextb}}{{$monthwisesb['year']}}</th>
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
                                                 <th style="width: 100px; background-color: #FF9933; color: black; font-weight: bold; border-left: none; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 7px solid white; text-align: center;"></th>
+
+                                                @if ($MonthIndexb == 2 || $MonthIndexb == 5 || $MonthIndexb == 8 || $MonthIndexb == 11)
+                                                <th style="width: 100px; background-color: red; color: black; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 3px double white; border-bottom: 7px solid white; text-align: center;">Quarter</th>
+                                                <th style="width: 100px; background-color: red; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 3px double white; border-bottom: 7px solid white; text-align: center;"></th>
+                                                @else
+                                                @endif
+
                                             @endforeach
                                         @endforeach
-                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> AVG </th>
                                         <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> Short Fall </th>
                                     </tr>
                                     <tr role="row">
+                                        <th style="width: 100px; background-color: #458254; color: white; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: none; text-align: center;"></th>
                                         <th style="width: 203px; background-color: #66B2FF; color: white; border-left: 1px solid white; border-right: 1px solid white; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                         @foreach ($finalsupport as $finalsupports)
                                             @php
                                                 $monthwise11 = $finalsupports['alldata'];
                                             @endphp
-                                            @foreach ($monthwise11 as $monthwise111)
+                                            @foreach ($monthwise11 as $MonthIndexb => $monthwise111)
                                                 <th style="width: 100px; background-color: black; color: white; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Target</th>
                                                 <th style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Front</th>
                                                 <th style="width: 100px; background-color: black; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Back</th>
                                                 <th style="width: 100px; background-color: black; color: #FF9933; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Refund</th>
-                                                <th style="width: 100px; background-color: #666666; color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Net Revenue</th>
-                                            @endforeach
+                                                <th style="width: 100px; background-color: #808080; color: white; border-left: none; border-right: 3px double white; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Net Revenue</th>
+
+                                                @if ($MonthIndexb == 2 || $MonthIndexb == 5 || $MonthIndexb == 8 || $MonthIndexb == 11)
+                                                <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 3px double white; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Qtr Shortfall</th>
+                                                <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 3px double white; text-align: center;">Qtr Avg</th>
+                                                @else
+
+                                                @endif
+
+                                             @endforeach
                                         @endforeach
-                                        <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                         <th style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 3px double white; text-align: center;"></th>
                                     </tr>
                                 </thead>
@@ -569,42 +616,79 @@
                                             @php
                                                 $a = 0;
                                                 $a1 = 0;
+                                                $a3 = 0;
+                                                $a4 = 0;
                                             @endphp
                                             @foreach ($personData1 as $person1)
-                                                @if ($personData1[0] == $person1)
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: 1px dotted white; border-bottom: 1px dotted white; text-align: center;">{{$person1["name"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person1["target"] != 0) ${{$person1["target"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;"> @if($person1["front"] != 0) ${{$person1["front"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;"> @if($person1["back"] != 0) ${{$person1["back"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;"> @if($person1["refund"] != 0) ${{$person1["refund"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;"> @if($person1["net"] != 0) ${{$person1["net"]}} @else  @endif</td>
-                                                @else
-                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person1["target"] != 0) ${{$person1["target"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["front"] != 0) ${{$person1["front"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["back"] != 0) ${{$person1["back"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["refund"] != 0) ${{$person1["refund"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: #808080; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["net"] != 0) ${{$person1["net"]}} @else  @endif</td>
-                                                @endif
-
                                                 @php
                                                     $a += $person1["net"];
                                                     $a1 += $person1["target"];
                                                 @endphp
                                             @endforeach
                                             @php
-                                            $indexCount = count($personData1);
-                                            $b = (int)$indexCount;
-                                            $currentAvgNet = $a / $b;
-                                            $roundedAvgNet = round($currentAvgNet, 2);
-                                            $shortfall1 = $a1 - $a;
+                                                $indexCount = count($personData1);
+                                                $b = (int)$indexCount;
+                                                $currentAvgNet = $a / $b;
+                                                $roundedAvgNet = round($currentAvgNet, 0);
                                             @endphp
-                                            <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($roundedAvgNet != 0) ${{$roundedAvgNet}} @else  @endif</td>
+
+                                            <td style="width: 100px; background-color: #B3C2B7; color: black; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($roundedAvgNet != 0) ${{$roundedAvgNet}} @else  @endif</td>
+                                            @php
+                                                $quaterly1 = 0;
+                                                $quaterlytarget1 = 0;
+                                            @endphp
+                                            @foreach ($personData1 as $indexqtr1 => $person1)
+                                                @if ($personData1[0] == $person1)
+                                                    <td style="width: 203px; background-color: black; color: white;  border-left: none; border-right: none; border-top:  1px dotted white; border-bottom: 1px dotted white; text-align: center;">{{$person1["name"]}}</td>
+                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person1["target"] != 0) ${{$person1["target"]}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["front"] != 0) ${{$person1["front"]}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["back"] != 0) ${{$person1["back"]}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["refund"] != 0) ${{$person1["refund"]}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["net"] != 0) ${{$person1["net"]}} @else  @endif</td>
+                                                @else
+                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person1["target"] != 0) ${{$person1["target"]}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["front"] != 0) ${{$person1["front"]}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["back"] != 0) ${{$person1["back"]}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["refund"] != 0) ${{$person1["refund"]}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["net"] != 0) ${{$person1["net"]}} @else  @endif</td>
+                                                @endif
+
+
+                                                @php
+                                                    $quaterly1 += $person1["net"];
+                                                    $quaterlytarget1 += $person1["target"];
+                                                @endphp
+
+                                                @if ((int)$indexqtr1 % 3 == 2)
+                                                    @php
+                                                        $divingvalue1 = 3;
+                                                        $quaterlyavg1 = $quaterly1 / $divingvalue1;
+                                                        $finalquaterlyavg1 = round($quaterlyavg1, 0);
+                                                        $finalquaterlytarget1 = $quaterlytarget1 - $quaterly1
+                                                    @endphp
+                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlytarget1 != 0) ${{$finalquaterlytarget1}} @else  @endif</td>
+                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlyavg1 != 0) ${{$finalquaterlyavg1}} @else  @endif</td>
+                                                    @php
+                                                        $quaterly1 = 0;
+                                                        $quaterlytarget1 = 0;
+                                                    @endphp
+                                                @else
+                                                @endif
+
+                                                @php
+                                                $a3 += $person1["net"];
+                                                $a4 += $person1["target"];
+                                                @endphp
+                                            @endforeach
+                                            @php
+                                            $shortfall1 = $a4 - $a3;
+                                            @endphp
                                             <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($shortfall1 != 0) ${{$shortfall1}} @else  @endif</td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
+
                         </div>
 
                     @endif
