@@ -11495,11 +11495,13 @@ class BasicController extends Controller
 
             $role = 1;
             if ($get_type == "Received") {
+
                 // if($request->input('status') == 'Dispute'){
                 //     $payment = NewPaymentsClients::whereBetween('disputeattack', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 // }else{
                 //     $payment = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 // }
+
                 $payment = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 ($get_brand != 0)
                     ? $payment->where('BrandID', $get_brand)
