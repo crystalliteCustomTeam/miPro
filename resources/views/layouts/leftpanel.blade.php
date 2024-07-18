@@ -277,6 +277,7 @@
           <ul class="br-menu-sub">
               <li class="sub-item"><a href="/settings/Production/services" class="sub-link">Production Services</a></li>
               <li class="sub-item"><a href="/settings/qa_issues" class="sub-link">QA Form Issues</a></li>
+              <li class="sub-item"><a href="/settings/user/client" class="sub-link">Assign Clients</a></li>
           </ul>
       </li><!-- br-menu-item -->
     @elseif($departmentAccess[0]->access == 3)

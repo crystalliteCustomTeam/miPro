@@ -340,474 +340,474 @@
 
 
                     @else
-                    <div class="col-12">
-                        <div style="background-color: #4A785D; color: white; text-align: center;  border: 1px solid white; font-weight: bold;">
-                            Summery
+                        <div class="col-12">
+                            <div style="background-color: #4A785D; color: white; text-align: center;  border: 1px solid white; font-weight: bold;">
+                                Summery
+                            </div>
+                            <table id="" >
+                                <thead>
+                                <tr>
+                                    <th style="width: 510px; background-color: black; color: white;  border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">Year</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Gross Revenue</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Front Sales</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Back Sales</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Refund/Dispute</th>
+                                </tr>
+                                </thead>
+                                <tbody id="summery">
+                                    @foreach ($brandwisetotal as $brandwisetotals)
+                                    <tr>
+                                        <td style="width: 510px; background-color: #E0E0E0;  color: black; font-weight: bold; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">{{$brandwisetotals['name']}}</td>
+                                        <td style="width: 115px; background-color: #E0E0E0 ; color: black; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                        <td style="width: 115px; background-color: #E0E0E0;  color: black; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                        <td style="width: 115px; background-color: #E0E0E0 ; color: black; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                        <td style="width: 115px; background-color: #E0E0E0;  color: white; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                    </tr>
+                                    @php
+                                        $totalsums = $brandwisetotals['yeartotal'];
+                                    @endphp
+                                    @foreach ($totalsums as $totalsum)
+                                    <tr>
+                                        <td style="width: 510px; background-color: #C0C0C0;  color: black;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['year']}}</td>
+                                        <td style="width: 115px; background-color: #C1D7CC ; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['gross']}}</td>
+                                        <td style="width: 115px; background-color: #4A785D;  color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['front']}}</td>
+                                        <td style="width: 115px; background-color: #C1D7CC ; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['back']}}</td>
+                                        <td style="width: 115px; background-color: #4A785D;  color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['refunddispute']}}</td>
+                                    </tr>
+
+                                    @endforeach
+
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        <table id="" >
-                            <thead>
-                              <tr>
-                                <th style="width: 510px; background-color: black; color: white;  border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">Year</th>
-                                <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Gross Revenue</th>
-                                <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Front Sales</th>
-                                <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Back Sales</th>
-                                <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Refund/Dispute</th>
-                              </tr>
-                            </thead>
-                            <tbody id="summery">
-                                @foreach ($brandwisetotal as $brandwisetotals)
-                                <tr>
-                                    <td style="width: 510px; background-color: #E0E0E0;  color: black; font-weight: bold; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">{{$brandwisetotals['name']}}</td>
-                                    <td style="width: 115px; background-color: #E0E0E0 ; color: black; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
-                                    <td style="width: 115px; background-color: #E0E0E0;  color: black; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
-                                    <td style="width: 115px; background-color: #E0E0E0 ; color: black; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
-                                    <td style="width: 115px; background-color: #E0E0E0;  color: white; border-left: none; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
-                                </tr>
-                                @php
-                                    $totalsums = $brandwisetotals['yeartotal'];
-                                @endphp
-                                @foreach ($totalsums as $totalsum)
-                                <tr>
-                                    <td style="width: 510px; background-color: #C0C0C0;  color: black;  border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['year']}}</td>
-                                    <td style="width: 115px; background-color: #C1D7CC ; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['gross']}}</td>
-                                    <td style="width: 115px; background-color: #4A785D;  color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['front']}}</td>
-                                    <td style="width: 115px; background-color: #C1D7CC ; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['back']}}</td>
-                                    <td style="width: 115px; background-color: #4A785D;  color: white; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">{{$totalsum['refunddispute']}}</td>
-                                </tr>
 
-                                @endforeach
+                        <div class="col-12">
+                            <br><br>
+                        </div>
+                            @foreach ($brandwise as $differ => $item)
 
-                                @endforeach
-                            </tbody>
-                          </table>
-                    </div>
-
-                    <div class="col-12">
-                        <br><br>
-                    </div>
-                        @foreach ($brandwise as $differ => $item)
-
-                            <div class="col-12">
-                                <div style="background-color: #00FFFF; color: black; text-align: center;  border: 1px solid white; font-weight: bold;">
-                                    {{$item['name']}}
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <div style="background-color: #EF8923; color: white; text-align: center;  border: 1px solid white;">
-                                            Gross Revenue Comparision
-                                        </div>
-                                            @php
-                                                $brandyear  = $item['year'];
-                                            @endphp
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                            @foreach ($brandyear as $brandyears)
-                                                            <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
-                                                            @endforeach
-                                                            <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($brandyear as $index => $brandyears)
-                                                            @php
-                                                                $yearsData[$index] = $brandyears["yeardata"];
-                                                            @endphp
-                                                        @endforeach
-
-                                                        @php
-                                                            $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                                                            $numYears = count($yearsData);
-                                                        @endphp
-
-                                                        @foreach ($months as $monthIndex => $monthName)
-                                                            <tr>
-                                                                <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                    {{$monthName}}
-                                                                </td>
-                                                                @foreach ($yearsData as $yearIndex => $yearData)
-                                                                    <td style="width: 115px; background-color: {{$yearIndex % 2 == 0 ? '#EFC0AD' : '#EF8923'}}; color: {{$yearIndex % 2 == 0 ? 'black' : 'white'}}; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                        {{-- ${{$yearData[$monthIndex]['net'] ?? ''}} --}}
-                                                                        @if ($yearData[$monthIndex]['net'] == 0)
-                                                                        {{''}}
-                                                                        @else
-                                                                            ${{$yearData[$monthIndex]['net'] ?? ''}}
-                                                                        @endif
-                                                                    </td>
-                                                                @endforeach
-                                                                @php
-                                                                    $oldValueIndex = $numYears - 2;
-                                                                    $newValueIndex = $numYears - 1;
-                                                                    $oldValue = $yearsData[$oldValueIndex][$monthIndex]['net'] ?? null;
-                                                                    $newValue = $yearsData[$newValueIndex][$monthIndex]['net'] ?? null;
-                                                                    if ($oldValue !== null && $newValue !== null && $oldValue != 0) {
-                                                                        $percentageIncrease = (($newValue - $oldValue) / $oldValue) * 100;
-                                                                    } else {
-                                                                        $percentageIncrease = '';
-                                                                    }
-                                                                @endphp
-                                                                <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                    {{$percentageIncrease !== '' ? number_format($percentageIncrease, 2) . '%' : ''}}
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                    </div>
-                                    <div class="col-8">
-                                        <div id="chart_div_{{$differ}}" style="width: 1000px; height: 380px;"></div>
-                                        {{-- <div id="chart_div"></div> --}}
-                                        @php
-                                            $brandyeargraph  = $item['yeargraph'];
-                                            $check = json_encode($brandyeargraph);
-                                            // echo("<pre>");
-                                            // print_r($brandyeargraph);
-                                            // die();
-                                        @endphp
-                                        <script type="text/javascript">
-                                            google.charts.load('current', {'packages':['corechart']});
-                                            google.charts.setOnLoadCallback(drawVisualization{{$differ}});
-
-                                            function drawVisualization{{$differ}}() {
-                                            // Some raw data (not necessarily accurate)
-                                            var data{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check; ?>);
-                                            var options{{$differ}} = {
-                                                title : 'Gross Revenue',
-                                                vAxis: {title: 'Revenue'},
-                                                hAxis: {title: 'Month'},
-                                                seriesType: 'bars',
-                                                series: {5: {type: 'line'}},
-                                                // colors: generateShadesOfOrange(),
-                                                // colors: ['#FFA500', '#FF8C00', '#FF7F50', '#FF6347', '#FF4500'] // Shades of orange
-                                            };
-
-                                            var chart{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div_{{$differ}}'));
-                                            chart{{$differ}}.draw(data{{$differ}}, options{{$differ}});
-                                            }
-
-                                            // function generateShadesOfOrange(numShades) {
-                                            //     const shades = [];
-                                            //     const increment = Math.floor(255 / (numShades - 1)); // Adjust based on the number of shades
-
-                                            //     for (let i = 0; i < numShades; i++) {
-                                            //         const r = 255; // Fixed red value
-                                            //         const g = 165 + (increment * i); // Adjust green value for shades
-                                            //         const b = 0; // Fixed blue value
-                                            //         shades.push(`rgba(${r}, ${g}, ${b}, 1)`); // Push each shade to the array
-                                            //     }
-
-                                            //     return shades;
-                                            // }
-                                        </script>
+                                <div class="col-12">
+                                    <div style="background-color: #00FFFF; color: black; text-align: center;  border: 1px solid white; font-weight: bold;">
+                                        {{$item['name']}}
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="col-12">
-                                <br><br>
-                            </div>
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <div style="background-color: #B31B1B; color: white; text-align: center;  border: 1px solid white;">
-                                            Refund/ Dispute Comparision
-                                        </div>
-                                            @php
-                                                $brandyear  = $item['refund'];
-                                            @endphp
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                            @foreach ($brandyear as $brandyears)
-                                                            <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
-                                                            @endforeach
-                                                            <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($brandyear as $index => $brandyears)
-                                                            @php
-                                                                $yearsData[$index] = $brandyears["yeardata"];
-                                                            @endphp
-                                                        @endforeach
-
-                                                        @php
-                                                            $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                                                            $numYears = count($yearsData);
-                                                        @endphp
-
-                                                        @foreach ($months as $monthIndex => $monthName)
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div style="background-color: #EF8923; color: white; text-align: center;  border: 1px solid white;">
+                                                Gross Revenue Comparision
+                                            </div>
+                                                @php
+                                                    $brandyear  = $item['year'];
+                                                @endphp
+                                                    <table>
+                                                        <thead>
                                                             <tr>
-                                                                <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                    {{$monthName}}
-                                                                </td>
-                                                                @foreach ($yearsData as $yearIndex => $yearData)
-                                                                    <td style="width: 115px; background-color: {{$yearIndex % 2 == 0 ? '#EB8E8E' : '#B31B1B'}}; color: {{$yearIndex % 2 == 0 ? 'black' : 'white'}}; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                        {{-- ${{$yearData[$monthIndex]['net'] ?? ''}} --}}
-                                                                        @if ($yearData[$monthIndex]['net'] == 0)
-                                                                        {{''}}
-                                                                        @else
-                                                                            ${{$yearData[$monthIndex]['net'] ?? ''}}
-                                                                        @endif
-                                                                    </td>
+                                                                <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
+                                                                @foreach ($brandyear as $brandyears)
+                                                                <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
                                                                 @endforeach
-                                                                @php
-                                                                    $oldValueIndex = $numYears - 2;
-                                                                    $newValueIndex = $numYears - 1;
-                                                                    $oldValue = $yearsData[$oldValueIndex][$monthIndex]['net'] ?? null;
-                                                                    $newValue = $yearsData[$newValueIndex][$monthIndex]['net'] ?? null;
-                                                                    if ($oldValue !== null && $newValue !== null && $oldValue != 0) {
-                                                                        $percentageIncrease = (($newValue - $oldValue) / $oldValue) * 100;
-                                                                    } else {
-                                                                        $percentageIncrease = '';
-                                                                    }
-                                                                @endphp
-                                                                <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                    {{$percentageIncrease !== '' ? number_format($percentageIncrease, 2) . '%' : ''}}
-                                                                </td>
+                                                                <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
                                                             </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                    </div>
-                                    <div class="col-8">
-                                        <div id="chart_div1_{{$differ}}" style="width: 1000px; height: 380px;"></div>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($brandyear as $index => $brandyears)
+                                                                @php
+                                                                    $yearsData[$index] = $brandyears["yeardata"];
+                                                                @endphp
+                                                            @endforeach
+
+                                                            @php
+                                                                $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                                                                $numYears = count($yearsData);
+                                                            @endphp
+
+                                                            @foreach ($months as $monthIndex => $monthName)
+                                                                <tr>
+                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                        {{$monthName}}
+                                                                    </td>
+                                                                    @foreach ($yearsData as $yearIndex => $yearData)
+                                                                        <td style="width: 115px; background-color: {{$yearIndex % 2 == 0 ? '#EFC0AD' : '#EF8923'}}; color: {{$yearIndex % 2 == 0 ? 'black' : 'white'}}; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                            {{-- ${{$yearData[$monthIndex]['net'] ?? ''}} --}}
+                                                                            @if ($yearData[$monthIndex]['net'] == 0)
+                                                                            {{''}}
+                                                                            @else
+                                                                                ${{$yearData[$monthIndex]['net'] ?? ''}}
+                                                                            @endif
+                                                                        </td>
+                                                                    @endforeach
+                                                                    @php
+                                                                        $oldValueIndex = $numYears - 2;
+                                                                        $newValueIndex = $numYears - 1;
+                                                                        $oldValue = $yearsData[$oldValueIndex][$monthIndex]['net'] ?? null;
+                                                                        $newValue = $yearsData[$newValueIndex][$monthIndex]['net'] ?? null;
+                                                                        if ($oldValue !== null && $newValue !== null && $oldValue != 0) {
+                                                                            $percentageIncrease = (($newValue - $oldValue) / $oldValue) * 100;
+                                                                        } else {
+                                                                            $percentageIncrease = '';
+                                                                        }
+                                                                    @endphp
+                                                                    <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                        {{$percentageIncrease !== '' ? number_format($percentageIncrease, 2) . '%' : ''}}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                        </div>
+                                        <div class="col-8">
+                                            <div id="chart_div_{{$differ}}" style="width: 1000px; height: 380px;"></div>
                                             {{-- <div id="chart_div"></div> --}}
                                             @php
-                                                $brandyeargraph1  = $item['refundyeargraph'];
-                                                $check1 = json_encode($brandyeargraph1);
+                                                $brandyeargraph  = $item['yeargraph'];
+                                                $check = json_encode($brandyeargraph);
                                                 // echo("<pre>");
                                                 // print_r($brandyeargraph);
                                                 // die();
                                             @endphp
                                             <script type="text/javascript">
                                                 google.charts.load('current', {'packages':['corechart']});
-                                                google.charts.setOnLoadCallback(drawVisualization1{{$differ}});
+                                                google.charts.setOnLoadCallback(drawVisualization{{$differ}});
 
-                                                function drawVisualization1{{$differ}}() {
+                                                function drawVisualization{{$differ}}() {
                                                 // Some raw data (not necessarily accurate)
-                                                var data1{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check1; ?>);
-                                                var options1{{$differ}} = {
-                                                    title : 'Refund/Dispute',
+                                                var data{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check; ?>);
+                                                var options{{$differ}} = {
+                                                    title : 'Gross Revenue',
                                                     vAxis: {title: 'Revenue'},
                                                     hAxis: {title: 'Month'},
                                                     seriesType: 'bars',
-                                                    series: {5: {type: 'line'}}
+                                                    series: {5: {type: 'line'}},
+                                                    // colors: generateShadesOfOrange(),
+                                                    // colors: ['#FFA500', '#FF8C00', '#FF7F50', '#FF6347', '#FF4500'] // Shades of orange
                                                 };
 
-                                                var chart1{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div1_{{$differ}}'));
-                                                chart1{{$differ}}.draw(data1{{$differ}}, options1{{$differ}});
+                                                var chart{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div_{{$differ}}'));
+                                                chart{{$differ}}.draw(data{{$differ}}, options{{$differ}});
                                                 }
+
+                                                // function generateShadesOfOrange(numShades) {
+                                                //     const shades = [];
+                                                //     const increment = Math.floor(255 / (numShades - 1)); // Adjust based on the number of shades
+
+                                                //     for (let i = 0; i < numShades; i++) {
+                                                //         const r = 255; // Fixed red value
+                                                //         const g = 165 + (increment * i); // Adjust green value for shades
+                                                //         const b = 0; // Fixed blue value
+                                                //         shades.push(`rgba(${r}, ${g}, ${b}, 1)`); // Push each shade to the array
+                                                //     }
+
+                                                //     return shades;
+                                                // }
                                             </script>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <br><br>
-                            </div>
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <div style="background-color: #EF8923; color: white; text-align: center;  border: 1px solid white;">
-                                            Front Sale Comparision
                                         </div>
-                                            @php
-                                                $brandyear  = $item['front'];
-                                            @endphp
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                            @foreach ($brandyear as $brandyears)
-                                                            <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
-                                                            @endforeach
-                                                            <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($brandyear as $index => $brandyears)
-                                                            @php
-                                                                $yearsData[$index] = $brandyears["yeardata"];
-                                                            @endphp
-                                                        @endforeach
-
-                                                        @php
-                                                            $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                                                            $numYears = count($yearsData);
-                                                        @endphp
-
-                                                        @foreach ($months as $monthIndex => $monthName)
-                                                            <tr>
-                                                                <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                    {{$monthName}}
-                                                                </td>
-                                                                @foreach ($yearsData as $yearIndex => $yearData)
-                                                                    <td style="width: 115px; background-color: {{$yearIndex % 2 == 0 ? '#EFC0AD' : '#EF8923'}}; color: {{$yearIndex % 2 == 0 ? 'black' : 'white'}}; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                        {{-- ${{$yearData[$monthIndex]['net'] ?? ''}} --}}
-                                                                        @if ($yearData[$monthIndex]['net'] == 0)
-                                                                        {{''}}
-                                                                        @else
-                                                                            ${{$yearData[$monthIndex]['net'] ?? ''}}
-                                                                        @endif
-                                                                    </td>
-                                                                @endforeach
-                                                                @php
-                                                                    $oldValueIndex = $numYears - 2;
-                                                                    $newValueIndex = $numYears - 1;
-                                                                    $oldValue = $yearsData[$oldValueIndex][$monthIndex]['net'] ?? null;
-                                                                    $newValue = $yearsData[$newValueIndex][$monthIndex]['net'] ?? null;
-                                                                    if ($oldValue !== null && $newValue !== null && $oldValue != 0) {
-                                                                        $percentageIncrease = (($newValue - $oldValue) / $oldValue) * 100;
-                                                                    } else {
-                                                                        $percentageIncrease = '';
-                                                                    }
-                                                                @endphp
-                                                                <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                    {{$percentageIncrease !== '' ? number_format($percentageIncrease, 2) . '%' : ''}}
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
                                     </div>
-                                    <div class="col-8">
-                                        <div id="chart_div2_{{$differ}}" style="width: 1000px; height: 380px;"></div>
-                                            {{-- <div id="chart_div"></div> --}}
-                                            @php
-                                                $brandyeargraph2  = $item['frontyeargraph'];
-                                                $check2 = json_encode($brandyeargraph2);
-                                                // echo("<pre>");
-                                                // print_r($brandyeargraph);
-                                                // die();
-                                            @endphp
-                                            <script type="text/javascript">
-                                                google.charts.load('current', {'packages':['corechart']});
-                                                google.charts.setOnLoadCallback(drawVisualization2{{$differ}});
 
-                                                function drawVisualization2{{$differ}}() {
-                                                // Some raw data (not necessarily accurate)
-                                                var data2{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check2; ?>);
-                                                var options2{{$differ}} = {
-                                                    title : 'Front Sale',
-                                                    vAxis: {title: 'Revenue'},
-                                                    hAxis: {title: 'Month'},
-                                                    seriesType: 'bars',
-                                                    series: {5: {type: 'line'}}
-                                                };
-
-                                                var chart2{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div2_{{$differ}}'));
-                                                chart2{{$differ}}.draw(data2{{$differ}}, options2{{$differ}});
-                                                }
-                                            </script>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <br><br>
-                            </div>
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <div style="background-color: #4D78C3; color: white; text-align: center;  border: 1px solid white;">
-                                            Back Sale Comparision
+                                <div class="col-12">
+                                    <br><br>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div style="background-color: #B31B1B; color: white; text-align: center;  border: 1px solid white;">
+                                                Refund/ Dispute Comparision
+                                            </div>
+                                                @php
+                                                    $brandyear  = $item['refund'];
+                                                @endphp
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
+                                                                @foreach ($brandyear as $brandyears)
+                                                                <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
+                                                                @endforeach
+                                                                <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($brandyear as $index => $brandyears)
+                                                                @php
+                                                                    $yearsData[$index] = $brandyears["yeardata"];
+                                                                @endphp
+                                                            @endforeach
+
+                                                            @php
+                                                                $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                                                                $numYears = count($yearsData);
+                                                            @endphp
+
+                                                            @foreach ($months as $monthIndex => $monthName)
+                                                                <tr>
+                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                        {{$monthName}}
+                                                                    </td>
+                                                                    @foreach ($yearsData as $yearIndex => $yearData)
+                                                                        <td style="width: 115px; background-color: {{$yearIndex % 2 == 0 ? '#EB8E8E' : '#B31B1B'}}; color: {{$yearIndex % 2 == 0 ? 'black' : 'white'}}; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                            {{-- ${{$yearData[$monthIndex]['net'] ?? ''}} --}}
+                                                                            @if ($yearData[$monthIndex]['net'] == 0)
+                                                                            {{''}}
+                                                                            @else
+                                                                                ${{$yearData[$monthIndex]['net'] ?? ''}}
+                                                                            @endif
+                                                                        </td>
+                                                                    @endforeach
+                                                                    @php
+                                                                        $oldValueIndex = $numYears - 2;
+                                                                        $newValueIndex = $numYears - 1;
+                                                                        $oldValue = $yearsData[$oldValueIndex][$monthIndex]['net'] ?? null;
+                                                                        $newValue = $yearsData[$newValueIndex][$monthIndex]['net'] ?? null;
+                                                                        if ($oldValue !== null && $newValue !== null && $oldValue != 0) {
+                                                                            $percentageIncrease = (($newValue - $oldValue) / $oldValue) * 100;
+                                                                        } else {
+                                                                            $percentageIncrease = '';
+                                                                        }
+                                                                    @endphp
+                                                                    <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                        {{$percentageIncrease !== '' ? number_format($percentageIncrease, 2) . '%' : ''}}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
                                         </div>
-                                            @php
-                                                $brandyear  = $item['back'];
-                                            @endphp
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                            @foreach ($brandyear as $brandyears)
-                                                            <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
-                                                            @endforeach
-                                                            <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($brandyear as $index => $brandyears)
-                                                            @php
-                                                                $yearsData[$index] = $brandyears["yeardata"];
-                                                            @endphp
-                                                        @endforeach
+                                        <div class="col-8">
+                                            <div id="chart_div1_{{$differ}}" style="width: 1000px; height: 380px;"></div>
+                                                {{-- <div id="chart_div"></div> --}}
+                                                @php
+                                                    $brandyeargraph1  = $item['refundyeargraph'];
+                                                    $check1 = json_encode($brandyeargraph1);
+                                                    // echo("<pre>");
+                                                    // print_r($brandyeargraph);
+                                                    // die();
+                                                @endphp
+                                                <script type="text/javascript">
+                                                    google.charts.load('current', {'packages':['corechart']});
+                                                    google.charts.setOnLoadCallback(drawVisualization1{{$differ}});
 
-                                                        @php
-                                                            $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                                                            $numYears = count($yearsData);
-                                                        @endphp
+                                                    function drawVisualization1{{$differ}}() {
+                                                    // Some raw data (not necessarily accurate)
+                                                    var data1{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check1; ?>);
+                                                    var options1{{$differ}} = {
+                                                        title : 'Refund/Dispute',
+                                                        vAxis: {title: 'Revenue'},
+                                                        hAxis: {title: 'Month'},
+                                                        seriesType: 'bars',
+                                                        series: {5: {type: 'line'}}
+                                                    };
 
-                                                        @foreach ($months as $monthIndex => $monthName)
-                                                            <tr>
-                                                                <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                    {{$monthName}}
-                                                                </td>
-                                                                @foreach ($yearsData as $yearIndex => $yearData)
-                                                                    <td style="width: 115px; background-color: {{$yearIndex % 2 == 0 ? '#9AB8E1' : '#4D78C3'}}; color: {{$yearIndex % 2 == 0 ? 'black' : 'white'}}; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                        {{-- ${{$yearData[$monthIndex]['net'] ?? ''}} --}}
-                                                                        @if ($yearData[$monthIndex]['net'] == 0)
-                                                                        {{''}}
-                                                                        @else
-                                                                            ${{$yearData[$monthIndex]['net'] ?? ''}}
-                                                                        @endif
-                                                                    </td>
-                                                                @endforeach
-                                                                @php
-                                                                    $oldValueIndex = $numYears - 2;
-                                                                    $newValueIndex = $numYears - 1;
-                                                                    $oldValue = $yearsData[$oldValueIndex][$monthIndex]['net'] ?? null;
-                                                                    $newValue = $yearsData[$newValueIndex][$monthIndex]['net'] ?? null;
-                                                                    if ($oldValue !== null && $newValue !== null && $oldValue != 0) {
-                                                                        $percentageIncrease = (($newValue - $oldValue) / $oldValue) * 100;
-                                                                    } else {
-                                                                        $percentageIncrease = '';
-                                                                    }
-                                                                @endphp
-                                                                <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                    {{$percentageIncrease !== '' ? number_format($percentageIncrease, 2) . '%' : ''}}
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                    </div>
-                                    <div class="col-8">
-                                        <div id="chart_div3_{{$differ}}" style="width: 1000px; height: 380px;"></div>
-                                            {{-- <div id="chart_div"></div> --}}
-                                            @php
-                                                $brandyeargraph3  = $item['backyeargraph'];
-                                                $check3 = json_encode($brandyeargraph3);
-                                                // echo("<pre>");
-                                                // print_r($brandyeargraph);
-                                                // die();
-                                            @endphp
-                                            <script type="text/javascript">
-                                                google.charts.load('current', {'packages':['corechart']});
-                                                google.charts.setOnLoadCallback(drawVisualization3{{$differ}});
-
-                                                function drawVisualization3{{$differ}}() {
-                                                // Some raw data (not necessarily accurate)
-                                                var data3{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check3; ?>);
-                                                var options3{{$differ}} = {
-                                                    title : 'Back Sale',
-                                                    vAxis: {title: 'Revenue'},
-                                                    hAxis: {title: 'Month'},
-                                                    seriesType: 'bars',
-                                                    series: {5: {type: 'line'}}
-                                                };
-
-                                                var chart3{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div3_{{$differ}}'));
-                                                chart3{{$differ}}.draw(data3{{$differ}}, options3{{$differ}});
-                                                }
-                                            </script>
+                                                    var chart1{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div1_{{$differ}}'));
+                                                    chart1{{$differ}}.draw(data1{{$differ}}, options1{{$differ}});
+                                                    }
+                                                </script>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                                <div class="col-12">
+                                    <br><br>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div style="background-color: #EF8923; color: white; text-align: center;  border: 1px solid white;">
+                                                Front Sale Comparision
+                                            </div>
+                                                @php
+                                                    $brandyear  = $item['front'];
+                                                @endphp
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
+                                                                @foreach ($brandyear as $brandyears)
+                                                                <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
+                                                                @endforeach
+                                                                <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($brandyear as $index => $brandyears)
+                                                                @php
+                                                                    $yearsData[$index] = $brandyears["yeardata"];
+                                                                @endphp
+                                                            @endforeach
+
+                                                            @php
+                                                                $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                                                                $numYears = count($yearsData);
+                                                            @endphp
+
+                                                            @foreach ($months as $monthIndex => $monthName)
+                                                                <tr>
+                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                        {{$monthName}}
+                                                                    </td>
+                                                                    @foreach ($yearsData as $yearIndex => $yearData)
+                                                                        <td style="width: 115px; background-color: {{$yearIndex % 2 == 0 ? '#EFC0AD' : '#EF8923'}}; color: {{$yearIndex % 2 == 0 ? 'black' : 'white'}}; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                            {{-- ${{$yearData[$monthIndex]['net'] ?? ''}} --}}
+                                                                            @if ($yearData[$monthIndex]['net'] == 0)
+                                                                            {{''}}
+                                                                            @else
+                                                                                ${{$yearData[$monthIndex]['net'] ?? ''}}
+                                                                            @endif
+                                                                        </td>
+                                                                    @endforeach
+                                                                    @php
+                                                                        $oldValueIndex = $numYears - 2;
+                                                                        $newValueIndex = $numYears - 1;
+                                                                        $oldValue = $yearsData[$oldValueIndex][$monthIndex]['net'] ?? null;
+                                                                        $newValue = $yearsData[$newValueIndex][$monthIndex]['net'] ?? null;
+                                                                        if ($oldValue !== null && $newValue !== null && $oldValue != 0) {
+                                                                            $percentageIncrease = (($newValue - $oldValue) / $oldValue) * 100;
+                                                                        } else {
+                                                                            $percentageIncrease = '';
+                                                                        }
+                                                                    @endphp
+                                                                    <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                        {{$percentageIncrease !== '' ? number_format($percentageIncrease, 2) . '%' : ''}}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                        </div>
+                                        <div class="col-8">
+                                            <div id="chart_div2_{{$differ}}" style="width: 1000px; height: 380px;"></div>
+                                                {{-- <div id="chart_div"></div> --}}
+                                                @php
+                                                    $brandyeargraph2  = $item['frontyeargraph'];
+                                                    $check2 = json_encode($brandyeargraph2);
+                                                    // echo("<pre>");
+                                                    // print_r($brandyeargraph);
+                                                    // die();
+                                                @endphp
+                                                <script type="text/javascript">
+                                                    google.charts.load('current', {'packages':['corechart']});
+                                                    google.charts.setOnLoadCallback(drawVisualization2{{$differ}});
+
+                                                    function drawVisualization2{{$differ}}() {
+                                                    // Some raw data (not necessarily accurate)
+                                                    var data2{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check2; ?>);
+                                                    var options2{{$differ}} = {
+                                                        title : 'Front Sale',
+                                                        vAxis: {title: 'Revenue'},
+                                                        hAxis: {title: 'Month'},
+                                                        seriesType: 'bars',
+                                                        series: {5: {type: 'line'}}
+                                                    };
+
+                                                    var chart2{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div2_{{$differ}}'));
+                                                    chart2{{$differ}}.draw(data2{{$differ}}, options2{{$differ}});
+                                                    }
+                                                </script>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <br><br>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div style="background-color: #4D78C3; color: white; text-align: center;  border: 1px solid white;">
+                                                Back Sale Comparision
+                                            </div>
+                                                @php
+                                                    $brandyear  = $item['back'];
+                                                @endphp
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
+                                                                @foreach ($brandyear as $brandyears)
+                                                                <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
+                                                                @endforeach
+                                                                <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($brandyear as $index => $brandyears)
+                                                                @php
+                                                                    $yearsData[$index] = $brandyears["yeardata"];
+                                                                @endphp
+                                                            @endforeach
+
+                                                            @php
+                                                                $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                                                                $numYears = count($yearsData);
+                                                            @endphp
+
+                                                            @foreach ($months as $monthIndex => $monthName)
+                                                                <tr>
+                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                        {{$monthName}}
+                                                                    </td>
+                                                                    @foreach ($yearsData as $yearIndex => $yearData)
+                                                                        <td style="width: 115px; background-color: {{$yearIndex % 2 == 0 ? '#9AB8E1' : '#4D78C3'}}; color: {{$yearIndex % 2 == 0 ? 'black' : 'white'}}; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                            {{-- ${{$yearData[$monthIndex]['net'] ?? ''}} --}}
+                                                                            @if ($yearData[$monthIndex]['net'] == 0)
+                                                                            {{''}}
+                                                                            @else
+                                                                                ${{$yearData[$monthIndex]['net'] ?? ''}}
+                                                                            @endif
+                                                                        </td>
+                                                                    @endforeach
+                                                                    @php
+                                                                        $oldValueIndex = $numYears - 2;
+                                                                        $newValueIndex = $numYears - 1;
+                                                                        $oldValue = $yearsData[$oldValueIndex][$monthIndex]['net'] ?? null;
+                                                                        $newValue = $yearsData[$newValueIndex][$monthIndex]['net'] ?? null;
+                                                                        if ($oldValue !== null && $newValue !== null && $oldValue != 0) {
+                                                                            $percentageIncrease = (($newValue - $oldValue) / $oldValue) * 100;
+                                                                        } else {
+                                                                            $percentageIncrease = '';
+                                                                        }
+                                                                    @endphp
+                                                                    <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                        {{$percentageIncrease !== '' ? number_format($percentageIncrease, 2) . '%' : ''}}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                        </div>
+                                        <div class="col-8">
+                                            <div id="chart_div3_{{$differ}}" style="width: 1000px; height: 380px;"></div>
+                                                {{-- <div id="chart_div"></div> --}}
+                                                @php
+                                                    $brandyeargraph3  = $item['backyeargraph'];
+                                                    $check3 = json_encode($brandyeargraph3);
+                                                    // echo("<pre>");
+                                                    // print_r($brandyeargraph);
+                                                    // die();
+                                                @endphp
+                                                <script type="text/javascript">
+                                                    google.charts.load('current', {'packages':['corechart']});
+                                                    google.charts.setOnLoadCallback(drawVisualization3{{$differ}});
+
+                                                    function drawVisualization3{{$differ}}() {
+                                                    // Some raw data (not necessarily accurate)
+                                                    var data3{{$differ}} = google.visualization.arrayToDataTable(<?php echo $check3; ?>);
+                                                    var options3{{$differ}} = {
+                                                        title : 'Back Sale',
+                                                        vAxis: {title: 'Revenue'},
+                                                        hAxis: {title: 'Month'},
+                                                        seriesType: 'bars',
+                                                        series: {5: {type: 'line'}}
+                                                    };
+
+                                                    var chart3{{$differ}} = new google.visualization.ComboChart(document.getElementById('chart_div3_{{$differ}}'));
+                                                    chart3{{$differ}}.draw(data3{{$differ}}, options3{{$differ}});
+                                                    }
+                                                </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                     @endif
                 </div>
             </div>
