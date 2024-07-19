@@ -3960,35 +3960,6 @@ class BasicController extends Controller
             }
         }
 
-        // echo("<pre>");
-        // foreach ($brandwise as $differ => $item){
-        //     $brandyear  = $item['year'];
-        //     // $sumallmonthyear = 0;
-        //     foreach ($brandyear as $index => $brandyears){
-        //         $yearsData[$index] = $brandyears["yeardata"];
-        //         // $sumallmonthyear = 0;
-        //         $a = $brandyears["yeardata"];
-        //         // print_r( $brandyears["yeardata"]);
-        //         $sum = 0;
-        //         foreach ($a as $index => $as){
-        //             // print_r( $as);
-        //             $sum += $as["net"];
-        //         }
-        //         echo($sum);
-        //         echo("-----------------");
-        //         $sum = 0;
-
-        //     }
-
-        // }
-
-
-        // foreach ($yearsData as $yearIndex => $yearData){
-            // print_r($brandwise);
-        // }
-        // die();
-
-
         return view('yearlystats', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
