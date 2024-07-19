@@ -431,7 +431,6 @@
                                                                     </td>
                                                                     @foreach ($yearsData as $yearIndex => $yearData)
                                                                         <td style="width: 115px; background-color: {{$yearIndex % 2 == 0 ? '#EFC0AD' : '#EF8923'}}; color: {{$yearIndex % 2 == 0 ? 'black' : 'white'}}; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
-                                                                            {{-- ${{$yearData[$monthIndex]['net'] ?? ''}} --}}
                                                                             @if ($yearData[$monthIndex]['net'] == 0)
                                                                             {{''}}
                                                                             @else
@@ -455,6 +454,31 @@
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
+
+                                                            <tr>
+                                                                <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: 1px solid white; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">Total</td>
+                                                                    @php
+                                                                    $brandyear  = $item['year'];
+                                                                    @endphp
+                                                                    @foreach ($brandyear as $index => $brandyears)
+                                                                        @php
+                                                                        $yearsData[$index] = $brandyears["yeardata"];
+                                                                        $a = $brandyears["yeardata"];
+                                                                        $sum = 0;
+                                                                        @endphp
+                                                                        @foreach ($a as $index => $as)
+                                                                        @php
+                                                                        $sum += $as["net"];
+                                                                        @endphp
+                                                                        @endforeach
+                                                                        <td style="width: 115px; background-color :#E0E0E0; color:  black; border-left: 1px solid white; border-right: 1px solid white; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">@if($sum == 0) @else ${{$sum}} @endif</td>
+                                                                        @php
+                                                                        $sum = 0;
+                                                                        @endphp
+                                                                    @endforeach
+                                                                <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: 1px solid white; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                                            </tr>
+
                                                         </tbody>
                                                     </table>
                                         </div>
@@ -517,20 +541,20 @@
                                                 Refund/ Dispute Comparision
                                             </div>
                                                 @php
-                                                    $brandyear  = $item['refund'];
+                                                    $brandyear1  = $item['refund'];
                                                 @endphp
                                                     <table>
                                                         <thead>
                                                             <tr>
                                                                 <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                                @foreach ($brandyear as $brandyears)
+                                                                @foreach ($brandyear1 as $brandyears)
                                                                 <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
                                                                 @endforeach
                                                                 <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($brandyear as $index => $brandyears)
+                                                            @foreach ($brandyear1 as $index => $brandyears)
                                                                 @php
                                                                     $yearsData[$index] = $brandyears["yeardata"];
                                                                 @endphp
@@ -572,6 +596,30 @@
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
+
+                                                            <tr>
+                                                                <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: 1px solid white; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">Total</td>
+                                                                    @php
+                                                                    $brandyear1  = $item['refund'];
+                                                                    @endphp
+                                                                    @foreach ($brandyear1 as $index => $brandyears)
+                                                                        @php
+                                                                        $yearsData[$index] = $brandyears["yeardata"];
+                                                                        $a1 = $brandyears["yeardata"];
+                                                                        $sum1 = 0;
+                                                                        @endphp
+                                                                        @foreach ($a1 as $index => $as)
+                                                                        @php
+                                                                        $sum1 += $as["net"];
+                                                                        @endphp
+                                                                        @endforeach
+                                                                        <td style="width: 115px; background-color :#E0E0E0; color:  black; border-left: 1px solid white; border-right: 1px solid white; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">@if($sum1 == 0) @else ${{$sum1}} @endif</td>
+                                                                        @php
+                                                                        $sum1 = 0;
+                                                                        @endphp
+                                                                    @endforeach
+                                                                <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: 1px solid white; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                         </div>
@@ -617,20 +665,20 @@
                                                 Front Sale Comparision
                                             </div>
                                                 @php
-                                                    $brandyear  = $item['front'];
+                                                    $brandyear2  = $item['front'];
                                                 @endphp
                                                     <table>
                                                         <thead>
                                                             <tr>
                                                                 <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                                @foreach ($brandyear as $brandyears)
+                                                                @foreach ($brandyear2 as $brandyears)
                                                                 <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
                                                                 @endforeach
                                                                 <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($brandyear as $index => $brandyears)
+                                                            @foreach ($brandyear2 as $index => $brandyears)
                                                                 @php
                                                                     $yearsData[$index] = $brandyears["yeardata"];
                                                                 @endphp
@@ -672,6 +720,30 @@
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
+
+                                                            <tr>
+                                                                <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: 1px solid white; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">Total</td>
+                                                                    @php
+                                                                    $brandyear2  = $item['front'];
+                                                                    @endphp
+                                                                    @foreach ($brandyear2 as $index => $brandyears)
+                                                                        @php
+                                                                        $yearsData[$index] = $brandyears["yeardata"];
+                                                                        $a2 = $brandyears["yeardata"];
+                                                                        $sum2 = 0;
+                                                                        @endphp
+                                                                        @foreach ($a2 as $index => $as)
+                                                                        @php
+                                                                        $sum2 += $as["net"];
+                                                                        @endphp
+                                                                        @endforeach
+                                                                        <td style="width: 115px; background-color :#E0E0E0; color:  black; border-left: 1px solid white; border-right: 1px solid white; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">@if($sum2 == 0) @else ${{$sum2}} @endif</td>
+                                                                        @php
+                                                                        $sum2 = 0;
+                                                                        @endphp
+                                                                    @endforeach
+                                                                <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: 1px solid white; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                         </div>
@@ -717,20 +789,20 @@
                                                 Back Sale Comparision
                                             </div>
                                                 @php
-                                                    $brandyear  = $item['back'];
+                                                    $brandyear3  = $item['back'];
                                                 @endphp
                                                     <table>
                                                         <thead>
                                                             <tr>
                                                                 <th style="width: 160px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Month</th>
-                                                                @foreach ($brandyear as $brandyears)
+                                                                @foreach ($brandyear3 as $brandyears)
                                                                 <th style="width: 115px; background-color: black; color: white;  border: 1px solid white; text-align: center;">{{$brandyears["year"]}}</th>
                                                                 @endforeach
                                                                 <th style="width: 130px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Difference %</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($brandyear as $index => $brandyears)
+                                                            @foreach ($brandyear3 as $index => $brandyears)
                                                                 @php
                                                                     $yearsData[$index] = $brandyears["yeardata"];
                                                                 @endphp
@@ -772,6 +844,30 @@
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
+
+                                                            <tr>
+                                                                <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: 1px solid white; border-right: none; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">Total</td>
+                                                                    @php
+                                                                    $brandyear3  = $item['back'];
+                                                                    @endphp
+                                                                    @foreach ($brandyear3 as $index => $brandyears)
+                                                                        @php
+                                                                        $yearsData[$index] = $brandyears["yeardata"];
+                                                                        $a3 = $brandyears["yeardata"];
+                                                                        $sum3 = 0;
+                                                                        @endphp
+                                                                        @foreach ($a3 as $index => $as)
+                                                                        @php
+                                                                        $sum3 += $as["net"];
+                                                                        @endphp
+                                                                        @endforeach
+                                                                        <td style="width: 115px; background-color :#E0E0E0; color:  black; border-left: 1px solid white; border-right: 1px solid white; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;">@if($sum3 == 0) @else ${{$sum3}} @endif</td>
+                                                                        @php
+                                                                        $sum3 = 0;
+                                                                        @endphp
+                                                                    @endforeach
+                                                                <td style="width: 130px; background-color: #E0E0E0; color: black; border-left: none; border-right: 1px solid white; border-top: 2px solid black; border-bottom: 2px solid black; text-align: center;"></td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                         </div>
