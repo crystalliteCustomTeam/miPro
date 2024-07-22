@@ -47,7 +47,8 @@ class NewPaymentsClients extends Model
         "Sheetdata",
         "disputeattack",
         "disputeattackamount",
-        "notfoundemail"
+        "notfoundemail",
+        "qaperson"
 
     ];
 

@@ -41,7 +41,12 @@
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;font-size:150%;">Project Name:</label>
-                    <label for="" style="font-size:150%;">{{$dispute[0]->disputeprojectName->name }}</label>
+                    <label for="" style="font-size:150%;">
+                        @if (isset($dispute[0]->disputeprojectName->name) && $dispute[0]->disputeprojectName->name != null)
+                        {{$dispute[0]->disputeprojectName->name }}
+                        @else
+                            Undefined
+                        @endif</label>
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;font-size:150%;">Project Manager:</label>

@@ -6422,6 +6422,17 @@ class BasicController extends Controller
 
     function newClientPaymentprocess(Request $request)
     {
+
+        $loginUser = $this->roleExits($request);
+
+        if($loginUser[2] == 0){
+            $userid = 0;
+        }else{
+            $qaPerson = $request->session()->get('AdminUser');
+            $userid = $qaPerson[0]->id;
+        }
+
+
         $firstemails = $request->input('email');
         $findclient = 0;
 
@@ -6537,7 +6548,8 @@ class BasicController extends Controller
             "remainingStatus" => $remainingstatus,
             "transactionType" => $transactionType,
             "transactionfee" => $transactionfee,
-            "amt_after_transactionfee" => $request->input('clientpaid') - $transactionfee
+            "amt_after_transactionfee" => $request->input('clientpaid') - $transactionfee,
+            "qaperson" => $userid
 
         ]);
 
@@ -6597,10 +6609,14 @@ class BasicController extends Controller
     }
     function clientPayment(Request $request)
     {
-        // $SecondProjectManager = $request->input('shareProjectManager');
-        // echo("<pre>");
-        // print_r($SecondProjectManager);
-        // die();
+        $loginUser = $this->roleExits($request);
+
+        if($loginUser[2] == 0){
+            $userid = 0;
+        }else{
+            $qaPerson = $request->session()->get('AdminUser');
+            $userid = $qaPerson[0]->id;
+        }
 
         $paymentType = $request->input('paymentType');
         $paymentNature = $request->input('paymentNature');
@@ -6609,9 +6625,6 @@ class BasicController extends Controller
         $remainingamt = $request->input('totalamount') - $request->input('clientpaid');
         $brandID = $request->input('brand');
         $transactionfee = $request->input('clientpaid') * 0.03;
-
-        // echo($request->input('paymentNature'));
-        // die();
 
         if ($request->input('paymentNature') != "Remaining" && $request->input('paymentNature') != "FSRemaining") {
             // echo("is not remaining");
@@ -6675,7 +6688,8 @@ class BasicController extends Controller
                     "remainingStatus" => $remainingstatus,
                     "transactionType" => $transactionType,
                     "transactionfee" =>  $transactionfee,
-                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee,
+                    "qaperson" => $userid
 
                 ]);
             } elseif ($request->input('ChargingPlan') != null && $request->input('nextpaymentdate') == null) {
@@ -6744,7 +6758,8 @@ class BasicController extends Controller
                     "remainingStatus" => $remainingstatus,
                     "transactionType" => $transactionType,
                     "transactionfee" =>  $transactionfee,
-                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee,
+                    "qaperson" => $userid
 
                 ]);
             } else {
@@ -6779,7 +6794,8 @@ class BasicController extends Controller
                     "remainingStatus" => $remainingstatus,
                     "transactionType" => $transactionType,
                     "transactionfee" =>  $transactionfee,
-                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee,
+                    "qaperson" => $userid
 
                 ]);
             }
@@ -6863,7 +6879,8 @@ class BasicController extends Controller
                         "remainingStatus" => '--',
                         "transactionType" => $transactionType,
                         "transactionfee" =>  $transactionfee,
-                        "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
+                        "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee,
+                        "qaperson" => $userid
 
                     ]);
                 }
@@ -6946,7 +6963,8 @@ class BasicController extends Controller
                         "remainingStatus" => '--',
                         "transactionType" => $transactionType,
                         "transactionfee" =>  $transactionfee,
-                        "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
+                        "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee,
+                        "qaperson" => $userid
 
                     ]);
                 }
@@ -7072,7 +7090,8 @@ class BasicController extends Controller
                     "remainingStatus" =>  "Remaining Payment",
                     "transactionType" => $transactionType,
                     "transactionfee" =>  $transactionfee,
-                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee,
+                    "qaperson" => $userid
 
                 ]);
 
@@ -7190,7 +7209,8 @@ class BasicController extends Controller
                     "remainingStatus" => "Remaining Payment",
                     "transactionType" => $transactionType,
                     "transactionfee" =>  $transactionfee,
-                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee,
+                    "qaperson" => $userid
 
                 ]);
 
@@ -7316,7 +7336,8 @@ class BasicController extends Controller
                     "remainingStatus" =>  "Remaining Payment",
                     "transactionType" => "New Lead",
                     "transactionfee" =>  $transactionfee,
-                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee,
+                    "qaperson" => $userid
 
                 ]);
 
@@ -7434,7 +7455,8 @@ class BasicController extends Controller
                     "remainingStatus" => "Remaining Payment",
                     "transactionType" => "New Lead",
                     "transactionfee" =>  $transactionfee,
-                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee
+                    "amt_after_transactionfee" => $request->input('clientpaid') -  $transactionfee,
+                    "qaperson" => $userid
 
                 ]);
 
@@ -7701,12 +7723,14 @@ class BasicController extends Controller
         $related_payment = NewPaymentsClients::where('ClientID', $client_payment[0]->ClientID)->where('ProjectID', $client_payment[0]->ProjectID)->where('id', '!=', $id)->where('transactionType', $client_payment[0]->transactionType)->get();
         $remaining_payment = NewPaymentsClients::where('ClientID', $client_payment[0]->ClientID)->where('ProjectID', $client_payment[0]->ProjectID)->where('id', '!=', $id)->where('remainingID', $client_payment[0]->remainingID)->get();
         $employee  = Employee::get();
+        $findemployee = Employee::get();
         return view('payment_Dispute', [
             'id' => $id,
             'client_payment' => $client_payment,
             'related_payment' => $related_payment,
             'remaining_payment' => $remaining_payment,
             'employee' => $employee,
+            'pmemployee' => $findemployee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
             'superUser' => $loginUser[2]
@@ -7717,6 +7741,7 @@ class BasicController extends Controller
         $referencepayment = NewPaymentsClients::where('id', $request->input('paymentID'))->get();
 
         $originalpayment = NewPaymentsClients::where('id', $request->input('paymentID'))->update([
+            "ProjectManager" => $request->input('accountmanager'),
             "dispute" => "dispute",
             "disputeattack" => $request->input('disputedate'),
             "disputeattackamount" => $request->input('clientpaid'),
@@ -7727,7 +7752,7 @@ class BasicController extends Controller
             "BrandID" =>  $request->input('brandID'),
             "ClientID" =>  $request->input('clientID'),
             "ProjectID" => $request->input('projectID'),
-            "ProjectManager" => $request->input('projectmanager'),
+            "ProjectManager" => $request->input('accountmanager'),
             "PaymentID" => $request->input('paymentID'),
             "dispute_Date" => $request->input('disputedate'),
             "disputedAmount" => $request->input('clientpaid'),
@@ -7776,6 +7801,15 @@ class BasicController extends Controller
     }
     function payment_Dispute_Process_lost(Request $request)
     {
+        $loginUser = $this->roleExits($request);
+
+        if($loginUser[2] == 0){
+            $userid = 0;
+        }else{
+            $qaPerson = $request->session()->get('AdminUser');
+            $userid = $qaPerson[0]->id;
+        }
+
         $referencepayment = NewPaymentsClients::where('id', $request->input('mainpayment'))->get();
         $disputetogetfee = Disputedpayments::where('id', $request->input('disputeID'))->get();
         $Disputedpayments = Disputedpayments::where('id', $request->input('disputeID'))->update([
@@ -7826,13 +7860,14 @@ class BasicController extends Controller
             "disputefee" => $disputetogetfee[0]->disputefee,
             "dispute" => "dispute",
             "amt_after_disputefee" => $referencepayment[0]->Paid + $disputetogetfee[0]->disputefee,
+            "qaperson" => $userid
 
         ]);
 
         $payment_in_refund_table = RefundPayments::create([
             "BrandID" =>  $request->input('brandID'),
             "ClientID" =>  $request->input('clientID'),
-            "ProjectID" => $request->input('projectID'),
+            "ProjectID" => $referencepayment[0]->ProjectID,
             'ProjectManager' => $request->input('accountmanager'),
             'PaymentID' => $originalrefund,
             'basicAmount' =>  $referencepayment[0]->TotalAmount,
@@ -7924,6 +7959,15 @@ class BasicController extends Controller
     }
     function payment_Dispute_Process_won(Request $request)
     {
+        $loginUser = $this->roleExits($request);
+
+        if($loginUser[2] == 0){
+            $userid = 0;
+        }else{
+            $qaPerson = $request->session()->get('AdminUser');
+            $userid = $qaPerson[0]->id;
+        }
+
         $referencepayment = NewPaymentsClients::where('id', $request->input('mainpayment'))->get();
         $Disputedpayments = Disputedpayments::where('id', $request->input('disputeID'))->update([
             "disputeStatus" => "Won"
@@ -7950,7 +7994,7 @@ class BasicController extends Controller
             "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
             "TransactionID" => $referencepayment[0]->TransactionID . "(Dispute Won)",
             "paymentDate" => $request->input('paymentdate'),
-            "SalesPerson" => $referencepayment[0]->SalesPerson,
+            "SalesPerson" => $referencepayment[0]->ProjectManager,
             "TotalAmount" => $referencepayment[0]->TotalAmount,
             "Paid" => $referencepayment[0]->Paid,
             "RemainingAmount" => 0,
@@ -7966,6 +8010,7 @@ class BasicController extends Controller
             "transactionType" => $referencepayment[0]->transactionType,
             "transactionfee" => $referencepayment[0]->transactionfee,
             "amt_after_transactionfee" => $request->input('wonamount') - $referencepayment[0]->transactionfee,
+            "qaperson" => $userid
             // "disputefee" => 0,
             // "amt_after_disputefee" => $request->input('wonamount') - $referencepayment[0]->transactionfee,
         ]);
@@ -7980,7 +8025,7 @@ class BasicController extends Controller
 
             $createMainEmployeePayment  = EmployeePayment::create([
                 "paymentID" => $createpayment,
-                "employeeID" => $referencepayment[0]->SalesPerson,
+                "employeeID" => $referencepayment[0]->ProjectManager,
                 "paymentDescription" => $paymentDescription,
                 "amount" => $amount
             ]);

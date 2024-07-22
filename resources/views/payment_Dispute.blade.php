@@ -64,6 +64,27 @@
                             <label for="" style="font-weight:bold;">Dispute Date:</label>
                             <input type="date" class="form-control" required name="disputedate" >
                         </div>
+
+                        <div class="col-6 mt-3">
+                            <label for="" style="font-weight:bold;" >Account Manager:</label>
+                            <select class="form-control select2" required name="accountmanager">
+                              @foreach ($pmemployee as $client)
+                                    @if (isset($projectmanager[0]->EmployeeName->id) and $projectmanager[0]->EmployeeName->id !== null)
+                                    <option value="{{ $client->id }}"{{ $client->id == $projectmanager[0]->EmployeeName->id ? 'selected' : '' }}>{{ $client->name }}
+                                    --
+                                    @else
+                                    <option value="{{ $client->id }}">{{ $client->name }}
+                                    --
+                                    @endif
+                                    @foreach($client->deparment($client->id)  as $dm)
+                                    <strong>{{ $dm->name }}</strong>
+                                    @endforeach
+                                </option>
+                              @endforeach
+                            </select>
+                        </div>
+
+
                         <div class="col-6 mt-3">
                             <label for="" style="font-weight:bold;">Dispute amount</label>
                             <input id="amountPaid" type="text" class="form-control" required onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" value="{{$client_payment[0]->Paid}}">
