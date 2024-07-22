@@ -493,6 +493,11 @@
                                             <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($shortfall != 0) ${{$shortfall}} @else  @endif</td>
                                         </tr>
                                     @endforeach
+                                    {{-- <tr>
+                                        <td style="width: 100px; background-color: #458254; color: white; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: none; text-align: center;"> $00 </td>
+                                        <td style="width: 203px; background-color: black; color: white;  border-left: none; border-right: none; border-top:  1px dotted white; border-bottom: 1px dotted white; text-align: center;"></td>
+                                        <td style="width: 100px; background-color: black; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: none; text-align: center;"> $00 </td>
+                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>

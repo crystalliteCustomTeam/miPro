@@ -376,50 +376,6 @@
                         <br><br>
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Sales Distribution Chart:</h4></div>
-                                <div class="col-2"></div>
-                            </div>
-                            <div class="row" id="salesgraph"></div>
-                        </div>
-                    </div>
-
-                    <script type="text/javascript">
-                             function displayArraySales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
-                                google.charts.load('current', {'packages': ['corechart']});
-
-                                google.charts.setOnLoadCallback(function () {
-                                    drawChartSales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
-                                });
-
-                                function drawChartSales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
-                                    var data = new google.visualization.DataTable();
-                                    data.addColumn('string', 'Category');
-                                    data.addColumn('number', 'Percentage');
-                                    data.addRows([
-                                        ['Renewal', parseInt(brand_renewal)],
-                                        ['Upsell', parseInt(brand_upsell)],
-                                        ['New Lead', parseInt(brand_newlead)]
-                                    ]);
-
-                                    var options = {
-                                        'title': brand_name + ' Sales Distribution Chart:',
-                                        is3D: true,
-                                        colors: ['#008080', '#800080', 'green'],
-                                        'width': 500,
-                                        'height': 400
-                                    };
-
-                                    var chart = new google.visualization.PieChart(document.getElementById(chartId));
-                                    chart.draw(data, options);
-                                }
-                            }
-                    </script>
-
-
-                    <div class="col-4">
-                        <br><br>
-                        <div class="col-12">
-                            <div class="row">
                                 <div class="col-10" id="hideornot"><h4 style="background-color: white ; color: black; font-weight: bold; ">Target Chasing Graph:</h4></div>
                                 <div class="col-2"></div>
                             </div>
@@ -469,6 +425,49 @@
                         </script>
 
                     </div>
+
+                    <div class="col-4">
+                        <br><br>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Sales Distribution Chart:</h4></div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row" id="salesgraph"></div>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+                             function displayArraySales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
+                                google.charts.load('current', {'packages': ['corechart']});
+
+                                google.charts.setOnLoadCallback(function () {
+                                    drawChartSales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead);
+                                });
+
+                                function drawChartSales(chartId, brand_name, brand_renewal, brand_upsell, brand_newlead) {
+                                    var data = new google.visualization.DataTable();
+                                    data.addColumn('string', 'Category');
+                                    data.addColumn('number', 'Percentage');
+                                    data.addRows([
+                                        ['Renewal', parseInt(brand_renewal)],
+                                        ['Upsell', parseInt(brand_upsell)],
+                                        ['New Lead', parseInt(brand_newlead)]
+                                    ]);
+
+                                    var options = {
+                                        'title': brand_name + ' Sales Distribution Chart:',
+                                        is3D: true,
+                                        colors: ['#008080', '#800080', 'green'],
+                                        'width': 500,
+                                        'height': 400
+                                    };
+
+                                    var chart = new google.visualization.PieChart(document.getElementById(chartId));
+                                    chart.draw(data, options);
+                                }
+                            }
+                    </script>
 
                     <div class="col-12 mg-b-15">
                         <br><br>

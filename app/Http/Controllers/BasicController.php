@@ -3499,11 +3499,104 @@ class BasicController extends Controller
                     }
                 }
             }
+
+
+            // echo("<pre>");
+
+            // $combined_data = [];
+            // $quarters = [];
+
+            // // Function to determine quarter from month
+            // function get_quarter($month) {
+            //     return (int)(($month - 1) / 3) + 1;
+            // }
+
+            // // Process the data
+            // foreach ($finalfront as $year_data) {
+            //     $year = $year_data["year"];
+            //     foreach ($year_data["alldata"] as $month_data) {
+            //         $month = $month_data["month"];
+            //         $key = "$year-$month";
+
+            //         $month_sums = [
+            //             "type" => "month",
+            //             "year" => $year,
+            //             "month" => $month,
+            //             "target" => 0,
+            //             "front" => 0,
+            //             "back" => 0,
+            //             "refund" => 0,
+            //             "net" => 0
+            //         ];
+
+            //         foreach ($month_data["front"] as $entry) {
+            //             $month_sums["target"] += $entry["target"];
+            //             $month_sums["front"] += $entry["front"];
+            //             $month_sums["back"] += $entry["back"];
+            //             $month_sums["refund"] += $entry["refund"];
+            //             $month_sums["net"] += $entry["net"];
+            //         }
+
+            //         $combined_data[] = $month_sums;
+
+            //         // Add data to the corresponding quarter
+            //         $quarter_key = "$year-Q" . get_quarter($month);
+            //         if (!isset($quarters[$quarter_key])) {
+            //             $quarters[$quarter_key] = [
+            //                 "type" => "quarter",
+            //                 "year" => $year,
+            //                 "quarter" => get_quarter($month),
+            //                 "target_sum" => 0,
+            //                 "front_sum" => 0,
+            //                 "back_sum" => 0,
+            //                 "refund_sum" => 0,
+            //                 "net_sum" => 0,
+            //                 "count" => 0
+            //             ];
+            //         }
+
+            //         $quarters[$quarter_key]["target_sum"] += $month_sums["target"];
+            //         $quarters[$quarter_key]["front_sum"] += $month_sums["front"];
+            //         $quarters[$quarter_key]["back_sum"] += $month_sums["back"];
+            //         $quarters[$quarter_key]["refund_sum"] += $month_sums["refund"];
+            //         $quarters[$quarter_key]["net_sum"] += $month_sums["net"];
+            //         $quarters[$quarter_key]["count"] += 1;
+            //     }
+            // }
+
+            // // Calculate averages for each quarter and append to combined_data
+            // foreach ($quarters as $quarter_key => $values) {
+            //     $quarter_sums = [
+            //         "type" => "quarter",
+            //         "year" => $values["year"],
+            //         "quarter" => $values["quarter"],
+            //         "target_sum" => $values["target_sum"],
+            //         "front_sum" => $values["front_sum"],
+            //         "back_sum" => $values["back_sum"],
+            //         "refund_sum" => $values["refund_sum"],
+            //         "net_sum" => $values["net_sum"],
+            //         "target_avg" => $values["target_sum"] / $values["count"],
+            //         "front_avg" => $values["front_sum"] / $values["count"],
+            //         "back_avg" => $values["back_sum"] / $values["count"],
+            //         "refund_avg" => $values["refund_sum"] / $values["count"],
+            //         "net_avg" => $values["net_sum"] / $values["count"]
+            //     ];
+            //     $combined_data[] = $quarter_sums;
+            // }
+
+            // Print the combined data
+            // foreach ($combined_data as $entry) {
+            //     print_r($entry);
+            // }
+            // foreach ($combined_data as $entry) {
+            //     print_r($entry);
+            // }
+
+            // die();
+
         }
 
-        // echo("<pre>");
-        // print_r($collectedData);
-        // die();
+
 
         return view('monthStats', [
             'LoginUser' => $loginUser[1],
