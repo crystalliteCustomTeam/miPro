@@ -4356,14 +4356,19 @@ class BasicController extends Controller
                             "updated_at" => date('Y-m-d H:i:s')
                         ]);
                     } else {
-                        continue;
+                        $othermonthtargets = $b["target"];
+                        foreach($othermonthtargets as $othermonthtargetss){
+                            $brandtarget = BrandTarget::where('BrandID',$findbrand[0]->id)->where('Year', $b['year'])->update([
+                                $othermonthtargetss['month'] => $othermonthtargetss['target'],
+                                "updated_at" => date('Y-m-d H:i:s')
+                            ]);
+                        }
                     }
                 }
             } else {
                 continue;
             }
         }
-
 
         //for agents:
         $filteredData1 = [];
@@ -4442,7 +4447,13 @@ class BasicController extends Controller
                             "updated_at" => date('Y-m-d H:i:s')
                         ]);
                     } else {
-                        continue;
+                        $othermonthtargets1 = $b1["target"];
+                        foreach($othermonthtargets1 as $othermonthtargetss1){
+                            $brandtarget1 = AgentTarget::where('AgentID',$findbrand1[0]->id)->where('Year', $b1['year'])->update([
+                                $othermonthtargetss1['month'] => $othermonthtargetss1['target'],
+                                "updated_at" => date('Y-m-d H:i:s')
+                            ]);
+                        }
                     }
                 }
             } else {
