@@ -7651,20 +7651,20 @@ class BasicController extends Controller
         ]);
 
         $payment_in_refund_table = RefundPayments::create([
-            "BrandID" =>  $request->input('brandID'),
-            "ClientID" =>  $request->input('clientID'),
+            "BrandID" => $request->input('brandID'),
+            "ClientID" => $request->input('clientID'),
             "ProjectID" => $request->input('projectID'),
             'ProjectManager' => $request->input('saleperson'),
             'PaymentID' => $originalrefund,
-            'basicAmount' =>  $request->input('totalamount'),
+            'basicAmount' => $request->input('totalamount'),
             "refundAmount" => $request->input('clientpaid'),
             "refundtype" => $request->input('chargebacktype'),
             "refund_date" => $request->input('paymentdate'),
-            "refundReason" =>  $request->input('description'),
-            "clientpaid" =>   $referencepayment[0]->Paid,
-            "paymentType" =>   $referencepayment[0]->PaymentType,
-            "splitmanagers" =>   $referencepayment[0]->SplitProjectManager,
-            "splitamounts" =>  $referencepayment[0]->ShareAmount,
+            "refundReason" => $request->input('description'),
+            "clientpaid" => $request->input('clientpaid'),
+            "paymentType" => $referencepayment[0]->PaymentType,
+            "splitmanagers" => $referencepayment[0]->SplitProjectManager,
+            "splitamounts" => $referencepayment[0]->ShareAmount,
             "splitRefunds" => ($request->input('paymentType') == "Full Payment") ? json_encode(["-", "-", "-", "-"]) : json_encode($request->input('splitamount')),
             "transactionfee" => $request->input('transactionfee'),
             "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
@@ -7725,6 +7725,117 @@ class BasicController extends Controller
         return redirect('/client/project/payment/all');
     }
 
+    function payment_RefundEdit(Request $request, $id)
+    {
+        $loginUser = $this->roleExits($request);
+        $client_payment = NewPaymentsClients::where('id', $id)->get();
+        $refundpayment = RefundPayments::where('PaymentID', $id)->get();
+        $employee  = Employee::get();
+        return view('edit_payment_Refund', [
+            'client_payment' => $client_payment,
+            'employee' => $employee,
+            'refundpayment' => $refundpayment,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function payment_RefundEdit_Process(Request $request, $id)
+    {
+
+        if ($request->file('bankWireUpload') != null) {
+            $bookwire = $request->file('bankWireUpload')->store('Payment');
+        } else {
+            $bookwire = "--";
+        }
+
+        $originalrefund = NewPaymentsClients::where('id',$id)->update([
+            "ProjectManager" => $request->input('saleperson'),
+            "Platform" => $request->input('platform'),
+            "Card_Brand" => $request->input('cardBrand'),
+            "Payment_Gateway" => $request->input('paymentgateway'),
+            "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
+            "TransactionID" => $request->input('transactionID'),
+            "paymentDate" => $request->input('paymentdate'),
+            "TotalAmount" => $request->input('totalamount'),
+            "Paid" => $request->input('clientpaid'),
+            "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
+            "Description" => $request->input('description'),
+            'updated_at' => date('y-m-d H:m:s'),
+            "remainingStatus" => 0,
+            "transactionfee" => $request->input('transactionfee'),
+            "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
+
+        ]);
+
+        $payment_in_refund_table = RefundPayments::where('PaymentID',$id)->update([
+            'ProjectManager' => $request->input('saleperson'),
+            'basicAmount' =>  $request->input('totalamount'),
+            "refundAmount" => $request->input('clientpaid'),
+            "refundtype" => $request->input('chargebacktype'),
+            "refund_date" => $request->input('paymentdate'),
+            "refundReason" =>  $request->input('description'),
+            "clientpaid" =>   $request->input('clientpaid'),
+            "transactionfee" => $request->input('transactionfee'),
+            "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
+
+
+        ]);
+
+        // if ($referencepayment[0]->PaymentType == "Split Payment") {
+        //     $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
+        //     $totalamount = $request->input('totalamount');
+        //     $amountShare = $request->input('splitamount');
+        //     $sharedProjectManager = $request->input('shareProjectManager');
+        //     $c = [];
+        //     $amount = $totalamount - $amountShare[0] - $amountShare[1] - $amountShare[2] - $amountShare[3];
+
+        //     $createMainEmployeePayment  = EmployeePayment::create([
+        //         "paymentID" => $originalrefund,
+        //         "employeeID" => $request->input('saleperson'),
+        //         "paymentDescription" => $paymentDescription,
+        //         "amount" => $amount
+        //     ]);
+
+
+
+        //     foreach ($sharedProjectManager as $key => $value) {
+        //         $c[$key] = [$value, $amountShare[$key]];
+        //     }
+
+        //     foreach ($c as $SecondProjectManagers) {
+        //         if ($SecondProjectManagers[0] != 0) {
+        //             $createSharedPersonEmployeePayment  = EmployeePayment::create(
+        //                 [
+        //                     "paymentID" => $originalrefund,
+        //                     "employeeID" => $SecondProjectManagers[0],
+        //                     "paymentDescription" => "refund Share By " . $request->input('saleperson'),
+        //                     "amount" =>  $SecondProjectManagers[1]
+        //                 ]
+        //             );
+        //         }
+        //     }
+        // } else {
+
+        //     $paymentDescription = $request->input('saleperson') . " Refund Payment For Client " . $request->input('clientID');
+        //     $clientpaid = $request->input('clientpaid');
+
+
+
+        //     $createEmployeePayment  = EmployeePayment::create(
+        //         [
+        //             "paymentID" => $originalrefund,
+        //             "employeeID" => $request->input('saleperson'),
+        //             "paymentDescription" =>  $paymentDescription,
+        //             "amount" =>   $clientpaid
+        //         ]
+        //     );
+        // }
+
+        return redirect('/client/project/payment/all');
+    }
+
 
 
     function payment_Dispute(Request $request, $id)
@@ -7775,6 +7886,46 @@ class BasicController extends Controller
 
         return redirect('/client/project/payment/all');
     }
+
+    function payment_Edit_Dispute(Request $request, $id)
+    {
+        $loginUser = $this->roleExits($request);
+        $client_payment = Disputedpayments::where('id', $id)->get();
+        $employee  = Employee::get();
+        return view('Editpayment_Dispute', [
+            'client_payment' => $client_payment,
+            'employee' => $employee,
+            'pmemployee' => $employee,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function payment_Edit_Dispute_Process(Request $request , $id)
+    {
+        $referencepayment = Disputedpayments::where('id', $id)->get();
+
+        $originalpayment = NewPaymentsClients::where('id', $referencepayment[0]->PaymentID)->update([
+            "ProjectManager" => $request->input('accountmanager'),
+            "disputeattack" => $request->input('disputedate'),
+            "disputeattackamount" => $request->input('clientpaid'),
+        ]);
+
+
+        $payment_in_refund_table = Disputedpayments::where('id',$id)->update([
+            "ProjectManager" => $request->input('accountmanager'),
+            "dispute_Date" => $request->input('disputedate'),
+            "disputedAmount" => $request->input('clientpaid'),
+            "disputeReason" => $request->input('description'),
+            "disputefee" => $request->input('disputefee'),
+            "amt_after_disputefee" => $request->input('clientpaid') + $request->input('disputefee'),
+
+        ]);
+
+        return redirect('/client/project/payment/all');
+    }
+
 
 
 

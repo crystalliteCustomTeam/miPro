@@ -135,9 +135,15 @@ Route::controller(BasicController::class)->group(function () {
         Route::get('/client/project/payment/Refund/{id}', 'payment_Refund');
         Route::post('/client/project/payment/Refund/process', 'payment_Refund_Process');
         Route::post('/client/project/payment/Refund/{id}/process', 'payment_Refund_stripePayment_Process');
+
+        Route::get('/client/project/payment/editRefund/{id}', 'payment_RefundEdit');
+        Route::post('/client/project/payment/EditRefund/process/{id}', 'payment_RefundEdit_Process');
         //dispute:
         Route::get('/client/project/payment/Dispute/{id}', 'payment_Dispute');
         Route::post('/client/project/payment/Dispute/process', 'payment_Dispute_Process');
+
+        Route::get('/client/project/payment/editDispute/{id}', 'payment_Edit_Dispute');
+        Route::post('/client/project/payment/EditDispute/process/{id}', 'payment_Edit_Dispute_Process');
         //disputeTable
         Route::get('/client/project/payment/disputes', 'all_disputes');
         //disputeLost:

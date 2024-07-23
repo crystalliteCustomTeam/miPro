@@ -94,6 +94,7 @@
                                 @if ($item->refundStatus != "On Going" && $item->refundStatus != "Pending Payment")
                                 <div class="btn-group">
                                     <a href="/client/project/payment/view/{{$item->id}}" class="btn btn-success">View (Refund)</a>
+                                    <a href="/client/project/payment/editRefund/{{$item->id}}" class="btn btn-primary">Edit (Refund)</a>
                                 </div>
                                 @else
                                 <div class="btn-group">

@@ -62,6 +62,7 @@
                                 <div class="btn-group">
                                     <a href="/client/project/payment/Dispute/view/{{$item->id}}" class="btn btn-success">View</a>
                                     @if ($item->disputeStatus == null)
+                                    <a href="/client/project/payment/editDispute/{{$item->id}}" class="btn btn-primary">Edit</a>
                                     <a href="/client/project/payment/Dispute/won/{{$item->id}}" class="btn btn-warning">Dispute Won</a>
                                     <a href="/client/project/payment/Dispute/lost/{{$item->id}}" class="btn btn-info">Dispute Lost</a>
                                     @endif
