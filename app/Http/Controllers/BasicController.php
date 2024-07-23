@@ -7556,9 +7556,9 @@ class BasicController extends Controller
             'project' => $project,
             'client_payment' => $client_payment,
             'pmdepartment' => $pmdepartment,
-            'pmemployee' => $pmemployee,
+            'pmemployee' => $employee,
             'saledepartment' => $saledepartment,
-            'saleemployee' => $saleemployee,
+            'saleemployee' => $employee,
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -7620,7 +7620,7 @@ class BasicController extends Controller
             "BrandID" => $request->input('brandID'),
             "ClientID" => $request->input('clientID'),
             "ProjectID" => $request->input('projectID'),
-            "ProjectManager" => $request->input('accountmanager'),
+            "ProjectManager" => $request->input('saleperson'),
             "paymentNature" => $referencepayment[0]->paymentNature,
             "ChargingPlan" => $referencepayment[0]->ChargingPlan,
             "ChargingMode" => $referencepayment[0]->ChargingMode,
@@ -7630,7 +7630,7 @@ class BasicController extends Controller
             "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
             "TransactionID" => $request->input('transactionID'),
             "paymentDate" => $request->input('paymentdate'),
-            "SalesPerson" => $request->input('saleperson'),
+            "SalesPerson" => $referencepayment[0]->SalesPerson,
             "TotalAmount" => $request->input('totalamount'),
             "Paid" => $request->input('clientpaid'),
             "RemainingAmount" => $request->input('totalamount') - $request->input('clientpaid'),
@@ -7654,7 +7654,7 @@ class BasicController extends Controller
             "BrandID" =>  $request->input('brandID'),
             "ClientID" =>  $request->input('clientID'),
             "ProjectID" => $request->input('projectID'),
-            'ProjectManager' => $request->input('accountmanager'),
+            'ProjectManager' => $request->input('saleperson'),
             'PaymentID' => $originalrefund,
             'basicAmount' =>  $request->input('totalamount'),
             "refundAmount" => $request->input('clientpaid'),
@@ -7715,7 +7715,7 @@ class BasicController extends Controller
             $createEmployeePayment  = EmployeePayment::create(
                 [
                     "paymentID" => $originalrefund,
-                    "employeeID" => $request->input('accountmanager'),
+                    "employeeID" => $request->input('saleperson'),
                     "paymentDescription" =>  $paymentDescription,
                     "amount" =>   $clientpaid
                 ]
