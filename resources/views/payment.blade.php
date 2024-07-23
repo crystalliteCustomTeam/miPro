@@ -343,6 +343,7 @@
                 <div class="col-3">
                     <br>
                     <input type="submit" value="Create"  name="" class="btn btn-success mt-2">
+                    {{-- <input type="submit" value="Create Information" class=" mt-3 btn btn-success" onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();"> --}}
                 </div>
                 <div class="col-9">
                         @if (Session::has('Success'))
