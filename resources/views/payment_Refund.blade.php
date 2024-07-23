@@ -134,7 +134,7 @@
                             <input type="date" class="form-control" required name="paymentdate" >
                         </div>
                         <div class="col-4 mt-3">
-                            <label for="" style="font-weight:bold;" >Sale Person:</label>
+                            <label for="" style="font-weight:bold;" >Account Manager:</label>
                             <select class="form-control select2" required name="saleperson" id="saleperson">
                             @foreach ($saleemployee as $client)
                                     @if (isset($findclientofproject[0]->frontSeler) and $findclientofproject[0]->frontSeler !== null)
