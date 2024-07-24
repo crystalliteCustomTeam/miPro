@@ -106,6 +106,7 @@
             <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingbitswits" class="sub-link">Bitswits --Sheet Invoicing (CSV)</a></li>
             <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingClientFirstSMM" class="sub-link">Clieck First SMM --Sheet Invoicing (CSV)</a></li>
             <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingcreative" class="sub-link">Creative --Sheet Invoicing (CSV)</a></li>
+            <li class="sub-item"><a href="/forms/csv_uploads_sheetinvoicingInfinity" class="sub-link">Infinity Animations --Sheet Invoicing (CSV)</a></li>
             {{-- <li class="sub-item"><a href="/payments/invoicing/notfoundclient" class="sub-link">Not Found Clients</a></li> --}}
             </ul>
         </li><!-- br-menu-item -->
@@ -233,9 +234,9 @@
             <ul class="br-menu-sub">
             <li class="sub-item"><a href="/forms/kyc" class="sub-link">SEO Kyc</a></li>
             <li class="sub-item"><a href="/forms/book" class="sub-link">Book Kyc</a></li>
-            <li class="sub-item"><a href="/forms/website" class="sub-link">Website Kyc</a></li>
+            {{-- <li class="sub-item"><a href="/forms/website" class="sub-link">Website Kyc</a></li>
             <li class="sub-item"><a href="/forms/cld" class="sub-link">CLD Kyc</a></li>
-            <li class="sub-item"><a href="/forms/csv_uploads" class="sub-link">Client Registration(CSV)</a></li>
+            <li class="sub-item"><a href="/forms/csv_uploads" class="sub-link">Client Registration(CSV)</a></li> --}}
             </ul>
         </li><!-- br-menu-item -->
         <li class="br-menu-item">
@@ -244,8 +245,9 @@
             <span class="menu-item-label">Clients</span>
             </a><!-- br-menu-link -->
             <ul class="br-menu-sub">
-            <li class="sub-item"><a href="/assigned/clients" class="sub-link">Clients</a></li>
+            <li class="sub-item"><a href="/assigned/clients" class="sub-link">Assigned Clients</a></li>
             <li class="sub-item"><a href="/all/newclients" class="sub-link">New Client</a></li>
+            <li class="sub-item"><a href="/all/clients" class="sub-link">All Clients</a></li>
             </ul>
         </li><!-- br-menu-item -->
         <li class="br-menu-item">

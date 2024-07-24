@@ -193,6 +193,12 @@ Route::controller(BasicController::class)->group(function () {
         Route::get('/forms/csv_uploads_sheetinvoicingcreative', 'csv_sheetpaymentscreative');
         Route::post('/forms/csv_uploads_sheetinvoicingcreative/process', 'csv_sheetpayments_processcreative');
 
+
+        //csv_paymentsFromSheet_infinity(previous data upload):
+        Route::get('/forms/csv_uploads_sheetinvoicingInfinity', 'csv_sheetpaymentsinfinity');
+        Route::post('/forms/csv_uploads_sheetinvoicinginfinity/process', 'csv_sheetpayments_processinfinity');
+
+
         //Unmatched Payments:
         Route::get('/payments/unmatched', 'unmatchedPayments');
         //unlinked payments sheet:
