@@ -1826,50 +1826,6 @@ class BasicController extends Controller
                         "Daily_Target" => $formattedOutcome,
                     ];
 
-                    // $dailyrevenues = NewPaymentsClients::whereDate('paymentDate', $day['date'])
-                    //     ->where('BrandID', $brandID)
-                    //     ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    //     ->where('refundStatus', '!=', 'Pending Payment')
-                    //     ->where(function ($query) {
-                    //         $query->where('refundStatus', '!=', 'Refund')
-                    //             ->orWhere('dispute', null);
-                    //     })
-                    //     ->sum('Paid');
-
-                    // $dailyrevenues = NewPaymentsClients::whereYear('paymentDate', date('Y', strtotime($day['date'])))
-                    //     ->whereMonth('paymentDate', date('m', strtotime($day['date'])))
-                    //     ->whereDate('paymentDate', '<=', $day['date'])
-                    //     ->where('BrandID', $brandID)
-                    //     ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    //     ->where('refundStatus', '!=', 'Pending Payment')
-                    //     ->where(function ($query) {
-                    //         $query->where('refundStatus', '!=', 'Refund')
-                    //             ->orWhereNull('dispute');
-                    //     })
-                    //     ->sum('Paid');
-
-                    // $dailyrevenues =NewPaymentsClients::whereYear('paymentDate', date('Y', strtotime($day['date'])))
-                    //     ->whereMonth('paymentDate', date('m', strtotime($day['date'])))
-                    //     ->whereDate('paymentDate', '<=', $day['date'])
-                    //     ->where('BrandID', $brandID)
-                    //     ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    //     ->where('refundStatus', '!=', 'Pending Payment')
-                    //     ->where('refundStatus', '!=', 'Refund')
-                    //     ->WhereNull('dispute')
-                    //     ->sum('Paid');
-
-                    // $dailyrevenues = DB::table('newpaymentsclients')
-                    //     ->whereYear('paymentDate', date('Y', strtotime($day['date'])))
-                    //     ->whereMonth('paymentDate', date('m', strtotime($day['date'])))
-                    //     ->whereDate('paymentDate', '<=', $day['date'])
-                    //     ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    //     ->where('refundStatus', '!=', 'Pending Payment')
-                    //     ->where('refundStatus', '!=', 'Refund')
-                    //     ->where('transactionType', 'New Lead')
-                    //     ->sum("Paid");
-
-
-
                     $brandsales222 = DB::table('newpaymentsclients')
                         ->where('BrandID', $brandID)
                         ->whereYear('paymentDate', date('Y', strtotime($day['date'])))
@@ -1941,16 +1897,6 @@ class BasicController extends Controller
                     "data" => $targetdata
                 ];
             }
-
-            // Separate data for each brand by date
-            // $separatedData = [];
-            // foreach ($targetchasingraph as $entry) {
-            //     $date = $entry['date'];
-            //     foreach ($entry['data'] as $brandData) {
-            //         $brand = $brandData['brand'];
-            //         $separatedData[$brand][$date] = $brandData;
-            //     }
-            // }
 
             $separatedData = [];
             foreach ($targetchasingraph as $entry) {
@@ -4071,8 +4017,6 @@ class BasicController extends Controller
         $branddata = [];
         $allbrand = Brand::get();
         foreach ($allbrand as $allbrands) {
-
-
 
             $brandfront = NewPaymentsClients::where('BrandID', $allbrands->id)
                 ->whereDate('paymentDate', $requireddate)
