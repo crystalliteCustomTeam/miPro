@@ -175,6 +175,7 @@
             {{-- <li class="sub-item"><a href="/allproject/report" class="sub-link">QA Report</a></li> --}}
             {{-- <li class="sub-item"><a href="/project/report" class="sub-link">Quality Assurance Report</a></li> --}}
             {{-- <li class="sub-item"><a href="/client/revenue" class="sub-link">Report</a></li> --}}
+            <li class="sub-item"><a href="/payment/daily/{id?}" class="sub-link">Today Payments</a></li>
             <li class="sub-item"><a href="/allclient/revenue" class="sub-link">Revenue Report</a></li>
             {{-- <li class="sub-item"><a href="/paymentdashboard" class="sub-link">Payment Dashboard</a></li> --}}
             {{-- <li class="sub-item"><a href="/allpaymentdashboard" class="sub-link">All Brand Payment Dashboard</a></li> --}}
@@ -278,6 +279,7 @@
                 </a><!-- br-menu-link -->
                 <ul class="br-menu-sub">
                 <li class="sub-item"><a href="/client/add/payment" class="sub-link">Add Payment</a></li>
+                <li class="sub-item"><a href="/payment/daily/{id?}" class="sub-link">Today Payments</a></li>
                 <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">All Payments</a></li>
                 </ul>
             </li><!-- br-menu-item -->

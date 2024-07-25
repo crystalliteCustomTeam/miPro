@@ -164,6 +164,11 @@
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Upsell</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Remaining</th>
+                                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Renewal/Recurring</th>
+
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Subtotal</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF0000; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Fee</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF0000; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Refund</th>
@@ -179,6 +184,11 @@
                                         <td style="background-color: #808080; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totaltargte"></label></td>
                                         <td style="background-color: #66B2FF; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalfront"></label></td>
                                         <td style="background-color: #66B2FF; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalback"></label></td>
+
+                                        <td style="background-color: #FF9933; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalback23"></label></td>
+                                        <td style="background-color: #FF9933; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalback24"></label></td>
+                                        <td style="background-color: #FF9933; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalback25"></label></td>
+
                                         <td style="background-color: #66B2FF; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalsubtotal"></label></td>
                                         <td style="background-color: #FF9999; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalfee"></label></td>
                                         <td style="background-color: #FF9999; color: black; font-weight: bold; border: 1px solid white; text-align: center;"><label id="totalrefund"></label></td>
@@ -239,7 +249,7 @@
                                 <br><br>
                                 </div>
 
-                            <div class="col-6">
+                            <div class="col-8">
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-12"><h4 style="background-color: white ; color: black; font-weight: bold;">Brand Wise Daily Payment:</h4></div>
@@ -253,6 +263,9 @@
                                             <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
                                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
                                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Upsell</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Remaining</th>
+                                            <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Renewal/Recurring</th>
                                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Total</th>
                                         </tr>
                                     </thead>
@@ -262,13 +275,16 @@
                                             <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;">Total</td>
                                             <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="brandtodayfront"></label></td>
                                             <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="brandtodayback"></label></td>
+                                            <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="brandtodayupsell"></label></td>
+                                            <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="brandtodayremaining"></label></td>
+                                            <td style="background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="brandtodayrenewals"></label></td>
                                             <td style="background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;"><label id="brandtodaytotal"></label></td>
                                         </tr>
                                     </tbody>
                                 </table>
 
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-10"><h4 style="background-color: white ; color: black; font-weight: bold; ">Daily Individual Stats:</h4></div>
@@ -593,6 +609,10 @@
                                     let totalcb1 = [];
                                     let totalnetrevenue1 = [];
 
+                                    let eachbrandtotalupsell = [];
+                                    let eachbrandtotalremaining = [];
+                                    let eachbrandtotalrenewal = [];
+
                                     brandrev.forEach(brandrevs => {
 
                                         if(brandrevs.totalfront != 0 ||  brandrevs.totalback != 0 ||  brandrevs.brandsales != 0 || brandrevs.refund  != 0 || brandrevs.dispute != 0 ||  brandrevs.net_revenue  != 0  ){
@@ -637,6 +657,36 @@
                                         totalback.style.border = '1px solid white';
                                         totalback.style.textAlign = 'center';
                                         rowbrand.appendChild(totalback);
+
+                                        let totalupsells = document.createElement('td');
+                                        let cz = brandrevs.brandupsell;
+                                        let dz = (cz !== 0) ?  "$" + cz : "";
+                                        totalupsells.textContent = dz;
+                                        totalupsells.style.backgroundColor = '#FFE6CC';
+                                        totalupsells.style.color = 'black';
+                                        totalupsells.style.border = '1px solid white';
+                                        totalupsells.style.textAlign = 'center';
+                                        rowbrand.appendChild(totalupsells);
+
+                                        let totalremaining = document.createElement('td');
+                                        let cy = brandrevs.brandremaining;
+                                        let dy = (cy !== 0) ?  "$" + cy : "";
+                                        totalremaining.textContent = dy;
+                                        totalremaining.style.backgroundColor = '#FFE6CC';
+                                        totalremaining.style.color = 'black';
+                                        totalremaining.style.border = '1px solid white';
+                                        totalremaining.style.textAlign = 'center';
+                                        rowbrand.appendChild(totalremaining);
+
+                                        let totalrenewals= document.createElement('td');
+                                        let cx = brandrevs.sumofallrenewals;
+                                        let dx = (cx !== 0) ?  "$" + cx : "";
+                                        totalrenewals.textContent = dx;
+                                        totalrenewals.style.backgroundColor = '#FFE6CC';
+                                        totalrenewals.style.color = 'black';
+                                        totalrenewals.style.border = '1px solid white';
+                                        totalrenewals.style.textAlign = 'center';
+                                        rowbrand.appendChild(totalrenewals);
 
                                         let frontBacksum = document.createElement('td');
                                         let e = brandrevs.brandsales;
@@ -697,6 +747,9 @@
                                         totalrefund1.push(parseFloat(brandrevs.refund));
                                         totalcb1.push(parseFloat(brandrevs.dispute));
                                         totalnetrevenue1.push(parseFloat(brandrevs.net_revenue));
+                                        eachbrandtotalupsell.push(parseFloat(brandrevs.brandupsell));
+                                        eachbrandtotalremaining.push(parseFloat(brandrevs.brandremaining));
+                                        eachbrandtotalrenewal.push(parseFloat(brandrevs.sumofallrenewals));
 
                                         mytableBody.appendChild(rowbrand);
                                         };
@@ -743,6 +796,20 @@
                                     document.getElementById("totalnetrevenue").innerHTML = x;
                                     //----------------------------------------------------------------
 
+                                    let eachbrandtotalupsell1 = eachbrandtotalupsell.reduce((acc, curr) => acc + curr, 0);
+                                    let vz = (eachbrandtotalupsell1 !== 0) ? "$" + eachbrandtotalupsell1 : "";
+                                    document.getElementById("totalback23").innerHTML = vz;
+                                    //----------------------------------------------------------------
+
+                                    let eachbrandtotalremaining1 = eachbrandtotalremaining.reduce((acc, curr) => acc + curr, 0);
+                                    let wz = (eachbrandtotalremaining1 !== 0) ? "$" + eachbrandtotalremaining1 : "";
+                                    document.getElementById("totalback24").innerHTML = wz;
+                                    //----------------------------------------------------------------
+
+                                    let eachbrandtotalrenewal1 = eachbrandtotalrenewal.reduce((acc, curr) => acc + curr, 0);
+                                    let xz = (eachbrandtotalrenewal1 !== 0) ? "$" + eachbrandtotalrenewal1 : "";
+                                    document.getElementById("totalback25").innerHTML = xz;
+                                    //----------------------------------------------------------------
 
                                     let employees11 = Response.employeepayment;
                                     let allTablesDiv = document.getElementById('alltables');
@@ -985,6 +1052,9 @@
                                     let brandtodayfront1 = [];
                                     let brandtodayback1 = [];
                                     let brandtodaytotaloftotal1 = [];
+                                    let brandtodayupsells1 = [];
+                                    let brandtodayremaiings = [];
+                                    let brandtodayrenewalsaall = [];
 
                                     // Populate brand data into the table
                                     branddata.forEach(branddatas => {
@@ -1033,6 +1103,46 @@
                                         brandtodayback.style.textAlign = 'center';
                                         row1.appendChild(brandtodayback);
 
+                                        //upsell
+                                        let brandtodayupsells = document.createElement('td');
+                                        let qqzz = branddatas.brandupsell;
+                                        let rrzz = (qqzz !==0) ?  "$" + qqzz : "";
+                                        brandtodayupsells.textContent = rrzz;
+                                        brandtodayupsells.style.backgroundColor = 'white';
+                                        brandtodayupsells.style.color = 'black';
+                                        brandtodayupsells.style.borderTop = 'none';
+                                        brandtodayupsells.style.borderRight = 'none';
+                                        brandtodayupsells.style.borderLeft = 'none';
+                                        brandtodayupsells.style.borderBottom = '1px dotted #4169E1';
+                                        brandtodayupsells.style.textAlign = 'center';
+                                        row1.appendChild(brandtodayupsells);
+                                        //remaining
+                                        let brandtodayremaining = document.createElement('td');
+                                        let qqyy = branddatas.brandremaining;
+                                        let rryy = (qqyy !==0) ?  "$" + qqyy : "";
+                                        brandtodayremaining.textContent = rryy;
+                                        brandtodayremaining.style.backgroundColor = 'white';
+                                        brandtodayremaining.style.color = 'black';
+                                        brandtodayremaining.style.borderTop = 'none';
+                                        brandtodayremaining.style.borderRight = 'none';
+                                        brandtodayremaining.style.borderLeft = 'none';
+                                        brandtodayremaining.style.borderBottom = '1px dotted #4169E1';
+                                        brandtodayremaining.style.textAlign = 'center';
+                                        row1.appendChild(brandtodayremaining);
+                                        //renewals
+                                        let brandtodayrenewals = document.createElement('td');
+                                        let qqxx = branddatas.sumofallrenewals;
+                                        let rrxx = (qqxx !==0) ?  "$" + qqxx : "";
+                                        brandtodayrenewals.textContent = rrxx;
+                                        brandtodayrenewals.style.backgroundColor = 'white';
+                                        brandtodayrenewals.style.color = 'black';
+                                        brandtodayrenewals.style.borderTop = 'none';
+                                        brandtodayrenewals.style.borderRight = 'none';
+                                        brandtodayrenewals.style.borderLeft = 'none';
+                                        brandtodayrenewals.style.borderBottom = '1px dotted #4169E1';
+                                        brandtodayrenewals.style.textAlign = 'center';
+                                        row1.appendChild(brandtodayrenewals);
+
                                         // Create and append total payment cell
                                         let brandtotal = document.createElement('td');
                                         let ss = branddatas.all;
@@ -1051,6 +1161,9 @@
                                         brandtodayfront1.push(parseFloat(branddatas.front));
                                         brandtodayback1.push(parseFloat(branddatas.back));
                                         brandtodaytotaloftotal1.push(parseFloat(branddatas.all));
+                                        brandtodayupsells1.push(parseFloat(branddatas.brandupsell));
+                                        brandtodayremaiings.push(parseFloat(branddatas.brandremaining));
+                                        brandtodayrenewalsaall.push(parseFloat(branddatas.sumofallrenewals));
 
                                         // Append the row to the table
                                         brandtodaypayment.appendChild(row1);
@@ -1067,6 +1180,21 @@
                                     let sumBrandtodayback = brandtodayback1.reduce((acc, curr) => acc + curr, 0);
                                     let vv = (sumBrandtodayback !== 0) ?  "$" + sumBrandtodayback : "";
                                     document.getElementById("brandtodayback").innerHTML = vv;
+                                    //----------------------------------------------------------------
+
+                                    let sumBrandtodayallupsells = brandtodayupsells1.reduce((acc, curr) => acc + curr, 0);
+                                    let sumBrandtodayallupsells1 = (sumBrandtodayallupsells !==0) ?  "$" + sumBrandtodayallupsells : "";
+                                    document.getElementById("brandtodayupsell").innerHTML =   sumBrandtodayallupsells1;
+                                    //----------------------------------------------------------------
+
+                                    let sumBrandtodayremainings = brandtodayremaiings.reduce((acc, curr) => acc + curr, 0);
+                                    let sumBrandtodayremainings1 = (sumBrandtodayremainings !==0) ?  "$" + sumBrandtodayremainings : "";
+                                    document.getElementById("brandtodayremaining").innerHTML =   sumBrandtodayremainings1;
+                                    //----------------------------------------------------------------
+
+                                    let sumBrandtodayrenewals = brandtodayrenewalsaall.reduce((acc, curr) => acc + curr, 0);
+                                    let sumBrandtodayrenewals1 = (sumBrandtodayrenewals !==0) ?  "$" + sumBrandtodayrenewals : "";
+                                    document.getElementById("brandtodayrenewals").innerHTML =   sumBrandtodayrenewals1;
                                     //----------------------------------------------------------------
 
                                     let sumBrandtodayallofall = brandtodaytotaloftotal1.reduce((acc, curr) => acc + curr, 0);
@@ -1427,14 +1555,17 @@
                 $("#getdateagentsandbrand").click(function(event){
                     event.preventDefault();
                     let Date = $("#dateforagent");
+                    let brandID = $("#getbranddata");
                     $.ajax({
                             url:"/api/fetch-datewisedata",
                             type:"get",
                             data:{
                                 "date_id":Date.val(),
+                                "brand_id":brandID.val(),
                             },
                             beforeSend:(()=>{
                                 Date.attr('disabled','disabled');
+                                brandID.attr('disabled','disabled');
                                 $("#getdateagentsandbrand").text("wait...");
                                 $("#getdateagentsandbrand").attr('disabled','disabled');
                             }),
@@ -1448,6 +1579,10 @@
                                 let brandtodayfront1 = [];
                                     let brandtodayback1 = [];
                                     let brandtodaytotaloftotal1 = [];
+
+                                    let brandtodayupsells1 = [];
+                                    let brandtodayremaiings = [];
+                                    let brandtodayrenewalsaall = [];
 
                                 // Populate brand data into the table
                                 branddata.forEach(branddatas => {
@@ -1510,6 +1645,47 @@
                                     brandtodayback.style.textAlign = 'center';
                                     row1.appendChild(brandtodayback);
 
+                                    //upsell
+                                    let brandtodayupsells = document.createElement('td');
+                                    let qqzz = branddatas.brandupsell;
+                                    let rrzz = (qqzz !==0) ?  "$" + qqzz : "";
+                                    brandtodayupsells.textContent = rrzz;
+                                    brandtodayupsells.style.backgroundColor = 'white';
+                                    brandtodayupsells.style.color = 'black';
+                                    brandtodayupsells.style.borderTop = 'none';
+                                    brandtodayupsells.style.borderRight = 'none';
+                                    brandtodayupsells.style.borderLeft = 'none';
+                                    brandtodayupsells.style.borderBottom = '1px dotted #4169E1';
+                                    brandtodayupsells.style.textAlign = 'center';
+                                    row1.appendChild(brandtodayupsells);
+                                    //remaining
+                                    let brandtodayremaining = document.createElement('td');
+                                    let qqyy = branddatas.brandremaining;
+                                    let rryy = (qqyy !==0) ?  "$" + qqyy : "";
+                                    brandtodayremaining.textContent = rryy;
+                                    brandtodayremaining.style.backgroundColor = 'white';
+                                    brandtodayremaining.style.color = 'black';
+                                    brandtodayremaining.style.borderTop = 'none';
+                                    brandtodayremaining.style.borderRight = 'none';
+                                    brandtodayremaining.style.borderLeft = 'none';
+                                    brandtodayremaining.style.borderBottom = '1px dotted #4169E1';
+                                    brandtodayremaining.style.textAlign = 'center';
+                                    row1.appendChild(brandtodayremaining);
+                                    //renewals
+                                    let brandtodayrenewals = document.createElement('td');
+                                    let qqxx = branddatas.sumofallrenewals;
+                                    let rrxx = (qqxx !==0) ?  "$" + qqxx : "";
+                                    brandtodayrenewals.textContent = rrxx;
+                                    brandtodayrenewals.style.backgroundColor = 'white';
+                                    brandtodayrenewals.style.color = 'black';
+                                    brandtodayrenewals.style.borderTop = 'none';
+                                    brandtodayrenewals.style.borderRight = 'none';
+                                    brandtodayrenewals.style.borderLeft = 'none';
+                                    brandtodayrenewals.style.borderBottom = '1px dotted #4169E1';
+                                    brandtodayrenewals.style.textAlign = 'center';
+                                    row1.appendChild(brandtodayrenewals);
+
+
                                     // Create and append total payment cell
                                     let brandtotal = document.createElement('td');
                                     let ss = branddatas.all;
@@ -1526,6 +1702,9 @@
 
                                     brandtodayfront1.push(parseFloat(branddatas.front));
                                     brandtodayback1.push(parseFloat(branddatas.back));
+                                    brandtodayupsells1.push(parseFloat(branddatas.brandupsell));
+                                    brandtodayremaiings.push(parseFloat(branddatas.brandremaining));
+                                    brandtodayrenewalsaall.push(parseFloat(branddatas.sumofallrenewals));
                                     brandtodaytotaloftotal1.push(parseFloat(branddatas.all));
 
                                     // Append the row to the table
@@ -1539,6 +1718,21 @@
 
                                     let sumBrandtodayback = brandtodayback1.reduce((acc, curr) => acc + curr, 0);
                                     document.getElementById("brandtodayback").innerHTML =  "$" + sumBrandtodayback;
+                                    //----------------------------------------------------------------
+
+                                    let sumBrandtodayallupsells = brandtodayupsells1.reduce((acc, curr) => acc + curr, 0);
+                                    let sumBrandtodayallupsells1 = (sumBrandtodayallupsells !==0) ?  "$" + sumBrandtodayallupsells : "";
+                                    document.getElementById("brandtodayupsell").innerHTML =   sumBrandtodayallupsells1;
+                                    //----------------------------------------------------------------
+
+                                    let sumBrandtodayremainings = brandtodayremaiings.reduce((acc, curr) => acc + curr, 0);
+                                    let sumBrandtodayremainings1 = (sumBrandtodayremainings !==0) ?  "$" + sumBrandtodayremainings : "";
+                                    document.getElementById("brandtodayremaining").innerHTML =   sumBrandtodayremainings1;
+                                    //----------------------------------------------------------------
+
+                                    let sumBrandtodayrenewals = brandtodayrenewalsaall.reduce((acc, curr) => acc + curr, 0);
+                                    let sumBrandtodayrenewals1 = (sumBrandtodayrenewals !==0) ?  "$" + sumBrandtodayrenewals : "";
+                                    document.getElementById("brandtodayrenewals").innerHTML =   sumBrandtodayrenewals1;
                                     //----------------------------------------------------------------
 
                                     let sumBrandtodayallofall = brandtodaytotaloftotal1.reduce((acc, curr) => acc + curr, 0);
@@ -1570,16 +1764,6 @@
                                     empname.style.borderBottom = '1px dotted #FF9933';
                                     empname.style.textAlign = 'center';
                                     row2.appendChild(empname);
-
-                                    // // Create and append today's revenue cell
-                                    // let emptoday = document.createElement('td');
-                                    // emptoday.textContent = emptodaysdatas.allrevenue;
-                                    // row2.appendChild(emptoday);
-
-                                    // // Create and append total revenue cell
-                                    // let emptotal = document.createElement('td');
-                                    // emptotal.textContent = emptodaysdatas.allrevenue;
-                                    // row2.appendChild(emptotal);
 
                                     let emptoday = document.createElement('td');
                                     let a1 = emptodaysdatas.allrevenue;
@@ -1623,6 +1807,7 @@
 
 
                                 Date.removeAttr('disabled');
+                                brandID.removeAttr('disabled');
                                 $("#getdateagentsandbrand").text("Search");
                                 $("#getdateagentsandbrand").removeAttr('disabled');
 
@@ -1633,6 +1818,7 @@
                                 alert("Error Found Please Referesh Window And Try Again !")
 
                                 Date.removeAttr('disabled');
+                                brandID.removeAttr('disabled');
                                 $("#getdateagentsandbrand").text("Search");
                                 $("#getdateagentsandbrand").removeAttr('disabled');
                             })
