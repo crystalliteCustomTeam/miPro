@@ -94,6 +94,34 @@
         </li><!-- br-menu-item -->
         <li class="br-menu-item">
             <a href="#" class="br-menu-link with-sub">
+            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+            <span class="menu-item-label">Revenue Report</span>
+            </a><!-- br-menu-link -->
+            <ul class="br-menu-sub">
+            {{-- <li class="sub-item"><a href="/allproject/report" class="sub-link">QA Report</a></li> --}}
+            {{-- <li class="sub-item"><a href="/project/report" class="sub-link">Quality Assurance Report</a></li> --}}
+            {{-- <li class="sub-item"><a href="/client/revenue" class="sub-link">Report</a></li> --}}
+            <li class="sub-item"><a href="/payment/daily/{id?}" class="sub-link">Today Payments</a></li>
+            <li class="sub-item"><a href="/allclient/revenue" class="sub-link">Revenue Report</a></li>
+            {{-- <li class="sub-item"><a href="/paymentdashboard" class="sub-link">Payment Dashboard</a></li> --}}
+            {{-- <li class="sub-item"><a href="/allpaymentdashboard" class="sub-link">All Brand Payment Dashboard</a></li> --}}
+            <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">Payment Dashboard</a></li>
+            <li class="sub-item"><a href="/stats/{id?}" class="sub-link">Quarterly Sales Report</a></li>
+            <li class="sub-item"><a href="/yearly/brand/stats/{id?}" class="sub-link">Yearly Brand Report</a></li>
+            {{-- <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">--</a></li> --}}
+            </ul>
+        </li><!-- br-menu-item -->
+        <li class="br-menu-item">
+            <a href="#" class="br-menu-link with-sub">
+            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+            <span class="menu-item-label">QA Report</span>
+            </a><!-- br-menu-link -->
+            <ul class="br-menu-sub">
+            <li class="sub-item"><a href="/project/report" class="sub-link">Quality Assurance Report</a></li>
+            </ul>
+        </li><!-- br-menu-item -->
+        <li class="br-menu-item">
+            <a href="#" class="br-menu-link with-sub">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
             <span class="menu-item-label">Add Payments</span>
             </a><!-- br-menu-link -->
@@ -166,34 +194,7 @@
             <li class="sub-item"><a href="/forms/qaform_d" class="sub-link">QA FORM</a></li>
             </ul>
         </li><!-- br-menu-item -->
-        <li class="br-menu-item">
-            <a href="#" class="br-menu-link with-sub">
-            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
-            <span class="menu-item-label">Revenue Report</span>
-            </a><!-- br-menu-link -->
-            <ul class="br-menu-sub">
-            {{-- <li class="sub-item"><a href="/allproject/report" class="sub-link">QA Report</a></li> --}}
-            {{-- <li class="sub-item"><a href="/project/report" class="sub-link">Quality Assurance Report</a></li> --}}
-            {{-- <li class="sub-item"><a href="/client/revenue" class="sub-link">Report</a></li> --}}
-            <li class="sub-item"><a href="/payment/daily/{id?}" class="sub-link">Today Payments</a></li>
-            <li class="sub-item"><a href="/allclient/revenue" class="sub-link">Revenue Report</a></li>
-            {{-- <li class="sub-item"><a href="/paymentdashboard" class="sub-link">Payment Dashboard</a></li> --}}
-            {{-- <li class="sub-item"><a href="/allpaymentdashboard" class="sub-link">All Brand Payment Dashboard</a></li> --}}
-            <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">Payment Dashboard</a></li>
-            <li class="sub-item"><a href="/stats/{id?}" class="sub-link">Quarterly Sales Report</a></li>
-            <li class="sub-item"><a href="/yearly/brand/stats/{id?}" class="sub-link">Yearly Brand Report</a></li>
-            {{-- <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">--</a></li> --}}
-            </ul>
-        </li><!-- br-menu-item -->
-        <li class="br-menu-item">
-            <a href="#" class="br-menu-link with-sub">
-            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
-            <span class="menu-item-label">QA Report</span>
-            </a><!-- br-menu-link -->
-            <ul class="br-menu-sub">
-            <li class="sub-item"><a href="/project/report" class="sub-link">Quality Assurance Report</a></li>
-            </ul>
-        </li><!-- br-menu-item -->
+
 
         <li class="br-menu-item">
             <a href="#" class="br-menu-link with-sub">

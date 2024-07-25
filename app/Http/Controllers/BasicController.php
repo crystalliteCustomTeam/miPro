@@ -2185,6 +2185,8 @@ class BasicController extends Controller
             foreach ($employees as $employee) {
 
                 $todayemppay = NewPaymentsClients::where('SalesPerson', $employee->id)
+                    ->whereIn('BrandID', $allbrandarray)
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->whereDate('paymentDate', '=', now()->toDateString())
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
                     ->where('refundStatus', '!=', 'Pending Payment')
@@ -4222,10 +4224,7 @@ class BasicController extends Controller
                 ->whereDate('paymentDate', $requireddate)
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where(function ($query) {
-                    $query->where('refundStatus', '!=', 'Refund')
-                        ->orWhere('dispute', null);
-                })
+                ->where('refundStatus', '!=', 'Refund')
                 ->sum('Paid');
 
             $employeetodayspayment[] = [
@@ -4381,10 +4380,7 @@ class BasicController extends Controller
                 ->whereDate('paymentDate', $requireddate)
                 ->where('remainingStatus', '!=', 'Unlinked Payments')
                 ->where('refundStatus', '!=', 'Pending Payment')
-                ->where(function ($query) {
-                    $query->where('refundStatus', '!=', 'Refund')
-                        ->orWhere('dispute', null);
-                })
+                ->where('refundStatus', '!=', 'Refund')
                 ->sum('Paid');
 
             $employeetodayspayment[] = [
@@ -4393,10 +4389,6 @@ class BasicController extends Controller
                 'allrevenue' => $todayemppay
             ];
         }
-
-        // echo("<pre>");
-        // print_r($employeetodayspayment);
-        // die();
 
         return view('dailystats', [
             'brands' => $brand,
