@@ -104,11 +104,17 @@
                                     <label for="" style="font-weight:bold;">Select Brand:</label>
                                         <select class="form-control select2"  name="brand[]" onchange="createURL2(this.value)"  multiple="multiple">
                                             @if(isset($_GET['brand']) and $_GET['brand'] != 0)
-                                            @foreach($brands as $brand)
-                                            <option value="{{ $brand->id }}"{{ $brand->id == $_GET['brand'] ? "selected":"" }}>
-                                            {{ $brand->name }}
-                                            </option>
+                                            @php
+                                                $a = $_GET['brand']
+                                            @endphp
+                                            @foreach ($a as $item)
+                                                @foreach($brands as $brand)
+                                                <option value="{{ $brand->id }}"{{ $brand->id ==  $item ? "selected":"" }}>
+                                                {{ $brand->name }}
+                                                </option>
+                                                @endforeach
                                             @endforeach
+
                                         @else
                                         @foreach($brands as $brand)
                                             <option value="{{ $brand->id }}">
