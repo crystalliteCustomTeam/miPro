@@ -267,7 +267,7 @@
                                         <tr>
                                             <td  style="width: 203px; background-color: white; color: black; font-weight: bold; border-top: none; border-right: none; border-left: 1px solid white; border-bottom: 1px dotted #FF9933; text-align: center;">{{$item1['name']}}</td>
                                             <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #FF9933; text-align: center;">@if($item1['allrevenue'] != 0) ${{$item1['allrevenue']}} @endif</td>
-                                            <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #FF9933; text-align: center;">@if($item1['allrevenue'] != 0) ${{$item1['allrevenue']}} @endif</td>
+                                            <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: 1px solid white; border-left: 1px solid white; border-bottom: 1px dotted #FF9933; text-align: center;">@if($item1['allrevenue'] != 0) ${{$item1['allrevenue']}} @endif</td>
                                         </tr>
                                     @endif
                                     @php
