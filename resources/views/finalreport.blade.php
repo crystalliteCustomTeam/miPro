@@ -148,11 +148,11 @@
 
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-10">
+                                <div class="col-9">
                                 </div>
-                                <div class="col-2">
-                                    <label style="background-color: white; color: black; font-weight: bold; border: 1px solid white; text-align: center; font-size: 20px;">Number of Days Left:</label>
-                                    <label id="remainingdays" style="background-color: #FF9933; color: black; font-weight: bold; border: 1px solid white; text-align: center; font-size: 20px;">--</label>
+                                <div class="col-3" style="text-align: right">
+                                    <label style="background-color: white; color: black; font-weight: bold; border: 1px solid white; text-align: right; font-size: 20px;">Number of Days Left:</label>
+                                    <label id="remainingdays" style="background-color: #FF9933; color: black; font-weight: bold; border: 1px solid white; text-align: right; font-size: 20px;">--</label>
 
                                 </div>
                             </div>
