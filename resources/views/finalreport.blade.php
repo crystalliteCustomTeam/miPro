@@ -561,7 +561,12 @@
                             </table>
 
                         </div><!-- card -->
+
                     </div><!-- col-4 -->
+
+                    <div class="col-4">
+                        <a href="/dashboard"><button class="btn btn-outline-primary">BACK</button></a>
+                    </div>
 
                     {{-- base end --}}
                 </div>

@@ -3189,6 +3189,7 @@ class BasicController extends Controller
                                     ->whereIn('Year', $years)
                                     ->sum($montha);
 
+                                // if($getfrontsumF != 0 || $getbacksumF != 0 || $allcbsF != 0){
                                 $dataF[] = [
                                     "year" => $year,
                                     "month" => $month,
@@ -3199,6 +3200,8 @@ class BasicController extends Controller
                                     "refund" => $allcbsF,
                                     "net" => $getfrontsumF + $getbacksumF - $allcbsF,
                                 ];
+                                // }
+
                             }
                             $monthdataF[] = [
                                 "year" => $year,
@@ -3389,6 +3392,19 @@ class BasicController extends Controller
                             $agenttargets1 =  AgentTarget::where('AgentID', $employeefront)
                                 ->whereIn('Year', $years)
                                 ->sum($montha);
+
+                            // if($getfrontsumF != 0 || $getbacksumF != 0 || $allcbsF != 0){
+                            //     $dataF[] = [
+                            //             "year" => $year,
+                            //             "month" => $month,
+                            //             "name" => $frontpersonname[0]->name,
+                            //             "target" => $agenttargets1,
+                            //             "front" => $getfrontsumF,
+                            //             "back" => $getbacksumF,
+                            //             "refund" => $allcbsF,
+                            //             "net" => $getfrontsumF + $getbacksumF - $allcbsF,
+                            //     ];
+                            // }
 
                             $dataF[] = [
                                 "year" => $year,

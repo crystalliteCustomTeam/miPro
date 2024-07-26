@@ -295,11 +295,13 @@
                 </div>
             </div>
 
-
             <div>
                 <br><br>
             </div>
-            <a href="/dashboard"><button class="btn btn-outline-primary">BACK</button></a>
+
+            <div class="col-4">
+                <a href="/dashboard"><button class="btn btn-outline-primary">BACK</button></a>
+            </div>
 
 
           </div><!-- br-section-wrapper -->

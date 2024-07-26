@@ -442,55 +442,57 @@
                                                 $roundedAvgNet1 = round($currentAvgNet1, 0);
                                             @endphp
 
-                                            <td style="width: 100px; background-color: #B3C2B7; color: black; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($roundedAvgNet1 != 0) ${{$roundedAvgNet1}} @else  @endif</td>
-                                            @php
-                                                $quaterly = 0;
-                                                $quaterlytarget = 0;
-                                            @endphp
-                                            @foreach ($personData as $indexqtr => $person)
-                                                @if ($personData[0] == $person)
-                                                    <td style="width: 203px; background-color: black; color: white;  border-left: none; border-right: none; border-top:  1px dotted white; border-bottom: 1px dotted white; text-align: center;">{{$person["name"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person["target"] != 0) ${{$person["target"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["front"] != 0) ${{$person["front"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["back"] != 0) ${{$person["back"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["refund"] != 0) ${{$person["refund"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["net"] != 0) ${{$person["net"]}} @else  @endif</td>
-                                                @else
-                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person["target"] != 0) ${{$person["target"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["front"] != 0) ${{$person["front"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["back"] != 0) ${{$person["back"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["refund"] != 0) ${{$person["refund"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["net"] != 0) ${{$person["net"]}} @else  @endif</td>
-                                                @endif
+                                            @if ($roundedAvgNet1 != 0)
+                                                <td style="width: 100px; background-color: #B3C2B7; color: black; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($roundedAvgNet1 != 0) ${{$roundedAvgNet1}} @else  @endif</td>
                                                 @php
-                                                    $quaterly += $person["net"];
-                                                    $quaterlytarget += $person["target"];
+                                                    $quaterly = 0;
+                                                    $quaterlytarget = 0;
                                                 @endphp
+                                                @foreach ($personData as $indexqtr => $person)
+                                                        @if ($personData[0] == $person)
+                                                            <td style="width: 203px; background-color: black; color: white;  border-left: none; border-right: none; border-top:  1px dotted white; border-bottom: 1px dotted white; text-align: center;">{{$person["name"]}}</td>
+                                                            <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person["target"] != 0) ${{$person["target"]}} @else  @endif</td>
+                                                            <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["front"] != 0) ${{$person["front"]}} @else  @endif</td>
+                                                            <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["back"] != 0) ${{$person["back"]}} @else  @endif</td>
+                                                            <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["refund"] != 0) ${{$person["refund"]}} @else  @endif</td>
+                                                            <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["net"] != 0) ${{$person["net"]}} @else  @endif</td>
+                                                        @else
+                                                            <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person["target"] != 0) ${{$person["target"]}} @else  @endif</td>
+                                                            <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["front"] != 0) ${{$person["front"]}} @else  @endif</td>
+                                                            <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["back"] != 0) ${{$person["back"]}} @else  @endif</td>
+                                                            <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["refund"] != 0) ${{$person["refund"]}} @else  @endif</td>
+                                                            <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person["net"] != 0) ${{$person["net"]}} @else  @endif</td>
+                                                        @endif
+                                                    @php
+                                                        $quaterly += $person["net"];
+                                                        $quaterlytarget += $person["target"];
+                                                    @endphp
 
-                                                @if ((int)$indexqtr % 3 == 2)
+                                                    @if ((int)$indexqtr % 3 == 2)
+                                                        @php
+                                                            $divingvalue = 3;
+                                                            $quaterlyavg = $quaterly / $divingvalue;
+                                                            $finalquaterlyavg = round($quaterlyavg, 0);
+                                                            $finalquaterlytarget = $quaterlytarget - $quaterly
+                                                        @endphp
+                                                        <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlytarget != 0) ${{$finalquaterlytarget}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlyavg != 0) ${{$finalquaterlyavg}} @else  @endif</td>
+                                                        @php
+                                                            $quaterly = 0;
+                                                            $quaterlytarget = 0;
+                                                        @endphp
+                                                    @else
+                                                    @endif
                                                     @php
-                                                        $divingvalue = 3;
-                                                        $quaterlyavg = $quaterly / $divingvalue;
-                                                        $finalquaterlyavg = round($quaterlyavg, 0);
-                                                        $finalquaterlytarget = $quaterlytarget - $quaterly
+                                                        $z3 += $person["net"];
+                                                        $z4 += $person["target"];
                                                     @endphp
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlytarget != 0) ${{$finalquaterlytarget}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlyavg != 0) ${{$finalquaterlyavg}} @else  @endif</td>
-                                                    @php
-                                                        $quaterly = 0;
-                                                        $quaterlytarget = 0;
-                                                    @endphp
-                                                @else
-                                                @endif
+                                                @endforeach
                                                 @php
-                                                    $z3 += $person["net"];
-                                                    $z4 += $person["target"];
+                                                $shortfall = $z4 - $z3;
                                                 @endphp
-                                            @endforeach
-                                            @php
-                                            $shortfall = $z4 - $z3;
-                                            @endphp
-                                            <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($shortfall != 0) ${{$shortfall}} @else  @endif</td>
+                                                <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($shortfall != 0) ${{$shortfall}} @else  @endif</td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                     {{-- <tr>
@@ -636,69 +638,80 @@
                                                 $currentAvgNet = $a / $b;
                                                 $roundedAvgNet = round($currentAvgNet, 0);
                                             @endphp
-
-                                            <td style="width: 100px; background-color: #B3C2B7; color: black; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($roundedAvgNet != 0) ${{$roundedAvgNet}} @else  @endif</td>
-                                            @php
-                                                $quaterly1 = 0;
-                                                $quaterlytarget1 = 0;
-                                            @endphp
-                                            @foreach ($personData1 as $indexqtr1 => $person1)
-                                                @if ($personData1[0] == $person1)
-                                                    <td style="width: 203px; background-color: black; color: white;  border-left: none; border-right: none; border-top:  1px dotted white; border-bottom: 1px dotted white; text-align: center;">{{$person1["name"]}}</td>
-                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person1["target"] != 0) ${{$person1["target"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["front"] != 0) ${{$person1["front"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["back"] != 0) ${{$person1["back"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["refund"] != 0) ${{$person1["refund"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["net"] != 0) ${{$person1["net"]}} @else  @endif</td>
-                                                @else
-                                                    <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person1["target"] != 0) ${{$person1["target"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["front"] != 0) ${{$person1["front"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["back"] != 0) ${{$person1["back"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["refund"] != 0) ${{$person1["refund"]}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["net"] != 0) ${{$person1["net"]}} @else  @endif</td>
-                                                @endif
-
-
+                                            @if ($roundedAvgNet != 0)
+                                                <td style="width: 100px; background-color: #B3C2B7; color: black; font-weight: bold; border-left: none; border-right:  none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($roundedAvgNet != 0) ${{$roundedAvgNet}} @else  @endif</td>
                                                 @php
-                                                    $quaterly1 += $person1["net"];
-                                                    $quaterlytarget1 += $person1["target"];
+                                                    $quaterly1 = 0;
+                                                    $quaterlytarget1 = 0;
                                                 @endphp
+                                                @foreach ($personData1 as $indexqtr1 => $person1)
+                                                    @if ($personData1[0] == $person1)
+                                                        <td style="width: 203px; background-color: black; color: white;  border-left: none; border-right: none; border-top:  1px dotted white; border-bottom: 1px dotted white; text-align: center;">{{$person1["name"]}}</td>
+                                                        <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person1["target"] != 0) ${{$person1["target"]}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["front"] != 0) ${{$person1["front"]}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["back"] != 0) ${{$person1["back"]}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["refund"] != 0) ${{$person1["refund"]}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["net"] != 0) ${{$person1["net"]}} @else  @endif</td>
+                                                    @else
+                                                        <td style="width: 100px; background-color: black; color: #00FFFF;  border-left: 3px double white; border-right: none; border-top: none; border-bottom: none; text-align: center;">@if($person1["target"] != 0) ${{$person1["target"]}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["front"] != 0) ${{$person1["front"]}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: black; color: white;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["back"] != 0) ${{$person1["back"]}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: black; color: #FF9933;  border-left: none; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["refund"] != 0) ${{$person1["refund"]}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($person1["net"] != 0) ${{$person1["net"]}} @else  @endif</td>
+                                                    @endif
 
-                                                @if ((int)$indexqtr1 % 3 == 2)
-                                                    @php
-                                                        $divingvalue1 = 3;
-                                                        $quaterlyavg1 = $quaterly1 / $divingvalue1;
-                                                        $finalquaterlyavg1 = round($quaterlyavg1, 0);
-                                                        $finalquaterlytarget1 = $quaterlytarget1 - $quaterly1
-                                                    @endphp
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlytarget1 != 0) ${{$finalquaterlytarget1}} @else  @endif</td>
-                                                    <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlyavg1 != 0) ${{$finalquaterlyavg1}} @else  @endif</td>
-                                                    @php
-                                                        $quaterly1 = 0;
-                                                        $quaterlytarget1 = 0;
-                                                    @endphp
-                                                @else
-                                                @endif
 
+                                                    @php
+                                                        $quaterly1 += $person1["net"];
+                                                        $quaterlytarget1 += $person1["target"];
+                                                    @endphp
+
+                                                    @if ((int)$indexqtr1 % 3 == 2)
+                                                        @php
+                                                            $divingvalue1 = 3;
+                                                            $quaterlyavg1 = $quaterly1 / $divingvalue1;
+                                                            $finalquaterlyavg1 = round($quaterlyavg1, 0);
+                                                            $finalquaterlytarget1 = $quaterlytarget1 - $quaterly1
+                                                        @endphp
+                                                        <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlytarget1 != 0) ${{$finalquaterlytarget1}} @else  @endif</td>
+                                                        <td style="width: 100px; background-color: #666666; color: white;  border-left: none; border-right: 3px double white; border-top: 3px double white; border-bottom: 1px dotted white; text-align: center;">@if($finalquaterlyavg1 != 0) ${{$finalquaterlyavg1}} @else  @endif</td>
+                                                        @php
+                                                            $quaterly1 = 0;
+                                                            $quaterlytarget1 = 0;
+                                                        @endphp
+                                                    @else
+                                                    @endif
+
+                                                    @php
+                                                    $a3 += $person1["net"];
+                                                    $a4 += $person1["target"];
+                                                    @endphp
+                                                @endforeach
                                                 @php
-                                                $a3 += $person1["net"];
-                                                $a4 += $person1["target"];
+                                                $shortfall1 = $a4 - $a3;
                                                 @endphp
-                                            @endforeach
-                                            @php
-                                            $shortfall1 = $a4 - $a3;
-                                            @endphp
-                                            <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($shortfall1 != 0) ${{$shortfall1}} @else  @endif</td>
+                                                <td style="width: 100px; background-color: #A0A0A0; color: white; font-weight: bold; border-left: 7px solid white; border-right: none; border-top: none; border-bottom: 1px dotted white; text-align: center;">@if($shortfall1 != 0) ${{$shortfall1}} @else  @endif</td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-
                         </div>
 
                     @endif
 
                 </div>
+
+                <br><br>
+
+                <div class="row">
+                    <div class="col-4">
+                        <a href="/dashboard"><button class="btn btn-outline-primary">BACK</button></a>
+                    </div>
+
+                </div>
+
+
         </div>
 
 
