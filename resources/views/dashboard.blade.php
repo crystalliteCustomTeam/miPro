@@ -546,13 +546,13 @@
                             @foreach ($Renewal_Months as $Renewal_Month)
                                 @if ($Renewal_Month->paymentNature == "New Lead" || $Renewal_Month->paymentNature == "New Sale")
                                 <div class="alert alert-primary mg-t-20" role="alert">
-                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Renewal_Month->paymentclientName->name}}</strong></p>
-                                    <p><span class="tx-primary">Date:{{$Renewal_Month->futureDate}}| PM:{{$Renewal_Month->pmEmployeesName->name}} | Payment Nature:{{$Renewal_Month->paymentNature}}| Amt:{{$Renewal_Month->TotalAmount}}| <a href="/client/project/payment/view/{{$Renewal_Month->id}}">view</a></span></p>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>@if(isset($Renewal_Month->paymentclientName->name) && $Renewal_Month->paymentclientName->name != null){{$Renewal_Month->paymentclientName->name}}@else Undefined @endif</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Renewal_Month->futureDate}}| PM:@if(isset($Renewal_Month->pmEmployeesName->name) && $Renewal_Month->pmEmployeesName->name != null){{$Renewal_Month->pmEmployeesName->name}} @else Undefined @endif| Payment Nature:{{$Renewal_Month->paymentNature}}| Amt:{{$Renewal_Month->TotalAmount}}| <a href="/client/project/payment/view/{{$Renewal_Month->id}}">view</a></span></p>
                                 </div>
                                 @else
                                 <div class="alert alert-secondary mg-t-20" role="alert">
-                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Renewal_Month->paymentclientName->name}}</strong></p>
-                                    <p><span class="tx-primary">Date:{{$Renewal_Month->futureDate}}| PM:{{$Renewal_Month->pmEmployeesName->name}} | Payment Nature:{{$Renewal_Month->paymentNature}}| Amt:{{$Renewal_Month->TotalAmount}}| <a href="/client/project/payment/view/{{$Renewal_Month->id}}">view</a></span></p>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>@if(isset($Renewal_Month->paymentclientName->name) && $Renewal_Month->paymentclientName->name != null) {{$Renewal_Month->paymentclientName->name}}@else Undefined @endif</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Renewal_Month->futureDate}}| PM:@if(isset($Renewal_Month->pmEmployeesName->name) && $Renewal_Month->pmEmployeesName->name != null){{$Renewal_Month->pmEmployeesName->name}}@else Undefined @endif | Payment Nature:{{$Renewal_Month->paymentNature}}| Amt:{{$Renewal_Month->TotalAmount}}| <a href="/client/project/payment/view/{{$Renewal_Month->id}}">view</a></span></p>
                                 </div>
                                 @endif
                             @endforeach
@@ -593,13 +593,13 @@
                             @foreach ($Recurring_Months as $Recurring_Month)
                                 @if ($Recurring_Month->paymentNature == "New Lead" || $Recurring_Month->paymentNature == "New Sale")
                                 <div class="alert alert-primary  mg-t-20" role="alert">
-                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Recurring_Month->paymentclientName->name}}</strong></p>
-                                    <p><span class="tx-primary">Date:{{$Recurring_Month->futureDate}}| PM:{{$Recurring_Month->pmEmployeesName->name}}| Payment Nature:{{$Recurring_Month->paymentNature}}| Amt:{{$Recurring_Month->TotalAmount}}| <a href="/client/project/payment/view/{{$Recurring_Month->id}}">view</a></span></p>
+                                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>@if(isset($Recurring_Month->paymentclientName->name) && $Recurring_Month->paymentclientName->name != null){{$Recurring_Month->paymentclientName->name}}@else Undefined @endif</strong></p>
+                                    <p><span class="tx-primary">Date:{{$Recurring_Month->futureDate}}| PM:@if(isset($Recurring_Month->pmEmployeesName->name) && $Recurring_Month->pmEmployeesName->name != null){{$Recurring_Month->pmEmployeesName->name}}@else Undefined @endif| Payment Nature:{{$Recurring_Month->paymentNature}}| Amt:{{$Recurring_Month->TotalAmount}}| <a href="/client/project/payment/view/{{$Recurring_Month->id}}">view</a></span></p>
                                 </div>
                                 @else
                                 <div class="alert alert-secondary  mg-t-20" role="alert">
                                     <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Recurring_Month->paymentclientName->name}}</strong></p>
-                                    <p><span class="tx-primary">Date:{{$Recurring_Month->futureDate}}| PM:{{$Recurring_Month->pmEmployeesName->name}}| Payment Nature:{{$Recurring_Month->paymentNature}}| Amt:{{$Recurring_Month->TotalAmount}} | <a href="/client/project/payment/view/{{$Recurring_Month->id}}">view</a></span></p>
+                                    <p><span class="tx-primary">Date:{{$Recurring_Month->futureDate}}| PM:@if(isset($Recurring_Month->pmEmployeesName->name) && $Recurring_Month->pmEmployeesName->name != null){{$Recurring_Month->pmEmployeesName->name}}@else Undefined @endif| Payment Nature:{{$Recurring_Month->paymentNature}}| Amt:{{$Recurring_Month->TotalAmount}} | <a href="/client/project/payment/view/{{$Recurring_Month->id}}">view</a></span></p>
                                 </div>
                                 @endif
 
@@ -691,9 +691,9 @@
                             @foreach ($Dispute_Month as $Dispute_Months)
                                 <div class="alert alert-danger mg-b-5" role="alert">
                                     @if (isset($Refund_Months->paymentclientName->name))
-                                    <p><span class="tx-primary">Date:{{$Refund_Months->futureDate}}|
+                                    {{-- <p><span class="tx-primary">Date:{{$Refund_Months->disputeattack}}| --}}
                                     <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-0"><strong>{{$Refund_Months->paymentclientName->name}}</strong></p>
-                                    <p><span class="tx-primary">Date:{{$Dispute_Months->futureDate}}| Payment Nature:{{$Dispute_Months->paymentNature}}| Amt:{{$Dispute_Months->TotalAmount}}  | <a href="/client/project/payment/view/{{$Dispute_Months->id}}">view</a></span></p>
+                                    <p><span class="tx-primary">Date:{{$Dispute_Months->disputeattack}}| Payment Nature:{{$Dispute_Months->paymentNature}}| Amt:{{$Dispute_Months->TotalAmount}}  | <a href="/client/project/payment/view/{{$Dispute_Months->id}}">view</a></span></p>
                                     PM:
                                     @if (isset($Refund_Months->pmEmployeesName->name))
                                     {{$Refund_Months->pmEmployeesName->name}}

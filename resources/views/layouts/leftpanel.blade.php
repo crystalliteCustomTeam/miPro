@@ -71,6 +71,7 @@
             <li class="sub-item"><a href="/forms/cld" class="sub-link">CLD Kyc</a></li>
             <li class="sub-item"><a href="/forms/csv_uploads" class="sub-link">Client Registration(CSV)</a></li>
             <li class="sub-item"><a href="/client/emails" class="sub-link">push emails</a></li>
+            {{-- <li class="sub-item"><a href="/client/emails/newpayments" class="sub-link">Push New Payments</a></li> --}}
         </ul>
         </li><!-- br-menu-item -->
         <li class="br-menu-item">
@@ -108,6 +109,7 @@
             <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">Payment Dashboard</a></li>
             <li class="sub-item"><a href="/stats/{id?}" class="sub-link">Quarterly Sales Report</a></li>
             <li class="sub-item"><a href="/yearly/brand/stats/{id?}" class="sub-link">Yearly Brand Report</a></li>
+            <li class="sub-item"><a href="/yearly/agents/stats/{id?}" class="sub-link">Agents Report</a></li>
             {{-- <li class="sub-item"><a href="/finalallpaymentdashboard/{id?}" class="sub-link">--</a></li> --}}
             </ul>
         </li><!-- br-menu-item -->

@@ -324,41 +324,47 @@ class BasicController extends Controller
                 //renewal,recurring,dispute,refund
                 $Renewal_Month = NewPaymentsClients::whereYear('futureDate', now())
                     ->whereMonth('futureDate', now())
-                    ->where('paymentNature', 'Renewal Payment')
-                    ->where('refundStatus', 'Pending Payment')
+                    ->where('ChargingMode', 'Renewal')
+                    // ->where('refundStatus', 'Pending Payment')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
                     ->get();
                 $Renewal_Month_count = NewPaymentsClients::whereYear('futureDate', now())
                     ->whereMonth('futureDate', now())
-                    ->where('paymentNature', 'Renewal Payment')
-                    ->where('refundStatus', 'Pending Payment')
+                    ->where('ChargingMode', 'Renewal')
+                    // ->where('refundStatus', 'Pending Payment')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
                     ->distinct('ClientID')->count();
                 $Renewal_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
                     ->whereMonth('futureDate', now())
-                    ->where('paymentNature', 'Renewal Payment')
-                    ->where('refundStatus', 'Pending Payment')
+                    ->where('ChargingMode', 'Renewal')
+                    // ->where('refundStatus', 'Pending Payment')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
                     ->SUM('TotalAmount');
 
                 $Recurring_Month = NewPaymentsClients::whereYear('futureDate', now())
                     ->whereMonth('futureDate', now())
-                    ->where('paymentNature', 'Recurring Payment')
-                    ->where('refundStatus', 'Pending Payment')
+                    ->where('ChargingMode', 'Recurring')
+                    // ->where('refundStatus', 'Pending Payment')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
                     ->get();
                 $Recurring_Month_count = NewPaymentsClients::whereYear('futureDate', now())
                     ->whereMonth('futureDate', now())
-                    ->where('paymentNature', 'Recurring Payment')
-                    ->where('refundStatus', 'Pending Payment')
+                    ->where('ChargingMode', 'Recurring')
+                    // ->where('refundStatus', 'Pending Payment')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
                     ->distinct('ClientID')
                     ->count();
                 $Recurring_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
                     ->whereMonth('futureDate', now())
-                    ->where('paymentNature', 'Recurring Payment')
-                    ->where('refundStatus', 'Pending Payment')
+                    ->where('ChargingMode', 'Recurring')
+                    // ->where('refundStatus', 'Pending Payment')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
                     ->SUM('TotalAmount');
 
                 $Refund_Month = NewPaymentsClients::whereYear('paymentDate', now())
@@ -376,23 +382,30 @@ class BasicController extends Controller
                     ->whereMonth('paymentDate', now())
                     ->where('refundStatus', 'Refund')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->SUM('TotalAmount');
-                $Dispute_Month = NewPaymentsClients::whereYear('paymentDate', now())
-                    ->whereMonth('paymentDate', now())
+                    ->SUM('paid');
+                $Dispute_Month = NewPaymentsClients::whereYear('disputeattack', now())
+                    ->whereMonth('disputeattack', now())
                     ->where('dispute', 'Dispute')
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus',  '!=', 'Refund')
+                    ->where('dispute', '!=', null)
                     ->get();
-                $Dispute_count = NewPaymentsClients::whereYear('paymentDate', now())
-                    ->whereMonth('paymentDate', now())
-                    ->where('dispute', 'Dispute')
+                $Dispute_count = NewPaymentsClients::whereYear('disputeattack', now())
+                    ->whereMonth('disputeattack', now())
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus',  '!=', 'Refund')
+                    ->where('dispute', '!=', null)
                     ->distinct('ClientID')
                     ->count();
-                $Dispute_sum = NewPaymentsClients::whereYear('paymentDate', now())
-                    ->whereMonth('paymentDate', now())
-                    ->where('dispute', 'Dispute')
+                $Dispute_sum = NewPaymentsClients::whereYear('disputeattack', now())
+                    ->whereMonth('disputeattack', now())
                     ->where('remainingStatus', '!=', 'Unlinked Payments')
-                    ->SUM('TotalAmount');
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus',  '!=', 'Refund')
+                    ->where('dispute', '!=', null)
+                    ->SUM('disputeattackamount');
 
                 $eachbrand_RevenueStatus = [];
                 foreach ($brand as $brands) {
@@ -1686,6 +1699,7 @@ class BasicController extends Controller
             } elseif ($currentMonth == 12) {
                 $monthinAlphabetic = "December";
             }
+
             $currentYear = $checkyear[0];
             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
             $workingDays = [];
@@ -1982,8 +1996,6 @@ class BasicController extends Controller
             }
         }
 
-
-
         $allUsers = [];
 
         foreach ($allbranddepart as $allbranddeparts) {
@@ -1995,8 +2007,6 @@ class BasicController extends Controller
             }
         }
         $mergedArray = [];
-
-
 
         for ($i = 0; $i < count($allUsers); $i++) {
             for ($j = 0; $j < count($allUsers[$i]); $j++) {
@@ -3729,8 +3739,8 @@ class BasicController extends Controller
                             ->where('refundStatus', '!=', 'Refund')
                             ->sum('Paid');
 
-                        $dispute = NewPaymentsClients::whereYear('paymentDate', $year)
-                            ->whereMonth('paymentDate', $i)
+                        $dispute = NewPaymentsClients::whereYear('disputeattack', $year)
+                            ->whereMonth('disputeattack', $i)
                             ->where('BrandID', $brands)
                             ->where('remainingStatus', '!=', 'Unlinked Payments')
                             ->where('refundStatus', '!=', 'Pending Payment')
@@ -3845,7 +3855,7 @@ class BasicController extends Controller
                         ->where('refundStatus', '!=', 'Refund')
                         ->sum('Paid');
 
-                    $disputetotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                    $disputetotal = NewPaymentsClients::whereYear('disputeattack', $year)
                         ->where('BrandID', $brands)
                         ->where('remainingStatus', '!=', 'Unlinked Payments')
                         ->where('refundStatus', '!=', 'Pending Payment')
@@ -4112,15 +4122,552 @@ class BasicController extends Controller
         ]);
     }
 
+    function agentwisetargetstats(Request $request, $id = null)
+    {
+        ini_set('max_execution_time', 300);
+
+        $loginUser = $this->roleExits($request);
+        // $brandnames = Employee::get();
+        $allbranddepart = [];
+
+        $getdepartment = Department::where('name', 'LIKE', '%Project Manager')
+         ->orWhere('name', 'LIKE', 'Project manager%')
+         ->orWhere('name', 'LIKE', '%Project manager%')
+         ->orwhere('name', 'LIKE', '%sale')
+         ->orWhere('name', 'LIKE', 'sale%')
+         ->orWhere('name', 'LIKE', '%sale%')
+         ->get();
+
+        foreach ($getdepartment as $getdepartments) {
+            if (isset($getdepartments->users) && $getdepartments->users != null) {
+                $allbranddepart[] = [$getdepartments->users];
+        } else {
+                $allbranddepart[] = ['No Department Exist'];
+            }
+        }
+
+        $allUsers = [];
+
+        foreach ($allbranddepart as $allbranddeparts) {
+            if ($allbranddeparts[0] != 'No Department Exist') {
+                $allarrays = json_decode($allbranddeparts[0]);
+                array_push($allUsers, $allarrays);
+            } else {
+                continue;
+            }
+        }
+        $mergedArray = [];
+
+        for ($i = 0; $i < count($allUsers); $i++) {
+            for ($j = 0; $j < count($allUsers[$i]); $j++) {
+                $mergedArray[] = $allUsers[$i][$j];
+            }
+        }
+
+        // Optionally, remove duplicates
+        $mergedArray = array_unique($mergedArray);
+        $brandnames = Employee::whereIn('id', $mergedArray)->get();
+
+        //GET;
+        $get_year = $request->input('year');
+        $get_depart = $request->input('depart');
+
+        if ($get_year != 0) {
+            if (isset($get_year[1])) {
+                $years = $request->input('year');
+                $years = array_unique($years);
+                sort($years);
+            } else {
+                $years1 = $request->input('year');
+                $currentYear = $years1[0];
+                $years = array($currentYear, $currentYear - 1);
+                // $years = $request->input('year');
+                $years = array_unique($years);
+                sort($years);
+            }
+        } else {
+            $currentYear = date("Y");
+            $years = [];
+
+            for ($i = 0; $i < 2; $i++) {
+                $years[] = $currentYear - $i;
+            }
+
+            $years = array_reverse($years);
+        }
+
+        if ($get_depart != 0) {
+            $brands1 = $request->input('depart');
+        } else {
+            // $brands1 = Employee::pluck('id')->toArray();
+            $allbranddepart1 = [];
+
+            $getdepartment1 = Department::where('name', 'LIKE', '%Project Manager')
+                    ->orWhere('name', 'LIKE', 'Project manager%')
+                    ->orWhere('name', 'LIKE', '%Project manager%')
+                    ->orwhere('name', 'LIKE', '%sale')
+                    ->orWhere('name', 'LIKE', 'sale%')
+                    ->orWhere('name', 'LIKE', '%sale%')
+                    ->get();
+
+            foreach ($getdepartment1 as $getdepartments) {
+                if (isset($getdepartments->users) && $getdepartments->users != null) {
+                    $allbranddepart1[] = [$getdepartments->users];
+            } else {
+                    $allbranddepart1[] = ['No Department Exist'];
+                }
+            }
+
+            $allUsers1 = [];
+
+            foreach ($allbranddepart1 as $allbranddeparts) {
+                if ($allbranddeparts[0] != 'No Department Exist') {
+                    $allarrays = json_decode($allbranddeparts[0]);
+                    array_push($allUsers1, $allarrays);
+                } else {
+                    continue;
+                }
+            }
+            $mergedArray1 = [];
+
+            for ($i = 0; $i < count($allUsers1); $i++) {
+                for ($j = 0; $j < count($allUsers1[$i]); $j++) {
+                    $mergedArray1[] = $allUsers1[$i][$j];
+                }
+            }
+
+            // Optionally, remove duplicates
+            $mergedArray1 = array_unique($mergedArray1);
+
+            $brands1 = Employee::whereIn('id', $mergedArray1)->pluck('id')->toArray();
+
+        }
+
+        // echo("<pre>");
+        // print_r($brands1);
+        // die();
+
+        if ($get_year == null && $get_depart == null) {
+            $role = 0;
+            $brandwise = 0;
+            $brandwisetotal = 0;
+        } else {
+            $role = 1;
+            $brandwise = [];
+            $brandwisetotal = [];
+            foreach ($brands1 as $brands) {
+                $brandname = Employee::where("id", $brands)->get();
+                $yearwise = [];
+                $yearwiserefund = [];
+                $frontyearwise = [];
+                $backyearwise = [];
+                $yearwisetotal = [];
+                foreach ($years as $year) {
+
+                    $monthwise = [];
+                    $disputes = [];
+                    $front = [];
+                    $back = [];
+                    for ($i = 1; $i < 13; $i++) {
+                        $brandsales = NewPaymentsClients::whereYear('paymentDate', $year)
+                            ->whereMonth('paymentDate', $i)
+                            ->where('SalesPerson', $brands)
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('refundStatus', '!=', 'Refund')
+                            ->sum('Paid');
+
+                        $dispute = NewPaymentsClients::whereYear('disputeattack', $year)
+                            ->whereMonth('disputeattack', $i)
+                            ->where('ProjectManager', $brands)
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('refundStatus',  '!=', 'Refund')
+                            ->where('dispute', '!=', null)
+                            ->sum('disputeattackamount');
+
+                        $refund = NewPaymentsClients::whereYear('paymentDate', $year)
+                            ->whereMonth('paymentDate', $i)
+                            ->where('SalesPerson', $brands)
+                            ->where('refundStatus', 'Refund')
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('dispute', null)
+                            ->sum('Paid');
+
+                        $net_revenue = $brandsales - $dispute -  $refund;
+
+
+
+                        $frontsum = NewPaymentsClients::whereYear('paymentDate', $year)
+                            ->whereMonth('paymentDate', $i)
+                            ->where('SalesPerson', $brands)
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('refundStatus', '!=', 'Refund')
+                            ->where('transactionType', 'New Lead')
+                            ->sum("Paid");
+
+                        $backsum = NewPaymentsClients::whereYear('paymentDate', $year)
+                            ->whereMonth('paymentDate', $i)
+                            ->where('SalesPerson', $brands)
+                            ->where('remainingStatus', '!=', 'Unlinked Payments')
+                            ->where('refundStatus', '!=', 'Pending Payment')
+                            ->where('refundStatus', '!=', 'Refund')
+                            ->where('transactionType', '!=', 'New Lead')
+                            ->sum("Paid");
+
+                        if ($i == 1) {
+                            $target = "January";
+                        } elseif ($i == 2) {
+                            $target = "February";
+                        } elseif ($i == 3) {
+                            $target = "March";
+                        } elseif ($i == 4) {
+                            $target = "April";
+                        } elseif ($i == 5) {
+                            $target = "May";
+                        } elseif ($i == 6) {
+                            $target = "June";
+                        } elseif ($i == 7) {
+                            $target = "July";
+                        } elseif ($i == 8) {
+                            $target = "August";
+                        } elseif ($i == 9) {
+                            $target = "September";
+                        } elseif ($i == 10) {
+                            $target = "October";
+                        } elseif ($i == 11) {
+                            $target = "November";
+                        } elseif ($i == 12) {
+                            $target = "December";
+                        }
+
+                        $monthwise[] = [
+                            "month" => $target,
+                            "net" => $net_revenue
+                        ];
+
+                        $totalrefund = (int)$dispute +  (int)$refund;
+
+                        $disputes[] = [
+                            "month" => $target,
+                            "net" => $totalrefund
+                        ];
+
+                        $front[] = [
+                            "month" => $target,
+                            "net" => (int)$frontsum
+                        ];
+
+                        $back[] = [
+                            "month" => $target,
+                            "net" => (int)$backsum
+                        ];
+                    }
+
+                    $yearwise[] = [
+                        "year" => $year,
+                        "yeardata" => $monthwise
+                    ];
+
+                    $yearwiserefund[] = [
+                        "year" => $year,
+                        "yeardata" => $disputes
+                    ];
+
+                    $frontyearwise[] = [
+                        "year" => $year,
+                        "yeardata" => $front
+                    ];
+
+                    $backyearwise[] = [
+                        "year" => $year,
+                        "yeardata" => $back
+                    ];
+
+                    $brandsalestotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                        ->where('SalesPerson', $brands)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('refundStatus', '!=', 'Refund')
+                        ->sum('Paid');
+
+                    $disputetotal = NewPaymentsClients::whereYear('disputeattack', $year)
+                        ->where('ProjectManager', $brands)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('refundStatus',  '!=', 'Refund')
+                        ->where('dispute', '!=', null)
+                        ->sum('disputeattackamount');
+
+                    $refundtotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                        ->where('SalesPerson', $brands)
+                        ->where('refundStatus', 'Refund')
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('dispute', null)
+                        ->sum('Paid');
+
+                    $net_revenuetotal = $brandsalestotal - $disputetotal -  $refundtotal;
+
+                    $frontsumtotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                        ->where('SalesPerson', $brands)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('refundStatus', '!=', 'Refund')
+                        ->where('transactionType', 'New Lead')
+                        ->sum("Paid");
+
+                    $backsumtotal = NewPaymentsClients::whereYear('paymentDate', $year)
+                        ->where('SalesPerson', $brands)
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->where('refundStatus', '!=', 'Pending Payment')
+                        ->where('refundStatus', '!=', 'Refund')
+                        ->where('transactionType', '!=', 'New Lead')
+                        ->sum("Paid");
+
+                    $totalrefundtotal = (int)$disputetotal +  (int)$refundtotal;
+
+                    $yearwisetotal[] = [
+                        "year" => $year,
+                        "gross" => $net_revenuetotal,
+                        "front" => $frontsumtotal,
+                        "back" => $backsumtotal,
+                        "refunddispute" => $totalrefundtotal
+                    ];
+                }
+
+                $years00 = array_map(function ($data) {
+                    return '"' . $data['year'] . '"';
+                }, $yearwise);
+
+                $data = [];
+                $data[] = array_merge(["Month"], $years00);
+
+                $months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                foreach ($months as $month) {
+                    if ($month == "January") {
+                        $montha = "Jan";
+                    } elseif ($month == "February") {
+                        $montha = "Feb";
+                    } elseif ($month == "March") {
+                        $montha = "Mar";
+                    } elseif ($month == "April") {
+                        $montha = "Apr";
+                    } elseif ($month == "May") {
+                        $montha = "May";
+                    } elseif ($month == "June") {
+                        $montha = "Jun";
+                    } elseif ($month == "July") {
+                        $montha = "Jul";
+                    } elseif ($month == "August") {
+                        $montha = "Aug";
+                    } elseif ($month == "September") {
+                        $montha = "Sep";
+                    } elseif ($month == "October") {
+                        $montha = "Oct";
+                    } elseif ($month == "November") {
+                        $montha = "Nov";
+                    } elseif ($month == "December") {
+                        $montha = "Dec";
+                    }
+                    $row = [$montha];
+                    foreach ($yearwise as $yearData) {
+                        $monthData = array_filter($yearData['yeardata'], function ($m) use ($month) {
+                            return $m['month'] == $month;
+                        });
+                        $monthData = array_values($monthData);
+                        $row[] = !empty($monthData) ? $monthData[0]['net'] : (int)0;
+                    }
+                    $data[] = $row;
+                }
+
+
+                // ---------------------------------------------------------------------------
+                $years1 = array_map(function ($data1) {
+                    return '"' . $data1['year'] . '"';
+                }, $yearwiserefund);
+
+                $data1 = [];
+                $data1[] = array_merge(["Month"], $years1);
+
+                $months1 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                foreach ($months1 as $month) {
+                    if ($month == "January") {
+                        $montha = "Jan";
+                    } elseif ($month == "February") {
+                        $montha = "Feb";
+                    } elseif ($month == "March") {
+                        $montha = "Mar";
+                    } elseif ($month == "April") {
+                        $montha = "Apr";
+                    } elseif ($month == "May") {
+                        $montha = "May";
+                    } elseif ($month == "June") {
+                        $montha = "Jun";
+                    } elseif ($month == "July") {
+                        $montha = "Jul";
+                    } elseif ($month == "August") {
+                        $montha = "Aug";
+                    } elseif ($month == "September") {
+                        $montha = "Sep";
+                    } elseif ($month == "October") {
+                        $montha = "Oct";
+                    } elseif ($month == "November") {
+                        $montha = "Nov";
+                    } elseif ($month == "December") {
+                        $montha = "Dec";
+                    }
+                    $row1 = [$montha];
+                    foreach ($yearwiserefund as $yearData1) {
+                        $monthData1 = array_filter($yearData1['yeardata'], function ($m) use ($month) {
+                            return $m['month'] == $month;
+                        });
+                        $monthData1 = array_values($monthData1);
+                        $row1[] = !empty($monthData1) ? $monthData1[0]['net'] : (int)0;
+                    }
+                    $data1[] = $row1;
+                }
+
+
+                // ---------------------------------------------------------------------------
+                $years2 = array_map(function ($data2) {
+                    return '"' . $data2['year'] . '"';
+                }, $frontyearwise);
+
+                $data2 = [];
+                $data2[] = array_merge(["Month"], $years2);
+
+                $months2 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                foreach ($months2 as $month) {
+                    if ($month == "January") {
+                        $montha = "Jan";
+                    } elseif ($month == "February") {
+                        $montha = "Feb";
+                    } elseif ($month == "March") {
+                        $montha = "Mar";
+                    } elseif ($month == "April") {
+                        $montha = "Apr";
+                    } elseif ($month == "May") {
+                        $montha = "May";
+                    } elseif ($month == "June") {
+                        $montha = "Jun";
+                    } elseif ($month == "July") {
+                        $montha = "Jul";
+                    } elseif ($month == "August") {
+                        $montha = "Aug";
+                    } elseif ($month == "September") {
+                        $montha = "Sep";
+                    } elseif ($month == "October") {
+                        $montha = "Oct";
+                    } elseif ($month == "November") {
+                        $montha = "Nov";
+                    } elseif ($month == "December") {
+                        $montha = "Dec";
+                    }
+                    $row2 = [$montha];
+                    foreach ($frontyearwise as $yearData2) {
+                        $monthData2 = array_filter($yearData2['yeardata'], function ($m) use ($month) {
+                            return $m['month'] == $month;
+                        });
+                        $monthData2 = array_values($monthData2);
+                        $row2[] = !empty($monthData2) ? $monthData2[0]['net'] : (int)0;
+                    }
+                    $data2[] = $row2;
+                }
+
+
+                // ---------------------------------------------------------------------------
+                $years3 = array_map(function ($data3) {
+                    return '"' . $data3['year'] . '"';
+                }, $backyearwise);
+
+                $data3 = [];
+                $data3[] = array_merge(["Month"], $years3);
+
+                $months3 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                foreach ($months3 as $month) {
+                    if ($month == "January") {
+                        $montha = "Jan";
+                    } elseif ($month == "February") {
+                        $montha = "Feb";
+                    } elseif ($month == "March") {
+                        $montha = "Mar";
+                    } elseif ($month == "April") {
+                        $montha = "Apr";
+                    } elseif ($month == "May") {
+                        $montha = "May";
+                    } elseif ($month == "June") {
+                        $montha = "Jun";
+                    } elseif ($month == "July") {
+                        $montha = "Jul";
+                    } elseif ($month == "August") {
+                        $montha = "Aug";
+                    } elseif ($month == "September") {
+                        $montha = "Sep";
+                    } elseif ($month == "October") {
+                        $montha = "Oct";
+                    } elseif ($month == "November") {
+                        $montha = "Nov";
+                    } elseif ($month == "December") {
+                        $montha = "Dec";
+                    }
+                    $row3 = [$montha];
+                    foreach ($backyearwise as $yearData3) {
+                        $monthData3 = array_filter($yearData3['yeardata'], function ($m) use ($month) {
+                            return $m['month'] == $month;
+                        });
+                        $monthData3 = array_values($monthData3);
+                        $row3[] = !empty($monthData3) ? $monthData3[0]['net'] : (int)0;
+                    }
+                    $data3[] = $row3;
+                }
+
+
+
+                $brandwise[] = [
+                    "name" => $brandname[0]->name,
+                    "year" => $yearwise,
+                    "yeargraph" => $data,
+                    "refund" => $yearwiserefund,
+                    "refundyeargraph" => $data1,
+                    "front" => $frontyearwise,
+                    "frontyeargraph" => $data2,
+                    "back" => $backyearwise,
+                    "backyeargraph" => $data3,
+                ];
+
+                $brandwisetotal[] = [
+                    "name" => $brandname[0]->name,
+                    "yeartotal" => $yearwisetotal,
+                ];
+            }
+        }
+
+        return view('agentstats', [
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2],
+            'brands' => $brandnames,
+            'role' => $role,
+            'brandwise' => $brandwise,
+            'brandwisetotal' => $brandwisetotal,
+        ]);
+    }
 
     public function datewisedata(Request $request)
     {
         $requireddate = $request->date_id;
         $branddata = [];
         $a = $request->brand_id;
-        if( $a != null ){
+        if ($a != null) {
             $requiredbrand = $request->brand_id;
-        }else{
+        } else {
             $requiredbrand = Brand::pluck('id')->toArray();
         }
 
@@ -4269,15 +4816,15 @@ class BasicController extends Controller
         $get_brand = $request->input('brand');
 
         $a = $get_brand;
-        if( $a != null ){
+        if ($a != null) {
             $requiredbrand = $get_brand;
-        }else{
+        } else {
             $requiredbrand = Brand::pluck('id')->toArray();
         }
 
-        if( $get_startdate != null ){
+        if ($get_startdate != null) {
             $requireddate = $get_startdate;
-        }else{
+        } else {
             $requireddate = date('Y-m-d');
         }
 
@@ -6811,6 +7358,176 @@ class BasicController extends Controller
 
         ]);
 
+        if ($request->input('nextpaymentdate') == null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
+
+            if ($request->input('paymentModes') == 'Renewal') {
+                $paymentNature11 = "Renewal Payment";
+            } else {
+                $paymentNature11 = "Recurring Payment";
+            }
+
+
+
+            $interval11 = $request->input('ChargingPlan');
+            $today11 = date('Y-m-d');
+
+            for ($i = 1; $i <= 10; $i++) {
+                if ($interval11 == "One Time Payment") {
+                    $datefinal = null;
+                } elseif ($interval11 == "Monthly") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today11)));
+                } elseif ($interval11 == "2 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "3 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "4 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "5 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "6 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "7 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "8 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "9 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "10 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "11 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "12 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "2 Years") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today11)));
+                } elseif ($interval11 == "3 Years") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today11)));
+                }
+                // echo $datefinal . "<br>";
+
+
+
+                $futurePayment = NewPaymentsClients::create([
+                    "BrandID" => $brandID,
+                    "ClientID" => $createClient,
+                    "ProjectID" => 0,
+                    "ProjectManager" => 0,
+                    "paymentNature" =>  $paymentNature11,
+                    "ChargingPlan" => '--',
+                    "ChargingMode" => '--',
+                    "Platform" => '--',
+                    "Card_Brand" => '--',
+                    "Payment_Gateway" => '--',
+                    "bankWireUpload" => '--',
+                    "TransactionID" => '--',
+                    // "paymentDate"=> $request->input('paymentdate'),
+                    "futureDate" => $datefinal,
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => 0,
+                    "RemainingAmount" => 0,
+                    "PaymentType" => '--',
+                    "numberOfSplits" => '--',
+                    "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
+                    "ShareAmount" => json_encode(["-", "-", "-", "-"]),
+                    "Description" => '--',
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'Pending Payment',
+                    "remainingStatus" => '--',
+                    "transactionType" => $transactionType,
+                    "transactionfee" =>  0,
+                    "amt_after_transactionfee" => 0,
+                    "qaperson" => $userid
+
+                ]);
+            }
+        } elseif ($request->input('nextpaymentdate') != null && $request->input('ChargingPlan') != null && $request->input('ChargingPlan') != "One Time Payment" && $request->input('paymentModes') != "One Time Payment") {
+
+            if ($request->input('paymentModes') == 'Renewal') {
+                $paymentNature11 = "Renewal Payment";
+            } else {
+                $paymentNature11 = "Recurring Payment";
+            }
+
+
+
+            $interval11 = $request->input('ChargingPlan');
+            $today11 = $request->input('nextpaymentdate');
+
+            for ($i = 1; $i <= 10; $i++) {
+                if ($interval11 == "One Time Payment") {
+                    $datefinal = null;
+                } elseif ($interval11 == "Monthly") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today11)));
+                } elseif ($interval11 == "2 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "3 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "4 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "5 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "6 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "7 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "8 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "9 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "10 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "11 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "12 Months") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today11)));
+                } elseif ($interval11 == "2 Years") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today11)));
+                } elseif ($interval11 == "3 Years") {
+                    $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today11)));
+                }
+                // echo $datefinal . "<br>";
+
+
+
+                $futurePayment = NewPaymentsClients::create([
+                    "BrandID" => $brandID,
+                    "ClientID" => $createClient,
+                    "ProjectID" => 0,
+                    "ProjectManager" => 0,
+                    "paymentNature" =>  $paymentNature11,
+                    "ChargingPlan" => '--',
+                    "ChargingMode" => '--',
+                    "Platform" => '--',
+                    "Card_Brand" => '--',
+                    "Payment_Gateway" => '--',
+                    "bankWireUpload" => '--',
+                    "TransactionID" => '--',
+                    // "paymentDate"=> $request->input('paymentdate'),
+                    "futureDate" => $datefinal,
+                    "SalesPerson" => $request->input('saleperson'),
+                    "TotalAmount" => $request->input('totalamount'),
+                    "Paid" => 0,
+                    "RemainingAmount" => 0,
+                    "PaymentType" => '--',
+                    "numberOfSplits" => '--',
+                    "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
+                    "ShareAmount" => json_encode(["-", "-", "-", "-"]),
+                    "Description" => '--',
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                    "refundStatus" => 'Pending Payment',
+                    "remainingStatus" => '--',
+                    "transactionType" => $transactionType,
+                    "transactionfee" =>  0,
+                    "amt_after_transactionfee" => 0,
+                    "qaperson" => $userid
+
+                ]);
+            }
+        }
+
         return redirect('/client/project/payment/all');
     }
 
@@ -7526,8 +8243,6 @@ class BasicController extends Controller
             }
         } else {
 
-            // echo("is  fsremaining");
-            // die();
             $checkremaining = NewPaymentsClients::where('id', $request->input('remainingamountfor'))->get();
 
             if (isset($checkremaining[0]->remainingID) && $checkremaining[0]->remainingID != null) {
@@ -12047,9 +12762,9 @@ class BasicController extends Controller
             $role = 1;
             if ($get_type == "Received") {
 
-                if($request->input('status') == 'Dispute'){
+                if ($request->input('status') == 'Dispute') {
                     $payment = NewPaymentsClients::whereBetween('disputeattack', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
-                }else{
+                } else {
                     $payment = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 }
 
@@ -12079,9 +12794,9 @@ class BasicController extends Controller
                 $result = $payment->get();
 
 
-                if($request->input('status') == 'Dispute'){
+                if ($request->input('status') == 'Dispute') {
                     $amt = NewPaymentsClients::whereBetween('disputeattack', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments')->where('paymentNature', '!=', 'Remaining');
-                }else{
+                } else {
                     $amt = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments')->where('paymentNature', '!=', 'Remaining');
                 }
 
@@ -12111,9 +12826,9 @@ class BasicController extends Controller
                 $newtotalamt = $amt->sum('TotalAmount');
 
 
-                if($request->input('status') == 'Dispute'){
+                if ($request->input('status') == 'Dispute') {
                     $amtpaid = NewPaymentsClients::whereBetween('disputeattack', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
-                }else{
+                } else {
                     $amtpaid = NewPaymentsClients::whereBetween('paymentDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments');
                 }
 
@@ -12140,9 +12855,9 @@ class BasicController extends Controller
                     ? $amtpaid->where('dispute', $get_dispute)
                     : null;
 
-                if($request->input('status') == 'Dispute'){
+                if ($request->input('status') == 'Dispute') {
                     $newtotalamtpaid = $amtpaid->sum('disputeattackamount');
-                }else{
+                } else {
                     $newtotalamtpaid = $amtpaid->sum('Paid');
                 }
                 // $newtotalamtpaid = $amtpaid->sum('Paid');
@@ -17680,7 +18395,6 @@ class BasicController extends Controller
             }
         }
 
-
         $getUnmatched = NewPaymentsClients::where('ClientID', 0)->get();
 
         foreach ($getUnmatched as $unmatched) {
@@ -17706,8 +18420,6 @@ class BasicController extends Controller
                 continue;
             }
         }
-
-
 
         $getUnmatched1 = NewPaymentsClients::where('ClientID', '!=', 0)->where('ProjectID', 0)->get();
 
@@ -17736,6 +18448,227 @@ class BasicController extends Controller
         }
 
         return redirect('/client/project/payment/all');
+    }
+
+    function pushnewpayments(Request $request)
+    {
+        ini_set('max_execution_time', 300);
+
+        $getnewleads = NewPaymentsClients::where('paymentNature', 'New Lead')->where('ChargingPlan', '!=', 'One Time Payment')->where('ChargingMode', '!=', 'One Time Payment')->where('Sheetdata', null)->get();
+        foreach ($getnewleads as $getnewlead) {
+            $getallthispaymentdisputes = NewPaymentsClients::where('ClientID', $getnewlead->ClientID)->where('dispute', '!=', null)->count();
+            if ($getallthispaymentdisputes > 0) {
+                $getallthispendingpaymentcount = NewPaymentsClients::where('ClientID', $getnewlead->ClientID)
+                    ->where('refundStatus', 'Pending Payment')
+                    ->delete();
+            } else {
+                $getallthispendingpaymentcount = NewPaymentsClients::where('ClientID', $getnewlead->ClientID)
+                    ->where('paymentNature', '!=', 'New Lead')
+                    ->where('transactionType', 'New Lead')
+                    ->where('refundStatus', '!=', 'Refund')
+                    ->where('refundStatus', 'Pending Payment')
+                    ->count();
+                if ($getallthispendingpaymentcount > 0) {
+                    continue;
+                } else {
+
+                    $paymentNature = $getnewlead->ChargingMode;
+                    if ($paymentNature = "Renewal") {
+                        $naturetype = "Renewal Payment";
+                    } else {
+                        $naturetype = "Recurring Payment";
+                    }
+                    $interval = $getnewlead->ChargingPlan;
+                    $today = $getnewlead->futureDate;
+
+                    for ($i = 0; $i <= 10; $i++) {
+                        if ($interval == "One Time Payment") {
+                            $datefinal = null;
+                        } elseif ($interval == "Monthly") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) . ' month', strtotime($today)));
+                        } elseif ($interval == "2 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' month', strtotime($today)));
+                        } elseif ($interval == "3 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' month', strtotime($today)));
+                        } elseif ($interval == "4 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 4 . ' month', strtotime($today)));
+                        } elseif ($interval == "5 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 5 . ' month', strtotime($today)));
+                        } elseif ($interval == "6 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 6 . ' month', strtotime($today)));
+                        } elseif ($interval == "7 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 7 . ' month', strtotime($today)));
+                        } elseif ($interval == "8 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 8 . ' month', strtotime($today)));
+                        } elseif ($interval == "9 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 9 . ' month', strtotime($today)));
+                        } elseif ($interval == "10 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 10 . ' month', strtotime($today)));
+                        } elseif ($interval == "11 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 11 . ' month', strtotime($today)));
+                        } elseif ($interval == "12 Months") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 12 . ' month', strtotime($today)));
+                        } elseif ($interval == "2 Years") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 2 . ' Year', strtotime($today)));
+                        } elseif ($interval == "3 Years") {
+                            $datefinal = date('Y-m-d', strtotime('+' . ($i + 1) * 3 . ' Year', strtotime($today)));
+                        }
+
+                        $futurePayment = NewPaymentsClients::create([
+                            "BrandID" => $getnewlead->BrandID,
+                            "ClientID" =>  $getnewlead->ClientID,
+                            "ProjectID" => $getnewlead->ProjectID,
+                            "ProjectManager" => $getnewlead->ProjectManager,
+                            "paymentNature" =>  $naturetype,
+                            "ChargingPlan" => '--',
+                            "ChargingMode" => '--',
+                            "Platform" => '--',
+                            "Card_Brand" => '--',
+                            "Payment_Gateway" => '--',
+                            "bankWireUpload" => '--',
+                            "TransactionID" => '--',
+                            // "paymentDate"=> $request->input('paymentdate'),
+                            "futureDate" => $datefinal,
+                            "SalesPerson" => $getnewlead->SalesPerson,
+                            "TotalAmount" => $getnewlead->ProjectManager,
+                            "Paid" => 0,
+                            "RemainingAmount" => 0,
+                            "PaymentType" => '--',
+                            "numberOfSplits" => '--',
+                            "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
+                            "ShareAmount" => json_encode(["-", "-", "-", "-"]),
+                            "Description" => '--',
+                            'created_at' => date('y-m-d H:m:s'),
+                            'updated_at' => date('y-m-d H:m:s'),
+                            "refundStatus" => 'Pending Payment',
+                            "remainingStatus" => '--',
+                            "transactionType" => "new Lead",
+                            "transactionfee" => 0,
+                            "amt_after_transactionfee" => 0,
+                            "qaperson" => 0
+
+                        ]);
+                    }
+                }
+            }
+        }
+
+        $getnewleadsinvsheet = NewPaymentsClients::where('Sheetdata', 'Invoicing Data')
+            ->whereIn('paymentNature', ['New Lead', 'New Sale', 'Upsell'])
+            ->where('ChargingPlan', '!=', 'One Time Payment')
+            ->where('ChargingMode', '!=', 'One Time Payment')
+            ->get();
+
+        foreach ($getnewleadsinvsheet as $lead) {
+            $clientID = $lead->ClientID;
+
+            // Check for disputes
+            $hasDispute = NewPaymentsClients::where('ClientID', $clientID)
+                ->whereNotNull('dispute')
+                ->exists();
+
+            if ($hasDispute) {
+                continue;
+            }
+
+            // Check for pending refunds
+            $hasPendingRefund = NewPaymentsClients::where('ClientID', $clientID)
+                ->where('refundStatus', 'Pending Payment')
+                ->exists();
+
+            if ($hasPendingRefund) {
+                continue;
+            }
+
+            // Get the latest valid payment
+            $latestPayment = NewPaymentsClients::where('ClientID', $clientID)
+                ->whereNotIn('paymentNature', ['Remaining', 'FSRemaining', 'Small Payment', 'One Time Payment'])
+                ->where('refundStatus', '!=', 'Refund')
+                ->orderBy('paymentDate', 'desc')
+                ->first();
+
+            if ($latestPayment) {
+                // echo "<pre>";
+                // print_r($latestPayment);
+
+                // Uncomment and complete the logic as needed
+                $paymentNatureinv = $latestPayment->ChargingMode;
+                if ($paymentNatureinv === "Renewal") {
+                    $naturetypeinv = "Renewal Payment";
+                } else {
+                    $naturetypeinv = "Recurring Payment";
+                }
+
+                $interval112 = $latestPayment->ChargingPlan;
+                $today112 = $latestPayment->futureDate;
+
+                if ($interval112 == "One Time Payment") {
+                    $datefinal112 = null;
+                } elseif ($interval112 == "Monthly") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) . ' month', strtotime($today112)));
+                } elseif ($interval112 == "2 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 2 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "3 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 3 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "4 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 4 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "5 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 5 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "6 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 6 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "7 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 7 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "8 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 8 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "9 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 9 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "10 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 10 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "11 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 11 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "12 Months") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 12 . ' month', strtotime($today112)));
+                } elseif ($interval112 == "2 Years") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 2 . ' Year', strtotime($today112)));
+                } elseif ($interval112 == "3 Years") {
+                    $datefinal112 = date('Y-m-d', strtotime('+' . (1) * 3 . ' Year', strtotime($today112)));
+                }
+
+
+                $futurePayment = NewPaymentsClients::create([
+                    "BrandID" => $latestPayment->BrandID,
+                    "ClientID" => $latestPayment->ClientID,
+                    "ProjectID" => $latestPayment->ProjectID,
+                    "ProjectManager" => $latestPayment->ProjectManager,
+                    "paymentNature" => $naturetypeinv,
+                    "ChargingPlan" => '--',
+                    "ChargingMode" => '--',
+                    "Platform" => '--',
+                    "Card_Brand" => '--',
+                    "Payment_Gateway" => '--',
+                    "bankWireUpload" => '--',
+                    "TransactionID" => '--',
+                    "futureDate" => $datefinal112,
+                    "SalesPerson" => $latestPayment->SalesPerson,
+                    "TotalAmount" => $latestPayment->ProjectManager,
+                    "Paid" => 0,
+                    "RemainingAmount" => 0,
+                    "PaymentType" => '--',
+                    "numberOfSplits" => '--',
+                    "SplitProjectManager" => json_encode(["-", "-", "-", "-"]),
+                    "ShareAmount" => json_encode(["-", "-", "-", "-"]),
+                    "Description" => '--',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                    "refundStatus" => 'Pending Payment',
+                    "remainingStatus" => '--',
+                    "transactionType" =>  $latestPayment->paymentNature,
+                    "transactionfee" => 0,
+                    "amt_after_transactionfee" => 0,
+                    "qaperson" => 0
+                ]);
+            }
+        }
     }
 
     function csv_ppc(Request $request)

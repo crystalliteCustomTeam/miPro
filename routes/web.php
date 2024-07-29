@@ -88,6 +88,7 @@ Route::controller(BasicController::class)->group(function () {
 
         //pushemailstometa
         Route::get('/client/emails', 'pushEmailtometa');
+        Route::get('/client/emails/newpayments', 'pushnewpayments');
 
         //qaform:
         Route::get('/forms/qaform_d', 'qaform');
@@ -274,6 +275,8 @@ Route::controller(BasicController::class)->group(function () {
 
         //yearly brand ststs
         Route::get('/yearly/brand/stats/{id?}', 'yearlybrandStats');
+        //yearly agents ststs
+        Route::get('/yearly/agents/stats/{id?}', 'agentwisetargetstats');
 
 
         //settings:
