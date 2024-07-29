@@ -220,7 +220,7 @@
                                 <thead>
                                 <tr>
                                     <th style="width: 510px; background-color: black; color: white;  border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">Year</th>
-                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Gross Revenue</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Net Revenue</th>
                                     <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Front Sales</th>
                                     <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Back Sales</th>
                                     <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Refund/Dispute</th>
@@ -237,7 +237,7 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div style="background-color: #EF8923; color: white; text-align: center;  border: 1px solid white;">
-                                        Gross Revenue Comparision
+                                        Net Revenue Comparision
                                     </div>
                                         <table>
                                             <thead>
@@ -348,7 +348,7 @@
                                 <thead>
                                 <tr>
                                     <th style="width: 510px; background-color: black; color: white;  border-left: 1px solid white; border-right: 1px solid white; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">Year</th>
-                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Gross Revenue</th>
+                                    <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Net Revenue</th>
                                     <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Front Sales</th>
                                     <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Back Sales</th>
                                     <th style="width: 250px; background-color: black; color: white;  border: 1px solid white; text-align: center;">Refund/Dispute</th>
@@ -397,7 +397,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <div style="background-color: #EF8923; color: white; text-align: center;  border: 1px solid white;">
-                                                Gross Revenue Comparision
+                                                Net Revenue Comparision
                                             </div>
                                                 @php
                                                     $brandyear  = $item['year'];
