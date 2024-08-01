@@ -48,7 +48,12 @@
                         @foreach($brands as $brand)
                             <option value="{{ $brand->id }}" {{ $brand->id == $departeditdata->brand ? 'selected' : '' }}>{{ $brand->name }}</option>
                         @endforeach
+                        @if ($departeditdata->brand == 0)
+                        <option value="0" selected>Production</option>
+                        @else
                         <option value="0">Production</option>
+                        @endif
+
                         </select>
                     </div>
 
