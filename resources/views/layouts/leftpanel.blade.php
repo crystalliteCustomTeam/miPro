@@ -196,6 +196,16 @@
             <li class="sub-item"><a href="/forms/qaform_d" class="sub-link">QA FORM</a></li>
             </ul>
         </li><!-- br-menu-item -->
+        <li class="br-menu-item">
+            <a href="#" class="br-menu-link with-sub">
+            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+            <span class="menu-item-label">Authorization</span>
+            </a><!-- br-menu-link -->
+            <ul class="br-menu-sub">
+                <li class="sub-item"><a href="/assign/permissions" class="sub-link">Authorize Route</a></li>
+                <li class="sub-item"><a href="/routes/permissions" class="sub-link">All Routes</a></li>
+            </ul>
+        </li><!-- br-menu-item -->
 
 
         <li class="br-menu-item">

@@ -342,5 +342,18 @@ Route::controller(BasicController::class)->group(function () {
         //csv_target:
         Route::get('/forms/csv_uploads_target', 'target_csv');
         Route::post('/forms/csv_uploads_target/process', 'csv_target_process');
+
+
+        //create_permitted_roles:
+         Route::get('/assign/permissions', 'assignroles');
+         Route::post('/assign/permissions/process', 'assignroles_process');
+        //Edit_permitted_roles
+         Route::get('/assign/permissions/edit/{id}', 'Editassignroles');
+         Route::post('/assign/permissions/Edit/process/{id}', 'Edit_assignroles_process');
+
+         Route::get('/routes/permissions', 'routePermission_view');
+
+         Route::get('/unauthorized', 'unauthorized');
+
     });
 });
