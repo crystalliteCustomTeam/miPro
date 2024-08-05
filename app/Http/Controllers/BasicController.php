@@ -1830,7 +1830,7 @@ class BasicController extends Controller
         $allbrandschargebacks = [];
         $allbrandschargebacks1 = [];
 
-        $days = [];
+        $days = [];//--
         $currentMonth = 0;
         $currentYear = 0;
         $daysInMonth = 0;
