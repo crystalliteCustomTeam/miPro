@@ -58,7 +58,17 @@
                           <div class="col-12">
                             <h3 style="color:black" class="mb-5">Quality Assaurance Form:</h3>
                             <div class="btn-group">
-                              <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
+                                @php
+                                    // Count the number of words in the string
+                                    $wordCount = str_word_count($projects[0]->name);
+                                @endphp
+                                @if ($wordCount > 3)
+                                <button class="btn btn-outline-primary" style="display:block;text-overflow: ellipsis;width: 240px;overflow: hidden; white-space: nowrap;">Project Name: {{$projects[0]->name }}</button>
+                                {{-- <p class="lh-5 mg-b-20" style="display:block;text-overflow: ellipsis;width: 300px;overflow: hidden; white-space: nowrap;">{{$last5qaform[0]->Refund_Request_summery}}</p> --}}
+                                @else
+                                    <button class="btn btn-outline-primary">Project Name: {{$projects[0]->name }}</button>
+                                @endif
+
                               @if (isset($projects[0]->EmployeeName->name) and $projects[0]->EmployeeName->name !== null)
                               <button class="btn btn-outline-primary">Project Manager: {{$projects[0]->EmployeeName->name }}</button>
                               @else

@@ -8232,41 +8232,64 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
         $checkuser = $loginUser[3];
+        // if ($checkuser !== "Hidden") {
+        //     $all_permitted_route = $loginUser[3];
+
+        //     $currentRoute = Route::current();
+
+
+        //     $routeUri = $currentRoute->uri();
+
+
+        //     $hasParameters = strpos($routeUri, '{') !== false;
+
+
+        //     if ($hasParameters) {
+        //         // Route has parameters
+        //         $url_array = explode("/",$routeUri);
+        //         $url_array=array_slice($url_array,0,count($url_array)-1);
+        //         $currentRoute = "/";
+        //         $currentRoute .= implode("/",$url_array);
+        //         print_r($currentRoute);
+        //         die();
+        //         if (!in_array($currentRoute, $all_permitted_route)) {
+        //             return redirect('/unauthorized');
+        //         }
+        //     } else {
+        //         if (!in_array($currentRoute, $all_permitted_route)) {
+        //             return redirect('/unauthorized');
+        //         }
+
+        //     }
+
+        //     // $currentUrl = request()->path();
+        //     // if (!in_array($currentUrl, $all_permitted_route)){
+        //     //     return redirect('/unauthorized');
+        //     // }
+
+        // }
+        $checkuser = $loginUser[3];
         if ($checkuser !== "Hidden") {
             $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
 
-            $currentRoute = Route::current();
+            $patternMatched = false;
 
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
 
-            $routeUri = $currentRoute->uri();
-
-
-            $hasParameters = strpos($routeUri, '{') !== false;
-
-
-            if ($hasParameters) {
-                // Route has parameters
-                $url_array = explode("/",$routeUri);
-                $url_array=array_slice($url_array,0,count($url_array)-1);
-                $currentRoute = "/";
-                $currentRoute .= implode("/",$url_array);
-                print_r($currentRoute);
-                die();
-                if (!in_array($currentRoute, $all_permitted_route)) {
-                    return redirect('/unauthorized');
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
                 }
-            } else {
-                if (!in_array($currentRoute, $all_permitted_route)) {
-                    return redirect('/unauthorized');
-                }
-
             }
 
-            // $currentUrl = request()->path();
-            // if (!in_array($currentUrl, $all_permitted_route)){
-            //     return redirect('/unauthorized');
-            // }
-
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
         }
         $findclient = Client::where('id', $clientID)->get();
         $allprojects = Project::where('clientID', $clientID)->get();
