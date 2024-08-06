@@ -58,13 +58,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
         $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
 
         $department = Department::get();
@@ -131,13 +147,28 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
         $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $allroutes = RoutesRoles::where('id',$id)->get();
 
@@ -168,13 +199,28 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
 
         $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $routesall = RoutesRoles::get();
         return view('routeviewall', [
@@ -678,13 +724,28 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
 
         $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brands = Brand::get();
         $salesteams = Salesteam::get();
@@ -1538,13 +1599,28 @@ class BasicController extends Controller
         $loginUser = $this->roleExits($request);
 
         $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brands = Brand::get();
         $salesteams = Salesteam::get();
@@ -2993,14 +3069,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brands = Brand::get();
         $salesteams = Salesteam::get();
@@ -3202,14 +3293,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brands = Brand::get();
 
@@ -3859,14 +3965,29 @@ class BasicController extends Controller
 
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brandnames = Brand::get();
 
@@ -4323,14 +4444,29 @@ class BasicController extends Controller
 
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         // $brandnames = Employee::get();
         $allbranddepart = [];
@@ -5014,14 +5150,29 @@ class BasicController extends Controller
 
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brand = Brand::get();
 
@@ -5182,14 +5333,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brands = Brand::get();
         return view('brandTarget', [
@@ -5234,14 +5400,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brantarget = BrandTarget::where('id', $id)->get();
         $brands = Brand::get();
@@ -5282,14 +5463,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         return view('targetUpload', [
             'LoginUser' => $loginUser[1],
@@ -5508,14 +5704,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brands = BrandTarget::get();
         return view('viewbrandTarget', [
@@ -5530,14 +5741,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brands = Employee::get();
         return view('agentTarget', [
@@ -5579,14 +5805,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brands = AgentTarget::get();
         return view('viewagentTarget', [
@@ -5601,14 +5842,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brantarget = AgentTarget::where('id', $id)->get();
         $brands = Employee::get();
@@ -5730,14 +5986,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         return view('setupcompany', [
             'LoginUser' => $loginUser[1],
@@ -5769,14 +6040,29 @@ class BasicController extends Controller
     function editcompany(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $companydata = db::table("companies")
             ->where('id', $id)
@@ -5815,14 +6101,29 @@ class BasicController extends Controller
     function deletecompany(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
 
         $branddeleted = DB::table('brands')->where('companyID', $id)->delete();
@@ -5836,14 +6137,29 @@ class BasicController extends Controller
         $companies = Company::all();
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         return View('companies', [
             "companies" => $companies,
@@ -5857,14 +6173,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $brands = Brand::with('brandOwnerName')->get();
         return View('brandlist', [
@@ -5879,14 +6210,29 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $employees = Employee::whereIn('position', ['Owner', 'Admin', 'VP', 'Brand Owner', 'President'])->get();
 
@@ -5925,14 +6271,30 @@ class BasicController extends Controller
     function editbrand(Request $request, $companyID)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $employees = Employee::whereIn('position', ['Owner', 'Admin', 'VP', 'Brand Owner', 'President'])->get();
         $branddata = Brand::where('id', $companyID)->get();
 
@@ -5972,14 +6334,29 @@ class BasicController extends Controller
     function deletebrand(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+       $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $branddeleted = DB::table('brands')->where('id', $id)->delete();
         //$companydeleted = DB::table('companies')->where('id', $id)->delete();
@@ -5990,14 +6367,29 @@ class BasicController extends Controller
     function setupdepartments(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $employees = Employee::whereNotIn('position', ['Owner', 'Admin', 'VP', 'Brand Owner', ''])->get();
         $brand = Brand::all();
         return view('department', [
@@ -6012,14 +6404,29 @@ class BasicController extends Controller
     function setupdepartments_withBrand(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $employees = Employee::whereNotIn('position', ['Owner', 'Admin', 'VP', 'Brand Owner', ''])->get();
         $brand = Brand::where('id', $id)->get();
         return view('department', [
@@ -6059,14 +6466,29 @@ class BasicController extends Controller
     function selectdepartusers(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $employees = Employee::whereNotIn('position', ['Owner', 'Admin', 'VP', 'Brand Owner', ''])->get();
         $department = Department::where('id', $id)->get();
         return view('departmentUsers', [
@@ -6093,14 +6515,29 @@ class BasicController extends Controller
     function departmentlist(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $departments = Department::get();
 
         return view('departmentlist', [
@@ -6114,14 +6551,29 @@ class BasicController extends Controller
     function editdepartment(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $brand = Brand::all();
         $employees = Employee::whereNotIn('position', ['Owner', 'Admin', 'VP', 'Brand Owner', ''])->get();
         $departdata = Department::where('id', $id)->get();
@@ -6165,14 +6617,29 @@ class BasicController extends Controller
     function deletedepartment(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $branddeleted = DB::table('departments')->where('id', $id)->delete();
         //$companydeleted = DB::table('companies')->where('id', $id)->delete();
@@ -6183,14 +6650,29 @@ class BasicController extends Controller
     function departmentusers(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $brand = Brand::all();
         $employees = Employee::whereNotIn('position', ['Owner', 'Admin', 'VP', 'Brand Owner', ''])->get();
         $departdata = Department::where('id', $id)->get();
@@ -6207,14 +6689,29 @@ class BasicController extends Controller
     function createuser(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $brands  = Brand::all();
 
         return view('users', [
@@ -6228,14 +6725,29 @@ class BasicController extends Controller
     function edituser(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $employee = Employee::where('id', $id)->get();
 
         return view("edituser", [
@@ -6269,14 +6781,29 @@ class BasicController extends Controller
     function deleteuser(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $branddeleted = DB::table('employees')->where('id', $id)->delete();
         //$companydeleted = DB::table('companies')->where('id', $id)->delete();
@@ -6287,14 +6814,29 @@ class BasicController extends Controller
     function userlist(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $employees  = Employee::get();
 
         return view('userlists', [
@@ -6550,14 +7092,29 @@ class BasicController extends Controller
     function csv_client(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $brand = Brand::get();
         $employee = Employee::get();
         return view('client_CSV', [
@@ -6743,14 +7300,29 @@ class BasicController extends Controller
     function csv_project(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('projectUpload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -6876,13 +7448,7 @@ class BasicController extends Controller
                 return redirect('/unauthorized');
             }
         }
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+
         $brand = Brand::all();
         $projectManager = Employee::get();
         $department = Department::get();
@@ -7039,14 +7605,29 @@ class BasicController extends Controller
     function editClientmeta(Request $request, $id, $domain)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $clientid = $id;
         $domains = $domain;
         $productionservice = ProductionServices::get();
@@ -7233,14 +7814,29 @@ class BasicController extends Controller
     function clientProject(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $findclient = Client::get();
         $employee = Employee::get();
         $user_id = 2;
@@ -7257,14 +7853,29 @@ class BasicController extends Controller
     function assgnedclientProject(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $findclient = QaPersonClientAssign::where('user', $loginUser[1][0]->id)->get();
         $employee = Employee::get();
         $user_id = 1;
@@ -7296,14 +7907,29 @@ class BasicController extends Controller
     function clientProject_prefilled(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $findclient = Client::Where('id', $id)->get();
         $employee = Employee::get();
         $user_id = 2;
@@ -7320,14 +7946,29 @@ class BasicController extends Controller
     function Project_production(Request $request, string $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $production = ProjectProduction::where('projectID', $id)->get();
         $productionservices = ProductionServices::get();
 
@@ -7368,14 +8009,29 @@ class BasicController extends Controller
     function ProjectProduction_users(Request $request, string $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $project = Project::where('productionID', $id)->get();
         $projectProduction = ProjectProduction::where('projectID', $id)->get();
 
@@ -7392,14 +8048,29 @@ class BasicController extends Controller
     function editproject(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $findproject = Project::Where('id', $id)->get();
         $findclient = Client::get();
         $employee = Employee::get();
@@ -7431,14 +8102,29 @@ class BasicController extends Controller
     function deleteproject(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $project = Project::where('id', $id)->get();
         $projectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
@@ -7453,14 +8139,29 @@ class BasicController extends Controller
     function Edit_Project_production(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $projectProduction = ProjectProduction::where('id', $id)->get();
         $department = Department::get();
         $employee = Employee::get();
@@ -7495,14 +8196,29 @@ class BasicController extends Controller
     function deleteproduction(Request $request,$id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $production_id = ProjectProduction::where('id', $id)->get();
         $deletedproduction = DB::table('project_productions')->where('id', $id)->delete();
@@ -7753,14 +8469,29 @@ class BasicController extends Controller
     function allclients(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $findclient = Client::get();
         $user_id = 0;
         return view('allclients', [
@@ -7775,14 +8506,29 @@ class BasicController extends Controller
     function monthClient(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $findclient = Client::whereMonth('created_at', now())->get();
         $user_id = count($findclient);
         return view('currentMonth_Client', [
@@ -7797,14 +8543,29 @@ class BasicController extends Controller
     function assignedclients(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $findclient = QaPersonClientAssign::where('user', $loginUser[1][0]->id)->get();
         $user_id = 1;
         return view('allclients', [
@@ -7819,14 +8580,29 @@ class BasicController extends Controller
     function addPayment(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $brand = Brand::get();
         $department = Department::get();
         $employee = Employee::get();
@@ -7863,14 +8639,29 @@ class BasicController extends Controller
     {
 
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $findemployee = Employee::get();
         $brand = Brand::get();
         return view('newclientpayment', [
@@ -8193,14 +8984,29 @@ class BasicController extends Controller
     function payment(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $findproject = Project::where('id', $id)->get();
         $brand = Brand::get();
         $findclientofproject = Client::where('id', $findproject[0]->clientID)->get();
@@ -9159,14 +9965,29 @@ class BasicController extends Controller
     function payment_Refund(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $project = Project::where('id', $id)->get();
         $client = Client::where('id', $project[0]->clientID)->get();
         $client_payment = NewPaymentsClients::where('ClientID', $project[0]->clientID)
@@ -9362,14 +10183,29 @@ class BasicController extends Controller
     function payment_RefundEdit(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $client_payment = NewPaymentsClients::where('id', $id)->get();
         $refundpayment = RefundPayments::where('PaymentID', $id)->get();
         $employee  = Employee::get();
@@ -9483,14 +10319,29 @@ class BasicController extends Controller
     function payment_Dispute(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $client_payment = NewPaymentsClients::where('id', $id)->get();
         $related_payment = NewPaymentsClients::where('ClientID', $client_payment[0]->ClientID)->where('ProjectID', $client_payment[0]->ProjectID)->where('id', '!=', $id)->where('transactionType', $client_payment[0]->transactionType)->get();
         $remaining_payment = NewPaymentsClients::where('ClientID', $client_payment[0]->ClientID)->where('ProjectID', $client_payment[0]->ProjectID)->where('id', '!=', $id)->where('remainingID', $client_payment[0]->remainingID)->get();
@@ -9540,14 +10391,29 @@ class BasicController extends Controller
     function payment_Edit_Dispute(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $client_payment = Disputedpayments::where('id', $id)->get();
         $employee  = Employee::get();
         return view('Editpayment_Dispute', [
@@ -9590,14 +10456,29 @@ class BasicController extends Controller
     function all_disputes(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $client_payment = Disputedpayments::get();
 
         return view('all_disputes', [
@@ -9613,14 +10494,29 @@ class BasicController extends Controller
     function payment_Dispute_lost(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $dispute = Disputedpayments::where('id', $id)->get();
         $projects = Project::get();
         $referencepayment = NewPaymentsClients::where('remainingStatus', '!=', 'Unlinked Payments')->get();
@@ -9779,14 +10675,29 @@ class BasicController extends Controller
     function payment_Dispute_won(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $dispute = Disputedpayments::where('id', $id)->get();
         $projects = Project::get();
         $referencepayment = NewPaymentsClients::where('remainingStatus', '!=', 'Unlinked Payments')->get();
@@ -9917,14 +10828,29 @@ class BasicController extends Controller
     function projectpayment_view_dispute($id, Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         // $dispute = Disputedpayments::where('id', $id)->get();
         // echo("<pre>");
         // print_r($dispute);
@@ -9941,14 +10867,29 @@ class BasicController extends Controller
     function payment_edit_amount(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $brand = Brand::get();
         $editPayment = NewPaymentsClients::where('id', $id)->get();
         $findclientofproject = Client::where('id', $editPayment[0]->ClientID)->get();
@@ -11786,14 +12727,29 @@ class BasicController extends Controller
     function payment_remaining_amount(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $mainPayment = NewPaymentsClients::where('id', $id)->get();
 
         $findproject = Project::where('id', $mainPayment[0]->ProjectID)->get();
@@ -11943,14 +12899,29 @@ class BasicController extends Controller
     {
 
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $mainPayment = NewPaymentsClients::where('id', $id)->get();
         $stripePayment = NewPaymentsClients::where('ClientID', $mainPayment[0]->ClientID)->where('remainingStatus', "Unlinked Payments")->get();
 
@@ -12204,14 +13175,29 @@ class BasicController extends Controller
     {
 
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $getpayment = DB::table('newpaymentsclients')->where('id', $id)->get();
         // echo("<pre>");
@@ -12256,14 +13242,29 @@ class BasicController extends Controller
     function all_payments(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $client_payment = NewPaymentsClients::where('refundStatus', '!=', 'Pending Payment')->get();
 
         return view('allpayments', [
@@ -12276,14 +13277,29 @@ class BasicController extends Controller
     function payment_view(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $client_payment = NewPaymentsClients::where('id', $id)->get();
         return view('payment_view', [
             'client_payment' => $client_payment,
@@ -12295,14 +13311,29 @@ class BasicController extends Controller
     function payment_view1(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $client_payment = NewPaymentsClients::where('id', $id)->get();
         return view('payment_view1', [
             'client_payment' => $client_payment,
@@ -12416,14 +13447,29 @@ class BasicController extends Controller
     function filledqaformIndv(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $qa_form = QAFORM::where('qaPerson', $loginUser[1][0]->id)->get();
         return view('filledqaform', [
             'qa_forms' => $qa_form,
@@ -12436,14 +13482,29 @@ class BasicController extends Controller
     function projectQaReport_view_without_backButton($id, Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $QA_FORM = QAFORM::where('id', $id)->get();
         $QA_META = QAFORM_METAS::where('formid', $QA_FORM[0]->qaformID)->get();
         $Proj_Prod = ProjectProduction::where('id', $QA_FORM[0]->ProjectProductionID)->get();
@@ -12637,16 +13698,6 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
         $checkuser = $loginUser[3];
-        // $currentUrl = request()->path();
-        // print_r($currentUrl);
-        // die();
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
         if ($checkuser !== "Hidden") {
             $all_permitted_route = $loginUser[3];
             $currentUrl = request()->path();
@@ -12695,14 +13746,29 @@ class BasicController extends Controller
     function edit_new_qaform(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $QA_FORM = QAFORM::where('id', $id)->get();
         $QA_META = QAFORM_METAS::where('formid', $QA_FORM[0]->qaformID)->get();
         $Proj_Prod = ProjectProduction::where('id', $QA_FORM[0]->ProjectProductionID)->get();
@@ -12935,14 +14001,29 @@ class BasicController extends Controller
     function new_qaform_delete(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $deleteqaform1 = DB::table('qaform')->where('id', $id)->get();
         $deleteqaformMetas = DB::table('qaform_metas')->where('formid', $deleteqaform1[0]->qaformID)->limit(1)->delete();
         $deleteqaform = DB::table('qaform')->where('id', $id)->delete();
@@ -12963,14 +14044,29 @@ class BasicController extends Controller
     function projectQaReport(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $project = Project::where('id', $id)->get();
         $projectProduction = ProjectProduction::where('projectID', $project[0]->productionID)->get();
         $QA = QAFORM::where('projectID', $id)->get();
@@ -12987,14 +14083,29 @@ class BasicController extends Controller
     function projectQaReport_view($id, Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $QA_FORM = QAFORM::where('id', $id)->get();
         $QA_META = QAFORM_METAS::where('formid', $QA_FORM[0]->qaformID)->get();
         $Proj_Prod = ProjectProduction::where('id', $QA_FORM[0]->ProjectProductionID)->get();
@@ -13011,14 +14122,29 @@ class BasicController extends Controller
     function qa_issues(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $department = Department::get();
         $qa_issues = QaIssues::get();
         return view('qa_issues', [
@@ -13047,14 +14173,29 @@ class BasicController extends Controller
     function delete_qa_issues(Request $request,$id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $deletedproduction = DB::table('qa_issues')->where('id', $id)->delete();
 
@@ -13064,14 +14205,29 @@ class BasicController extends Controller
     function Production_services(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $department = Department::get();
         $statusDepartment = count($department);
         $ProductionServices = ProductionServices::get();
@@ -13099,14 +14255,29 @@ class BasicController extends Controller
     function delete_Production_services(Request $request,$id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         $deletedproduction = DB::table('production_services')->where('id', $id)->delete();
 
@@ -13116,14 +14287,29 @@ class BasicController extends Controller
     function Assign_Client_to_qaperson(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $department = Department::get();
         $statusDepartment = count($department);
         $QaPersonClientAssigns = QaPersonClientAssign::get();
@@ -13158,14 +14344,29 @@ class BasicController extends Controller
     function Edit_Assign_Client_to_qaperson(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $department = Department::get();
         $QaPersonClientAssigns1 = QaPersonClientAssign::where('id', $id)->get();
         $QaPersonClientAssigns = QaPersonClientAssign::get();
@@ -13198,14 +14399,29 @@ class BasicController extends Controller
     function delete_Assign_Client_to_qaperson(Request $request,$id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
 
         $deletedproduction = DB::table('qaperson_client')->where('id', $id)->delete();
@@ -13216,14 +14432,29 @@ class BasicController extends Controller
     function projectreport(Request $request, $id = null)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         //left panel:
         $client = Client::get();
@@ -13384,14 +14615,29 @@ class BasicController extends Controller
     function newprojectreport(Request $request, $id = null)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         //left panel:
         $client = Client::get();
@@ -13476,14 +14722,29 @@ class BasicController extends Controller
     function revenuereport(Request $request, $id = null)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         //left panel:
         $client = Client::get();
         $employee = Employee::get();
@@ -13685,14 +14946,29 @@ class BasicController extends Controller
     {
 
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         //left panel:
         $client = Client::get();
         $employee = Employee::get();
@@ -14009,14 +15285,29 @@ class BasicController extends Controller
     function clientReport(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $client = Client::where('id', $id)->get();
         $project = Project::where('clientID', $id)->get();
         $projectcount = count($project);
@@ -14190,14 +15481,29 @@ class BasicController extends Controller
     function csv_stripepayments(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('paymentUpload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -14547,14 +15853,29 @@ class BasicController extends Controller
     function csv_sheetpayments(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('sheetpaymentUpload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -15448,14 +16769,29 @@ class BasicController extends Controller
     function csv_sheetpaymentsBook(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('sheetpaymentUploadbook', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -16226,14 +17562,29 @@ class BasicController extends Controller
     function csv_sheetpaymentsbitswits(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('sheetpaymentUploadbitswits', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -16567,14 +17918,29 @@ class BasicController extends Controller
     function csv_sheetpaymentsClientFirstSMM(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('sheetpaymentUploadClieckfirstSMM', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -17414,14 +18780,29 @@ class BasicController extends Controller
     function csv_sheetpaymentscreative(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('sheetpaymentUploadCreative', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -18258,14 +19639,29 @@ class BasicController extends Controller
     function csv_sheetpaymentsinfinity(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('sheetpaymentUploadinfinity', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -19914,13 +21310,29 @@ class BasicController extends Controller
     {
 
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         // }
         $notfoundclients = Payments::get();
         return view('sheetsNotfoundClient', [
@@ -19935,14 +21347,29 @@ class BasicController extends Controller
     {
 
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $employees = Employee::get();
         $brand = Brand::get();
         return view('createTeam', [
@@ -19982,14 +21409,29 @@ class BasicController extends Controller
     function salesteam_view(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $salesteam = Salesteam::get();
 
         return view('allSalesTeam', [
@@ -20003,14 +21445,29 @@ class BasicController extends Controller
     function editsalesteam(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $companydata = db::table("salesteam")
             ->where('id', $id)
             ->get();
@@ -20041,14 +21498,29 @@ class BasicController extends Controller
     function deleteSalesteam(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $companydeleted = DB::table('salesteam')->where('id', $id)->delete();
 
         return redirect('/sales/teams');
@@ -20150,14 +21622,29 @@ class BasicController extends Controller
     function unmatchedPaymentsSheet(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $client_payment = NewPaymentsClients::where('refundStatus', '!=', 'Pending Payment')
             ->where('ClientID', 0)
             ->where('refundStatus', '!=', 'Refund')
@@ -20175,14 +21662,29 @@ class BasicController extends Controller
     {
         $clients = Client::get();
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
 
         return view('clientlinkNewEmail', [
             'newemail' => $id,
@@ -20546,14 +22048,29 @@ class BasicController extends Controller
     function csv_ppc(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('ppc_upload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -20606,14 +22123,29 @@ class BasicController extends Controller
     function csv_leads(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         return view('leads_upload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -20666,14 +22198,29 @@ class BasicController extends Controller
     function viewleads(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $allleads = Leads::get();
         return view('allleads', [
             'allleads' => $allleads,
@@ -20686,14 +22233,29 @@ class BasicController extends Controller
     function originalroles(Request $request)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $brands = Brand::get();
         $employees = Employee::get();
         return view('originalRoles', [
@@ -20727,14 +22289,29 @@ class BasicController extends Controller
     function originalrolesedit(Request $request, $id)
     {
         $loginUser = $this->roleExits($request);
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = request()->path();
-        //     if (!in_array($currentUrl, $all_permitted_route)){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         $brands = Brand::get();
         $employees = Employee::get();
         $allleads = BrandSalesRole::where('id', $id)->get();
@@ -20769,6 +22346,29 @@ class BasicController extends Controller
     function originalrolesProcess_View(Request $request)
     {
         $loginUser = $this->roleExits($request);
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = request()->path();
+
+            $patternMatched = false;
+
+            foreach ($all_permitted_route as $routePattern) {
+                // Convert the dynamic route pattern to a regex pattern
+                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
+                $regexPattern = "#^" . $regexPattern . "$#";
+
+                // Check if the current URL matches the regex pattern
+                if (preg_match($regexPattern, $currentUrl)) {
+                    $patternMatched = true;
+                    break;
+                }
+            }
+
+            if (!$patternMatched) {
+                return redirect('/unauthorized');
+            }
+        }
         // $checkuser = $loginUser[3];
         // if ($checkuser !== "Hidden") {
         //     $all_permitted_route = $loginUser[3];
