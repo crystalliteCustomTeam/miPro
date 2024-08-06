@@ -7605,29 +7605,6 @@ class BasicController extends Controller
     function editClientmeta(Request $request, $id, $domain)
     {
         $loginUser = $this->roleExits($request);
-        $checkuser = $loginUser[3];
-        if ($checkuser !== "Hidden") {
-            $all_permitted_route = $loginUser[3];
-            $currentUrl = request()->path();
-
-            $patternMatched = false;
-
-            foreach ($all_permitted_route as $routePattern) {
-                // Convert the dynamic route pattern to a regex pattern
-                $regexPattern = str_replace(['{id}'], ['\d+'], $routePattern);
-                $regexPattern = "#^" . $regexPattern . "$#";
-
-                // Check if the current URL matches the regex pattern
-                if (preg_match($regexPattern, $currentUrl)) {
-                    $patternMatched = true;
-                    break;
-                }
-            }
-
-            if (!$patternMatched) {
-                return redirect('/unauthorized');
-            }
-        }
         $clientid = $id;
         $domains = $domain;
         $productionservice = ProductionServices::get();
