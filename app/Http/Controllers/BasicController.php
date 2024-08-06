@@ -7906,7 +7906,7 @@ class BasicController extends Controller
         //         return redirect('/unauthorized');
         //     }
         // }
-        // $findclient = Client::Where('id', $id)->get();
+        $findclient = Client::Where('id', $id)->get();
         $employee = Employee::get();
         $user_id = 2;
         return view('project', [
