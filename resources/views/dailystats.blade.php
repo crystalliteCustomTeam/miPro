@@ -193,13 +193,13 @@
                         <table id="" class="table-dark table-hover">
                             <thead>
                                 <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Upsell</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Remaining</th>
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 253px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 193px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 193px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 193px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Upsell</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 193px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Remaining</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Renewal/Recurring</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FF9933; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Total</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 193px; background-color: #FF9933; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Total</th>
                                 </tr>
                             </thead>
                             <tbody id="brandtodaypayment">
@@ -214,13 +214,13 @@
                                 @foreach ($branddata as $item)
                                     @if ($item['front'] != 0 || $item['back'] != 0)
                                         <tr>
-                                            <td  style="width: 203px; background-color: white; color: black; font-weight: bold; border-top: none; border-right: none; border-left: 1px solid white; border-bottom: 1px dotted #4169E1; text-align: center;">{{$item['name']}}</td>
-                                            <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['front'] != 0) ${{$item['front']}} @endif</td>
-                                            <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['back'] != 0) ${{$item['back']}} @endif</td>
-                                            <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['brandupsell'] != 0) ${{$item['brandupsell']}} @endif</td>
-                                            <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['brandremaining'] != 0) ${{$item['brandremaining']}} @endif</td>
+                                            <td  style="width: 253px; background-color: white; color: black; font-weight: bold; border-top: none; border-right: none; border-left: 1px solid white; border-bottom: 1px dotted #4169E1; text-align: left;">{{$item['name']}}</td>
+                                            <td  style="width: 193px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['front'] != 0) ${{$item['front']}} @endif</td>
+                                            <td  style="width: 193px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['back'] != 0) ${{$item['back']}} @endif</td>
+                                            <td  style="width: 193px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['brandupsell'] != 0) ${{$item['brandupsell']}} @endif</td>
+                                            <td  style="width: 193px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['brandremaining'] != 0) ${{$item['brandremaining']}} @endif</td>
                                             <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['sumofallrenewals'] != 0) ${{$item['sumofallrenewals']}} @endif</td>
-                                            <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['all'] != 0) ${{$item['all']}} @endif</td>
+                                            <td  style="width: 193px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #4169E1; text-align: center;">@if($item['all'] != 0) ${{$item['all']}} @endif</td>
                                         </tr>
                                     @endif
                                     @php
@@ -259,9 +259,9 @@
                         <table id="" class="table-dark table-hover">
                             <thead>
                                 <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: #B0C4DE; color: black; font-weight: bold; border: 1px solid white; text-align: center;"  aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Revenue</th>
-                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Total</th>
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 243px; background-color: #B0C4DE; color: black; font-weight: bold; border: 1px solid white; text-align: center;"  aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 183px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Revenue</th>
+                                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 183px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Total</th>
                                 </tr>
                             </thead>
                             <tbody id="empdailypayment">
@@ -271,9 +271,9 @@
                                 @foreach ($employees as $item1)
                                     @if ($item1['allrevenue'] != 0 )
                                         <tr>
-                                            <td  style="width: 203px; background-color: white; color: black; font-weight: bold; border-top: none; border-right: none; border-left: 1px solid white; border-bottom: 1px dotted #FF9933; text-align: center;">{{$item1['name']}}</td>
-                                            <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #FF9933; text-align: center;">@if($item1['allrevenue'] != 0) ${{$item1['allrevenue']}} @endif</td>
-                                            <td  style="width: 203px; background-color: white; color: black; border-top: none; border-right: 1px solid white; border-left: 1px solid white; border-bottom: 1px dotted #FF9933; text-align: center;">@if($item1['allrevenue'] != 0) ${{$item1['allrevenue']}} @endif</td>
+                                            <td  style="width: 243px; background-color: white; color: black; font-weight: bold; border-top: none; border-right: none; border-left: 1px solid white; border-bottom: 1px dotted #FF9933; text-align: left;">{{$item1['name']}}</td>
+                                            <td  style="width: 183px; background-color: white; color: black; border-top: none; border-right: none; border-left: none; border-bottom: 1px dotted #FF9933; text-align: center;">@if($item1['allrevenue'] != 0) ${{$item1['allrevenue']}} @endif</td>
+                                            <td  style="width: 183px; background-color: white; color: black; border-top: none; border-right: 1px solid white; border-left: 1px solid white; border-bottom: 1px dotted #FF9933; text-align: center;">@if($item1['allrevenue'] != 0) ${{$item1['allrevenue']}} @endif</td>
                                         </tr>
                                     @endif
                                     @php

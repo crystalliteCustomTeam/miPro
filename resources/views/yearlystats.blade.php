@@ -426,7 +426,7 @@
 
                                                             @foreach ($months as $monthIndex => $monthName)
                                                                 <tr>
-                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: left;">
                                                                         {{$monthName}}
                                                                     </td>
                                                                     @foreach ($yearsData as $yearIndex => $yearData)
@@ -567,7 +567,7 @@
 
                                                             @foreach ($months as $monthIndex => $monthName)
                                                                 <tr>
-                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: left;">
                                                                         {{$monthName}}
                                                                     </td>
                                                                     @foreach ($yearsData as $yearIndex => $yearData)
@@ -691,7 +691,7 @@
 
                                                             @foreach ($months as $monthIndex => $monthName)
                                                                 <tr>
-                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: left;">
                                                                         {{$monthName}}
                                                                     </td>
                                                                     @foreach ($yearsData as $yearIndex => $yearData)
@@ -815,7 +815,7 @@
 
                                                             @foreach ($months as $monthIndex => $monthName)
                                                                 <tr>
-                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: center;">
+                                                                    <td style="width: 160px; background-color: #C0C0C0; color: black; font-weight: bold; border-left: none; border-right: none; border-top: 1px solid white; border-bottom: 1px solid white; text-align: left;">
                                                                         {{$monthName}}
                                                                     </td>
                                                                     @foreach ($yearsData as $yearIndex => $yearData)

@@ -160,7 +160,7 @@
                             <table id="" class="table-dark table-hover">
                                 <thead>
                                     <tr role="row">
-                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
+                                        <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 253px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
                                         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #66B2FF; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
@@ -206,7 +206,7 @@
                         <table id="" class="table-dark table-hover">
                             <thead>
                                 <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold; text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 253px; background-color: black; color: white; font-weight: bold; text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Target</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Revenue</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;" aria-label="Last name: activate to sort column ascending">Front</th>
@@ -260,7 +260,7 @@
                                 <table id="" class="table-dark table-hover">
                                     <thead>
                                         <tr role="row">
-                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
+                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 253px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Brand</th>
                                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Front</th>
                                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Back</th>
                                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #FFCCCC; color: black; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Upsell</th>
@@ -295,7 +295,7 @@
                                 <table id="" class="table-dark table-hover">
                                     <thead>
                                         <tr role="row">
-                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: #B0C4DE; color: black; font-weight: bold; border: 1px solid white; text-align: center;"  aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
+                                            <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 253px; background-color: #B0C4DE; color: black; font-weight: bold; border: 1px solid white; text-align: center;"  aria-sort="ascending" aria-label="First name: activate to sort column descending">Agents Name</th>
                                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: #4169E1; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Revenue</th>
                                             <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"  style="width: 203px; background-color: #5F9B6B; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Total</th>
                                         </tr>
@@ -492,7 +492,7 @@
                             <table id="" class=" ">
                                 <thead>
                                   <tr role="row">
-                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending" style=" background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;">Team</th>
+                                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending" style="width: 253px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;">Team</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;" aria-label="Last name: activate to sort column ascending">Target</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Front</th>
                                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 203px; background-color: #808080; color: white; font-weight: bold; border: 1px solid white; text-align: center;"  aria-label="Last name: activate to sort column ascending">Back</th>
@@ -512,7 +512,7 @@
                                     @endphp
                                     {{-- <tr role="row" class="table-danger"> --}}
                                     <tr role="row">
-                                        <td tabindex="0" class="sorting_1" style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">{{$mainsalesTeams['leadID']}}</td>
+                                        <td tabindex="0" class="sorting_1" style="width: 253px; background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: left;">{{$mainsalesTeams['leadID']}}</td>
                                         <td style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['leadtarget']}}</td>
                                         <td style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['leadfront']}}</td>
                                         <td style="background-color: #A9A9A9; color: white; border-left: none; border-right: none; border-top: 7px solid white; border-bottom: none; text-align: center;">${{$mainsalesTeams['leadback']}}</td>
@@ -536,7 +536,7 @@
 
                                     @foreach($member  as $dm)
                                     <tr role="row" >
-                                        <td tabindex="0" class="sorting_1" style=" background-color: #E0E0E0; color: black; text-align: center;">{{$dm['memberID']}}</td>
+                                        <td tabindex="0" class="sorting_1" style="width: 253px; background-color: #E0E0E0; color: black; text-align: left;">{{$dm['memberID']}}</td>
                                         <td style=" background-color: #E0E0E0; color: black; border-left: none ; border-right: none; border-top: none; border-bottom: 3px dotted white;  text-align: center;">${{$dm['membertarget']}}</td>
                                         <td style=" background-color: #E0E0E0; color: black; border-left: none ; border-right: none; border-top: none; border-bottom: 3px dotted white; text-align: center;">${{$dm['memberfront']}}</td>
                                         <td style=" background-color: #E0E0E0; color: black; border-left: none ; border-right: none; border-top: none; border-bottom: 3px dotted white; text-align: center;">${{$dm['memberback']}}</td>
@@ -630,7 +630,8 @@
                                         brandname.style.fontWeight = 'bold';
                                         brandname.style.color = 'black';
                                         brandname.style.border = '1px solid #B8860B';
-                                        brandname.style.textAlign = 'center';
+                                        brandname.style.textAlign = 'left';
+                                        brandname.style.width = '253px';
                                         rowbrand.appendChild(brandname);
 
                                         let brandtarget = document.createElement('td');
@@ -860,7 +861,7 @@
                                         let headerRow = document.createElement('tr');
 
                                         let headers = [
-                                            { text: 'Agents Name', style: 'width: 203px; background-color: black; color: white; font-weight: bold; text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
+                                            { text: 'Agents Name', style: 'width: 253px; background-color: black; color: white; font-weight: bold; text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
                                             { text: 'Target', style: 'width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
                                             { text: 'Revenue', style: 'width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
                                             { text: 'Front', style: 'width: 203px; background-color: black; color: white; font-weight: bold;  text-align: center; border-top: none; border-right: none; border-left: none; border-bottom: 3px double white;' },
@@ -903,7 +904,9 @@
                                             agentname.style.borderRight = 'none';
                                             agentname.style.borderLeft = 'none';
                                             agentname.style.borderBottom = '1px dotted white';
-                                            agentname.style.textAlign = 'center';
+                                            agentname.style.textAlign = 'left';
+                                            agentname.style.width = '253px';
+
                                             row.appendChild(agentname);
 
                                             let target = document.createElement('td');
@@ -1604,7 +1607,8 @@
                                     brandname.style.borderRight = 'none';
                                     brandname.style.borderLeft = '1px solid white';
                                     brandname.style.borderBottom = '1px dotted #4169E1';
-                                    brandname.style.textAlign = 'center';
+                                    brandname.style.textAlign = 'left';
+                                    brandname.style.width = '253px';
                                     row1.appendChild(brandname);
 
                                     // // Create and append today's front payment cell
@@ -1767,7 +1771,9 @@
                                     empname.style.borderRight = 'none';
                                     empname.style.borderLeft = '1px solid white';
                                     empname.style.borderBottom = '1px dotted #FF9933';
-                                    empname.style.textAlign = 'center';
+                                    empname.style.textAlign = 'left';
+                                    empname.style.width = '253px';
+
                                     row2.appendChild(empname);
 
                                     let emptoday = document.createElement('td');
