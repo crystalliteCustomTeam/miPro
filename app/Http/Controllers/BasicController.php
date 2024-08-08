@@ -450,7 +450,7 @@ class BasicController extends Controller
         $depart = Department::count();
         if ($depart > 0) {
             $loginUser = $this->roleExits($request);
-            if ($loginUser[2] == 0) {
+            if ($loginUser[2] == 0 || $loginUser[0][0]->access == 0) {
                 $brand = Brand::get();
                 $eachbranddata = [];
                 foreach ($brand as $brands) {
