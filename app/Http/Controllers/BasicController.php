@@ -435,6 +435,9 @@ class BasicController extends Controller
             $superUser = 1;
             $userID = $loginUser[0]->id;
             $departmentAccess = Department::whereJsonContains('users', "$userID")->get();
+            // echo("<pre>");
+            // print_r( $userID);
+            // die();
             $getroutes = RoutesRoles::select("name")->whereJsonContains('Role',$departmentAccess[0]->access)->get();
             $routeArray = $getroutes->pluck('name')->toArray();
         }
@@ -5040,7 +5043,7 @@ class BasicController extends Controller
             return redirect()->back()->with("Error", "Department Already Found !");
         } else {
 
-            $results  = explode(",", $request->input('Employeesdd'));
+            $results  = explode(",",$request->input('Employeesdd'));
 
             $department = Department::insertGetId([
                 "name" => $departmentName,
@@ -5081,7 +5084,7 @@ class BasicController extends Controller
     function addusersIndepart(Request $request, $id)
     {
 
-        $results  = explode(",", $request->input('Employeesdd'));
+        $results  = explode(",",$request->input('Employeesdd'));
 
         $department = Department::where('id', $id)->update([
             "users" => json_encode($results),

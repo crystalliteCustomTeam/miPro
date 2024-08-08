@@ -36,7 +36,7 @@
                   <label for="">Department Manager</label>
                   <select class="form-control select2" name="manager">
                     @foreach($employees as $employee)
-                      <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                      <option value="{{$employee->id}}">{{ $employee->name }}</option>
                     @endforeach
                   </select>
               </div>
@@ -159,7 +159,7 @@
                         }
                     }
 
-                    document.getElementById("Employeesdd").value = selectedEmployees.join(', ');
+                    document.getElementById("Employeesdd").value = selectedEmployees.join(',');
                     console.log('Selected Employees:', selectedEmployees);
                     displayArray();
                 }
