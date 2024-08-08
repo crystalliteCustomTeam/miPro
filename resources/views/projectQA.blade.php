@@ -49,7 +49,13 @@
                     <tbody>
                       @foreach($qafroms as $qafrom)
                       <tr>
-                        <td>{{ $qafrom->GETDEPARTMENT->DepartNameinProjectProduction->name }}</td>
+                        <td>
+                            @if (isset($qafrom->GETDEPARTMENT->DepartNameinProjectProduction->name) and $qafrom->GETDEPARTMENT->DepartNameinProjectProduction->name !== null)
+                            {{ $qafrom->GETDEPARTMENT->DepartNameinProjectProduction->name }}
+                            @else
+                            <p style="color: red">Depart Deleted</p>
+                            @endif
+                        </td>
                         @if (isset($qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name) and $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name !== null)
                         <td>{{ $qafrom->GETDEPARTMENT->EmployeeNameinProjectProduction->name }}</td>
                         @else

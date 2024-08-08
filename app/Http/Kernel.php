@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'authCheck' =>  \App\Http\Middleware\AuthChecker::class,
         'authCheckStaff' =>  \App\Http\Middleware\AuthStaffChecker::class,
         'GuestUser' =>  \App\Http\Middleware\GuestUser::class,
+        'authorization' =>  \App\Http\Middleware\Authorization::class,
     ];
 }

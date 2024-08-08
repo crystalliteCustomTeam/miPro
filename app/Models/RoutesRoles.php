@@ -12,6 +12,7 @@ class RoutesRoles extends Model
     use HasFactory;
     protected $table = 'routes_roles';
     protected $fillable = [
+        "name",
         "Route",
         "Method",
         "function",

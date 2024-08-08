@@ -31,7 +31,8 @@
             <table id="datatable1" class="table-dark table-hover">
                 <thead>
                   <tr role="row">
-                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 150px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Route</th>
+                    <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 150px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">Name</th>
+                    <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 250px;" aria-label="Last name: activate to sort column ascending">Route</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 250px;" aria-label="Last name: activate to sort column ascending">Roles</th>
                     <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 250px;" aria-label="Last name: activate to sort column ascending">Action</th>
                   </tr>
@@ -41,7 +42,8 @@
 
                         @foreach($routesall as $routesalls)
                         <tr role="row" class="odd">
-                        <td tabindex="0" class="sorting_1">{{ $routesalls->Route  }}</td>
+                        <td tabindex="0" class="sorting_1">{{ $routesalls->name  }}</td>
+                        <td >{{ $routesalls->Route  }}</td>
                         @if ($routesalls->Role != null)
                             @php
                             $a = json_decode($routesalls->Role);

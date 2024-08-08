@@ -40,7 +40,8 @@
                     @csrf
                     <div class="row">
                         <div class="col-12">
-                        <button class="btn btn-outline-primary">Client Name: {{$item->Route }}</button>
+                        <button class="btn btn-outline-primary">Name: {{$item->name }}</button>
+                        <button class="btn btn-outline-primary">Route: {{$item->Route }}</button>
                         </div>
 
                         <div class="col-12">

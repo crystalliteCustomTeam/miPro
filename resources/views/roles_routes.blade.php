@@ -54,7 +54,7 @@
               <div class="col-12 mt-4">
                 <table id="datatable1">
                   <thead>
-                    <th>Method</th>
+                    <th>Name</th>
                     <th>URL</th>
                     <th>Action</th>
                     {{-- <th>Check</th> --}}
@@ -63,7 +63,7 @@
                     @foreach($allroutes as $route)
                     @if ($route->Method == "GET")
                         <tr>
-                        <td>{{ $route->Method }}</td>
+                        <td>{{ $route->name }}</td>
                         <td>{{ $route->Route }}</td>
                         {{-- <td>{{ $route->getActionName() }}</td> --}}
                         <td><input type="checkbox" name="selectedEmployees[]"  value="{{ $route->Route }}" class="employee-checkbox"></td>
