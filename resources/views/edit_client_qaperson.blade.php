@@ -86,7 +86,11 @@
                 @foreach ($QaPersonClientAssigns as $QaPersonClientAssign)
                   <tr>
                     <td>{{ $QaPersonClientAssign->id }}</td>
+                    @if (isset($QaPersonClientAssign->Username->name) and $QaPersonClientAssign->Username->name != null)
                     <td>{{ $QaPersonClientAssign->Username->name  }}</td>
+                    @else
+                    <td><label style="color: red">Undefined</label></td>
+                    @endif
                     <td>{{ $QaPersonClientAssign->clientname->name  }}</td>
                     <td>
                         <div class="btn-group">
