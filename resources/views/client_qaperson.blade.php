@@ -99,7 +99,12 @@
                 @foreach ($QaPersonClientAssigns as $QaPersonClientAssign)
                   <tr role="row" class="odd">
                     <td>{{ $QaPersonClientAssign->id }}</td>
+                    @if (isset($QaPersonClientAssign->Username->name) and $QaPersonClientAssign->Username->name != null)
                     <td>{{ $QaPersonClientAssign->Username->name  }}</td>
+                    @else
+                    <td><label style="color: red">Undefined</label></td>
+                    @endif
+
                     <td>{{ $QaPersonClientAssign->clientname->name  }}</td>
                     <td>{{ $QaPersonClientAssign->clientname->projectbrand->name  }}</td>
                     <td>
