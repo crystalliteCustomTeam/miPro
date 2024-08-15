@@ -5423,12 +5423,14 @@ class BasicController extends Controller
 
         $firstemails = $request->input('email');
         $findclient = 0;
+        $findclient1 = 0;
 
         foreach ($firstemails as $email) {
+            $findclient1 += Client::where('email', $email)->count();
             $findclient += Clientmeta::whereJsonContains('otheremail', $email)->count();
         }
 
-        if ($findclient > 0) {
+        if ($findclient > 0 || $findclient1 > 0) {
             return redirect()->back()->with('Error', 'Client Email Found. Please use a new email.');
         }
 
@@ -6845,12 +6847,14 @@ class BasicController extends Controller
 
         $firstemails = $request->input('email');
         $findclient = 0;
+        $findclient1 = 0;
 
         foreach ($firstemails as $email) {
+            $findclient1 += Client::where('email', $email)->count();
             $findclient += Clientmeta::whereJsonContains('otheremail', $email)->count();
         }
 
-        if ($findclient > 0) {
+        if ($findclient > 0 || $findclient1 > 0 ) {
             return redirect()->back()->with('Error', 'Client Email Found. Please use a new email.');
         }
 
