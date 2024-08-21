@@ -4511,7 +4511,7 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-                $checkuser = $loginUser[3];
+        $checkuser = $loginUser[3];
        if ($checkuser !== "Hidden") {
             $all_permitted_route = $loginUser[3];
             $currentUrl = Route::currentRouteName();
@@ -6596,6 +6596,7 @@ class BasicController extends Controller
         $clienttotalwithoutRefund = NewPaymentsClients::where('ClientID', $clientID)
             ->where('refundStatus', 'On Going')
             ->where('paymentNature', '!=', 'Remaining')
+            ->where('paymentNature', '!=', 'FSRemaining')
             ->where('remainingStatus', '!=', 'Unlinked Payments')
             ->where('refundID', null)
             ->where('dispute', null)
@@ -6631,8 +6632,14 @@ class BasicController extends Controller
             }
         }
 
+        $remainigamtofDispute = NewPaymentsClients::where('ClientID', $clientID)
+        ->where('refundStatus', 'On Going')
+        ->where('remainingStatus', '!=', 'Unlinked Payments')
+        ->where('dispute','!=', null)
+        ->SUM('RemainingAmount');
+
         $total = $clienttotalwithoutRefund + $totalSum;
-        $clientRemaining = $total - $clientPaid;
+        $clientRemaining = $total - $clientPaid - $remainigamtofDispute;
 
         $unlinkedpayment = NewPaymentsClients::where('ClientID', $clientID)
             ->where('remainingStatus', 'Unlinked Payments')
@@ -8191,6 +8198,15 @@ class BasicController extends Controller
     }
     function payment_Refund_Process(Request $request)
     {
+        $loginUser = $this->roleExits($request);
+
+        if ($loginUser[2] == 0) {
+            $userid = 0;
+        } else {
+            $qaPerson = $request->session()->get('AdminUser');
+            $userid = $qaPerson[0]->id;
+        }
+
         $referencepayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->get();
         $originalpayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->update([
             "refundID" => $request->input('refundID')
@@ -8232,7 +8248,8 @@ class BasicController extends Controller
             "remainingStatus" => 0,
             "transactionType" =>  $referencepayment[0]->transactionType,
             "transactionfee" => $request->input('transactionfee'),
-            "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
+            "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee'),
+            "qaperson" => $userid
 
         ]);
 

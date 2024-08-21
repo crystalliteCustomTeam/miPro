@@ -63,17 +63,35 @@
                             </td>
                             <td>
                                 @if ( $item->paymentNature == "New Lead" || $item->paymentNature == "New Sale" || $item->paymentNature == "Upsell" )
-                                    <div class="alert alert-success">
-                                        {{$item->paymentNature}}
-                                    </div>
+                                    @if ( $item->refundStatus == "Refund" ||  $item->refundStatus == "Refunded" )
+                                        <div class="alert alert-danger">
+                                            {{$item->paymentNature}}
+                                        </div>
+                                    @else
+                                        <div class="alert alert-success">
+                                            {{$item->paymentNature}}
+                                        </div>
+                                    @endif
                                 @elseif ( $item->paymentNature == "Renewal Payment" || $item->paymentNature == "Recurring Payment" )
-                                    <div class="alert alert-info ">
-                                        {{$item->paymentNature}}
-                                    </div>
+                                    @if ( $item->refundStatus == "Refund" ||  $item->refundStatus == "Refunded" )
+                                        <div class="alert alert-danger">
+                                            {{$item->paymentNature}}
+                                        </div>
+                                    @else
+                                        <div class="alert alert-info">
+                                            {{$item->paymentNature}}
+                                        </div>
+                                    @endif
                                 @elseif ( $item->paymentNature == "Small Payment" || $item->paymentNature == "One Time Payment" )
-                                    <div class="alert alert-primary">
-                                        {{$item->paymentNature}}
-                                    </div>
+                                    @if ( $item->refundStatus == "Refund" ||  $item->refundStatus == "Refunded" )
+                                        <div class="alert alert-danger">
+                                            {{$item->paymentNature}}
+                                        </div>
+                                    @else
+                                        <div class="alert alert-primary">
+                                            {{$item->paymentNature}}
+                                        </div>
+                                    @endif
                                 @elseif( $item->paymentNature == "Dispute Won")
                                     <div class="alert alert-warning">
                                         {{$item->paymentNature}}
@@ -83,7 +101,15 @@
                                         {{$item->paymentNature}}
                                     </div>
                                 @else
-                                {{$item->paymentNature}}
+                                    @if ( $item->refundStatus == "Refund" ||  $item->refundStatus == "Refunded" )
+                                    <div class="alert alert-danger">
+                                        {{$item->paymentNature}}
+                                    </div>
+                                @else
+                                    <div class="alert alert-secondary">
+                                        {{$item->paymentNature}}
+                                    </div>
+                                @endif
                                 @endif
                             </td>
                             <td>{{$item->paymentDate}}</td>
