@@ -15,9 +15,9 @@
             <div class="br-pagebody">
                 <!-- hidden on purpose using d-none class to have a different look with the original -->
                 <!-- feel free to unhide by removing the d-none class below -->
-{{-- @if ($superUser == 0 || $departmentAccess[0]->access == 0 )  --}}
-@if ($superUser == 0 )
-@elseif ($superUser != 0 & $departmentAccess[0]->access == 0 )
+@if ($superUser == 0 || $departmentAccess[0]->access == 0 )
+{{-- @if ($superUser == 0 ) --}}
+{{-- @elseif ($superUser != 0 & $departmentAccess[0]->access == 0 ) --}}
                 <div class="row row-sm mg-b-20 d-none">
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-info rounded overflow-hidden">
