@@ -42,7 +42,7 @@
                     <label for=""style="font-weight:bold;">Phone Number:</label>
 
                     @if ($theme == 1)
-                    <input type="text" required name="phone" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                    <input type="text" required name="phone" class="form-control-dark wd-400" placeholder="  Enter number" required style="height: 50px;">
                     @else
                     <input type="text" required name="phone" class="form-control">
                     @endif
@@ -76,7 +76,7 @@
                             var addButton = $('.add_button'); //Add button selector
                             var wrapper = $('.field_wrapper'); //Input field wrapper
                             var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
-                            var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter another email" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
                             var x = 1; //Initial field counter is 1
 
                             // Once add button is clicked
@@ -148,7 +148,7 @@
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   @if ($theme == 1)
-                  <input type="text" required name="website"  class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                  <input type="text" required name="website"  class="form-control-dark wd-400" placeholder="  Enter Website" required style="height: 50px;">
                   @else
                   <input type="text" required name="website"  class="form-control">
                   @endif
@@ -157,7 +157,7 @@
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package Name</label>
                     @if ($theme == 1)
-                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="package" required>
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter package" style="height: 50px;" name="package" required>
                     @else
                     <input type="text" class="form-control" name="package" required>
                     @endif
@@ -166,7 +166,7 @@
                     <label for="" style="font-weight:bold;">Keyword Count</label>
 
                     @if ($theme == 1)
-                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" name="KeywordCount" required style="height: 50px;">
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter count" name="KeywordCount" required style="height: 50px;">
                     @else
                     <input type="text" class="form-control" name="KeywordCount" required>
                     @endif
@@ -184,7 +184,7 @@
                     <label for="" style="font-weight:bold;">Please specify:</label>
 
                     @if ($theme == 1)
-                    <input type="text" id="other" name="TargetMarket[]" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                    <input type="text" id="other" name="TargetMarket[]" class="form-control-dark wd-400" placeholder="  Enter" required style="height: 50px;">
                     @else
                     <input type="text" id="other" name="TargetMarket[]" class="form-control">
                     @endif
@@ -241,7 +241,7 @@
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Project Amount</label>
                     @if ($theme == 1)
-                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;">
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Amount" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;">
                     @else
                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
                     @endif
@@ -249,7 +249,7 @@
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
                     @if ($theme == 1)
-                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required style="height: 50px;">
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Amount" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required style="height: 50px;">
                     @else
                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
                     @endif
@@ -285,7 +285,7 @@
                   <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Anymore commitments?</label><br>
                     @if ($theme == 1)
-                    <textarea required name="anycommitment" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                    <textarea required name="anycommitment" class="form-control-dark wd-1000" id="" cols="30" rows="10" placeholder="  Any comment"></textarea>
                     @else
                     <textarea required name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
                     @endif

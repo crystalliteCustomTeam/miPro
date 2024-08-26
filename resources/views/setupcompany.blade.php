@@ -36,7 +36,7 @@
                 <div class="col-3">
                     <label for="">Website URL</label><br>
                     @if ($theme == 1)
-                    <input type="url" name="website" class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter Wbsite" required>
+                    <input type="url" name="website" class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter Website" required>
                     @else
                     <input type="url" name="website" class="form-control" required>
                     @endif

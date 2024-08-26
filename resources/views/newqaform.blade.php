@@ -208,14 +208,14 @@
                                 @if ( $errors->all() != null)
 
                                     @if ($theme == 1)
-                                    <textarea  name="Description_of_issue" class="form-control-dark wd-600" id="" cols="30" rows="10">{{old('Description_of_issue')}}</textarea>
+                                    <textarea  name="Description_of_issue" placeholder="  any comment" class="form-control-dark wd-600" id="" cols="30" rows="10">{{old('Description_of_issue')}}</textarea>
                                     @else
                                     <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10">{{old('Description_of_issue')}}</textarea>
                                     @endif
                                 @else
 
                                     @if ($theme == 1)
-                                    <textarea  name="Description_of_issue" class="form-control-dark wd-600" id="" cols="30" rows="10"></textarea>
+                                    <textarea  name="Description_of_issue" placeholder="  any comment"class="form-control-dark wd-600" id="" cols="30" rows="10"></textarea>
                                     @else
                                     <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10"></textarea>
                                     @endif
@@ -286,14 +286,14 @@
                                 @if ( $errors->all() != null)
 
                                 @if ($theme == 1)
-                                    <textarea  name="Refund_Request_summery"  class="form-control-dark wd-600" id="" cols="30" rows="10">{{old('Refund_Request_summery')}}</textarea>
+                                    <textarea  name="Refund_Request_summery" placeholder="  any comment" class="form-control-dark wd-600" id="" cols="30" rows="10">{{old('Refund_Request_summery')}}</textarea>
                                     @else
                                     <textarea  name="Refund_Request_summery"  class="form-control" id="" cols="30" rows="10">{{old('Refund_Request_summery')}}</textarea>
                                     @endif
                                 @else
 
                                     @if ($theme == 1)
-                                    <textarea  name="Refund_Request_summery"  class="form-control-dark wd-600" id="" cols="30" rows="10"></textarea>
+                                    <textarea  name="Refund_Request_summery" placeholder="  any comment" class="form-control-dark wd-600" id="" cols="30" rows="10"></textarea>
                                     @else
                                     <textarea  name="Refund_Request_summery"  class="form-control" id="" cols="30" rows="10"></textarea>
                                     @endif

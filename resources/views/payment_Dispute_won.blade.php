@@ -217,7 +217,7 @@
                 <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Description:</label><br>
                     @if ($theme == 1)
-                    <textarea required name="description" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                    <textarea required name="description" class="form-control-dark wd-1000" id="" placeholder="  Enter Description" cols="30" rows="10"></textarea>
                     @else
                     <textarea required name="description" class="form-control" id="" cols="30" rows="10"></textarea>
                     @endif

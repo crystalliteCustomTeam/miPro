@@ -132,7 +132,7 @@
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Transaction ID:</label>
                             @if ($theme == 1)
-                            <input type="text"  class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;" name="transactionID">
+                            <input type="text"  class="form-control-dark wd-400" placeholder="  Enter Transaction ID" required style="height: 50px;" name="transactionID">
                             @else
                             <input type="text" class="form-control" required name="transactionID">
                             @endif
@@ -185,7 +185,7 @@
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Total Amount:</label>
                             @if ($theme == 1)
-                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" id="totalpackage" required style="height: 50px;">
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Amount" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" id="totalpackage" required style="height: 50px;">
                             @else
                             <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" id="totalpackage" required>
                             @endif
@@ -193,7 +193,7 @@
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Client Paid (Refunded)</label>
                             @if ($theme == 1)
-                            <input  id="amountPaid" type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;">
+                            <input  id="amountPaid" type="text" class="form-control-dark wd-400" placeholder="  Enter Amount" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;">
                             @else
                             <input  id="amountPaid"type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required>
                             @endif
@@ -202,7 +202,7 @@
                             <label for="" style="font-weight:bold;">Refund Fee</label>
 
                             @if ($theme == 1)
-                            <input id="transactionfee" type="text" class="form-control-dark wd-400"  placeholder="  Enter Name" required value="0" onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" style="height: 50px;">
+                            <input id="transactionfee" type="text" class="form-control-dark wd-400"  placeholder="  Enter Refund Fee" required value="0" onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" style="height: 50px;">
                             @else
                             <input id="transactionfee" type="text" class="form-control" required value="0" onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee">
                             @endif
@@ -243,7 +243,7 @@
                                     </select>
                                     <label for="" style="font-weight:bold;">Share Amount:</label>
                                     @if ($theme == 1)
-                                    <input type="text" class="form-control-dark wd-600"  placeholder="  Enter Name" style="height: 50px;" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]">
+                                    <input type="text" class="form-control-dark wd-600"  placeholder="  Enter Amount" style="height: 50px;" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]">
                                     @else
                                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]">
                                     @endif
@@ -280,7 +280,7 @@
                         <div class="col-12 mt-3">
                             <label for="" style="font-weight:bold;">Description:</label><br>
                             @if ($theme == 1)
-                            <textarea required name="description" class="form-control-dark wd-1000" id="desc" cols="30" rows="10"></textarea>
+                            <textarea required name="description" class="form-control-dark wd-1000" placeholder="  any comment" id="desc" cols="30" rows="10"></textarea>
                             @else
                             <textarea required name="description" class="form-control" id="desc" cols="30" rows="10"></textarea>
                             @endif

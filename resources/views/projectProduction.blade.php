@@ -71,7 +71,7 @@
                     <label for="" style="font-weight:bold;">Any Comment:</label><br>
 
                     @if ($theme == 1)
-                    <textarea  name="Description" class="form-control-dark wd-1000" placeholder="  Enter Name"  id="" cols="30" rows="10"></textarea>
+                    <textarea  name="Description" class="form-control-dark wd-1000" placeholder="  Enter Comment"  id="" cols="30" rows="10"></textarea>
                     @else
                     <textarea  name="Description" class="form-control" id="" cols="30" rows="10"></textarea>
                     @endif

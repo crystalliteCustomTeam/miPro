@@ -39,7 +39,7 @@
                 <div class="col-4 mt-3">
                     <label for=""style="font-weight:bold;">Phone Number:</label>
                     @if ($theme == 1)
-                    <input type="text" required name="phone" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                    <input type="text" required name="phone" class="form-control-dark wd-400" placeholder="  Enter number" required style="height: 50px;">
                     @else
                     <input type="text" required name="phone" class="form-control">
                     @endif
@@ -65,14 +65,14 @@
                         </div>
                     </div>
                 </div>
-                @if ($theme == 1)
+            @if ($theme == 1)
                 <script>
                     $(document).ready(function(){
                         var maxField = 10; //Input fields increment limitation
                         var addButton = $('.add_button'); //Add button selector
                         var wrapper = $('.field_wrapper'); //Input field wrapper
                         var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
-                        var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                        var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter another email" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
                         var x = 1; //Initial field counter is 1
 
                         // Once add button is clicked
@@ -94,7 +94,7 @@
                         });
                     });
                 </script>
-                 @else
+            @else
                 <script>
                     $(document).ready(function(){
                         var maxField = 10; //Input fields increment limitation
@@ -123,7 +123,7 @@
                         });
                     });
                 </script>
-                 @endif
+            @endif
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Sales Person:</label>
                   <select class="form-control" id="frontsale"  required name="saleperson">
@@ -144,7 +144,7 @@
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
                   @if ($theme == 1)
-                  <input type="text" required name="website"  class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                  <input type="text" required name="website"  class="form-control-dark wd-400" placeholder="  Enter Website" required style="height: 50px;">
                   @else
                   <input type="text" required name="website"  class="form-control">
                   @endif
@@ -152,7 +152,7 @@
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package Name</label>
                     @if ($theme == 1)
-                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="package" required>
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Package" style="height: 50px;" name="package" required>
                     @else
                     <input type="text" class="form-control" name="package" required>
                     @endif
@@ -182,7 +182,7 @@
                       <label for="" style="font-weight:bold;">Genre of the book?</label>
 
                     @if ($theme == 1)
-                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="bookgenre" required>
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Genre" style="height: 50px;" name="bookgenre" required>
                     @else
                     <input type="text" class="form-control" name="bookgenre" required>
                     @endif
@@ -199,7 +199,7 @@
 
 
                       @if ($theme == 1)
-                      <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="totalnumberofpages" required>
+                      <input type="text" class="form-control-dark wd-400" placeholder="  Enter number" style="height: 50px;" name="totalnumberofpages" required>
                       @else
                       <input type="text" class="form-control" name="totalnumberofpages" required>
                       @endif
@@ -209,7 +209,7 @@
 
 
                         @if ($theme == 1)
-                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="publishingplatform" required>
+                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter platforms" style="height: 50px;" name="publishingplatform" required>
                         @else
                         <input type="text" class="form-control" name="publishingplatform" required>
                         @endif
@@ -259,7 +259,7 @@
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Total Project Amount</label>
                         @if ($theme == 1)
-                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;">
+                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter amount" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;">
                         @else
                         <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
                         @endif
@@ -267,7 +267,7 @@
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Client Paid</label>
                         @if ($theme == 1)
-                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required style="height: 50px;">
+                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter amount" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required style="height: 50px;">
                         @else
                         <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
                         @endif
@@ -283,7 +283,7 @@
                       <div class="col-12 mt-3">
                         <label for="" style="font-weight:bold;">Anymore commitment?</label><br>
                         @if ($theme == 1)
-                        <textarea required name="anycommitment" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                        <textarea required name="anycommitment" class="form-control-dark wd-1000" id="" cols="30" rows="10" placeholder="  any comment"></textarea>
                         @else
                         <textarea required name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
                         @endif

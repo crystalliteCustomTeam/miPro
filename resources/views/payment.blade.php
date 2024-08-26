@@ -209,7 +209,7 @@
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Transaction ID:</label>
                     @if ($theme == 1)
-                  <input type="text"  class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;" name="transactionID">
+                  <input type="text"  class="form-control-dark wd-400" placeholder="  Enter Transaction ID" required style="height: 50px;" name="transactionID">
                   @else
                   <input type="text" class="form-control" required name="transactionID">
                   @endif
@@ -272,7 +272,7 @@
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Amount:</label>
                     @if ($theme == 1)
-                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" required style="height: 50px;">
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Amount" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" required style="height: 50px;">
                     @else
                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" required>
                     @endif
@@ -280,7 +280,7 @@
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
                     @if ($theme == 1)
-                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;">
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Amount" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;">
                     @else
                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required>
                     @endif
@@ -363,7 +363,7 @@
                 <div class="col-12 mt-3">
                     <label for="" style="font-weight:bold;">Description:</label><br>
                     @if ($theme == 1)
-                    <textarea required name="description" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                    <textarea required name="description" placeholder="  any comment" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
                     @else
                     <textarea required name="description" class="form-control" id="" cols="30" rows="10"></textarea>
                     @endif

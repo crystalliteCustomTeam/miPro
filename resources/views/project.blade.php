@@ -73,7 +73,7 @@
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
 
                   @if ($theme == 1)
-                    <input type="text" name="website" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                    <input type="text" name="website" class="form-control-dark wd-600" placeholder="  Enter Website" required style="height: 50px;">
                     @else
                     <input type="text" name="website" required class="form-control">
                     @endif
@@ -83,7 +83,7 @@
 
 
                   @if ($theme == 1)
-                  <input type="text"  name="basecampurl"  class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                  <input type="text"  name="basecampurl"  class="form-control-dark wd-600" placeholder="  Enter BasecampUrl" required style="height: 50px;">
                   @else
                   <input type="text" name="basecampurl" required class="form-control">
                   @endif
@@ -92,7 +92,7 @@
                   <label for="" style="font-weight:bold;">Project Description</label><br>
 
                  @if ($theme == 1)
-                 <textarea required name="openingcomments" class="form-control-dark wd-1000" placeholder="  Enter Name"  id="" cols="30" rows="10"></textarea>
+                 <textarea required name="openingcomments" class="form-control-dark wd-1000" placeholder="  Enter Description"  id="" cols="30" rows="10"></textarea>
                  @else
                  <textarea required name="openingcomments" class="form-control" id="" cols="30" rows="10"></textarea>
                  @endif
