@@ -1,6 +1,6 @@
-!@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -68,8 +68,13 @@
                   </div>
 
                 <div class="col-12 mt-3">
-                    <label for="" style="font-weight:bold;">Any Comment:</label>
+                    <label for="" style="font-weight:bold;">Any Comment:</label><br>
+
+                    @if ($theme == 1)
+                    <textarea  name="Description" class="form-control-dark wd-1000" placeholder="  Enter Comment"  id="" cols="30" rows="10"></textarea>
+                    @else
                     <textarea  name="Description" class="form-control" id="" cols="30" rows="10"></textarea>
+                    @endif
                 </div>
                 <div class="col-12">
                     <input type="submit" value="Add Production" class=" mt-3 btn btn-success">

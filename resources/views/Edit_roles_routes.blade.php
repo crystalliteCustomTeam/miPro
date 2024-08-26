@@ -11,9 +11,9 @@
 
 
 
-    @extends('layouts.app')
+    @extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+    @section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">

@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -36,7 +36,7 @@
 
             @if ( $qa_data[0]->status != "Not Started Yet")
 
-            <table  id="datatable1"  style="width:100%"  class="table-dark table-hover">
+            <table  id="datatable1"  style="width:100%"  class="table-dark-wrapper table-hover">
                 <tr>
                   <th>Department:</th>
                   {{-- <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td> --}}
@@ -172,7 +172,7 @@
               </table>
 
             @else
-            <table  id="datatable1"  style="width:70%" class="table-dark table-hover" >
+            <table  id="datatable1"  style="width:70%" class="table-dark-wrapper table-hover" >
                 <tr>
                   <th>Department:</th>
                   <td>{{$Proj_Prod[0]->DepartNameinProjectProduction->name}}</td>

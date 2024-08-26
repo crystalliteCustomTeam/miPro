@@ -526,7 +526,7 @@
 
 
     </div><!-- br-section-wrapper -->
-  </div><!-- br-pagebody -->
+</div><!-- br-pagebody -->
 
 
 

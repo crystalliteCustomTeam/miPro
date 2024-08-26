@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
@@ -93,55 +93,103 @@
                           </tr>
                         </thead>
                         <tbody>
-                                <tr>
-                                    <td >January</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="jan" required></td>
-                                </tr>
-                                <tr>
-                                    <td >February</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="feb" required></td>
-                                </tr>
-                                <tr>
-                                    <td >March</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="mar" required></td>
-                                </tr>
-                                <tr>
-                                    <td>April</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="apr" required></td>
-                                </tr>
-                                <tr>
-                                    <td>May</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="may" required></td>
-                                </tr>
-                                <tr>
-                                    <td >June</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="june" required></td>
-                                </tr>
-                                <tr>
-                                    <td >July</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="july" required></td>
-                                </tr>
-                                <tr>
-                                    <td >August</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="aug" required></td>
-                                </tr>
-                                <tr>
-                                    <td>September</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="sept" required></td>
-                                </tr>
-                                <tr>
-                                    <td >October</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="oct" required></td>
-                                </tr>
-                                <tr>
-                                    <td >November</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="nov" required></td>
-                                </tr>
-                                <tr>
-                                    <td >December</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="dec" required></td>
-                                </tr>
-                        </tbody>
+                            <tr>
+                                <td >January</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" placeholder="  Enter amount" name="jan" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="jan" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >February</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" placeholder="  Enter amount" name="feb" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="feb" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >March</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" placeholder="  Enter amount" name="mar" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="mar" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>April</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" placeholder="  Enter amount" name="apr" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="apr" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>May</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" placeholder="  Enter amount" name="may" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="may" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >June</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" placeholder="  Enter amount" name="june" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="june" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >July</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="july" placeholder="  Enter amount" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="july" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >August</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="aug" placeholder="  Enter amount" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="aug" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>September</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="sept" placeholder="  Enter amount" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="sept" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >October</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="oct" placeholder="  Enter amount" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="oct" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >November</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="nov" placeholder="  Enter amount" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="nov" required></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >December</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="dec" placeholder="  Enter amount" required style="height: 50px;"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="dec" required></td>
+                                @endif
+                            </tr>
+                    </tbody>
                       </table>
 
 

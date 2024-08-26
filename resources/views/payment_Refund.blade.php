@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="br-mainpanel">
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Chargeback Type:</label>
-                            <select class="form-control" required name="chargebacktype"  id="chargebacktype" >
+                            <select class="form-control select2" required name="chargebacktype"  id="chargebacktype" >
                                   <option value="Select">Select</option>
                                   <option value="Refunded">Refunded</option>
                                   <option value="Partial ChargeBack">Partial Refunded</option>
@@ -104,14 +104,18 @@
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Payment Gateway</label>
-                            <select  class="form-control" required name="paymentgateway" id="paymentgateway" onchange="bankfield()">
+                            <select  class="form-control select2" required name="paymentgateway" id="paymentgateway" onchange="bankfield()">
                                 <option value="Stripe">Stripe</option>
                                 <option value="Bank Wire">Bank Wire</option>
                             </select>
                         </div>
                         <div class="col-4 mt-3" id="bankUpload" style="display: none">
                             <label for="" style="font-weight:bold;">Bank Wire(Upload):</label>
+                            @if ($theme == 1)
+                            <input type="file" name="bankWireUpload" class="form-control-dark wd-400" required style="height: 50px;">
+                            @else
                             <input type="file" name="bankWireUpload" id="bankWireUpload" class="form-control">
+                            @endif
                         </div>
                         <script>
                             function bankfield(){
@@ -127,11 +131,19 @@
                         </script>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Transaction ID:</label>
+                            @if ($theme == 1)
+                            <input type="text"  class="form-control-dark wd-400" placeholder="  Enter Transaction ID" required style="height: 50px;" name="transactionID">
+                            @else
                             <input type="text" class="form-control" required name="transactionID">
+                            @endif
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Payment Date:</label>
-                            <input type="date" class="form-control" required name="paymentdate" >
+                            @if ($theme == 1)
+                            <input type="date"  required name="paymentdate" class="form-control-dark wd-400" style="height: 50px;">
+                            @else
+                            <input type="date" class="form-control" required name="paymentdate">
+                            @endif
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;" >Account Manager:</label>
@@ -172,15 +184,28 @@
                         <input type="hidden" name="accountmanager" value="{{ $project[0]->EmployeeName->id }}">
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Total Amount:</label>
-                            <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" id="totalpackage">
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Amount" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" id="totalpackage" required style="height: 50px;">
+                            @else
+                            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" id="totalpackage" required>
+                            @endif
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Client Paid (Refunded)</label>
-                            <input id="amountPaid" type="text" class="form-control" required onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
+                            @if ($theme == 1)
+                            <input  id="amountPaid" type="text" class="form-control-dark wd-400" placeholder="  Enter Amount" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;">
+                            @else
+                            <input  id="amountPaid"type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required>
+                            @endif
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Refund Fee</label>
+
+                            @if ($theme == 1)
+                            <input id="transactionfee" type="text" class="form-control-dark wd-400"  placeholder="  Enter Refund Fee" required value="0" onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" style="height: 50px;">
+                            @else
                             <input id="transactionfee" type="text" class="form-control" required value="0" onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee">
+                            @endif
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Payment Type</label>
@@ -192,8 +217,8 @@
                         </div>
 
                         <div class="col-12 mt-3" id="numberofsplits" style="display: none;">
-                            <label for="" style="font-weight:bold;">Number of Split:</label>
-                            <select class="form-control" id="selectionField" onchange="toggleFields()" name="numOfSplit">
+                            <label for="" style="font-weight:bold;">Number of Split:</label><br>
+                            <select class="form-control select2 wd-400" id="selectionField" onchange="toggleFields()" name="numOfSplit">
                                 <option value="0">Select</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -217,7 +242,11 @@
                                         @endforeach
                                     </select>
                                     <label for="" style="font-weight:bold;">Share Amount:</label>
+                                    @if ($theme == 1)
+                                    <input type="text" class="form-control-dark wd-600"  placeholder="  Enter Amount" style="height: 50px;" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]">
+                                    @else
                                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]">
+                                    @endif
                             </div>
                         @endfor
 
@@ -249,8 +278,12 @@
                         </script>
 
                         <div class="col-12 mt-3">
-                            <label for="" style="font-weight:bold;">Description:</label>
+                            <label for="" style="font-weight:bold;">Description:</label><br>
+                            @if ($theme == 1)
+                            <textarea required name="description" class="form-control-dark wd-1000" placeholder="  any comment" id="desc" cols="30" rows="10"></textarea>
+                            @else
                             <textarea required name="description" class="form-control" id="desc" cols="30" rows="10"></textarea>
+                            @endif
                         </div>
 {{--
                           <div class="col-4 mt-3">

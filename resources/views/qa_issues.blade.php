@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -36,7 +36,12 @@
                 </div>
                 <div class="col-6 mt-3">
                     <label for="">Add Issues</label>
+
+                    @if ($theme == 1)
+                    <input type="text" name="issues"  class="form-control-dark wd-600" style="height: 50px;" placeholder="  Enter Issues"  required>
+                    @else
                     <input type="text" name="issues" class="form-control" required>
+                    @endif
                 </div>
                 <div class="col-12">
                     <br>

@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -59,7 +59,7 @@
               </div>
               <div class="col-12 mt-3">
                 <label for="" style="font-weight:bold;">Select Type:</label>
-                    <select class="form-control"  required name="payment_type">
+                    <select class="form-control select2"  required name="payment_type">
                             <option value="0">Add Payment</option>
                             <option value="1">Refund</option>
                     </select>

@@ -49,6 +49,13 @@ Route::controller(BasicController::class)->group(function () {
 
 
     Route::middleware(['authCheck'])->group(function () {
+        Route::get('/changetheme', 'changetheme')->name('changetheme');
+
+        Route::get('/abc', 'abc')->name('abc');
+        Route::get('/def', 'def')->name('def');
+        Route::get('/ghi/{id}', 'ghi')->name('ghi');
+        Route::get('/jkl', 'jkl')->name('jkl');
+
         Route::get('/dashboard', 'dashboard')->name('Home');
 
         Route::get('/setupcompany', 'setupcompany')->name('Create_Company');

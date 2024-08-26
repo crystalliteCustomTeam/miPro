@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -40,7 +40,7 @@
               <br><br>
 
 
-            <table  id="datatable1"  style="width:100%"  class="table-dark table-hover">
+            <table  id="datatable1"  style="width:100%"  class="table-dark-wrapper table-hover">
                 <tr>
                   <th>Payment Nature:</th>
                   <td>{{$client_payment[0]->paymentNature}}</td>

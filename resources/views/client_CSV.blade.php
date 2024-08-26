@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -51,8 +51,13 @@
                     </select>
                 </div>
                 <div class="col-6  mt-3">
-                    <label for="">Upload</label>
+                    <label for="">Upload</label><br>
+
+                    @if ($theme == 1)
+                    <input type="file" name="file" class="form-control-dark wd-600" required style="height: 50px;">
+                    @else
                     <input type="file" name="file" class="form-control" required>
+                    @endif
                 </div>
 
 
