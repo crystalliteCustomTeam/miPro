@@ -14327,7 +14327,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -14631,7 +14631,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -15171,7 +15171,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Remaining' || $allinvoices[0]['Sales Mode'] == 'FSRemaining') {
@@ -15413,7 +15413,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -16007,7 +16007,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -16354,7 +16354,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -16603,7 +16603,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -17199,7 +17199,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -17448,7 +17448,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -18073,7 +18073,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -18322,7 +18322,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -18863,7 +18863,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Remaining' || $allinvoices[0]['Sales Mode'] == 'FSRemaining') {
@@ -19105,7 +19105,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
