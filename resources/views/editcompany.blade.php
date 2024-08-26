@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -30,25 +30,45 @@
             <div class="row">
                 <div class="col-3">
                     <label for="">Name</label>
+                    @if ($theme == 1)
+                    <input type="text" name="name"  class="form-control-dark wd-300" value="{{$companyeditdata->name}}" style="height: 50px;" placeholder="  Enter Name" required>
+                    @else
                     <input type="text" name="name" class="form-control" value="{{$companyeditdata->name}}" required>
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Website URL</label>
+                    @if ($theme == 1)
+                    <input type="url" name="website" class="form-control-dark wd-300" value="{{$companyeditdata->website}}"  style="height: 50px;" placeholder="  Enter Wbsite" required>
+                    @else
                     <input type="url" name="website" class="form-control" value="{{$companyeditdata->website}}" required>
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Tel </label>
+                    @if ($theme == 1)
+                    <input type="text" name="tel" required class="form-control-dark wd-300" value="{{$companyeditdata->tel}}" style="height: 50px;" placeholder="  Enter tel">
+                    @else
                     <input type="text" name="tel" required value="{{$companyeditdata->tel}}" class="form-control">
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Email </label>
+                    @if ($theme == 1)
+                    <input type="email" name="email" required class="form-control-dark wd-300" value="{{$companyeditdata->email}}" style="height: 50px;" placeholder="  Enter Email">
+                    @else
                     <input type="email" name="email" required value="{{$companyeditdata->email}}" class="form-control">
+                    @endif
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-3">
                     <label for="">Address </label>
-                    <input type="text" name="address" required  value="{{$companyeditdata->address}}" class="form-control">
+                    @if ($theme == 1)
+                    <input type="text" name="address" required value="{{$companyeditdata->address}}" class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter Address">
+                    @else
+                    <input type="text" name="address" required value="{{$companyeditdata->address}}" class="form-control">
+                    @endif
                 </div>
                 <div class="col-4">
                     <br>

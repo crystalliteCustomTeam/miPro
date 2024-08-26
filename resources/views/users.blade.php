@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
@@ -29,15 +29,30 @@
 
                 <div class="col-3">
                     <label for="">Name</label>
+                    @if ($theme == 1)
+                    <input type="text" name="name" class="form-control-dark wd-300" placeholder="  Enter Name" required style="height: 50px;">
+                    @else
                     <input type="text" name="name" class="form-control" required>
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Email</label>
+                    @if ($theme == 1)
+                    <input type="email" name="email" class="form-control-dark wd-300" placeholder="  abc@gmail.com" required style="height: 50px;">
+                    @else
                     <input type="email" name="email" class="form-control" required>
+                    @endif
+
+
                 </div>
                 <div class="col-3">
                     <label for="">Extension</label>
+
+                    @if ($theme == 1)
+                    <input type="text" name="extension"  class="form-control-dark wd-300" placeholder="  1234" required style="height: 50px;">
+                    @else
                     <input type="text" name="extension" class="form-control" required>
+                    @endif
                 </div>
 
 
@@ -45,12 +60,22 @@
             <div class="row mt-3">
                 <div class="col-3">
                     <label for="">Generate Password </label>
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter Password"  minlength="8"  name="password" id="password" value="{{ substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,8) }}">
+                    @else
                     <input type="text" class="form-control" minlength="8"  name="password" id="password" value="{{ substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz-:,"),0,8) }}">
+                    @endif
+
 
                 </div>
                 <div class="col-3">
                     <label for="">Position </label>
+
+                    @if ($theme == 1)
+                    <input type="text" name="position" class="form-control-dark wd-300" placeholder="  Enter Position" required style="height: 50px;">
+                    @else
                     <input type="text" class="form-control" name="position">
+                    @endif
                 </div>
 
                 <div class="col-3">

@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -29,8 +29,13 @@
 
             <div class="row">
                 <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;">Project Name:</label>
+                    <label for="" style="font-weight:bold;">Project Name:</label><br>
+
+                    @if ($theme == 1)
+                    <input type="text" required name="name" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                    @else
                     <input type="text" required name="name" class="form-control" required>
+                    @endif
                 </div>
 
 
@@ -66,15 +71,31 @@
 
                 <div class="col-6 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
-                  <input type="text" required name="website" required class="form-control">
+
+                  @if ($theme == 1)
+                    <input type="text" name="website" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                    @else
+                    <input type="text" name="website" required class="form-control">
+                    @endif
                 </div>
                 <div class="col-6 mt-3">
-                  <label for="" style="font-weight:bold;">Basecamp Url</label>
-                  <input type="text" required name="basecampurl" required class="form-control">
+                  <label for="" style="font-weight:bold;">Basecamp Url</label><br>
+
+
+                  @if ($theme == 1)
+                  <input type="text"  name="basecampurl"  class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                  @else
+                  <input type="text" name="basecampurl" required class="form-control">
+                  @endif
                 </div>
                 <div class="col-12 mt-3">
-                  <label for="" style="font-weight:bold;">Project Description</label>
+                  <label for="" style="font-weight:bold;">Project Description</label><br>
+
+                 @if ($theme == 1)
+                 <textarea required name="openingcomments" class="form-control-dark wd-1000" placeholder="  Enter Name"  id="" cols="30" rows="10"></textarea>
+                 @else
                  <textarea required name="openingcomments" class="form-control" id="" cols="30" rows="10"></textarea>
+                 @endif
                 </div>
             </div>
             <div class="row mt-3">

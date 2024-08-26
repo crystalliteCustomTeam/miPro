@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
 
 <!-- ########## START: MAIN PANEL ########## -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
@@ -23,8 +23,11 @@
 
       </div><!-- card-body -->
     </div><!-- card -->
-
+    @if ($theme == 1)
+    <div class="ht-70  bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center bd-b bd-gray-400" style="background: black">
+    @else
     <div class="ht-70 bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center bd-b bd-gray-400">
+    @endif
       <ul class="nav nav-outline active-primary align-items-center flex-row" role="tablist">
         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#projects" role="tab">Projects</a></li>
         <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#payments" role="tab">Payments</a></li>
@@ -38,7 +41,11 @@
       <div class="tab-pane fade active show" id="projects">
         <div class="row" >
           <div class="col-lg-8"  >
+            @if ($theme == 1)
+            <div class="media-list card-header rounded bd bd-gray-400">
+            @else
             <div class="media-list bg-white rounded bd bd-gray-400">
+            @endif
                 @if (count($projects) > 0)
                 @foreach ($projects as $project)
                 <div class="media pd-20 pd-xs-30" >
@@ -46,7 +53,11 @@
                     <div class="media-body mg-l-20">
                       <div class="d-flex justify-content-between mg-b-10" >
                         <div>
+                          @if ($theme == 1)
+                          <h6 class="mg-b-2 tx-inverse tx-14" style="color: white">{{ $project->name }}</h6>
+                          @else
                           <h6 class="mg-b-2 tx-inverse tx-14">{{ $project->name }}</h6>
+                          @endif
                           @if (isset($project->EmployeeName->name) and $project->EmployeeName->name !== null)
                           <span class="tx-12 tx-gray-500">{{ $project->EmployeeName->name }}</span><br>
                           @else
@@ -109,7 +120,11 @@
           </div><!-- col-lg-8 -->
           <div class="col-lg-4 mg-t-30 mg-lg-t-0">
             <div class="card pd-20 pd-xs-30 bd-gray-400">
+              @if ($theme == 1)
+              <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-25" style="color: white">Contact Information</h6>
+              @else
               <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-25">Contact Information</h6>
+              @endif
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Brand</label>
               <p class="tx-info mg-b-25">{{ $client[0]->projectbrand->name }}</p>
@@ -123,27 +138,87 @@
                   $allemails = json_decode($client[0]->clientMetas->otheremail);
               @endphp
               @foreach ($allemails as $item)
+
+              @if ($theme == 1)
+              <p class="tx-inverse mg-b-5" style="color: white">{{ $item }}</p>
+              @else
               <p class="tx-inverse mg-b-5">{{ $item }}</p>
+              @endif
               @endforeach
               <br>
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Initail Payment</label>
+
+              @if ($theme == 1)
+              <p class="tx-inverse mg-b-25"  style="color: white">$ {{ $client[0]->clientMetas->amountPaid  }}</p>
+              @else
               <p class="tx-inverse mg-b-25">$ {{ $client[0]->clientMetas->amountPaid  }}</p>
+              @endif
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Remaining Amount</label>
               <p class="tx-inverse mg-b-25"  style="color: red">$ {{ $client[0]->clientMetas->remainingAmount }}</p>
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Next Payment Date:</label>
+
+              @if ($theme == 1)
+              <p class="tx-inverse mg-b-25"  style="color: white"> {{ $client[0]->clientMetas->nextPayment }}</p>
+              @else
               <p class="tx-inverse mg-b-25"  > {{ $client[0]->clientMetas->nextPayment }}</p>
+              @endif
 
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Onboard</label>
+
+              @if ($theme == 1)
+              <p class="tx-inverse mg-b-25" style="color: white">{{ $client[0]->clientMetas->created_at     }}</p>
+              @else
               <p class="tx-inverse mg-b-25">{{ $client[0]->clientMetas->created_at     }}</p>
+              @endif
 
 
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Client Website Or Domain</label>
+
+              @if ($theme == 1)
+              <p class="tx-inverse mg-b-25" style="color: white">{{ $client[0]->website  }}</p>
+              @else
               <p class="tx-inverse mg-b-25">{{ $client[0]->website  }}</p>
+              @endif
+
                 @if ($client[0]->clientMetas->service == "seo")
               <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">ORDER DETAILS</label>
+              @if ($theme == 1)
+              <p class="tx-inverse mg-b-25" style="color: white">
+                @php
+                  $data = json_decode($client[0]->clientMetas->orderDetails)->TARGET_MARKET;
+                  $data2 = json_decode($client[0]->clientMetas->orderDetails)->OTHER_SERVICE;
+                @endphp
+
+                KEYWORD COUNT : {{ json_decode($client[0]->clientMetas->orderDetails)->KEYWORD_COUNT }}
+                <br>
+                TARGET MARKET :
+                @for($i=0;$i < count($data);$i++ )
+                      {{ $data[$i] }}
+                @endfor
+                <br>
+                OTHER SERVICE :
+                @for($i=0;$i < count($data2);$i++ )
+                    <strong>  {{ $data2[$i] }} - </strong>
+                @endfor
+                <br>
+                LEAD PLATFORM :
+                {{ json_decode($client[0]->clientMetas->orderDetails)->LEAD_PLATFORM }}
+                <br><br>
+                ANY COMMITMENT :
+                {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+                <br><br>
+                Sale Person :
+                {{ $client[0]->frontsale->name }}
+                <br>
+                @if (isset($qaAssignee[0]->Username->name))
+                QA Assignee :
+                {{ $qaAssignee[0]->Username->name }}
+                @endif
+              </p>
+              @else
               <p class="tx-inverse mg-b-25">
                 @php
                   $data = json_decode($client[0]->clientMetas->orderDetails)->TARGET_MARKET;
@@ -176,12 +251,52 @@
                 {{ $qaAssignee[0]->Username->name }}
                 @endif
               </p>
+              @endif
             </div><!-- card -->
 
 
 
             @elseif ($client[0]->clientMetas->service == "book")
             <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">ORDER DETAILS</label>
+            @if ($theme == 1)
+            <p class="tx-inverse mg-b-25" style="color: white">
+                @php
+                  $data1 = json_decode($client[0]->clientMetas->orderDetails)->PRODUCT;
+                @endphp
+                BOOK GENRE : {{ json_decode($client[0]->clientMetas->orderDetails)->BOOK_GENRE }}
+                <br>
+                MENU SCRIPT : {{ json_decode($client[0]->clientMetas->orderDetails)->MENU_SCRIPT }}
+                <br>
+                COVER DESIGN : {{ json_decode($client[0]->clientMetas->orderDetails)->COVER_DESIGN }}
+                <br>
+                ISBN OFFERED : {{ json_decode($client[0]->clientMetas->orderDetails)->ISBN_OFFERED }}
+                <br>
+                TOTAL NUMBER OF PAGES : {{ json_decode($client[0]->clientMetas->orderDetails)->TOTAL_NUMBER_OF_PAGES }}
+                <br>
+                PUBLISHING PLATFORM : {{ json_decode($client[0]->clientMetas->orderDetails)->PUBLISHING_PLATFORM }}
+                <br>
+                ISBN OFFERED : {{ json_decode($client[0]->clientMetas->orderDetails)->ISBN_OFFERED }}
+                <br>
+                Product :
+                @for($i=0;$i < count($data1);$i++ )
+                      <strong>  {{ $data1[$i] }} - </strong>
+                @endfor
+                <br>
+                LEAD PLATFORM :
+                {{ json_decode($client[0]->clientMetas->orderDetails)->LEAD_PLATFORM }}
+                <br><br>
+                ANY COMMITMENT :
+                {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+                <br><br>
+                Sale Person :
+                  {{ $client[0]->frontsale->name }}
+                  <br>
+                @if (isset($qaAssignee[0]->Username->name))
+                QA Assignee :
+                {{ $qaAssignee[0]->Username->name }}
+                @endif
+              </p>
+            @else
             <p class="tx-inverse mg-b-25">
               @php
                 $data1 = json_decode($client[0]->clientMetas->orderDetails)->PRODUCT;
@@ -219,6 +334,7 @@
               {{ $qaAssignee[0]->Username->name }}
               @endif
             </p>
+            @endif
           </div><!-- card -->
 
 
@@ -227,6 +343,31 @@
 
           @elseif ($client[0]->clientMetas->service == "website")
             <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">ORDER DETAILS</label>
+            @if ($theme == 1)
+            <p class="tx-inverse mg-b-25" style="color: white">
+                @php
+                  $data = json_decode($client[0]->clientMetas->orderDetails)->OTHER_SERVICES;
+                @endphp
+                OTHER SERVICE :
+                @for($i=0;$i < count($data);$i++ )
+                    <strong>  {{ $data[$i] }} - </strong>
+                @endfor
+                <br>
+                LEAD PLATFORM :
+                {{ json_decode($client[0]->clientMetas->orderDetails)->LEAD_PLATFORM }}
+                <br><br>
+                ANY COMMITMENT :
+                {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+                <br><br>
+                Sale Person :
+                  {{ $client[0]->frontsale->name }}
+                  <br>
+                @if (isset($qaAssignee[0]->Username->name))
+                QA Assignee :
+                {{ $qaAssignee[0]->Username->name }}
+                @endif
+              </p>
+            @else
             <p class="tx-inverse mg-b-25">
               @php
                 $data = json_decode($client[0]->clientMetas->orderDetails)->OTHER_SERVICES;
@@ -250,12 +391,39 @@
               {{ $qaAssignee[0]->Username->name }}
               @endif
             </p>
+            @endif
           </div><!-- card -->
 
 
 
           @else
             <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">ORDER DETAILS</label>
+            @if ($theme == 1)
+            <p class="tx-inverse mg-b-25" style="color: white">
+                @php
+                  $data = json_decode($client[0]->clientMetas->orderDetails)->OTHER_SERVICES;
+                @endphp
+                OTHER SERVICE :
+                @for($i=0;$i < count($data);$i++ )
+                    <strong>  {{ $data[$i] }} - </strong>
+                @endfor
+                <br>
+                LEAD PLATFORM :
+                {{ json_decode($client[0]->clientMetas->orderDetails)->LEAD_PLATFORM }}
+                <br><br>
+                ANY COMMITMENT :
+                {{ json_decode($client[0]->clientMetas->orderDetails)->ANY_COMMITMENT }}
+                <br><br>
+                Sale Person :
+                  {{ $client[0]->frontsale->name }}
+                  <br>
+                @if (isset($qaAssignee[0]->Username->name))
+                QA Assignee :
+                {{ $qaAssignee[0]->Username->name }}
+                @endif
+
+              </p>
+            @else
             <p class="tx-inverse mg-b-25">
               @php
                 $data = json_decode($client[0]->clientMetas->orderDetails)->OTHER_SERVICES;
@@ -280,6 +448,7 @@
               @endif
 
             </p>
+            @endif
           </div><!-- card -->
           @endif
 
@@ -312,7 +481,11 @@
 
 
             <div class="card pd-20 pd-xs-30 bd-gray-400 mg-t-30">
+                @if ($theme == 1)
+                <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-30" style="color: white">Next Payments</h6>
+                @else
               <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-30">Next Payments</h6>
+              @endif
               <div class="media-list">
                 @foreach ($uniquepaymentarray as $recentClient)
                 @foreach ($recentClient as $item)
@@ -352,7 +525,7 @@
             </div>
             @endif
 
-        <table id="datatable1" class="table-dark table-hover">
+        <table id="datatable1" class="table-dark-wrapper table-hover">
             <thead>
               <tr role="row">
                 <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Project</th>
@@ -433,7 +606,7 @@
                 }
             </style>
 
-            <table id="datatable1" class="table-dark table-hover">
+            <table id="datatable1" class="table-dark-wrapper table-hover">
             <thead>
               <tr role="row">
                 <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Project</th>
@@ -734,7 +907,7 @@
                 }
             </style>
 
-            <table id="datatable1" class="table-dark table-hover">
+            <table id="datatable1" class="table-dark-wrapper table-hover">
             <thead>
               <tr role="row">
                 <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="First name: activate to sort column descending">Project</th>

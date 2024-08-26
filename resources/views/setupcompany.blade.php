@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -26,26 +26,49 @@
             @csrf
             <div class="row">
                 <div class="col-3">
-                    <label for="">Name</label>
+                    <label for="">Name</label><br>
+                    @if ($theme == 1)
+                    <input type="text" name="name"  class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter Name" required>
+                    @else
                     <input type="text" name="name" class="form-control" required>
+                    @endif
                 </div>
                 <div class="col-3">
-                    <label for="">Website URL</label>
+                    <label for="">Website URL</label><br>
+                    @if ($theme == 1)
+                    <input type="url" name="website" class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter Wbsite" required>
+                    @else
                     <input type="url" name="website" class="form-control" required>
+                    @endif
+
                 </div>
                 <div class="col-3">
-                    <label for="">Tel </label>
+                    <label for="">Tel </label><br>
+                    @if ($theme == 1)
+                    <input type="text" name="tel" required class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter tel">
+                    @else
                     <input type="text" name="tel" required class="form-control">
+                    @endif
                 </div>
                 <div class="col-3">
-                    <label for="">Email </label>
+                    <label for="">Email </label><br>
+                    @if ($theme == 1)
+                    <input type="email" name="email" required class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter Email">
+                    @else
                     <input type="email" name="email" required class="form-control">
+                    @endif
+
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-3">
-                    <label for="">Address </label>
+                    <label for="">Address </label><br>
+                    @if ($theme == 1)
+                    <input type="text" name="address" required class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter Address">
+                    @else
                     <input type="text" name="address" required class="form-control">
+                    @endif
+
                 </div>
                 <div class="col-4">
                     <br>

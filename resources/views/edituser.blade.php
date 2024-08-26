@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -30,15 +30,30 @@
 
                 <div class="col-3">
                     <label for="">Name</label>
+
+                    @if ($theme == 1)
+                    <input type="text" name="name" class="form-control-dark wd-300" placeholder="  Enter Name" required style="height: 50px;" value="{{$employees->name}}">
+                    @else
                     <input type="text" name="name" class="form-control" required value="{{$employees->name}}">
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Email</label>
+
+                    @if ($theme == 1)
+                    <input type="email" name="email" class="form-control-dark wd-300" placeholder="  abc@gmail.com"  required value="{{$employees->email}}" style="height: 50px;">
+                    @else
                     <input type="email" name="email" class="form-control" required value="{{$employees->email}}">
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Extension</label>
+
+                    @if ($theme == 1)
+                    <input type="text" name="extension" class="form-control-dark wd-300" placeholder="  1234" style="height: 50px;" required value="{{$employees->extension}}">
+                    @else
                     <input type="text" name="extension" class="form-control" required value="{{$employees->extension}}">
+                    @endif
                 </div>
 
 
@@ -51,7 +66,12 @@
                 {{-- </div> --}}
                 <div class="col-3">
                     <label for="">Position </label>
+
+                    @if ($theme == 1)
+                    <input type="text" name="position"  class="form-control-dark wd-300" placeholder="  Enter Position" required style="height: 50px;" value="{{$employees->position}}">
+                    @else
                     <input type="text" class="form-control" name="position" value="{{$employees->position}}">
+                    @endif
                 </div>
 
                 <div class="col-3">

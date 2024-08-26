@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
@@ -31,26 +32,70 @@
 
                 <div class="col-6 mt-3">
                     <label for="" style="font-weight:bold;">Client Name:</label>
-                    <input type="text"  name="name" class="form-control" required>
+                    @if ($theme == 1)
+                    <input type="text" required name="name" class="form-control-dark wd-600" placeholder="  Enter Name" required style="height: 50px;">
+                    @else
+                    <input type="text" required name="name" class="form-control">
+                    @endif
                 </div>
                 <div class="col-6 mt-3">
                     <label for=""style="font-weight:bold;">Phone Number:</label>
-                    <input type="text"  name="phone" required class="form-control">
+
+                    @if ($theme == 1)
+                    <input type="text" required name="phone" class="form-control-dark wd-600" placeholder="  Enter Name" required style="height: 50px;">
+                    @else
+                    <input type="text" required name="phone" class="form-control">
+                    @endif
                 </div>
                 <div class="row field_wrapper col-12">
                     <div class="col-4 mt-3">
                         <label for=""style="font-weight:bold;">Email:</label><br>
                         <div class="btn-group">
+                            @if ($theme == 1)
+                            <input type="email" name="email[]" class="form-control-dark wd-350" placeholder="  Enter Email" required style="height: 50px;"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                            @else
                             <input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                            @endif
                         </div>
                     </div>
                 </div>
-                  <script>
+                @if ($theme == 1)
+                <script>
                     $(document).ready(function(){
                         var maxField = 10; //Input fields increment limitation
                         var addButton = $('.add_button'); //Add button selector
                         var wrapper = $('.field_wrapper'); //Input field wrapper
                         var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                        var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                        var x = 1; //Initial field counter is 1
+
+                        // Once add button is clicked
+                        $(addButton).click(function(){
+                            //Check maximum number of input fields
+                            if(x < maxField){
+                                x++; //Increase field counter
+                                $(wrapper).append(fieldHTML1); //Add field html
+                            }else{
+                                alert('A maximum of '+maxField+' fields are allowed to be added. ');
+                            }
+                        });
+
+                        // Once remove button is clicked
+                        $(wrapper).on('click', '.remove_button', function(e){
+                            e.preventDefault();
+                            $(this).parent('div').remove(); //Remove field html
+                            x--; //Decrease field counter
+                        });
+                    });
+                </script>
+                 @else
+                <script>
+                    $(document).ready(function(){
+                        var maxField = 10; //Input fields increment limitation
+                        var addButton = $('.add_button'); //Add button selector
+                        var wrapper = $('.field_wrapper'); //Input field wrapper
+                        var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                        var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
                         var x = 1; //Initial field counter is 1
 
                         // Once add button is clicked
@@ -72,13 +117,18 @@
                         });
                     });
                 </script>
+                 @endif
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
-                    <input type="text"  name="website" required class="form-control">
+                    @if ($theme == 1)
+                  <input type="text" required name="website"  class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;">
+                  @else
+                  <input type="text" required name="website"  class="form-control">
+                  @endif
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Brand:</label>
-                    <select class="form-control" id="select2forme" required name="brand">
+                    <select class="form-control select2" id="select2forme" required name="brand">
 
                     @foreach ($brands as $brand)
                           <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -93,8 +143,8 @@
                   </select>
                 </div>
                 <div class="col-4 mt-3" id="chargingpackage" style="display: none">
-                    <label for="" style="font-weight:bold;">Charging Plan</label>
-                    <select class="form-control"  name="ChargingPlan">
+                    <label for="" style="font-weight:bold;">Charging Plan</label><br>
+                    <select class="form-control select2  wd-400"  name="ChargingPlan">
                         <option value="One Time Payment">One Time Payment</option>
                         <option value="Monthly">Monthly</option>
                         <option value="2 Months">2 Months</option>
@@ -113,8 +163,8 @@
                     </select>
                 </div>
                 <div class="col-4 mt-3" id="paymentMode" style="display: none">
-                    <label for="" style="font-weight:bold;">Payment Mode</label>
-                    <select class="form-control"  name="paymentModes">
+                    <label for="" style="font-weight:bold;">Payment Mode</label><br>
+                    <select class="form-control select2  wd-400"  name="paymentModes">
                         <option value="One Time Payment">One Time Payment</option>
                         <option value="Renewal">Renewal</option>
                         <option value="Recurring">Recurring</option>
@@ -154,7 +204,7 @@
                   </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Card Brand:</label>
-                    <select  class="form-control " required name="cardBrand" id="clientcard">
+                    <select  class="form-control select2" required name="cardBrand" id="clientcard">
 
                         <option value="AMEX">AMEX</option>
                         <option value="DISCOVER">DISCOVER</option>
@@ -173,7 +223,12 @@
                 </div>
                 <div class="col-4 mt-3" id="bankUpload" style="display: none">
                     <label for="" style="font-weight:bold;">Bank Wire(Upload):</label>
+
+                    @if ($theme == 1)
+                    <input type="file" name="bankWireUpload" class="form-control-dark wd-400" style="height: 50px;">
+                    @else
                     <input type="file" name="bankWireUpload" id="bankWireUpload" class="form-control">
+                    @endif
                 </div>
                 <script>
                     function bankfield(){
@@ -189,15 +244,29 @@
                   </script>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Transaction ID:</label>
-                    <input type="text" class="form-control" required name="transactionID">
+
+                    @if ($theme == 1)
+                  <input type="text"  class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;" name="transactionID">
+                  @else
+                  <input type="text" class="form-control" required name="transactionID">
+                  @endif
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Payment Date:</label>
+
+                    @if ($theme == 1)
+                    <input type="date"  required name="paymentdate" class="form-control-dark wd-400" style="height: 50px;">
+                    @else
                     <input type="date" class="form-control" required name="paymentdate">
+                    @endif
                   </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Next Payment Date:</label>
-                    <input type="date" class="form-control"  name="nextpaymentdate">
+                    @if ($theme == 1)
+                    <input type="date"  name="nextpaymentdate" class="form-control-dark wd-400" style="height: 50px;">
+                    @else
+                    <input type="date" class="form-control" name="nextpaymentdate">
+                    @endif
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;" >Sale Person:</label>
@@ -214,11 +283,19 @@
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Amount:</label>
-                    <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="totalamount">
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" required style="height: 50px;">
+                    @else
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" required>
+                    @endif
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
-                    <input id="amountPaid" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid">
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;">
+                    @else
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required>
+                    @endif
                 </div>
                 {{-- <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Transaction Fee</label>
@@ -235,7 +312,7 @@
 
                 <div class="col-12 mt-3" id="numberofsplits" style="display: none;">
                     <label for="" style="font-weight:bold;">Number of Split:</label>
-                    <select class="form-control" id="selectionField" onchange="toggleFields()" name="numOfSplit">
+                    <select class="form-control select2  wd-400" id="selectionField" onchange="toggleFields()" name="numOfSplit">
                         <option value="0">Select</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -259,7 +336,11 @@
                                 @endforeach
                             </select>
                             <label for="" style="font-weight:bold;">Share Amount:</label>
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-600" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]" style="height: 50px;">
+                            @else
                             <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]">
+                            @endif
                     </div>
                 @endfor
 
@@ -292,8 +373,12 @@
 
 
                 <div class="col-12 mt-3">
-                    <label for="" style="font-weight:bold;">Description:</label>
+                    <label for="" style="font-weight:bold;">Description:</label><br>
+                    @if ($theme == 1)
+                    <textarea required name="description" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                    @else
                     <textarea required name="description" class="form-control" id="" cols="30" rows="10"></textarea>
+                    @endif
                 </div>
 
 

@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -32,11 +32,21 @@
             <div class="row">
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Package Name</label>
+
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name"  style="height: 50px;"  name="package" required>
+                    @else
                     <input type="text" class="form-control" name="package" required>
+                    @endif
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Keyword Count</label>
+
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name"  style="height: 50px;"  name="KeywordCount" required>
+                    @else
                     <input type="text" class="form-control" name="KeywordCount" required>
+                    @endif
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Target Market</label>
@@ -49,7 +59,12 @@
                   </div>
                   <div class="col-4 mt-3" id="other-text" style="display: none">
                     <label for="" style="font-weight:bold;">Please specify:</label>
+
+                    @if ($theme == 1)
+                    <input type="text" id="other" name="TargetMarket[]" class="form-control-dark wd-400" placeholder="  Enter Name"  style="height: 50px;" >
+                    @else
                     <input type="text" id="other" name="TargetMarket[]" class="form-control">
+                    @endif
                   </div>
                   <script>
                     function toggleTextField() {
@@ -101,15 +116,27 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Project Amount</label>
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;">
+                    @else
                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
+                    @endif
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required style="height: 50px;">
+                    @else
                     <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
+                    @endif
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Future Next Payment Date </label>
-                    <input type="date" class="form-control" name="nextamount" required>
+                    @if ($theme == 1)
+                    <input type="date" class="form-control-dark wd-400" name="nextamount" required style="height: 50px;">
+                    @else
+                    <input type="date" class="form-control" name="nextamount" required >
+                    @endif
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Lead Platform</label>
@@ -132,8 +159,12 @@
                     </select>
                   </div>
                   <div class="col-12 mt-3">
-                    <label for="" style="font-weight:bold;">Anymore commitments?</label>
+                    <label for="" style="font-weight:bold;">Anymore commitments?</label><br>
+                    @if ($theme == 1)
+                    <textarea required name="anycommitment" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                    @else
                     <textarea required name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
+                    @endif
                   </div>
 
 
@@ -166,7 +197,11 @@
         <div class="row">
             <div class="col-4 mt-3">
                 <label for="" style="font-weight:bold;">Package Name</label>
+                @if ($theme == 1)
+                <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="package" required>
+                @else
                 <input type="text" class="form-control" name="package" required>
+                @endif
               </div>
             <div class="col-4 mt-3">
                 <label for="" style="font-weight:bold;">Product</label>
@@ -191,7 +226,11 @@
               </div>
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Genre of the book?</label>
-                  <input type="text" class="form-control" name="bookgenre">
+                  @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="bookgenre" required>
+                    @else
+                    <input type="text" class="form-control" name="bookgenre" required>
+                    @endif
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Cover design included?</label>
@@ -202,11 +241,19 @@
                   </div>
                 <div class="col-4 mt-3">
                   <label for="" style="font-weight:bold;">Total number of pages</label>
+                  @if ($theme == 1)
+                  <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="totalnumberofpages" required>
+                  @else
                   <input type="text" class="form-control" name="totalnumberofpages" required>
+                  @endif
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Publishing platforms offered?</label>
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="publishingplatform" required>
+                    @else
                     <input type="text" class="form-control" name="publishingplatform" required>
+                    @endif
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">ISBN Offered or Bar Code?</label>
@@ -251,19 +298,35 @@
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Project Amount</label>
-                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
+                    @if ($theme == 1)
+                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;">
+                        @else
+                        <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
+                        @endif
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
-                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
+                    @if ($theme == 1)
+                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required style="height: 50px;">
+                        @else
+                        <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
+                        @endif
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Future Next Payment Date </label>
-                    <input type="date" class="form-control" name="nextamount" required>
+                    @if ($theme == 1)
+                    <input type="date" class="form-control-dark wd-400" name="nextamount" required style="height: 50px;">
+                    @else
+                    <input type="date" class="form-control" name="nextamount" required >
+                    @endif
                   </div>
-                  <div class="col-8 mt-3">
-                    <label for="" style="font-weight:bold;">Anymore commitment?</label>
-                    <input type="text" class="form-control" name="anycommitment" required>
+                  <div class="col-12 mt-3">
+                    <label for="" style="font-weight:bold;">Anymore commitment?</label><br>
+                    @if ($theme == 1)
+                        <textarea required name="anycommitment" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                        @else
+                        <textarea required name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
+                        @endif
                   </div>
 
 
@@ -354,19 +417,36 @@
         </div>
         <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Total Project Amount</label>
-            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
+            @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;">
+                    @else
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
+                    @endif
         </div>
         <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Client Paid</label>
-            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
+            @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required style="height: 50px;">
+                    @else
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
+                    @endif
         </div>
         <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Future Next Payment Date </label>
-            <input type="date" class="form-control" name="nextamount" required>
+            @if ($theme == 1)
+            <input type="date" class="form-control-dark wd-400" name="nextamount" required style="height: 50px;">
+            @else
+            <input type="date" class="form-control" name="nextamount" required >
+            @endif
         </div>
             <div class="col-8 mt-3">
-                <label for="" style="font-weight:bold;">Anymore commitment?</label>
+                <label for="" style="font-weight:bold;">Anymore commitment?</label><br>
+
+                @if ($theme == 1)
+                <input type="text" class="form-control-dark wd-850" name="anycommitment" required style="height: 50px;" placeholder="  Enter Email">
+                @else
                 <input type="text" class="form-control" name="anycommitment" required>
+                @endif
             </div>
 
         </div>
@@ -459,19 +539,35 @@
         </div>
         <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Total Project Amount</label>
-            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
+            @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;">
+                    @else
+                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
+                    @endif
         </div>
         <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Client Paid</label>
+            @if ($theme == 1)
+            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required style="height: 50px;">
+            @else
             <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
+            @endif
         </div>
         <div class="col-4 mt-3">
             <label for="" style="font-weight:bold;">Future Next Payment Date </label>
-            <input type="date" class="form-control" name="nextamount" required>
+            @if ($theme == 1)
+            <input type="date" class="form-control-dark wd-400" name="nextamount" required style="height: 50px;">
+            @else
+            <input type="date" class="form-control" name="nextamount" required >
+            @endif
         </div>
             <div class="col-8 mt-3">
                 <label for="" style="font-weight:bold;">Anymore commitment?</label>
+                @if ($theme == 1)
+                <input type="text" class="form-control-dark wd-850" name="anycommitment" required style="height: 50px;" placeholder="  Enter Email">
+                @else
                 <input type="text" class="form-control" name="anycommitment" required>
+                @endif
             </div>
 
 

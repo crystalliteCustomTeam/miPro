@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="br-mainpanel">
@@ -49,7 +49,7 @@
                             </div>
                             <div class="col-4 mt-3">
                                 <label for="" style="font-weight:bold;">Chargeback Type:</label>
-                                <select class="form-control" required name="chargebacktype"  id="chargebacktype" >
+                                <select class="form-control select2" required name="chargebacktype"  id="chargebacktype" >
                                     <option value="{{$refundpayment[0]->refundtype}}" selected>{{$refundpayment[0]->refundtype}}</option>
                                     <option value="Refunded">Refunded</option>
                                     <option value="Partial ChargeBack">Partial Refunded</option>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-4 mt-3">
                                 <label for="" style="font-weight:bold;">Payment Gateway</label>
-                                <select  class="form-control" required name="paymentgateway" id="paymentgateway" onchange="bankfield()">
+                                <select  class="form-control select2" required name="paymentgateway" id="paymentgateway" onchange="bankfield()">
                                     <option value="{{$item->Payment_Gateway}}" selected>{{$item->Payment_Gateway}}</option>
                                     <option value="Stripe">Stripe</option>
                                     <option value="Bank Wire">Bank Wire</option>
@@ -93,7 +93,13 @@
                             </div>
                             <div class="col-4 mt-3" id="bankUpload" style="display: none">
                                 <label for="" style="font-weight:bold;">Bank Wire(Upload):</label>
-                                <input type="file" name="bankWireUpload" id="bankWireUpload" class="form-control">
+
+                                @if ($theme == 1)
+                            <input type="file" name="bankWireUpload" class="form-control-dark wd-400" required style="height: 50px;">
+                            @else
+                            <input type="file" name="bankWireUpload" id="bankWireUpload" class="form-control">
+                            @endif
+
                             </div>
                             <script>
                                 function bankfield(){
@@ -109,11 +115,19 @@
                             </script>
                             <div class="col-4 mt-3">
                                 <label for="" style="font-weight:bold;">Transaction ID:</label>
+                                @if ($theme == 1)
+                                <input type="text"  class="form-control-dark wd-400" value="{{$item->TransactionID}}" placeholder="  Enter Name" required style="height: 50px;" name="transactionID">
+                                @else
                                 <input type="text" class="form-control" required name="transactionID" value="{{$item->TransactionID}}">
+                                @endif
                             </div>
                             <div class="col-4 mt-3">
                                 <label for="" style="font-weight:bold;">Payment Date:</label>
+                                @if ($theme == 1)
+                                <input type="date"  required name="paymentdate" class="form-control-dark wd-400" style="height: 50px;" value="{{$item->paymentDate}}">
+                                @else
                                 <input type="date" class="form-control" required name="paymentdate" value="{{$item->paymentDate}}">
+                                @endif
                             </div>
                             <div class="col-4 mt-3">
                                 <label for="" style="font-weight:bold;" >Account Manager:</label>
@@ -135,15 +149,27 @@
                             </div>
                             <div class="col-4 mt-3">
                                 <label for="" style="font-weight:bold;">Total Amount:</label>
-                                <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" id="totalpackage" value="{{$item->TotalAmount}}">
+                                @if ($theme == 1)
+                                <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" id="totalpackage" required style="height: 50px;" value="{{$item->TotalAmount}}">
+                                @else
+                                <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" id="totalpackage" required value="{{$item->TotalAmount}}">
+                                @endif
                             </div>
                             <div class="col-4 mt-3">
                                 <label for="" style="font-weight:bold;">Client Paid (Refunded)</label>
-                                <input id="amountPaid" type="text" class="form-control" required onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" value="{{$item->Paid}}">
+                                @if ($theme == 1)
+                            <input  id="amountPaid" type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;" value="{{$item->Paid}}">
+                            @else
+                            <input  id="amountPaid"type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required value="{{$item->Paid}}">
+                            @endif
                             </div>
                             <div class="col-4 mt-3">
                                 <label for="" style="font-weight:bold;">Refund Fee</label>
-                                <input id="transactionfee" type="text" class="form-control" required value="0" onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" value="{{$item->transactionfee}}">
+                                @if ($theme == 1)
+                            <input id="transactionfee" type="text" class="form-control-dark wd-400"  placeholder="  Enter Name" required value="0" onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" style="height: 50px;"  value="{{$item->transactionfee}}">
+                            @else
+                            <input id="transactionfee" type="text" class="form-control" required value="0" onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee"  value="{{$item->transactionfee}}">
+                            @endif
                             </div>
                             <div class="col-4 mt-3">
                                 <label for="" style="font-weight:bold;">Payment Type</label>
@@ -156,8 +182,8 @@
                             </div>
 
                             <div class="col-12 mt-3" id="numberofsplits" style="display: none;">
-                                <label for="" style="font-weight:bold;">Number of Split:</label>
-                                <select class="form-control" id="selectionField" onchange="toggleFields()" name="numOfSplit">
+                                <label for="" style="font-weight:bold;">Number of Split:</label><br>
+                                <select class="form-control select2 wd-300" id="selectionField" onchange="toggleFields()" name="numOfSplit">
                                     <option value="0">Select</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -181,7 +207,11 @@
                                             @endforeach
                                         </select>
                                         <label for="" style="font-weight:bold;">Share Amount:</label>
+                                        @if ($theme == 1)
+                                        <input type="text" class="form-control-dark wd-600"  placeholder="  Enter Name" style="height: 50px;" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]">
+                                        @else
                                         <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]">
+                                        @endif
                                 </div>
                             @endfor
 
@@ -213,8 +243,12 @@
                             </script>
 
                             <div class="col-12 mt-3">
-                                <label for="" style="font-weight:bold;">Description:</label>
+                                <label for="" style="font-weight:bold;">Description:</label><br>
+                                @if ($theme == 1)
+                                <textarea required name="description" class="form-control-dark wd-1000" id="desc" cols="30" rows="10">{{$item->Description}}</textarea>
+                                @else
                                 <textarea required name="description" class="form-control" id="desc" cols="30" rows="10">{{$item->Description}}</textarea>
+                                @endif
                             </div>
                             <div class="col-12 mt-3">
                                 <br><br>

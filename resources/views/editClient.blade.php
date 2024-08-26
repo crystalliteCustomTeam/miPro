@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
@@ -32,11 +32,19 @@
                 <div class="row">
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Client Name:</label>
-                        <input type="text"  name="name" class="form-control" value="{{$clients[0]->name}}" >
+                        @if ($theme == 1)
+                        <input type="text" required name="name" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;" value="{{$clients[0]->name}}" >
+                        @else
+                        <input type="text" required name="name" class="form-control" value="{{$clients[0]->name}}" >
+                        @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for=""style="font-weight:bold;">Phone Number:</label>
-                        <input type="text"  name="phone"  class="form-control" value="{{$clients[0]->phone}}">
+                        @if ($theme == 1)
+                    <input type="text" required name="phone" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;" value="{{$clients[0]->phone}}">
+                    @else
+                    <input type="text" required name="phone" class="form-control" value="{{$clients[0]->phone}}">
+                    @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Brand:</label>
@@ -59,61 +67,51 @@
                             <div class="col-4 mt-3">
                                 <label for=""style="font-weight:bold;">Email:</label><br>
                                 <div class="btn-group">
+                                    @if ($theme == 1)
+                                    <input type="email" name="email[]" class="form-control-dark wd-350" placeholder="  Enter Email" required style="height: 50px;" value="{{$clients[0]->email}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                                    @else
                                     <input type="email" name="email[]" class="form-control" value="{{$clients[0]->email}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                        <script>
-                            $(document).ready(function(){
-                                var maxField = 10; //Input fields increment limitation
-                                var addButton = $('.add_button'); //Add button selector
-                                var wrapper = $('.field_wrapper'); //Input field wrapper
-                                var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
-                                var x = 1; //Initial field counter is 1
-
-                                // Once add button is clicked
-                                $(addButton).click(function(){
-                                    //Check maximum number of input fields
-                                    if(x < maxField){
-                                        x++; //Increase field counter
-                                        $(wrapper).append(fieldHTML); //Add field html
-                                    }else{
-                                        alert('A maximum of '+maxField+' fields are allowed to be added. ');
-                                    }
-                                });
-
-                                // Once remove button is clicked
-                                $(wrapper).on('click', '.remove_button', function(e){
-                                    e.preventDefault();
-                                    $(this).parent('div').remove(); //Remove field html
-                                    x--; //Decrease field counter
-                                });
-                            });
-                        </script>
-                    @else
-                        <div class="row field_wrapper col-12">
-                        @foreach ($clientmetas_otheremails as $item)
-                            @if ($item == $clientmetas_otheremails[0])
-                                <div class="col-4 mt-3">
-                                    <label for=""style="font-weight:bold;">Email:</label><br>
-                                    <div class="btn-group">
-                                        <input type="email" name="email[]" class="form-control" value="{{$item}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="btn-group col-4 mt-5">
-                                <input type="email" name="email[]" class="form-control" value="{{$item}}"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a>
-                            </div>
-                           @endif
-                        @endforeach
-                        </div>
-                    @endif
+                        @if ($theme == 1)
                     <script>
                         $(document).ready(function(){
                             var maxField = 10; //Input fields increment limitation
                             var addButton = $('.add_button'); //Add button selector
                             var wrapper = $('.field_wrapper'); //Input field wrapper
-                            var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control" ><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var x = 1; //Initial field counter is 1
+
+                            // Once add button is clicked
+                            $(addButton).click(function(){
+                                //Check maximum number of input fields
+                                if(x < maxField){
+                                    x++; //Increase field counter
+                                    $(wrapper).append(fieldHTML1); //Add field html
+                                }else{
+                                    alert('A maximum of '+maxField+' fields are allowed to be added. ');
+                                }
+                            });
+
+                            // Once remove button is clicked
+                            $(wrapper).on('click', '.remove_button', function(e){
+                                e.preventDefault();
+                                $(this).parent('div').remove(); //Remove field html
+                                x--; //Decrease field counter
+                            });
+                        });
+                    </script>
+                     @else
+                    <script>
+                        $(document).ready(function(){
+                            var maxField = 10; //Input fields increment limitation
+                            var addButton = $('.add_button'); //Add button selector
+                            var wrapper = $('.field_wrapper'); //Input field wrapper
+                            var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
                             var x = 1; //Initial field counter is 1
 
                             // Once add button is clicked
@@ -135,6 +133,94 @@
                             });
                         });
                     </script>
+                     @endif
+                    @else
+                        <div class="row field_wrapper col-12">
+                        @foreach ($clientmetas_otheremails as $item)
+                            @if ($item == $clientmetas_otheremails[0])
+                                <div class="col-4 mt-3">
+                                    <label for=""style="font-weight:bold;">Email:</label><br>
+                                    <div class="btn-group">
+
+                                        @if ($theme == 1)
+                                        <input type="email" name="email[]" class="form-control-dark wd-350" placeholder="  Enter Email" required style="height: 50px;" value="{{$item}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                                        @else
+                                        <input type="email" name="email[]" class="form-control" value="{{$item}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            @else
+                                <div class="btn-group col-4 mt-5">
+
+                                @if ($theme == 1)
+                                <input type="email" name="email[]"class="form-control-dark wd-350" placeholder="  Enter Email" required style="height: 50px;"  value="{{$item}}"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a>
+                                @else
+                                <input type="email" name="email[]" class="form-control" value="{{$item}}"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a>
+                                @endif
+                            </div>
+                           @endif
+                        @endforeach
+                        </div>
+                    @endif
+                    @if ($theme == 1)
+                    <script>
+                        $(document).ready(function(){
+                            var maxField = 10; //Input fields increment limitation
+                            var addButton = $('.add_button'); //Add button selector
+                            var wrapper = $('.field_wrapper'); //Input field wrapper
+                            var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var x = 1; //Initial field counter is 1
+
+                            // Once add button is clicked
+                            $(addButton).click(function(){
+                                //Check maximum number of input fields
+                                if(x < maxField){
+                                    x++; //Increase field counter
+                                    $(wrapper).append(fieldHTML1); //Add field html
+                                }else{
+                                    alert('A maximum of '+maxField+' fields are allowed to be added. ');
+                                }
+                            });
+
+                            // Once remove button is clicked
+                            $(wrapper).on('click', '.remove_button', function(e){
+                                e.preventDefault();
+                                $(this).parent('div').remove(); //Remove field html
+                                x--; //Decrease field counter
+                            });
+                        });
+                    </script>
+                    @else
+                    <script>
+                        $(document).ready(function(){
+                            var maxField = 10; //Input fields increment limitation
+                            var addButton = $('.add_button'); //Add button selector
+                            var wrapper = $('.field_wrapper'); //Input field wrapper
+                            var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var x = 1; //Initial field counter is 1
+
+                            // Once add button is clicked
+                            $(addButton).click(function(){
+                                //Check maximum number of input fields
+                                if(x < maxField){
+                                    x++; //Increase field counter
+                                    $(wrapper).append(fieldHTML); //Add field html
+                                }else{
+                                    alert('A maximum of '+maxField+' fields are allowed to be added. ');
+                                }
+                            });
+
+                            // Once remove button is clicked
+                            $(wrapper).on('click', '.remove_button', function(e){
+                                e.preventDefault();
+                                $(this).parent('div').remove(); //Remove field html
+                                x--; //Decrease field counter
+                            });
+                        });
+                    </script>
+                    @endif
 
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Sales Person:</label>
@@ -153,16 +239,29 @@
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
-                        <input type="text"  name="website"  class="form-control" value="{{$clients[0]->website}}">
+                        @if ($theme == 1)
+                        <input type="text" required name="website"  class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;" value="{{$clients[0]->website}}">
+                        @else
+                        <input type="text" required name="website"  class="form-control" value="{{$clients[0]->website}}">
+                        @endif
+
                         </div>
 
                         {{-- ------------------------------METAS----------------------------------------------------- --}}
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Package Name</label>
                             @if (isset($clientmetas[0]->packageName))
-                            <input type="text" class="form-control" name="package" value="{{$clientmetas[0]->packageName}}">
+                                @if ($theme == 1)
+                                <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="package" required value="{{$clientmetas[0]->packageName}}">
+                                @else
+                                <input type="text" class="form-control" name="package" required value="{{$clientmetas[0]->packageName}}">
+                                @endif
                             @else
-                            <input type="text" class="form-control" name="package" >
+                            @if ($theme == 1)
+                                <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="package" required>
+                                @else
+                                <input type="text" class="form-control" name="package" required>
+                                @endif
                             @endif
 
                     </div>
@@ -204,9 +303,17 @@
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Total Project Amount</label>
                         @if (isset($clientmetas[0]->amountPaid))
-                        <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" value="{{$clientmetas[0]->amountPaid}}">
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;" value="{{$clientmetas[0]->amountPaid}}">
+                            @else
+                            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required value="{{$clientmetas[0]->amountPaid}}">
+                            @endif
                         @else
-                        <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount">
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required style="height: 50px;">
+                            @else
+                            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="projectamount" required>
+                            @endif
                         @endif
                     </div>
                     <div class="col-4 mt-3">
@@ -215,17 +322,34 @@
                                 $client_paid = $clientmetas[0]->amountPaid - $clientmetas[0]->remainingAmount
                             @endphp
                             <label for="" style="font-weight:bold;">Client Paid</label>
-                            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" value="{{$client_paid}}">
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" value="{{$client_paid}}" name="paidamount" required style="height: 50px;">
+                            @else
+                            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" value="{{$client_paid}}" required>
+                            @endif
                         @else
-                            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount">
+
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required style="height: 50px;">
+                            @else
+                            <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="paidamount" required>
+                            @endif
                         @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Future Next Payment Date </label>
                         @if (isset($clientmetas[0]->nextPayment))
-                        <input type="date" class="form-control" name="nextamount" value="{{$clientmetas[0]->nextPayment}}">
+                            @if ($theme == 1)
+                            <input type="date" class="form-control-dark wd-400" name="nextamount" required style="height: 50px;" value="{{$clientmetas[0]->nextPayment}}">
+                            @else
+                            <input type="date" class="form-control" name="nextamount" required value="{{$clientmetas[0]->nextPayment}}">
+                            @endif
                         @else
-                        <input type="date" class="form-control" name="nextamount">
+                            @if ($theme == 1)
+                            <input type="date" class="form-control-dark wd-400" name="nextamount" required style="height: 50px;">
+                            @else
+                            <input type="date" class="form-control" name="nextamount" required >
+                            @endif
                         @endif
                     </div>
 
@@ -240,9 +364,18 @@
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Keyword Count</label>
                         @if (isset($clientmetas[0]->nextPayment))
-                        <input type="text" class="form-control" name="KeywordCount" value="{{$seo_details->KEYWORD_COUNT}}">
+
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="KeywordCount" value="{{$seo_details->KEYWORD_COUNT}}">
+                            @else
+                            <input type="text" class="form-control" name="KeywordCount" value="{{$seo_details->KEYWORD_COUNT}}">
+                            @endif
+                        @else
+                        @if ($theme == 1)
+                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" name="KeywordCount" style="height: 50px;">
                         @else
                         <input type="text" class="form-control" name="KeywordCount">
+                        @endif
                         @endif
                     </div>
                     <div class="col-4 mt-3">
@@ -344,11 +477,20 @@
                         @endif
                     </div>
                     <div class="col-12 mt-3">
-                        <label for="" style="font-weight:bold;">Anymore commitments?</label>
+                        <label for="" style="font-weight:bold;">Anymore commitments?</label><br>
                         @if (isset($seo_details->ANY_COMMITMENT))
-                        <textarea name="anycommitment" class="form-control" id="" cols="30" rows="10">{{$seo_details->ANY_COMMITMENT}}</textarea>
+
+                            @if ($theme == 1)
+                            <textarea name="anycommitment" class="form-control-dark wd-1000" id="" cols="30" rows="10">{{$seo_details->ANY_COMMITMENT}}</textarea>
+                            @else
+                            <textarea name="anycommitment" class="form-control" id="" cols="30" rows="10">{{$seo_details->ANY_COMMITMENT}}</textarea>
+                            @endif
                         @else
-                        <textarea name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
+                            @if ($theme == 1)
+                            <textarea  name="anycommitment" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                            @else
+                            <textarea name="anycommitment" class="form-control" id="" cols="30" rows="10"></textarea>
+                            @endif
                         @endif
                     </div>
 
@@ -405,9 +547,17 @@
                         <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Genre of the book?</label>
                         @if (isset($book_details->BOOK_GENRE))
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="bookgenre" value="{{$book_details->BOOK_GENRE}}">
+                            @else
                             <input type="text" class="form-control" name="bookgenre" value="{{$book_details->BOOK_GENRE}}">
+                            @endif
                         @else
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="bookgenre">
+                            @else
                             <input type="text" class="form-control" name="bookgenre">
+                            @endif
                         @endif
                         </div>
                         <div class="col-4 mt-3">
@@ -428,17 +578,33 @@
                         <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Total number of pages</label>
                         @if (isset($book_details->TOTAL_NUMBER_OF_PAGES))
-                        <input type="text" class="form-control" name="totalnumberofpages" value="{{$book_details->TOTAL_NUMBER_OF_PAGES}}">
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="totalnumberofpages" value="{{$book_details->TOTAL_NUMBER_OF_PAGES}}">
+                            @else
+                            <input type="text" class="form-control" name="totalnumberofpages" value="{{$book_details->TOTAL_NUMBER_OF_PAGES}}">
+                            @endif
                         @else
-                        <input type="text" class="form-control" name="totalnumberofpages">
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="totalnumberofpages">
+                            @else
+                            <input type="text" class="form-control" name="totalnumberofpages">
+                            @endif
                         @endif
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Publishing platforms offered?</label>
                             @if (isset($book_details->PUBLISHING_PLATFORM))
-                            <input type="text" class="form-control" name="publishingplatform" value="{{$book_details->PUBLISHING_PLATFORM}}">
+                                @if ($theme == 1)
+                                <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="publishingplatform" value="{{$book_details->PUBLISHING_PLATFORM}}">
+                                @else
+                                <input type="text" class="form-control" name="publishingplatform" value="{{$book_details->PUBLISHING_PLATFORM}}">
+                                @endif
                             @else
-                            <input type="text" class="form-control" name="publishingplatform">
+                                @if ($theme == 1)
+                                <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" style="height: 50px;" name="publishingplatform">
+                                @else
+                                <input type="text" class="form-control" name="publishingplatform">
+                                @endif
                             @endif
                         </div>
                         <div class="col-4 mt-3">
@@ -558,11 +724,19 @@
 
                     </div>
                     <div class="col-8 mt-3">
-                    <label for="" style="font-weight:bold;">Anymore commitment?</label>
+                    <label for="" style="font-weight:bold;">Anymore commitment?</label><br>
                     @if (isset($website_details->ANY_COMMITMENT))
-                    <input type="text" class="form-control" name="anycommitment" value="{{$website_details->ANY_COMMITMENT}}">
+                        @if ($theme == 1)
+                        <input type="text" class="form-control" name="anycommitment" class="form-control-dark wd-850" placeholder="  Enter Name"  style="height: 50px;" value="{{$website_details->ANY_COMMITMENT}}">
+                        @else
+                        <input type="text" class="form-control" name="anycommitment" value="{{$website_details->ANY_COMMITMENT}}">
+                        @endif
                     @else
-                    <input type="text" class="form-control" name="anycommitment">
+                        @if ($theme == 1)
+                        <input type="text" class="form-control" name="anycommitment" class="form-control-dark wd-850" placeholder="  Enter Name"  style="height: 50px;">
+                        @else
+                        <input type="text" class="form-control" name="anycommitment">
+                        @endif
                     @endif
                     </div>
 
@@ -633,9 +807,17 @@
                     <div class="col-8 mt-3">
                     <label for="" style="font-weight:bold;">Anymore commitment?</label>
                     @if (isset($cld_details->LEAD_PLATFORM))
-                    <input type="text" class="form-control" name="anycommitment" value="{{$cld_details->ANY_COMMITMENT}}">
+                        @if ($theme == 1)
+                        <input type="text" class="form-control" name="anycommitment" class="form-control-dark wd-850" placeholder="  Enter Name"  style="height: 50px;" value="{{$cld_details->ANY_COMMITMENT}}">
+                        @else
+                        <input type="text" class="form-control" name="anycommitment" value="{{$cld_details->ANY_COMMITMENT}}">
+                        @endif
                     @else
-                    <input type="text" class="form-control" name="anycommitment">
+                        @if ($theme == 1)
+                        <input type="text" class="form-control" name="anycommitment" class="form-control-dark wd-850" placeholder="  Enter Name"  style="height: 50px;">
+                        @else
+                        <input type="text" class="form-control" name="anycommitment">
+                        @endif
                     @endif
                     </div>
 
@@ -675,12 +857,22 @@
 
                 <div class="row">
                     <div class="col-4 mt-3">
-                        <label for="" style="font-weight:bold;">Client Name:</label>
+                        <label for="" style="font-weight:bold;">Client Name:</label><br>
+
+                        @if ($theme == 1)
+                        <input type="text"  name="name" class="form-control-dark wd-400" value="{{$clients[0]->name}}" placeholder="  Enter Name" required style="height: 50px;">
+                        @else
                         <input type="text"  name="name" class="form-control" value="{{$clients[0]->name}}" >
+                        @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for=""style="font-weight:bold;">Phone Number:</label>
+
+                        @if ($theme == 1)
+                        <input type="text"  name="phone"  class="form-control-dark wd-400" value="{{$clients[0]->phone}}" placeholder="  Enter Name" required style="height: 50px;">
+                        @else
                         <input type="text"  name="phone"  class="form-control" value="{{$clients[0]->phone}}">
+                        @endif
                     </div>
                     {{-- <div class="col-4 mt-3">
                         <label for=""style="font-weight:bold;">Email:</label>
@@ -699,16 +891,53 @@
                         <div class="col-4 mt-3">
                             <label for=""style="font-weight:bold;">Email:</label><br>
                             <div class="btn-group">
+
+                                @if ($theme == 1)
+                                <input type="email" name="email[]"  class="form-control-dark wd-350" placeholder="  Enter Email" required style="height: 50px;" value="{{$clients[0]->email}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                                @else
                                 <input type="email" name="email[]" class="form-control" value="{{$clients[0]->email}}"><a href="javascript:void(0);" class="add_button btn btn-primary"  title="Add field">add</a>
+                                @endif
                             </div>
                         </div>
                     </div>
+
+                   @if ($theme == 1)
                     <script>
                         $(document).ready(function(){
                             var maxField = 10; //Input fields increment limitation
                             var addButton = $('.add_button'); //Add button selector
                             var wrapper = $('.field_wrapper'); //Input field wrapper
                             var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var x = 1; //Initial field counter is 1
+
+                            // Once add button is clicked
+                            $(addButton).click(function(){
+                                //Check maximum number of input fields
+                                if(x < maxField){
+                                    x++; //Increase field counter
+                                    $(wrapper).append(fieldHTML1); //Add field html
+                                }else{
+                                    alert('A maximum of '+maxField+' fields are allowed to be added. ');
+                                }
+                            });
+
+                            // Once remove button is clicked
+                            $(wrapper).on('click', '.remove_button', function(e){
+                                e.preventDefault();
+                                $(this).parent('div').remove(); //Remove field html
+                                x--; //Decrease field counter
+                            });
+                        });
+                    </script>
+                     @else
+                    <script>
+                        $(document).ready(function(){
+                            var maxField = 10; //Input fields increment limitation
+                            var addButton = $('.add_button'); //Add button selector
+                            var wrapper = $('.field_wrapper'); //Input field wrapper
+                            var fieldHTML = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]" class="form-control"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
+                            var fieldHTML1 = '<div class="btn-group col-4 mt-5"><input type="email" name="email[]"  placeholder="  Enter Name" class="form-control-dark wd-350" style="height: 50px;"><a href="javascript:void(0);" class="remove_button btn btn-danger">remove</a></div>'; //New input field html
                             var x = 1; //Initial field counter is 1
 
                             // Once add button is clicked
@@ -730,6 +959,7 @@
                             });
                         });
                     </script>
+                     @endif
                     <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Sales Person:</label>
                     <select class="form-control select2"  name="saleperson">
@@ -747,7 +977,12 @@
                     </div>
                     <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
+
+                    @if ($theme == 1)
+                    <input type="text"  name="website" class="form-control-dark wd-400" value="{{$clients[0]->website}}" placeholder="  Enter Name" required style="height: 50px;">
+                    @else
                     <input type="text"  name="website"  class="form-control" value="{{$clients[0]->website}}">
+                    @endif
                     </div>
 
                     <div class="col-4 mt-3">

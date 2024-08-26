@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -83,7 +83,7 @@
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Card Brand:</label>
-                            <select  class="form-control " required name="cardBrand1" id="clientcard" disabled>
+                            <select  class="form-control select2" required name="cardBrand1"  disabled>
                                 <option value="{{$dispute[0]->disputepayment->Card_Brand}}">{{$dispute[0]->disputepayment->Card_Brand}}</option>
                             </select>
                         </div>
@@ -103,11 +103,21 @@
                         @endif
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Transaction ID:</label>
+
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;" name="transactionID1" value="{{$dispute[0]->disputepayment->TransactionID}}" disabled>
+                            @else
                             <input type="text" class="form-control" required name="transactionID1" value="{{$dispute[0]->disputepayment->TransactionID}}" disabled>
+                            @endif
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Payment Date:</label>
-                            <input type="date" class="form-control" required name="paymentdate" value="">
+                            @if ($theme == 1)
+                            <input type="date"  required name="paymentdate" class="form-control-dark wd-400" style="height: 50px;">
+                            @else
+                            <input type="date" class="form-control" required name="paymentdate">
+                            @endif
+
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;" >Sale Person:</label>
@@ -139,11 +149,21 @@
                         <input type="hidden" name="accountmanager" value="{{$dispute[0]->disputepayment->ProjectManager}}">
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Total Amount:</label>
+
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" required style="height: 50px;" value="{{$dispute[0]->disputepayment->TotalAmount}}" disabled>
+                            @else
                             <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" value="{{$dispute[0]->disputepayment->TotalAmount}}" disabled>
+                            @endif
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Client Paid (Refunded)</label>
+
+                            @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;"  value="{{$dispute[0]->disputepayment->Paid}}" disabled>
+                            @else
                             <input id="amountPaid" type="text" class="form-control" required onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" value="{{$dispute[0]->disputepayment->Paid}}" disabled>
+                            @endif
                         </div>
                         <div class="col-4 mt-3">
                             <label for="" style="font-weight:bold;">Payment Type</label>
@@ -205,8 +225,12 @@
 
 
                         <div class="col-12 mt-3">
-                            <label for="" style="font-weight:bold;">Description:</label>
-                            <textarea required name="description" class="form-control" id="" cols="30" rows="10"></textarea>
+                            <label for="" style="font-weight:bold;">Description:</label><br>
+                            @if ($theme == 1)
+                    <textarea required name="description" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                    @else
+                    <textarea required name="description" class="form-control" id="" cols="30" rows="10"></textarea>
+                    @endif
                         </div>
 
 
@@ -222,17 +246,31 @@
 
                           <div class="col-4 mt-3">
                               <label for="" style="font-weight:bold;">Chargeback Amount:</label>
+
+                              @if ($theme == 1)
+                              <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="chagebackAmt" required style="height: 50px;" value="{{$dispute[0]->disputepayment->Paid}}">
+                              @else
                               <input type="text" class="form-control"  name="chagebackAmt" value="{{$dispute[0]->disputepayment->Paid}}">
+                              @endif
                           </div>
 
                           <div class="col-4 mt-3">
                               <label for="" style="font-weight:bold;">Chargeback Date:</label>
-                              <input type="date" class="form-control"  name="chagebackDate" value="">
+
+                              @if ($theme == 1)
+                    <input type="date"  required name="chagebackDate" class="form-control-dark wd-400" style="height: 50px;">
+                    @else
+                    <input type="date" class="form-control"  name="chagebackDate" value="">
+                    @endif
                           </div>
 
                           <div class="col-12 mt-3">
-                              <label for="" style="font-weight:bold;">Chargeback Description:</label>
-                              <textarea  name="Description_of_issue" class="form-control" id="" cols="30" rows="10"></textarea>
+                              <label for="" style="font-weight:bold;">Chargeback Description:</label><br>
+                              @if ($theme == 1)
+                            <textarea required name="Description_of_issue" class="form-control-dark wd-1000" id="" cols="30" rows="10"></textarea>
+                            @else
+                            <textarea required name="Description_of_issue" class="form-control" id="" cols="30" rows="10"></textarea>
+                            @endif
                           </div>
                           <div class="col-12 mt-3">
                               <br><br>
