@@ -57,7 +57,7 @@
                     @endif
                 </div>
                 <div class="col-4 mt-3">
-                    <label for="" style="font-weight:bold;" >Brand:</label>
+                    <label for="" style="font-weight:bold;" >Brand:</label><br>
                         <select class="form-control select2" required name="brand">
                             @foreach ($brand as $brands)
                                 <option value="{{ $brands->id }}">{{ $brands->name }}
