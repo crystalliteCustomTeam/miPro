@@ -31,6 +31,7 @@ use App\Models\Payments;
 use App\Models\Salesteam;
 use App\Models\BrandSalesRole;
 use App\Models\RoutesRoles;
+use App\Models\Themeselection;
 
 
 use Illuminate\Support\Facades\File;
@@ -44,6 +45,478 @@ use function GuzzleHttp\json_decode;
 
 class BasicController extends Controller
 {
+
+    function abc(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $checkuser = $loginUser[3];
+        $findclient = Client::get();
+        $user_id = 0;
+
+        return view('abc', [
+            'user_id' => $user_id,
+            'clients' => $findclient,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function def(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $checkuser = $loginUser[3];
+        $brands  = Brand::all();
+
+        return view('def', [
+            "Brands" => $brands,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2]
+        ]);
+    }
+
+    function ghi(Request $request, $clientID)
+    {
+        $loginUser = $this->roleExits($request);
+
+        $checkuser = $loginUser[3];
+        $findclient = Client::where('id', $clientID)->get();
+        $allprojects = Project::where('clientID', $clientID)->get();
+        $recentClients = Client::where('id', '!=', $clientID)->limit(5)->get();
+        $clientPayments = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->get();
+
+        $qaAssignee = QaPersonClientAssign::where('client', $clientID)->get();
+        if (count($allprojects) > 0) {
+            $findProject_Manager = Employee::where('id', $allprojects[0]->projectManager)->get();
+        } else {
+            $findProject_Manager = [];
+        }
+
+        foreach ($allprojects as $allproject) {
+            $COUNT = QAFORM::where('projectID', $allproject->id)->count();
+            $Payment = NewPaymentsClients::where('ProjectID', $allproject->id)->count();
+            $allproject->project_count = $COUNT;
+            $allproject->payment_count = $Payment;
+        }
+
+        $uniquepaymentarray = [];
+
+        foreach ($allprojects as $allproject) {
+
+            $transactions = NewPaymentsClients::where('ClientID', $clientID)
+                ->where('ProjectID', $allproject->id)
+                ->where('refundStatus', 'Pending Payment')
+                ->where('remainingStatus', '!=', 'Unlinked Payments')
+                ->get();
+
+            foreach ($transactions as $transaction) {
+                $transactionType = $transaction['transactionType'];
+
+
+                if (!array_key_exists($allproject->id, $uniquepaymentarray)) {
+                    $uniquepaymentarray[$allproject->id] = [];
+                }
+
+                if (!array_key_exists($transactionType, $uniquepaymentarray[$allproject->id])) {
+                    $uniquepaymentarray[$allproject->id][$transactionType] = $transaction;
+                }
+            }
+        }
+
+        $checkingpayments = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->get();
+
+        foreach ($checkingpayments as $checkingpayment) {
+
+            $RefundPayments = RefundPayments::where('PaymentID', $checkingpayment->id)->get();
+            $checkingpayment->refund_with_payments = $RefundPayments;
+        }
+
+        $clientrefundcount = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('refundStatus', '!=', 'On Going')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('dispute', null)
+            ->count();
+        $clientPaid = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('refundStatus', 'On Going')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('refundID', null)
+            ->where('dispute', null)
+            ->SUM('Paid');
+        $clienttotalwithoutRefund = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('refundStatus', 'On Going')
+            ->where('paymentNature', '!=', 'Remaining')
+            ->where('paymentNature', '!=', 'FSRemaining')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundID', null)
+            ->where('dispute', null)
+            ->SUM('TotalAmount');
+        $clientallpayment = NewPaymentsClients::where('ClientID', $clientID)->get();
+        $storeremianingpayment = [];
+        foreach ($clientallpayment as  $clientallpayments) {
+            if (((isset($clientallpayments->refundID)) || (isset($clientallpayments->dispute))) && isset($clientallpayments->remainingID)) {
+                $paymentofremaining = NewPaymentsClients::where('ClientID', $clientID)
+                    ->select('id', 'TotalAmount')
+                    ->where('remainingID', $clientallpayments->remainingID)
+                    ->where('paymentNature', 'Remaining')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundID', null)
+                    ->where('dispute', null)
+                    ->get();
+                $storeremianingpayment[] = [$paymentofremaining];
+            } else {
+                continue;
+            }
+        }
+
+        $totalSum = 0;
+
+        foreach ($storeremianingpayment as $paymentArray) {
+            foreach ($paymentArray as $paymentObject) {
+                if (isset($paymentObject[0]->TotalAmount) &&  $paymentObject[0]->TotalAmount != null) {
+                    $a = $paymentObject[0]->TotalAmount;
+                } else {
+                    $a = 0;
+                }
+                $totalSum += $a;
+            }
+        }
+
+        $remainigamtofDispute = NewPaymentsClients::where('ClientID', $clientID)
+        ->where('refundStatus', 'On Going')
+        ->where('remainingStatus', '!=', 'Unlinked Payments')
+        ->where('dispute','!=', null)
+        ->SUM('RemainingAmount');
+
+        $total = $clienttotalwithoutRefund + $totalSum;
+        $clientRemaining = $total - $clientPaid - $remainigamtofDispute;
+
+        $unlinkedpayment = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('remainingStatus', 'Unlinked Payments')
+            ->where('dispute', null)
+            ->count();
+
+        $disputepayment = Disputedpayments::where('ClientID', $clientID)
+            ->get();
+
+
+
+
+        $paymentreceived = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('refundStatus', 'On Going')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('refundID', null)
+            ->where('dispute', null)
+            ->SUM('amt_after_transactionfee');
+
+        $disputefee = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', 'Dispute Lost')
+            ->SUM('disputefee');
+
+        $deisputelosttransactionfee = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', 'Dispute Lost')
+            ->SUM('transactionfee');
+
+        $refundtransactionfeedata = NewPaymentsClients::where('ClientID', $clientID)
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('paymentNature', '!=', 'Dispute Lost')
+            ->where('refundStatus', '!=', 'Refund')
+            ->where('refundID', '!=', null)
+            ->where('dispute', null)
+            ->SUM('transactionfee');
+
+
+        $netReceivedamt = $paymentreceived - $disputefee - $deisputelosttransactionfee - $refundtransactionfeedata;
+
+
+        return view('ghi', [
+            'client' => $findclient,
+            'qaAssignee' => $qaAssignee,
+            'recentClients' => $recentClients,
+            'clientPayments' => $clientPayments,
+            'uniquepaymentarray' => $uniquepaymentarray,
+            'cashflows' => $checkingpayments,
+            'projects' => $allprojects,
+            'findProject_Manager' => $findProject_Manager,
+            'clientPaid' => $clientPaid,
+            'clientRemaining' => $clientRemaining,
+            'clienttotalwithoutRefund' => $total,
+            'clientrefundcount' => $clientrefundcount,
+            'disputepayment' => $disputepayment,
+            'unlinkedpayment' => $unlinkedpayment,
+            'netReceivedamt' => $netReceivedamt,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
+        ]);
+    }
+
+    function jkl(Request $request)
+    {
+        $depart = Department::count();
+        if ($depart > 0) {
+            $loginUser = $this->roleExits($request);
+            if ($loginUser[2] == 0 || $loginUser[0][0]->access == 0) {
+                $brand = Brand::get();
+                $eachbranddata = [];
+                foreach ($brand as $brands) {
+                    $brandName = Brand::where("id", $brands->id)->get();
+                    $brandclient = Client::where('brand', $brands->id)->count();
+                    $brandrefund_Month = QAFORM::where('brandID', $brands->id)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
+                    $branddispute_Month = QAFORM::where('brandID', $brands->id)->whereMonth('created_at', now())->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                    $eachbranddata[] = [$brandName, $brandclient, $brandrefund_Month, $branddispute_Month];
+                }
+                $idInQadepart = Department::where('name', 'LIKE', 'Q%')->get();
+                $qapersons = json_decode($idInQadepart[0]->users);
+                $eachPersonqaform = [];
+                foreach ($qapersons as $users) {
+                    $personName = Employee::where("id", $users)->get();
+                    $qapersonsclients = QaPersonClientAssign::where("user", $users)->count();
+                    $today_count = QAFORM::where('qaPerson', $users)->whereDate('created_at', '=', now()->toDateString())->count();
+                    $currentMonth_disputedClients = QAFORM::where('qaPerson', $users)->whereMonth('created_at', now())->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                    $currentMonth_refundClients = QAFORM::where('qaPerson', $users)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
+                    $eachPersonqaform[] = [$personName, $qapersonsclients, $today_count, $currentMonth_disputedClients, $currentMonth_refundClients];
+                }
+                $last5qaform = QAFORM::where('client_satisfaction', 'Extremely Dissatisfied')->orwhere('status_of_refund', 'High')->latest('id')->limit(5)->get();
+                $last5qaformstatus = Count($last5qaform);
+                $totalClient = Client::count();
+                $totalrefund =  QAFORM::where('Refund_Requested', 'Yes')->Distinct('projectID')->latest('created_at')->count();
+                $totaldispute =  QAFORM::where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                //pie charts
+                $status_OnGoing = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status', 'On Going')->count();
+                $status_Dispute = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status', 'Dispute')->count();
+                $status_Refund = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status', 'Refund')->count();
+                $status_NotStartedYet = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status', 'Not Started Yet')->count();
+                $remark_ExtremelySatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Extremely Satisfied')->count();
+                $remark_SomewhatSatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Somewhat Satisfied')->count();
+                $remark_NeitherSatisfiednorDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Neither Satisfied nor Dissatisfied')->count();
+                $remark_SomewhatDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Somewhat Dissatisfied')->count();
+                $remark_ExtremelyDissatisfied = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('client_satisfaction', 'Extremely Dissatisfied')->count();
+                $ExpectedRefundDispute_GoingGood = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund', 'Going Good')->count();
+                $ExpectedRefundDispute_Low = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund', 'Low')->count();
+                $ExpectedRefundDispute_Moderate = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund', 'Moderate')->count();
+                $ExpectedRefundDispute_High = QAFORM::whereMonth('created_at', now())->latest('qaform.created_at')->distinct('projectID')->where('status_of_refund', 'High')->count();
+                //renewal,recurring,dispute,refund
+                $Renewal_Month = NewPaymentsClients::whereYear('futureDate', now())
+                    ->whereMonth('futureDate', now())
+                    ->where('ChargingMode', 'Renewal')
+                    // ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
+                    ->get();
+                $Renewal_Month_count = NewPaymentsClients::whereYear('futureDate', now())
+                    ->whereMonth('futureDate', now())
+                    ->where('ChargingMode', 'Renewal')
+                    // ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
+                    ->distinct('ClientID')->count();
+                $Renewal_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
+                    ->whereMonth('futureDate', now())
+                    ->where('ChargingMode', 'Renewal')
+                    // ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
+                    ->SUM('TotalAmount');
+
+                $Recurring_Month = NewPaymentsClients::whereYear('futureDate', now())
+                    ->whereMonth('futureDate', now())
+                    ->where('ChargingMode', 'Recurring')
+                    // ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
+                    ->get();
+                $Recurring_Month_count = NewPaymentsClients::whereYear('futureDate', now())
+                    ->whereMonth('futureDate', now())
+                    ->where('ChargingMode', 'Recurring')
+                    // ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
+                    ->distinct('ClientID')
+                    ->count();
+                $Recurring_Month_sum = NewPaymentsClients::whereYear('futureDate', now())
+                    ->whereMonth('futureDate', now())
+                    ->where('ChargingMode', 'Recurring')
+                    // ->where('refundStatus', 'Pending Payment')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('remainingStatus', '!=', 'Refund')
+                    ->SUM('TotalAmount');
+
+                $Refund_Month = NewPaymentsClients::whereYear('paymentDate', now())
+                    ->whereMonth('paymentDate', now())
+                    ->where('refundStatus', 'Refund')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->get();
+                $Refund_count = NewPaymentsClients::whereYear('paymentDate', now())
+                    ->whereMonth('paymentDate', now())
+                    ->where('refundStatus', 'Refund')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->distinct('ClientID')
+                    ->count();
+                $Refund_sum = NewPaymentsClients::whereYear('paymentDate', now())
+                    ->whereMonth('paymentDate', now())
+                    ->where('refundStatus', 'Refund')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->SUM('paid');
+                $Dispute_Month = NewPaymentsClients::whereYear('disputeattack', now())
+                    ->whereMonth('disputeattack', now())
+                    ->where('dispute', 'Dispute')
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus',  '!=', 'Refund')
+                    ->where('dispute', '!=', null)
+                    ->get();
+                $Dispute_count = NewPaymentsClients::whereYear('disputeattack', now())
+                    ->whereMonth('disputeattack', now())
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus',  '!=', 'Refund')
+                    ->where('dispute', '!=', null)
+                    ->distinct('ClientID')
+                    ->count();
+                $Dispute_sum = NewPaymentsClients::whereYear('disputeattack', now())
+                    ->whereMonth('disputeattack', now())
+                    ->where('remainingStatus', '!=', 'Unlinked Payments')
+                    ->where('refundStatus', '!=', 'Pending Payment')
+                    ->where('refundStatus',  '!=', 'Refund')
+                    ->where('dispute', '!=', null)
+                    ->SUM('disputeattackamount');
+
+                $eachbrand_RevenueStatus = [];
+                foreach ($brand as $brands) {
+                    $brandName = Brand::where("id", $brands->id)->get();
+                    $brand_renewal = NewPaymentsClients::where('BrandID', $brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                        ->where('paymentNature', 'Renewal Payment')
+                        ->where('refundStatus', 'Pending Payment')
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->SUM('TotalAmount');
+                    $brandrefund_recurring = NewPaymentsClients::where('BrandID', $brands->id)->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                        ->where('paymentNature', 'Recurring Payment')
+                        ->where('refundStatus', 'Pending Payment')
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->SUM('TotalAmount');
+                    $branddispute_refund = NewPaymentsClients::where('BrandID', $brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                        ->where('refundStatus', 'Refund')
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->SUM('TotalAmount');
+                    $branddispute_dispute = NewPaymentsClients::where('BrandID', $brands->id)->whereMonth('created_at', now())->whereYear('futureDate', now())->whereMonth('futureDate', now())
+                        ->where('dispute', 'Dispute')
+                        ->where('remainingStatus', '!=', 'Unlinked Payments')
+                        ->SUM('TotalAmount');
+                    $eachbrand_RevenueStatus[] = [$brandName, $brand_renewal, $brandrefund_recurring, $branddispute_refund, $branddispute_dispute];
+                }
+
+                // echo("<pre>");
+                // print_r($eachbrand_RevenueStatus);
+                // die();
+
+                return view('jkl', [
+                    'eachbranddatas' => $eachbranddata,
+                    'eachPersonqaform' => $eachPersonqaform,
+                    'last5qaform' => $last5qaform,
+                    'last5qaformstatus' => $last5qaformstatus,
+                    'totalClient' => $totalClient,
+                    'totalrefund' => $totalrefund,
+                    'totaldispute' => $totaldispute,
+                    'LoginUser' => $loginUser[1],
+                    'departmentAccess' => $loginUser[0],
+                    'superUser' => $loginUser[2],
+                    //pie charts
+                    'status_OnGoing' => $status_OnGoing,
+                    'status_Dispute' => $status_Dispute,
+                    'status_Refund' => $status_Refund,
+                    'status_NotStartedYet' => $status_NotStartedYet,
+                    'remark_ExtremelySatisfied' => $remark_ExtremelySatisfied,
+                    'remark_SomewhatSatisfied' => $remark_SomewhatSatisfied,
+                    'remark_NeitherSatisfiednorDissatisfied' => $remark_NeitherSatisfiednorDissatisfied,
+                    'remark_SomewhatDissatisfied' => $remark_SomewhatDissatisfied,
+                    'remark_ExtremelyDissatisfied' => $remark_ExtremelyDissatisfied,
+                    'ExpectedRefundDispute_GoingGood' => $ExpectedRefundDispute_GoingGood,
+                    'ExpectedRefundDispute_Low' => $ExpectedRefundDispute_Low,
+                    'ExpectedRefundDispute_Moderate' => $ExpectedRefundDispute_Moderate,
+                    'ExpectedRefundDispute_High' => $ExpectedRefundDispute_High,
+                    //renewal,recurring,upsell
+                    'Renewal_Months' => $Renewal_Month,
+                    'Renewal_Month_counts' => $Renewal_Month_count,
+                    'Renewal_Month_sums' => $Renewal_Month_sum,
+                    'Recurring_Months' => $Recurring_Month,
+                    'Recurring_Month_counts' => $Recurring_Month_count,
+                    'Recurring_Month_sums' => $Recurring_Month_sum,
+                    'Refund_Month' => $Refund_Month,
+                    'Refund_count' => $Refund_count,
+                    'Refund_sum' => $Refund_sum,
+                    'Dispute_Month' => $Dispute_Month,
+                    'Dispute_count' => $Dispute_count,
+                    'Dispute_sum' => $Dispute_sum,
+                    'eachbrand_RevenueStatus' => $eachbrand_RevenueStatus
+                ]);
+            } else {
+                $total_client = QaPersonClientAssign::where("user", $loginUser[1][0]->id)->get();
+                $client_status = Count($total_client);
+                $today_count = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereDate('created_at', '=', now()->toDateString())->count();
+                $week_count = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+                $month_count = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->count();
+                $currentMonth_lowRiskClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->where('status_of_refund', 'Low')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_mediumRiskClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->where('status_of_refund', 'Moderate')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_highRiskClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->where('status_of_refund', 'High')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_ongoingClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->where('status', 'On Going')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_disputedClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                $currentMonth_refundClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->whereMonth('created_at', now())->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
+                $Total_disputedClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where('status', 'Dispute')->Distinct('projectID')->latest('created_at')->count();
+                $Total_refundClients = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where('status', 'Refund')->Distinct('projectID')->latest('created_at')->count();
+                $last5qaform = QAFORM::where('qaPerson', $loginUser[1][0]->id)->where(function ($query) {
+                    $query->where('client_satisfaction', 'Extremely Dissatisfied')
+                        ->orWhere('status_of_refund', 'High');
+                })->latest('id')->limit(5)->get();
+                $last5qaformstatus = Count($last5qaform);
+                return view('jkl', [
+                    'currentMonth_lowRiskClients' => $currentMonth_lowRiskClients,
+                    'currentMonth_mediumRiskClients' => $currentMonth_mediumRiskClients,
+                    'currentMonth_highRiskClients' => $currentMonth_highRiskClients,
+                    'currentMonth_ongoingClients' => $currentMonth_ongoingClients,
+                    'currentMonth_disputedClients' => $currentMonth_disputedClients,
+                    'currentMonth_refundClients' => $currentMonth_refundClients,
+                    'Total_disputedClients' => $Total_disputedClients,
+                    'Total_refundClients' => $Total_refundClients,
+                    'total_client' => $total_client,
+                    'client_status' => $client_status,
+                    'todayform' => $today_count,
+                    'weekform' => $week_count,
+                    'monthform' => $month_count,
+                    'last5qaform' => $last5qaform,
+                    'last5qaformstatus' => $last5qaformstatus,
+                    'LoginUser' => $loginUser[1],
+                    'departmentAccess' => $loginUser[0],
+                    'superUser' => $loginUser[2]
+                ]);
+            }
+        } else {
+            $loginUser = $request->session()->get('AdminUser');
+            $superUser = $loginUser->userRole;
+            $userID = $loginUser->id;
+
+            return view('dashboard_without_department', [
+                'LoginUser' => $loginUser,
+                'departmentAccess' => $userID,
+                'superUser' => $superUser
+            ]);
+        }
+    }
 
     function assignroles(Request $request)
     {
@@ -121,7 +594,8 @@ class BasicController extends Controller
             'allroutes' => $allroutes,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -166,7 +640,8 @@ class BasicController extends Controller
             'allroutes' => $allroutes,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -202,7 +677,8 @@ class BasicController extends Controller
             'routesall' => $routesall,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -431,6 +907,7 @@ class BasicController extends Controller
             $userID = $loginUser->id;
             $departmentAccess = "Hidden";
             $routeArray = "Hidden";
+            $theme = 0;
         } else {
             $superUser = 1;
             $userID = $loginUser[0]->id;
@@ -440,9 +917,31 @@ class BasicController extends Controller
             // die();
             $getroutes = RoutesRoles::select("name")->whereJsonContains('Role',$departmentAccess[0]->access)->get();
             $routeArray = $getroutes->pluck('name')->toArray();
+            $a = Themeselection::where('user', $userID)->get();
+            $theme = $a[0]->Selectedtheme;
         }
 
-        return [$departmentAccess, $loginUser, $superUser, $routeArray];
+        return [$departmentAccess, $loginUser, $superUser, $routeArray, $theme];
+    }
+
+    function changetheme(Request $request){
+        $loginUser = $this->roleExits($request);
+        $LoginUser = $loginUser[1][0]->id;
+        $superuser = $loginUser[2];
+        $theme = $loginUser[4];
+        if($theme == 0){
+            $changetheme = 1;
+        }else{
+            $changetheme = 0;
+        }
+
+        if($superuser == 1){
+            $user = Themeselection::where('user',$LoginUser)->update([
+                'Selectedtheme' =>  $changetheme,
+            ]);
+        }
+
+        return redirect('/dashboard');
     }
 
     function dashboard(Request $request)
@@ -615,6 +1114,7 @@ class BasicController extends Controller
                     'LoginUser' => $loginUser[1],
                     'departmentAccess' => $loginUser[0],
                     'superUser' => $loginUser[2],
+                    'theme' => $loginUser[4],
                     //pie charts
                     'status_OnGoing' => $status_OnGoing,
                     'status_Dispute' => $status_Dispute,
@@ -681,7 +1181,8 @@ class BasicController extends Controller
                     'last5qaformstatus' => $last5qaformstatus,
                     'LoginUser' => $loginUser[1],
                     'departmentAccess' => $loginUser[0],
-                    'superUser' => $loginUser[2]
+                    'superUser' => $loginUser[2],
+                    'theme' => $loginUser[4],
                 ]);
             }
         } else {
@@ -2194,14 +2695,28 @@ class BasicController extends Controller
             $mainsalesTeam[$index]['totalteamnet'] = $eachteamnetsales;
         }
 
-        return view('finalreport', [
-            'brands' => $brands,
-            'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2],
-            'salesteams' => $salesteams,
-            'mainsalesTeam' => $mainsalesTeam,
-        ]);
+        if($loginUser[4] == 0){
+            return view('finalreport', [
+                'brands' => $brands,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'salesteams' => $salesteams,
+                'mainsalesTeam' => $mainsalesTeam,
+                'theme' => $loginUser[4],
+            ]);
+        }else{
+            return view('finalreport_dark', [
+                'brands' => $brands,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'salesteams' => $salesteams,
+                'mainsalesTeam' => $mainsalesTeam,
+                'theme' => $loginUser[4],
+            ]);
+        }
+
     }
 
     function monthStats(Request $request, $id = null)
@@ -2846,17 +3361,34 @@ class BasicController extends Controller
 
 
 
-        return view('monthStats', [
-            'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2],
-            'brands' => $brands,
-            'finalfront' => $finalfront,
-            'finalsupport' => $finalsupport,
-            'collectedData' => $collectedData,
-            'collectedDatasupport' => $collectedDatasupport,
-            'role' => $role,
-        ]);
+        if($loginUser[4] == 0){
+            return view('monthStats', [
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'brands' => $brands,
+                'finalfront' => $finalfront,
+                'finalsupport' => $finalsupport,
+                'collectedData' => $collectedData,
+                'collectedDatasupport' => $collectedDatasupport,
+                'role' => $role,
+                'theme' => $loginUser[4],
+            ]);
+        }else{
+            return view('monthStats_dark', [
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'brands' => $brands,
+                'finalfront' => $finalfront,
+                'finalsupport' => $finalsupport,
+                'collectedData' => $collectedData,
+                'collectedDatasupport' => $collectedDatasupport,
+                'role' => $role,
+                'theme' => $loginUser[4],
+            ]);
+        }
+
     }
 
     function yearlybrandStats(Request $request, $id = null)
@@ -3310,15 +3842,38 @@ class BasicController extends Controller
             }
         }
 
-        return view('yearlystats', [
-            'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2],
-            'brands' => $brandnames,
-            'role' => $role,
-            'brandwise' => $brandwise,
-            'brandwisetotal' => $brandwisetotal,
-        ]);
+        if($loginUser[4] == 0){
+            return view('yearlystats', [
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'brands' => $brandnames,
+                'role' => $role,
+                'brandwise' => $brandwise,
+                'brandwisetotal' => $brandwisetotal,
+                'theme' => $loginUser[4]
+            ]);
+        }else{
+            return view('yearlystats_dark', [
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'brands' => $brandnames,
+                'role' => $role,
+                'brandwise' => $brandwise,
+                'brandwisetotal' => $brandwisetotal,
+                'theme' => $loginUser[4]
+            ]);
+        }
+        // return view('yearlystats', [
+        //     'LoginUser' => $loginUser[1],
+        //     'departmentAccess' => $loginUser[0],
+        //     'superUser' => $loginUser[2],
+        //     'brands' => $brandnames,
+        //     'role' => $role,
+        //     'brandwise' => $brandwise,
+        //     'brandwisetotal' => $brandwisetotal,
+        // ]);
     }
 
     function agentwisetargetstats(Request $request, $id = null)
@@ -3857,15 +4412,38 @@ class BasicController extends Controller
             }
         }
 
-        return view('agentstats', [
-            'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2],
-            'brands' => $brandnames,
-            'role' => $role,
-            'brandwise' => $brandwise,
-            'brandwisetotal' => $brandwisetotal,
-        ]);
+        if($loginUser[4] == 0){
+            return view('agentstats', [
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'brands' => $brandnames,
+                'role' => $role,
+                'brandwise' => $brandwise,
+                'brandwisetotal' => $brandwisetotal,
+                'theme' => $loginUser[4],
+            ]);
+        }else{
+            return view('agentstats_dark', [
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'brands' => $brandnames,
+                'role' => $role,
+                'brandwise' => $brandwise,
+                'brandwisetotal' => $brandwisetotal,
+                'theme' => $loginUser[4],
+            ]);
+        }
+        // return view('agentstats', [
+        //     'LoginUser' => $loginUser[1],
+        //     'departmentAccess' => $loginUser[0],
+        //     'superUser' => $loginUser[2],
+        //     'brands' => $brandnames,
+        //     'role' => $role,
+        //     'brandwise' => $brandwise,
+        //     'brandwisetotal' => $brandwisetotal,
+        // ]);
     }
 
     public function datewisedata(Request $request)
@@ -4170,14 +4748,29 @@ class BasicController extends Controller
             ];
         }
 
-        return view('dailystats', [
-            'brands' => $brand,
-            "employees" => $employeetodayspayment,
-            "branddata" => $branddata,
-            'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
-        ]);
+        if($loginUser[4] == 0){
+            return view('dailystats', [
+                'brands' => $brand,
+                "employees" => $employeetodayspayment,
+                "branddata" => $branddata,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
+            ]);
+        }else{
+            return view('dailystatsdarktheme', [
+                'brands' => $brand,
+                "employees" => $employeetodayspayment,
+                "branddata" => $branddata,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
+            ]);
+
+        }
+
     }
 
 
@@ -4199,7 +4792,8 @@ class BasicController extends Controller
             'brands' => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -4253,7 +4847,8 @@ class BasicController extends Controller
             'brands' => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -4297,7 +4892,8 @@ class BasicController extends Controller
         return view('targetUpload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -4511,7 +5107,7 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
 
-                $checkuser = $loginUser[3];
+        $checkuser = $loginUser[3];
        if ($checkuser !== "Hidden") {
             $all_permitted_route = $loginUser[3];
             $currentUrl = Route::currentRouteName();
@@ -4525,7 +5121,8 @@ class BasicController extends Controller
             'brands' => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -4547,7 +5144,8 @@ class BasicController extends Controller
             'brands' => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -4596,7 +5194,8 @@ class BasicController extends Controller
             'brands' => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -4620,7 +5219,8 @@ class BasicController extends Controller
             'brands' => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -4745,7 +5345,8 @@ class BasicController extends Controller
         return view('setupcompany', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -4789,7 +5390,8 @@ class BasicController extends Controller
             "companydata" => $companydata,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -4852,7 +5454,8 @@ class BasicController extends Controller
             "companies" => $companies,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -4874,7 +5477,8 @@ class BasicController extends Controller
             "companies" => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -4898,7 +5502,8 @@ class BasicController extends Controller
             'employees' => $employees,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -4945,7 +5550,8 @@ class BasicController extends Controller
             'employees' => $employees,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5008,7 +5614,8 @@ class BasicController extends Controller
             'brands' => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5030,7 +5637,8 @@ class BasicController extends Controller
             'brands' => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5077,7 +5685,8 @@ class BasicController extends Controller
             'department' => $department,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5110,7 +5719,8 @@ class BasicController extends Controller
             "departments" => $departments,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5135,7 +5745,8 @@ class BasicController extends Controller
             "brands" => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5203,7 +5814,8 @@ class BasicController extends Controller
             "brands" => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5224,7 +5836,8 @@ class BasicController extends Controller
             "Brands" => $brands,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5245,7 +5858,8 @@ class BasicController extends Controller
             "employee" => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5304,7 +5918,8 @@ class BasicController extends Controller
             "Employees" => $employees,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5352,7 +5967,8 @@ class BasicController extends Controller
                 "department" => $department,
                 'LoginUser' => $loginUser[1],
                 'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2]
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4],
             ]);
         } else {
             if (count($project) > 0) {
@@ -5368,7 +5984,8 @@ class BasicController extends Controller
                 "find_client" => $find_client,
                 'LoginUser' => $loginUser[1],
                 'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2]
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4],
             ]);
         }
     }
@@ -5414,7 +6031,8 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5423,12 +6041,14 @@ class BasicController extends Controller
 
         $firstemails = $request->input('email');
         $findclient = 0;
+        $findclient1 = 0;
 
         foreach ($firstemails as $email) {
+            $findclient1 += Client::where('email', $email)->count();
             $findclient += Clientmeta::whereJsonContains('otheremail', $email)->count();
         }
 
-        if ($findclient > 0) {
+        if ($findclient > 0 || $findclient1 > 0) {
             return redirect()->back()->with('Error', 'Client Email Found. Please use a new email.');
         }
 
@@ -5568,7 +6188,8 @@ class BasicController extends Controller
             'employees' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5757,7 +6378,8 @@ class BasicController extends Controller
         return view('projectUpload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -5883,7 +6505,8 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -6030,7 +6653,8 @@ class BasicController extends Controller
             'productionservices' => $productionservice,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -6162,7 +6786,8 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -6181,7 +6806,8 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -6200,7 +6826,8 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -6224,7 +6851,8 @@ class BasicController extends Controller
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -6248,7 +6876,8 @@ class BasicController extends Controller
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -6287,7 +6916,8 @@ class BasicController extends Controller
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -6321,7 +6951,8 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -6361,7 +6992,8 @@ class BasicController extends Controller
             'prjectid' => $id,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -6385,7 +7017,8 @@ class BasicController extends Controller
             'projects' => $findproject,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme'  => $loginUser[4],
         ]);
     }
 
@@ -6449,7 +7082,8 @@ class BasicController extends Controller
             'productionservices' => $productionservices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -6594,6 +7228,7 @@ class BasicController extends Controller
         $clienttotalwithoutRefund = NewPaymentsClients::where('ClientID', $clientID)
             ->where('refundStatus', 'On Going')
             ->where('paymentNature', '!=', 'Remaining')
+            ->where('paymentNature', '!=', 'FSRemaining')
             ->where('remainingStatus', '!=', 'Unlinked Payments')
             ->where('refundID', null)
             ->where('dispute', null)
@@ -6629,8 +7264,14 @@ class BasicController extends Controller
             }
         }
 
+        $remainigamtofDispute = NewPaymentsClients::where('ClientID', $clientID)
+        ->where('refundStatus', 'On Going')
+        ->where('remainingStatus', '!=', 'Unlinked Payments')
+        ->where('dispute','!=', null)
+        ->SUM('RemainingAmount');
+
         $total = $clienttotalwithoutRefund + $totalSum;
-        $clientRemaining = $total - $clientPaid;
+        $clientRemaining = $total - $clientPaid - $remainigamtofDispute;
 
         $unlinkedpayment = NewPaymentsClients::where('ClientID', $clientID)
             ->where('remainingStatus', 'Unlinked Payments')
@@ -6694,14 +7335,15 @@ class BasicController extends Controller
             'netReceivedamt' => $netReceivedamt,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
     function allclients(Request $request)
     {
         $loginUser = $this->roleExits($request);
-                $checkuser = $loginUser[3];
+        $checkuser = $loginUser[3];
        if ($checkuser !== "Hidden") {
             $all_permitted_route = $loginUser[3];
             $currentUrl = Route::currentRouteName();
@@ -6716,7 +7358,8 @@ class BasicController extends Controller
             'clients' => $findclient,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -6738,7 +7381,8 @@ class BasicController extends Controller
             'clients' => $findclient,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -6760,7 +7404,8 @@ class BasicController extends Controller
             'clients' => $findclient,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -6792,7 +7437,8 @@ class BasicController extends Controller
             'qaissues' => $qa_issues,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
     function addPaymentProcess(Request $request)
@@ -6826,7 +7472,8 @@ class BasicController extends Controller
             'brands' => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -6845,12 +7492,14 @@ class BasicController extends Controller
 
         $firstemails = $request->input('email');
         $findclient = 0;
+        $findclient1 = 0;
 
         foreach ($firstemails as $email) {
+            $findclient1 += Client::where('email', $email)->count();
             $findclient += Clientmeta::whereJsonContains('otheremail', $email)->count();
         }
 
-        if ($findclient > 0) {
+        if ($findclient > 0 || $findclient1 > 0 ) {
             return redirect()->back()->with('Error', 'Client Email Found. Please use a new email.');
         }
 
@@ -7191,7 +7840,8 @@ class BasicController extends Controller
             'remainingpaymentcount' => $remainingpaymentcount,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
     function clientPayment(Request $request)
@@ -8144,7 +8794,8 @@ class BasicController extends Controller
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
     public function fetchPaymentdata(Request $request)
@@ -8187,6 +8838,15 @@ class BasicController extends Controller
     }
     function payment_Refund_Process(Request $request)
     {
+        $loginUser = $this->roleExits($request);
+
+        if ($loginUser[2] == 0) {
+            $userid = 0;
+        } else {
+            $qaPerson = $request->session()->get('AdminUser');
+            $userid = $qaPerson[0]->id;
+        }
+
         $referencepayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->get();
         $originalpayment = NewPaymentsClients::where('id', $request->input('paymentreference'))->update([
             "refundID" => $request->input('refundID')
@@ -8228,7 +8888,8 @@ class BasicController extends Controller
             "remainingStatus" => 0,
             "transactionType" =>  $referencepayment[0]->transactionType,
             "transactionfee" => $request->input('transactionfee'),
-            "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee')
+            "amt_after_transactionfee" => $request->input('clientpaid') + $request->input('transactionfee'),
+            "qaperson" => $userid
 
         ]);
 
@@ -8327,7 +8988,8 @@ class BasicController extends Controller
             'refundpayment' => $refundpayment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -8453,7 +9115,8 @@ class BasicController extends Controller
             'pmemployee' => $findemployee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
     function payment_Dispute_Process(Request $request)
@@ -8504,7 +9167,8 @@ class BasicController extends Controller
             'pmemployee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -8552,7 +9216,8 @@ class BasicController extends Controller
             'clientPayments' => $client_payment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -8580,7 +9245,8 @@ class BasicController extends Controller
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
     function payment_Dispute_Process_lost(Request $request)
@@ -8746,7 +9412,8 @@ class BasicController extends Controller
             'employee' => $employee,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
     function payment_Dispute_Process_won(Request $request)
@@ -8882,7 +9549,8 @@ class BasicController extends Controller
             'dispute' => $dispute,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -8931,7 +9599,8 @@ class BasicController extends Controller
                 'saleemployee' => $findemployee,
                 'LoginUser' => $loginUser[1],
                 'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2]
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
             ]);
         } else {
 
@@ -8970,7 +9639,8 @@ class BasicController extends Controller
                 'referencepayment' => $referencepayment,
                 'LoginUser' => $loginUser[1],
                 'departmentAccess' => $loginUser[0],
-                'superUser' => $loginUser[2]
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
             ]);
         }
     }
@@ -11219,7 +11889,8 @@ class BasicController extends Controller
             'clientPayments' => $client_payment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
     function payment_view(Request $request, $id)
@@ -11238,7 +11909,8 @@ class BasicController extends Controller
             'client_payment' => $client_payment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
     function payment_view1(Request $request, $id)
@@ -11257,7 +11929,8 @@ class BasicController extends Controller
             'client_payment' => $client_payment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -11378,7 +12051,8 @@ class BasicController extends Controller
             'qa_forms' => $qa_form,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -11402,7 +12076,8 @@ class BasicController extends Controller
             'Proj_Prod' => $Proj_Prod,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -11410,15 +12085,13 @@ class BasicController extends Controller
     {
         $loginUser = $this->roleExits($request);
         $checkuser = $loginUser[3];
-        if ($checkuser !== "Hidden") {
+       if ($checkuser !== "Hidden") {
             $all_permitted_route = $loginUser[3];
-
-            $currentUrl = request()->path();
-            if (!in_array($currentUrl, $all_permitted_route)){
+            $currentUrl = Route::currentRouteName();
+            if (!in_array($currentUrl, $all_permitted_route )){
                 return redirect('/unauthorized');
             }
         }
-        $checkuser = $loginUser[3];
 
         $brand = Brand::get();
         $department = Department::get();
@@ -11437,7 +12110,8 @@ class BasicController extends Controller
             'qaissues' => $qa_issues,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -11612,7 +12286,8 @@ class BasicController extends Controller
             'qaissues' => $qa_issues,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -11646,7 +12321,8 @@ class BasicController extends Controller
             'allissues' => $allissues,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -11904,7 +12580,8 @@ class BasicController extends Controller
             'qafroms' => $QA,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -11928,7 +12605,8 @@ class BasicController extends Controller
             'Proj_Prod' => $Proj_Prod,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -11950,7 +12628,8 @@ class BasicController extends Controller
             "qa_issues" => $qa_issues,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -11988,7 +12667,8 @@ class BasicController extends Controller
     function Production_services(Request $request)
     {
         $loginUser = $this->roleExits($request);
-                $checkuser = $loginUser[3];
+            $checkuser = $loginUser[3];
+            $theme = $loginUser[4];
        if ($checkuser !== "Hidden") {
             $all_permitted_route = $loginUser[3];
             $currentUrl = Route::currentRouteName();
@@ -12005,7 +12685,8 @@ class BasicController extends Controller
             "ProductionServices" => $ProductionServices,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $theme
         ]);
     }
 
@@ -12063,7 +12744,8 @@ class BasicController extends Controller
             'QaPersonClientAssigns' => $QaPersonClientAssigns,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -12103,7 +12785,8 @@ class BasicController extends Controller
             'QaPersonClientAssigns1' => $QaPersonClientAssigns1,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -12383,18 +13066,36 @@ class BasicController extends Controller
             $result = $qaform->get();
         }
 
-        return view('new_qaReport', [
-            'clients' => $client,
-            'employees' => $employee,
-            'departments' => $department,
-            'issues' => $issue,
-            'brands' => $brand,
-            'roles' => $role,
-            'qaforms' => $result,
-            'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
-        ]);
+        if($loginUser[4] == 0){
+            return view('new_qaReport', [
+                'clients' => $client,
+                'employees' => $employee,
+                'departments' => $department,
+                'issues' => $issue,
+                'brands' => $brand,
+                'roles' => $role,
+                'qaforms' => $result,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
+            ]);
+        }else{
+            return view('new_qaReport_dark', [
+                'clients' => $client,
+                'employees' => $employee,
+                'departments' => $department,
+                'issues' => $issue,
+                'brands' => $brand,
+                'roles' => $role,
+                'qaforms' => $result,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
+            ]);
+        }
+
     }
 
     function revenuereport(Request $request, $id = null)
@@ -12914,20 +13615,39 @@ class BasicController extends Controller
             }
         }
 
-        return view('new_revenueReport', [
-            'clients' => $client,
-            'employees' => $employee,
-            'departments' => $department,
-            'issues' => $issue,
-            'brands' => $brand,
-            'roles' => $role,
-            'qaforms' => $result,
-            'newtotalamt' => $newtotalamt,
-            'newtotalamtpaid' => $newtotalamtpaid,
-            'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
-        ]);
+        if($loginUser[4] == 0){
+            return view('new_revenueReport', [
+                'clients' => $client,
+                'employees' => $employee,
+                'departments' => $department,
+                'issues' => $issue,
+                'brands' => $brand,
+                'roles' => $role,
+                'qaforms' => $result,
+                'newtotalamt' => $newtotalamt,
+                'newtotalamtpaid' => $newtotalamtpaid,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
+            ]);
+        }else{
+            return view('new_revenueReport_dark', [
+                'clients' => $client,
+                'employees' => $employee,
+                'departments' => $department,
+                'issues' => $issue,
+                'brands' => $brand,
+                'roles' => $role,
+                'qaforms' => $result,
+                'newtotalamt' => $newtotalamt,
+                'newtotalamtpaid' => $newtotalamtpaid,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
+            ]);
+        }
     }
 
     function clientReport(Request $request, $id)
@@ -13125,7 +13845,8 @@ class BasicController extends Controller
         return view('paymentUpload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -13482,7 +14203,8 @@ class BasicController extends Controller
         return view('sheetpaymentUpload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -13605,7 +14327,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -13909,7 +14631,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -14383,7 +15105,8 @@ class BasicController extends Controller
         return view('sheetpaymentUploadbook', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -14448,7 +15171,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Remaining' || $allinvoices[0]['Sales Mode'] == 'FSRemaining') {
@@ -14690,7 +15413,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -15161,7 +15884,8 @@ class BasicController extends Controller
         return view('sheetpaymentUploadbitswits', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -15283,7 +16007,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -15502,7 +16226,8 @@ class BasicController extends Controller
         return view('sheetpaymentUploadClieckfirstSMM', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -15629,7 +16354,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -15878,7 +16603,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -16349,7 +17074,8 @@ class BasicController extends Controller
         return view('sheetpaymentUploadCreative', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+           'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -16473,7 +17199,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -16722,7 +17448,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -17193,7 +17919,8 @@ class BasicController extends Controller
         return view('sheetpaymentUploadinfinity', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -17346,7 +18073,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -17595,7 +18322,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -18066,7 +18793,8 @@ class BasicController extends Controller
         return view('sheetpaymentUploadwebDesignHub', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -18135,7 +18863,7 @@ class BasicController extends Controller
             } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                 $paymentNature = "Renewal Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                $paymentNature = "Small Paymente";
+                $paymentNature = "Small Payment";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                 $paymentNature = "Upsell";
             } elseif ($allinvoices[0]['Sales Mode'] == 'Remaining' || $allinvoices[0]['Sales Mode'] == 'FSRemaining') {
@@ -18377,7 +19105,7 @@ class BasicController extends Controller
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Renewal') {
                     $paymentNature = "Renewal Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Small Payment') {
-                    $paymentNature = "Small Paymente";
+                    $paymentNature = "Small Payment";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'Up Sell') {
                     $paymentNature = "Upsell";
                 } elseif ($allinvoices[0]['Sales Mode'] == 'WON') {
@@ -18875,7 +19603,8 @@ class BasicController extends Controller
             'brands' => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -18921,7 +19650,8 @@ class BasicController extends Controller
             "salesteams" => $salesteam,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -18947,7 +19677,8 @@ class BasicController extends Controller
             'brands' => $brand,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -19068,7 +19799,8 @@ class BasicController extends Controller
             'getUnmatched' => $newgetUnmatched,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -19092,7 +19824,8 @@ class BasicController extends Controller
             'clientPayments' => $client_payment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -19238,6 +19971,21 @@ class BasicController extends Controller
             $agentroleupdate = AgentTarget::where('AgentID', $agentroles->AgentID)->Update([
                 'salesrole' => $agentroles->salesrole,
             ]);
+        }
+
+        $allusers = Employee::get();
+        foreach ($allusers as $alluser) {
+            $countid = Themeselection::where('user',$alluser->id)->count();
+            if($countid > 0){
+                continue;
+            }else{
+                $agentroleupdate = Themeselection::create([
+                    'user' => $alluser->id,
+                    'Selectedtheme' => 0,
+                    'created_at' => date('y-m-d H:m:s'),
+                    'updated_at' => date('y-m-d H:m:s'),
+                ]);
+            }
         }
 
         return redirect('/client/project/payment/all');
@@ -19482,7 +20230,8 @@ class BasicController extends Controller
         return view('ppc_upload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -19542,7 +20291,8 @@ class BasicController extends Controller
         return view('leads_upload', [
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 
@@ -19626,7 +20376,8 @@ class BasicController extends Controller
             'employees' => $employees,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -19669,7 +20420,8 @@ class BasicController extends Controller
             'allleads' => $allleads,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 
@@ -19715,7 +20467,8 @@ class BasicController extends Controller
             'allleads' => $allleads,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
         ]);
     }
 

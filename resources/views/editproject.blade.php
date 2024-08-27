@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -29,13 +29,17 @@
             @csrf
 
             <div class="row">
-                <div class="col-3 mt-3">
-                    <label for="" style="font-weight:bold;">Project Name:</label>
+                <div class="col-6 mt-3">
+                    <label for="" style="font-weight:bold;">Project Name:</label><br>
+                    @if ($theme == 1)
+                    <input type="text" required name="name" class="form-control-dark wd-600" value="{{$project->name}}"  placeholder="  Enter Name" required style="height: 50px;">
+                    @else
                     <input type="text" required name="name" class="form-control" required value="{{$project->name}}">
+                    @endif
                 </div>
 
 
-                <div class="col-5 mt-3">
+                <div class="col-6 mt-3">
                   <label for="" style="font-weight:bold;">Client:</label>
                   <select class="form-control" id="select2forme" required name="client">
                     @foreach ($clients as $client)
@@ -43,7 +47,7 @@
                     @endforeach
                   </select>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-6 mt-3">
                   <label for="" style="font-weight:bold;">Select Project Manager:</label>
                   <select class="form-control select2" required name="pm">
                     @foreach ($employee as $client)
@@ -51,19 +55,30 @@
                     @endforeach
                   </select>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-6 mt-3">
                   <label for="" style="font-weight:bold;">Website If Exist Or Domain Name If Exists:</label>
-                  <input type="text" required name="website" required class="form-control" value="{{$project->domainOrwebsite}}">
+                  @if ($theme == 1)
+                    <input type="text" name="website" class="form-control-dark wd-400" placeholder="  Enter Name" value="{{$project->domainOrwebsite}}"  required style="height: 50px;">
+                    @else
+                    <input type="text" name="website" required class="form-control" value="{{$project->domainOrwebsite}}">
+                    @endif
                 </div>
                 <div class="col-8 mt-3">
-                  <label for="" style="font-weight:bold;">Basecamp Url</label>
-                  <input type="text" required name="basecampurl" required class="form-control"  value="{{$project->basecampUrl}}">
+                  <label for="" style="font-weight:bold;">Basecamp Url</label><br>
+                  @if ($theme == 1)
+                  <input type="text"  name="basecampurl"  class="form-control-dark wd-800" value="{{$project->basecampUrl}}" placeholder="  Enter Name" required style="height: 50px;">
+                  @else
+                  <input type="text" name="basecampurl" required class="form-control" value="{{$project->basecampUrl}}">
+                  @endif
                 </div>
 
                 <div class="col-12 mt-3">
-                  <label for="" style="font-weight:bold;">Project Description</label>
-                 <textarea required name="openingcomments" class="form-control" id="" cols="30" rows="10" >{{$project->projectDescription}}</textarea>
-                </textarea>
+                  <label for="" style="font-weight:bold;">Project Description</label><br>
+                 @if ($theme == 1)
+                 <textarea required name="openingcomments" class="form-control-dark wd-1000" placeholder="  Enter Name"  id="" cols="30" rows="10">{{$project->projectDescription}}</textarea>
+                 @else
+                 <textarea required name="openingcomments" class="form-control" id="" cols="30" rows="10">{{$project->projectDescription}}</textarea>
+                 @endif
                 </div>
             </div>
             <div class="row mt-3">

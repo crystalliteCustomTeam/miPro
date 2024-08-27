@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-4 mt-3">
                       <label for="" style="font-weight:bold;">Payment Nature:</label>
-                      <select class="form-control select2" required name="paymentNature"  id="paymentNaturetype">
+                      <select class="form-control select2" required name="paymentNature" >
                             <option value="{{$editPayment->paymentNature}}" selected>{{$editPayment->paymentNature}}</option>
                             <option value="New Lead">New Lead</option>
                             <option value="New Sale">New Sale</option>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="col-4 mt-3" id="chargingpackage" >
                         <label for="" style="font-weight:bold;">Charging Plan</label>
-                        <select class="form-control"  name="ChargingPlan">
+                        <select class="form-control select2"  name="ChargingPlan">
                             <option value="{{$editPayment->ChargingPlan}}" selected>{{$editPayment->ChargingPlan}}</option>
                             <option value="One Time Payment">One Time Payment</option>
                             <option value="Monthly">Monthly</option>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="col-4 mt-3" id="paymentMode" >
                         <label for="" style="font-weight:bold;">Payment Mode</label>
-                        <select class="form-control"  name="paymentModes">
+                        <select class="form-control select2"  name="paymentModes">
                             <option value="{{$editPayment->ChargingMode}}" selected>{{$editPayment->ChargingMode}}</option>
                             <option value="One Time Payment">One Time Payment</option>
                             <option value="Renewal">Renewal</option>
@@ -148,20 +148,36 @@
                     </div>
                     <div class="col-4 mt-3" id="bankUpload" >
                         <label for="" style="font-weight:bold;">Bank Wire(Upload):</label>
-                        <input type="file" name="bankWireUpload" id="bankWireUpload" class="form-control">
+                        @if ($theme == 1)
+                    <input type="file" name="bankWireUpload" class="form-control-dark wd-400" required style="height: 50px;">
+                    @else
+                    <input type="file" name="bankWireUpload" id="bankWireUpload" class="form-control">
+                    @endif
                     </div>
 
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Transaction ID:</label>
-                        <input type="text" class="form-control" required name="transactionID" value="{{$editPayment->TransactionID}}">
+                        @if ($theme == 1)
+                        <input type="text"  class="form-control-dark wd-400" value="{{$editPayment->TransactionID}}" placeholder="  Enter Name" required style="height: 50px;" name="transactionID">
+                        @else
+                        <input type="text" class="form-control" value="{{$editPayment->TransactionID}}" required name="transactionID">
+                        @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Date:</label>
+                        @if ($theme == 1)
+                        <input type="date"  required name="paymentdate" class="form-control-dark wd-400" style="height: 50px;" value="{{$editPayment->paymentDate}}">
+                        @else
                         <input type="date" class="form-control" required name="paymentdate" value="{{$editPayment->paymentDate}}">
+                        @endif
                       </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Next Payment Date:</label>
-                        <input type="date" class="form-control"  name="nextpaymentdate" value="{{$editPayment->futureDate}}">
+                        @if ($theme == 1)
+                        <input type="date"  name="nextpaymentdate" class="form-control-dark wd-400" style="height: 50px;" value="{{$editPayment->futureDate}}">
+                        @else
+                        <input type="date" class="form-control" name="nextpaymentdate" value="{{$editPayment->futureDate}}">
+                        @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;" >Sale Person:</label>
@@ -202,15 +218,27 @@
                     <input type="hidden" name="accountmanager" value="{{$editPayment->ProjectManager}}">
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Total Amount:</label>
-                        <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" value="{{$editPayment->TotalAmount}}">
+                        @if ($theme == 1)
+                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" required style="height: 50px;" value="{{$editPayment->TotalAmount}}">
+                        @else
+                        <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" required value="{{$editPayment->TotalAmount}}">
+                        @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Client Paid</label>
-                        <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid"value="{{$editPayment->Paid}}">
+                        @if ($theme == 1)
+                        <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;" value="{{$editPayment->Paid}}">
+                        @else
+                        <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required value="{{$editPayment->Paid}}">
+                        @endif
                       </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Transaction Fee</label>
+                        @if ($theme == 1)
+                        <input id="transactionfee" type="text" class="form-control-dark wd-400" required placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" style="height: 50px;" value="{{$editPayment->transactionfee}}">
+                        @else
                         <input id="transactionfee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" value="{{$editPayment->transactionfee}}">
+                        @endif
                     </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Type</label>
@@ -222,8 +250,8 @@
                     </div>
 
                     <div class="col-12 mt-3" id="numberofsplits" >
-                        <label for="" style="font-weight:bold;">Number of Split:</label>
-                        <select class="form-control" id="selectionField"  name="numOfSplit">
+                        <label for="" style="font-weight:bold;">Number of Split:</label><br>
+                        <select class="form-control select2 wd-400" id="selectionField"  name="numOfSplit">
                             <option value="{{$editPayment->numberOfSplits}}">{{$editPayment->numberOfSplits}}</option>
                             <option value="--">None</option>
                             <option value="1">1</option>
@@ -261,7 +289,11 @@
                                 @foreach ($sharedamt as $item)
                                 <div class="col-12 mt-3">
                                     <label for="" style="font-weight:bold;">Share Amount:</label>
-                                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]" value="{{$item}}">
+                                    @if ($theme == 1)
+                                    <input type="text" class="form-control-dark wd-600" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]" required style="height: 50px;" value="{{$item}}">
+                                    @else
+                                    <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]" required value="{{$item}}">
+                                    @endif
                                 </div>
                                 @endforeach
                                 @else
@@ -271,8 +303,12 @@
                         </div>
                     </div>
                     <div class="col-12 mt-3">
-                        <label for="" style="font-weight:bold;">Description:</label>
+                        <label for="" style="font-weight:bold;">Description:</label><br>
+                        @if ($theme == 1)
+                        <textarea required name="description" class="form-control-dark wd-1000" id="" cols="30" rows="10">{{$editPayment->Description}}</textarea>
+                        @else
                         <textarea required name="description" class="form-control" id="" cols="30" rows="10">{{$editPayment->Description}}</textarea>
+                        @endif
                     </div>
 
 

@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
     <div class="br-mainpanel">
@@ -37,7 +37,7 @@
               <br><br>
             <div class="row">
               <div class="col-12 mt-4">
-                <table id="datatable1"  class="table-dark table-hover">
+                <table id="datatable1"  class="table-dark-wrapper table-hover">
                   <thead>
                     <th>Department</th>
                     <th>Assignee</th>

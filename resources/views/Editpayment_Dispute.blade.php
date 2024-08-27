@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="br-mainpanel">
@@ -52,13 +52,17 @@
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Chargeback Type:</label>
-                                <select class="form-control" required name="chargebacktype"  id="chargebacktype" >
+                                <select class="form-control select2" required name="chargebacktype" >
                                     <option value="Dispute" selected>Dispute</option>
                                 </select>
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Dispute Date:</label>
-                                <input type="date" class="form-control" required name="disputedate" value="{{$item->dispute_Date}}" >
+                                @if ($theme == 1)
+                            <input type="date"  required name="disputedate" class="form-control-dark wd-600" style="height: 50px;" value="{{$item->dispute_Date}}">
+                            @else
+                            <input type="date" class="form-control" required name="disputedate" value="{{$item->dispute_Date}}">
+                            @endif
                             </div>
 
                             <div class="col-6 mt-3">
@@ -83,15 +87,23 @@
 
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Dispute amount</label>
+                                @if ($theme == 1)
+                                <input type="text" class="form-control-dark wd-600" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;" value="{{$item->disputedAmount}}">
+                                @else
                                 <input id="amountPaid" type="text" class="form-control" required onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" value="{{$item->disputedAmount}}">
+                                @endif
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Dispute Fee</label>
-                                <input id="disputefee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="disputefee" value="{{$item->disputefee}}">
+                                @if ($theme == 1)
+                            <input type="text" class="form-control-dark wd-600" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="disputefee" required style="height: 50px;" value="{{$item->disputefee}}">
+                            @else
+                            <input id="disputefee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="disputefee" value="{{$item->disputefee}}">
+                            @endif
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="" style="font-weight:bold;">Payments Include:</label>
-                                <select class="form-control" required name="chargebacktype"  id="chargebacktype" >
+                                <select class="form-control select2" required name="chargebacktype"  id="chargebacktype" >
                                     <option value="this" >This</option>
                                     <option value="this and remaining" >This and Remaining</option>
                                     <option value="all payments" >All Payments</option>
@@ -99,8 +111,12 @@
                             </div>
 
                             <div class="col-12 mt-3">
-                                <label for="" style="font-weight:bold;">Dispute Reason:</label>
+                                <label for="" style="font-weight:bold;">Dispute Reason:</label><br>
+                                @if ($theme == 1)
+                                <textarea required name="description" class="form-control-dark wd-1000" id="desc" cols="30" rows="10">{{$item->disputeReason}}</textarea>
+                                @else
                                 <textarea required name="description" class="form-control" id="desc" cols="30" rows="10">{{$item->disputeReason}}</textarea>
+                                @endif
                             </div>
                             <div class="col-12 mt-3">
                                 <br><br>

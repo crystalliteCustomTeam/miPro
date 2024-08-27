@@ -1,6 +1,9 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
-@section('maincontent')
+@section('maincontent') --}}
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
+
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <div class="br-mainpanel">
@@ -16,6 +19,8 @@
                 <!-- hidden on purpose using d-none class to have a different look with the original -->
                 <!-- feel free to unhide by removing the d-none class below -->
 @if ($superUser == 0 || $departmentAccess[0]->access == 0 )
+{{-- @if ($superUser == 0 ) --}}
+{{-- @elseif ($superUser != 0 & $departmentAccess[0]->access == 0 ) --}}
                 <div class="row row-sm mg-b-20 d-none">
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-info rounded overflow-hidden">
@@ -80,19 +85,41 @@
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Total Client</label>
+                                @if ($theme == 1)
+                                <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$item[1]}}</p>
+                                @else
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[1]}}</p>
+                                @endif
+
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">Today Forms</label>
+                                @if ($theme == 1)
+                                <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$item[2]}}</p>
+                                @else
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[2]}}</p>
+                                @endif
+
+
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">Month Refund</label>
+                                @if ($theme == 1)
+                                <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$item[4]}}</p>
+                                @else
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[4]}}</p>
+                                @endif
+
+
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">Month Dispute</label>
+                                @if ($theme == 1)
+                                <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$item[3]}}</p>
+                                @else
                                 <p class="tx-lato tx-inverse tx-bold">{{$item[3]}}</p>
+                                @endif
+
                             </div>
                         </div><!-- d-flex -->
                         <div class="progress mg-b-10">
@@ -110,19 +137,38 @@
                     @foreach ($eachbranddatas as $eachbranddata)
                         <div class="col-3 mg-b-15">
                         <div class="card bd-gray-400 pd-20">
-                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">{{$eachbranddata[0][0]->name}}</h6>
+
+                            @if ($theme == 1)
+                            <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15" style="color: white">{{$eachbranddata[0][0]->name}}</h6>
+                                @else
+                                <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">{{$eachbranddata[0][0]->name}}</h6>
+                                @endif
                             <div class="d-flex mg-b-10">
                             <div class="bd-r pd-r-10">
                                 <label class="tx-12">Clients</label>
+                                @if ($theme == 1)
+                                <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$eachbranddata[1]}}</p>
+                                @else
                                 <p class="tx-lato tx-inverse tx-bold">{{$eachbranddata[1]}}</p>
+                                @endif
                             </div>
                             <div class="bd-r pd-x-10">
                                 <label class="tx-12">M.Refund</label>
+                                @if ($theme == 1)
+                                <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$eachbranddata[2]}}</p>
+                                @else
                                 <p class="tx-lato tx-inverse tx-bold">{{$eachbranddata[2]}}</p>
+                                @endif
+
                             </div>
                             <div class="pd-l-10">
                                 <label class="tx-12">M.Dispute</label>
+                                @if ($theme == 1)
+                                <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$eachbranddata[3]}}</p>
+                                @else
                                 <p class="tx-lato tx-inverse tx-bold">{{$eachbranddata[3]}}</p>
+                                @endif
+
                             </div>
                             </div><!-- d-flex -->
                             <div class="progress mg-b-10">
@@ -307,9 +353,74 @@
                                 </div>
 
 
+                                @if ($theme == 1)
+                                <div class="col-6" style="color: #1D2939">
+                                    <div class="card bd-0 mg-t-20" style="color: #1D2939">
+                                        <div id="carousel12" class="carousel slide" data-ride="carousel" style="color: #1D2939">
+
+                                        <div class="carousel-inner" role="listbox" style="color: #1D2939">
+
+                                            <div class="carousel-item active" style="color: #1D2939">
+                                                <div class=" pd-30 ht-300 pos-relative d-flex align-items-center rounded" style="color: #1D2939">
+                                                    <script type="text/javascript">
+
+                                                        // Load the Visualization API and the corechart package.
+                                                        google.charts.load('current', {'packages':['corechart']});
+
+                                                        // Set a callback to run when the Google Visualization API is loaded.
+                                                        google.charts.setOnLoadCallback(drawChart);
+
+                                                        // Callback that creates and populates a data table,
+                                                        // instantiates the pie chart, passes in the data and
+                                                        // draws it.
+                                                        function drawChart() {
+
+                                                        // Create the data table.
+                                                        var data = new google.visualization.DataTable();
+                                                        data.addColumn('string', 'Topping');
+                                                        data.addColumn('number', 'Slices');
+                                                        data.addRows([
+                                                            ['On Going', {{$status_OnGoing}}],
+                                                            ['Dispute', {{$status_Dispute}}],
+                                                            ['Refund', {{$status_Refund}}],
+                                                            ['Not Started Yet', {{$status_NotStartedYet}}],
+                                                        ]);
+
+                                                        // Set chart options
+                                                        var options = {'title':'Monthly Client Status',
+                                                        colors: ['green', 'red', 'purple', 'blue'],
+                                                        backgroundColor: '#1D2939',
+                                                                        'width':400,
+                                                                        'height':300,
+                                                                        titleTextStyle: {
+                                                                            color: 'white', // Title color
+                                                                        },
+                                                                        legend: {
+                                                                            textStyle: {
+                                                                                color: 'white' // Legend text color
+                                                                            }
+                                                                        },
+                                                                        pieSliceTextStyle: {
+                                                                            color: 'white' // Pie chart slice label color
+                                                                        }
+                                                                    };
+
+                                                        // Instantiate and draw our chart, passing in some options.
+                                                        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                                                        chart.draw(data, options);
+                                                        }
+                                                    </script>
+
+                                                    <div id="chart_div" style="color: #1D2939"></div>
+                                                </div><!-- d-flex -->
+                                            </div>
 
 
-
+                                        </div><!-- carousel-inner -->
+                                        </div><!-- carousel -->
+                                    </div><!-- card -->
+                                </div>
+                                @else
                                 <div class="col-6">
                                     <div class="card bd-0 mg-t-20">
                                         <div id="carousel12" class="carousel slide" data-ride="carousel">
@@ -363,13 +474,79 @@
                                         </div><!-- carousel -->
                                     </div><!-- card -->
                                 </div>
+                                @endif
 
 
 
+                                @if ($theme == 1)
+                                <div class="col-6" style="color: #1D2939">
+                                    <div class="card bd-0 mg-t-20" style="color: #1D2939">
+                                        <div id="carousel12" class="carousel slide" data-ride="carousel" style="color: #1D2939">
+
+                                        <div class="carousel-inner" role="listbox" style="color: #1D2939">
+
+                                            <div class="carousel-item active" style="color: #1D2939">
+                                                <div class=" pd-30 ht-300 pos-relative d-flex align-items-center rounded" style="color: #1D2939">
+                                                    <script type="text/javascript">
+
+                                                        // Load the Visualization API and the corechart package.
+                                                        google.charts.load('current', {'packages':['corechart']});
+
+                                                        // Set a callback to run when the Google Visualization API is loaded.
+                                                        google.charts.setOnLoadCallback(drawChart);
+
+                                                        // Callback that creates and populates a data table,
+                                                        // instantiates the pie chart, passes in the data and
+                                                        // draws it.
+                                                        function drawChart() {
+
+                                                          // Create the data table.
+                                                          var data = new google.visualization.DataTable();
+                                                          data.addColumn('string', 'Topping');
+                                                          data.addColumn('number', 'Slices');
+                                                          data.addRows([
+                                                            ['Extremely Satisfied', {{$remark_ExtremelySatisfied}}],
+                                                            ['Somewhat Satisfied', {{$remark_SomewhatSatisfied}}],
+                                                            ['Neither Satisfied nor Dissatisfied', {{$remark_NeitherSatisfiednorDissatisfied}}],
+                                                            ['Somewhat Dissatisfied', {{$remark_SomewhatDissatisfied}}],
+                                                            ['Extremely Dissatisfied', {{$remark_ExtremelyDissatisfied}}]
+                                                          ]);
+
+                                                          // Set chart options
+                                                          var options = {'title':'Monthly QA Remarks',
+                                                          colors: ['green', 'blue', 'yellow', 'purple', 'red'],
+                                                          backgroundColor: '#1D2939',
+                                                                         'width':400,
+                                                                         'height':300,
+                                                                         titleTextStyle: {
+                                                                            color: 'white', // Title color
+                                                                        },
+                                                                        legend: {
+                                                                            textStyle: {
+                                                                                color: 'white' // Legend text color
+                                                                            }
+                                                                        },
+                                                                        pieSliceTextStyle: {
+                                                                            color: 'white' // Pie chart slice label color
+                                                                        }
+                                                                    };
+
+                                                          // Instantiate and draw our chart, passing in some options.
+                                                          var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+                                                          chart.draw(data, options);
+                                                        }
+                                                      </script>
+
+                                                    <div id="chart_div1" style="color: #1D2939"></div>
+                                                </div><!-- d-flex -->
+                                            </div>
 
 
-
-
+                                        </div><!-- carousel-inner -->
+                                        </div><!-- carousel -->
+                                    </div><!-- card -->
+                                </div>
+                                @else
                                 <div class="col-6">
                                     <div class="card bd-0 mg-t-20">
                                         <div id="carousel12" class="carousel slide" data-ride="carousel">
@@ -424,6 +601,7 @@
                                         </div><!-- carousel -->
                                     </div><!-- card -->
                                 </div>
+                                @endif
 
 
 
@@ -432,6 +610,73 @@
 
 
 
+                                @if ($theme == 1)
+                                <div class="col-6" style="color: #1D2939">
+                                    <div class="card bd-0 mg-t-20" style="color: #1D2939">
+                                        <div id="carousel12" class="carousel slide" data-ride="carousel" style="color: #1D2939">
+
+                                        <div class="carousel-inner" role="listbox" style="color: #1D2939">
+
+                                            <div class="carousel-item active" style="color: #1D2939">
+                                                <div class="pd-30 ht-300 pos-relative d-flex align-items-center rounded" style="color: #1D2939">
+                                                    <script type="text/javascript">
+
+                                                        // Load the Visualization API and the corechart package.
+                                                        google.charts.load('current', {'packages':['corechart']});
+
+                                                        // Set a callback to run when the Google Visualization API is loaded.
+                                                        google.charts.setOnLoadCallback(drawChart);
+
+                                                        // Callback that creates and populates a data table,
+                                                        // instantiates the pie chart, passes in the data and
+                                                        // draws it.
+                                                        function drawChart() {
+
+                                                          // Create the data table.
+                                                          var data = new google.visualization.DataTable();
+                                                          data.addColumn('string', 'Topping');
+                                                          data.addColumn('number', 'Slices');
+                                                          data.addRows([
+                                                            ['Going Good', {{$ExpectedRefundDispute_GoingGood}}],
+                                                            ['Low', {{$ExpectedRefundDispute_Low}}],
+                                                            ['Medium', {{$ExpectedRefundDispute_Moderate}}],
+                                                            ['High', {{$ExpectedRefundDispute_High}}],
+                                                          ]);
+
+                                                          // Set chart options
+                                                          var options = {'title':'Monthly Expected Refund',
+                                                          colors: ['green', 'yellow', 'purple', 'red'],
+                                                          backgroundColor: '#1D2939',
+                                                                         'width':400,
+                                                                         'height':300,
+                                                                         titleTextStyle: {
+                                                                            color: 'white', // Title color
+                                                                        },
+                                                                        legend: {
+                                                                            textStyle: {
+                                                                                color: 'white' // Legend text color
+                                                                            }
+                                                                        },
+                                                                        pieSliceTextStyle: {
+                                                                            color: 'white' // Pie chart slice label color
+                                                                        }};
+
+                                                          // Instantiate and draw our chart, passing in some options.
+                                                          var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
+                                                          chart.draw(data, options);
+                                                        }
+                                                      </script>
+
+                                                    <div id="chart_div2" style="color: #1D2939"></div>
+                                                </div><!-- d-flex -->
+                                            </div>
+
+
+                                        </div><!-- carousel-inner -->
+                                        </div><!-- carousel -->
+                                    </div><!-- card -->
+                                </div>
+                                @else
                                 <div class="col-6">
                                     <div class="card bd-0 mg-t-20">
                                         <div id="carousel12" class="carousel slide" data-ride="carousel">
@@ -485,6 +730,7 @@
                                         </div><!-- carousel -->
                                     </div><!-- card -->
                                 </div>
+                                @endif
 
 
 
@@ -500,19 +746,32 @@
                                 <div class="col-sm-4">
                                     <div class="tx-center pd-y-15 bd">
                                         <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Clients</p>
+                                        @if ($theme == 1)
+                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0" style="color: white">{{$totalClient}}</h4>
+                                        @else
                                         <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$totalClient}}</h4>
+                                        @endif
                                     </div>
                                 </div><!-- col-4 -->
                                 <div class="col-sm-4 mg-t-20 mg-sm-t-0">
                                     <div class="tx-center pd-y-15 bd">
                                         <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Refund</p>
+                                        @if ($theme == 1)
+                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0" style="color: white">{{$totalrefund}}</h4>
+                                        @else
                                         <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$totalrefund}}</h4>
+                                        @endif
+
                                     </div>
                                 </div><!-- col-4 -->
                                 <div class="col-sm-4 mg-t-20 mg-sm-t-0">
                                     <div class="tx-center pd-y-15 bd">
                                         <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Dispute</p>
+                                        @if ($theme == 1)
+                                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0" style="color: white">{{$totaldispute}}</h4>
+                                        @else
                                         <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$totaldispute}}</h4>
+                                        @endif
                                     </div>
                                 </div><!-- col-4 -->
                             </div><!-- row -->
@@ -526,7 +785,11 @@
 
                         <div class="card bd-gray-400 overflow-hidden ">
                             <div class="pd-x-25 pd-t-25">
+                            @if ($theme == 1)
+                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20" style="color: white">Month Renewal Payments: (${{$Renewal_Month_sums}})</h6>
+                            @else
                             <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Month Renewal Payments: (${{$Renewal_Month_sums}})</h6>
+                            @endif
 
                             {{-- <div class="bg-teal pd-x-25 pd-b-25 d-flex justify-content-between mg-t-20">
                                 <div class="tx-center">
@@ -573,7 +836,11 @@
 
                         <div class="card bd-gray-400 overflow-hidden mg-t-20">
                             <div class="pd-x-25 pd-t-25">
+                            @if ($theme == 1)
+                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20" style="color: white">Month Recurring Payments: (${{$Recurring_Month_sums}})</h6>
+                            @else
                             <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Month Recurring Payments: (${{$Recurring_Month_sums}})</h6>
+                            @endif
 
                             {{-- <div class="bg-teal pd-x-25 pd-b-25 d-flex justify-content-between">
                                 <div class="tx-center">
@@ -620,7 +887,12 @@
 
                         <div class="card bd-gray-400 overflow-hidden mg-t-20">
                             <div class="pd-x-25 pd-t-25">
+
+                            @if ($theme == 1)
+                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20" style="color: white">Month Refunds: (${{$Refund_sum}})</h6>
+                            @else
                             <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Month Refunds: (${{$Refund_sum}})</h6>
+                            @endif
 
                             {{-- <div class="bg-warning  pd-x-25 pd-b-25 d-flex justify-content-between">
                                 <div class="tx-center">
@@ -671,7 +943,12 @@
 
                         <div class="card bd-gray-400 overflow-hidden mg-t-20">
                             <div class="pd-x-25 pd-t-25">
+
+                            @if ($theme == 1)
+                            <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20" style="color: white">Month Disputes: (${{$Dispute_sum}})</h6>
+                            @else
                             <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1 mg-b-20">Month Disputes: (${{$Dispute_sum}})</h6>
+                            @endif
 
                             {{-- <div class="bg-danger  pd-x-25 pd-b-25 d-flex justify-content-between">
                                 <div class="tx-center">
@@ -776,19 +1053,35 @@
               <div class="row row-sm">
                 <div class="col-4">
                   <div class="card bd-gray-400 pd-20">
-                    <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">QA Forms</h6>
+                    @if ($theme == 1)
+                        <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15" style="color: white">QA Forms</h6>
+                        @else
+                        <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">QA Forms</h6>
+                        @endif
                     <div class="d-flex mg-b-10">
                       <div class="bd-r pd-r-10">
                         <label class="tx-12">Today</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$todayform}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$todayform}}</p>
+                         @endif
                       </div>
                       <div class="bd-r pd-x-10">
                         <label class="tx-12">This Week</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$weekform}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$weekform}}</p>
+                        @endif
                       </div>
                       <div class="pd-l-10">
                         <label class="tx-12">This Month</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$monthform}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$monthform}}</p>
+                        @endif
                       </div>
                     </div><!-- d-flex -->
                     <div class="progress mg-b-10">
@@ -798,23 +1091,44 @@
                 </div><!-- col-4 -->
                 <div class="col-4">
                   <div class="card bd-gray-400 pd-20">
+
+                    @if ($theme == 1)
+                    <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15" style="color: white">Client Status</h6>
+                    @else
                     <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Client Status</h6>
+                    @endif
                     <div class="d-flex mg-b-10">
                       <div class="bd-r pd-r-10">
                         <label class="tx-12">Clients</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$client_status}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$client_status}}</p>
+                         @endif
                       </div>
                       <div class="bd-r pd-x-10">
                         <label class="tx-12">M. On Going</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$currentMonth_ongoingClients}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_ongoingClients}}</p>
+                         @endif
                       </div>
                       <div class="bd-r pd-x-10">
                         <label class="tx-12">M. Dispute</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$currentMonth_disputedClients}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_disputedClients}}</p>
+                         @endif
                       </div>
                       <div class="pd-l-10">
                         <label class="tx-12">M. Refund</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$currentMonth_refundClients}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_refundClients}}</p>
+                         @endif
                       </div>
                     </div><!-- d-flex -->
                     <div class="progress mg-b-10">
@@ -824,19 +1138,36 @@
                 </div><!-- col-4 -->
                 <div class="col-4">
                   <div class="card bd-gray-400 pd-20">
+
+                    @if ($theme == 1)
+                    <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15" style="color: white">Expected Refund</h6>
+                    @else
                     <h6 class="tx-12 tx-uppercase tx-inverse tx-bold mg-b-15">Expected Refund</h6>
+                    @endif
                     <div class="d-flex mg-b-10">
                       <div class="bd-r pd-r-10">
                         <label class="tx-12">M. Low</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$currentMonth_lowRiskClients}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_lowRiskClients}}</p>
+                         @endif
                       </div>
                       <div class="bd-r pd-x-10">
                         <label class="tx-12">M. Moderate</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$currentMonth_mediumRiskClients}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_mediumRiskClients}}</p>
+                         @endif
                       </div>
                       <div class="pd-l-10">
                         <label class="tx-12">M. High</label>
+                        @if ($theme == 1)
+                        <p class="tx-lato tx-inverse tx-bold" style="color: white">{{$currentMonth_highRiskClients}}</p>
+                        @else
                         <p class="tx-lato tx-inverse tx-bold">{{$currentMonth_highRiskClients}}</p>
+                         @endif
                       </div>
                     </div><!-- d-flex -->
                     <div class="progress mg-b-10">
@@ -948,7 +1279,7 @@
                                 </ol>
                                 <div class="carousel-inner" role="listbox">
                                     <div class="carousel-item active">
-                                    <div class="bg-white ht-300 pos-relative overflow-hidden d-flex flex-column align-items-start rounded">
+                                    <div class=" ht-300 pos-relative overflow-hidden d-flex flex-column align-items-start rounded">
                                         <div class="pos-absolute t-15 r-25">
                                         <a href="" class="tx-gray-500 hover-info mg-l-7"><i class="icon ion-more tx-20"></i></a>
                                         </div>
@@ -979,7 +1310,7 @@
                                     </div><!-- d-flex -->
                                     </div>
                                     <div class="carousel-item">
-                                    <div class="bg-white ht-300 pos-relative overflow-hidden d-flex flex-column align-items-start rounded">
+                                    <div class=" ht-300 pos-relative overflow-hidden d-flex flex-column align-items-start rounded">
                                         <div class="pos-absolute t-15 r-25">
                                         <a href="" class="tx-gray-500 hover-info mg-l-7"><i class="icon ion-more tx-20"></i></a>
                                         </div>
@@ -1031,19 +1362,31 @@
                       <div class="col-sm-4">
                         <div class="tx-center pd-y-15 bd">
                           <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Clients</p>
-                          <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$client_status}}</h4>
+                          @if ($theme == 1)
+                            <h4 class="tx-lato tx-inverse tx-bold mg-b-0" style="color: white">{{$client_status}}</h4>
+                          @else
+                            <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$client_status}}</h4>
+                          @endif
                         </div>
                       </div><!-- col-4 -->
                       <div class="col-sm-4 mg-t-20 mg-sm-t-0">
                         <div class="tx-center pd-y-15 bd">
-                          <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Refund</p>
+                        <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Refund</p>
+                        @if ($theme == 1)
+                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0" style="color: white">{{$Total_refundClients}}</h4>
+                        @else
                           <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$Total_refundClients}}</h4>
+                        @endif
                         </div>
                       </div><!-- col-4 -->
                       <div class="col-sm-4 mg-t-20 mg-sm-t-0">
                         <div class="tx-center pd-y-15 bd">
                           <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Total Dispute</p>
+                          @if ($theme == 1)
+                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0" style="color: white">{{$Total_disputedClients}}</h4>
+                        @else
                           <h4 class="tx-lato tx-inverse tx-bold mg-b-0">{{$Total_disputedClients}}</h4>
+                        @endif
                         </div>
                       </div><!-- col-4 -->
                     </div><!-- row -->
@@ -1101,7 +1444,6 @@
               </div><!-- row -->
 
 @else
-
 @endif
 
 

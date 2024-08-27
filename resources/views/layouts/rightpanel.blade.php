@@ -4,12 +4,17 @@ if($superUser == 0){
    $ID = $LoginUser->id;
    $Name = $LoginUser->goodName;
    $Email = $LoginUser->userEmail;
+   $themes = 0;
 
 
 }else{
+    // echo("<pre>");
+    // print_r($LoginUser[0]);
+    // die();
   $ID = $LoginUser[0]->id;
   $Name = $LoginUser[0]->name;
   $Email = $LoginUser[0]->email;
+  $themes =  (int)$theme;
 }
 
 @endphp
@@ -171,6 +176,11 @@ if($superUser == 0){
 
             <ul class="list-unstyled user-profile-nav">
 
+              @if ($themes == 1)
+              <li><a href="/changetheme"><i class="icon ion-ios-sunny"></i> Change Theme</a></li>
+              @else
+              <li><a href="/changetheme"><i class="icon ion-ios-moon"></i> Change Theme</a></li>
+              @endif
               <li><a href="/logout"><i class="icon ion-power"></i> Sign Out</a></li>
             </ul>
           </div><!-- dropdown-menu -->

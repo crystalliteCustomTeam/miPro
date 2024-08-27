@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
@@ -78,55 +78,103 @@
                           </tr>
                         </thead>
                         <tbody>
-                                <tr>
-                                    <td >January</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="jan" required value="{{$brandeditdata->January}}"></td>
-                                </tr>
-                                <tr>
-                                    <td >February</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="feb" required value="{{$brandeditdata->February}}"></td>
-                                </tr>
-                                <tr>
-                                    <td >March</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="mar" required value="{{$brandeditdata->March}}"></td>
-                                </tr>
-                                <tr>
-                                    <td>April</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="apr" required value="{{$brandeditdata->April}}"></td>
-                                </tr>
-                                <tr>
-                                    <td>May</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="may" required value="{{$brandeditdata->May}}"></td>
-                                </tr>
-                                <tr>
-                                    <td >June</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="june" required value="{{$brandeditdata->June}}"></td>
-                                </tr>
-                                <tr>
-                                    <td >July</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="july" required value="{{$brandeditdata->July}}"></td>
-                                </tr>
-                                <tr>
-                                    <td >August</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="aug" required value="{{$brandeditdata->August}}"></td>
-                                </tr>
-                                <tr>
-                                    <td>September</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="sept" required value="{{$brandeditdata->September}}"></td>
-                                </tr>
-                                <tr>
-                                    <td >October</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="oct" required value="{{$brandeditdata->October}}"></td>
-                                </tr>
-                                <tr>
-                                    <td >November</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="nov" required value="{{$brandeditdata->November}}"></td>
-                                </tr>
-                                <tr>
-                                    <td >December</td>
-                                    <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="dec" required value="{{$brandeditdata->December}}"></td>
-                                </tr>
-                        </tbody>
+                            <tr>
+                                <td >January</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="jan" required style="height: 50px;" value="{{$brandeditdata->January}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="jan" required value="{{$brandeditdata->January}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >February</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="feb" required style="height: 50px;" value="{{$brandeditdata->February}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="feb" required value="{{$brandeditdata->February}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >March</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="mar" required style="height: 50px;" value="{{$brandeditdata->March}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="mar" required value="{{$brandeditdata->March}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>April</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="apr" required style="height: 50px;" value="{{$brandeditdata->April}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="apr" required value="{{$brandeditdata->April}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>May</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="may" required style="height: 50px;" value="{{$brandeditdata->May}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="may" required value="{{$brandeditdata->May}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >June</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="june" required style="height: 50px;" value="{{$brandeditdata->June}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="june" required value="{{$brandeditdata->June}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >July</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="july" required style="height: 50px;" value="{{$brandeditdata->July}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="july" required value="{{$brandeditdata->July}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >August</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="aug" required style="height: 50px;" value="{{$brandeditdata->August}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="aug" required value="{{$brandeditdata->August}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>September</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="sept" required style="height: 50px;" value="{{$brandeditdata->September}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="sept" required value="{{$brandeditdata->September}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >October</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="oct" required style="height: 50px;" value="{{$brandeditdata->October}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="oct" required value="{{$brandeditdata->October}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >November</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="nov" required style="height: 50px;" value="{{$brandeditdata->November}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="nov" required value="{{$brandeditdata->November}}"></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td >December</td>
+                                @if ($theme == 1)
+                                <td><input type="text"class="form-control-dark wd-200" onkeypress="return /[0-9]/i.test(event.key)" name="dec" required style="height: 50px;" value="{{$brandeditdata->December}}"></td>
+                                @else
+                                <td><input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="dec" required value="{{$brandeditdata->December}}"></td>
+                                @endif
+                            </tr>
+                    </tbody>
                       </table>
 
 

@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -29,7 +29,11 @@
 
                     <div class="col-6 mt-3">
                             <label for="" style="font-weight:bold;">Name:</label>
+                            @if ($theme == 1)
+                            <input type="text" name="name" class="form-control-dark wd-600" value="{{$item1->Name}}" placeholder="  Enter Name" required style="height: 50px;">
+                            @else
                             <input type="text" name="name" class="form-control" value="{{$item1->Name}}" required>
+                            @endif
                     </div>
 
                     <div class="col-6 mt-3">

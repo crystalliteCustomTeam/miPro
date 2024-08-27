@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -70,7 +70,7 @@
                   </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Card Brand:</label>
-                    <select  class="form-control " required name="cardBrand" id="clientcard" disabled>
+                    <select  class="form-control select2" required name="cardBrand" id="clientcard" disabled>
                         <option value="{{$dispute[0]->disputepayment->Card_Brand}}">{{$dispute[0]->disputepayment->Card_Brand}}</option>
                     </select>
                 </div>
@@ -89,11 +89,11 @@
 
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Transaction ID:</label>
-                    <input type="text" class="form-control" required name="transactionID" value="{{$dispute[0]->disputepayment->TransactionID}}" disabled>
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" required style="height: 50px;"  required name="transactionID" value="{{$dispute[0]->disputepayment->TransactionID}}" disabled>
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Payment Date:</label>
-                    <input type="date" class="form-control" required name="paymentdate">
+                    <input type="date" class="form-control-dark wd-400" style="height: 50px;" required name="paymentdate">
                   </div>
 
                 <div class="col-4 mt-3">
@@ -125,16 +125,29 @@
                 <input type="hidden" name="accountmanager" value="{{$dispute[0]->disputepayment->ProjectManager}}">
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Total Amount:</label>
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" required style="height: 50px;" value="{{$dispute[0]->disputepayment->TotalAmount}}" disabled>
+                    @else
                     <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" value="{{$dispute[0]->disputepayment->TotalAmount}}" disabled>
+                    @endif
                 </div>
                 <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Client Paid</label>
-                    <input id="amountPaid" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" value="{{$dispute[0]->disputepayment->Paid}}" disabled>
+                    @if ($theme == 1)
+                    <input type="text" class="form-control-dark wd-400" placeholder="  Enter Name" onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" required style="height: 50px;"  value="{{$dispute[0]->disputepayment->Paid}}" disabled>
+                    @else
+                    <input id="amountPaid" type="text" class="form-control" required onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" value="{{$dispute[0]->disputepayment->Paid}}" disabled>
+                    @endif
                     <input type="hidden" name="wonamount" value="{{$dispute[0]->disputepayment->Paid}}">
                   </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Transaction Fee</label>
+
+                    @if ($theme == 1)
+                    <input id="transactionfee" type="text" class="form-control-dark wd-400" placeholder="  Enter Name" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" value="{{$dispute[0]->disputepayment->transactionfee}}" disabled style="height: 50px;" >
+                    @else
                     <input id="transactionfee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" value="{{$dispute[0]->disputepayment->transactionfee}}" disabled>
+                    @endif
                 </div>
                   <div class="col-4 mt-3">
                     <label for="" style="font-weight:bold;">Payment Type</label>
@@ -202,8 +215,12 @@
                 @endif
 
                 <div class="col-12 mt-3">
-                    <label for="" style="font-weight:bold;">Description:</label>
+                    <label for="" style="font-weight:bold;">Description:</label><br>
+                    @if ($theme == 1)
+                    <textarea required name="description" class="form-control-dark wd-1000" id="" placeholder="  Enter Description" cols="30" rows="10"></textarea>
+                    @else
                     <textarea required name="description" class="form-control" id="" cols="30" rows="10"></textarea>
+                    @endif
                 </div>
 
 

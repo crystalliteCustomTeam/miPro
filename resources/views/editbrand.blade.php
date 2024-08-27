@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -31,29 +31,49 @@
 
                 <div class="col-3">
                     <label for="">Name</label>
-                    <input type="text" name="name" class="form-control" value="{{$brandeditdata->name}}" required>
+                    @if ($theme == 1)
+                    <input type="text" name="name" required value="{{$brandeditdata->name}}" class="form-control-dark wd-300" style="height: 50px;" placeholder="  Enter name">
+                    @else
+                    <input type="text" name="name" class="form-control" required>
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Website URL</label>
-                    <input type="url" name="website" class="form-control" value="{{$brandeditdata->website}}" required>
+                    @if ($theme == 1)
+                    <input type="url" name="website" required class="form-control-dark wd-300" value="{{$brandeditdata->website}}" style="height: 50px;" placeholder="  Enter website">
+                    @else
+                    <input type="url" name="website" class="form-control" required value="{{$brandeditdata->website}}">
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Tel </label>
-                    <input type="text" name="tel" required value="{{$brandeditdata->tel}}" class="form-control">
+                    @if ($theme == 1)
+                    <input type="text" name="tel" required class="form-control-dark wd-300" value="{{$brandeditdata->tel}}" style="height: 50px;" placeholder="  Enter tel">
+                    @else
+                    <input type="text" name="tel" required class="form-control" value="{{$brandeditdata->tel}}">
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Email </label>
-                    <input type="email" name="email" required value="{{$brandeditdata->email}}" class="form-control">
+                    @if ($theme == 1)
+                    <input type="email" name="email" required class="form-control-dark wd-300" value="{{$brandeditdata->email}}" style="height: 50px;" placeholder="  Enter email">
+                    @else
+                    <input type="email" name="email" required class="form-control" value="{{$brandeditdata->email}}">
+                    @endif
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-3">
                     <label for="">Address </label>
-                    <input type="text" name="address" required value="{{$brandeditdata->address}}" class="form-control">
+                    @if ($theme == 1)
+                    <input type="text" name="address" required class="form-control-dark wd-300" value="{{$brandeditdata->address}}" style="height: 50px;" placeholder="  Enter Address">
+                    @else
+                    <input type="text" name="address" required class="form-control" value="{{$brandeditdata->address}}">
+                    @endif
                 </div>
                 <div class="col-3">
                     <label for="">Brand Owner </label>
-                    <select class="form-control" name="brandOwner">
+                    <select class="form-control select2" name="brandOwner">
                       @foreach($employees as $employee)
                         <option value="{{ $employee->id }}" {{ $employee->id == $brandeditdata->brandOwner ? 'selected' : '' }}>{{ $employee->name }} </option>
                       @endforeach
