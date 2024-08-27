@@ -672,7 +672,7 @@ if($superUser == 0){
                         $("#searchallbranddata").attr('disabled','disabled');
                     }),
                     success:((Response)=>{
-                        console.log(Response);
+                        // console.log(Response);
 
                             let brandrev = Response.netrevenue;
                             let mytableBody = document.getElementById('startingtable');

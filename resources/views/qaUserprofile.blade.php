@@ -1,7 +1,9 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
     <!-- ########## START: MAIN PANEL ########## -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
     <div class="br-mainpanel br-profile-page">
 
       <div class="card widget-4 bd-0 rounded-0">
@@ -33,7 +35,11 @@
         </div><!-- card-body -->
       </div><!-- card -->
 
-      <div class="ht-70 bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center bd-b bd-gray-400">
+      @if ($theme == 1)
+    <div class="ht-70  bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center bd-b bd-gray-400" style="background: black">
+    @else
+    <div class="ht-70 bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center bd-b bd-gray-400">
+    @endif
         <ul class="nav nav-outline active-primary align-items-center flex-row" role="tablist">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#projects" role="tab">Clients</a></li>
             <li class="nav-item hidden-xs-down"><a class="nav-link" data-toggle="tab" href="#dashboard" role="tab">Dashboard</a></li>
@@ -44,7 +50,11 @@
         <div class="tab-pane fade active show" id="projects">
           <div class="row">
             <div class="col-lg-8">
+                @if ($theme == 1)
+                <div class="media-list card-header rounded bd bd-gray-400">
+                @else
                 <div class="media-list bg-white rounded bd bd-gray-400">
+                @endif
                     @if ($qa_client_status > 0)
                         @foreach ($qa_client as $project)
                         <div class="media pd-20 pd-xs-30">
@@ -52,7 +62,13 @@
                             <div class="media-body mg-l-20">
                                 <div class="d-flex justify-content-between mg-b-10">
                                     <div>
+                                        @if ($theme == 1)
+                                        {{-- <h6 class="mg-b-2 tx-inverse tx-14" style="color: white">{{ $project->name }}</h6> --}}
+                                        <a href="/client/details/{{ $project->clientname->id }}"><h6 class="mg-b-2 tx-inverse tx-14" style="color: white">{{ $project->clientname->name }}</h6></a>
+                                        @else
                                         <a href="/client/details/{{ $project->clientname->id }}"><h6 class="mg-b-2 tx-inverse tx-14">{{ $project->clientname->name }}</h6></a>
+                                        @endif
+
                                         <span class="tx-12 tx-gray-500">{{ $project->name }}</span><br>
                                     </div>
                                 <span class="tx-12">{{ $project->created_at }}</span>
@@ -71,7 +87,11 @@
             </div><!-- col-lg-8 -->
             <div class="col-lg-4 mg-t-30 mg-lg-t-0">
               <div class="card pd-20 pd-xs-30 bd-gray-400">
+                @if ($theme == 1)
+                <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-25" style="color: white">Contact Information</h6>
+                @else
                 <h6 class="tx-gray-800 tx-uppercase tx-semibold tx-13 mg-b-25">Contact Information</h6>
+                @endif
 
                 @if ($qa_client_status > 0)
 
@@ -79,16 +99,32 @@
                     <p class="tx-info mg-b-25">{{$qa_client[0]->Username->name }}</p>
 
                     <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Email Address</label>
+                    @if ($theme == 1)
+                    <p class="tx-inverse mg-b-25" style="color: white">{{$qa_client[0]->Username->email }}</p>
+                    @else
                     <p class="tx-inverse mg-b-25">{{$qa_client[0]->Username->email }}</p>
+                    @endif
 
                     <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Extention</label>
+                    @if ($theme == 1)
+                    <p class="tx-inverse mg-b-25" style="color: white">{{$qa_client[0]->Username->extension }}</p>
+                    @else
                     <p class="tx-inverse mg-b-25">{{$qa_client[0]->Username->extension }}</p>
+                    @endif
 
                     <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Designation</label>
+                    @if ($theme == 1)
+                    <p class="tx-inverse mg-b-50" style="color: white">{{$qa_client[0]->Username->position }}</p>
+                    @else
                     <p class="tx-inverse mg-b-50">{{$qa_client[0]->Username->position }}</p>
+                    @endif
 
                     <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Department</label>
+                    @if ($theme == 1)
+                    <p class="tx-inverse mg-b-25" style="color: white">Quality Assaurance</p>
+                    @else
                     <p class="tx-inverse mg-b-25">Quality Assaurance</p>
+                    @endif
                 @else
                     <label class="tx-10 tx-uppercase tx-mont tx-medium tx-spacing-1 mg-b-2">Name</label>
                     <p class="tx-info mg-b-25">{{$employee[0]->name }}</p>
