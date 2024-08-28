@@ -96,6 +96,8 @@ Route::controller(BasicController::class)->group(function () {
         //pushemailstometa
         Route::get('/client/emails', 'pushEmailtometa')->name('Push_Email');
         Route::get('/client/emails/newpayments', 'pushnewpayments')->name('Push_payments');
+        //Mark Client as Completed
+        Route::get('/client/completed/{id}', 'Client_MarkasCompleted')->name('Client_MarkasCompleted');
 
         //qaform:
         Route::get('/forms/qaform_d', 'qaform')->name('QAForm_Project');
@@ -121,6 +123,7 @@ Route::controller(BasicController::class)->group(function () {
         Route::get('/client/project/deleteproductions/{id}', 'deleteproduction')->name('Delete_Project_Production');
         Route::get('/client/details/{id}', 'getclientDetails')->name('Client_Portal');
         Route::get('/all/clients', 'allclients')->name('All_Client_List');
+        Route::get('/all/clients/active', 'allclientsActive')->name('All_Client_List_Active');
         Route::get('/all/newclients', 'monthClient')->name('All_NewClient_List');
         Route::get('/assigned/clients', 'assignedclients')->name('All_AssignedClient_List');
 
@@ -137,6 +140,8 @@ Route::controller(BasicController::class)->group(function () {
         Route::get('/client/project/payment/view/{id}', 'payment_view')->name('View_Payments');
         Route::get('/client/project/payment/report/view/{id}', 'payment_view1')->name('View_Payment');
         Route::get('/client/project/payment/all', 'all_payments')->name('All_Payments_List');
+
+        Route::get('/client/project/payment/all/active', 'all_paymentsActive')->name('All_Payments_List_Active');
         //refund
         Route::get('/client/project/payment/Refund/{id}', 'payment_Refund')->name('Create_Refund');
         Route::post('/client/project/payment/Refund/process', 'payment_Refund_Process');

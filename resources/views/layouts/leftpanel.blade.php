@@ -81,6 +81,7 @@
             </a><!-- br-menu-link -->
             <ul class="br-menu-sub">
             <li class="sub-item"><a href="/all/clients" class="sub-link">Clients</a></li>
+            <li class="sub-item"><a href="/all/clients/active" class="sub-link">Clients (Active)</a></li>
             </ul>
         </li><!-- br-menu-item -->
         <li class="br-menu-item">
@@ -146,6 +147,7 @@
             <li class="sub-item"><a href="/payments/unmatched" class="sub-link">Unmatched Payments (Stripe)</a></li>
             <li class="sub-item"><a href="/payments/unmatched/sheet" class="sub-link">Unmatched Payments (Sheet)</a></li>
             <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">All Payments</a></li>
+            <li class="sub-item"><a href="/client/project/payment/all/active" class="sub-link">All Payments (Active)</a></li>
             <li class="sub-item"><a href="/client/project/payment/disputes" class="sub-link">Disputes</a></li>
             </ul>
         </li><!-- br-menu-item -->
@@ -259,6 +261,7 @@
             <li class="sub-item"><a href="/assigned/clients" class="sub-link">Assigned Clients</a></li>
             <li class="sub-item"><a href="/all/newclients" class="sub-link">New Client</a></li>
             <li class="sub-item"><a href="/all/clients" class="sub-link">All Clients</a></li>
+            <li class="sub-item"><a href="/all/clients/active" class="sub-link">Clients (Active)</a></li>
             </ul>
         </li><!-- br-menu-item -->
         <li class="br-menu-item">
@@ -291,6 +294,7 @@
                 <li class="sub-item"><a href="/client/add/payment" class="sub-link">Add Payment</a></li>
                 <li class="sub-item"><a href="/payment/daily/{id?}" class="sub-link">Today Payments</a></li>
                 <li class="sub-item"><a href="/client/project/payment/all" class="sub-link">All Payments</a></li>
+                <li class="sub-item"><a href="/client/project/payment/all/active" class="sub-link">All Payments (Active)</a></li>
                 </ul>
             </li><!-- br-menu-item -->
 

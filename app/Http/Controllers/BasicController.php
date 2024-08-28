@@ -5999,7 +5999,7 @@ class BasicController extends Controller
         }
 
 
-        $createEmployee = Employee::create([
+        $createEmployee = Employee::insertGetId([
             "name" => $request->input("name"),
             "email" => $request->input("email"),
             "extension" => $request->input("extension"),
@@ -6007,6 +6007,13 @@ class BasicController extends Controller
             "password" => Hash::make($request->input("password")),
             "position" => $request->input('position'),
             'status' => "Account Created"
+        ]);
+
+        $agentroleupdate = Themeselection::create([
+            'user' => $createEmployee,
+            'Selectedtheme' => 0,
+            'created_at' => date('y-m-d H:m:s'),
+            'updated_at' => date('y-m-d H:m:s'),
         ]);
 
         if ($createEmployee) {
@@ -7354,6 +7361,29 @@ class BasicController extends Controller
         $findclient = Client::get();
         $user_id = 0;
         return view('allclients', [
+            'user_id' => $user_id,
+            'clients' => $findclient,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4],
+        ]);
+    }
+
+    function allclientsActive(Request $request)
+    {
+        $loginUser = $this->roleExits($request);
+        $checkuser = $loginUser[3];
+       if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = Route::currentRouteName();
+            if (!in_array($currentUrl, $all_permitted_route )){
+                return redirect('/unauthorized');
+            }
+        }
+        $findclient = Client::where('ClientStatus',null)->get();
+        $user_id = 0;
+        return view('allclientsActive', [
             'user_id' => $user_id,
             'clients' => $findclient,
             'LoginUser' => $loginUser[1],
@@ -11588,7 +11618,8 @@ class BasicController extends Controller
             'stripePayment' => $stripePayment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
     public function fetchstripeunlinkeddata(Request $request)
@@ -11886,6 +11917,27 @@ class BasicController extends Controller
         $client_payment = NewPaymentsClients::where('refundStatus', '!=', 'Pending Payment')->get();
 
         return view('allpayments', [
+            'clientPayments' => $client_payment,
+            'LoginUser' => $loginUser[1],
+            'departmentAccess' => $loginUser[0],
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
+        ]);
+    }
+
+    function all_paymentsActive(Request $request){
+        $loginUser = $this->roleExits($request);
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = Route::currentRouteName();
+            if (!in_array($currentUrl, $all_permitted_route )){
+                return redirect('/unauthorized');
+            }
+        }
+        $client_payment = NewPaymentsClients::where('ClientStatus', null )->where('refundStatus', '!=', 'Pending Payment')->get();
+
+        return view('allpaymentsActive', [
             'clientPayments' => $client_payment,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
@@ -13455,7 +13507,7 @@ class BasicController extends Controller
                 // $newtotalamtpaid = $amtpaid->sum('Paid');
             } elseif ($get_type == "Upcoming") {
 
-                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate]);
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('ClientStatus', null);
                 ($get_brand != 0)
                     ? $payment->where('brandID', $get_brand)
                     : null;
@@ -13480,7 +13532,7 @@ class BasicController extends Controller
 
                 $result = $payment->get();
 
-                $amt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments')->where('paymentNature', '!=', 'Remaining');
+                $amt = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('refundStatus', '!=', 'Pending Payment')->where('remainingStatus', '!=', 'Unlinked Payments')->where('paymentNature', '!=', 'Remaining')->where('ClientStatus', null);
                 ($get_brand != 0)
                     ? $amt->where('BrandID', $get_brand)
                     : null;
@@ -19901,6 +19953,20 @@ class BasicController extends Controller
     //             'superUser' => $loginUser[2]
     //         ]);
     // }
+
+    function Client_MarkasCompleted(Request $request, $id){
+        $getclient = Client::where('id',$id)->update([
+            'ClientStatus' => "Completed"
+        ]);
+
+        $getpayments = NewPaymentsClients::where('ClientID',$id)->update([
+            'ClientStatus' => "Completed"
+        ]);
+
+        $getpayments = NewPaymentsClients::where('ClientID',$id)->where("remainingStatus" , "Unlinked Payments")->delete();
+
+        return redirect('/all/clients');
+    }
 
 
     function pushEmailtometa(Request $request)

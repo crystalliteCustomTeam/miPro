@@ -18,6 +18,7 @@ class Client extends Model
         'brand',
         'frontSeler',
         'website',
+        'ClientStatus'
 
     ];
 

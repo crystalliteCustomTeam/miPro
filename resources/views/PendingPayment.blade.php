@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
@@ -182,15 +182,28 @@
                       </script>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Transaction ID:</label>
+                        @if ($theme == 1)
+                        <input type="text" class="form-control-dark wd-400" required name="transactionID" id="stripeID" style="height: 50px;">
+                        @else
                         <input type="text" class="form-control" required name="transactionID" id="stripeID">
+                        @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Date:</label>
+                        @if ($theme == 1)
+                        <input type="date" class="form-control-dark wd-400" required name="paymentdate" id="paymentdate" style="height: 50px;">
+                        @else
                         <input type="date" class="form-control" required name="paymentdate" id="paymentdate">
+                        @endif
                       </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Next Payment Date:</label>
+
+                        @if ($theme == 1)
+                        <input type="date"class="form-control-dark wd-400"  name="nextpaymentdate" style="height: 50px;">
+                        @else
                         <input type="date" class="form-control"  name="nextpaymentdate">
+                        @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;" >Sale Person:</label>
@@ -226,15 +239,27 @@
                     </div> --}}
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Total Amount:</label>
+                        @if ($theme == 1)
+                        <input type="text" class="form-control-dark wd-400" required value="{{$mainPayment->TotalAmount}}" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount" style="height: 50px;">
+                        @else
                         <input type="text" class="form-control" required value="{{$mainPayment->TotalAmount}}" onkeypress="return /[0-9]/i.test(event.key)" name="totalamount">
+                        @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Client Paid</label>
+                        @if ($theme == 1)
+                        <input type="text" class="form-control-dark wd-400" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" id="clientpaid" style="height: 50px;">
+                        @else
                         <input type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="clientpaid" id="clientpaid">
+                        @endif
                     </div>
                     <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Transaction Fee</label>
+                        @if ($theme == 1)
+                        <input id="transactionfee" type="text" class="form-control-dark wd-400"  required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee" style="height: 50px;">
+                        @else
                         <input id="transactionfee" type="text" class="form-control" required  onkeypress="return /[0-9]/i.test(event.key)" name="transactionfee">
+                        @endif
                     </div>
                       <div class="col-4 mt-3">
                         <label for="" style="font-weight:bold;">Payment Type</label>
@@ -246,8 +271,8 @@
                     </div>
 
                     <div class="col-12 mt-3" id="numberofsplits" style="display: none;">
-                        <label for="" style="font-weight:bold;">Number of Split:</label>
-                        <select class="form-control" id="selectionField" onchange="toggleFields()" name="numOfSplit">
+                        <label for="" style="font-weight:bold;">Number of Split:</label><br>
+                        <select class="form-control select2 wd-200" id="selectionField" onchange="toggleFields()" name="numOfSplit">
                             <option value="0">Select</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -271,7 +296,12 @@
                                     @endforeach
                                 </select>
                                 <label for="" style="font-weight:bold;">Share Amount:</label>
+
+                                @if ($theme == 1)
+                                <input type="text" class="form-control-dark wd-600" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]" style="height: 50px;">
+                                @else
                                 <input type="text" class="form-control" onkeypress="return /[0-9]/i.test(event.key)" name="splitamount[]">
+                                @endif
                         </div>
                     @endfor
 
@@ -304,8 +334,12 @@
 
 
                     <div class="col-12 mt-3">
-                        <label for="" style="font-weight:bold;">Description:</label>
+                        <label for="" style="font-weight:bold;">Description:</label><br>
+                        @if ($theme == 1)
+                        <textarea required name="description"class="form-control-dark wd-1000"  id="desc" cols="30" rows="10"></textarea>
+                        @else
                         <textarea required name="description" class="form-control" id="desc" cols="30" rows="10"></textarea>
+                        @endif
                     </div>
 
 
