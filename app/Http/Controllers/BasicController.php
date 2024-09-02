@@ -51,14 +51,14 @@ class BasicController extends Controller
 
         $loginUser = $this->roleExits($request);
 
-        // $checkuser = $loginUser[3];
-        // if ($checkuser !== "Hidden") {
-        //     $all_permitted_route = $loginUser[3];
-        //     $currentUrl = Route::currentRouteName();
-        //     if (!in_array($currentUrl, $all_permitted_route )){
-        //         return redirect('/unauthorized');
-        //     }
-        // }
+        $checkuser = $loginUser[3];
+        if ($checkuser !== "Hidden") {
+            $all_permitted_route = $loginUser[3];
+            $currentUrl = Route::currentRouteName();
+            if (!in_array($currentUrl, $all_permitted_route )){
+                return redirect('/unauthorized');
+            }
+        }
 
         $allbranddepart = [];
 
