@@ -45,6 +45,243 @@ use function GuzzleHttp\json_decode;
 
 class BasicController extends Controller
 {
+    function qapersonwisformstats(Request $request, $id = null)
+    {
+        ini_set('max_execution_time', 300);
+
+        $loginUser = $this->roleExits($request);
+
+        // $checkuser = $loginUser[3];
+        // if ($checkuser !== "Hidden") {
+        //     $all_permitted_route = $loginUser[3];
+        //     $currentUrl = Route::currentRouteName();
+        //     if (!in_array($currentUrl, $all_permitted_route )){
+        //         return redirect('/unauthorized');
+        //     }
+        // }
+
+        $allbranddepart = [];
+
+        $getdepartment = Department::where('name', 'LIKE', '%QA')
+            ->orWhere('name', 'LIKE', 'QA%')
+            ->orWhere('name', 'LIKE', '%QA%')
+            ->orwhere('name', 'LIKE', '%Quality Assurance')
+            ->orWhere('name', 'LIKE', 'Quality Assurance%')
+            ->orWhere('name', 'LIKE', '%Quality Assurance%')
+            ->get();
+
+        foreach ($getdepartment as $getdepartments) {
+            if (isset($getdepartments->users) && $getdepartments->users != null) {
+                $allbranddepart[] = [$getdepartments->users];
+            } else {
+                $allbranddepart[] = ['No Department Exist'];
+            }
+        }
+
+        $allUsers = [];
+
+        foreach ($allbranddepart as $allbranddeparts) {
+            if ($allbranddeparts[0] != 'No Department Exist') {
+                $allarrays = json_decode($allbranddeparts[0]);
+                array_push($allUsers, $allarrays);
+            } else {
+                continue;
+            }
+        }
+        $mergedArray = [];
+
+        for ($i = 0; $i < count($allUsers); $i++) {
+            for ($j = 0; $j < count($allUsers[$i]); $j++) {
+                $mergedArray[] = $allUsers[$i][$j];
+            }
+        }
+
+        // Optionally, remove duplicates
+        $mergedArray = array_unique($mergedArray);
+        $brandnames = Employee::whereIn('id', $mergedArray)->get();
+
+        //GET;
+        $get_year = $request->input('year');
+        $get_month = $request->input('month');
+        $get_depart = $request->input('depart');
+
+        if ($get_year != 0) {
+                $years = $request->input('year');
+        } else {
+            $years = date("Y");
+        }
+
+        if ($get_depart != 0) {
+            $brands1 = $request->input('depart');
+        } else {
+            $allbranddepart1 = [];
+
+            $getdepartment1 = Department::where('name', 'LIKE', '%QA')
+                ->orWhere('name', 'LIKE', 'QA%')
+                ->orWhere('name', 'LIKE', '%QA%')
+                ->orwhere('name', 'LIKE', '%Quality Assurance')
+                ->orWhere('name', 'LIKE', 'Quality Assurance%')
+                ->orWhere('name', 'LIKE', '%Quality Assurance%')
+                ->get();
+
+            foreach ($getdepartment1 as $getdepartments) {
+                if (isset($getdepartments->users) && $getdepartments->users != null) {
+                    $allbranddepart1[] = [$getdepartments->users];
+                } else {
+                    $allbranddepart1[] = ['No Department Exist'];
+                }
+            }
+
+            $allUsers1 = [];
+
+            foreach ($allbranddepart1 as $allbranddeparts) {
+                if ($allbranddeparts[0] != 'No Department Exist') {
+                    $allarrays = json_decode($allbranddeparts[0]);
+                    array_push($allUsers1, $allarrays);
+                } else {
+                    continue;
+                }
+            }
+            $mergedArray1 = [];
+
+            for ($i = 0; $i < count($allUsers1); $i++) {
+                for ($j = 0; $j < count($allUsers1[$i]); $j++) {
+                    $mergedArray1[] = $allUsers1[$i][$j];
+                }
+            }
+
+            // Optionally, remove duplicates
+            $mergedArray1 = array_unique($mergedArray1);
+
+            $brands1 = Employee::whereIn('id', $mergedArray1)->pluck('id')->toArray();
+        }
+
+        if ($get_month != 0) {
+            $months = $request->input('month');
+        } else {
+            $currentYear = date("m");
+            $months = [(int)$currentYear];
+        }
+
+
+        if ($get_year == null && $get_depart == null && $get_month == null) {
+            $role = 0;
+            $qawise = 0;
+        } else {
+            $role = 1;
+            $qawise = [];
+            foreach ($brands1 as $user) {
+                $brandname = Employee::where("id", $user)->get();
+                $monthwise = [];
+                foreach ($months as $month) {
+
+                    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $years);
+                    $daywise = [];
+
+                    for ($i = 1; $i <= $daysInMonth ; $i++) {
+                        $date = Carbon::create($years, $month, $i)->format('Y-m-d');
+
+                        $net_revenue = QAFORM::whereDate('created_at', $date)
+                            ->where('qaPerson', $user)
+                            ->count();
+
+                        $date1 = Carbon::create($years, $month, $i);
+
+                        $daywise[] = [
+                            "day" => $i,
+                            "name" => $date1->format('l'),
+                            "net" => $net_revenue
+                        ];
+
+                    }
+
+                    if ($month == 1) {
+                        $monthinAlphabetic = "January";
+                    } elseif ($month == 2) {
+                        $monthinAlphabetic = "February";
+                    } elseif ($month == 3) {
+                        $monthinAlphabetic = "March";
+                    } elseif ($month == 4) {
+                        $monthinAlphabetic = "April";
+                    } elseif ($month == 5) {
+                        $monthinAlphabetic = "May";
+                    } elseif ($month == 6) {
+                        $monthinAlphabetic = "June";
+                    } elseif ($month == 7) {
+                        $monthinAlphabetic = "July";
+                    } elseif ($month == 8) {
+                        $monthinAlphabetic = "August";
+                    } elseif ($month == 9) {
+                        $monthinAlphabetic = "September";
+                    } elseif ($month == 10) {
+                        $monthinAlphabetic = "October";
+                    } elseif ($month == 11) {
+                        $monthinAlphabetic = "November";
+                    } elseif ($month == 12) {
+                        $monthinAlphabetic = "December";
+                    }
+
+                    $monthwise[] = [
+                        "month" => $monthinAlphabetic,
+                        "monthdata" => $daywise
+                    ];
+
+                }
+
+                $years00 = array_map(function ($data) {
+                    return '"' . $data['month'] . '"';
+                }, $monthwise);
+
+                $data = [];
+                $data[] = array_merge(["Date"], $years00);
+
+                $days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+
+                foreach ($days as $day) {
+                    $row = [$day];
+                    foreach ($monthwise as $yearData) {
+                        $dayData = array_filter($yearData['monthdata'], function ($m) use ($day) {
+                            return $m['day'] == $day;
+                        });
+
+                        $dayData = array_values($dayData);
+                        $row[] = !empty($dayData) ? $dayData[0]['net'] : (int)0;
+                    }
+                    $data[] = $row;
+                }
+
+                $qawise[] = [
+                    "name" => $brandname[0]->name,
+                    "month" => $monthwise,
+                    "yeargraph" => $data,
+                ];
+            }
+
+        }
+
+        if($loginUser[4] == 0){
+            return view('qastats', [
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'brands' => $brandnames,
+                'role' => $role,
+                'qawise' => $qawise,
+                'theme' => $loginUser[4],
+            ]);
+        }else{
+            return view('qastats_dark', [
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'brands' => $brandnames,
+                'role' => $role,
+                'qawise' => $qawise,
+                'theme' => $loginUser[4],
+            ]);
+        }
+
+    }
 
     function abc(Request $request)
     {
@@ -4006,10 +4243,6 @@ class BasicController extends Controller
             $brands1 = Employee::whereIn('id', $mergedArray1)->pluck('id')->toArray();
         }
 
-        // echo("<pre>");
-        // print_r($brands1);
-        // die();
-
         if ($get_year == null && $get_depart == null) {
             $role = 0;
             $brandwise = 0;
@@ -4435,15 +4668,6 @@ class BasicController extends Controller
                 'theme' => $loginUser[4],
             ]);
         }
-        // return view('agentstats', [
-        //     'LoginUser' => $loginUser[1],
-        //     'departmentAccess' => $loginUser[0],
-        //     'superUser' => $loginUser[2],
-        //     'brands' => $brandnames,
-        //     'role' => $role,
-        //     'brandwise' => $brandwise,
-        //     'brandwisetotal' => $brandwisetotal,
-        // ]);
     }
 
     public function datewisedata(Request $request)
@@ -7846,14 +8070,22 @@ class BasicController extends Controller
         // $saleemployee = Employee::whereIn('id', json_decode($saledepartment[0]->users))->get();
         $findemployee = Employee::get();
         $get_projectCount = Project::where('clientID', $findproject[0]->ClientName->id)->count();
-        $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)
-            ->where('refundStatus', '!=', 'Pending Payment')
-            ->where('remainingStatus', '!=', 'Unlinked Payments')
-            ->get();
+        // $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)
+        //     ->where('refundStatus', '!=', 'Pending Payment')
+        //     ->where('remainingStatus', '!=', 'Unlinked Payments')
+        //     ->get();
         $remainingpayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)
             ->where('ProjectID', $id)
             ->where('refundStatus', '!=', 'Pending Payment')
             ->where('remainingStatus', 'Remaining')
+            ->get();
+
+        $allPayments = NewPaymentsClients::where('ClientID', $findproject[0]->ClientName->id)
+            ->where('paymentNature', '!=', 'Remaining')
+            ->where('refundStatus', '!=', 'Pending Payment')
+            ->where('remainingStatus', '!=', 'Unlinked Payments')
+            ->where('refundID', null)
+            ->where('dispute', null)
             ->get();
         $remainingpaymentcount = count($remainingpayments);
         return view('payment', [
@@ -7894,8 +8126,6 @@ class BasicController extends Controller
         $transactionfee = $request->input('clientpaid') * 0.03;
 
         if ($request->input('paymentNature') != "Remaining" && $request->input('paymentNature') != "FSRemaining") {
-            // echo("is not remaining");
-            // die();
 
             if ($remainingamt == 0) {
                 $remainingstatus = "Not Remaining";
@@ -7922,6 +8152,50 @@ class BasicController extends Controller
                 $transactionType = $request->input('paymentNature');
             }
 
+            $chargingplanR = '--';
+
+            if ($request->input('paymentNature') == 'Renewal Payment' || $request->input('paymentNature') == 'Recurring Payment' ) {
+                $addreceivestatus = NewPaymentsClients::where('id', $request->input('renewalamountfor'))->update([
+                    "renewalreceive" => "Future date payment Received"
+                ]);
+
+                $gettype = NewPaymentsClients::where('id', $request->input('renewalamountfor'))->get();
+                $transactionType = $gettype[0]->transactionType;
+                $chargingplanR = $gettype[0]->ChargingPlan;
+
+                $todayR = $request->input('paymentdate');
+                if ($chargingplanR == "One Time Payment") {
+                    $dateR = null;
+                } elseif ($chargingplanR == "Monthly") {
+                    $dateR = date('Y-m-d', strtotime('+1 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "2 Months") {
+                    $dateR = date('Y-m-d', strtotime('+2 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "3 Months") {
+                    $dateR = date('Y-m-d', strtotime('+3 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "4 Months") {
+                    $dateR = date('Y-m-d', strtotime('+4 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "5 Months") {
+                    $dateR = date('Y-m-d', strtotime('+5 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "6 Months") {
+                    $dateR = date('Y-m-d', strtotime('+6 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "7 Months") {
+                    $dateR = date('Y-m-d', strtotime('+7 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "8 Months") {
+                    $dateR = date('Y-m-d', strtotime('+8 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "9 Months") {
+                    $dateR = date('Y-m-d', strtotime('+9 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "10 Months") {
+                    $dateR = date('Y-m-d', strtotime('+10 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "11 Months") {
+                    $dateR = date('Y-m-d', strtotime('+11 month', strtotime($todayR)));
+                } elseif ($chargingplanR == "12 Months") {
+                    $dateR = date('Y-m-d', strtotime('+1 Year', strtotime($todayR)));
+                } elseif ($chargingplanR == "2 Years") {
+                    $dateR = date('Y-m-d', strtotime('+2 Year', strtotime($todayR)));
+                } elseif ($chargingplanR == "3 Years") {
+                    $dateR = date('Y-m-d', strtotime('+3 Year', strtotime($todayR)));
+                }
+            }
 
             if ($request->input('nextpaymentdate') != null) {
 
@@ -8001,7 +8275,7 @@ class BasicController extends Controller
                     "ProjectID" => $request->input('project'),
                     "ProjectManager" => $request->input('accountmanager'),
                     "paymentNature" => $request->input('paymentNature'),
-                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : $chargingplanR,
                     "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
                     "Platform" => $request->input('platform'),
                     "Card_Brand" => $request->input('cardBrand'),
@@ -8009,7 +8283,7 @@ class BasicController extends Controller
                     "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
                     "TransactionID" => $request->input('transactionID'),
                     "paymentDate" => $request->input('paymentdate'),
-                    "futureDate" => $date,
+                    "futureDate" => ($request->input('paymentNature') == "Renewal Payment" || $request->input('paymentNature') == "Recurring Payment" ) ? $dateR : $date,
                     "SalesPerson" => $request->input('saleperson'),
                     "TotalAmount" => $request->input('totalamount'),
                     "Paid" => $request->input('clientpaid'),
@@ -8037,7 +8311,7 @@ class BasicController extends Controller
                     "ProjectID" => $request->input('project'),
                     "ProjectManager" => $request->input('accountmanager'),
                     "paymentNature" => $request->input('paymentNature'),
-                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : '--',
+                    "ChargingPlan" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('ChargingPlan') : $chargingplanR ,
                     "ChargingMode" => ($request->input('paymentNature') == "New Lead" || $request->input('paymentNature') == "New Sale" || $request->input('paymentNature') == "Upsell") ? $request->input('paymentModes') : '--',
                     "Platform" => $request->input('platform'),
                     "Card_Brand" => $request->input('cardBrand'),
@@ -8045,7 +8319,7 @@ class BasicController extends Controller
                     "bankWireUpload" => ($request->input('paymentgateway') == "Stripe") ? '--' : $bookwire,
                     "TransactionID" => $request->input('transactionID'),
                     "paymentDate" => $request->input('paymentdate'),
-                    "futureDate" => $request->input('nextpaymentdate'),
+                    "futureDate" => ($request->input('paymentNature') == "Renewal Payment" || $request->input('paymentNature') == "Recurring Payment" ) ? $dateR : $request->input('nextpaymentdate'),
                     "SalesPerson" => $request->input('saleperson'),
                     "TotalAmount" => $request->input('totalamount'),
                     "Paid" => $request->input('clientpaid'),
@@ -8778,6 +9052,7 @@ class BasicController extends Controller
                 }
             }
         }
+
 
         return redirect('/client/details/' . $request->input('clientID'));
     }
@@ -13507,7 +13782,7 @@ class BasicController extends Controller
                 // $newtotalamtpaid = $amtpaid->sum('Paid');
             } elseif ($get_type == "Upcoming") {
 
-                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('ClientStatus', null);
+                $payment = NewPaymentsClients::whereBetween('futureDate', [$get_startdate, $get_enddate])->where('ClientStatus', null)->where('renewalreceive',null);
                 ($get_brand != 0)
                     ? $payment->where('brandID', $get_brand)
                     : null;
@@ -13722,19 +13997,38 @@ class BasicController extends Controller
         $clientpayments = NewPaymentsClients::where('ClientID', $id)->get();
         $clientpaymentscount = count($clientpayments);
 
-        return view('clientReport', [
-            'clients' => $client,
-            'projects' => $project,
-            'qaforms' => $qaform,
-            'qaformlasts' => $qaformlast,
-            'qaformcount' => $qaformcount,
-            'projectcount' => $projectcount,
-            'clientpayments' => $clientpayments,
-            'clientpaymentscount' => $clientpaymentscount,
-            'LoginUser' => $loginUser[1],
-            'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
-        ]);
+        if( $loginUser[4] = 0){
+            return view('clientReport', [
+                'clients' => $client,
+                'projects' => $project,
+                'qaforms' => $qaform,
+                'qaformlasts' => $qaformlast,
+                'qaformcount' => $qaformcount,
+                'projectcount' => $projectcount,
+                'clientpayments' => $clientpayments,
+                'clientpaymentscount' => $clientpaymentscount,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
+            ]);
+        }else{
+            return view('clientReport_darktheme', [
+                'clients' => $client,
+                'projects' => $project,
+                'qaforms' => $qaform,
+                'qaformlasts' => $qaformlast,
+                'qaformcount' => $qaformcount,
+                'projectcount' => $projectcount,
+                'clientpayments' => $clientpayments,
+                'clientpaymentscount' => $clientpaymentscount,
+                'LoginUser' => $loginUser[1],
+                'departmentAccess' => $loginUser[0],
+                'superUser' => $loginUser[2],
+                'theme' => $loginUser[4]
+            ]);
+        }
+
     }
 
     public function fetchRecord(Request $request)

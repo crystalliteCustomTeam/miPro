@@ -293,6 +293,9 @@ Route::controller(BasicController::class)->group(function () {
         //yearly agents ststs
         Route::get('/yearly/agents/stats/{id?}', 'agentwisetargetstats')->name('Yearly_Agents_Stats');
 
+         //qa person ststs
+         Route::get('/qaperson/stats/{id?}', 'qapersonwisformstats')->name('QAperson_Stats');
+
 
         //settings:
         //QA ISSUES:

@@ -60,7 +60,7 @@
                     <label for="" style="font-weight:bold;" >Brand:</label><br>
                         <select class="form-control select2" required name="brand">
                             @foreach ($brand as $brands)
-                                <option value="{{ $brands->id }}">{{ $brands->name }}
+                                <option value="{{ $brands->id }}"{{ $brands->id == $projectmanager[0]->ClientName->brand ? 'selected' : '' }}>{{ $brands->name }}
                             </option>
                             @endforeach
                         </select>
@@ -80,6 +80,48 @@
                         <option value="One Time Payment">One Time Payment</option>
                         {{-- <option value="ChargeBack Won">Dispute Won</option> --}}
                   </select>
+                </div>
+                <div class="col-8 mt-3" id="referenceforrenewal" style="display: none">
+                    <label for="" style="font-weight:bold;">Renewal/Recurring For:</label><br>
+                    <select class="form-control select2  wd-800"  name="renewalamountfor">
+                            @foreach ($allPayments as $allPayment)
+                                <option value="{{ $allPayment->id }}">{{ $allPayment->paymentNature }}
+                                    --
+                                    Total:{{ $allPayment->TotalAmount }}
+                                    --
+                                    Paid:<strong>{{ $allPayment->Paid }}</strong>
+                                    --
+                                    @php
+                                        $newDate = date("d-m-Y", strtotime($allPayment->paymentDate));
+                                        $futureDate = date("d-m-Y", strtotime($allPayment->futureDate));
+                                    @endphp
+                                    Payment Date:<strong>{{ $newDate }}</strong>
+                                    --
+                                    Future Date:<strong>{{ $futureDate }}</strong>
+                                    --
+                                    {{ $allPayment->Description }}
+                                </option>
+                            @endforeach
+                    </select>
+
+                    {{-- <label for="" style="font-weight:bold;">Charging Plan</label><br>
+                    <select class="form-control select2  wd-400"  name="ChargingPlanR">
+                        <option value="One Time Payment">One Time Payment</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="2 Months">2 Months</option>
+                        <option value="3 Months">3 Months</option>
+                        <option value="4 Months">4 Months</option>
+                        <option value="5 Months">5 Months</option>
+                        <option value="6 Months">6 Months</option>
+                        <option value="7 Months">7 Months</option>
+                        <option value="8 Months">8 Months</option>
+                        <option value="9 Months">9 Months</option>
+                        <option value="10 Months">10 Months</option>
+                        <option value="11 Months">11 Months</option>
+                        <option value="12 Months">12 Months</option>
+                        <option value="2 Years">2 Years</option>
+                        <option value="3 Years">3 Years</option>
+                    </select> --}}
                 </div>
                 <div class="col-8 mt-3" id="remainingpaymentfor" style="display: none">
                     <label for="" style="font-weight:bold;">Remaining For:</label><br>
@@ -136,19 +178,28 @@
                     var chargingpackage = document.getElementById("chargingpackage");
                     var paymentMode = document.getElementById("paymentMode");
                     var remainingamtfor = document.getElementById("remainingpaymentfor");
+                    var renewalamtfor = document.getElementById("referenceforrenewal");
 
                     if (paymentNature === "New Lead" || paymentNature === "New Sale" || paymentNature === "Upsell"){
                         chargingpackage.style.display = 'block';
                         paymentMode.style.display = 'block';
                         remainingamtfor.style.display = 'none';
+                        renewalamtfor.style.display = 'none';
                     }else if(paymentNature === "Remaining" || paymentNature === "FSRemaining" ){
                         chargingpackage.style.display = 'none';
                         paymentMode.style.display = 'none';
                         remainingamtfor.style.display = 'block';
+                        renewalamtfor.style.display = 'none';
+                    } else if(paymentNature === "Renewal Payment" || paymentNature === "Recurring Payment" ){
+                        chargingpackage.style.display = 'none';
+                        paymentMode.style.display = 'none';
+                        remainingamtfor.style.display = 'none';
+                        renewalamtfor.style.display = 'block';
                     }else{
                         chargingpackage.style.display = 'none';
                         paymentMode.style.display = 'none';
                         remainingamtfor.style.display = 'none';
+                        renewalamtfor.style.display = 'none';
                     }
                     }
                   </script>

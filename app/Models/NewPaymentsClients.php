@@ -49,7 +49,8 @@ class NewPaymentsClients extends Model
         "disputeattackamount",
         "notfoundemail",
         "qaperson",
-        "ClientStatus"
+        "ClientStatus",
+        "renewalreceive"
 
     ];
 

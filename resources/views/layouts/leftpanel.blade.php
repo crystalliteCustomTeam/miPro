@@ -117,6 +117,7 @@
             <ul class="br-menu-sub">
             {{-- <li class="sub-item"><a href="/allproject/report" class="sub-link">QA Report</a></li> --}}
             <li class="sub-item"><a href="/project/report" class="sub-link">Quality Assurance Report</a></li>
+            <li class="sub-item"><a href="/qaperson/stats/{id?}" class="sub-link">QA Person Performance Report </a></li>
             </ul>
         </li><!-- br-menu-item -->
         <li class="br-menu-item">
