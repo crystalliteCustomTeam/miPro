@@ -20193,7 +20193,8 @@ class BasicController extends Controller
             'clients' => $clients,
             'LoginUser' => $loginUser[1],
             'departmentAccess' => $loginUser[0],
-            'superUser' => $loginUser[2]
+            'superUser' => $loginUser[2],
+            'theme' => $loginUser[4]
         ]);
     }
 

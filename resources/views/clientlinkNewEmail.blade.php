@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($theme == 1 ? 'layouts.darktheme' : 'layouts.app')
 
-@section('maincontent')
+@section($theme == 1 ? 'maincontent1' : 'maincontent')
         <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
         <div class="br-pageheader">
@@ -34,8 +34,12 @@
                         </select>
                     </div>
                     <div class="col-12 mt-3">
-                        <label for="">Email </label>
+                        <label for="">Email </label><br>
+                        @if ($theme == 1)
+                        <input type="email" name="email" required value="{{$newemail}}" class="form-control-dark wd-1000" style="height: 50px;">
+                        @else
                         <input type="email" name="email" required value="{{$newemail}}" class="form-control">
+                        @endif
                     </div>
                 <div class="col-4">
                     <br>
