@@ -44,7 +44,17 @@
 
                         @foreach($clients as $department)
                         <tr role="row" class="odd">
-                        <td tabindex="0" class="sorting_1">{{ $department['name'] }}</td>
+                        <td tabindex="0" class="sorting_1">
+                            @if ($department->ClientStatus == "Completed")
+                            <div class="alert alert-warning">
+                                <strong>{{ $department['name'] }}</strong>
+                            </div>
+                            @else
+                            <div class="alert alert-success">
+                                <strong>{{ $department['name'] }}</strong>
+                            </div>
+                            @endif
+                        </td>
                         @if (isset($department->clientMetas->otheremail) && $department->clientMetas->otheremail != null)
                             <td>
                                 @php
@@ -87,7 +97,17 @@
                     @elseif ($user_id == 1)
                         @foreach($clients as $department)
                         <tr role="row" class="odd">
-                        <td tabindex="0" class="sorting_1">{{ $department->clientname->name }}</td>
+                        <td tabindex="0" class="sorting_1">{{ $department->clientname->name }}
+                            @if ($department->clientname->ClientStatus == "Completed")
+                            <div class="alert alert-warning">
+                                <strong>{{ $department->clientname->name }}</strong>
+                            </div>
+                            @else
+                            <div class="alert alert-success">
+                                <strong>{{ $department->clientname->name }}</strong>
+                            </div>
+                            @endif
+                        </td>
                         {{-- <td>{{ $department->clientname->email }}</td> --}}
                         @if (isset($department->clientname->clientMetas->otheremail) && $department->clientname->clientMetas->otheremail != null)
                             <td>

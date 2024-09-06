@@ -105,8 +105,20 @@
                     <td><label style="color: red">Undefined</label></td>
                     @endif
 
-                    <td>{{ $QaPersonClientAssign->clientname->name  }}</td>
-                    <td>{{ $QaPersonClientAssign->clientname->projectbrand->name  }}</td>
+                    <td>
+                        @if (isset($QaPersonClientAssign->clientname->name) and $QaPersonClientAssign->clientname->name != null)
+                        {{ $QaPersonClientAssign->clientname->name  }}
+                        @else
+                        <label style="color: red">Undefined</label>
+                        @endif
+                    </td>
+                    <td>
+                        @if (isset($QaPersonClientAssign->clientname->projectbrand->name) and $QaPersonClientAssign->clientname->projectbrand->name != null)
+                        {{ $QaPersonClientAssign->clientname->projectbrand->name  }}
+                        @else
+                        <label style="color: red">Undefined</label>
+                        @endif
+                    </td>
                     <td>
                         <div class="btn-group">
                             <a href="/settings/changeuser/client/{{ $QaPersonClientAssign->id }}"><button class="btn btn-success btn-sm"> <img src="https://cdn-icons-png.flaticon.com/16/1159/1159633.png" alt="" style="filter: invert(1);"> Change Assignee</button></a>
